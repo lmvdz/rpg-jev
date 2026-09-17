@@ -97,8 +97,28 @@ function topicOptions(g: Game): { statements: Option[]; subjects: Option[] } {
     ...askable(g.world).map((e) => ({ id: `about:${e.id}`, description: e.name })),
     ...names.map((n) => ({ id: `where:${n.id}`, description: `where ${n.name} is now` })),
     { id: "about:tonight", description: "what they saw or know of tonight, in general" },
+    // What was lately said to the player's face can be asked about: who says so?
+    ...saidToPlayer(g).map((c) => ({
+      id: `source:${c.id}`,
+      description: `who told them, or how they know, that ${claimClause(g.world, c).replace("the stranger", "the character")}`,
+    })),
   ];
   return { statements, subjects };
+}
+
+/** Claims NPCs have put to the player in the last hour, newest first. */
+function saidToPlayer(g: Game): Claim[] {
+  const out: Claim[] = [];
+  for (let i = g.log.length - 1; i >= 0 && out.length < 3; i--) {
+    const e = g.log[i];
+    if (!e || g.world.clock - e.t > 60) break;
+    if (e.kind !== "effect" || e.effect.kind !== "say") continue;
+    const { intent } = e.effect;
+    if (intent.listener !== PLAYER || intent.topic.kind !== "claim") continue;
+    const claim = g.world.claims[intent.topic.id];
+    if (claim && !out.some((c) => c.id === claim.id)) out.push(claim);
+  }
+  return out;
 }
 
 function decodeTopic(id: string): PlayerTopic {
@@ -109,6 +129,7 @@ function decodeTopic(id: string): PlayerTopic {
   if (kind === "blame") return { kind: "blame", npc: rest };
   if (kind === "about") return { kind: "entity", id: rest };
   if (kind === "where") return { kind: "whereabouts", id: rest };
+  if (kind === "source") return { kind: "claim", id: rest };
   return { kind: "none" };
 }
 
@@ -223,7 +244,27 @@ export async function judgeParse(g: Game, text: string): Promise<Matched> {
     verb.id === "attack"
   ) {
     // Violence is not undone by an apology, so it needs a clearer reading than the rest.
-    const found = pickTarget(scope.people, verb.id === "attack" ? 0.8 : 0.6);
+    // A name the player typed settles who is meant, whatever the judge's spread (first
+    // playtest: "who told you that mara" asked "Mara or Odo?"). With one person in the
+    // room, speech is to them. With several and no name, ask which, naming them.
+    const said = ` ${text.toLowerCase().replace(/[^a-z ]+/g, " ")} `;
+    const byName = scope.people.filter((p) => said.includes(` ${p.name.toLowerCase()} `));
+    const judged = pickTarget(scope.people, verb.id === "attack" ? 0.8 : 0.6);
+    const alone = scope.people.length === 1 && verb.id !== "attack" ? scope.people[0] : undefined;
+    const found: Named | Matched =
+      byName.length === 1 && byName[0]
+        ? byName[0]
+        : isNamed(judged)
+          ? judged
+          : (alone ??
+            (judged.kind === "error" && scope.people.length >= 2
+              ? {
+                  kind: "clarify",
+                  question: "",
+                  candidates: [...scope.people],
+                  complete: () => ({ verb: "look" }),
+                }
+              : judged));
     const build = (to: string): Action => {
       if (verb.id === "attack") return { verb: "attack", target: to };
       if (verb.id === "show" && itemId) return { verb: "show", item: itemId, to };
@@ -365,7 +406,7 @@ const THREATEN = plain("threaten", "threaten", "Threatens the stranger");
 
 type Situation =
   | { kind: "greeted" | "entered" | "denied" | "threatened" | "interject" }
-  | { kind: "asked"; about: string | null; whereabouts: boolean }
+  | { kind: "asked"; about: string | null; whereabouts: boolean; claim?: Claim }
   | { kind: "told"; believes: boolean; claim: Claim; shown?: boolean }
   | { kind: "accused"; alone: boolean };
 
@@ -404,6 +445,11 @@ function replies(g: Game, npc: string, s: Situation): Reply[] {
             : plain("tell_nothing", "tell", "Says they have not seen them"),
         );
       } else {
+        // Asked about a particular claim: say it again with where it came from. The
+        // citation is the answer to "who told you that?".
+        const asked = s.claim ? beliefIn(g.world, npc, s.claim.id) : undefined;
+        if (asked && asked.credence >= 0.15 && !guarded(g, npc, asked.claim))
+          out.push(claimReply(g, npc, "tell", asked));
         const relevant = held(g, npc, about ?? undefined).filter(
           (b) => !about || mentions(b.claim, about),
         );
@@ -748,7 +794,12 @@ export async function playerSpeaks(
       toFace
         ? { kind: "accused", alone: others.length === 0 }
         : action.act === "ask"
-          ? { kind: "asked", about: about ?? null, whereabouts: topic.kind === "whereabouts" }
+          ? {
+              kind: "asked",
+              about: about ?? null,
+              whereabouts: topic.kind === "whereabouts",
+              ...(asserted ? { claim: asserted } : {}),
+            }
           : action.act === "threaten"
             ? { kind: "threatened" }
             : topic.kind === "deny"

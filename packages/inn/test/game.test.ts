@@ -320,3 +320,28 @@ describe("conversation has timing", () => {
     expect(lines[cut]).toContain("still carrying bowls of stew round the tables");
   });
 });
+
+describe("a playtest leaves its snags in the log", () => {
+  it("logs what it could not read and what the player flagged, and replays past both", async () => {
+    const game = Game.start(1, new ResilientJudge(new OfflineJudge()));
+    const before = serializeLog(game.log).length;
+    await play(game, [
+      "go office",
+      "grab the key",
+      "go kitchen",
+      "grab the key",
+      "huh I meant the hook",
+    ]);
+    const inputs = game.log.flatMap((e) => (e.kind === "input" ? [`${e.via}: ${e.text}`] : []));
+    expect(inputs).toEqual([
+      "parsed: go office",
+      "unparsed: grab the key",
+      "parsed: go kitchen",
+      "clarify: grab the key",
+      "flagged: huh I meant the hook",
+    ]);
+    expect(serializeLog(game.log).length).toBeGreaterThan(before);
+    const resumed = Game.resume(parseLog(serializeLog(game.log)), new OfflineJudge());
+    expect(resumed.world).toEqual(game.world);
+  });
+});

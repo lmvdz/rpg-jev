@@ -429,6 +429,21 @@ The event log is the save file, and replaying it never calls a model. Jev's answ
 | Tokens and calls per player-hour | Whether the cost model holds |
 | Dropped stale proposals | Whether author latency is outrunning the world |
 
+**The playtest loop**
+
+Every played night is a playtest, because the log already holds it. A line the game could not act on, or had to ask back about, is logged as an `input` entry and changes no state. A player who sees a line understood as the wrong thing types `huh`, which is logged too; no rule can find that kind of snag. `pnpm friction` turns saved nights into a list of snags by rule, with no model. The loop from snags to fixes runs outside the game and may be run by a coding agent, which proposes changes on a branch and never merges them. See `docs/playtest-loop.md`.
+
+Each snag is triaged before it is fixed, because the place of the fix depends on its kind:
+
+| The snag is | The fix goes in |
+| --- | --- |
+| An obvious command or typo the matcher missed | The deterministic matcher, plus the typed line in a regression test |
+| Free text the judge misread, or no option that fit | The question family: wording, criteria, examples, or the code-built option set |
+| An NPC not reacting to what any person would react to | A general mechanism (stimulus, stake, debt, scheduler), never a branch naming one NPC |
+| The world having nothing to say | Content |
+
+Engine code that names a specific character is a smell. The rule is either general and loses the name, or content and moves to data. The PoC has several of these (section 17).
+
 ## 14. Jev question design rules
 
 These come from the TypeSafe docs and the [Jev 1.13 limitations page](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md). Every question in the engine is reviewed against them.
@@ -552,6 +567,7 @@ These are unverified or undecided. Each names what settles it.
 - [ ] Real latency and cost per call in our shapes. The docs say about 100 ms and 0.27 s for 13 questions over a long document. Settled by M0.
 - [ ] Which small model renders prose, and its cost per observed scene. Not settled in M2: the PoC renders everything from templates and no model writes prose at play time. Templates were enough for three NPCs and one night; they will not be enough for a village. Moved to M3.
 - [x] Setting and tone, as a one-page world bible: `docs/world-bible.md`. The judge overruled it once (Tobin's silence, section 6), which is worth remembering when the next one is written: a bible line about what someone will not do needs a mechanism, not a trait.
+- [ ] How much of an NPC's reacting is content, and how much is engine? The PoC's engine names characters: Mara's search of the cellar, her facing the stranger, her ejecting a brawler, Tobin's guarded tongue and Odo's burning of the ledger are each a code path with a name in it. They work, and each was added after a playtest showed a gap, which is the pattern to stop. The backlog family "reactions and appraisal" (section 14) is the general form: a stimulus reaches everyone who perceives it, code builds the closed set of reactions from dispositions declared in content, and the judge picks. Settled by rebuilding two of the five as data before the village, and checking the routes still measure the same.
 - [ ] Full combat rules. M2 ships only the stub in section 5.
 - [ ] How time runs in multiplayer: real-time, world ticks, or per-location clocks. Grid movement with turns or ticks hides Jev's latency, so that is the current lean. Needed before M5.
 - [ ] Hosting and who pays for Jev and Claude per player. A subscription login suits development; serving other players from it needs checking against usage limits and Anthropic's terms. Needed before M5.

@@ -50,6 +50,7 @@ export interface Named {
   name: string;
   aliases: string[];
   kind: "person" | "thing" | "carried" | "room";
+  takeable?: boolean;
 }
 
 export interface Scope {
@@ -61,6 +62,8 @@ export interface Scope {
 }
 
 export const COINS = "coins";
+/** Stands for "the room I was in before this one". */
+export const BACK = "@back";
 
 export function isVisible(world: World, itemId: string): boolean {
   const item = world.items[itemId];
@@ -81,7 +84,7 @@ export function scopeOf(world: World): Scope {
   const carried: Named[] = [];
   for (const item of Object.values(world.items)) {
     if (!isVisible(world, item.id)) continue;
-    const named = { id: item.id, name: item.name, aliases: item.aliases };
+    const named = { id: item.id, name: item.name, aliases: item.aliases, takeable: item.takeable };
     if ("holder" in item.at && item.at.holder === PLAYER)
       carried.push({ ...named, kind: "carried" });
     else if ("room" in item.at && item.at.room === here) things.push({ ...named, kind: "thing" });
@@ -129,8 +132,32 @@ export function resolveNoun(phrase: string, candidates: readonly Named[]): Resol
     } else if (score === best && !hits.some((h) => h.id === c.id)) hits.push(c);
   }
   const first = hits[0];
-  if (!first) return { kind: "none" };
+  if (!first) return nearMiss(phrase, candidates);
   return hits.length === 1 ? { kind: "one", id: first.id } : { kind: "many", candidates: hits };
+}
+
+/** Edit distance of at most one: a swapped, dropped, added or wrong letter. */
+function oneOff(a: string, b: string): boolean {
+  if (Math.abs(a.length - b.length) > 1 || a === b) return a === b;
+  let i = 0;
+  while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  const rest = (s: string, n: number) => s.slice(n);
+  return (
+    rest(a, i + 1) === rest(b, i + 1) ||
+    rest(a, i + 1) === rest(b, i) ||
+    rest(a, i) === rest(b, i + 1) ||
+    (a[i] === b[i + 1] && a[i + 1] === b[i] && rest(a, i + 2) === rest(b, i + 2))
+  );
+}
+
+/** "celler" for "cellar": a first-playtest finding. Only words of five letters or more. */
+function nearMiss(phrase: string, candidates: readonly Named[]): Resolution {
+  const said = phrase.split(" ").filter((w) => w.length >= 5);
+  const hits = candidates.filter((c) =>
+    c.aliases.some((alias) => alias.split(" ").some((w) => said.some((s) => oneOff(s, w)))),
+  );
+  const only = hits[0];
+  return hits.length === 1 && only ? { kind: "one", id: only.id } : { kind: "none" };
 }
 
 /**
@@ -207,7 +234,11 @@ function pick(
 
 const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Matched][] = [
   [/^(l|look|look around)$/, () => ({ kind: "action", action: { verb: "look" } })],
-  [/^(i|inv|inventory|pack)$/, () => ({ kind: "action", action: { verb: "inventory" } })],
+  [
+    // "check pockets" means the player's own, never the coat on the peg.
+    /^(i|inv|inventory|pack|(?:(?:check|look in|search|open) )?(?:my |the )?(?:pockets?|backpack|pack|bag|purse|inventory))$/,
+    () => ({ kind: "action", action: { verb: "inventory" } }),
+  ],
   [/^(help|\?|commands)$/, () => ({ kind: "action", action: { verb: "help" } })],
   [/^(q|quit|exit)$/, () => ({ kind: "action", action: { verb: "quit" } })],
   [
@@ -231,8 +262,22 @@ const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Match
     },
   ],
   [
+    // The way you came. The room is looked up in the log when the action runs.
+    /^(?:go |head |walk )?back$|^return$|^leave$/,
+    () => ({ kind: "action", action: { verb: "go", room: BACK } }),
+  ],
+  [
     /^(?:go|walk|head|enter|climb|run)(?: back)?(?: (?:to|into|in|through|down to|up to|out to))? (.+)$/,
     (m, scope) => goTo(m[1] ?? "", scope),
+  ],
+  [
+    /^(?:take|get|grab|pick up) (?:all|everything)$/,
+    (_m, scope) => {
+      const loose = scope.things.filter((t) => t.takeable !== false);
+      const first = loose[0];
+      if (!first) return { kind: "error", message: "There is nothing here to take." };
+      return { kind: "action", action: { verb: "take", item: loose.map((t) => t.id).join(",") } };
+    },
   ],
   [
     /^(?:take|get|grab|pick up|pocket|snatch) (.+)$/,
@@ -317,7 +362,7 @@ const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Match
     },
   ],
   [
-    /^(?:attack|hit|punch|strike|kick|fight) (.+)$/,
+    /^(?:attack|hit|punch|strike|kick|fight|kill|stab) (.+)$/,
     (m, scope, world) =>
       pick(m[1] ?? "", scope.people, "attack", missingPerson(m[1] ?? "", world), (target) => ({
         verb: "attack",
@@ -406,4 +451,5 @@ export const HELP = [
   "Anything else, say it as you would: tell mara I never touched her ledger; ask tobin what he",
   "saw at dusk; offer tobin my silver if he will talk to mara; accuse odo of taking the ledger.",
   "Debug: why <name> walks the causes behind what someone believes and does. quit saves and leaves.",
+  "If the game got your last line wrong, type huh (or huh <what you meant>): it goes in the playtest log.",
 ].join("\n");

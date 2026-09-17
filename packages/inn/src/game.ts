@@ -443,6 +443,22 @@ export class Game {
     this.fresh = [];
     if (this.over) return ["The night is over. Start again to play another."];
 
+    // "huh" marks the turn before it as one the game got wrong. No rule can spot a line that
+    // was understood, but as the wrong thing; only the player can, so give them a word for it.
+    const flagged = /^(?:huh\??|wtf|\/flag)(?:\s+(.*))?$/i.exec(text.trim());
+    if (flagged) {
+      this.store.append(
+        {
+          kind: "input",
+          text: text.slice(0, 240),
+          via: "flagged",
+          action: { message: flagged[1] ?? "" },
+        },
+        null,
+      );
+      return ["(Noted in the log: that last turn went wrong. Add why if you like: huh <reason>.)"];
+    }
+
     const action = await this.read(text);
     if (action) {
       const root = this.store.append(
@@ -480,6 +496,18 @@ export class Game {
       this.#pending = matched;
       this.say(matched.question);
     } else if (matched.kind === "error") this.say(matched.message);
+    // What the game could not act on is the most useful thing a playtest leaves behind,
+    // so it is logged too. It changes no state; `pnpm friction` reads it back.
+    const message = matched.kind === "clarify" ? matched.question : this.out.at(-1);
+    this.store.append(
+      {
+        kind: "input",
+        text: text.slice(0, 240),
+        via: matched.kind === "clarify" ? "clarify" : "unparsed",
+        action: { message: message ?? "" },
+      },
+      null,
+    );
     return null;
   }
 
@@ -579,7 +607,8 @@ export class Game {
   heard(turn: Turn, id: LogId): void {
     const { intent } = turn;
     if (intent.topic.kind !== "claim") return;
-    if (!["tell", "confide", "accuse"].includes(intent.act)) return;
+    // Being asked "is it true that..." also tells you what is being said about you.
+    if (!["tell", "confide", "accuse", "ask"].includes(intent.act)) return;
     const claim = this.world.claims[intent.topic.id];
     if (claim && intent.listener === PLAYER)
       this.learn(PLAYER, claim, 0.7, { kind: "told", from: intent.speaker }, id);

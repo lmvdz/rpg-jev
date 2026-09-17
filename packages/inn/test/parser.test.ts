@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { initialWorld } from "../src/content.ts";
-import { match, resolveAnswer, scopeOf } from "../src/parser.ts";
+import { BACK, match, resolveAnswer, scopeOf } from "../src/parser.ts";
 
 function inKitchen() {
   const world = initialWorld(1);
@@ -58,5 +58,19 @@ describe("the deterministic matcher", () => {
     expect(scope.things.map((t) => t.id).sort()).toEqual(["brass_key", "coat", "iron_key"]);
     // The markers exist but stay out of scope until the coat has been searched.
     expect(scope.things.some((t) => t.id === "markers")).toBe(false);
+  });
+
+  // Lines from the first outside playtest (2026-09-17) that the game fumbled.
+  it("reads what the first playtester actually typed", () => {
+    const world = inKitchen();
+    expect(match("go to celler", world)).toMatchObject({ action: { verb: "go", room: "cellar" } });
+    expect(match("go back", world)).toMatchObject({ action: { verb: "go", room: BACK } });
+    expect(match("kill odo", world)).toMatchObject({ action: { verb: "attack", target: "odo" } });
+    for (const mine of ["check backpack", "check pockets", "look in my bag"])
+      expect(match(mine, world)).toMatchObject({ action: { verb: "inventory" } });
+    const all = match("take everything", world);
+    expect(all.kind).toBe("action");
+    if (all.kind !== "action" || all.action.verb !== "take") return;
+    expect(all.action.item.split(",").sort()).toEqual(["brass_key", "iron_key"]);
   });
 });

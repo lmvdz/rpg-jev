@@ -787,7 +787,15 @@ async function carryTale(g: Game, debt: Debt, cause: LogId): Promise<void> {
     g.intent(teller, PLAYER, "confide", { kind: "claim", id: tale.claim.id }, 3, cause);
     return;
   }
-  if (beliefIn(g.world, to, tale.claim.id)) return;
+  // Old news is not carried: the listener holds it already, or a worse version of it.
+  const stale = rankedBeliefs(g.world, to).some(
+    (k) =>
+      k.claim.id === tale.claim.id ||
+      (sameMatter(k.claim, tale.claim) &&
+        k.claim.subject === tale.claim.subject &&
+        k.claim.severity >= tale.claim.severity),
+  );
+  if (stale) return;
   await gossip(g, teller, to, tale, cause);
 }
 

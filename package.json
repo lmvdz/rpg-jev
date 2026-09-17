@@ -14,7 +14,8 @@
     "format": "biome check --write .",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "play": "pnpm --filter @rpg-jev/terminal run play",
-    "demo": "pnpm --filter @rpg-jev/terminal run demo"
+    "demo": "pnpm --filter @rpg-jev/terminal run demo",
+    "friction": "pnpm --filter @rpg-jev/terminal run friction"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",

@@ -3,7 +3,7 @@
  * JSON entry per line (SPEC.md section 13); resuming replays it and calls no
  * model.
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { parseLog, serializeLog } from "@rpg-jev/core";
 import { Game } from "@rpg-jev/inn";
@@ -53,6 +53,10 @@ export function openSession(options: SessionOptions): Session {
 
   const path = options.savePath;
   const resumed = Boolean(path && !options.fresh && existsSync(path));
+  // A night that is started over is set aside, not lost: every played night is a playtest,
+  // and `pnpm friction` reads them all.
+  if (path && options.fresh && existsSync(path))
+    renameSync(path, path.replace(/.jsonl$/, `.${statSync(path).mtimeMs.toFixed(0)}.jsonl`));
   const game =
     resumed && path
       ? Game.resume(parseLog(readFileSync(path, "utf8")), resilient)

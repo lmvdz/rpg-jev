@@ -26,7 +26,7 @@ import {
   TOBINS_DEBT,
 } from "./content.ts";
 import type { Game } from "./game.ts";
-import { type Action, COINS, HELP, isVisible } from "./parser.ts";
+import { type Action, BACK, COINS, HELP, isVisible } from "./parser.ts";
 import { describeRoom, lookAtItem, lookAtPerson } from "./prose.ts";
 import { sceneSlice } from "./slices.ts";
 import { greetOnEntry, owe, playerSpeaks, reactToDeed } from "./talk.ts";
@@ -56,9 +56,13 @@ export async function performAction(g: Game, action: Action, root: LogId): Promi
       g.say(`You wait. (${clockWords(g.world.clock + action.minutes)})`);
       return action.minutes;
     case "go":
-      return go(g, action.room, root);
-    case "take":
-      return take(g, action.item, root);
+      return go(g, action.room === BACK ? cameFrom(g) : action.room, root);
+    case "take": {
+      // "take everything" arrives as a comma-separated list.
+      let minutes = 0;
+      for (const item of action.item.split(",")) minutes += await take(g, item, root);
+      return minutes;
+    }
     case "drop":
       g.commit({ kind: "transfer", item: action.item, to: { room: g.playerRoom } }, root);
       g.say(`You put down ${g.world.items[action.item]?.name ?? "it"}.`);
@@ -87,6 +91,19 @@ export async function performAction(g: Game, action: Action, root: LogId): Promi
     case "say":
       return playerSpeaks(g, action, root);
   }
+}
+
+/** The room the player was in before this one, read from the log. */
+function cameFrom(g: Game): string {
+  const here = g.playerRoom;
+  const exits = g.world.rooms[here]?.exits.map((e) => e.to) ?? [];
+  for (let i = g.log.length - 1; i >= 0; i--) {
+    const e = g.log[i];
+    if (e?.kind !== "effect" || e.effect.kind !== "move" || e.effect.actor !== PLAYER) continue;
+    if (e.effect.to !== here && exits.includes(e.effect.to)) return e.effect.to;
+  }
+  // Nowhere to go back to yet: a room with one way out has an obvious "back".
+  return exits.length === 1 ? (exits[0] ?? here) : here;
 }
 
 function inventory(g: Game): void {
@@ -331,7 +348,12 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
           stakeholder: MARA,
           kind: "eject",
           magnitude: 3,
-          fuse: { due: g.world.clock + 6, expires: g.world.clock + 240 },
+          // First playtest: the player hit Odo in front of Mara and she asked about a key.
+          // What she sees herself she answers at once; hearsay takes its usual few minutes.
+          fuse: {
+            due: g.world.clock + (g.maraIsHere() ? 0 : 6),
+            expires: g.world.clock + 240,
+          },
           status: "pending",
           data: {},
         },

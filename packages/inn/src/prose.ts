@@ -259,14 +259,25 @@ export function renderTurn(world: World, turn: Turn): string {
   );
 
   const toWhom = intent.listener === PLAYER ? "" : ` to ${nameOf(world, intent.listener)}`;
-  const manner = intent.act === "confide" ? "says quietly" : (MANNER[intent.speaker] ?? "says");
+  // Nobody grins with a split lip, or while making a threat.
+  const shaken = (speaker?.hp ?? 1) < (speaker?.maxHp ?? 1) || (speaker?.drives.fear ?? 0) >= 0.6;
+  const plainly = shaken || intent.act === "threaten" || intent.act === "refuse";
+  const mannerOf =
+    intent.act === "confide"
+      ? "says quietly"
+      : plainly && intent.speaker === ODO
+        ? "says, not grinning now"
+        : (MANNER[intent.speaker] ?? "says");
+  // "says to Mara, grinning", not "says, grinning to Mara".
+  const [manner = "says", aside] = mannerOf.split(", ");
+  const how = aside ? `, ${aside}` : "";
   const working = turn.whileWorking
     ? `, still ${ACTIVITY[speaker?.activity ?? ""] ?? "working"}`
     : "";
   const cut = turn.interrupts
     ? `${cap(nameOf(world, turn.interrupts))} opens ${theirOf(turn.interrupts)} mouth, but ${name} cuts in first. `
     : "";
-  return `${cut}${name} ${manner}${toWhom}${working}: "${line}"`;
+  return `${cut}${name} ${manner}${toWhom}${how}${working}: "${line}"`;
 }
 
 const SILENCE: Record<string, readonly string[]> = {

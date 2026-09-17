@@ -19,7 +19,7 @@ Needs Node 22.18 or newer and pnpm 11. Put `TYPESAFE_API_KEY=...` in `.env` (git
 ```sh
 pnpm install
 pnpm play            # resume the last night, or start one
-pnpm play --new      # start over; --seed=7 for a different night
+pnpm play --new      # start over (the old night is kept for `pnpm friction`); --seed=7 for a different night
 pnpm play --cost     # show calls, tokens and latency after each action
 pnpm play --offline  # play with the judge unreachable
 ```
@@ -51,6 +51,7 @@ Packages planned in the spec (`server`, `author`, `client`) are added when their
 | `pnpm play` | Play the inn |
 | `pnpm demo` | Play the fixed script against live Jev; write `demo/transcript.md` and `demo/metrics.json` |
 | `pnpm demo --record` | As above, and re-record `demo/recordings.json` for the offline test. Do this after changing a slice, a question or the content |
+| `pnpm friction` | Read the saved nights and write `playtests/friction.md`: where play snagged. See `docs/playtest-loop.md` |
 | `pnpm --filter @rpg-jev/terminal routes` | Play each quest route across seeds and write `demo/routes.md` |
 | `pnpm --filter @rpg-jev/spike-m2-families probe` | Re-run the family probes |
 | `pnpm format` | Apply Biome fixes |
