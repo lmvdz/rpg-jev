@@ -49,10 +49,15 @@ function entryLine(world: World, e: LogEntry): string {
   }
 }
 
-const chainText = (world: World, chain: LogEntry[]) =>
-  chain.length === 0
-    ? ["      (so since before tonight)"]
-    : chain.map((e) => `      <- ${entryLine(world, e)}`);
+/** The nearest causes and always the root: a chain that stops short explains nothing. */
+function chainText(world: World, chain: LogEntry[], nearest = 5): string[] {
+  if (chain.length === 0) return ["      (so since before tonight)"];
+  const line = (e: LogEntry) => `      <- ${entryLine(world, e)}`;
+  if (chain.length <= nearest + 1) return chain.map(line);
+  const skipped = chain.length - nearest - 1;
+  const root = chain[chain.length - 1] as LogEntry;
+  return [...chain.slice(0, nearest).map(line), `      <- ... ${skipped} more ...`, line(root)];
+}
 
 export function renderWhy(world: World, report: WhyReport): string {
   const name = nameOf(world, report.npc);
@@ -80,13 +85,13 @@ export function renderWhy(world: World, report: WhyReport): string {
         `      garbled on the way (${drift.join(", then ")}). It began as: ${first ? claimClause(world, first) : "?"}`,
       );
     }
-    lines.push(...chainText(world, b.chain.slice(0, 6)));
+    lines.push(...chainText(world, b.chain));
   }
   if (report.debts.length > 0) {
     lines.push("  Still means to:");
     for (const { debt, chain } of report.debts) {
       lines.push(`    - ${debt.kind.replaceAll("_", " ")} (due ${clockWords(debt.fuse.due)})`);
-      if (chain.length > 0) lines.push(...chainText(world, chain.slice(0, 4)));
+      if (chain.length > 0) lines.push(...chainText(world, chain, 3));
     }
   }
   return lines.join("\n");

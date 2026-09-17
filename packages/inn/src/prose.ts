@@ -327,6 +327,8 @@ export function departure(world: World, npc: string, to: string, activity: strin
 export const ENDINGS: Record<string, string> = {
   resolved:
     'Mara stands a long moment with the ledger under her hand. "Two years," she says, to nobody. Then, to you: "I had the wrong one. I don\'t say that often, so hear it once: I\'m sorry." She pours two measures of the good brandy and pushes one across the bar. In the morning the assessor will read an honest book, and the Carp will need a new cook.\n\n*** You are cleared, and she knows who did it. ***',
+  cleared_in_hand:
+    'Midnight. Mara bars the door. "It wasn\'t you," she says. You take the ledger out of your pack and put it on the bar between you, and for a while neither of you says anything at all. "You had it," she says at last. "And you stayed." She slides it under the bar, where she can feel it with her knee.\n\n*** You are cleared, and the ledger is back where it belongs. ***',
   cleared_no_ledger:
     'Midnight. Mara bars the door and sits down heavily by the dead hearth. "It wasn\'t you," she says. "I know that much. It doesn\'t give me my ledger." At first light the assessor will set the tax as he pleases. She does not ask you to leave, and she does not ask you to stay.\n\n*** You are cleared. The ledger is still missing. ***',
   cleared:

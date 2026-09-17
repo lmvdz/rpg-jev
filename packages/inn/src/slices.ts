@@ -101,7 +101,8 @@ export interface SceneCtx {
 /** One state for a whole scene; each NPC's questions point only at `npcs.<id>` (SPEC.md section 12). */
 export const sceneSlice: SliceSchema<SceneCtx> = {
   id: "scene",
-  budgetTokens: 2200,
+  // Three NPCs, eight beliefs each, plus what each hears. Live scenes ran 500 to 1,300.
+  budgetTokens: 2400,
   required: (ctx) => ["place.time", ...ctx.parts.map((p) => `npcs.${p.npc}.knows`)],
   build: (ctx) => ({
     place: placeState(ctx.world),

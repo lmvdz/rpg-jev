@@ -296,7 +296,7 @@ interface Reply {
   topic: SpeechIntent["topic"];
 }
 
-const guarded = (g: Game, holder: string, c: Claim): boolean => {
+export const guarded = (g: Game, holder: string, c: Claim): boolean => {
   if (c.subject === holder && (WRONGDOING.includes(c.predicate) || c.predicate === "owes"))
     return true;
   // People do not carry tales about someone they are in debt to.

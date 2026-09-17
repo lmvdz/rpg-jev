@@ -511,7 +511,10 @@ export class Game {
     if (quest === "thrown_out") return ENDINGS.thrown_out ?? null;
     if (this.world.clock < MIDNIGHT) return null;
     if (quest !== "cleared") return ENDINGS.midnight ?? null;
+    const at = this.world.items.ledger?.at;
+    const inHand = Boolean(at && "holder" in at && at.holder === PLAYER);
     const returned = this.world.machines.ledger_fate?.node === "returned";
+    if (inHand) return ENDINGS.cleared_in_hand ?? null;
     return (returned ? ENDINGS.cleared : ENDINGS.cleared_no_ledger) ?? null;
   }
 

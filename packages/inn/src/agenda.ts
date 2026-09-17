@@ -46,7 +46,7 @@ import {
 } from "./content.ts";
 import type { Game } from "./game.ts";
 import { guardSlice, rankedBeliefs, sceneSlice, standing, trustIn } from "./slices.ts";
-import { afterSpeech } from "./talk.ts";
+import { afterSpeech, guarded } from "./talk.ts";
 import { cap, claimClause, nameOf, whenFor } from "./words.ts";
 
 /** Minutes before the same two people trade tales again, in either direction. */
@@ -66,20 +66,27 @@ export async function runAgenda(g: Game, cause: LogId): Promise<void> {
 
 /** When two NPCs share a room and have not talked lately, a tale may pass between them. */
 async function meetings(g: Game, cause: LogId): Promise<void> {
-  for (const teller of NPCS)
-    for (const listener of NPCS) {
-      if (teller === listener) continue;
-      const a = g.world.actors[teller];
-      const b = g.world.actors[listener];
+  for (const [i, first] of NPCS.entries())
+    for (const second of NPCS.slice(i + 1)) {
+      const a = g.world.actors[first];
+      const b = g.world.actors[second];
       if (!a?.alive || !b?.alive || !a.present || !b.present || a.room !== b.room) continue;
-      const pair = [teller, listener].sort().join("+");
+      const pair = [first, second].sort().join("+");
       const last = g.log.findLast(
         (e) => e.kind === "stimulus" && e.what === "gossip" && e.data.pair === pair,
       );
       if (last && g.world.clock - last.t < GOSSIP_COOLDOWN) continue;
-      const tale = taleFor(g, teller, listener);
-      // One tale per step keeps the wait per player action bounded.
-      if (tale) return void (await gossip(g, teller, listener, tale, cause));
+      // A meeting is an exchange: each may have something for the other. One pair per
+      // step keeps the wait per player action bounded.
+      let talked = false;
+      for (const [teller, listener] of [
+        [first, second],
+        [second, first],
+      ] as const) {
+        const tale = taleFor(g, teller, listener);
+        if (tale) talked = (await gossip(g, teller, listener, tale, cause)) || talked;
+      }
+      if (talked) return;
     }
 }
 
@@ -93,6 +100,8 @@ function taleFor(g: Game, teller: string, listener: string): Belief | undefined 
     if (b.credence < 0.5 || c.predicate === "owes" || incriminates(teller, c)) return false;
     // Nobody needs telling what they did themselves.
     if (c.subject === listener) return false;
+    // Nor that something was done at their own asking.
+    if (c.motive === "was_asked" && listener === MARA) return false;
     const source = b.edge.source;
     if (source && "from" in source && source.from === listener) return false;
     const known = rankedBeliefs(g.world, listener).some(
@@ -159,9 +168,12 @@ export async function gossip(
   };
   const habit = RETELLING_HABIT[teller] ?? { [FAITHFUL]: 1 };
   const labels = [FAITHFUL, ...options.map((o) => o.id), KEEP_QUIET];
-  const likely = Object.entries(habit)
-    .filter(([id]) => labels.includes(id))
-    .sort((a, b) => b[1] - a[1])[0]?.[0];
+  // With no judge, habit decides; and nobody's habit is to carry a tale they are guarding.
+  const likely = guarded(g, teller, claim)
+    ? KEEP_QUIET
+    : Object.entries(habit)
+        .filter(([id]) => labels.includes(id))
+        .sort((a, b) => b[1] - a[1])[0]?.[0];
   const questions: Record<string, Asked> = {
     version: pickDistortion(
       `npcs.${teller}`,
