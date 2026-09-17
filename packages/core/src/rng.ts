@@ -51,13 +51,18 @@ export class Rng {
    * order the API returned them in.
    */
   sample<K extends string>(probabilities: Readonly<Record<K, number>>): K {
+    return Rng.pick(probabilities, this.next());
+  }
+
+  /** As `sample`, for a draw in [0, 1) that was made (and logged) elsewhere. */
+  static pick<K extends string>(probabilities: Readonly<Record<K, number>>, draw: number): K {
     const keys = (Object.keys(probabilities) as K[]).sort();
     if (keys.length === 0) throw new Error("cannot sample an empty distribution");
     let total = 0;
     for (const key of keys) total += probabilities[key];
     if (!(total > 0)) throw new Error("distribution has no positive mass");
 
-    let remaining = this.next() * total;
+    let remaining = draw * total;
     for (const key of keys) {
       remaining -= probabilities[key];
       if (remaining < 0) return key;
