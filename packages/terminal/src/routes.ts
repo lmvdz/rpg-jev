@@ -25,6 +25,10 @@ interface Run {
   tokens: number;
   usd: number;
   guard: number[];
+  /** Times an NPC told the player, to their face, a claim that was changed on its way. */
+  garbledToFace: number;
+  /** Garbled claims about the player that Mara held at the end. */
+  garbledHeld: number;
 }
 
 const runs: Run[] = [];
@@ -47,13 +51,34 @@ for (const route of names)
       if (clearedAt === null && (node === "cleared" || node === "resolved"))
         clearedAt = `${clockWords(game.world.clock)} after "${text}"`;
     }
+    // Either guard opens the quest (knowing the culprit entails the first), so report the
+    // better of the two, each taken as the lower of its two wordings.
+    const noul = (a: unknown) => (a as { noul?: number } | undefined)?.noul ?? 0;
     const guard = game.log.flatMap((e) =>
-      e.kind === "decision" &&
-      e.answers.guard_a?.type === "noul" &&
-      e.answers.guard_b?.type === "noul"
-        ? [Math.min(e.answers.guard_a.noul, e.answers.guard_b.noul)]
+      e.kind === "decision" && e.answers.guard_a
+        ? [
+            Math.max(
+              Math.min(noul(e.answers.guard_a), noul(e.answers.guard_b)),
+              Math.min(noul(e.answers.culprit_a), noul(e.answers.culprit_b)),
+            ),
+          ]
         : [],
     );
+    const claims = game.world.claims;
+    const garbledToFace = game.log.filter((e) => {
+      if (e.kind !== "effect" || e.effect.kind !== "say") return false;
+      const { intent } = e.effect;
+      if (intent.listener !== "player" || intent.topic.kind !== "claim") return false;
+      return claims[intent.topic.id]?.distortion !== undefined;
+    }).length;
+    const garbledHeld = game.world.edges.filter(
+      (e) =>
+        e.kind === "believes" &&
+        e.src === "mara" &&
+        e.valid_to === null &&
+        claims[e.dst]?.subject === "player" &&
+        claims[e.dst]?.distortion !== undefined,
+    ).length;
     const total = meter.totals();
     const run: Run = {
       route,
@@ -64,6 +89,8 @@ for (const route of names)
       tokens: total.inputTokens,
       usd: total.usd,
       guard,
+      garbledToFace,
+      garbledHeld,
     };
     runs.push(run);
     console.log(
@@ -74,17 +101,21 @@ for (const route of names)
 const lines = [
   "# Quest routes across seeds",
   "",
-  `Live \`jev-1.13.0\`, seeds 1 to ${seeds}. "Guard" is the lower of the guard's two wordings each time it was asked; it opens when both reach 0.65. Nothing in the engine knows these routes exist.`,
+  `Live \`jev-1.13.0\`, seeds 1 to ${seeds}. The quest opens when both wordings of either guard reach 0.65: Mara no longer believes it was the stranger, or she is satisfied it was Odo, which entails the first. "Guard" is the better of the two each time they were asked. Nothing in the engine knows these routes exist.`,
   "",
-  "| Route | Cleared or resolved | Outcomes | Highest guard value per run |",
-  "| --- | --- | --- | --- |",
+  "| Route | Cleared or resolved | Outcomes | Highest guard value per run | An NPC said a garbled claim to the player's face | Garbled claims Mara held at the end |",
+  "| --- | --- | --- | --- | --- | --- |",
 ];
 for (const route of names) {
   const mine = runs.filter((r) => r.route === route);
   const won = mine.filter((r) => r.quest === "cleared" || r.quest === "resolved").length;
   const outcomes = mine.map((r) => r.quest).join(", ");
   const peaks = mine.map((r) => (r.guard.length ? Math.max(...r.guard).toFixed(2) : "not asked"));
-  lines.push(`| ${route} | ${won} of ${mine.length} | ${outcomes} | ${peaks.join(", ")} |`);
+  const faced = mine.filter((r) => r.garbledToFace > 0).length;
+  const held = mine.map((r) => r.garbledHeld).join(", ");
+  lines.push(
+    `| ${route} | ${won} of ${mine.length} | ${outcomes} | ${peaks.join(", ")} | ${faced} of ${mine.length} runs | ${held} |`,
+  );
 }
 const usd = runs.reduce((a, r) => a + r.usd, 0);
 const calls = runs.reduce((a, r) => a + r.calls, 0);

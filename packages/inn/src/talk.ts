@@ -641,8 +641,8 @@ export async function playerSpeaks(
     const what =
       topic.kind === "whereabouts"
         ? `where ${nameOf(g.world, topic.id)} is`
-        : topic.kind === "entity"
-          ? `about ${nameOf(g.world, topic.id, { listener: npc })}`
+        : topic.kind === "entity" && topic.id !== npc && topic.id !== "tonight"
+          ? `about ${nameOf(g.world, topic.id)}`
           : topic.kind === "claim" && asserted
             ? `whether ${claimClause(g.world, asserted, { listener: npc })}`
             : "what they know";

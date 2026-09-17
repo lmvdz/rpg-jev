@@ -103,7 +103,7 @@ function taleFor(g: Game, teller: string, listener: string): Belief | undefined 
     if (c.subject === listener) return false;
     // A tale the teller is guarding is not idle talk. The family probe found the judge
     // would have Tobin tell Mara what he saw the first time they were alone (0.90, and
-    // 0.73 with "afraid of Odo" as a trait), which would end the night by eight. His
+    // 0.71 with "afraid of Odo" as a trait), which would end the night by eight. His
     // silence is therefore a rule tied to his debt; paying the debt lifts it. He can
     // still be asked, and his conscience still comes due.
     if (guarded(g, teller, c)) return false;
@@ -111,10 +111,13 @@ function taleFor(g: Game, teller: string, listener: string): Belief | undefined 
     if (c.motive === "was_asked" && listener === MARA) return false;
     const source = b.edge.source;
     if (source && "from" in source && source.from === listener) return false;
+    // Old news: they hold it already, at least as bad, or they were there and saw it.
     const known = rankedBeliefs(g.world, listener).some(
       (k) =>
         k.claim.id === c.id ||
-        (sameMatter(k.claim, c) && k.claim.subject === c.subject && k.claim.severity >= c.severity),
+        (sameMatter(k.claim, c) &&
+          k.claim.subject === c.subject &&
+          (k.claim.severity >= c.severity || k.edge.source?.kind === "witnessed")),
     );
     return !known;
   });
@@ -648,6 +651,64 @@ async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
       return carryTale(g, debt, cause);
     case "confront":
       return confront(g, debt, cause);
+    case "face_stranger": {
+      // Waits, pending, until they share a room with the stranger. No walking: it is
+      // something to bring up, not an errand.
+      const held = debt.data.claim ? beliefIn(g.world, debt.stakeholder, debt.data.claim) : null;
+      if (!held || held.credence < 0.4) return cancel(g, debt, cause);
+      // If they have already said it to the stranger's face, it has been brought up.
+      const already = g.log.some(
+        (e) =>
+          e.kind === "effect" &&
+          e.effect.kind === "say" &&
+          e.effect.intent.speaker === debt.stakeholder &&
+          e.effect.intent.listener === PLAYER &&
+          e.effect.intent.topic.kind === "claim" &&
+          e.effect.intent.topic.id === held.claim.id,
+      );
+      if (already) return cancel(g, debt, cause);
+      if (who.room !== g.playerRoom) return;
+      // One thing at a time: if they are already about to speak, the rest keeps.
+      if (g.fresh.some((i) => i.speaker === debt.stakeholder)) return;
+      settle(g, debt, cause);
+      const clause = `${claimClause(g.world, held.claim)}${whenFor(held.claim, g.world.clock)}`;
+      const options: Option[] = [
+        { id: "accuse", description: `Says to the stranger's face that ${clause}` },
+        { id: "ask", description: `Asks the stranger whether it is true that ${clause}` },
+      ];
+      const hears = `${nameOf(g.world, debt.stakeholder)} finds the stranger in the same room, with this still on their mind: ${clause}`;
+      const decision = await g.decide(
+        compileSlice(sceneSlice, {
+          world: g.world,
+          parts: [{ npc: debt.stakeholder, about: PLAYER, extra: { hears } }],
+        }),
+        {
+          raises: pickSpeechAct({
+            npc: `npcs.${debt.stakeholder}`,
+            options,
+            fallback: "accuse",
+          }),
+        },
+        [{ kind: "in_room", actor: debt.stakeholder, room: g.playerRoom }],
+        cause,
+      );
+      if (!decision) return;
+      const act = g.sampleChoice(
+        decision.answers.raises,
+        `${debt.stakeholder} raises it`,
+        decision.id,
+      );
+      if (act === "accuse" || act === "ask")
+        g.intent(
+          debt.stakeholder,
+          PLAYER,
+          act,
+          { kind: "claim", id: held.claim.id },
+          3,
+          decision.id,
+        );
+      return;
+    }
     case "search_cellar": {
       // She was told something went down to the cellar, so she goes to look. What she
       // finds there she sees for herself, and no judge is needed for that.
@@ -888,6 +949,10 @@ export async function checkGuards(g: Game, cause: LogId): Promise<void> {
     knows = (beliefIn(g.world, MARA, C_ODO_TOOK.id)?.credence ?? 0) >= 0.7;
     cleared = accusation <= 0.3 || knows;
   }
+  // One ledger, one taker: being satisfied that Odo took it entails no longer believing
+  // the stranger did. The judge does not enforce that between two questions (a live run
+  // gave 0.67 and 0.72 for the culprit beside 0.47 and 0.51 for the guard), so code does.
+  cleared = cleared || knows;
   if (!cleared) return;
   const to = knows ? "resolved" : "cleared";
   if (to === quest) return;

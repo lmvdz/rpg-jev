@@ -2,31 +2,31 @@
   "seed": 1,
   "live": true,
   "actions": 27,
-  "actionsThatCalledTheJudge": 21,
-  "calls": 38,
-  "questions": 83,
-  "inputTokens": 49705,
-  "usd": 0.0020876100000000006,
+  "actionsThatCalledTheJudge": 23,
+  "calls": 42,
+  "questions": 86,
+  "inputTokens": 52548,
+  "usd": 0.0022070160000000004,
   "fallbacks": 0,
   "cached": 0,
   "perAction": {
-    "calls": 1.4074074074074074,
-    "inputTokens": 1840.9259259259259,
-    "usd": 0.00007731888888888891,
-    "judgeLatencyMsMedian": 361,
-    "judgeLatencyMsP90": 710,
-    "judgeLatencyMsWorst": 740
+    "calls": 1.5555555555555556,
+    "inputTokens": 1946.2222222222222,
+    "usd": 0.00008174133333333335,
+    "judgeLatencyMsMedian": 327,
+    "judgeLatencyMsP90": 633,
+    "judgeLatencyMsWorst": 791
   },
   "perCall": {
-    "latencyMsMedian": 174,
-    "latencyMsP90": 399,
-    "latencyMsP99": 618,
-    "inputTokensMean": 1308.0263157894738
+    "latencyMsMedian": 169,
+    "latencyMsP90": 239,
+    "latencyMsP99": 417,
+    "inputTokensMean": 1251.142857142857
   },
   "perPlayerHour": {
     "actions": 360,
-    "usd": 0.027834800000000007,
-    "inputTokens": 662733
+    "usd": 0.029426880000000006,
+    "inputTokens": 700640
   },
   "usdPerInputToken": 4.2000000000000006e-8,
   "endings": [
@@ -51,7 +51,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 835,
-      "latencyMs": 361,
+      "latencyMs": 327,
       "usd": 0.00003507
     },
     {
@@ -61,7 +61,7 @@
       "cached": 0,
       "questions": 10,
       "inputTokens": 4038,
-      "latencyMs": 438,
+      "latencyMs": 537,
       "usd": 0.00016959600000000002
     },
     {
@@ -71,7 +71,7 @@
       "cached": 0,
       "questions": 7,
       "inputTokens": 2658,
-      "latencyMs": 499,
+      "latencyMs": 140,
       "usd": 0.00011163600000000001
     },
     {
@@ -81,7 +81,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 910,
-      "latencyMs": 171,
+      "latencyMs": 169,
       "usd": 0.00003822
     },
     {
@@ -91,7 +91,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 967,
-      "latencyMs": 516,
+      "latencyMs": 130,
       "usd": 0.00004061400000000001
     },
     {
@@ -111,7 +111,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1112,
-      "latencyMs": 181,
+      "latencyMs": 180,
       "usd": 0.000046704000000000005
     },
     {
@@ -121,7 +121,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1143,
-      "latencyMs": 152,
+      "latencyMs": 178,
       "usd": 0.00004800600000000001
     },
     {
@@ -131,7 +131,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1136,
-      "latencyMs": 220,
+      "latencyMs": 142,
       "usd": 0.00004771200000000001
     },
     {
@@ -151,7 +151,7 @@
       "cached": 0,
       "questions": 3,
       "inputTokens": 2444,
-      "latencyMs": 329,
+      "latencyMs": 388,
       "usd": 0.00010264800000000001
     },
     {
@@ -161,7 +161,7 @@
       "cached": 0,
       "questions": 3,
       "inputTokens": 2484,
-      "latencyMs": 373,
+      "latencyMs": 570,
       "usd": 0.00010432800000000002
     },
     {
@@ -171,48 +171,48 @@
       "cached": 0,
       "questions": 6,
       "inputTokens": 4880,
-      "latencyMs": 740,
+      "latencyMs": 690,
       "usd": 0.00020496000000000002
     },
     {
       "label": "examine apron",
-      "calls": 4,
+      "calls": 2,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 6,
-      "inputTokens": 5044,
-      "latencyMs": 726,
-      "usd": 0.00021184800000000005
+      "questions": 3,
+      "inputTokens": 2487,
+      "latencyMs": 340,
+      "usd": 0.00010445400000000003
     },
     {
       "label": "go kitchen",
-      "calls": 0,
+      "calls": 3,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
+      "questions": 3,
+      "inputTokens": 2540,
+      "latencyMs": 490,
+      "usd": 0.00010668000000000002
     },
     {
       "label": "go common room",
-      "calls": 0,
-      "fallbacks": 0,
-      "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
-    },
-    {
-      "label": "talk to mara",
       "calls": 1,
       "fallbacks": 0,
       "cached": 0,
       "questions": 1,
-      "inputTokens": 923,
-      "latencyMs": 186,
-      "usd": 0.00003876600000000001
+      "inputTokens": 911,
+      "latencyMs": 145,
+      "usd": 0.00003826200000000001
+    },
+    {
+      "label": "talk to mara",
+      "calls": 2,
+      "fallbacks": 0,
+      "cached": 0,
+      "questions": 2,
+      "inputTokens": 1822,
+      "latencyMs": 382,
+      "usd": 0.00007652400000000001
     },
     {
       "label": "why mara",
@@ -226,13 +226,13 @@
     },
     {
       "label": "tell mara I found her ledger buried in the flour barrel down in the cellar",
-      "calls": 2,
+      "calls": 3,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 10,
-      "inputTokens": 4535,
-      "latencyMs": 549,
-      "usd": 0.00019047000000000004
+      "questions": 11,
+      "inputTokens": 5497,
+      "latencyMs": 633,
+      "usd": 0.000230874
     },
     {
       "label": "show apron to mara",
@@ -240,9 +240,9 @@
       "fallbacks": 0,
       "cached": 0,
       "questions": 5,
-      "inputTokens": 2143,
-      "latencyMs": 317,
-      "usd": 0.000090006
+      "inputTokens": 2173,
+      "latencyMs": 390,
+      "usd": 0.000091266
     },
     {
       "label": "hold the gambling markers out where mara can see them",
@@ -250,9 +250,9 @@
       "fallbacks": 0,
       "cached": 0,
       "questions": 12,
-      "inputTokens": 5160,
-      "latencyMs": 528,
-      "usd": 0.00021672000000000003
+      "inputTokens": 5216,
+      "latencyMs": 509,
+      "usd": 0.00021907200000000003
     },
     {
       "label": "go kitchen",
@@ -261,7 +261,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 910,
-      "latencyMs": 198,
+      "latencyMs": 167,
       "usd": 0.00003822
     },
     {
@@ -271,7 +271,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 912,
-      "latencyMs": 154,
+      "latencyMs": 170,
       "usd": 0.000038304000000000005
     },
     {
@@ -281,7 +281,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 933,
-      "latencyMs": 618,
+      "latencyMs": 168,
       "usd": 0.00003918600000000001
     },
     {
@@ -291,7 +291,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 793,
-      "latencyMs": 248,
+      "latencyMs": 149,
       "usd": 0.000033306
     },
     {
@@ -300,9 +300,9 @@
       "fallbacks": 0,
       "cached": 0,
       "questions": 7,
-      "inputTokens": 5745,
-      "latencyMs": 710,
-      "usd": 0.00024129000000000007
+      "inputTokens": 5747,
+      "latencyMs": 791,
+      "usd": 0.00024137400000000006
     }
   ]
 }

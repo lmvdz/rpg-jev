@@ -53,13 +53,22 @@ describe.skipIf(!existsSync(file))("the recorded demo", () => {
     const text = await play(game, night.inputs);
     expect(["cleared", "resolved"]).toContain(game.world.machines.quest?.node);
 
-    // The guard was asked more than once and said no before it said yes.
-    const guards = game.log.flatMap((e) =>
-      e.kind === "decision" && e.answers.guard_a?.type === "noul" ? [e.answers.guard_a.noul] : [],
+    // The guards were asked more than once and said no before they said yes. A guard
+    // opens when both of its wordings reach the bar; knowing the culprit entails the first.
+    const noul = (a: unknown) => (a as { noul?: number } | undefined)?.noul ?? 0;
+    const asked = game.log.flatMap((e) =>
+      e.kind === "decision" && e.answers.guard_a
+        ? [
+            Math.max(
+              Math.min(noul(e.answers.guard_a), noul(e.answers.guard_b)),
+              Math.min(noul(e.answers.culprit_a), noul(e.answers.culprit_b)),
+            ),
+          ]
+        : [],
     );
-    expect(guards.length).toBeGreaterThan(1);
-    expect(Math.min(...guards)).toBeLessThan(0.5);
-    expect(Math.max(...guards)).toBeGreaterThanOrEqual(0.65);
+    expect(asked.length).toBeGreaterThan(1);
+    expect(asked[0]).toBeLessThan(0.65);
+    expect(asked.at(-1)).toBeGreaterThanOrEqual(0.65);
 
     // The product: someone told the player, to their face and naming a source, a version
     // of events that had been changed on its way to them.

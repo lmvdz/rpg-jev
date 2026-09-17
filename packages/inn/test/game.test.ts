@@ -296,3 +296,27 @@ describe("decisions are made on a snapshot", () => {
     expect(said.filter((e) => e.t >= (dropped[0]?.t ?? 0))).toHaveLength(0);
   });
 });
+
+describe("conversation has timing", () => {
+  it("lets a bystander with a strong stake cut in before the person addressed can answer", async () => {
+    const { game } = scripted((id, request) => {
+      if (id.startsWith("stake")) return yes;
+      if (id.startsWith("interject")) return choose(request, id, ["accuse"]);
+      if (id === "reply") return choose(request, id, ["ask_where_from", "refuse"]);
+      if (id === "version") return choose(request, id, ["keep_quiet"]);
+      return choose(request, id, ["none_of_these"]);
+    });
+    // By twenty to nine Odo is carrying stew round the common room and Mara is back at the bar.
+    await play(game, ["take tankard", "wait 60", "wait 30", "wait 10"]);
+    expect(game.npcsIn("common_room")).toEqual(expect.arrayContaining(["mara", "odo"]));
+
+    const text = await play(game, ["show tankard to mara"]);
+    const lines = text.split("\n");
+    const cut = lines.findIndex((l) => l.includes("Mara opens her mouth, but Odo cuts in first."));
+    const answer = lines.findIndex((l) => l.startsWith("Mara says"));
+    expect(cut).toBeGreaterThan(-1);
+    // The judge chose what each of them says. Code chose the order, and that both are heard.
+    expect(answer).toBeGreaterThan(cut);
+    expect(lines[cut]).toContain("still carrying bowls of stew round the tables");
+  });
+});

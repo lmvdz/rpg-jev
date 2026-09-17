@@ -58,7 +58,7 @@ These came from live play of the finished game, not from probes, and they are re
 
 ## Costs seen
 
-Median latency 153 ms, worst 596 ms, mean 1,061 input tokens per call, in line with M0. A parse call carries seven questions and costs about 2,600 tokens, down from 3,600 once the option lists were no longer repeated in the state.
+Median latency 153 ms, worst 596 ms, mean 1,061 input tokens per call, in line with M0. A parse call carries seven questions and costs about 2,900 tokens in play, down from 3,600 once the option lists were no longer repeated in the state.
 
 ## Limits
 

@@ -14,7 +14,7 @@ import {
 } from "@rpg-jev/core";
 import { MARA, ODO, PLAYER, TOBIN } from "./content.ts";
 import { isVisible } from "./parser.ts";
-import { ACTIVITY, cap, claimClause, nameOf, whenFor } from "./words.ts";
+import { ACTIVITY, cap, claimClause, nameOf, theirOf, whenFor } from "./words.ts";
 
 export const INTRO = [
   "THE GILDED CARP",
@@ -264,7 +264,7 @@ export function renderTurn(world: World, turn: Turn): string {
     ? `, still ${ACTIVITY[speaker?.activity ?? ""] ?? "working"}`
     : "";
   const cut = turn.interrupts
-    ? `${cap(nameOf(world, turn.interrupts))} opens their mouth, but ${name} cuts in first. `
+    ? `${cap(nameOf(world, turn.interrupts))} opens ${theirOf(turn.interrupts)} mouth, but ${name} cuts in first. `
     : "";
   return `${cut}${name} ${manner}${toWhom}${working}: "${line}"`;
 }

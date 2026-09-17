@@ -49,6 +49,7 @@ import {
 } from "./content.ts";
 import { type Action, type Matched, match, resolveAnswer } from "./parser.ts";
 import { arrival, departure, describeRoom, ENDINGS, INTRO, renderTurn } from "./prose.ts";
+import { trustIn } from "./slices.ts";
 import { afterSpeech, judgeParse, npcArrives } from "./talk.ts";
 
 export interface Decision {
@@ -192,7 +193,12 @@ export class Game {
       if (credence > held.credence)
         this.commit({ kind: "update_credence", holder, claim: claim.id, credence }, cause);
     } else this.commit({ kind: "add_claim", holder, claim, credence, source }, cause);
-    if (holder !== PLAYER && credence >= 0.6) this.afterBelief(holder, claim, credence, cause);
+    if (holder !== PLAYER && credence >= 0.6)
+      this.afterBelief(holder, claim, credence, source, cause);
+    // Checking costs less than believing. A cautious woman who only half credits a
+    // trusted first-hand report still goes to look where it points.
+    else if (source.kind === "told" && trustIn(this.world, holder, source.from) >= 0.8)
+      this.maraActsOn(holder, claim, cause, true);
   }
 
   /** Everyone in the room stores what they saw (SPEC.md section 9, step 1). */
@@ -209,7 +215,13 @@ export class Game {
   }
 
   /** Arithmetic on beliefs and drives lives here, not in the judge (SPEC.md rule 3). */
-  private afterBelief(holder: string, claim: Claim, credence: number, cause: LogId): void {
+  private afterBelief(
+    holder: string,
+    claim: Claim,
+    credence: number,
+    source: BeliefSource,
+    cause: LogId,
+  ): void {
     // "Who told me this? The man I now suspect." What the holder has only on the word
     // of someone implicated loses two fifths of its weight each time that happens: one
     // piece of evidence leaves her in two minds, a second leaves her doubting.
@@ -219,6 +231,19 @@ export class Game {
         if (source?.kind !== "told" || source.from !== claim.subject || b.credence <= 0.2) continue;
         const less = Math.round(b.credence * 60) / 100;
         this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: less }, cause);
+      }
+
+    // The mirror of discrediting: a second thing pointing at the same person lends weight
+    // to a first that was doubted. One unlucky draw against a trusted witness should not
+    // close a route for the night.
+    if (claim.subject !== PLAYER && IMPLICATES.includes(claim.predicate))
+      for (const b of beliefsOf(this.world, holder)) {
+        const same = b.claim.subject === claim.subject && b.claim.id !== claim.id;
+        if (!same || !IMPLICATES.includes(b.claim.predicate) || b.credence >= 0.6) continue;
+        if (b.credence <= 0) continue;
+        const more = Math.min(0.75, Math.round((b.credence + 0.3) * 100) / 100);
+        this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: more }, cause);
+        if (more >= 0.6) this.maraActsOn(holder, b.claim, cause);
       }
 
     this.maraActsOn(holder, claim, cause);
@@ -240,6 +265,28 @@ export class Game {
       );
 
     if (claim.subject !== PLAYER) return;
+    // A consequence the player cannot perceive is wasted (SPEC.md section 9). Someone who
+    // comes to believe a tale about the stranger owes it to them, to their face, the next
+    // time they share a room. Code decides when; the judge still picks what is said.
+    const hearsay = source.kind === "told" && source.from !== PLAYER;
+    const debtId = `face_${holder}_${claim.id}`;
+    if (hearsay && WRONGDOING.includes(claim.predicate) && !this.world.debts[debtId])
+      this.commit(
+        {
+          kind: "create_debt",
+          debt: {
+            id: debtId,
+            cause,
+            stakeholder: holder,
+            kind: "face_stranger",
+            magnitude: claim.severity,
+            fuse: { due: this.world.clock, expires: this.world.clock + 120 },
+            status: "pending",
+            data: { claim: claim.id },
+          },
+        },
+        cause,
+      );
     if (claim.predicate === "paid_debt" && claim.to === holder) {
       this.retire(holder, C_TOBIN_OWES.id, cause);
       this.nudge(holder, { obligation: 0.3, trust: 0.25, fear: -0.2 }, cause);
@@ -258,7 +305,7 @@ export class Game {
    * where she is told it went, and she has it out with whoever is implicated. Both are
    * debts with a short fuse, so they land a little later and can be traced with `why`.
    */
-  private maraActsOn(holder: string, claim: Claim, cause: LogId): void {
+  private maraActsOn(holder: string, claim: Claim, cause: LogId, onlyLook = false): void {
     if (holder !== MARA || claim.subject === PLAYER || !IMPLICATES.includes(claim.predicate))
       return;
     const owe = (id: string, kind: string, data: Record<string, string>, minutes: number) => {
@@ -277,6 +324,7 @@ export class Game {
       this.commit({ kind: "create_debt", debt }, cause);
     };
     if (claim.place === "cellar") owe("mara_looks_in_cellar", "search_cellar", {}, 6);
+    if (onlyLook) return;
     const who = this.world.actors[claim.subject];
     if (who?.kind === "npc" && who.present && claim.predicate !== "dodged")
       owe(`confront_${claim.subject}`, "confront", { to: claim.subject }, 12);

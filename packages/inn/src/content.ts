@@ -372,6 +372,7 @@ export function initialWorld(seed: number): World {
         "retaliate",
         "eject",
         "search_cellar",
+        "face_stranger",
       ],
     },
     clock: START,
