@@ -27,11 +27,29 @@ importers:
         specifier: ^4.6.5
         version: 4.6.5
 
+  packages/jev:
+    dependencies:
+      '@rpg-jev/core':
+        specifier: workspace:*
+        version: link:../core
+      '@typesafe-ai/sdk':
+        specifier: ^0.6.0
+        version: 0.6.0
+
   spikes/m0-jev:
     dependencies:
       '@typesafe-ai/sdk':
         specifier: ^0.6.0
         version: 0.6.0
+
+  spikes/m2-families:
+    dependencies:
+      '@rpg-jev/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@rpg-jev/jev':
+        specifier: workspace:*
+        version: link:../../packages/jev
 
 packages:
 
