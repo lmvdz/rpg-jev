@@ -11,13 +11,14 @@ export type Distortion = (typeof DISTORTIONS)[number];
 
 type Content = Pick<
   Claim,
-  "subject" | "predicate" | "object" | "place" | "when" | "severity" | "motive"
+  "subject" | "predicate" | "object" | "to" | "place" | "when" | "severity" | "motive"
 >;
 
 /** A claim's id is its content, so two tellers who say the same thing share one row. */
 export function claimId(content: Content): string {
-  const { subject, predicate, object, place, when, severity, motive } = content;
-  return `c_${hashValue({ subject, predicate, object, place, when, severity, motive }).slice(0, 10)}`;
+  const { subject, predicate, object, to, place, when, severity, motive } = content;
+  const identity = { subject, predicate, object, to, place, when, severity, motive };
+  return `c_${hashValue(identity).slice(0, 10)}`;
 }
 
 export function makeClaim(content: Content & Pick<Claim, "origin">): Claim {

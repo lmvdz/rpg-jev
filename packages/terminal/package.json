@@ -1,0 +1,16 @@
+{
+  "name": "@rpg-jev/terminal",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "play": "node --env-file-if-exists=../../.env src/play.ts",
+    "demo": "node --env-file-if-exists=../../.env src/demo.ts"
+  },
+  "dependencies": {
+    "@rpg-jev/core": "workspace:*",
+    "@rpg-jev/inn": "workspace:*",
+    "@rpg-jev/jev": "workspace:*"
+  }
+}

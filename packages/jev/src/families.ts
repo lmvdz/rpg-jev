@@ -88,7 +88,10 @@ export const VERBS: Record<string, Json> = {
 export interface ParseScope {
   targets: Option[];
   items: Option[];
-  topics: Option[];
+  /** Things the character could state as fact: claims they hold, denials, accusations. */
+  statements: Option[];
+  /** Things the character could ask about: people, things, whereabouts. */
+  subjects: Option[];
   requests: Option[];
 }
 
@@ -151,11 +154,19 @@ export function parseIntent(scope: ParseScope, variant: Variant = 0): Record<str
       scope.items,
       "No thing is given, shown, offered or used as a tool",
     ),
-    topic: ask(
-      "Which entry in `topics` is the character talking or asking about?",
-      "What is the subject of what the character says? Pick the entry of `topics` that matches it.",
-      scope.topics,
-      "The character is not speaking, or speaks about something not listed",
+    // Two speculative readings of the topic; code reads the one that fits the verb.
+    // Asked as one list, "the ledger, in general" beat "that I found the ledger in the cellar".
+    states: ask(
+      'If the character is stating, denying or accusing, which of these are they putting forward as true? "I" and "me" in the text mean the character. Match on meaning, not exact words.',
+      'Suppose the character is asserting something; "I" in the text is the character. Which of these matches what they assert, in meaning if not in wording?',
+      scope.statements,
+      "The character asserts nothing, or asserts something not listed",
+    ),
+    asks_about: ask(
+      "If the character is asking a question, which of these is it about?",
+      "Suppose the character is asking for information. Which of these do they want to know about?",
+      scope.subjects,
+      "The character asks nothing, or asks about something not listed",
     ),
     request: ask(
       "What, if anything, is the character asking the other person to do?",

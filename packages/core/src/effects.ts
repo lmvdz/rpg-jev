@@ -85,6 +85,7 @@ const claim = z.strictObject({
   subject: id,
   predicate: id,
   object: id.optional(),
+  to: id.optional(),
   place: id.optional(),
   when: minute,
   severity: z.union([z.literal(1), z.literal(2), z.literal(3)]),
@@ -271,6 +272,8 @@ export function validateEffect(world: World, candidate: unknown): string[] {
       if (c.motive !== undefined && !world.def.motives.includes(c.motive))
         errors.push(`motive ${c.motive} is not in the vocabulary`);
       if (!world.actors[c.subject]) errors.push(`claim subject ${c.subject} does not exist`);
+      if (c.to !== undefined && !world.actors[c.to])
+        errors.push(`claim names ${c.to}, who does not exist`);
       if (c.place !== undefined && !world.rooms[c.place])
         errors.push(`claim place ${c.place} does not exist`);
       if (c.derivedFrom !== undefined && !world.claims[c.derivedFrom])

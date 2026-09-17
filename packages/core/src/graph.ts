@@ -69,5 +69,7 @@ export function lineage(world: World, claim: ClaimId): Claim[] {
 
 /** Two claims are about the same matter when only the teller's changes separate them. */
 export function sameMatter(a: Claim, b: Claim): boolean {
-  return a.predicate === b.predicate && a.object === b.object;
+  return (
+    a.predicate === b.predicate && a.object === b.object && a.to === b.to && a.place === b.place
+  );
 }

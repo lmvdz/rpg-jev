@@ -83,7 +83,10 @@ export interface Claim {
   id: ClaimId;
   subject: ActorId;
   predicate: string;
+  /** What the act was done to or with. */
   object?: string;
+  /** To whom (SPEC.md section 6: who, did, to whom). */
+  to?: ActorId;
   place?: RoomId;
   /** When the claimed thing happened (valid time). */
   when: Minute;

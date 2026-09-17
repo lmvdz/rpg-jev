@@ -18,3 +18,6 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# saved nights (the event log is the save)
+saves/

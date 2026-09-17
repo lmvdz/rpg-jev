@@ -12,7 +12,9 @@
     "test:watch": "vitest",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "check": "pnpm lint && pnpm typecheck && pnpm test"
+    "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "play": "pnpm --filter @rpg-jev/terminal run play",
+    "demo": "pnpm --filter @rpg-jev/terminal run demo"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",

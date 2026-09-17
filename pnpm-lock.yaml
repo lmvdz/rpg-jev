@@ -27,6 +27,15 @@ importers:
         specifier: ^4.6.5
         version: 4.6.5
 
+  packages/inn:
+    dependencies:
+      '@rpg-jev/core':
+        specifier: workspace:*
+        version: link:../core
+      '@rpg-jev/jev':
+        specifier: workspace:*
+        version: link:../jev
+
   packages/jev:
     dependencies:
       '@rpg-jev/core':
@@ -35,6 +44,18 @@ importers:
       '@typesafe-ai/sdk':
         specifier: ^0.6.0
         version: 0.6.0
+
+  packages/terminal:
+    dependencies:
+      '@rpg-jev/core':
+        specifier: workspace:*
+        version: link:../core
+      '@rpg-jev/inn':
+        specifier: workspace:*
+        version: link:../inn
+      '@rpg-jev/jev':
+        specifier: workspace:*
+        version: link:../jev
 
   spikes/m0-jev:
     dependencies:

@@ -35,7 +35,13 @@ const guardWording = {
 
 const everyFamily = (v: Variant): Record<string, Asked> => ({
   ...parseIntent(
-    { targets: [opt("a")], items: [opt("b")], topics: [opt("c")], requests: [opt("d")] },
+    {
+      targets: [opt("a")],
+      items: [opt("b")],
+      statements: [opt("c")],
+      subjects: [opt("e")],
+      requests: [opt("d")],
+    },
     v,
   ),
   act: pickAction("npcs.x", [opt("go")], "go", v),

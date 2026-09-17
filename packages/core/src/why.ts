@@ -7,11 +7,12 @@
 import { beliefsOf, currentEdge, lineage } from "./graph.ts";
 import { causeChain, type LogEntry } from "./log.ts";
 import { locate, type Whereabouts } from "./schedule.ts";
-import type { ActorId, Claim, Debt, World } from "./types.ts";
+import type { ActorId, BeliefSource, Claim, Debt, World } from "./types.ts";
 
 export interface WhyBelief {
   claim: Claim;
   credence: number;
+  source: BeliefSource | undefined;
   /** Retellings from the first version of the claim to the one held now. */
   lineage: Claim[];
   chain: LogEntry[];
@@ -46,6 +47,7 @@ export function why(
     beliefs: beliefsOf(world, npc).map((b) => ({
       claim: b.claim,
       credence: b.credence,
+      source: b.edge.source,
       lineage: lineage(world, b.claim.id),
       chain: causeChain(log, b.edge.cause_id),
     })),

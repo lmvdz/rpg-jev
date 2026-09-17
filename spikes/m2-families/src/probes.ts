@@ -526,21 +526,26 @@ const SCENE = {
   exits: [{ id: "common_room", description: "the door back to the common room" }],
 };
 
-const TOPICS = [
-  { id: "t_ledger", description: "the missing ledger" },
+const STATEMENTS = [
   {
     id: "t_odo_bundle",
     description: "that Odo carried an oilcloth bundle down to the cellar at dusk",
   },
-  { id: "t_deny", description: "that the character did not take the ledger" },
-  { id: "t_where_tobin", description: "where Tobin is" },
+  { id: "t_found", description: "that the character found the ledger in the cellar" },
+  { id: "t_deny", description: "that the character never took the ledger" },
+];
+
+const SUBJECTS = [
+  { id: "t_ledger", description: "the missing ledger" },
+  { id: "t_odo", description: "Odo" },
+  { id: "t_where_tobin", description: "where Tobin is now" },
 ];
 
 const parse = (id: string, text: string, expect: Probe["expect"]): Probe => ({
   id,
   family: "parse_intent",
   expect,
-  state: { scene: SCENE, topics: TOPICS, player_input: { text } },
+  state: { scene: SCENE, statements: STATEMENTS, subjects: SUBJECTS, player_input: { text } },
   questions: (v) =>
     parseIntent(
       {
@@ -548,7 +553,8 @@ const parse = (id: string, text: string, expect: Probe["expect"]): Probe => ({
           opt(e.id, e.description),
         ),
         items: SCENE.things.map((e) => opt(e.id, e.description)),
-        topics: TOPICS.map((t) => opt(t.id, t.description)),
+        statements: STATEMENTS.map((t) => opt(t.id, t.description)),
+        subjects: SUBJECTS.map((t) => opt(t.id, t.description)),
         requests: [
           opt("speak_to_mara", "Tell Mara what they know or saw"),
           opt("hand_over", "Hand over a thing"),
@@ -567,10 +573,20 @@ const covered: Probe[] = [
     min: 0.4,
   }),
   parse(
+    "parse-tell-found",
+    "tell odo I found her ledger buried in the flour barrel down in the cellar",
+    { question: "states", option: "t_found", min: 0.6 },
+  ),
+  parse("parse-ask-about", "ask odo what he knows about the ledger", {
+    question: "asks_about",
+    option: "t_ledger",
+    min: 0.6,
+  }),
+  parse(
     "parse-tell-odo",
     "look odo in the eye and say I know you lugged a bundle down those cellar steps at dusk",
     {
-      question: "topic",
+      question: "states",
       option: "t_odo_bundle",
       min: 0.6,
     },
