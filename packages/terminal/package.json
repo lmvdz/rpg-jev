@@ -6,7 +6,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "play": "node --env-file-if-exists=../../.env src/play.ts",
-    "demo": "node --env-file-if-exists=../../.env src/demo.ts"
+    "demo": "node --env-file-if-exists=../../.env src/demo.ts",
+    "routes": "node --env-file-if-exists=../../.env src/routes.ts"
   },
   "dependencies": {
     "@rpg-jev/core": "workspace:*",

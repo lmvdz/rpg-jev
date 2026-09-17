@@ -49,7 +49,7 @@ export async function performAction(g: Game, action: Action, root: LogId): Promi
       return 0;
     case "why": {
       const report = why(g.world, g.log, action.npc, PLAYER);
-      g.say(report ? renderWhy(g.world, report) : "Nobody by that name.");
+      g.say(report ? renderWhy(g.world, report, g.log) : "Nobody by that name.");
       return 0;
     }
     case "wait":

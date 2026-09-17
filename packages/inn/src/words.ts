@@ -70,6 +70,11 @@ const PHRASES: Record<string, Ladder> = {
   ],
   paid_debt: same("paid off what {to} owed"),
   is_in: same("{be} in {place}"),
+  slipped: same(
+    // Two hops (he knew it was gone, so he knew where it had been) are one too many for
+    // the judge, so the event states the second hop. Code does the chaining.
+    "came to {to} insisting the stranger had the ledger and must be searched. Nobody had told {them} it had been found, so {they} could only have known it was gone by looking in the place where it was hidden",
+  ),
   dodged: same(
     "would not say what {they} carried down to the cellar when {to} asked, and blamed the stranger instead",
   ),
@@ -210,6 +215,7 @@ export const ACTIVITY: Record<string, string> = {
   searching_pack: "come to search the stranger's pack",
   testifying: "come to say something to Mara",
   confronting: "come to have words with Odo",
+  searching_cellar: "going through the cellar with a lantern",
   checking_cellar: "fetching something from the cellar",
   burning: "feeding the kitchen fire",
   reporting: "come to tell Mara something",

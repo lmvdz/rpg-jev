@@ -316,8 +316,8 @@ export function pickDistortion(
       type: "choice",
       instructions:
         variant === 0
-          ? `${p}.name\` is alone with ${p}.retelling.listener\` and has ${p}.retelling.claim\` on their mind. How does it come out when they talk? Use ${p}.traits\`, ${p}.wants\` and ${p}.retelling\`. ${AS_THIS_PERSON}`
-          : `${p}.name\` has the chance to pass ${p}.retelling.claim\` on to ${p}.retelling.listener\`. Which version, if any, do they tell? Base it on ${p}.traits\`, ${p}.wants\` and ${p}.retelling\`. ${AS_THIS_PERSON}`,
+          ? `${p}.name\` is talking with ${p}.retelling.listener\` and has ${p}.retelling.claim\` on their mind. ${p}.retelling.within_earshot\` can hear whatever is said. How does it come out? Use ${p}.traits\`, ${p}.wants\`, ${p}.circumstances\` and ${p}.retelling\`. ${AS_THIS_PERSON}`
+          : `${p}.name\` has the chance to pass ${p}.retelling.claim\` on to ${p}.retelling.listener\`, within hearing of ${p}.retelling.within_earshot\`. Which version, if any, do they tell? Base it on ${p}.traits\`, ${p}.wants\`, ${p}.circumstances\` and ${p}.retelling\`. ${AS_THIS_PERSON}`,
       criteria: {
         ...Object.fromEntries(all.map((o) => [o.id, o.description])),
         [KEEP_QUIET]: {

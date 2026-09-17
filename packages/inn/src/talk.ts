@@ -559,6 +559,7 @@ export async function playerSpeaks(
     return 0;
   }
   const name = listener.name;
+  g.addressed[npc] = g.world.conversation.beat;
   const others = g.npcsIn(g.playerRoom).filter((n) => n !== npc);
   const inFrontOf =
     others.length > 0 ? others.map((o) => nameOf(g.world, o)).join(" and ") : "nobody else";
@@ -680,7 +681,8 @@ export async function playerSpeaks(
 
   const named =
     topic.kind === "entity" || topic.kind === "whereabouts" ? topic.id : asserted?.subject;
-  const about = named === "tonight" ? undefined : named;
+  // "Ask Tobin what he saw" is about tonight, not about Tobin.
+  const about = named === "tonight" || (action.act === "ask" && named === npc) ? undefined : named;
   const hears: Record<string, string> = {
     said_by: "the stranger",
     what: `The stranger ${ACT_WORDS[action.act] ?? "speaks to"} ${name}`,
@@ -803,6 +805,12 @@ function bargain(g: Game, action: Say, answer: JudgeAnswer | undefined, cause: L
   );
   if (closed) {
     g.intent(npc, PLAYER, "refuse", { kind: "none" }, 3, cause);
+    return;
+  }
+  // Already promised: asking again does not reopen the question.
+  const promised = action.request === "speak_to_mara" && g.world.debts[`testify_${npc}`];
+  if (promised) {
+    g.intent(npc, PLAYER, "promise", { kind: "request", id: "speak_to_mara" }, 3, cause);
     return;
   }
   const accepted = g.sampleYes(answer, `${npc} accepts`, cause);
@@ -964,12 +972,15 @@ export function afterSpeech(g: Game, turn: Turn, id: LogId): void {
   if (intent.act !== "promise" || intent.topic.kind !== "request") return;
   const [request, whom] = intent.topic.id.split(":");
   const kind = request === "confront" ? "confront" : request === "speak_to_mara" ? "testify" : null;
-  if (!kind || g.world.debts[`${kind}_${intent.speaker}`]) return;
+  if (!kind) return;
+  // One confrontation per person, whether she promised it or decided on it herself.
+  const debtId = kind === "confront" ? `confront_${whom ?? ODO}` : `${kind}_${intent.speaker}`;
+  if (g.world.debts[debtId]) return;
   g.commit(
     {
       kind: "create_debt",
       debt: {
-        id: `${kind}_${intent.speaker}`,
+        id: debtId,
         cause: id,
         stakeholder: intent.speaker,
         kind,

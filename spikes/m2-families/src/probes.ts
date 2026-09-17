@@ -264,9 +264,10 @@ interface Retelling {
   teller: JsonObject;
   key: string;
   claim: string;
-  aboutTeller?: boolean;
   listener: string;
   listenerIs: string;
+  /** Who else can hear. M0: a social constraint only counts if it is a stated fact. */
+  earshot?: string;
   faithful: string;
   options: Option[];
   expect: Probe["expect"];
@@ -281,7 +282,12 @@ const retelling = (r: Retelling): Probe => ({
     npcs: {
       [r.key]: {
         ...r.teller,
-        retelling: { claim: r.claim, listener: r.listener, listener_is: r.listenerIs },
+        retelling: {
+          claim: r.claim,
+          listener: r.listener,
+          listener_is: r.listenerIs,
+          within_earshot: r.earshot ?? "nobody else",
+        },
       },
     },
   },
@@ -343,6 +349,47 @@ const distortion: Probe[] = [
     options: tobinKeyOptions,
     expect: null,
   }),
+  // The same secret, told to the employer he is loyal to: alone, then with Odo in the room.
+  ...(
+    [
+      { id: "distort-tobin-secret-alone", expect: null },
+      {
+        id: "distort-tobin-secret-alone-afraid",
+        traits: [
+          "quiet",
+          "observant",
+          "timid",
+          "loyal to Mara",
+          "afraid of Odo",
+          "never volunteers what he has seen",
+        ],
+        expect: null,
+      },
+      {
+        id: "distort-tobin-secret-overheard",
+        earshot: "Odo, the very person the story is about",
+        expect: { question: "version", option: "keep_quiet", min: 0.5 },
+      },
+    ] as { id: string; earshot?: string; traits?: string[]; expect: Probe["expect"] }[]
+  ).map((c) =>
+    retelling({
+      id: c.id,
+      teller: c.traits ? { ...TOBIN, traits: c.traits } : TOBIN,
+      key: "tobin",
+      claim: `${TOBIN_SAW} (saw it himself; has told no one)`,
+      listener: "Mara",
+      listenerIs: "his employer, whom he is loyal to",
+      ...(c.earshot ? { earshot: c.earshot } : {}),
+      faithful: "Tells Mara that he saw Odo carry a bundle down to the cellar at dusk",
+      options: [
+        opt(
+          "exaggerate_severity",
+          "Makes it sound worse: tells Mara he saw Odo sneak a bundle down to the cellar",
+        ),
+      ],
+      expect: c.expect,
+    }),
+  ),
   retelling({
     id: "distort-tobin-to-odo-about-odo",
     teller: TOBIN,

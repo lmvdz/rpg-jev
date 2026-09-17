@@ -75,6 +75,20 @@ export interface NpcPart {
   extra: JsonObject;
 }
 
+/**
+ * A debt is a circumstance for as long as it is owed. The family probe found that
+ * Tobin speaks freely or not at all depending on this one line, so it follows the
+ * belief: once the debt is paid and the belief retired, the line is gone.
+ */
+function owing(world: World, npc: string): string[] {
+  return beliefsOf(world, npc)
+    .filter((b) => b.claim.predicate === "owes" && b.claim.subject === npc && b.credence > 0)
+    .map((b) => {
+      const to = nameOf(world, b.claim.to ?? "someone");
+      return `owes ${to} more money than can be repaid, and is afraid of crossing ${to}`;
+    });
+}
+
 export function npcState(world: World, part: NpcPart): JsonObject {
   const actor = world.actors[part.npc];
   if (!actor) return {};
@@ -83,7 +97,7 @@ export function npcState(world: World, part: NpcPart): JsonObject {
     role: actor.role,
     traits: actor.traits,
     wants: actor.goals,
-    circumstances: [...actor.circumstances, ...actor.motives],
+    circumstances: [...actor.circumstances, ...actor.motives, ...owing(world, part.npc)],
     doing: ACTIVITY[actor.activity] ?? actor.activity,
     feeling_toward_stranger: feelingWords(actor, stanceOf(world, part.npc, PLAYER)),
     knows: rankedBeliefs(world, part.npc, part.about)
@@ -160,7 +174,12 @@ export function eventLine(world: World, holder: string, belief: Belief): string 
     source.kind === "shown"
       ? `showed ${name} proof that`
       : `told ${name}${firstHand ? ", as something seen first hand," : ""} that`;
-  const taken = belief.credence >= 0.65 ? "believed it" : "half believed it";
+  const taken =
+    belief.credence >= 0.65
+      ? "believed it"
+      : belief.credence >= 0.4
+        ? "is now in two minds about it"
+        : "has come to doubt it";
   return `${from}${known} ${verb} ${what}. ${name} ${taken}.`;
 }
 
@@ -177,15 +196,16 @@ export const guardSlice: SliceSchema<{ world: World }> = {
     const mara = world.actors[MARA];
     const relevant = beliefsOf(world, MARA)
       .filter((b) => b.claim.id !== C_ACCUSATION.id && LEDGER_MATTER.includes(b.claim.predicate))
-      // Only what she saw or has come to believe. A live run showed that a list of
-      // tales she doubted ("... (Mara doubts it)") was read as Mara doubting the case
-      // against the stranger, and cleared them on hearsay she had rejected.
-      .filter((b) => b.credence >= 0.4)
       .sort(
         (a, b) => a.edge.known_from - b.edge.known_from || a.claim.id.localeCompare(b.claim.id),
       );
-    const before = relevant.filter((b) => b.edge.known_from < START);
-    const tonight = relevant.filter((b) => b.edge.known_from >= START);
+    // What her suspicion rested on before tonight stays in view even once she has come
+    // to doubt it: without it the judge cannot see that the ground has gone from under
+    // the accusation. Tonight's hearsay is different: only what she believes counts. A
+    // live run showed that a list of tales she had rejected ("... (Mara doubts it)") was
+    // read as Mara doubting the case against the stranger, and cleared them on it.
+    const before = relevant.filter((b) => b.edge.known_from < START && b.credence > 0);
+    const tonight = relevant.filter((b) => b.edge.known_from >= START && b.credence >= 0.4);
     return {
       quest: { accusation: "the stranger took the inn's ledger" },
       npcs: {

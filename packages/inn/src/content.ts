@@ -57,6 +57,7 @@ export const IMPLICATES = [
   "fled",
   "apron_is_odos",
   "dodged",
+  "slipped",
 ];
 
 /** Predicates that bear on who took the ledger; these feed the quest guard's slice. */
@@ -82,6 +83,7 @@ export const LEDGER_MATTER = [
   "fled",
   "in_plain_view",
   "dodged",
+  "slipped",
 ];
 
 const npc = (a: Partial<Actor> & Pick<Actor, "id" | "name" | "room" | "activity">): Actor => ({
@@ -369,6 +371,7 @@ export function initialWorld(seed: number): World {
         "confront",
         "retaliate",
         "eject",
+        "search_cellar",
       ],
     },
     clock: START,

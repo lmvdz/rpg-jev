@@ -32,6 +32,7 @@ import {
 } from "@rpg-jev/jev";
 import {
   C_ACCUSATION,
+  C_APRON,
   C_ODO_TOOK,
   C_TOBIN_SAW,
   IMPLICATES,
@@ -100,6 +101,12 @@ function taleFor(g: Game, teller: string, listener: string): Belief | undefined 
     if (b.credence < 0.5 || c.predicate === "owes" || incriminates(teller, c)) return false;
     // Nobody needs telling what they did themselves.
     if (c.subject === listener) return false;
+    // A tale the teller is guarding is not idle talk. The family probe found the judge
+    // would have Tobin tell Mara what he saw the first time they were alone (0.90, and
+    // 0.73 with "afraid of Odo" as a trait), which would end the night by eight. His
+    // silence is therefore a rule tied to his debt; paying the debt lifts it. He can
+    // still be asked, and his conscience still comes due.
+    if (guarded(g, teller, c)) return false;
     // Nor that something was done at their own asking.
     if (c.motive === "was_asked" && listener === MARA) return false;
     const source = b.edge.source;
@@ -161,10 +168,21 @@ export async function gossip(
   });
   const when = whenFor(claim, g.world.clock);
   const listenerName = nameOf(g.world, listener);
+  // M0: a social constraint only counts if it is a stated fact. A live night had Tobin
+  // tell Mara what he saw Odo do with Odo standing at the hearth beside them.
+  const room = g.world.actors[teller]?.room ?? "";
+  const earshot = [...g.npcsIn(room), ...(g.playerRoom === room ? [PLAYER] : [])]
+    .filter((id) => id !== teller && id !== listener)
+    .map((id) =>
+      id === claim.subject
+        ? `${nameOf(g.world, id)}, the very person the story is about`
+        : nameOf(g.world, id),
+    );
   const retelling = {
     claim: `${cap(claimClause(g.world, claim))}${when}`,
     listener: listenerName,
     listener_is: relationOf(g, teller, listener, claim),
+    within_earshot: earshot.length > 0 ? earshot.join(" and ") : "nobody else",
   };
   const habit = RETELLING_HABIT[teller] ?? { [FAITHFUL]: 1 };
   const labels = [FAITHFUL, ...options.map((o) => o.id), KEEP_QUIET];
@@ -411,7 +429,22 @@ async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
         "carry_on",
         stimulus,
       );
-      if (choice === "accuse_louder") {
+      if (choice === "accuse_louder" && g.world.machines.ledger_fate?.node === "returned") {
+        // The ledger is already back under Mara's hand, and nobody has told Odo. By
+        // insisting the stranger has it, he shows that he knew where it was not.
+        goTo(g, ODO, g.world.actors[MARA]?.room ?? "common_room", "reporting", 8, id);
+        const slip = g.happened({ subject: ODO, predicate: "slipped", to: MARA, severity: 3 }, id);
+        g.learn(MARA, slip, 1, { kind: "witnessed" }, id);
+        if (g.maraIsHere()) {
+          g.say(
+            "Odo comes through at a trot, red in the face. \"Search that one's pack, Mara, now. They have your ledger, I'd stake my life on it.\"",
+          );
+          g.say(
+            "Mara does not look at you. She looks at Odo, and then down at the ledger under her own hand, which nobody has told him about.",
+          );
+          g.learn(PLAYER, slip, 1, { kind: "witnessed" }, id);
+        }
+      } else if (choice === "accuse_louder") {
         const search = g.world.debts.mara_search;
         if (search?.status === "pending")
           g.commit({ kind: "settle_debt", id: search.id, status: "cancelled" }, id);
@@ -609,6 +642,42 @@ async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
       return carryTale(g, debt, cause);
     case "confront":
       return confront(g, debt, cause);
+    case "search_cellar": {
+      // She was told something went down to the cellar, so she goes to look. What she
+      // finds there she sees for herself, and no judge is needed for that.
+      goTo(g, MARA, "cellar", "searching_cellar", 8, cause);
+      settle(g, debt, cause);
+      const near = playerHere("cellar") || playerHere("kitchen");
+      if (!ledgerIn(g, "barrel")) {
+        if (near)
+          g.say(
+            "Mara takes the lantern down the cellar steps. You hear the lid of the flour barrel, a long silence, and the lid again.",
+          );
+        return;
+      }
+      if (g.world.machines.barrel_search?.node === "unsearched")
+        g.commit(
+          { kind: "set_node", target: { type: "machine", id: "barrel_search" }, to: "searched" },
+          cause,
+        );
+      const fate = { type: "machine", id: "ledger_fate" } as const;
+      const found = g.commit({ kind: "set_node", target: fate, to: "found" }, cause);
+      g.commit({ kind: "set_node", target: fate, to: "returned" }, found);
+      for (const item of ["ledger", "apron"])
+        if (g.world.items[item]?.at && "inside" in (g.world.items[item]?.at ?? {}))
+          g.commit({ kind: "transfer", item, to: { holder: MARA } }, found);
+      const deed = g.happened(
+        { subject: MARA, predicate: "found", object: "ledger", place: "cellar", severity: 2 },
+        found,
+      );
+      g.learn(MARA, deed, 1, { kind: "witnessed" }, found);
+      g.learn(MARA, C_APRON, 1, { kind: "witnessed" }, found);
+      if (near)
+        g.say(
+          "Mara takes the lantern down the cellar steps. You hear the lid of the flour barrel come off, and then nothing for a long time. When she comes up she is floured to the elbow, with the ledger in one hand and a cook's apron in the other.",
+        );
+      return;
+    }
     default:
       settle(g, debt, cause, "cancelled");
   }
@@ -744,7 +813,11 @@ const CULPRIT = {
   },
 };
 
-export const GUARD_THRESHOLD = 0.6;
+/**
+ * Both wordings must reach this. Live runs put a bare return of the ledger at 0.45 to
+ * 0.62 and the working routes at 0.65 to 0.88, so the bar sits between them.
+ */
+export const GUARD_THRESHOLD = 0.65;
 
 const POINTS_ELSEWHERE = [...IMPLICATES, "forced_latch"];
 const SPEAKS_FOR_STRANGER = ["in_plain_view", "pack_was_clean", "handed_over"];

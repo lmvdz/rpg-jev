@@ -10,6 +10,7 @@ import {
   beliefIn,
   beliefsOf,
   type Claim,
+  type Debt,
   type Effect,
   failedPreconditions,
   type JudgeAnswer,
@@ -66,6 +67,8 @@ export class Game {
   over = false;
   /** Debug hook: sees every slice sent to the judge and what came back. */
   trace: ((slice: Slice, answers: Record<string, JudgeAnswer>) => void) | null = null;
+  /** The beat at which the player last spoke to each NPC. Someone spoken to stays to listen. */
+  addressed: Record<string, number> = {};
   /** NPCs who walked in on the player during this step. Arriving is a stimulus. */
   arrived: string[] = [];
   #pending: Extract<Matched, { kind: "clarify" }> | null = null;
@@ -208,17 +211,17 @@ export class Game {
   /** Arithmetic on beliefs and drives lives here, not in the judge (SPEC.md rule 3). */
   private afterBelief(holder: string, claim: Claim, credence: number, cause: LogId): void {
     // "Who told me this? The man I now suspect." What the holder has only on the word
-    // of someone newly implicated is worth half what it was.
+    // of someone implicated loses two fifths of its weight each time that happens: one
+    // piece of evidence leaves her in two minds, a second leaves her doubting.
     if (claim.subject !== PLAYER && IMPLICATES.includes(claim.predicate))
       for (const b of beliefsOf(this.world, holder)) {
         const source = b.edge.source;
-        if (source?.kind !== "told" || source.from !== claim.subject || b.credence <= 0.3) continue;
-        const halved = Math.round(b.credence * 50) / 100;
-        this.commit(
-          { kind: "update_credence", holder, claim: b.claim.id, credence: halved },
-          cause,
-        );
+        if (source?.kind !== "told" || source.from !== claim.subject || b.credence <= 0.2) continue;
+        const less = Math.round(b.credence * 60) / 100;
+        this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: less }, cause);
       }
+
+    this.maraActsOn(holder, claim, cause);
 
     // Someone else did it: the accusation against the stranger loses ground.
     const clears =
@@ -248,6 +251,35 @@ export class Game {
     } else if (claim.predicate === "handed_over" || claim.predicate === "pack_was_clean") {
       this.nudge(holder, { trust: 0.1, suspicion: -0.1 }, cause);
     }
+  }
+
+  /**
+   * Mara wants her ledger, so what she comes to believe she acts on: she goes to look
+   * where she is told it went, and she has it out with whoever is implicated. Both are
+   * debts with a short fuse, so they land a little later and can be traced with `why`.
+   */
+  private maraActsOn(holder: string, claim: Claim, cause: LogId): void {
+    if (holder !== MARA || claim.subject === PLAYER || !IMPLICATES.includes(claim.predicate))
+      return;
+    const owe = (id: string, kind: string, data: Record<string, string>, minutes: number) => {
+      if (this.world.debts[id]) return;
+      const due = this.world.clock + minutes;
+      const debt: Debt = {
+        id,
+        cause,
+        stakeholder: MARA,
+        kind,
+        magnitude: 3,
+        fuse: { due, expires: due + 120 },
+        status: "pending",
+        data,
+      };
+      this.commit({ kind: "create_debt", debt }, cause);
+    };
+    if (claim.place === "cellar") owe("mara_looks_in_cellar", "search_cellar", {}, 6);
+    const who = this.world.actors[claim.subject];
+    if (who?.kind === "npc" && who.present && claim.predicate !== "dodged")
+      owe(`confront_${claim.subject}`, "confront", { to: claim.subject }, 12);
   }
 
   nudge(npc: string, deltas: Partial<Record<string, number>>, cause: LogId): void {
@@ -441,7 +473,8 @@ export class Game {
       // The schedule is still a pure function of time; carrying it out can wait a beat.
       // Nobody walks off on a routine errand in the middle of being spoken to.
       const { beat, lastSpokeBeat } = this.world.conversation;
-      const talking = a.room === this.playerRoom && beat - (lastSpokeBeat[npc] ?? -9) <= 1;
+      const lately = Math.max(lastSpokeBeat[npc] ?? -9, this.addressed[npc] ?? -9);
+      const talking = a.room === this.playerRoom && beat - lately <= 1;
       if (talking && where.routine) continue;
       const from = a.room;
       if (where.room !== from && from === this.playerRoom)

@@ -1,0 +1,665 @@
+{
+ "started": "2026-09-17T21:55:45.250Z",
+ "rows": [
+  {
+   "probe": "distort-odo-embellishes",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 815,
+   "latencyMs": 463,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "exaggerate_severity",
+     "confidence": 0.76,
+     "probabilities": {
+      "keep_quiet": 0,
+      "exaggerate_severity": 0.84,
+      "faithful": 0.16
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-embellishes",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 815,
+   "latencyMs": 379,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "exaggerate_severity",
+     "confidence": 0.76,
+     "probabilities": {
+      "faithful": 0.16,
+      "exaggerate_severity": 0.84,
+      "keep_quiet": 0
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-embellishes",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 816,
+   "latencyMs": 230,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "exaggerate_severity",
+     "confidence": 0.42,
+     "probabilities": {
+      "faithful": 0.38,
+      "keep_quiet": 0,
+      "exaggerate_severity": 0.62
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-embellishes",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 816,
+   "latencyMs": 147,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "exaggerate_severity",
+     "confidence": 0.45,
+     "probabilities": {
+      "keep_quiet": 0,
+      "faithful": 0.36,
+      "exaggerate_severity": 0.64
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-careful",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 876,
+   "latencyMs": 144,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.84,
+     "probabilities": {
+      "swap_culprit": 0.01,
+      "drop_motive": 0.07,
+      "keep_quiet": 0.02,
+      "exaggerate_severity": 0.03,
+      "faithful": 0.87
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-careful",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 876,
+   "latencyMs": 193,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.8,
+     "probabilities": {
+      "drop_motive": 0.09,
+      "exaggerate_severity": 0.03,
+      "swap_culprit": 0.01,
+      "keep_quiet": 0.03,
+      "faithful": 0.84
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-careful",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 877,
+   "latencyMs": 176,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.88,
+     "probabilities": {
+      "faithful": 0.9,
+      "exaggerate_severity": 0.01,
+      "swap_culprit": 0.01,
+      "keep_quiet": 0.02,
+      "drop_motive": 0.06
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-careful",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 877,
+   "latencyMs": 186,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.88,
+     "probabilities": {
+      "keep_quiet": 0.02,
+      "exaggerate_severity": 0.01,
+      "swap_culprit": 0.01,
+      "faithful": 0.91,
+      "drop_motive": 0.05
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-as-gossip",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 873,
+   "latencyMs": 207,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.41,
+     "probabilities": {
+      "faithful": 0.53,
+      "drop_motive": 0.04,
+      "exaggerate_severity": 0.41,
+      "swap_culprit": 0.01,
+      "keep_quiet": 0.01
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-as-gossip",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 873,
+   "latencyMs": 145,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.51,
+     "probabilities": {
+      "exaggerate_severity": 0.35,
+      "keep_quiet": 0.01,
+      "drop_motive": 0.03,
+      "faithful": 0.6,
+      "swap_culprit": 0.01
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-as-gossip",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 874,
+   "latencyMs": 128,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.56,
+     "probabilities": {
+      "swap_culprit": 0.01,
+      "faithful": 0.65,
+      "exaggerate_severity": 0.3,
+      "drop_motive": 0.03,
+      "keep_quiet": 0.01
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-as-gossip",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 874,
+   "latencyMs": 152,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.56,
+     "probabilities": {
+      "swap_culprit": 0.01,
+      "drop_motive": 0.03,
+      "keep_quiet": 0.01,
+      "exaggerate_severity": 0.3,
+      "faithful": 0.65
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-alone",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 812,
+   "latencyMs": 118,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.86,
+     "probabilities": {
+      "keep_quiet": 0.05,
+      "exaggerate_severity": 0.04,
+      "faithful": 0.91
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-alone",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 812,
+   "latencyMs": 126,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.83,
+     "probabilities": {
+      "faithful": 0.89,
+      "exaggerate_severity": 0.04,
+      "keep_quiet": 0.07
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-alone",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 813,
+   "latencyMs": 144,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.95,
+     "probabilities": {
+      "exaggerate_severity": 0.01,
+      "keep_quiet": 0.02,
+      "faithful": 0.97
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-alone",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 813,
+   "latencyMs": 132,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.96,
+     "probabilities": {
+      "faithful": 0.97,
+      "keep_quiet": 0.02,
+      "exaggerate_severity": 0.01
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-overheard",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 819,
+   "latencyMs": 146,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "keep_quiet",
+     "confidence": 0.45,
+     "probabilities": {
+      "keep_quiet": 0.63,
+      "exaggerate_severity": 0.05,
+      "faithful": 0.32
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-overheard",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 819,
+   "latencyMs": 173,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "keep_quiet",
+     "confidence": 0.27,
+     "probabilities": {
+      "exaggerate_severity": 0.05,
+      "keep_quiet": 0.51,
+      "faithful": 0.44
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-overheard",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 820,
+   "latencyMs": 154,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.68,
+     "probabilities": {
+      "keep_quiet": 0.19,
+      "faithful": 0.79,
+      "exaggerate_severity": 0.02
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-secret-overheard",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 820,
+   "latencyMs": 162,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.63,
+     "probabilities": {
+      "keep_quiet": 0.23,
+      "faithful": 0.75,
+      "exaggerate_severity": 0.02
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-to-odo-about-odo",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 817,
+   "latencyMs": 158,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "keep_quiet",
+     "confidence": 0.41,
+     "probabilities": {
+      "keep_quiet": 0.61,
+      "faithful": 0.36,
+      "exaggerate_severity": 0.03
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-to-odo-about-odo",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 817,
+   "latencyMs": 170,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "keep_quiet",
+     "confidence": 0.53,
+     "probabilities": {
+      "faithful": 0.28,
+      "keep_quiet": 0.69,
+      "exaggerate_severity": 0.03
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-to-odo-about-odo",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 818,
+   "latencyMs": 150,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.37,
+     "probabilities": {
+      "exaggerate_severity": 0.02,
+      "keep_quiet": 0.41,
+      "faithful": 0.57
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-tobin-to-odo-about-odo",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 818,
+   "latencyMs": 125,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "keep_quiet",
+     "confidence": 0.32,
+     "probabilities": {
+      "faithful": 0.43,
+      "exaggerate_severity": 0.02,
+      "keep_quiet": 0.55
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-own-secret",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 791,
+   "latencyMs": 172,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "keep_quiet",
+     "confidence": 0.06,
+     "probabilities": {
+      "faithful": 0.27,
+      "keep_quiet": 0.37,
+      "swap_culprit": 0.36
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-own-secret",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 791,
+   "latencyMs": 133,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "keep_quiet",
+     "confidence": 0.06,
+     "probabilities": {
+      "swap_culprit": 0.33,
+      "keep_quiet": 0.37,
+      "faithful": 0.3
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-own-secret",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 792,
+   "latencyMs": 182,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.33,
+     "probabilities": {
+      "faithful": 0.56,
+      "keep_quiet": 0.32,
+      "swap_culprit": 0.12
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-own-secret",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 792,
+   "latencyMs": 150,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.36,
+     "probabilities": {
+      "faithful": 0.57,
+      "keep_quiet": 0.31,
+      "swap_culprit": 0.12
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-swap-onto-stranger",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 0,
+   "tokens": 834,
+   "latencyMs": 147,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "exaggerate_severity",
+     "confidence": 0.2,
+     "probabilities": {
+      "swap_culprit": 0.38,
+      "keep_quiet": 0.01,
+      "faithful": 0.21,
+      "exaggerate_severity": 0.4
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-swap-onto-stranger",
+   "family": "pick_distortion",
+   "variant": 0,
+   "rep": 1,
+   "tokens": 834,
+   "latencyMs": 144,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "swap_culprit",
+     "confidence": 0.24,
+     "probabilities": {
+      "swap_culprit": 0.42,
+      "faithful": 0.19,
+      "exaggerate_severity": 0.38,
+      "keep_quiet": 0.01
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-swap-onto-stranger",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 0,
+   "tokens": 835,
+   "latencyMs": 170,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.25,
+     "probabilities": {
+      "faithful": 0.44,
+      "exaggerate_severity": 0.24,
+      "swap_culprit": 0.31,
+      "keep_quiet": 0.01
+     }
+    }
+   }
+  },
+  {
+   "probe": "distort-odo-swap-onto-stranger",
+   "family": "pick_distortion",
+   "variant": 1,
+   "rep": 1,
+   "tokens": 835,
+   "latencyMs": 191,
+   "answers": {
+    "version": {
+     "type": "choice",
+     "choice": "faithful",
+     "confidence": 0.24,
+     "probabilities": {
+      "swap_culprit": 0.33,
+      "keep_quiet": 0.01,
+      "exaggerate_severity": 0.24,
+      "faithful": 0.42
+     }
+    }
+   }
+  }
+ ]
+}

@@ -311,6 +311,7 @@ export function arrival(world: World, npc: string, from: string): string {
 /** Why someone is leaving, when the schedule knows. A consequence the player cannot see is wasted. */
 const LEAVING: Record<string, string> = {
   confronting: "with a face like thunder",
+  searching_cellar: "taking the lantern from its hook",
   reporting: "in a hurry, with the look of someone carrying news",
   testifying: "slowly, twisting a cap in both hands",
   checking_cellar: "wiping both hands on an apron",
