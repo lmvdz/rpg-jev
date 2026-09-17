@@ -4,11 +4,14 @@
  * pnpm play --seed=7   a different night (with --new)
  * pnpm play --offline  play with the judge unreachable, to see the fallbacks
  * pnpm play --cost     show calls, tokens and latency after each action
+ * pnpm play --fast     no pauses before people speak
+ * pnpm play --plain    no live status line either: each turn prints as one block
  */
 import { join } from "node:path";
 import { createInterface } from "node:readline/promises";
 import { clockWords } from "@rpg-jev/inn";
 import { flag, openSession, option, ROOT } from "./session.ts";
+import { Stage } from "./stage.ts";
 
 const session = openSession({
   seed: Number(option("seed") ?? 1),
@@ -21,6 +24,21 @@ const { game, meter } = session;
 
 const print = (lines: string[]) => console.log(`\n${lines.join("\n")}\n`);
 
+// On a terminal the turn is shown as it happens; piped, it prints as one block as before.
+const live = (Boolean(process.stdout.isTTY) || flag("live")) && !flag("plain");
+const stage = new Stage({ live, paced: !flag("fast") });
+if (live) {
+  game.onLine = (line, speaker) => stage.line(line, speaker);
+  game.onThinking = (thinking) => stage.thinking(thinking);
+}
+async function turn(text: string): Promise<void> {
+  if (!live) return print(await game.turn(text));
+  console.log("");
+  await game.turn(text);
+  await stage.settle();
+  console.log("");
+}
+
 if (!session.live)
   console.log(
     "\n(The judge is unreachable: no TYPESAFE_API_KEY, or --offline. The inn runs on its routines.)",
@@ -29,7 +47,7 @@ if (session.resumed) {
   print([
     `(Resumed from the log at ${clockWords(game.world.clock)}. No model was asked anything.)`,
   ]);
-  print(await game.turn("look"));
+  await turn("look");
 } else print(game.intro());
 
 // Lines are read as a stream, so a typed session and a piped script behave the same.
@@ -51,13 +69,9 @@ for await (const line of rl) {
   }
   if (!process.stdin.isTTY) console.log(text);
   meter.begin(text);
-  const lines = await game.turn(text);
+  await turn(text);
   session.save();
-  if (/^(q|quit|exit)$/i.test(text) || game.over) {
-    if (game.over) print(lines);
-    break;
-  }
-  print(lines);
+  if (/^(q|quit|exit)$/i.test(text) || game.over) break;
   if (flag("cost")) {
     const c = meter.current;
     const note = c.fallbacks > 0 ? `, ${c.fallbacks} fallback` : "";

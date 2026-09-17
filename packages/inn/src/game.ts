@@ -51,6 +51,14 @@ import { type Action, type Matched, match, resolveAnswer } from "./parser.ts";
 import { arrival, departure, describeRoom, ENDINGS, INTRO, renderTurn } from "./prose.ts";
 import { trustIn } from "./slices.ts";
 import { afterSpeech, judgeParse, npcArrives } from "./talk.ts";
+import { nameOf } from "./words.ts";
+
+/** What a front end may show while the judge is being asked. */
+export interface Thinking {
+  /** Names of the people in the player's room whose minds are being consulted. */
+  who: string[];
+  about: "the_player" | "here" | "elsewhere";
+}
 
 export interface Decision {
   answers: Record<string, JudgeAnswer>;
@@ -68,6 +76,12 @@ export class Game {
   over = false;
   /** Debug hook: sees every slice sent to the judge and what came back. */
   trace: ((slice: Slice, answers: Record<string, JudgeAnswer>) => void) | null = null;
+  /**
+   * Presentation hooks for a live front end. Nothing here is logged or read back, so a
+   * replay and a test behave the same with or without them.
+   */
+  onLine: ((line: string, speaker: string | null) => void) | null = null;
+  onThinking: ((thinking: Thinking | null) => void) | null = null;
   /** The beat at which the player last spoke to each NPC. Someone spoken to stays to listen. */
   addressed: Record<string, number> = {};
   /** NPCs who walked in on the player during this step. Arriving is a stimulus. */
@@ -114,8 +128,10 @@ export class Game {
     return [INTRO, "", describeRoom(this.world)];
   }
 
-  say(line: string): void {
-    if (line !== "") this.out.push(line);
+  say(line: string, speaker: string | null = null): void {
+    if (line === "") return;
+    this.out.push(line);
+    this.onLine?.(line, speaker);
   }
 
   npcsIn(room: string): string[] {
@@ -142,7 +158,8 @@ export class Game {
     cause: LogId,
   ): Promise<Decision | null> {
     const request = buildRequest(slice.state, slice.hash, questions);
-    const response = await this.judge.ask(request);
+    this.onThinking?.(this.thinkers(slice));
+    const response = await this.judge.ask(request).finally(() => this.onThinking?.(null));
     this.trace?.(slice, response.answers);
     const id = this.store.append(
       {
@@ -162,6 +179,20 @@ export class Game {
       return null;
     }
     return { answers: response.answers, id, source: response.source };
+  }
+
+  /**
+   * Whose mind a slice consults, as far as the player could tell by looking: people in the
+   * room are named, people elsewhere are not. A slice with nobody in it is the game reading
+   * what the player typed.
+   */
+  private thinkers(slice: Slice): Thinking {
+    const minds = Object.keys((slice.state as { npcs?: Record<string, unknown> }).npcs ?? {});
+    const here = minds.filter((id) => this.world.actors[id]?.room === this.playerRoom);
+    return {
+      who: here.map((id) => nameOf(this.world, id)),
+      about: minds.length === 0 ? "the_player" : here.length > 0 ? "here" : "elsewhere",
+    };
   }
 
   /** Sample a Choice with a logged draw. Options under 0.10 are dropped; nothing is sharpened. */
@@ -430,7 +461,7 @@ export class Game {
     for (const turn of plan.speak) {
       const id = this.commit({ kind: "say", intent: turn.intent }, turn.intent.cause);
       const audible = this.world.actors[turn.intent.speaker]?.room === this.playerRoom;
-      if (audible) this.say(renderTurn(this.world, turn));
+      if (audible) this.say(renderTurn(this.world, turn), nameOf(this.world, turn.intent.speaker));
       after(turn, id);
     }
     this.fresh = [];
@@ -441,7 +472,10 @@ export class Game {
   async turn(text: string): Promise<string[]> {
     this.out = [];
     this.fresh = [];
-    if (this.over) return ["The night is over. Start again to play another."];
+    if (this.over) {
+      this.say("The night is over. Start again to play another.");
+      return this.out;
+    }
 
     // "huh" marks the turn before it as one the game got wrong. No rule can spot a line that
     // was understood, but as the wrong thing; only the player can, so give them a word for it.
@@ -456,7 +490,8 @@ export class Game {
         },
         null,
       );
-      return ["(Noted in the log: that last turn went wrong. Add why if you like: huh <reason>.)"];
+      this.say("(Noted in the log: that last turn went wrong. Add why if you like: huh <reason>.)");
+      return this.out;
     }
 
     const action = await this.read(text);

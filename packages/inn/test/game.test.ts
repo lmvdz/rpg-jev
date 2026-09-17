@@ -345,3 +345,26 @@ describe("a playtest leaves its snags in the log", () => {
     expect(resumed.world).toEqual(game.world);
   });
 });
+
+describe("a live front end", () => {
+  it("is told whose mind is at work, by name only for people in the room, and changes nothing", async () => {
+    const inputs = ["go kitchen", "take iron key", "wait 20"];
+    const plain = scripted(gossipy).game;
+    await play(plain, inputs);
+
+    const { game } = scripted(gossipy);
+    const seen: string[] = [];
+    const lines: string[] = [];
+    game.onThinking = (t) => {
+      if (t) seen.push(`${t.about}:${t.who.join("+")}`);
+    };
+    game.onLine = (line) => lines.push(line);
+    const out = await play(game, inputs);
+
+    expect(seen).toContain("here:Odo");
+    // Nobody out of sight is ever named.
+    for (const s of seen) if (!s.startsWith("here:")) expect(s.endsWith(":")).toBe(true);
+    for (const line of lines) expect(out).toContain(line);
+    expect(serializeLog(game.log)).toBe(serializeLog(plain.log));
+  });
+});
