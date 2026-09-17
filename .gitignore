@@ -21,4 +21,5 @@ Thumbs.db
 
 # saved nights (the event log is the save)
 saves/
-playtests/
+# the friction report is generated; nights handed in and the loop switch are tracked
+playtests/friction.md

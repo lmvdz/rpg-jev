@@ -35,15 +35,66 @@ constitutional rules in `SPEC.md` section 2 bind every change it produces.
 5. **Keep the evidence.** The typed line that failed goes into a regression test. The spec is
    updated when a finding contradicts it.
 
-## Running it unattended
+## The lifecycle, built to be started, stopped and moved to the cloud
 
-Steps 2 to 5 can be run by a coding agent, for example a scheduled Claude Code session on the
-subscription login: read `playtests/friction.md`, triage by the table, open one pull request per
-snag class, never merge. A person reviews the pull request. Two limits are deliberate:
+Steps 2 to 5 can be run by a coding agent. It is **not scheduled**. What exists is the shape,
+so that starting it is a switch and a secret, and stopping it is the same switch.
 
-- The agent proposes; it does not ship. "Enhance the game" with no reviewer drifts toward what is
-  easy to measure (fewer unparsed lines) and away from what is fun.
-- Judge spending stays capped. Re-recording and route measurement cost about $0.05 a round.
+**One pass, no memory.** The agent's whole procedure is one file,
+`.claude/commands/playtest-loop.md`. A pass reads the report, files and triages snags, fixes a
+few, opens pull requests and ends. It keeps nothing in its session. Any runner can therefore run
+it, and a pass that dies halfway is simply run again:
+
+| Runner | How a pass starts | Status |
+| --- | --- | --- |
+| Local | `/playtest-loop` in Claude Code, or `/loop /playtest-loop` to repeat | Works today once the switch is on |
+| GitHub Actions | The "Run workflow" button on `playtest-loop`, or `gh workflow run playtest-loop` | Written, **never run**. Needs the secret `CLAUDE_CODE_OAUTH_TOKEN` from `claude setup-token` (the subscription login; never an API key) |
+| Claude Code routine (cloud) | A routine at claude.ai/code/routines whose prompt is "carry out `.claude/commands/playtest-loop.md`" | Not set up. It has its own on/off switch as well |
+
+**Where state lives**
+
+| State | Lives in | Why there |
+| --- | --- | --- |
+| Whether the loop may run, and its limits | `playtests/loop.json` (`enabled` is `false`) | Tracked, reviewable, the same for every runner. The Actions workflow reads it with `jq` before any model starts, so a stopped loop costs nothing. The agent may not edit it |
+| Nights to learn from | `saves/` locally (ignored) and `playtests/inbox/` (tracked) | A log quotes everything the player typed, and the repo is public, so handing a night in is deliberate: `pnpm friction --submit` |
+| Which snags are known, refused or fixed | GitHub issues labelled `snag` | Survives any runner. A person closing an issue as "not planned" is a permanent no, which the agent checks before proposing anything |
+| Proposed fixes | Pull requests labelled `playtest-loop`, one per issue | The agent never merges. Open pull requests at the limit stop the next pass, so the loop cannot outrun its reviewer |
+
+**The stages of one snag**
+
+```
+night played -> snag in the report -> issue (class label) -> branch + regression test
+   -> gates (pnpm check in CI, re-record, budget) -> pull request -> a person merges or refuses
+```
+
+`class:mechanism` snags stop at the issue, with a written proposal. A missing general mechanism
+is a design decision, and the pile of special cases this loop exists to prevent is what an agent
+builds when it is allowed to "just fix" those.
+
+**Start, stop, emergency stop**
+
+- Start: set `enabled` to `true` in `playtests/loop.json`, commit, run a pass.
+- Stop: set it to `false`. Passes already running finish; none start work after.
+- Emergency: `gh workflow disable playtest-loop`, or switch the routine off. Close the pull
+  requests. Nothing the loop did is on `main` or `poc`, because it cannot push there.
+- Automate: add a `schedule:` trigger to the workflow, or a schedule to the routine. The switch
+  and the limits still apply.
+
+**Gates that do not depend on the agent behaving.** `pnpm check` runs in CI on every pull
+request (`.github/workflows/ci.yml`), offline, against the recorded judge. Recommended before
+the first cloud pass, and not done yet: protect `main` and `poc` so that the check is required
+and pushes need a pull request.
+
+**Known risks**
+
+- Player text is untrusted and the agent reads it. The report marks it as data and the procedure
+  says so, but that is a prompt, not a guarantee. Only hand in nights from people you trust, and
+  give a cloud runner no secret it does not need. `TYPESAFE_API_KEY` is optional: without it a
+  pass cannot re-record and leaves those pull requests as drafts for a person to finish.
+- A loop with no reviewer drifts toward what is easy to count (fewer unparsed lines) and away
+  from what is fun. The pull request limit is the brake.
+- Judge spending: a re-record is about $0.002 and a ten-seed route measurement about $0.04. The
+  per-pass cap is in `loop.json`; nothing enforces it in code yet.
 
 ## What the report cannot see
 

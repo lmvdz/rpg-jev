@@ -1,0 +1,50 @@
+# One pass of the playtest loop (docs/playtest-loop.md). Started by hand only: there is no
+# schedule here on purpose. To automate it later, add a `schedule:` trigger; the switch below
+# still decides whether a pass does anything.
+#
+# Needs the repository secret CLAUDE_CODE_OAUTH_TOKEN (from `claude setup-token`, the
+# subscription login; never an Anthropic API key). TYPESAFE_API_KEY is optional: without it a
+# pass cannot re-record and leaves such pull requests as drafts.
+#
+# NOT YET RUN. Written from the action's documentation; expect to adjust it on first use.
+name: playtest-loop
+on:
+  workflow_dispatch:
+concurrency:
+  group: playtest-loop
+  cancel-in-progress: false
+jobs:
+  pass:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      # The switch is checked by code, before any model runs, so a stopped loop costs nothing.
+      - id: switch
+        run: echo "enabled=$(jq -r '.enabled' playtests/loop.json)" >> "$GITHUB_OUTPUT"
+      - if: steps.switch.outputs.enabled != 'true'
+        run: echo "playtests/loop.json says the loop is off. Nothing to do."
+      - if: steps.switch.outputs.enabled == 'true'
+        uses: pnpm/action-setup@v4
+      - if: steps.switch.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - if: steps.switch.outputs.enabled == 'true'
+        run: pnpm install --frozen-lockfile
+      - if: steps.switch.outputs.enabled == 'true'
+        uses: anthropics/claude-code-action@v1
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: Read .claude/commands/playtest-loop.md and carry out that procedure exactly, once.
+          claude_args: --max-turns 80 --allowedTools Bash,Read,Edit,Write,Glob,Grep

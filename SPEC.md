@@ -431,7 +431,7 @@ The event log is the save file, and replaying it never calls a model. Jev's answ
 
 **The playtest loop**
 
-Every played night is a playtest, because the log already holds it. A line the game could not act on, or had to ask back about, is logged as an `input` entry and changes no state. A player who sees a line understood as the wrong thing types `huh`, which is logged too; no rule can find that kind of snag. `pnpm friction` turns saved nights into a list of snags by rule, with no model. The loop from snags to fixes runs outside the game and may be run by a coding agent, which proposes changes on a branch and never merges them. See `docs/playtest-loop.md`.
+Every played night is a playtest, because the log already holds it. A line the game could not act on, or had to ask back about, is logged as an `input` entry and changes no state. A player who sees a line understood as the wrong thing types `huh`, which is logged too; no rule can find that kind of snag. `pnpm friction` turns saved nights into a list of snags by rule, with no model. The loop from snags to fixes runs outside the game and may be run by a coding agent, which proposes changes on a branch and never merges them. It is off by default: `playtests/loop.json` is the switch, one pass keeps no memory, and GitHub issues hold what is known, refused or fixed. See `docs/playtest-loop.md`.
 
 Each snag is triaged before it is fixed, because the place of the fix depends on its kind:
 

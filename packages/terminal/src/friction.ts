@@ -2,6 +2,9 @@
  * pnpm friction [FILE...]   read saved nights (default: saves/*.jsonl) and list where play
  *                           snagged, as `playtests/friction.md`.
  *
+ * pnpm friction --submit    also copy the local nights into `playtests/inbox/`, which is tracked,
+ *                           so a loop running elsewhere can read them.
+ *
  * No model is involved. A night's log already holds every typed line, what the parser made
  * of it, every judge answer and every draw, so the snags can be found by rule: input the
  * game could not act on, questions it had to ask back, replies where the judge chose "none",
@@ -11,9 +14,16 @@
  * list of symptoms with their context, not of causes: deciding whether a snag is a parser
  * gap, a missing mechanism, thin content or a badly worded question is the fixer's job.
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { basename, join } from "node:path";
-import { type LogEntry, parseLog } from "@rpg-jev/core";
+import { hashText, type LogEntry, parseLog } from "@rpg-jev/core";
 import { clockWords } from "@rpg-jev/inn";
 import { NONE } from "@rpg-jev/jev";
 import { ROOT } from "./session.ts";
@@ -112,14 +122,32 @@ function snagsOf(night: string, log: LogEntry[]): Snag[] {
   return snags;
 }
 
-const files =
-  process.argv.slice(2).filter((a) => !a.startsWith("--")).length > 0
-    ? process.argv.slice(2).filter((a) => !a.startsWith("--"))
-    : existsSync(join(ROOT, "saves"))
-      ? readdirSync(join(ROOT, "saves"))
-          .filter((f) => f.endsWith(".jsonl"))
-          .map((f) => join(ROOT, "saves", f))
-      : [];
+/** Nights played here (git-ignored) and nights a playtester chose to hand in (tracked). */
+const SAVES = join(ROOT, "saves");
+const INBOX = join(ROOT, "playtests", "inbox");
+const nightsIn = (dir: string) =>
+  existsSync(dir)
+    ? readdirSync(dir)
+        .filter((f) => f.endsWith(".jsonl"))
+        .map((f) => join(dir, f))
+    : [];
+
+// --submit copies the local nights into the inbox. A night is named by how it began (measured
+// latencies make that unique), so handing it in again as it grows replaces the earlier copy.
+// Handing in is a deliberate act: a log quotes everything the player typed.
+const nightId = (file: string) =>
+  hashText(readFileSync(file, "utf8").split("\n").slice(0, 10).join("\n")).slice(0, 12);
+if (process.argv.includes("--submit")) {
+  mkdirSync(INBOX, { recursive: true });
+  for (const file of nightsIn(SAVES))
+    copyFileSync(file, join(INBOX, `night-${nightId(file)}.jsonl`));
+}
+
+// A night that is both here and handed in is read once, from the local copy, which is newer.
+const named = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+const found = new Map<string, string>();
+for (const file of [...nightsIn(INBOX), ...nightsIn(SAVES)]) found.set(nightId(file), file);
+const files = named.length > 0 ? named : [...found.values()];
 
 const snags = files.flatMap((f) =>
   snagsOf(basename(f, ".jsonl"), parseLog(readFileSync(f, "utf8"))),

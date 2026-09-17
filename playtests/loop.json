@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "max_open_pull_requests": 3,
+  "max_snags_per_run": 3,
+  "judge_budget_usd_per_run": 0.05,
+  "may_change": ["packages/inn", "packages/terminal", "docs", "SPEC.md"],
+  "may_not_change": ["packages/core", "packages/jev", "CLAUDE.md", "playtests/loop.json", ".github"]
+}
