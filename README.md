@@ -6,44 +6,51 @@ A persistent multiplayer RPG whose world keeps its own agenda. [TypeSafe Jev](ht
 
 ## Status
 
-Repo scaffold only. Two spikes gate everything else:
+There is a playable proof of concept: one night at an inn, in a terminal, against live Jev. **[docs/poc-report.md](docs/poc-report.md)** says whether it is fun, what was verified, and what it costs.
 
 - [spikes/m0-jev](spikes/m0-jev): does Jev judge social fiction the way people do? Done: three of four tests pass and the fourth misses narrowly. See the [findings](spikes/m0-jev/FINDINGS.md).
-- [spikes/s0-spacetimedb](spikes/s0-spacetimedb): does SpacetimeDB hold as the world server?
+- [spikes/m2-families](spikes/m2-families): are speech-act choice, distortion choice and accept-offer usable? Done: yes, with conditions. See the [findings](spikes/m2-families/FINDINGS.md).
+- [spikes/s0-spacetimedb](spikes/s0-spacetimedb): does SpacetimeDB hold as the world server? Not run.
+
+## Play it
+
+Needs Node 22.18 or newer and pnpm 11. Put `TYPESAFE_API_KEY=...` in `.env` (git-ignored). Without a key the game still runs, on code's fallbacks.
+
+```sh
+pnpm install
+pnpm play            # resume the last night, or start one
+pnpm play --new      # start over; --seed=7 for a different night
+pnpm play --cost     # show calls, tokens and latency after each action
+pnpm play --offline  # play with the judge unreachable
+```
+
+Plain verbs always work (`look`, `go kitchen`, `take iron key`, `search barrel`, `talk to mara`, `show apron to mara`). Anything else, say it as you would: `tell mara I found her ledger in the cellar`, `ask tobin what he saw at dusk`. `why mara` walks the causes behind what someone believes. The event log in `saves/` is the save.
 
 ## Layout
 
 ```
-packages/core    pure simulation code, no I/O (so far: the world's seeded RNG)
-spikes/          throwaway experiments that answer one question each
-SPEC.md          architecture spec
+packages/core      pure simulation: tables, the effect vocabulary, the event log and replay,
+                   schedules, debts, claims and distortion, the conversation scheduler, why
+packages/jev       the judge port: the eight question families, the slice compiler, and live,
+                   recorded, scripted, caching, metered and resilient judges
+packages/inn       the Gilded Carp: content, parser, slices, the game engine, prose templates
+packages/terminal  pnpm play, pnpm demo, and the route harness
+spikes/            experiments that answer one question each
+demo/              the recorded demo: transcript, costs, recordings for the offline tests, routes
+docs/              the world bible and the PoC report
+SPEC.md            architecture spec
 ```
 
-Packages planned in the spec (`jev`, `server`, `author`, `client`, `terminal`) are added when their milestone starts, not before.
+Packages planned in the spec (`server`, `author`, `client`) are added when their milestone starts, not before.
 
-## Setup
-
-Needs Node 22.18 or newer and pnpm 11.
-
-```sh
-pnpm install
-pnpm check      # lint, typecheck and tests
-```
+## Commands
 
 | Command | Does |
 | --- | --- |
-| `pnpm test` | Run the Vitest suite once |
-| `pnpm test:watch` | Run it in watch mode |
-| `pnpm typecheck` | Typecheck every package |
-| `pnpm lint` | Biome lint and format check |
+| `pnpm check` | Lint, typecheck and tests. Tests run offline against recorded judge answers |
+| `pnpm play` | Play the inn |
+| `pnpm demo` | Play the fixed script against live Jev; write `demo/transcript.md` and `demo/metrics.json` |
+| `pnpm demo --record` | As above, and re-record `demo/recordings.json` for the offline test. Do this after changing a slice, a question or the content |
+| `pnpm --filter @rpg-jev/terminal routes` | Play each quest route across seeds and write `demo/routes.md` |
+| `pnpm --filter @rpg-jev/spike-m2-families probe` | Re-run the family probes |
 | `pnpm format` | Apply Biome fixes |
-
-## Secrets
-
-Keys live in a git-ignored `.env` file at the repo root and never reach a client.
-
-| Variable | Needed from |
-| --- | --- |
-| `TYPESAFE_API_KEY` | Spike M0 |
-
-Generative calls (M3 onwards) go through the Claude CLI on a subscription login, so there is no Anthropic API key.

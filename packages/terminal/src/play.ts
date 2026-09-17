@@ -32,19 +32,31 @@ if (session.resumed) {
   print(await game.turn("look"));
 } else print(game.intro());
 
-const rl = createInterface({ input: process.stdin, output: process.stdout });
+// Lines are read as a stream, so a typed session and a piped script behave the same.
+const rl = createInterface({ input: process.stdin, output: process.stdout, prompt: "> " });
+// A piped script reaches end of input while a turn is still being judged.
+let open = true;
 rl.on("close", () => {
-  session.save();
-  process.exit(0);
+  open = false;
 });
-
-while (!game.over) {
-  const text = (await rl.question("> ")).trim();
-  if (text === "") continue;
+const prompt = () => {
+  if (open) rl.prompt();
+};
+prompt();
+for await (const line of rl) {
+  const text = line.trim();
+  if (text === "") {
+    prompt();
+    continue;
+  }
+  if (!process.stdin.isTTY) console.log(text);
   meter.begin(text);
   const lines = await game.turn(text);
   session.save();
-  if (/^(q|quit|exit)$/i.test(text)) break;
+  if (/^(q|quit|exit)$/i.test(text) || game.over) {
+    if (game.over) print(lines);
+    break;
+  }
   print(lines);
   if (flag("cost")) {
     const c = meter.current;
@@ -55,6 +67,9 @@ while (!game.over) {
   }
   if (session.resilient.down && session.live)
     console.log("  (The judge did not answer. Falling back to routines for a while.)");
+  prompt();
 }
-console.log("Saved. The log is the save: pnpm play resumes it.\n");
+session.save();
+console.log("\nSaved. The log is the save: pnpm play resumes it.\n");
 rl.close();
+process.exit(0);

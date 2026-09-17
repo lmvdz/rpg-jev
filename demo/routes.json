@@ -1,82 +1,375 @@
 [
-  {
-    "route": "expose",
-    "seed": 1,
-    "quest": "cleared",
-    "clearedAt": "21:20 after \"talk to mara\"",
-    "calls": 25,
-    "tokens": 29438,
-    "usd": 0.001236396,
-    "guard": [0.48, 0.53, 0.63, 0.9]
-  },
-  {
-    "route": "expose",
-    "seed": 2,
-    "quest": "cleared",
-    "clearedAt": "21:20 after \"talk to mara\"",
-    "calls": 25,
-    "tokens": 29308,
-    "usd": 0.001230936,
-    "guard": [0.41, 0.61, 0.86]
-  },
-  {
-    "route": "expose",
-    "seed": 3,
-    "quest": "cleared",
-    "clearedAt": "21:17 after \"wait 20\"",
-    "calls": 25,
-    "tokens": 29416,
-    "usd": 0.0012354720000000003,
-    "guard": [0.46, 0.51, 0.68, 0.86]
-  },
-  {
-    "route": "expose",
-    "seed": 4,
-    "quest": "cleared",
-    "clearedAt": "21:20 after \"talk to mara\"",
-    "calls": 24,
-    "tokens": 27609,
-    "usd": 0.0011595779999999999,
-    "guard": [0.41, 0.53, 0.59, 0.85]
-  },
-  {
-    "route": "bare_return",
-    "seed": 1,
-    "quest": "suspected",
-    "clearedAt": null,
-    "calls": 9,
-    "tokens": 10176,
-    "usd": 0.000427392,
-    "guard": [0.57]
-  },
-  {
-    "route": "bare_return",
-    "seed": 2,
-    "quest": "suspected",
-    "clearedAt": null,
-    "calls": 12,
-    "tokens": 13702,
-    "usd": 0.000575484,
-    "guard": [0.48]
-  },
-  {
-    "route": "bare_return",
-    "seed": 3,
-    "quest": "suspected",
-    "clearedAt": null,
-    "calls": 12,
-    "tokens": 13747,
-    "usd": 0.0005773740000000001,
-    "guard": [0.47, 0.54]
-  },
-  {
-    "route": "bare_return",
-    "seed": 4,
-    "quest": "suspected",
-    "clearedAt": null,
-    "calls": 12,
-    "tokens": 13721,
-    "usd": 0.000576282,
-    "guard": [0.46, 0.55]
-  }
+ {
+  "route": "evidence",
+  "seed": 1,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 21,
+  "tokens": 24785,
+  "usd": 0.0010409700000000002,
+  "guard": [
+   0.29,
+   0.42,
+   0.57,
+   0.53
+  ]
+ },
+ {
+  "route": "evidence",
+  "seed": 2,
+  "quest": "cleared",
+  "clearedAt": "19:32 after \"give ledger to mara\"",
+  "calls": 21,
+  "tokens": 24458,
+  "usd": 0.0010272360000000002,
+  "guard": [
+   0.32,
+   0.59,
+   0.69,
+   0.66
+  ]
+ },
+ {
+  "route": "evidence",
+  "seed": 3,
+  "quest": "resolved",
+  "clearedAt": "19:29 after \"show markers to mara\"",
+  "calls": 13,
+  "tokens": 16105,
+  "usd": 0.0006764100000000001,
+  "guard": [
+   0.32,
+   0.65
+  ]
+ },
+ {
+  "route": "evidence",
+  "seed": 4,
+  "quest": "cleared",
+  "clearedAt": "19:42 after \"wait 10\"",
+  "calls": 12,
+  "tokens": 15129,
+  "usd": 0.000635418,
+  "guard": [
+   0,
+   0,
+   0,
+   0.69
+  ]
+ },
+ {
+  "route": "evidence",
+  "seed": 5,
+  "quest": "cleared",
+  "clearedAt": "19:32 after \"give ledger to mara\"",
+  "calls": 21,
+  "tokens": 24551,
+  "usd": 0.001031142,
+  "guard": [
+   0.33,
+   0.59,
+   0.67,
+   0.66
+  ]
+ },
+ {
+  "route": "witness",
+  "seed": 1,
+  "quest": "resolved",
+  "clearedAt": "19:49 after \"wait 10\"",
+  "calls": 21,
+  "tokens": 25026,
+  "usd": 0.0010510920000000002,
+  "guard": [
+   0.33,
+   0.92
+  ]
+ },
+ {
+  "route": "witness",
+  "seed": 2,
+  "quest": "resolved",
+  "clearedAt": "19:49 after \"wait 10\"",
+  "calls": 21,
+  "tokens": 24991,
+  "usd": 0.0010496220000000003,
+  "guard": [
+   0.31,
+   0.92
+  ]
+ },
+ {
+  "route": "witness",
+  "seed": 3,
+  "quest": "resolved",
+  "clearedAt": "19:49 after \"wait 10\"",
+  "calls": 22,
+  "tokens": 26438,
+  "usd": 0.0011103960000000003,
+  "guard": [
+   0.33,
+   0.92
+  ]
+ },
+ {
+  "route": "witness",
+  "seed": 4,
+  "quest": "resolved",
+  "clearedAt": "19:49 after \"wait 10\"",
+  "calls": 21,
+  "tokens": 24982,
+  "usd": 0.0010492440000000004,
+  "guard": [
+   0.31,
+   0.92
+  ]
+ },
+ {
+  "route": "witness",
+  "seed": 5,
+  "quest": "resolved",
+  "clearedAt": "19:49 after \"wait 10\"",
+  "calls": 21,
+  "tokens": 24884,
+  "usd": 0.0010451280000000002,
+  "guard": [
+   0.3,
+   0.92
+  ]
+ },
+ {
+  "route": "expose",
+  "seed": 1,
+  "quest": "cleared",
+  "clearedAt": "21:20 after \"talk to mara\"",
+  "calls": 24,
+  "tokens": 27457,
+  "usd": 0.0011531940000000002,
+  "guard": [
+   0.54,
+   0.61,
+   0.57,
+   0.87
+  ]
+ },
+ {
+  "route": "expose",
+  "seed": 2,
+  "quest": "cleared",
+  "clearedAt": "21:20 after \"talk to mara\"",
+  "calls": 24,
+  "tokens": 27604,
+  "usd": 0.001159368,
+  "guard": [
+   0.43,
+   0.52,
+   0.85
+  ]
+ },
+ {
+  "route": "expose",
+  "seed": 3,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 20,
+  "tokens": 24389,
+  "usd": 0.0010243380000000003,
+  "guard": [
+   0.5,
+   0.5
+  ]
+ },
+ {
+  "route": "expose",
+  "seed": 4,
+  "quest": "cleared",
+  "clearedAt": "21:20 after \"talk to mara\"",
+  "calls": 24,
+  "tokens": 27609,
+  "usd": 0.0011595779999999999,
+  "guard": [
+   0.43,
+   0.54,
+   0.57,
+   0.85
+  ]
+ },
+ {
+  "route": "expose",
+  "seed": 5,
+  "quest": "cleared",
+  "clearedAt": "21:20 after \"talk to mara\"",
+  "calls": 24,
+  "tokens": 27588,
+  "usd": 0.001158696,
+  "guard": [
+   0.49,
+   0.48,
+   0.57,
+   0.9
+  ]
+ },
+ {
+  "route": "bare_return",
+  "seed": 1,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 9,
+  "tokens": 10176,
+  "usd": 0.000427392,
+  "guard": [
+   0.57
+  ]
+ },
+ {
+  "route": "bare_return",
+  "seed": 2,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 12,
+  "tokens": 13702,
+  "usd": 0.000575484,
+  "guard": [
+   0.47
+  ]
+ },
+ {
+  "route": "bare_return",
+  "seed": 3,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 12,
+  "tokens": 13747,
+  "usd": 0.0005773740000000001,
+  "guard": [
+   0.52,
+   0.58
+  ]
+ },
+ {
+  "route": "bare_return",
+  "seed": 4,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 13,
+  "tokens": 14692,
+  "usd": 0.0006170640000000001,
+  "guard": [
+   0.5,
+   0.58
+  ]
+ },
+ {
+  "route": "bare_return",
+  "seed": 5,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 12,
+  "tokens": 13732,
+  "usd": 0.0005767440000000001,
+  "guard": [
+   0.49,
+   0.45
+  ]
+ },
+ {
+  "route": "denial",
+  "seed": 1,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 7,
+  "tokens": 12482,
+  "usd": 0.0005242440000000001,
+  "guard": []
+ },
+ {
+  "route": "denial",
+  "seed": 2,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 7,
+  "tokens": 12517,
+  "usd": 0.000525714,
+  "guard": []
+ },
+ {
+  "route": "denial",
+  "seed": 3,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 7,
+  "tokens": 12470,
+  "usd": 0.0005237400000000001,
+  "guard": []
+ },
+ {
+  "route": "denial",
+  "seed": 4,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 7,
+  "tokens": 12480,
+  "usd": 0.0005241600000000001,
+  "guard": []
+ },
+ {
+  "route": "denial",
+  "seed": 5,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 7,
+  "tokens": 12517,
+  "usd": 0.000525714,
+  "guard": []
+ },
+ {
+  "route": "threat",
+  "seed": 1,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 4,
+  "tokens": 7027,
+  "usd": 0.00029513400000000006,
+  "guard": []
+ },
+ {
+  "route": "threat",
+  "seed": 2,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 4,
+  "tokens": 6971,
+  "usd": 0.000292782,
+  "guard": []
+ },
+ {
+  "route": "threat",
+  "seed": 3,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 4,
+  "tokens": 7027,
+  "usd": 0.00029513400000000006,
+  "guard": []
+ },
+ {
+  "route": "threat",
+  "seed": 4,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 4,
+  "tokens": 7027,
+  "usd": 0.00029513400000000006,
+  "guard": []
+ },
+ {
+  "route": "threat",
+  "seed": 5,
+  "quest": "suspected",
+  "clearedAt": null,
+  "calls": 4,
+  "tokens": 7027,
+  "usd": 0.00029513400000000006,
+  "guard": []
+ }
 ]

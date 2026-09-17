@@ -127,4 +127,10 @@ export const DEMO_SCRIPT: string[] = [
 ];
 
 /** A second, short night for the combat stub, because a blow usually ends the first one. */
-export const DEMO_CODA: string[] = ["go kitchen", "punch odo in the face", "look", "wait 10"];
+export const DEMO_CODA: string[] = [
+  "go kitchen",
+  "punch odo in the face",
+  "hit odo again",
+  "go common room",
+  "wait 10",
+];

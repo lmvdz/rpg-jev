@@ -1,35 +1,38 @@
 {
   "seed": 1,
   "live": true,
-  "actions": 31,
-  "actionsThatCalledTheJudge": 19,
-  "calls": 32,
-  "questions": 74,
-  "inputTokens": 42632,
-  "usd": 0.0017905440000000005,
+  "actions": 27,
+  "actionsThatCalledTheJudge": 21,
+  "calls": 38,
+  "questions": 83,
+  "inputTokens": 49705,
+  "usd": 0.0020876100000000006,
   "fallbacks": 0,
   "cached": 0,
   "perAction": {
-    "calls": 1.032258064516129,
-    "inputTokens": 1375.225806451613,
-    "usd": 0.000057759483870967755,
-    "judgeLatencyMsMedian": 189,
-    "judgeLatencyMsP90": 963,
-    "judgeLatencyMsWorst": 1354
+    "calls": 1.4074074074074074,
+    "inputTokens": 1840.9259259259259,
+    "usd": 0.00007731888888888891,
+    "judgeLatencyMsMedian": 361,
+    "judgeLatencyMsP90": 710,
+    "judgeLatencyMsWorst": 740
   },
   "perCall": {
-    "latencyMsMedian": 159,
-    "latencyMsP90": 238,
-    "latencyMsP99": 963,
-    "inputTokensMean": 1332.25
+    "latencyMsMedian": 174,
+    "latencyMsP90": 399,
+    "latencyMsP99": 618,
+    "inputTokensMean": 1308.0263157894738
   },
   "perPlayerHour": {
     "actions": 360,
-    "usd": 0.020793414193548392,
-    "inputTokens": 495081
+    "usd": 0.027834800000000007,
+    "inputTokens": 662733
   },
   "usdPerInputToken": 4.2000000000000006e-8,
-  "endings": ["cleared at 20:04", "suspected at 19:13"],
+  "endings": [
+    "resolved at 19:43",
+    "suspected at 19:16"
+  ],
   "byAction": [
     {
       "label": "look",
@@ -48,7 +51,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 835,
-      "latencyMs": 963,
+      "latencyMs": 361,
       "usd": 0.00003507
     },
     {
@@ -58,7 +61,7 @@
       "cached": 0,
       "questions": 10,
       "inputTokens": 4038,
-      "latencyMs": 491,
+      "latencyMs": 438,
       "usd": 0.00016959600000000002
     },
     {
@@ -68,7 +71,7 @@
       "cached": 0,
       "questions": 7,
       "inputTokens": 2658,
-      "latencyMs": 150,
+      "latencyMs": 499,
       "usd": 0.00011163600000000001
     },
     {
@@ -78,7 +81,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 910,
-      "latencyMs": 128,
+      "latencyMs": 171,
       "usd": 0.00003822
     },
     {
@@ -88,7 +91,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 967,
-      "latencyMs": 145,
+      "latencyMs": 516,
       "usd": 0.00004061400000000001
     },
     {
@@ -108,7 +111,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1112,
-      "latencyMs": 189,
+      "latencyMs": 181,
       "usd": 0.000046704000000000005
     },
     {
@@ -118,7 +121,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1143,
-      "latencyMs": 122,
+      "latencyMs": 152,
       "usd": 0.00004800600000000001
     },
     {
@@ -128,7 +131,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1136,
-      "latencyMs": 145,
+      "latencyMs": 220,
       "usd": 0.00004771200000000001
     },
     {
@@ -147,9 +150,9 @@
       "fallbacks": 0,
       "cached": 0,
       "questions": 3,
-      "inputTokens": 2400,
-      "latencyMs": 385,
-      "usd": 0.00010080000000000001
+      "inputTokens": 2444,
+      "latencyMs": 329,
+      "usd": 0.00010264800000000001
     },
     {
       "label": "take ledger",
@@ -157,19 +160,19 @@
       "fallbacks": 0,
       "cached": 0,
       "questions": 3,
-      "inputTokens": 2440,
-      "latencyMs": 387,
-      "usd": 0.00010248000000000001
+      "inputTokens": 2484,
+      "latencyMs": 373,
+      "usd": 0.00010432800000000002
     },
     {
       "label": "take apron",
-      "calls": 7,
+      "calls": 4,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 13,
-      "inputTokens": 8295,
-      "latencyMs": 1354,
-      "usd": 0.00034839
+      "questions": 6,
+      "inputTokens": 4880,
+      "latencyMs": 740,
+      "usd": 0.00020496000000000002
     },
     {
       "label": "examine apron",
@@ -177,9 +180,9 @@
       "fallbacks": 0,
       "cached": 0,
       "questions": 6,
-      "inputTokens": 4958,
-      "latencyMs": 556,
-      "usd": 0.00020823600000000004
+      "inputTokens": 5044,
+      "latencyMs": 726,
+      "usd": 0.00021184800000000005
     },
     {
       "label": "go kitchen",
@@ -203,13 +206,13 @@
     },
     {
       "label": "talk to mara",
-      "calls": 0,
+      "calls": 1,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
+      "questions": 1,
+      "inputTokens": 923,
+      "latencyMs": 186,
+      "usd": 0.00003876600000000001
     },
     {
       "label": "why mara",
@@ -223,83 +226,33 @@
     },
     {
       "label": "tell mara I found her ledger buried in the flour barrel down in the cellar",
-      "calls": 1,
+      "calls": 2,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 7,
-      "inputTokens": 3099,
-      "latencyMs": 219,
-      "usd": 0.000130158
+      "questions": 10,
+      "inputTokens": 4535,
+      "latencyMs": 549,
+      "usd": 0.00019047000000000004
     },
     {
       "label": "show apron to mara",
-      "calls": 0,
-      "fallbacks": 0,
-      "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
-    },
-    {
-      "label": "hold the gambling markers out where mara can see them",
-      "calls": 1,
-      "fallbacks": 0,
-      "cached": 0,
-      "questions": 7,
-      "inputTokens": 3094,
-      "latencyMs": 198,
-      "usd": 0.000129948
-    },
-    {
-      "label": "give ledger to mara",
-      "calls": 0,
-      "fallbacks": 0,
-      "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
-    },
-    {
-      "label": "wait 10",
       "calls": 2,
       "fallbacks": 0,
       "cached": 0,
       "questions": 5,
-      "inputTokens": 1970,
-      "latencyMs": 364,
-      "usd": 0.00008274000000000001
+      "inputTokens": 2143,
+      "latencyMs": 317,
+      "usd": 0.000090006
     },
     {
-      "label": "talk to mara",
-      "calls": 0,
+      "label": "hold the gambling markers out where mara can see them",
+      "calls": 3,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
-    },
-    {
-      "label": "wait 20",
-      "calls": 0,
-      "fallbacks": 0,
-      "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
-    },
-    {
-      "label": "talk to mara",
-      "calls": 1,
-      "fallbacks": 0,
-      "cached": 0,
-      "questions": 1,
-      "inputTokens": 1001,
-      "latencyMs": 166,
-      "usd": 0.00004204200000000001
+      "questions": 12,
+      "inputTokens": 5160,
+      "latencyMs": 528,
+      "usd": 0.00021672000000000003
     },
     {
       "label": "go kitchen",
@@ -308,7 +261,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 910,
-      "latencyMs": 167,
+      "latencyMs": 198,
       "usd": 0.00003822
     },
     {
@@ -318,28 +271,38 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 912,
-      "latencyMs": 173,
+      "latencyMs": 154,
       "usd": 0.000038304000000000005
     },
     {
-      "label": "look",
-      "calls": 0,
-      "fallbacks": 0,
-      "cached": 0,
-      "questions": 0,
-      "inputTokens": 0,
-      "latencyMs": 0,
-      "usd": 0
-    },
-    {
-      "label": "wait 10",
+      "label": "hit odo again",
       "calls": 1,
       "fallbacks": 0,
       "cached": 0,
       "questions": 1,
-      "inputTokens": 754,
-      "latencyMs": 145,
-      "usd": 0.000031668
+      "inputTokens": 933,
+      "latencyMs": 618,
+      "usd": 0.00003918600000000001
+    },
+    {
+      "label": "go common room",
+      "calls": 1,
+      "fallbacks": 0,
+      "cached": 0,
+      "questions": 1,
+      "inputTokens": 793,
+      "latencyMs": 248,
+      "usd": 0.000033306
+    },
+    {
+      "label": "wait 10",
+      "calls": 5,
+      "fallbacks": 0,
+      "cached": 0,
+      "questions": 7,
+      "inputTokens": 5745,
+      "latencyMs": 710,
+      "usd": 0.00024129000000000007
     }
   ]
 }

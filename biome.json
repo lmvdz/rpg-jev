@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/results", "!**/labels"]
+    "includes": ["**", "!**/results", "!**/labels", "!demo"]
   },
   "formatter": {
     "indentStyle": "space",

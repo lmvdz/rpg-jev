@@ -22,11 +22,13 @@ A stranger who came in out of the rain this afternoon and took a bed. Nobody her
 *Wants tonight:* the ledger back before dawn. Failing that, someone to answer for it.
 *Starts out believing:* the stranger took the ledger (likely, not certain), because Odo told her he saw the stranger by the office door at dusk.
 *Will do, left alone:* demand to search the stranger's pack mid-evening; near midnight, decide what to do with them.
+*Will do, given cause:* act on what she comes to believe. Told that something went down to the cellar, she takes the lantern and looks. Told that someone under her roof is implicated, she has it out with them to their face.
 
 **Tobin Reed, stablehand.** *Quiet, observant, timid, loyal to Mara.* He notices everything and says almost none of it. He owes Odo a season's wages, borrowed for his sister's medicine, and Odo reminds him of it kindly and often.
 *Wants tonight:* to keep his place, keep out of it, and not to be the reason the Carp closes.
 *Knows:* at dusk he saw Odo carry something wrapped in oilcloth down the cellar steps. He has told no one.
 *Will do, left alone:* wrestle with it around ten o'clock, and most likely say nothing.
+*What holds his tongue:* the debt, not his nature. Asked how this Tobin would behave, the judge had him tell Mara the first time they were alone. So his silence is a rule in code (nobody carries tales about someone they owe), and whoever pays the debt lifts it.
 
 **Odo Brask, cook.** *Genial, greedy, quick-tongued, embellishes every story.* He has skimmed from the kitchen purchases for two years to pay river gamblers, and the ledger would show it to anyone who reads it carefully, which an assessor will. He took the ledger this afternoon with a kitchen knife through the office latch, wrapped it in his spare apron and an oilcloth, and buried it in the flour barrel in the cellar. He means to burn it once the house is asleep.
 *Wants tonight:* the blame to sit on the stranger until the ledger is ash.

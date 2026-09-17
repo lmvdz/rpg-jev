@@ -616,6 +616,12 @@ async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
       return;
     }
     case "eject": {
+      // She cannot act on a fight she has not seen or been told of. The debt stays
+      // pending until the tale reaches her, which is what makes it a consequence.
+      const knows = rankedBeliefs(g.world, MARA).some(
+        (b) => b.claim.subject === PLAYER && b.claim.predicate === "attacked" && b.credence >= 0.4,
+      );
+      if (!knows) return;
       const { choice, id } = await choose(
         g,
         MARA,

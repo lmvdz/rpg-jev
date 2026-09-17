@@ -539,7 +539,13 @@ export class Game {
 
   ending(): string | null {
     const quest = this.world.machines.quest?.node;
-    if (quest === "resolved") return ENDINGS.resolved ?? null;
+    if (quest === "resolved") {
+      const where = this.world.items.ledger?.at;
+      const carried = Boolean(where && "holder" in where && where.holder === PLAYER);
+      const withMara = this.world.machines.ledger_fate?.node === "returned";
+      const key = carried ? "resolved_in_hand" : withMara ? "resolved" : "resolved_no_ledger";
+      return ENDINGS[key] ?? null;
+    }
     if (quest === "condemned") return ENDINGS.condemned ?? null;
     if (quest === "thrown_out") return ENDINGS.thrown_out ?? null;
     if (this.world.clock < MIDNIGHT) return null;

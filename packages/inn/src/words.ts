@@ -95,6 +95,8 @@ const PRONOUNS: Record<string, readonly [string, string, string, string]> = {
   odo: ["he", "his", "him", "himself"],
 };
 
+export const theirOf = (id: string): string => (PRONOUNS[id] ?? THEY)[1];
+
 /** Standing facts have no "when": nobody "owes a season's wages this afternoon". */
 const TIMELESS = ["owes", "gambles", "apron_is_odos"];
 export const isTimeless = (claim: Claim) => TIMELESS.includes(claim.predicate);
@@ -118,12 +120,22 @@ export function nameOf(world: World, id: string, voice: Voice = {}): string {
   return world.actors[id]?.name ?? id;
 }
 
+const OWNED: Record<string, { by: string; noun: string }> = {
+  coat: { by: "odo", noun: "coat" },
+  markers: { by: "odo", noun: "markers" },
+  ledger: { by: "mara", noun: "ledger" },
+};
+
 function objectName(world: World, id: string | undefined, voice: Voice): string {
   if (id === undefined) return "it";
   if (world.actors[id]) {
     const who = person(id, voice);
     return who === "first" ? "me" : who === "second" ? "you" : nameOf(world, id);
   }
+  // Odo does not say "Odo's coat". Only spoken lines carry a voice, so judge text is unchanged.
+  const owner = OWNED[id];
+  if (owner && voice.speaker === owner.by) return `my ${owner.noun}`;
+  if (owner && voice.listener === owner.by) return `your ${owner.noun}`;
   return world.items[id]?.name ?? id;
 }
 

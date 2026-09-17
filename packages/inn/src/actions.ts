@@ -29,9 +29,9 @@ import type { Game } from "./game.ts";
 import { type Action, COINS, HELP, isVisible } from "./parser.ts";
 import { describeRoom, lookAtItem, lookAtPerson } from "./prose.ts";
 import { sceneSlice } from "./slices.ts";
-import { greetOnEntry, playerSpeaks, reactToDeed } from "./talk.ts";
+import { greetOnEntry, owe, playerSpeaks, reactToDeed } from "./talk.ts";
 import { renderWhy } from "./whytext.ts";
-import { clockWords } from "./words.ts";
+import { clockWords, theirOf } from "./words.ts";
 
 /** Performs the action and returns how many minutes it took. Zero means no time passed. */
 export async function performAction(g: Game, action: Action, root: LogId): Promise<number> {
@@ -319,7 +319,8 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
   g.say(blow.hit ? `You hit ${victim.name}. It lands.` : `You swing at ${victim.name} and miss.`);
   const id = blow.hit ? g.commit({ kind: "damage", target, amount: blow.damage }, root) : root;
   const deed = g.happened({ subject: PLAYER, predicate: "attacked", to: target, severity: 2 }, id);
-  g.witness(deed, g.playerRoom, id);
+  // Nobody shrugs off a blow: everyone who saw it owes Mara the tale, the victim first.
+  for (const npc of g.witness(deed, g.playerRoom, id)) owe(g, npc, { ...deed, severity: 3 }, id);
   if (!g.world.debts.eject)
     g.commit(
       {
@@ -330,7 +331,7 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
           stakeholder: MARA,
           kind: "eject",
           magnitude: 3,
-          fuse: { due: g.world.clock + 6 },
+          fuse: { due: g.world.clock + 6, expires: g.world.clock + 240 },
           status: "pending",
           data: {},
         },
@@ -408,6 +409,6 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
       },
       cause,
     );
-  } else g.say(`${victim.name} just stares at you, a hand to their face.`);
+  } else g.say(`${victim.name} just stares at you, a hand to ${theirOf(target)} face.`);
   return 1;
 }

@@ -272,3 +272,27 @@ describe("what reaches the judge", () => {
       );
   });
 });
+
+describe("decisions are made on a snapshot", () => {
+  it("drops a decision whose preconditions went stale while the judge was thinking", async () => {
+    const holder: { game?: Game } = {};
+    const { game } = scripted((id) => {
+      // The world moves on underneath the call: Odo leaves while his reply is being judged.
+      if (id === "reply") holder.game?.commit({ kind: "move", actor: "odo", to: "yard" }, null);
+      return undefined;
+    });
+    holder.game = game;
+    await play(game, ["go kitchen"]);
+    const text = await play(game, ["talk to odo"]);
+
+    expect(text).toContain("Odo is no longer listening.");
+    const dropped = game.log.filter((e) => e.kind === "dropped");
+    expect(dropped).toHaveLength(1);
+    expect(dropped[0]?.kind === "dropped" && dropped[0].reasons).toEqual([
+      "odo is no longer in kitchen",
+    ]);
+    // Nothing the stale decision would have caused was committed.
+    const said = game.log.filter((e) => e.kind === "effect" && e.effect.kind === "say");
+    expect(said.filter((e) => e.t >= (dropped[0]?.t ?? 0))).toHaveLength(0);
+  });
+});

@@ -317,11 +317,16 @@ const mentions = (c: Claim, id: string) => [c.subject, c.object, c.to, c.place].
 
 /** The freshest wrong the NPC holds against the stranger: what an accusation will be about. */
 function againstStranger(g: Game, npc: string): Belief | undefined {
-  return held(g, npc)
-    .filter((b) => b.claim.subject === PLAYER && WRONGDOING.includes(b.claim.predicate))
-    .sort(
-      (a, b) => b.edge.known_from - a.edge.known_from || b.claim.severity - a.claim.severity,
-    )[0];
+  return (
+    held(g, npc)
+      .filter((b) => b.claim.subject === PLAYER && WRONGDOING.includes(b.claim.predicate))
+      // People lead with the worst thing they have heard, and a tale made worse in the
+      // telling is by construction the worst. This is what brings garbled claims to the
+      // player's face rather than leaving them in `why`.
+      .sort(
+        (a, b) => b.claim.severity - a.claim.severity || b.edge.known_from - a.edge.known_from,
+      )[0]
+  );
 }
 
 function claimReply(g: Game, npc: string, act: SpeechAct, b: Belief): Reply {
@@ -886,7 +891,7 @@ function settleBystanders(
 }
 
 /** A witness with a stake carries the tale to Mara, or gets even: a debt with a fuse. */
-function owe(g: Game, npc: string, noticed: Claim, cause: LogId): void {
+export function owe(g: Game, npc: string, noticed: Claim, cause: LogId): void {
   if (npc === MARA) return;
   const id = `${npc === ODO && mentions(noticed, ODO) ? "retaliate" : "report"}_${npc}_${noticed.id}`;
   if (g.world.debts[id]) return;

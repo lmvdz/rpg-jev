@@ -74,7 +74,7 @@ for (const route of names)
 const lines = [
   "# Quest routes across seeds",
   "",
-  `Live \`jev-1.13.0\`, seeds 1 to ${seeds}. "Guard" is the lower of the guard's two wordings each time it was asked; it opens at 0.60. Nothing in the engine knows these routes exist.`,
+  `Live \`jev-1.13.0\`, seeds 1 to ${seeds}. "Guard" is the lower of the guard's two wordings each time it was asked; it opens when both reach 0.65. Nothing in the engine knows these routes exist.`,
   "",
   "| Route | Cleared or resolved | Outcomes | Highest guard value per run |",
   "| --- | --- | --- | --- |",
