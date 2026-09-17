@@ -71,7 +71,18 @@ const REQUEST_WORDS: Record<Request, string> = {
   keep_quiet: "Keep something quiet",
 };
 
-const SPEECH_VERBS = ["greet", "ask", "tell", "accuse", "offer", "threaten", "request", "promise"];
+const SPEECH_VERBS = [
+  "greet",
+  "ask",
+  "tell",
+  "accuse",
+  "offer",
+  "threaten",
+  "request",
+  "promise",
+  "insult",
+  "remark",
+];
 
 function topicOptions(g: Game): { statements: Option[]; subjects: Option[] } {
   const known = beliefsOf(g.world, PLAYER)
@@ -274,6 +285,14 @@ export async function judgeParse(g: Game, text: string): Promise<Matched> {
     };
     // A statement with no recognisable content: ask which, naming what the player could say.
     const empty = topic.kind === "none" && !itemId && !request;
+    // The judge is sure the line asserts nothing the world knows of. Offering four claims to
+    // pick from would put words in the player's mouth, so it is a remark and nothing more.
+    const nothingListed = topicAnswer?.id === NONE && topicAnswer.p >= 0.6;
+    if (isNamed(found) && empty && verb.id === "tell" && nothingListed)
+      return {
+        kind: "action",
+        action: { verb: "say", act: "remark", to: found.id, topic, item: null, request: null },
+      };
     if (isNamed(found) && empty && (verb.id === "tell" || verb.id === "accuse")) {
       const mass = (id: string) => topicAnswer?.all[id] ?? 0;
       const ranked = [...statements].sort((a, b) => mass(b.id) - mass(a.id)).slice(0, 4);
@@ -405,7 +424,9 @@ const GREET = plain("greet", "greet", "Returns the greeting and no more");
 const THREATEN = plain("threaten", "threaten", "Threatens the stranger");
 
 type Situation =
-  | { kind: "greeted" | "entered" | "denied" | "threatened" | "interject" }
+  | {
+      kind: "greeted" | "entered" | "remarked" | "denied" | "threatened" | "insulted" | "interject";
+    }
   | { kind: "asked"; about: string | null; whereabouts: boolean; claim?: Claim }
   | { kind: "told"; believes: boolean; claim: Claim; shown?: boolean }
   | { kind: "accused"; alone: boolean };
@@ -416,8 +437,11 @@ function replies(g: Game, npc: string, s: Situation): Reply[] {
   const accuse = accusation ? [claimReply(g, npc, "accuse", accusation)] : [];
   switch (s.kind) {
     case "greeted":
+    case "remarked":
     case "entered": {
-      out.push(GREET, ...accuse);
+      // A remark gets no hello back. They may take the opening, or let it lie.
+      if (s.kind !== "remarked") out.push(GREET);
+      out.push(...accuse);
       if (npc === MARA)
         out.push(plain("ask_dusk", "ask", "Asks the stranger where they were at dusk", "dusk"));
       const gossip = held(g, npc).find(
@@ -515,6 +539,7 @@ function replies(g: Game, npc: string, s: Situation): Reply[] {
       break;
     }
     case "threatened":
+    case "insulted":
       out.push(REFUSE, THREATEN, ...accuse);
       break;
     case "interject":
@@ -591,6 +616,8 @@ const ACT_WORDS: Partial<Record<SpeechAct, string>> = {
   accuse: "accuses someone in front of",
   offer: "makes an offer to",
   threaten: "threatens",
+  insult: "insults",
+  remark: "passes a remark to",
   request: "asks a favour of",
   promise: "makes a promise to",
 };
@@ -677,7 +704,12 @@ export async function playerSpeaks(
   if (action.act === "threaten") {
     g.say(`You lean in close to ${name} and make yourself understood.`);
     event = g.happened({ subject: PLAYER, predicate: "threatened", to: npc, severity: 2 }, root);
-  } else if (asserted && !shown) {
+  } else if (action.act === "insult") {
+    // An insult is a deed like any other: the room sees it, remembers it and may pass it on.
+    g.say(`You tell ${name} exactly what you think of them.`);
+    event = g.happened({ subject: PLAYER, predicate: "insulted", to: npc, severity: 1 }, root);
+  } else if (action.act === "remark") g.say(`You say your piece to ${name}.`);
+  else if (asserted && !shown) {
     // Narration addresses the player, so the player is "you" and the listener is named.
     const clause = claimClause(g.world, asserted, { listener: PLAYER });
     const face = asserted.subject === npc;
@@ -802,11 +834,15 @@ export async function playerSpeaks(
             }
           : action.act === "threaten"
             ? { kind: "threatened" }
-            : topic.kind === "deny"
-              ? { kind: "denied" }
-              : asserted
-                ? { kind: "told", believes: true, claim: asserted, shown: shown !== null }
-                : { kind: "greeted" },
+            : action.act === "insult"
+              ? { kind: "insulted" }
+              : action.act === "remark"
+                ? { kind: "remarked" }
+                : topic.kind === "deny"
+                  ? { kind: "denied" }
+                  : asserted
+                    ? { kind: "told", believes: true, claim: asserted, shown: shown !== null }
+                    : { kind: "greeted" },
     );
     questions.reply = speechQuestion(g, npc, single);
   }

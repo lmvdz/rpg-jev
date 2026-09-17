@@ -642,7 +642,8 @@ async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
           { kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" },
           id,
         );
-      else if (g.maraIsHere()) g.intent(MARA, PLAYER, "threaten", { kind: "none" }, 3, id);
+      else if (g.maraIsHere())
+        g.intent(MARA, PLAYER, "threaten", { kind: "request", id: "no_more_blows" }, 3, id);
       return;
     }
     case "report":

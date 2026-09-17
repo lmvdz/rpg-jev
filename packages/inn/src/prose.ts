@@ -186,6 +186,10 @@ const TOPIC_NAMES: Record<string, string> = { ledger: "my ledger" };
 const SPECIAL: Record<string, Record<string, readonly string[]>> = {
   [MARA]: {
     why: ["And what is that to you?"],
+    // A warning says what it is about. Heard after a hello, the bare threat made no sense.
+    no_more_blows: [
+      "I hear you have been using your fists under my roof. Once more and you sleep in the ford.",
+    ],
     how: ["How do you come to know that?", "And who told you so?"],
     where_from: ["Where did you get that?", "And how does that come to be in your hands?"],
     vouch: ["And who will vouch for that?", "Who saw you there? Name one."],

@@ -175,6 +175,8 @@ export const SPEECH_ACTS = [
   "accuse",
   "offer",
   "threaten",
+  "insult",
+  "remark",
   "confide",
   "request",
   "refuse",

@@ -77,6 +77,15 @@ export const VERBS: Record<string, Json> = {
     examples: ["I'll pay what you owe him if you talk to her", "ten silver for the key"],
   },
   threaten: "Pressure someone with harm, exposure or force",
+  insult: {
+    what: "Abuse, mock or belittle someone to their face",
+    not_for: "Threats of harm; that is threaten. Blaming them for a wrong; that is accuse",
+    examples: ["you are a fat old fool", "shut your mouth, you crow"],
+  },
+  remark: {
+    what: "Say something that states no fact, asks nothing and demands nothing: small talk, a retort, agreement",
+    examples: ["that is what I thought", "foul weather tonight", "hm"],
+  },
   request: {
     what: "Ask someone to do something, with nothing offered in return",
     not_for: "Asking for information; that is ask",

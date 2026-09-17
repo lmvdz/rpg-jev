@@ -160,6 +160,8 @@ function nearMiss(phrase: string, candidates: readonly Named[]): Resolution {
   return hits.length === 1 && only ? { kind: "one", id: only.id } : { kind: "none" };
 }
 
+const ANSWER_FILLER = new Set(["one", "ones", "that", "this", "i", "mean", "meant", "first", "it"]);
+
 /**
  * Reads the answer to "the iron key or the brass key?". "the iron one" names
  * no alias in full, so this looks for a word that only one candidate owns.
@@ -170,6 +172,11 @@ export function resolveAnswer(text: string, candidates: readonly Named[]): Resol
   const wordsOf = (c: Named) =>
     new Set([c.name, ...c.aliases].flatMap((s) => normalise(s).split(" ")).filter(Boolean));
   const said = new Set(normalise(text).split(" "));
+  // An answer is made of the candidates' words. "tel mara she's fat" after "that Mara took
+  // the ledger, or...?" shares a name with one candidate and is still not an answer to it.
+  const known = new Set(candidates.flatMap((c) => [...wordsOf(c)]));
+  const strangers = [...said].filter((w) => !known.has(w) && !ANSWER_FILLER.has(w));
+  if (strangers.length > 0) return { kind: "none" };
   const owners = candidates.filter((c) => {
     const mine = wordsOf(c);
     const others = candidates.filter((o) => o.id !== c.id).map(wordsOf);

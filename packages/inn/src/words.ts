@@ -45,6 +45,7 @@ const PHRASES: Record<string, Ladder> = {
   ],
   searched: ["poked about in {obj}", "went through {obj}", "ransacked {obj}"],
   attacked: ["shoved {to}", "struck {to}", "tried to kill {to}"],
+  insulted: ["spoke sharply to {to}", "insulted {to}", "heaped filth on {to} in front of the house"],
   threatened: ["leaned on {to}", "threatened {to}", "threatened to kill {to}"],
   forced_latch: same("forced the office window latch with a thin blade and left flour on the sill"),
   found: same("found {obj} in {place}"),

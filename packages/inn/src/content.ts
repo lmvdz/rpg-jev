@@ -43,6 +43,7 @@ export const WRONGDOING = [
   "searched",
   "attacked",
   "threatened",
+  "insulted",
   "forced_latch",
   "burned",
 ];
@@ -75,6 +76,7 @@ export const LEDGER_MATTER = [
   "denied_taking",
   "accused",
   "threatened",
+  "insulted",
   "attacked",
   "searched",
   "burned",

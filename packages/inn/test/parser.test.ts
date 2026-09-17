@@ -74,3 +74,15 @@ describe("the deterministic matcher", () => {
     expect(all.action.item.split(",").sort()).toEqual(["brass_key", "iron_key"]);
   });
 });
+
+describe("answering a clarification", () => {
+  // Third playtest: "tel mara she's fat" was taken as the answer "that Mara took the ledger".
+  it("takes only answers made of the candidates' words", () => {
+    const candidates = [
+      { id: "blame:mara", name: "that Mara took the ledger", aliases: [], kind: "thing" as const },
+      { id: "c1", name: "that you went through Odo's coat", aliases: [], kind: "thing" as const },
+    ];
+    expect(resolveAnswer("tel mara she's fat", candidates).kind).toBe("none");
+    expect(resolveAnswer("the coat one", candidates)).toEqual({ kind: "one", id: "c1" });
+  });
+});
