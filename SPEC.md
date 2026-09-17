@@ -123,13 +123,14 @@ Players and NPCs are both actors, and both produce the same structure: `Action{a
 - Each argument is a Choice over what is actually in scope: NPCs present, items carried, exits visible.
 - The action's confidence is the weakest confidence among its arguments, not the product.
 - High confidence executes. Low renders as the character hesitating.
+- M0 showed that an ambiguous reference ("grab the key" with two keys) does not split between the candidates: `none_of_these` wins and the leftover mass sits on the candidates. That pattern is the clarification trigger.
 - Middling confidence means the options look alike, not that the player was vague. The prompt names the plausible candidates ("the rusted key or the brass one?") and never asks for a general rephrase.
 - A rate-limit or outage response falls back to the deterministic matcher alone.
 - Thresholds are tuned on real transcripts, not guessed.
 
 **NPC action choice**
 
-- Code lists the NPC's legal actions from its FSM node, location and schedule.
+- Code lists the NPC's legal actions from its FSM node, location and schedule. Feasibility is code's job: M0 showed Jev gives "keep the purse secretly" 0.47 while the owner is watching. Options that observed facts rule out are pruned or restated before Jev sees them. Restating that option raised `return_it` from 0.47 to 0.60, against 0.90 from the reference panel, so pruning helps and does not close the gap.
 - Jev returns a distribution over them; code samples it with the seeded RNG (section 6).
 
 **Speech acts**
@@ -160,9 +161,9 @@ An NPC is structured data plus Jev judgments made only when something happens to
 | Memory | Log entries the NPC witnessed or heard | Code ranks by recency, severity and source trust. Jev may later break ties among the top few (backlog) |
 | Schedule | Four layers of data (section 7) | Code executes; Jev adapts |
 
-**Sampling, not argmax.** Jev's distribution approximates how people would decide. Always taking the top option gives a world of typical people, so code samples with the seeded RNG. Personality is state, and it shifts the distribution.
+**Sampling, not argmax.** Jev's distribution approximates how people would decide. Always taking the top option gives a world of typical people, so code samples with the seeded RNG. Personality is state, and it shifts the distribution. M0 confirmed this strongly in both runs. M0 also measured about 0.04 of probability on options a reference panel rates as absurd. Power sharpening made Jev fit the panel worse and flattened contested scenes, so code only drops options under 0.10 before sampling and relies on feasibility pruning for the rest.
 
-**Persuasion by spread.** A concentrated distribution means the NPC has made up its mind; a spread one means it can be swayed. Persuasion, bribes and threats work where Jev is torn. The player sees a hesitating innkeeper, never a number.
+**Persuasion by spread.** A concentrated distribution means the NPC has made up its mind; a spread one means it can be swayed. Persuasion, bribes and threats work where Jev is torn. The player sees a hesitating innkeeper, never a number. M0 found only a moderate link between Jev's spread and a reference panel's (rank correlation 0.57, under the 0.6 bar), and Jev is more decided than the panel on contested Choices. As section 15 planned for that outcome, persuadability is a code-owned value built from drives. Jev's spread is one input to it, not the mechanism.
 
 **Belief without multi-step inference.** Jev answers one question per hop: does this NPC believe this claim from this source? Longer chains unfold over game time as claims pass between NPCs. This avoids the multi-step reasoning Jev 1.13 is weak at.
 
@@ -432,6 +433,8 @@ The scenarios cover the three judgment types the first slice needs: intent parsi
 
 **Output:** a short results page with the distributions, a go or no-go per test, and first-draft thresholds for intent parsing and quest guards.
 
+**Result, 2026-09-17, two runs:** sensitivity, paraphrase and isolation pass. Isolation showed zero knowledge leak in six cases, and a batched scene of six NPCs cost 1,716 tokens and 217 ms. Test 1 was rebuilt to compare Jev with a reference panel of generative-model labellers (no human labels) and misses narrowly: distance 0.21 against a bar of 0.20, spread correlation 0.57 against 0.60, and the same top answer on 16 of 16 clear-cut scenarios. The planned consequence applies: persuadability becomes a code-owned value. Latency was p50 163 ms and p99 462 ms, at 681 tokens a call. M0 is closed; details are in `spikes/m0-jev/FINDINGS.md`.
+
 **Spike S0: SpacetimeDB**
 
 A second spike of similar size decides the world server. It is a small TypeScript module with:
@@ -487,7 +490,7 @@ These are unverified or undecided. Each names what settles it.
 - [ ] Setting and tone, as a one-page world bible. First task of M2, so questions and templates are written once.
 - [ ] Full combat rules. M2 ships only the stub in section 5.
 - [ ] How time runs in multiplayer: real-time, world ticks, or per-location clocks. Grid movement with turns or ticks hides Jev's latency, so that is the current lean. Needed before M5.
-- [ ] Hosting and who pays for Jev and Claude per player. Needed before M5.
+- [ ] Hosting and who pays for Jev and Claude per player. A subscription login suits development; serving other players from it needs checking against usage limits and Anthropic's terms. Needed before M5.
 - [ ] How do scheduled reducers in a TypeScript module behave under load? A reviewer reports isolation and pipelining issues; unverified. Settled by S0.
 - [ ] Are SpacetimeDB procedures stable? We do not depend on them, since workers make all outbound calls. Settled by S0.
 - [ ] How fast do closed edge rows grow in memory, and when are they archived? Settled by S0.
@@ -511,8 +514,8 @@ TypeScript runs everywhere, the world lives in SpacetimeDB, and every model call
 | RNG | Our own seeded PRNG, state stored in the log | Decided |
 | Decisions | Jev via `@typesafe-ai/sdk`, pinned to `jev-1.13.0` | Decided |
 | Jev worker | Node process and SpacetimeDB client: reads `decision_request`, calls Jev, commits through a reducer | Pending S0 |
-| Author worker | Node process using `@anthropic-ai/sdk`; writes to the proposal inbox table | Decided, built at M3 |
-| Model routing | One routing seam. Fixed two-model rule at M3; Switchyard's Jev cost policy behind the same seam once outcome labels exist | Staged |
+| Author worker | Node process that runs the Claude CLI in headless mode on the subscription login; no Anthropic API key. Writes to the proposal inbox table | Decided, built at M3 |
+| Model routing | One routing seam that picks the CLI's model per call. Fixed two-model rule at M3; Switchyard's Jev cost policy as the chooser once outcome labels exist | Staged |
 | Player parser | Deterministic verb and scope matcher first, Jev on the remainder | Decided |
 | Slice compiler | Schema per Jev state: required paths, token budget, hash | Decided |
 | Main client | Browser, Vite, raw WebGL2, `gl-matrix`, no engine (section 19) | Decided |
@@ -540,7 +543,8 @@ Clients and workers are all SpacetimeDB clients. Only reducers write.
 
 **Switchyard**
 
-- It is a separate service in front of the generative models. Jev predicts weak-model success, strong-model success and effort; a deterministic cost policy pays for the strong model only when the predicted uplift justifies it.
+- Generative calls go through the Claude CLI, not an HTTP API, so Switchyard cannot sit in front of them as a proxy. What carries over is its Jev cost policy, used to choose the CLI's model for each call.
+- In the fork it is a separate service in front of the generative models. Jev predicts weak-model success, strong-model success and effort; a deterministic cost policy pays for the strong model only when the predicted uplift justifies it.
 - Its outcome label here is whether a proposal passed validation and Jev's ratification, and later how often its template is picked. No LLM judge is involved.
 - Evidence so far is a 20-task coding benchmark with one run per task, and the cost-aware result is a replay projection. Routing of creative work is untested.
 - So M3 starts with a fixed rule: the strong model for arc work, the weak model for events and texture. That rule is also the baseline arm. Switchyard's policy runs as the compared arm once the inbox has logged enough outcomes, the same way the fork's own benchmark compares fixed and routed conditions.

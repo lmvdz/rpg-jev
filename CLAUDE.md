@@ -32,4 +32,5 @@ Spikes M0 and S0 come first. Do not start the village, the author thread or rend
 - TypeScript strict, erasable syntax only (no enums, namespaces or parameter properties), `.ts` extensions in relative imports.
 - `packages/core` stays pure: no I/O, no clock, no `Math.random`. Randomness comes from `Rng`.
 - Add a package only when its milestone starts.
-- Never write keys into the repo. `.env` is git-ignored.
+- Never write keys into the repo. `.env` is git-ignored and holds `TYPESAFE_API_KEY`.
+- Do not use an Anthropic API key. Generative calls go through the Claude CLI on the subscription login.

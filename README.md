@@ -8,7 +8,7 @@ A persistent multiplayer RPG whose world keeps its own agenda. [TypeSafe Jev](ht
 
 Repo scaffold only. Two spikes gate everything else:
 
-- [spikes/m0-jev](spikes/m0-jev): does Jev judge social fiction the way people do?
+- [spikes/m0-jev](spikes/m0-jev): does Jev judge social fiction the way people do? Done: three of four tests pass and the fourth misses narrowly. See the [findings](spikes/m0-jev/FINDINGS.md).
 - [spikes/s0-spacetimedb](spikes/s0-spacetimedb): does SpacetimeDB hold as the world server?
 
 ## Layout
@@ -45,4 +45,5 @@ Keys live in a git-ignored `.env` file at the repo root and never reach a client
 | Variable | Needed from |
 | --- | --- |
 | `TYPESAFE_API_KEY` | Spike M0 |
-| `ANTHROPIC_API_KEY` | M3, the author thread |
+
+Generative calls (M3 onwards) go through the Claude CLI on a subscription login, so there is no Anthropic API key.

@@ -1,0 +1,1344 @@
+{
+  "createdAt": "2026-09-17T19:07:49.272Z",
+  "panel": [
+    {
+      "model": "opus",
+      "samples": 2
+    },
+    {
+      "model": "sonnet",
+      "samples": 2
+    }
+  ],
+  "system": "You are a careful judge of how ordinary people behave and how they read language. You will get a situation as JSON, a question about it, and answer options. Estimate the probability distribution that a large panel of thoughtful human judges would give over the options. For a question about what a character does, that is the share of real people in the character's position, with those traits and circumstances, who would take each option. For a question about what a piece of text means, it is the share of readers who would pick each option. Judge what people actually do and mean, not what would be ideal. Be calibrated: use values near 0 or 1 when nearly everyone would agree, and spread the values when people would genuinely differ. Reply only through the structured output, with a probability for every option, summing to 1.",
+  "items": [
+    {
+      "probeId": "t1.thief.contested",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.55,
+            "turn_him_in": 0.13,
+            "stall": 0.22,
+            "none_of_these": 0.1
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.4199999999999999,
+            "turn_him_in": 0.12999999999999998,
+            "stall": 0.33999999999999997,
+            "none_of_these": 0.10999999999999997
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.31,
+            "turn_him_in": 0.14,
+            "stall": 0.5,
+            "none_of_these": 0.05
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.35,
+            "turn_him_in": 0.16,
+            "stall": 0.42,
+            "none_of_these": 0.07
+          }
+        }
+      ],
+      "mean": {
+        "hide_him": 0.4075,
+        "turn_him_in": 0.14,
+        "stall": 0.37,
+        "none_of_these": 0.08249999999999999
+      },
+      "panelDisagreement": 0.16833333333333333
+    },
+    {
+      "probeId": "t1.thief.obvious",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.03,
+            "turn_him_in": 0.83,
+            "stall": 0.07,
+            "none_of_these": 0.07
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.02,
+            "turn_him_in": 0.83,
+            "stall": 0.11,
+            "none_of_these": 0.04
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.10000000000000002,
+            "turn_him_in": 0.5000000000000001,
+            "stall": 0.30000000000000004,
+            "none_of_these": 0.10000000000000002
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.08,
+            "turn_him_in": 0.55,
+            "stall": 0.22,
+            "none_of_these": 0.15
+          }
+        }
+      ],
+      "mean": {
+        "hide_him": 0.05750000000000001,
+        "turn_him_in": 0.6775,
+        "stall": 0.17500000000000002,
+        "none_of_these": 0.09
+      },
+      "panelDisagreement": 0.22666666666666666
+    },
+    {
+      "probeId": "t1.purse.contested",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "keep_it": 0.56,
+            "return_it": 0.12,
+            "hand_to_innkeeper": 0.2,
+            "none_of_these": 0.12
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "keep_it": 0.53,
+            "return_it": 0.12,
+            "hand_to_innkeeper": 0.23,
+            "none_of_these": 0.12
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "keep_it": 0.42,
+            "return_it": 0.17,
+            "hand_to_innkeeper": 0.16,
+            "none_of_these": 0.25
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "keep_it": 0.48000000000000004,
+            "return_it": 0.08000000000000002,
+            "hand_to_innkeeper": 0.32000000000000006,
+            "none_of_these": 0.12000000000000001
+          }
+        }
+      ],
+      "mean": {
+        "keep_it": 0.4975,
+        "return_it": 0.12250000000000001,
+        "hand_to_innkeeper": 0.22750000000000004,
+        "none_of_these": 0.1525
+      },
+      "panelDisagreement": 0.1366666666666667
+    },
+    {
+      "probeId": "t1.purse.obvious",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "keep_it": 0.02,
+            "return_it": 0.91,
+            "hand_to_innkeeper": 0.04,
+            "none_of_these": 0.03
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "keep_it": 0.02,
+            "return_it": 0.9,
+            "hand_to_innkeeper": 0.04,
+            "none_of_these": 0.04
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "keep_it": 0.02,
+            "return_it": 0.85,
+            "hand_to_innkeeper": 0.08,
+            "none_of_these": 0.05
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "keep_it": 0.03,
+            "return_it": 0.85,
+            "hand_to_innkeeper": 0.08,
+            "none_of_these": 0.04
+          }
+        }
+      ],
+      "mean": {
+        "keep_it": 0.0225,
+        "return_it": 0.8775000000000001,
+        "hand_to_innkeeper": 0.06,
+        "none_of_these": 0.04
+      },
+      "panelDisagreement": 0.04000000000000002
+    },
+    {
+      "probeId": "t1.theft.contested",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.73,
+            "report_to_innkeeper": 0.09,
+            "ignore_it": 0.08,
+            "arrest": 0.03,
+            "none_of_these": 0.07
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.76,
+            "report_to_innkeeper": 0.05,
+            "ignore_it": 0.08,
+            "arrest": 0.03,
+            "none_of_these": 0.08
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.6200000000000001,
+            "report_to_innkeeper": 0.08000000000000002,
+            "ignore_it": 0.18000000000000002,
+            "arrest": 0.04000000000000001,
+            "none_of_these": 0.08000000000000002
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.5499999999999999,
+            "report_to_innkeeper": 0.11999999999999997,
+            "ignore_it": 0.19999999999999996,
+            "arrest": 0.029999999999999992,
+            "none_of_these": 0.09999999999999998
+          }
+        }
+      ],
+      "mean": {
+        "confront_privately": 0.665,
+        "report_to_innkeeper": 0.08499999999999999,
+        "ignore_it": 0.135,
+        "arrest": 0.0325,
+        "none_of_these": 0.0825
+      },
+      "panelDisagreement": 0.1283333333333333
+    },
+    {
+      "probeId": "t1.theft.obvious",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.02,
+            "report_to_innkeeper": 0.01,
+            "ignore_it": 0.005,
+            "arrest": 0.95,
+            "none_of_these": 0.015
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.02,
+            "report_to_innkeeper": 0.01,
+            "ignore_it": 0.005,
+            "arrest": 0.955,
+            "none_of_these": 0.01
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.03,
+            "report_to_innkeeper": 0.04,
+            "ignore_it": 0.01,
+            "arrest": 0.88,
+            "none_of_these": 0.04
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.03,
+            "report_to_innkeeper": 0.05,
+            "ignore_it": 0.02,
+            "arrest": 0.85,
+            "none_of_these": 0.05
+          }
+        }
+      ],
+      "mean": {
+        "confront_privately": 0.025,
+        "report_to_innkeeper": 0.0275,
+        "ignore_it": 0.01,
+        "arrest": 0.90875,
+        "none_of_these": 0.02875
+      },
+      "panelDisagreement": 0.06416666666666666
+    },
+    {
+      "probeId": "t1.room.contested",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "accept_offer": 0.13,
+            "refuse_offer": 0.62,
+            "none_of_these": 0.25
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "accept_offer": 0.14,
+            "refuse_offer": 0.63,
+            "none_of_these": 0.23
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "accept_offer": 0.25,
+            "refuse_offer": 0.55,
+            "none_of_these": 0.2
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "accept_offer": 0.15,
+            "refuse_offer": 0.5,
+            "none_of_these": 0.35
+          }
+        }
+      ],
+      "mean": {
+        "accept_offer": 0.1675,
+        "refuse_offer": 0.575,
+        "none_of_these": 0.25749999999999995
+      },
+      "panelDisagreement": 0.10833333333333332
+    },
+    {
+      "probeId": "t1.room.obvious",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "accept_offer": 0.97,
+            "refuse_offer": 0.01,
+            "none_of_these": 0.02
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "accept_offer": 0.97,
+            "refuse_offer": 0.01,
+            "none_of_these": 0.02
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "accept_offer": 0.96,
+            "refuse_offer": 0.02,
+            "none_of_these": 0.02
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "accept_offer": 0.96,
+            "refuse_offer": 0.02,
+            "none_of_these": 0.02
+          }
+        }
+      ],
+      "mean": {
+        "accept_offer": 0.965,
+        "refuse_offer": 0.015,
+        "none_of_these": 0.02
+      },
+      "panelDisagreement": 0.0066666666666666706
+    },
+    {
+      "probeId": "t1.rumor.contested",
+      "question": "passes_it_on",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.22,
+            "no": 0.78
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.2,
+            "no": 0.8
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.28,
+            "no": 0.72
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.25,
+            "no": 0.75
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.23750000000000002,
+        "no": 0.7625
+      },
+      "panelDisagreement": 0.04500000000000002
+    },
+    {
+      "probeId": "t1.rumor.obvious-yes",
+      "question": "passes_it_on",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.87,
+            "no": 0.13
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.87,
+            "no": 0.13
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.92,
+            "no": 0.08
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.9,
+            "no": 0.1
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.89,
+        "no": 0.11000000000000001
+      },
+      "panelDisagreement": 0.030000000000000016
+    },
+    {
+      "probeId": "t1.rumor.obvious-no",
+      "question": "passes_it_on",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.09,
+            "no": 0.91
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.07,
+            "no": 0.93
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.08,
+            "no": 0.92
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.15,
+            "no": 0.85
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.0975,
+        "no": 0.9025000000000001
+      },
+      "panelDisagreement": 0.041666666666666685
+    },
+    {
+      "probeId": "t1.guard.contested",
+      "question": "guard",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.29,
+            "no": 0.71
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.35,
+            "no": 0.65
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.6,
+            "no": 0.4
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.65,
+            "no": 0.35
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.4724999999999999,
+        "no": 0.5275
+      },
+      "panelDisagreement": 0.22166666666666665
+    },
+    {
+      "probeId": "t1.guard.obvious-yes",
+      "question": "guard",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.96,
+            "no": 0.04
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.96,
+            "no": 0.04
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.97,
+            "no": 0.03
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.97,
+            "no": 0.03
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.9649999999999999,
+        "no": 0.035
+      },
+      "panelDisagreement": 0.0066666666666666706
+    },
+    {
+      "probeId": "t1.guard.obvious-no",
+      "question": "guard",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.03,
+            "no": 0.97
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.02,
+            "no": 0.98
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.03,
+            "no": 0.97
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.05,
+            "no": 0.95
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.0325,
+        "no": 0.9675
+      },
+      "panelDisagreement": 0.015000000000000008
+    },
+    {
+      "probeId": "t1.intent-target.contested",
+      "question": "target",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "mara": 0.01,
+            "aldric": 0.005,
+            "tobin": 0.005,
+            "rusted_key": 0.35,
+            "brass_key": 0.33,
+            "tankard": 0.005,
+            "door_to_yard": 0.005,
+            "none_of_these": 0.29
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "mara": 0.0050251256281407045,
+            "aldric": 0.0050251256281407045,
+            "tobin": 0.0050251256281407045,
+            "rusted_key": 0.43216080402010054,
+            "brass_key": 0.36180904522613067,
+            "tankard": 0.0050251256281407045,
+            "door_to_yard": 0.0050251256281407045,
+            "none_of_these": 0.18090452261306533
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "mara": 0,
+            "aldric": 0,
+            "tobin": 0,
+            "rusted_key": 0.47,
+            "brass_key": 0.47,
+            "tankard": 0,
+            "door_to_yard": 0,
+            "none_of_these": 0.06
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "mara": 0,
+            "aldric": 0,
+            "tobin": 0,
+            "rusted_key": 0.45,
+            "brass_key": 0.45,
+            "tankard": 0,
+            "door_to_yard": 0,
+            "none_of_these": 0.1
+          }
+        }
+      ],
+      "mean": {
+        "mara": 0.003756281407035176,
+        "aldric": 0.0025062814070351764,
+        "tobin": 0.0025062814070351764,
+        "rusted_key": 0.4255402010050251,
+        "brass_key": 0.40295226130653267,
+        "tankard": 0.0025062814070351764,
+        "door_to_yard": 0.0025062814070351764,
+        "none_of_these": 0.15772613065326632
+      },
+      "panelDisagreement": 0.14768844221105526
+    },
+    {
+      "probeId": "t1.intent-target.obvious",
+      "question": "target",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "mara": 0.002,
+            "aldric": 0.002,
+            "tobin": 0.002,
+            "rusted_key": 0.007,
+            "brass_key": 0.977,
+            "tankard": 0.002,
+            "door_to_yard": 0.002,
+            "none_of_these": 0.006
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "mara": 0.002,
+            "aldric": 0.002,
+            "tobin": 0.002,
+            "rusted_key": 0.008,
+            "brass_key": 0.978,
+            "tankard": 0.002,
+            "door_to_yard": 0.002,
+            "none_of_these": 0.004
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "mara": 0,
+            "aldric": 0,
+            "tobin": 0,
+            "rusted_key": 0.01,
+            "brass_key": 0.97,
+            "tankard": 0,
+            "door_to_yard": 0,
+            "none_of_these": 0.02
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "mara": 0,
+            "aldric": 0,
+            "tobin": 0,
+            "rusted_key": 0,
+            "brass_key": 0.97,
+            "tankard": 0,
+            "door_to_yard": 0,
+            "none_of_these": 0.03
+          }
+        }
+      ],
+      "mean": {
+        "mara": 0.001,
+        "aldric": 0.001,
+        "tobin": 0.001,
+        "rusted_key": 0.00625,
+        "brass_key": 0.9737499999999999,
+        "tankard": 0.001,
+        "door_to_yard": 0.001,
+        "none_of_these": 0.015
+      },
+      "panelDisagreement": 0.01616666666666667
+    },
+    {
+      "probeId": "t1.intent-verb.contested",
+      "question": "verb",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "take": 0.005,
+            "examine": 0.005,
+            "talk_to": 0.04,
+            "persuade": 0.12,
+            "intimidate": 0.81,
+            "attack": 0.005,
+            "go": 0.005,
+            "none_of_these": 0.01
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "take": 0.005,
+            "examine": 0.005,
+            "talk_to": 0.03,
+            "persuade": 0.09,
+            "intimidate": 0.86,
+            "attack": 0.005,
+            "go": 0.003,
+            "none_of_these": 0.002
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "take": 0,
+            "examine": 0,
+            "talk_to": 0.03,
+            "persuade": 0.07,
+            "intimidate": 0.87,
+            "attack": 0.02,
+            "go": 0,
+            "none_of_these": 0.01
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "take": 0,
+            "examine": 0,
+            "talk_to": 0.03,
+            "persuade": 0.1,
+            "intimidate": 0.82,
+            "attack": 0.03,
+            "go": 0,
+            "none_of_these": 0.02
+          }
+        }
+      ],
+      "mean": {
+        "take": 0.0025,
+        "examine": 0.0025,
+        "talk_to": 0.0325,
+        "persuade": 0.095,
+        "intimidate": 0.84,
+        "attack": 0.015,
+        "go": 0.002,
+        "none_of_these": 0.010499999999999999
+      },
+      "panelDisagreement": 0.05099999999999999
+    },
+    {
+      "probeId": "t1.intent-verb.obvious",
+      "question": "verb",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "take": 0.001,
+            "examine": 0.001,
+            "talk_to": 0.001,
+            "persuade": 0.001,
+            "intimidate": 0.014,
+            "attack": 0.979,
+            "go": 0.001,
+            "none_of_these": 0.002
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "take": 0.001,
+            "examine": 0.001,
+            "talk_to": 0.001,
+            "persuade": 0.001,
+            "intimidate": 0.014,
+            "attack": 0.979,
+            "go": 0.001,
+            "none_of_these": 0.002
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "take": 0,
+            "examine": 0,
+            "talk_to": 0,
+            "persuade": 0,
+            "intimidate": 0,
+            "attack": 0.98,
+            "go": 0,
+            "none_of_these": 0.02
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "take": 0,
+            "examine": 0,
+            "talk_to": 0,
+            "persuade": 0,
+            "intimidate": 0,
+            "attack": 0.97,
+            "go": 0,
+            "none_of_these": 0.03
+          }
+        }
+      ],
+      "mean": {
+        "take": 0.0005,
+        "examine": 0.0005,
+        "talk_to": 0.0005,
+        "persuade": 0.0005,
+        "intimidate": 0.007,
+        "attack": 0.9769999999999999,
+        "go": 0.0005,
+        "none_of_these": 0.0135
+      },
+      "panelDisagreement": 0.017333333333333336
+    },
+    {
+      "probeId": "t1.thief.regular",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.2,
+            "turn_him_in": 0.18,
+            "stall": 0.57,
+            "none_of_these": 0.05
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.2,
+            "turn_him_in": 0.22,
+            "stall": 0.53,
+            "none_of_these": 0.05
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.35000000000000003,
+            "turn_him_in": 0.12000000000000001,
+            "stall": 0.43000000000000005,
+            "none_of_these": 0.10000000000000002
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.28,
+            "turn_him_in": 0.17,
+            "stall": 0.4,
+            "none_of_these": 0.15
+          }
+        }
+      ],
+      "mean": {
+        "hide_him": 0.2575,
+        "turn_him_in": 0.17250000000000001,
+        "stall": 0.48250000000000004,
+        "none_of_these": 0.0875
+      },
+      "panelDisagreement": 0.14999999999999997
+    },
+    {
+      "probeId": "t1.thief.nephew-killer",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.56,
+            "turn_him_in": 0.1,
+            "stall": 0.29,
+            "none_of_these": 0.05
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "hide_him": 0.62,
+            "turn_him_in": 0.07,
+            "stall": 0.26,
+            "none_of_these": 0.05
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.6000000000000001,
+            "turn_him_in": 0.07000000000000002,
+            "stall": 0.22000000000000003,
+            "none_of_these": 0.11000000000000001
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "hide_him": 0.5499999999999999,
+            "turn_him_in": 0.06999999999999999,
+            "stall": 0.27999999999999997,
+            "none_of_these": 0.09999999999999998
+          }
+        }
+      ],
+      "mean": {
+        "hide_him": 0.5825,
+        "turn_him_in": 0.07750000000000001,
+        "stall": 0.2625,
+        "none_of_these": 0.0775
+      },
+      "panelDisagreement": 0.06666666666666667
+    },
+    {
+      "probeId": "t1.purse.pilgrim",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "keep_it": 0.29,
+            "return_it": 0.55,
+            "hand_to_innkeeper": 0.09,
+            "none_of_these": 0.07
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "keep_it": 0.25,
+            "return_it": 0.56,
+            "hand_to_innkeeper": 0.12,
+            "none_of_these": 0.07
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "keep_it": 0.35,
+            "return_it": 0.42,
+            "hand_to_innkeeper": 0.13,
+            "none_of_these": 0.1
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "keep_it": 0.28,
+            "return_it": 0.45,
+            "hand_to_innkeeper": 0.17,
+            "none_of_these": 0.1
+          }
+        }
+      ],
+      "mean": {
+        "keep_it": 0.2925,
+        "return_it": 0.495,
+        "hand_to_innkeeper": 0.1275,
+        "none_of_these": 0.085
+      },
+      "panelDisagreement": 0.09999999999999999
+    },
+    {
+      "probeId": "t1.purse.feasible",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "refuse_to_give_it_back": 0.01,
+            "return_it": 0.93,
+            "hand_to_innkeeper": 0.03,
+            "none_of_these": 0.03
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "refuse_to_give_it_back": 0.01,
+            "return_it": 0.93,
+            "hand_to_innkeeper": 0.04,
+            "none_of_these": 0.02
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "refuse_to_give_it_back": 0.03,
+            "return_it": 0.85,
+            "hand_to_innkeeper": 0.05,
+            "none_of_these": 0.07
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "refuse_to_give_it_back": 0.02,
+            "return_it": 0.9,
+            "hand_to_innkeeper": 0.03,
+            "none_of_these": 0.05
+          }
+        }
+      ],
+      "mean": {
+        "refuse_to_give_it_back": 0.0175,
+        "return_it": 0.9025,
+        "hand_to_innkeeper": 0.037500000000000006,
+        "none_of_these": 0.0425
+      },
+      "panelDisagreement": 0.04833333333333336
+    },
+    {
+      "probeId": "t1.theft.friend-on-duty",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.73,
+            "report_to_innkeeper": 0.07,
+            "ignore_it": 0.07,
+            "arrest": 0.08,
+            "none_of_these": 0.05
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.73,
+            "report_to_innkeeper": 0.06,
+            "ignore_it": 0.09,
+            "arrest": 0.08,
+            "none_of_these": 0.04
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.45,
+            "report_to_innkeeper": 0.08,
+            "ignore_it": 0.25,
+            "arrest": 0.04,
+            "none_of_these": 0.18
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.55,
+            "report_to_innkeeper": 0.08,
+            "ignore_it": 0.2,
+            "arrest": 0.03,
+            "none_of_these": 0.14
+          }
+        }
+      ],
+      "mean": {
+        "confront_privately": 0.615,
+        "report_to_innkeeper": 0.07250000000000001,
+        "ignore_it": 0.15250000000000002,
+        "arrest": 0.0575,
+        "none_of_these": 0.10250000000000001
+      },
+      "panelDisagreement": 0.20333333333333337
+    },
+    {
+      "probeId": "t1.theft.stranger-off-duty",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.38,
+            "report_to_innkeeper": 0.34,
+            "ignore_it": 0.06,
+            "arrest": 0.16,
+            "none_of_these": 0.06
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "confront_privately": 0.36,
+            "report_to_innkeeper": 0.33,
+            "ignore_it": 0.06,
+            "arrest": 0.19,
+            "none_of_these": 0.06
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.37,
+            "report_to_innkeeper": 0.25,
+            "ignore_it": 0.05,
+            "arrest": 0.18,
+            "none_of_these": 0.15
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "confront_privately": 0.27999999999999997,
+            "report_to_innkeeper": 0.31999999999999995,
+            "ignore_it": 0.04999999999999999,
+            "arrest": 0.24999999999999994,
+            "none_of_these": 0.09999999999999998
+          }
+        }
+      ],
+      "mean": {
+        "confront_privately": 0.3475,
+        "report_to_innkeeper": 0.31,
+        "ignore_it": 0.05499999999999999,
+        "arrest": 0.195,
+        "none_of_these": 0.0925
+      },
+      "panelDisagreement": 0.10166666666666664
+    },
+    {
+      "probeId": "t1.room.double-adults",
+      "question": "reaction",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "accept_offer": 0.47,
+            "refuse_offer": 0.33,
+            "none_of_these": 0.2
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "accept_offer": 0.52,
+            "refuse_offer": 0.29,
+            "none_of_these": 0.19
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "accept_offer": 0.62,
+            "refuse_offer": 0.28,
+            "none_of_these": 0.1
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "accept_offer": 0.7200000000000001,
+            "refuse_offer": 0.20000000000000004,
+            "none_of_these": 0.08000000000000002
+          }
+        }
+      ],
+      "mean": {
+        "accept_offer": 0.5825,
+        "refuse_offer": 0.275,
+        "none_of_these": 0.14250000000000002
+      },
+      "panelDisagreement": 0.1416666666666667
+    },
+    {
+      "probeId": "t1.rumor.cook",
+      "question": "passes_it_on",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.24,
+            "no": 0.76
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.24,
+            "no": 0.76
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.25,
+            "no": 0.75
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.3,
+            "no": 0.7
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.2575,
+        "no": 0.7424999999999999
+      },
+      "panelDisagreement": 0.03166666666666668
+    },
+    {
+      "probeId": "t1.guard.ledger-found",
+      "question": "guard",
+      "samples": [
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.68,
+            "no": 0.32
+          }
+        },
+        {
+          "model": "opus",
+          "probabilities": {
+            "yes": 0.67,
+            "no": 0.33
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.35,
+            "no": 0.65
+          }
+        },
+        {
+          "model": "sonnet",
+          "probabilities": {
+            "yes": 0.55,
+            "no": 0.45
+          }
+        }
+      ],
+      "mean": {
+        "yes": 0.5625,
+        "no": 0.4375
+      },
+      "panelDisagreement": 0.18500000000000003
+    }
+  ]
+}
