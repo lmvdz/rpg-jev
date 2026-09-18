@@ -41,6 +41,7 @@ import {
   reviewComments,
   whoAmI,
 } from "./github.ts";
+import { toolStagesAllowed } from "./sandbox.ts";
 
 const GATE = "pnpm check";
 
@@ -398,10 +399,9 @@ const TOOL_STAGES: readonly AgentStage[] = ["plan", "build"];
 
 /** Runs one stage for one issue and records where it went. Returns the stage it is in now. */
 export function advance(config: LoopConfig, issue: Issue, stage: AgentStage): Stage {
-  if (TOOL_STAGES.includes(stage) && config.sdlc.allow_tool_stages !== true) {
-    console.log(
-      `${stage.padEnd(7)} #${issue.number} held: \`sdlc.allow_tool_stages\` is off in playtests/loop.json`,
-    );
+  const allowed = toolStagesAllowed(config.sdlc);
+  if (TOOL_STAGES.includes(stage) && !allowed.ok) {
+    console.log(`${stage.padEnd(7)} #${issue.number} held: ${allowed.why}`);
     return stage;
   }
   const { outcome, note, labels } = HANDLERS[stage](config, issue);
