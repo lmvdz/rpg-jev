@@ -311,6 +311,22 @@ describe("watching a pull request", () => {
   });
 });
 
+describe("reading a verdict", () => {
+  it("takes the last fenced block, a bare object, or nothing", () => {
+    expect(lastJson('talk\n```json\n{"a": 1}\n```\nmore\n```json\n{"a": 2}\n```')).toEqual({
+      a: 2,
+    });
+    expect(lastJson('```\n{"verdict": "approve"}\n```')).toEqual({ verdict: "approve" });
+    // The review of issue 9 came back as the bare object, and was read as no answer.
+    expect(lastJson('{\n  "verdict": "revise",\n  "findings": ["x"]\n}\n')).toMatchObject({
+      verdict: "revise",
+    });
+    expect(lastJson("I think {this} is fine")).toBeNull();
+    expect(lastJson("[1, 2]")).toBeNull();
+    expect(lastJson("")).toBeNull();
+  });
+});
+
 describe("reading the gate", () => {
   const esc = String.fromCharCode(27);
   const styled = (file: string) =>

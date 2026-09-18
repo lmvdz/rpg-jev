@@ -177,11 +177,19 @@ export function outOfBounds(
 
 /** The last fenced `json` block in a reply, parsed. A reply without one is no answer. */
 export function lastJson(text: string): Record<string, unknown> | null {
-  const blocks = [...text.matchAll(/```json\s*\n([\s\S]*?)```/g)];
-  const raw = blocks.at(-1)?.[1];
-  if (!raw) return null;
+  const blocks = [...text.matchAll(/```(?:json)?\s*\n([\s\S]*?)```/g)].map((m) => m[1] ?? "");
+  // Asked for a fenced block, a model sometimes answers with the bare object and nothing else.
+  // That is still an answer. Prose with braces in it is not: the whole reply must parse.
+  for (const raw of [...blocks.reverse(), text]) {
+    const found = asObject(raw);
+    if (found) return found;
+  }
+  return null;
+}
+
+function asObject(raw: string): Record<string, unknown> | null {
   try {
-    const parsed: unknown = JSON.parse(raw);
+    const parsed: unknown = JSON.parse(raw.trim());
     return parsed && typeof parsed === "object" && !Array.isArray(parsed)
       ? (parsed as Record<string, unknown>)
       : null;
