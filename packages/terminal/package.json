@@ -8,7 +8,8 @@
     "play": "node --env-file-if-exists=../../.env src/play.ts",
     "demo": "node --env-file-if-exists=../../.env src/demo.ts",
     "routes": "node --env-file-if-exists=../../.env src/routes.ts",
-    "friction": "node src/friction.ts"
+    "friction": "node src/friction.ts",
+    "sdlc": "node src/sdlc.ts"
   },
   "dependencies": {
     "@rpg-jev/core": "workspace:*",

@@ -15,7 +15,8 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "play": "pnpm --filter @rpg-jev/terminal run play",
     "demo": "pnpm --filter @rpg-jev/terminal run demo",
-    "friction": "pnpm --filter @rpg-jev/terminal run friction"
+    "friction": "pnpm --filter @rpg-jev/terminal run friction",
+    "sdlc": "pnpm --filter @rpg-jev/terminal run sdlc"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",
