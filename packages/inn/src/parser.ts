@@ -257,7 +257,7 @@ const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Match
   [/^(help|\?|commands)$/, () => ({ kind: "action", action: { verb: "help" } })],
   [/^(q|quit|exit)$/, () => ({ kind: "action", action: { verb: "quit" } })],
   [
-    /^(?:wait|z|rest)(?: (\d+))?(?: minutes?)?$/,
+    /^(?:wait|z|rest|think|ponder)(?: (\d+))?(?: minutes?)?$/,
     (m) => ({
       kind: "action",
       action: { verb: "wait", minutes: Math.min(60, Math.max(1, Number(m[1] ?? 10))) },

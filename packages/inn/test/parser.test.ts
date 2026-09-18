@@ -75,6 +75,8 @@ describe("the deterministic matcher", () => {
     expect(match("go to celler", world)).toMatchObject({ action: { verb: "go", room: "cellar" } });
     expect(match("go back", world)).toMatchObject({ action: { verb: "go", room: BACK } });
     expect(match("kill odo", world)).toMatchObject({ action: { verb: "attack", target: "odo" } });
+    expect(match("think", world)).toMatchObject({ action: { verb: "wait" } });
+    expect(match("ponder", world)).toMatchObject({ action: { verb: "wait" } });
     for (const mine of ["check backpack", "check pockets", "look in my bag"])
       expect(match(mine, world)).toMatchObject({ action: { verb: "inventory" } });
     const all = match("take everything", world);
