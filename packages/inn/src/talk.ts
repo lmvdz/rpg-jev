@@ -410,7 +410,7 @@ export async function judgeParse(g: Game, text: string): Promise<Matched> {
   const pools: Record<string, [readonly Named[], string]> = {
     take: [scope.things, "take"],
     drop: [scope.carried, "drop"],
-    examine: [[...scope.things, ...scope.carried, ...scope.people], "look at"],
+    examine: [[...scope.things, ...scope.carried, ...scope.people, ...scope.rooms], "look at"],
     go: [scope.exits, "go to"],
     use: [scope.exits, "unlock"],
   };

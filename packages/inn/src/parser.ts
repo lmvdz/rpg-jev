@@ -384,7 +384,7 @@ const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Match
     (m, scope) =>
       pick(
         m[1] ?? "",
-        [...scope.things, ...scope.carried, ...scope.people],
+        [...scope.things, ...scope.carried, ...scope.people, ...scope.rooms],
         "look at",
         "You see nothing like that here.",
         (target) => ({ verb: "examine", target }),

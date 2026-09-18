@@ -28,7 +28,7 @@ import {
 } from "./content.ts";
 import type { Game } from "./game.ts";
 import { type Action, BACK, COINS, HELP, isVisible } from "./parser.ts";
-import { describeRoom, lookAtItem, lookAtPerson } from "./prose.ts";
+import { describeRoom, lookAtItem, lookAtPerson, lookAtRoom } from "./prose.ts";
 import { sceneSlice } from "./slices.ts";
 import { greetOnEntry, owe, playerSpeaks, reactToDeed } from "./talk.ts";
 import { renderWhy } from "./whytext.ts";
@@ -259,6 +259,10 @@ async function examine(g: Game, target: string, root: LogId): Promise<number> {
     const a = g.world.actors[target];
     g.say(`${lookAtPerson(target)} ${a ? `They look ${woundWords(a.hp, a.maxHp)}.` : ""}`);
     return 1;
+  }
+  if (g.world.rooms[target]) {
+    g.say(lookAtRoom(g.world, target));
+    return g.world.rooms[target]?.id === g.playerRoom ? 2 : 1;
   }
   g.say(lookAtItem(target));
   const machine = SEARCHABLE[target];
