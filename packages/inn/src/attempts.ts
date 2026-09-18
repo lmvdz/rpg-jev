@@ -55,7 +55,7 @@ function insistence(g: Game, action: Attempt, root: LogId): number {
   return count;
 }
 
-export async function tryAnything(g: Game, action: Attempt, root: LogId): Promise<number> {
+export function tryAnything(g: Game, action: Attempt, root: LogId): Promise<number> {
   const need = NEED_VERBS[action.how] ?? null;
   if (!action.target) {
     g.say(
@@ -63,13 +63,13 @@ export async function tryAnything(g: Game, action: Attempt, root: LogId): Promis
         ? `There is nothing here that would give you ${ENDS[need].word}.`
         : `${cap(action.how)} what?`,
     );
-    return 0;
+    return Promise.resolve(0);
   }
   const thing =
     action.target.place === "item"
       ? g.world.items[action.target.id]
       : g.world.rooms[action.target.id];
-  if (!thing) return 0;
+  if (!thing) return Promise.resolve(0);
   const name = thing.name;
   const outcome = attempt(action.how, thing, insistence(g, action, root));
   return applyOutcome(g, action, name, outcome, root);
@@ -122,6 +122,20 @@ async function applyOutcome(
   }
 }
 
+/** How much a serving is, in words: enough to mention, or worth dwelling on. */
+function magnitudeWords(magnitude: number): string {
+  if (magnitude >= 3) return ", and plenty of it";
+  if (magnitude === 1) return ", a little";
+  return "";
+}
+
+/** How much a forcing takes out of you. */
+function harmWords(harm: number): string {
+  if (harm === 1) return "a little";
+  if (harm === 2) return "a fair bit";
+  return "a great deal";
+}
+
 /** "why stew": what a thing is for, walked down the graph of ends. */
 export function explain(g: Game, id: string, place: "item" | "room"): string {
   const thing = place === "item" ? g.world.items[id] : g.world.rooms[id];
@@ -138,15 +152,13 @@ export function explain(g: Game, id: string, place: "item" | "room"): string {
     const how =
       magnitude < 0
         ? `takes ${ENDS[need].word} away`
-        : `is ${ENDS[need].word}${magnitude >= 3 ? ", and plenty of it" : magnitude === 1 ? ", a little" : ""}`;
+        : `is ${ENDS[need].word}${magnitudeWords(magnitude)}`;
     lines.push(`  ${cap(thing.name)} ${how}.`);
     lines.push(...chain(need));
   }
   const forced = "forced" in thing ? thing.forced : undefined;
   if (forced && forced.harm > 0)
-    lines.push(
-      `  Forced, it gives nothing and takes ${forced.harm === 1 ? "a little" : forced.harm === 2 ? "a fair bit" : "a great deal"} of you with it.`,
-    );
+    lines.push(`  Forced, it gives nothing and takes ${harmWords(forced.harm)} of you with it.`);
   return lines.join("\n");
 }
 

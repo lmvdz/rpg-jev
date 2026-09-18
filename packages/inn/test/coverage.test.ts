@@ -25,6 +25,20 @@ describe("every verb, against every kind of thing", () => {
     hard: { forced: { harm: 1, deed: "forced" } },
     hardAndServing: { serves: serving, forced: { harm: 2, deed: "forced" } },
   };
+  // One row per kind of thing: what a verb that serves a need must resolve to against it.
+  // `null` means the kind puts no further constraint beyond being one of the four outcomes.
+  const EXPECTED_KIND: Record<
+    keyof typeof kinds,
+    (need: string | undefined, insistence: number) => ReturnType<typeof attempt>["kind"] | null
+  > = {
+    serving: (need) => (need ? "served" : null),
+    inert: () => "nothing",
+    hard: (need, insistence) => {
+      if (!need) return "harm";
+      return insistence > 0 ? "harm" : "too_hard";
+    },
+    hardAndServing: (need) => (need ? "served" : null),
+  };
   for (const verb of VERBS)
     it(`${verb} resolves on every kind of thing, first try and insisted on`, () => {
       const need = NEED_VERBS[verb];
@@ -34,10 +48,8 @@ describe("every verb, against every kind of thing", () => {
           expect(["served", "nothing", "too_hard", "harm"], `${verb} on ${name}`).toContain(
             out.kind,
           );
-          if (need && "serves" in thing) expect(out.kind, `${verb} on ${name}`).toBe("served");
-          if (name === "inert") expect(out.kind).toBe("nothing");
-          if (name === "hard" && need) expect(out.kind).toBe(insistence > 0 ? "harm" : "too_hard");
-          if (name === "hard" && !need) expect(out.kind).toBe("harm");
+          const expected = EXPECTED_KIND[name as keyof typeof kinds](need, insistence);
+          if (expected) expect(out.kind, `${verb} on ${name}`).toBe(expected);
         }
     });
 

@@ -110,7 +110,9 @@ for (const route of names) {
   const mine = runs.filter((r) => r.route === route);
   const won = mine.filter((r) => r.quest === "cleared" || r.quest === "resolved").length;
   const outcomes = mine.map((r) => r.quest).join(", ");
-  const peaks = mine.map((r) => (r.guard.length ? Math.max(...r.guard).toFixed(2) : "not asked"));
+  const peaks = mine.map((r) =>
+    r.guard.length > 0 ? Math.max(...r.guard).toFixed(2) : "not asked",
+  );
   const faced = mine.filter((r) => r.garbledToFace > 0).length;
   const held = mine.map((r) => r.garbledHeld).join(", ");
   lines.push(

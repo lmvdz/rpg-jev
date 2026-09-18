@@ -62,7 +62,7 @@ export function lineage(world: World, claim: ClaimId): Claim[] {
   let at: Claim | undefined = world.claims[claim];
   while (at && chain.length < 16) {
     chain.unshift(at);
-    at = at.derivedFrom !== undefined ? world.claims[at.derivedFrom] : undefined;
+    at = at.derivedFrom === undefined ? undefined : world.claims[at.derivedFrom];
   }
   return chain;
 }

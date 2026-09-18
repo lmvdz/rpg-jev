@@ -154,6 +154,13 @@ export const parseSlice: SliceSchema<ParseCtx> = {
   },
 };
 
+/** How firmly a belief was taken, for a retelling's closing clause. */
+function takenWords(credence: number): string {
+  if (credence >= 0.65) return "believed it";
+  if (credence >= 0.4) return "is now in two minds about it";
+  return "has come to doubt it";
+}
+
 /** "Tobin told Mara that Odo ... (Mara thinks it likely)" or "Mara saw it herself: ...". */
 export function eventLine(world: World, holder: string, belief: Belief): string {
   const { claim, edge } = belief;
@@ -174,13 +181,7 @@ export function eventLine(world: World, holder: string, belief: Belief): string 
     source.kind === "shown"
       ? `showed ${name} proof that`
       : `told ${name}${firstHand ? ", as something seen first hand," : ""} that`;
-  const taken =
-    belief.credence >= 0.65
-      ? "believed it"
-      : belief.credence >= 0.4
-        ? "is now in two minds about it"
-        : "has come to doubt it";
-  return `${from}${known} ${verb} ${what}. ${name} ${taken}.`;
+  return `${from}${known} ${verb} ${what}. ${name} ${takenWords(belief.credence)}.`;
 }
 
 /**

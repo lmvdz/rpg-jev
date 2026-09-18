@@ -179,7 +179,7 @@ export function resolveAnswer(text: string, candidates: readonly Named[]): Resol
   // An answer is made of the candidates' words. "tel mara she's fat" after "that Mara took
   // the ledger, or...?" shares a name with one candidate and is still not an answer to it.
   const known = new Set(candidates.flatMap((c) => [...wordsOf(c)]));
-  const strangers = [...said].filter((w) => !known.has(w) && !ANSWER_FILLER.has(w));
+  const strangers = [...said].filter((w) => !(known.has(w) || ANSWER_FILLER.has(w)));
   if (strangers.length > 0) return { kind: "none" };
   const owners = candidates.filter((c) => {
     const mine = wordsOf(c);

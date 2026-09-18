@@ -72,7 +72,10 @@ export function auc(positives: readonly number[], negatives: readonly number[]):
   if (positives.length === 0 || negatives.length === 0) return Number.NaN;
   let wins = 0;
   for (const p of positives) {
-    for (const n of negatives) wins += p > n ? 1 : p === n ? 0.5 : 0;
+    for (const n of negatives) {
+      if (p > n) wins += 1;
+      else if (p === n) wins += 0.5;
+    }
   }
   return wins / (positives.length * negatives.length);
 }

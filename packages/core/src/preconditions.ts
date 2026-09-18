@@ -15,6 +15,40 @@ export type Precondition =
   | { kind: "believes"; holder: string; claim: string }
   | { kind: "debt_pending"; debt: string };
 
+type PreconditionKind = Precondition["kind"];
+
+/** One checker per precondition kind: null means the precondition still holds. */
+const checkers: {
+  [K in PreconditionKind]: (world: World, p: Extract<Precondition, { kind: K }>) => string | null;
+} = {
+  in_room: (world, p) =>
+    world.actors[p.actor]?.room === p.room ? null : `${p.actor} is no longer in ${p.room}`,
+  alive: (world, p) => {
+    const a = world.actors[p.actor];
+    return a?.alive && a.present ? null : `${p.actor} is dead or gone`;
+  },
+  machine_node: (world, p) =>
+    world.machines[p.machine]?.node === p.node ? null : `${p.machine} is no longer ${p.node}`,
+  holds: (world, p) => {
+    const at = world.items[p.item]?.at;
+    return !(at && "holder" in at) || at.holder !== p.actor
+      ? `${p.actor} no longer holds ${p.item}`
+      : null;
+  },
+  item_in: (world, p) => {
+    const at = world.items[p.item]?.at;
+    return !(at && "inside" in at) || at.inside !== p.container
+      ? `${p.item} is no longer in ${p.container}`
+      : null;
+  },
+  believes: (world, p) =>
+    currentEdge(world, p.holder, "believes", p.claim)
+      ? null
+      : `${p.holder} no longer holds ${p.claim}`,
+  debt_pending: (world, p) =>
+    world.debts[p.debt]?.status === "pending" ? null : `debt ${p.debt} is settled`,
+};
+
 /** Reasons the preconditions no longer hold; empty means the decision is still fresh. */
 export function failedPreconditions(
   world: World,
@@ -22,40 +56,9 @@ export function failedPreconditions(
 ): string[] {
   const failed: string[] = [];
   for (const p of preconditions) {
-    switch (p.kind) {
-      case "in_room":
-        if (world.actors[p.actor]?.room !== p.room)
-          failed.push(`${p.actor} is no longer in ${p.room}`);
-        break;
-      case "alive": {
-        const a = world.actors[p.actor];
-        if (!a?.alive || !a.present) failed.push(`${p.actor} is dead or gone`);
-        break;
-      }
-      case "machine_node":
-        if (world.machines[p.machine]?.node !== p.node)
-          failed.push(`${p.machine} is no longer ${p.node}`);
-        break;
-      case "holds": {
-        const at = world.items[p.item]?.at;
-        if (!at || !("holder" in at) || at.holder !== p.actor)
-          failed.push(`${p.actor} no longer holds ${p.item}`);
-        break;
-      }
-      case "item_in": {
-        const at = world.items[p.item]?.at;
-        if (!at || !("inside" in at) || at.inside !== p.container)
-          failed.push(`${p.item} is no longer in ${p.container}`);
-        break;
-      }
-      case "believes":
-        if (!currentEdge(world, p.holder, "believes", p.claim))
-          failed.push(`${p.holder} no longer holds ${p.claim}`);
-        break;
-      case "debt_pending":
-        if (world.debts[p.debt]?.status !== "pending") failed.push(`debt ${p.debt} is settled`);
-        break;
-    }
+    const check = checkers[p.kind] as (world: World, p: Precondition) => string | null;
+    const reason = check(world, p);
+    if (reason) failed.push(reason);
   }
   return failed;
 }

@@ -44,81 +44,134 @@ const SLOW_MS = 1200;
  */
 const NONE_IS_A_SNAG = new Set(["mode", "verb", "reply", "act", "respond"]);
 
+/** Mutable read-through of a night as `snagsOf` walks its log. */
+interface SnagState {
+  night: string;
+  input: string;
+  waited: number;
+  readAhead: boolean;
+}
+
+function flushWait(snags: Snag[], state: SnagState, t: number): void {
+  if (state.waited >= SLOW_MS)
+    snags.push({
+      kind: "slow turn",
+      night: state.night,
+      at: clockWords(t),
+      input: state.input,
+      detail: `${state.waited} ms of judge time in one turn`,
+    });
+  state.waited = 0;
+}
+
+// A line that needed the judge to be read is logged after that read, so the read (and its
+// wait) belongs to the input entry that follows it, not to the one before.
+const isRead = (e: LogEntry | undefined) => e?.kind === "decision" && "verb" in e.answers;
+
+function handleInput(
+  snags: Snag[],
+  state: SnagState,
+  e: Extract<LogEntry, { kind: "input" }>,
+  at: string,
+): void {
+  if (!state.readAhead) flushWait(snags, state, e.t);
+  state.readAhead = false;
+  if (e.via === "flagged") {
+    const why = (e.action as { message?: string } | null)?.message;
+    snags.push({
+      kind: "flagged by the player",
+      night: state.night,
+      at,
+      input: state.input,
+      detail: why ? `the player said: "${why}"` : "the player said this turn went wrong",
+    });
+    return;
+  }
+  state.input = e.text;
+  const message = (e.action as { message?: string } | null)?.message ?? "";
+  if (e.via === "unparsed")
+    snags.push({
+      kind: "not understood",
+      night: state.night,
+      at,
+      input: state.input,
+      detail: message,
+    });
+  if (e.via === "clarify")
+    snags.push({
+      kind: "had to ask back",
+      night: state.night,
+      at,
+      input: state.input,
+      detail: message,
+    });
+}
+
+function handleDecision(
+  snags: Snag[],
+  state: SnagState,
+  e: Extract<LogEntry, { kind: "decision" }>,
+  at: string,
+): void {
+  state.waited += e.latencyMs;
+  if (e.source === "fallback")
+    snags.push({
+      kind: "judge unreachable",
+      night: state.night,
+      at,
+      input: state.input,
+      detail: Object.keys(e.answers).join(", "),
+    });
+  for (const [id, a] of Object.entries(e.answers))
+    if (a.type === "choice" && a.choice === NONE && NONE_IS_A_SNAG.has(id))
+      snags.push({
+        kind: "judge chose none",
+        night: state.night,
+        at,
+        input: state.input,
+        detail: `${id}: the offered options did not fit (${Object.entries(a.probabilities)
+          .sort((x, y) => y[1] - x[1])
+          .slice(0, 3)
+          .map(([k, p]) => `${k} ${p.toFixed(2)}`)
+          .join(", ")})`,
+      });
+}
+
 function snagsOf(night: string, log: LogEntry[]): Snag[] {
   const snags: Snag[] = [];
-  let input = "(before the first input)";
-  let waited = 0;
-  const flushWait = (t: number) => {
-    if (waited >= SLOW_MS)
-      snags.push({
-        kind: "slow turn",
-        night,
-        at: clockWords(t),
-        input,
-        detail: `${waited} ms of judge time in one turn`,
-      });
-    waited = 0;
+  const state: SnagState = {
+    night,
+    input: "(before the first input)",
+    waited: 0,
+    readAhead: false,
   };
-  // A line that needed the judge to be read is logged after that read, so the read (and its
-  // wait) belongs to the input entry that follows it, not to the one before.
-  const isRead = (e: LogEntry | undefined) => e?.kind === "decision" && "verb" in e.answers;
-  let readAhead = false;
   for (const [i, e] of log.entries()) {
     const at = clockWords(e.t);
     if (isRead(e)) {
-      flushWait(e.t);
-      input = log.slice(i + 1).find((n) => n.kind === "input")?.text ?? input;
-      readAhead = true;
+      flushWait(snags, state, e.t);
+      state.input = log.slice(i + 1).find((n) => n.kind === "input")?.text ?? state.input;
+      state.readAhead = true;
     }
-    if (e.kind === "input") {
-      if (!readAhead) flushWait(e.t);
-      readAhead = false;
-      if (e.via === "flagged") {
-        const why = (e.action as { message?: string } | null)?.message;
-        snags.push({
-          kind: "flagged by the player",
-          night,
-          at,
-          input,
-          detail: why ? `the player said: "${why}"` : "the player said this turn went wrong",
-        });
-        continue;
-      }
-      input = e.text;
-      const message = (e.action as { message?: string } | null)?.message ?? "";
-      if (e.via === "unparsed")
-        snags.push({ kind: "not understood", night, at, input, detail: message });
-      if (e.via === "clarify")
-        snags.push({ kind: "had to ask back", night, at, input, detail: message });
-    } else if (e.kind === "decision") {
-      waited += e.latencyMs;
-      if (e.source === "fallback")
-        snags.push({
-          kind: "judge unreachable",
-          night,
-          at,
-          input,
-          detail: Object.keys(e.answers).join(", "),
-        });
-      for (const [id, a] of Object.entries(e.answers))
-        if (a.type === "choice" && a.choice === NONE && NONE_IS_A_SNAG.has(id))
-          snags.push({
-            kind: "judge chose none",
-            night,
-            at,
-            input,
-            detail: `${id}: the offered options did not fit (${Object.entries(a.probabilities)
-              .sort((x, y) => y[1] - x[1])
-              .slice(0, 3)
-              .map(([k, p]) => `${k} ${p.toFixed(2)}`)
-              .join(", ")})`,
-          });
-    } else if (e.kind === "dropped")
-      snags.push({ kind: "stale decision", night, at, input, detail: e.reasons.join("; ") });
+    if (e.kind === "input") handleInput(snags, state, e, at);
+    else if (e.kind === "decision") handleDecision(snags, state, e, at);
+    else if (e.kind === "dropped")
+      snags.push({
+        kind: "stale decision",
+        night,
+        at,
+        input: state.input,
+        detail: e.reasons.join("; "),
+      });
     else if (e.kind === "rejected")
-      snags.push({ kind: "illegal effect", night, at, input, detail: e.reasons.join("; ") });
+      snags.push({
+        kind: "illegal effect",
+        night,
+        at,
+        input: state.input,
+        detail: e.reasons.join("; "),
+      });
   }
-  flushWait(log.at(-1)?.t ?? 0);
+  flushWait(snags, state, log.at(-1)?.t ?? 0);
   return snags;
 }
 

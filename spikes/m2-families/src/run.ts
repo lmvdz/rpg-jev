@@ -50,7 +50,7 @@ function mass(answer: JudgeAnswer | undefined, option: string): number {
 
 /** Total variation distance between two answers to the same question. */
 function distance(a: JudgeAnswer | undefined, b: JudgeAnswer | undefined): number {
-  if (!a || !b) return Number.NaN;
+  if (!(a && b)) return Number.NaN;
   if (a.type === "noul" && b.type === "noul") return Math.abs(a.noul - b.noul);
   if (a.type !== "choice" || b.type !== "choice") return Number.NaN;
   const keys = new Set([...Object.keys(a.probabilities), ...Object.keys(b.probabilities)]);
@@ -138,7 +138,7 @@ for (const probe of probes) {
     if (probe.expect?.question === q) {
       const p = mass(a, probe.expect.option);
       const { min, max } = probe.expect;
-      expectation = `${probe.expect.option} ${min !== undefined ? `>= ${min}` : `<= ${max}`}`;
+      expectation = `${probe.expect.option} ${min === undefined ? `<= ${max}` : `>= ${min}`}`;
       met = (min === undefined || p >= min) && (max === undefined || p <= max) ? "yes" : "NO";
     }
     lines.push(

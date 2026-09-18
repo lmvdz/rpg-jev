@@ -3,9 +3,17 @@
  * M0 found the judge's spread only moderately human-like, so the spread is one
  * input here and not the mechanism.
  */
-import type { Actor } from "./types.ts";
+import type { Actor, Drive } from "./types.ts";
 
 export type Lever = "reason" | "payment" | "threat" | "appeal";
+
+/** Base openness per lever, drawn from the NPC's drives. */
+const LEVER_BASE: Record<Lever, (d: Record<Drive, number>) => number> = {
+  payment: (d) => 0.25 + 0.5 * d.greed + 0.15 * d.obligation - 0.2 * d.suspicion,
+  threat: (d) => 0.15 + 0.6 * d.fear - 0.2 * d.trust,
+  appeal: (d) => 0.2 + 0.4 * d.obligation + 0.3 * d.trust - 0.2 * d.fear,
+  reason: (d) => 0.2 + 0.5 * d.trust - 0.3 * d.suspicion,
+};
 
 /**
  * How open this NPC is to being moved by this lever, from 0 to 1.
@@ -13,15 +21,7 @@ export type Lever = "reason" | "payment" | "threat" | "appeal";
  * means the judge is torn, which makes them a little easier to move.
  */
 export function persuadability(actor: Actor, lever: Lever, noul: number): number {
-  const d = actor.drives;
-  const base =
-    lever === "payment"
-      ? 0.25 + 0.5 * d.greed + 0.15 * d.obligation - 0.2 * d.suspicion
-      : lever === "threat"
-        ? 0.15 + 0.6 * d.fear - 0.2 * d.trust
-        : lever === "appeal"
-          ? 0.2 + 0.4 * d.obligation + 0.3 * d.trust - 0.2 * d.fear
-          : 0.2 + 0.5 * d.trust - 0.3 * d.suspicion;
+  const base = LEVER_BASE[lever](actor.drives);
   const torn = 1 - Math.abs(noul - 0.5) * 2;
   return Math.min(1, Math.max(0, base + 0.2 * torn));
 }

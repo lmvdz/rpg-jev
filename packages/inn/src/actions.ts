@@ -4,6 +4,7 @@
  * people in the room take it, through `reactToDeed` and the combat stub.
  */
 import {
+  type Actor,
   type Claim,
   COMBAT_RESPONSES,
   type LogId,
@@ -142,7 +143,7 @@ function unlock(g: Game, room: string, withItem: string | null, root: LogId): bo
     return false;
   }
   const key = KEYS[exit.door];
-  if (!key || !holds(g, key) || (withItem !== null && withItem !== key)) {
+  if (!(key && holds(g, key)) || (withItem !== null && withItem !== key)) {
     g.say(withItem ? "That key does not fit." : "It is locked, and you have nothing that fits it.");
     return false;
   }
@@ -219,6 +220,43 @@ async function take(g: Game, item: string, root: LogId): Promise<number> {
   return 1;
 }
 
+/** A search of a searchable thing: reveals what it holds, and becomes a deed unless it is the latch. */
+function search(
+  g: Game,
+  target: string,
+  machine: string,
+  root: LogId,
+): { id: LogId; deed: Claim | null } {
+  const id = g.commit(
+    { kind: "set_node", target: { type: "machine", id: machine }, to: "searched" },
+    root,
+  );
+  const revealed = Object.values(g.world.items).filter(
+    (i) => "inside" in i.at && i.at.inside === target && isVisible(g.world, i.id),
+  );
+  if (target === "barrel")
+    g.say(
+      revealed.length > 0
+        ? "You push your arm in to the elbow. Your fingers close on oilcloth: a bundle, buried deep."
+        : "You push your arm in to the elbow and find a hollow, freshly dug, and nothing in it. Someone got here first.",
+    );
+  if (target === "coat") g.say("In the inside pocket, something clicks like teeth.");
+  if (revealed.length > 0) g.say(`You find ${revealed.map((i) => i.name).join(" and ")}.`);
+  if (target === "latch") return { id, deed: null };
+  const deed = g.happened(
+    { subject: PLAYER, predicate: "searched", object: target, severity: target === "coat" ? 2 : 1 },
+    id,
+  );
+  return { id, deed };
+}
+
+/** What examining certain things teaches you outright, from your own eyes. */
+function learnFromExamine(g: Game, target: string, id: LogId): void {
+  if (target === "latch") g.learn(PLAYER, C_LATCH, 1, { kind: "witnessed" }, id);
+  if (target === "apron") g.learn(PLAYER, C_APRON, 1, { kind: "witnessed" }, id);
+  if (target === "markers") g.learn(PLAYER, C_ODO_GAMBLES, 1, { kind: "witnessed" }, id);
+}
+
 async function examine(g: Game, target: string, root: LogId): Promise<number> {
   if (g.world.actors[target]) {
     const a = g.world.actors[target];
@@ -229,36 +267,9 @@ async function examine(g: Game, target: string, root: LogId): Promise<number> {
   const machine = SEARCHABLE[target];
   let id = root;
   let deed: Claim | null = null;
-  if (machine && g.world.machines[machine]?.node === "unsearched") {
-    id = g.commit(
-      { kind: "set_node", target: { type: "machine", id: machine }, to: "searched" },
-      root,
-    );
-    const revealed = Object.values(g.world.items).filter(
-      (i) => "inside" in i.at && i.at.inside === target && isVisible(g.world, i.id),
-    );
-    if (target === "barrel")
-      g.say(
-        revealed.length > 0
-          ? "You push your arm in to the elbow. Your fingers close on oilcloth: a bundle, buried deep."
-          : "You push your arm in to the elbow and find a hollow, freshly dug, and nothing in it. Someone got here first.",
-      );
-    if (target === "coat") g.say("In the inside pocket, something clicks like teeth.");
-    if (revealed.length > 0) g.say(`You find ${revealed.map((i) => i.name).join(" and ")}.`);
-    if (target !== "latch")
-      deed = g.happened(
-        {
-          subject: PLAYER,
-          predicate: "searched",
-          object: target,
-          severity: target === "coat" ? 2 : 1,
-        },
-        id,
-      );
-  }
-  if (target === "latch") g.learn(PLAYER, C_LATCH, 1, { kind: "witnessed" }, id);
-  if (target === "apron") g.learn(PLAYER, C_APRON, 1, { kind: "witnessed" }, id);
-  if (target === "markers") g.learn(PLAYER, C_ODO_GAMBLES, 1, { kind: "witnessed" }, id);
+  if (machine && g.world.machines[machine]?.node === "unsearched")
+    ({ id, deed } = search(g, target, machine, root));
+  learnFromExamine(g, target, id);
   if (deed) {
     const seen = g.witness(deed, g.playerRoom, id);
     if (seen.length > 0) await reactToDeed(g, deed, seen, id);
@@ -266,19 +277,15 @@ async function examine(g: Game, target: string, root: LogId): Promise<number> {
   return machine ? 4 : 2;
 }
 
-async function give(
-  g: Game,
-  action: Extract<Action, { verb: "give" }>,
-  root: LogId,
-): Promise<number> {
+function give(g: Game, action: Extract<Action, { verb: "give" }>, root: LogId): Promise<number> {
   const to = g.world.actors[action.to];
-  if (!to) return 0;
+  if (!to) return Promise.resolve(0);
   if (action.item === COINS) {
     const owes = action.topic.kind === "claim" && action.topic.id === C_TOBIN_OWES.id;
     const amount = owes ? TOBINS_DEBT : 2;
     if ((g.world.actors[PLAYER]?.coins ?? 0) < amount) {
       g.say("You have not got that much.");
-      return 0;
+      return Promise.resolve(0);
     }
     const id = g.commit({ kind: "pay", from: PLAYER, to: action.to, coins: amount }, root);
     if (owes && action.to === ODO) {
@@ -313,7 +320,7 @@ async function give(
       g.say(`You press ${amount} silver on ${to.name}, who takes it without a word.`);
       g.nudge(action.to, { obligation: 0.1, trust: 0.05 }, id);
     }
-    return 2;
+    return Promise.resolve(2);
   }
   if (action.item === "ledger" && action.to === MARA)
     return playerSpeaks(
@@ -324,7 +331,7 @@ async function give(
     );
   g.commit({ kind: "transfer", item: action.item, to: { holder: action.to } }, root);
   g.say(`You hand ${g.world.items[action.item]?.name ?? "it"} to ${to.name}.`);
-  return 1;
+  return Promise.resolve(1);
 }
 
 const RESPONSE_WORDS: Record<(typeof COMBAT_RESPONSES)[number], string> = {
@@ -335,26 +342,29 @@ const RESPONSE_WORDS: Record<(typeof COMBAT_RESPONSES)[number], string> = {
   do_nothing: "Stands there and takes it",
 };
 
-async function attack(g: Game, target: string, root: LogId): Promise<number> {
-  const victim = g.world.actors[target];
-  if (!victim) return 0;
-  const armed = false;
+/** Neglect is a rule, not a line: a body that has not eaten or slept takes blows harder. */
+function harderFrom(g: Game, who: string): number {
+  const body = g.world.actors[who];
+  return body && weakened(body) ? 1 : 0;
+}
+
+/** The player's blow lands or doesn't; either way it is a deed, and everyone who saw it owes Mara the tale. */
+function landBlow(
+  g: Game,
+  target: string,
+  victim: Actor,
+  root: LogId,
+): { blow: ReturnType<typeof resolveBlow>; id: LogId } {
   const blow = resolveBlow(
     g.store.draw("player hit", root),
     g.store.draw("player damage", root),
-    armed,
+    false,
   );
   g.say(blow.hit ? `You hit ${victim.name}. It lands.` : `You swing at ${victim.name} and miss.`);
-  // Neglect is a rule, not a line: a body that has not eaten or slept takes blows harder.
-  const harder = (who: string) => {
-    const body = g.world.actors[who];
-    return body && weakened(body) ? 1 : 0;
-  };
   const id = blow.hit
-    ? g.commit({ kind: "damage", target, amount: blow.damage + harder(target) }, root)
+    ? g.commit({ kind: "damage", target, amount: blow.damage + harderFrom(g, target) }, root)
     : root;
   const deed = g.happened({ subject: PLAYER, predicate: "attacked", to: target, severity: 2 }, id);
-  // Nobody shrugs off a blow: everyone who saw it owes Mara the tale, the victim first.
   for (const npc of g.witness(deed, g.playerRoom, id)) owe(g, npc, { ...deed, severity: 3 }, id);
   if (!g.world.debts.eject)
     g.commit(
@@ -368,23 +378,24 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
           magnitude: 3,
           // First playtest: the player hit Odo in front of Mara and she asked about a key.
           // What she sees herself she answers at once; hearsay takes its usual few minutes.
-          fuse: {
-            due: g.world.clock + (g.maraIsHere() ? 0 : 6),
-            expires: g.world.clock + 240,
-          },
+          fuse: { due: g.world.clock + (g.maraIsHere() ? 0 : 6), expires: g.world.clock + 240 },
           status: "pending",
           data: {},
         },
       },
       id,
     );
-  if (!g.world.actors[target]?.alive) {
-    g.say(`${victim.name} goes down and does not get up.`);
-    g.commit({ kind: "set_node", target: { type: "machine", id: "quest" }, to: "condemned" }, id);
-    return 1;
-  }
+  return { blow, id };
+}
 
-  // The judge picks the response from the closed list; every number stays in code.
+/** The judge picks the response from the closed list; every number stays in code. */
+async function chooseResponse(
+  g: Game,
+  target: string,
+  victim: Actor,
+  blow: ReturnType<typeof resolveBlow>,
+  id: LogId,
+): Promise<{ response: string | null; cause: LogId }> {
   const options: Option[] = COMBAT_RESPONSES.map((r) => ({
     id: r,
     description: RESPONSE_WORDS[r],
@@ -407,49 +418,98 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
   const response = decision
     ? g.sampleChoice(decision.answers.respond, "combat response", decision.id)
     : null;
-  const cause = decision?.id ?? id;
-  if (response === "strike") {
-    const back = resolveBlow(
-      g.store.draw("npc hit", cause),
-      g.store.draw("npc damage", cause),
-      false,
-    );
-    g.say(
-      back.hit
-        ? `${victim.name} hits you back, hard.`
-        : `${victim.name} swings back wildly and misses.`,
-    );
-    if (back.hit)
-      g.commit({ kind: "damage", target: PLAYER, amount: back.damage + harder(PLAYER) }, cause);
-    if ((g.world.actors[PLAYER]?.hp ?? 1) <= 0) {
-      g.say("The floor comes up to meet you.");
-      g.commit(
-        { kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" },
-        cause,
-      );
-    }
-  } else if (response === "shove") g.say(`${victim.name} shoves you off and backs away, hands up.`);
-  else if (response === "flee" || response === "call_for_help") {
-    if (response === "call_for_help")
-      g.say(`${victim.name} shouts for Mara at the top of their lungs.`);
-    const refuge = target === MARA ? "kitchen" : "common_room";
-    const to = g.playerRoom === refuge ? "yard" : refuge;
-    if (response === "flee") g.say(`${victim.name} bolts.`);
+  return { response, cause: decision?.id ?? id };
+}
+
+/** The victim strikes back, and a knockdown ends the night. */
+function strikeBack(g: Game, victim: Actor, cause: LogId): void {
+  const back = resolveBlow(
+    g.store.draw("npc hit", cause),
+    g.store.draw("npc damage", cause),
+    false,
+  );
+  g.say(
+    back.hit
+      ? `${victim.name} hits you back, hard.`
+      : `${victim.name} swings back wildly and misses.`,
+  );
+  if (back.hit)
     g.commit(
-      {
-        kind: "apply_override",
-        group: response === "flee" ? [target] : [MARA],
-        entry: {
-          id: `after_blow_${cause}`,
-          activity: response === "flee" ? "keeping_clear" : "answering_call",
-          at_location: response === "flee" ? to : g.playerRoom,
-          at: g.world.clock,
-          until: g.world.clock + (response === "flee" ? 40 : 12),
-          cause: null,
-        },
-      },
+      { kind: "damage", target: PLAYER, amount: back.damage + harderFrom(g, PLAYER) },
       cause,
     );
-  } else g.say(`${victim.name} just stares at you, a hand to ${theirOf(target)} face.`);
+  if ((g.world.actors[PLAYER]?.hp ?? 1) <= 0) {
+    g.say("The floor comes up to meet you.");
+    g.commit(
+      { kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" },
+      cause,
+    );
+  }
+}
+
+/** The victim (or Mara, called for) leaves the room, and the schedule keeps them clear of it. */
+function runOff(
+  g: Game,
+  target: string,
+  victim: Actor,
+  response: "flee" | "call_for_help",
+  cause: LogId,
+): void {
+  if (response === "call_for_help")
+    g.say(`${victim.name} shouts for Mara at the top of their lungs.`);
+  const refuge = target === MARA ? "kitchen" : "common_room";
+  const to = g.playerRoom === refuge ? "yard" : refuge;
+  if (response === "flee") g.say(`${victim.name} bolts.`);
+  g.commit(
+    {
+      kind: "apply_override",
+      group: response === "flee" ? [target] : [MARA],
+      entry: {
+        id: `after_blow_${cause}`,
+        activity: response === "flee" ? "keeping_clear" : "answering_call",
+        at_location: response === "flee" ? to : g.playerRoom,
+        at: g.world.clock,
+        until: g.world.clock + (response === "flee" ? 40 : 12),
+        cause: null,
+      },
+    },
+    cause,
+  );
+}
+
+/** What the room does about the blow, once the judge has picked from the list. */
+function applyResponse(
+  g: Game,
+  target: string,
+  victim: Actor,
+  response: string | null,
+  cause: LogId,
+): void {
+  if (response === "strike") {
+    strikeBack(g, victim, cause);
+    return;
+  }
+  if (response === "shove") {
+    g.say(`${victim.name} shoves you off and backs away, hands up.`);
+    return;
+  }
+  if (response === "flee" || response === "call_for_help") {
+    runOff(g, target, victim, response, cause);
+    return;
+  }
+  g.say(`${victim.name} just stares at you, a hand to ${theirOf(target)} face.`);
+}
+
+async function attack(g: Game, target: string, root: LogId): Promise<number> {
+  const victim = g.world.actors[target];
+  if (!victim) return 0;
+  const { blow, id } = landBlow(g, target, victim, root);
+  if (!g.world.actors[target]?.alive) {
+    g.say(`${victim.name} goes down and does not get up.`);
+    g.commit({ kind: "set_node", target: { type: "machine", id: "quest" }, to: "condemned" }, id);
+    return 1;
+  }
+  const { response, cause } = await chooseResponse(g, target, victim, blow, id);
+  applyResponse(g, target, victim, response, cause);
   return 1;
 }

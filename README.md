@@ -48,7 +48,7 @@ Packages planned in the spec (`server`, `author`, `client`) are added when their
 
 | Command | Does |
 | --- | --- |
-| `pnpm check` | Lint, typecheck and tests. Tests run offline against recorded judge answers |
+| `pnpm check` | Lint, typecheck and tests. Tests run offline against recorded judge answers. The lint is strict (complexity, length, nested ternaries, unused code) and the tests include a ratchet on character names in engine code and coverage over every verb, thing, deed, voice and activity |
 | `pnpm play` | Play the inn |
 | `pnpm demo` | Play the fixed script against live Jev; write `demo/transcript.md` and `demo/metrics.json` |
 | `pnpm demo --record` | As above, and re-record `demo/recordings.json` for the offline test. Do this after changing a slice, a question or the content |

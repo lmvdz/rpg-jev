@@ -5,6 +5,7 @@
  * rendered, never by the world's RNG, so prose cannot change world state.
  */
 import {
+  type Actor,
   type BeliefSource,
   beliefIn,
   hashText,
@@ -92,7 +93,7 @@ export function describeRoom(world: World): string {
     if (a.kind === "npc" && a.present && a.alive && a.room === here)
       lines.push(`${a.name} is here, ${ACTIVITY[a.activity] ?? a.activity}.`);
   const things = Object.values(world.items).filter((i) => {
-    if (!isVisible(world, i.id) || !i.takeable) return false;
+    if (!(isVisible(world, i.id) && i.takeable)) return false;
     if ("room" in i.at) return i.at.room === here;
     if ("inside" in i.at) {
       const holder = world.items[i.at.inside];
@@ -234,61 +235,86 @@ const SPECIAL: Record<string, Record<string, readonly string[]>> = {
   },
 };
 
-export function renderTurn(world: World, turn: Turn): string {
-  const { intent } = turn;
-  const speaker = world.actors[intent.speaker];
-  const name = speaker?.name ?? intent.speaker;
-  const variants = VOICE[intent.speaker]?.[intent.act] ?? ["..."];
-  let line = choose(variants, intent.id);
-
-  const voice = { speaker: intent.speaker, listener: intent.listener };
+/** Fills {cite}/{c}/{when} from the claim being spoken of, or falls back to "I know nothing". */
+function substituteClaim(
+  world: World,
+  intent: SpeechIntent,
+  line: string,
+  voice: { speaker: string; listener: string },
+): string {
   if (intent.topic.kind === "claim") {
     const claim = world.claims[intent.topic.id];
     // A garbled retelling is cited the way the speaker came by the version they held.
     const belief =
       beliefIn(world, intent.speaker, intent.topic.id) ??
       (claim?.derivedFrom ? beliefIn(world, intent.speaker, claim.derivedFrom) : undefined);
-    if (claim) {
-      line = line
-        .replace("{cite}", cite(world, belief?.edge.source))
-        .replace("{c}", claimClause(world, claim, voice))
-        .replace(" {when}", whenFor(claim, world.clock));
-      if (intent.act === "ask") line = `Is it true that ${claimClause(world, claim, voice)}?`;
-    }
-  } else if (intent.act === "tell" || intent.act === "confide" || intent.act === "accuse") {
-    line =
-      intent.topic.kind === "whereabouts"
-        ? "Couldn't tell you where. I've not seen them."
-        : choose(["I know nothing about that.", "Couldn't tell you."], intent.id);
+    if (!claim) return line;
+    const filled = line
+      .replace("{cite}", cite(world, belief?.edge.source))
+      .replace("{c}", claimClause(world, claim, voice))
+      .replace(" {when}", whenFor(claim, world.clock));
+    return intent.act === "ask" ? `Is it true that ${claimClause(world, claim, voice)}?` : filled;
   }
+  if (intent.act !== "tell" && intent.act !== "confide" && intent.act !== "accuse") return line;
+  if (intent.topic.kind === "whereabouts") return "Couldn't tell you where. I've not seen them.";
+  return choose(["I know nothing about that.", "Couldn't tell you."], intent.id);
+}
+
+/** A request has a fixed line by key; an entity topic fills {topic}; anything left over is "that". */
+function substituteTopic(
+  world: World,
+  intent: SpeechIntent,
+  line: string,
+  voice: { speaker: string; listener: string },
+): string {
+  let out = line;
   if (intent.topic.kind === "request") {
     const key = intent.topic.id.split(":")[0] ?? "";
     const special = SPECIAL[intent.speaker]?.[key];
-    if (special) line = choose(special, intent.id);
+    if (special) out = choose(special, intent.id);
   }
   if (intent.topic.kind === "entity") {
     const topic = TOPIC_NAMES[intent.topic.id] ?? nameOf(world, intent.topic.id, voice);
-    line = line.replace("{topic}", world.items[intent.topic.id]?.name ?? topic);
+    out = out.replace("{topic}", world.items[intent.topic.id]?.name ?? topic);
   }
-  line = line.replace("{topic}", "that").replace(/\s+([.,?])/g, "$1");
-  line = line.replace(
+  return out.replace("{topic}", "that").replace(/\s+([.,?])/g, "$1");
+}
+
+/** Sentence case after every "." "?" "!", but not after an ellipsis. */
+function capitalizeSentences(line: string): string {
+  return line.replace(
     /(^|(?<!\.\.)[.?!] )([a-z])/g,
     (_m, lead: string, ch: string) => lead + ch.toUpperCase(),
   );
+}
 
-  const toWhom = intent.listener === PLAYER ? "" : ` to ${nameOf(world, intent.listener)}`;
+/** "says", "mumbles, not grinning now", "says quietly": what a line sounds like leaving the mouth. */
+function mannerFor(speaker: Actor | undefined, intent: SpeechIntent) {
   // Nobody grins with a split lip, or while making a threat.
   const shaken = (speaker?.hp ?? 1) < (speaker?.maxHp ?? 1) || (speaker?.drives.fear ?? 0) >= 0.6;
   const plainly = shaken || intent.act === "threaten" || intent.act === "refuse";
-  const mannerOf =
-    intent.act === "confide"
-      ? "says quietly"
-      : plainly && intent.speaker === ODO
-        ? "says, not grinning now"
-        : (MANNER[intent.speaker] ?? "says");
+  let mannerOf = MANNER[intent.speaker] ?? "says";
+  if (intent.act === "confide") mannerOf = "says quietly";
+  else if (plainly && intent.speaker === ODO) mannerOf = "says, not grinning now";
   // "says to Mara, grinning", not "says, grinning to Mara".
   const [manner = "says", aside] = mannerOf.split(", ");
-  const how = aside ? `, ${aside}` : "";
+  return { manner, how: aside ? `, ${aside}` : "" };
+}
+
+export function renderTurn(world: World, turn: Turn): string {
+  const { intent } = turn;
+  const speaker = world.actors[intent.speaker];
+  const name = speaker?.name ?? intent.speaker;
+  const variants = VOICE[intent.speaker]?.[intent.act] ?? ["..."];
+  const voice = { speaker: intent.speaker, listener: intent.listener };
+
+  let line = choose(variants, intent.id);
+  line = substituteClaim(world, intent, line, voice);
+  line = substituteTopic(world, intent, line, voice);
+  line = capitalizeSentences(line);
+
+  const toWhom = intent.listener === PLAYER ? "" : ` to ${nameOf(world, intent.listener)}`;
+  const { manner, how } = mannerFor(speaker, intent);
   const working = turn.whileWorking
     ? `, still ${ACTIVITY[speaker?.activity ?? ""] ?? "working"}`
     : "";

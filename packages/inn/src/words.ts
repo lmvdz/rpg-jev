@@ -118,6 +118,12 @@ function person(id: string, voice: Voice): "first" | "second" | "third" {
   return "third";
 }
 
+/** Picks a word by grammatical person: third-person's own word, or "I"/"you" style stand-ins. */
+function byPerson<T>(who: "first" | "second" | "third", third: T, first: T, second: T): T {
+  if (who === "third") return third;
+  return who === "first" ? first : second;
+}
+
 export function nameOf(world: World, id: string, voice: Voice = {}): string {
   const who = person(id, voice);
   if (who === "first") return "I";
@@ -136,7 +142,9 @@ function objectName(world: World, id: string | undefined, voice: Voice): string 
   if (id === undefined) return "it";
   if (world.actors[id]) {
     const who = person(id, voice);
-    return who === "first" ? "me" : who === "second" ? "you" : nameOf(world, id);
+    if (who === "first") return "me";
+    if (who === "second") return "you";
+    return nameOf(world, id);
   }
   // Odo does not say "Odo's coat". Only spoken lines carry a voice, so judge text is unchanged.
   const owner = OWNED[id];
@@ -153,13 +161,10 @@ export function verbPhrase(world: World, claim: Claim, voice: Voice = {}): strin
   const fill = (text: string) =>
     text
       .replace("{be}", who === "second" ? "were" : "was")
-      .replace("{they}", who === "third" ? they : who === "first" ? "I" : "you")
-      .replace("{their}", who === "third" ? their : who === "first" ? "my" : "your")
-      .replace("{them}", who === "third" ? them : who === "first" ? "me" : "you")
-      .replace(
-        "{themselves}",
-        who === "third" ? themselves : who === "first" ? "myself" : "yourself",
-      )
+      .replace("{they}", byPerson(who, they, "I", "you"))
+      .replace("{their}", byPerson(who, their, "my", "your"))
+      .replace("{them}", byPerson(who, them, "me", "you"))
+      .replace("{themselves}", byPerson(who, themselves, "myself", "yourself"))
       .replace("{obj}", objectName(world, claim.object, voice))
       .replace("{to}", objectName(world, claim.to, voice))
       .replace("{place}", claim.place ? (world.rooms[claim.place]?.name ?? claim.place) : "there");
@@ -212,7 +217,11 @@ const STANCE: Record<string, string> = {
   loyal: "trusting; on the stranger's side",
 };
 
-const level = (n: number) => (n >= 0.7 ? "high" : n >= 0.4 ? "some" : "little");
+function level(n: number): string {
+  if (n >= 0.7) return "high";
+  if (n >= 0.4) return "some";
+  return "little";
+}
 
 export function feelingWords(actor: Actor, stance: string | undefined): string {
   const drives: Drive[] = ["trust", "fear", "suspicion"];

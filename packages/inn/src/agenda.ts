@@ -28,6 +28,7 @@ import {
   pickDistortion,
   pickSpeechAct,
   questGuard,
+  type Slice,
   stakeInClaim,
 } from "@rpg-jev/jev";
 import {
@@ -71,7 +72,7 @@ async function meetings(g: Game, cause: LogId): Promise<void> {
     for (const second of NPCS.slice(i + 1)) {
       const a = g.world.actors[first];
       const b = g.world.actors[second];
-      if (!a?.alive || !b?.alive || !a.present || !b.present || a.room !== b.room) continue;
+      if (!(a?.alive && b?.alive && a.present && b.present) || a.room !== b.room) continue;
       const pair = [first, second].sort().join("+");
       const last = g.log.findLast(
         (e) => e.kind === "stimulus" && e.what === "gossip" && e.data.pair === pair,
@@ -255,16 +256,17 @@ export async function gossip(
   return true;
 }
 
+/** How the listener stands to the person the tale is about, from the teller's side. */
+function tieWords(from: string, other: string): string {
+  if (other === MARA) return "their employer";
+  if (from === MARA) return "who works for her";
+  return "who works alongside them";
+}
+
 function relationOf(g: Game, from: string, other: string, claim: Claim): string {
   const name = nameOf(g.world, other);
   const about = claim.subject === other ? ", the very person the story is about" : "";
-  const tie =
-    other === MARA
-      ? "their employer"
-      : from === MARA
-        ? "who works for her"
-        : "who works alongside them";
-  return `${name}, ${tie}, ${standing(g.world, from, other)}${about}`;
+  return `${name}, ${tieWords(from, other)}, ${standing(g.world, from, other)}${about}`;
 }
 
 // --- Debts coming due -----------------------------------------------------------
@@ -331,424 +333,475 @@ const ledgerIn = (g: Game, container: string) => {
   return Boolean(at && "inside" in at && at.inside === container);
 };
 
-async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
-  const who = g.world.actors[debt.stakeholder];
-  if (!who?.alive || !who.present) {
+const playerHere = (g: Game, room: string) => g.playerRoom === room;
+
+/** Odo burns what he finds, or leaves it: the judge picks, and code carries out the choice. */
+async function burnLedgerInBarrel(
+  g: Game,
+  debt: Debt,
+  cause: LogId,
+  burning: boolean,
+): Promise<void> {
+  if (!burning) {
+    goTo(g, ODO, "cellar", "checking_cellar", 6, cause);
+    settle(g, debt, cause);
+    return;
+  }
+  const watched = playerHere(g, "cellar") || playerHere(g, "kitchen");
+  const { choice, id } = await choose(
+    g,
+    ODO,
+    `The house is quiet. The ledger is still buried in the flour barrel. ${watched ? "The stranger is close by and would see what Odo does." : "Nobody is near the kitchen or the cellar."}`,
+    [
+      {
+        id: "burn_it",
+        description: watched
+          ? "Fetches the ledger and burns it in the kitchen hearth even though the stranger would see"
+          : "Fetches the ledger and burns it in the kitchen hearth",
+      },
+      { id: "leave_it", description: "Leaves the ledger where it is for now" },
+    ],
+    "burn_it",
+    cause,
+  );
+  if (choice === "burn_it") {
+    const burned = g.commit({ kind: "transfer", item: "ledger", to: { room: "ashes" } }, id);
+    const apron = g.world.items.apron?.at;
+    if (apron && "inside" in apron)
+      g.commit({ kind: "transfer", item: "apron", to: { room: "ashes" } }, burned);
+    g.commit(
+      { kind: "set_node", target: { type: "machine", id: "ledger_fate" }, to: "burned" },
+      burned,
+    );
+    goTo(g, ODO, "kitchen", "burning", 10, burned);
+    if (watched) {
+      g.say(
+        "Odo comes up from the cellar with a floury bundle, glances at you, and feeds it to the hearth anyway. Pages curl. It is the ledger.",
+      );
+      const deed = g.happened(
+        { subject: ODO, predicate: "burned", object: "ledger", place: "kitchen", severity: 3 },
+        burned,
+      );
+      g.learn(PLAYER, deed, 1, { kind: "witnessed" }, burned);
+    }
+  }
+  settle(g, debt, id);
+}
+
+/** The ledger is already back under Mara's hand: insisting the stranger has it shows Odo knew where it was not. */
+function odoAccusesIntoTheVoid(g: Game, id: LogId): void {
+  goTo(g, ODO, g.world.actors[MARA]?.room ?? "common_room", "reporting", 8, id);
+  const slip = g.happened({ subject: ODO, predicate: "slipped", to: MARA, severity: 3 }, id);
+  g.learn(MARA, slip, 1, { kind: "witnessed" }, id);
+  if (g.maraIsHere()) {
+    g.say(
+      "Odo comes through at a trot, red in the face. \"Search that one's pack, Mara, now. They have your ledger, I'd stake my life on it.\"",
+    );
+    g.say(
+      "Mara does not look at you. She looks at Odo, and then down at the ledger under her own hand, which nobody has told him about.",
+    );
+    g.learn(PLAYER, slip, 1, { kind: "witnessed" }, id);
+  }
+}
+
+function odoAccusesLouder(g: Game, quest: string | undefined, id: LogId): void {
+  if (g.world.machines.ledger_fate?.node === "returned") {
+    odoAccusesIntoTheVoid(g, id);
+    return;
+  }
+  const search = g.world.debts.mara_search;
+  if (search?.status === "pending")
+    g.commit({ kind: "settle_debt", id: search.id, status: "cancelled" }, id);
+  if (quest === "suspected")
+    g.commit(
+      {
+        kind: "create_debt",
+        debt: {
+          id: `mara_search_${id}`,
+          cause: id,
+          stakeholder: MARA,
+          kind: "search_pack",
+          magnitude: 3,
+          fuse: { due: g.world.clock + 4 },
+          status: "pending",
+          data: { urged_by: ODO },
+        },
+      },
+      id,
+    );
+  if (playerHere(g, g.world.actors[MARA]?.room ?? ""))
+    g.say(
+      "Odo comes through at a trot, red in the face, and says something low and urgent in Mara's ear. She looks straight at you.",
+    );
+}
+
+function odoFlees(g: Game, id: LogId): void {
+  if (playerHere(g, g.world.actors[ODO]?.room ?? ""))
+    g.say(
+      "Odo takes his coat off its peg, looks once round the kitchen, and goes out into the rain without a word.",
+    );
+  const gone = g.commit({ kind: "retire", actor: ODO }, id);
+  const deed = g.happened({ subject: ODO, predicate: "fled", severity: 3 }, gone);
+  for (const npc of [MARA, TOBIN]) g.learn(npc, deed, 1, { kind: "witnessed" }, gone);
+  g.learn(PLAYER, deed, 0.9, { kind: "witnessed" }, gone);
+  g.say("Somewhere at the back of the house a door bangs, and does not bang again.");
+}
+
+function odoConfesses(g: Game, id: LogId): void {
+  goTo(g, ODO, g.world.actors[MARA]?.room ?? "common_room", "reporting", 10, id);
+  g.learn(MARA, C_ODO_TOOK, 1, { kind: "told", from: ODO }, id);
+  if (g.maraIsHere())
+    g.say(
+      "Odo comes in wiping his hands, stands in front of Mara, and says it all at once: he took the ledger, he took it to hide two years of skimming, and he is sorry. Mara does not move for a long moment.",
+    );
+}
+
+/** The hiding place is empty. What Odo does next is his to choose. */
+async function hidingPlaceEmpty(
+  g: Game,
+  debt: Debt,
+  cause: LogId,
+  quest: string | undefined,
+): Promise<void> {
+  goTo(g, ODO, "cellar", "checking_cellar", 4, cause);
+  const stimulus = g.store.append({ kind: "stimulus", what: "odo_found_it_gone", data: {} }, cause);
+  const { choice, id } = await choose(
+    g,
+    ODO,
+    "Odo has just dug through the flour barrel and the ledger is gone. Someone has found it. Mara is somewhere in the house.",
+    [
+      {
+        id: "accuse_louder",
+        description:
+          "Goes to Mara and insists the stranger has the ledger and must be searched at once",
+      },
+      { id: "flee", description: "Takes his coat and slips out into the rain, abandoning the inn" },
+      { id: "confess", description: "Goes to Mara and admits what he did" },
+      { id: "carry_on", description: "Goes back to his pots and acts as if nothing has happened" },
+    ],
+    "carry_on",
+    stimulus,
+  );
+  if (choice === "accuse_louder") odoAccusesLouder(g, quest, id);
+  else if (choice === "flee") odoFlees(g, id);
+  else if (choice === "confess") odoConfesses(g, id);
+  settle(g, debt, id);
+}
+
+/** Whether the ledger is buried or already gone, what Odo does about it is his to choose. */
+async function handleHidingPlace(
+  g: Game,
+  debt: Debt,
+  cause: LogId,
+  quest: string | undefined,
+): Promise<void> {
+  const burning = debt.kind === "burn_ledger";
+  if (ledgerIn(g, "barrel")) {
+    await burnLedgerInBarrel(g, debt, cause, burning);
+    return;
+  }
+  if (
+    g.world.machines.ledger_fate?.node === "burned" ||
+    g.log.some((e) => e.kind === "stimulus" && e.what === "odo_found_it_gone")
+  ) {
     settle(g, debt, cause, "cancelled");
     return;
   }
-  const quest = g.world.machines.quest?.node;
-  const playerHere = (room: string) => g.playerRoom === room;
-  switch (debt.kind) {
-    case "check_hiding_place":
-    case "burn_ledger": {
-      const burning = debt.kind === "burn_ledger";
-      if (ledgerIn(g, "barrel")) {
-        if (!burning) {
-          goTo(g, ODO, "cellar", "checking_cellar", 6, cause);
-          settle(g, debt, cause);
-          return;
-        }
-        const watched = playerHere("cellar") || playerHere("kitchen");
-        const { choice, id } = await choose(
-          g,
-          ODO,
-          `The house is quiet. The ledger is still buried in the flour barrel. ${watched ? "The stranger is close by and would see what Odo does." : "Nobody is near the kitchen or the cellar."}`,
-          [
-            {
-              id: "burn_it",
-              description: watched
-                ? "Fetches the ledger and burns it in the kitchen hearth even though the stranger would see"
-                : "Fetches the ledger and burns it in the kitchen hearth",
-            },
-            { id: "leave_it", description: "Leaves the ledger where it is for now" },
-          ],
-          "burn_it",
-          cause,
-        );
-        if (choice === "burn_it") {
-          const burned = g.commit({ kind: "transfer", item: "ledger", to: { room: "ashes" } }, id);
-          const apron = g.world.items.apron?.at;
-          if (apron && "inside" in apron)
-            g.commit({ kind: "transfer", item: "apron", to: { room: "ashes" } }, burned);
-          g.commit(
-            { kind: "set_node", target: { type: "machine", id: "ledger_fate" }, to: "burned" },
-            burned,
-          );
-          goTo(g, ODO, "kitchen", "burning", 10, burned);
-          if (watched) {
-            g.say(
-              "Odo comes up from the cellar with a floury bundle, glances at you, and feeds it to the hearth anyway. Pages curl. It is the ledger.",
-            );
-            const deed = g.happened(
-              {
-                subject: ODO,
-                predicate: "burned",
-                object: "ledger",
-                place: "kitchen",
-                severity: 3,
-              },
-              burned,
-            );
-            g.learn(PLAYER, deed, 1, { kind: "witnessed" }, burned);
-          }
-        }
-        settle(g, debt, id);
-        return;
-      }
-      if (
-        g.world.machines.ledger_fate?.node === "burned" ||
-        g.log.some((e) => e.kind === "stimulus" && e.what === "odo_found_it_gone")
-      ) {
-        settle(g, debt, cause, "cancelled");
-        return;
-      }
-      // The hiding place is empty. What Odo does next is his to choose.
-      goTo(g, ODO, "cellar", "checking_cellar", 4, cause);
-      const stimulus = g.store.append(
-        { kind: "stimulus", what: "odo_found_it_gone", data: {} },
-        cause,
-      );
-      const { choice, id } = await choose(
-        g,
-        ODO,
-        "Odo has just dug through the flour barrel and the ledger is gone. Someone has found it. Mara is somewhere in the house.",
-        [
-          {
-            id: "accuse_louder",
-            description:
-              "Goes to Mara and insists the stranger has the ledger and must be searched at once",
-          },
-          {
-            id: "flee",
-            description: "Takes his coat and slips out into the rain, abandoning the inn",
-          },
-          { id: "confess", description: "Goes to Mara and admits what he did" },
-          {
-            id: "carry_on",
-            description: "Goes back to his pots and acts as if nothing has happened",
-          },
-        ],
-        "carry_on",
-        stimulus,
-      );
-      if (choice === "accuse_louder" && g.world.machines.ledger_fate?.node === "returned") {
-        // The ledger is already back under Mara's hand, and nobody has told Odo. By
-        // insisting the stranger has it, he shows that he knew where it was not.
-        goTo(g, ODO, g.world.actors[MARA]?.room ?? "common_room", "reporting", 8, id);
-        const slip = g.happened({ subject: ODO, predicate: "slipped", to: MARA, severity: 3 }, id);
-        g.learn(MARA, slip, 1, { kind: "witnessed" }, id);
-        if (g.maraIsHere()) {
-          g.say(
-            "Odo comes through at a trot, red in the face. \"Search that one's pack, Mara, now. They have your ledger, I'd stake my life on it.\"",
-          );
-          g.say(
-            "Mara does not look at you. She looks at Odo, and then down at the ledger under her own hand, which nobody has told him about.",
-          );
-          g.learn(PLAYER, slip, 1, { kind: "witnessed" }, id);
-        }
-      } else if (choice === "accuse_louder") {
-        const search = g.world.debts.mara_search;
-        if (search?.status === "pending")
-          g.commit({ kind: "settle_debt", id: search.id, status: "cancelled" }, id);
-        if (quest === "suspected")
-          g.commit(
-            {
-              kind: "create_debt",
-              debt: {
-                id: `mara_search_${id}`,
-                cause: id,
-                stakeholder: MARA,
-                kind: "search_pack",
-                magnitude: 3,
-                fuse: { due: g.world.clock + 4 },
-                status: "pending",
-                data: { urged_by: ODO },
-              },
-            },
-            id,
-          );
-        if (playerHere(g.world.actors[MARA]?.room ?? ""))
-          g.say(
-            "Odo comes through at a trot, red in the face, and says something low and urgent in Mara's ear. She looks straight at you.",
-          );
-      } else if (choice === "flee") {
-        if (playerHere(g.world.actors[ODO]?.room ?? ""))
-          g.say(
-            "Odo takes his coat off its peg, looks once round the kitchen, and goes out into the rain without a word.",
-          );
-        const gone = g.commit({ kind: "retire", actor: ODO }, id);
-        const deed = g.happened({ subject: ODO, predicate: "fled", severity: 3 }, gone);
-        for (const npc of [MARA, TOBIN]) g.learn(npc, deed, 1, { kind: "witnessed" }, gone);
-        g.learn(PLAYER, deed, 0.9, { kind: "witnessed" }, gone);
-        g.say("Somewhere at the back of the house a door bangs, and does not bang again.");
-      } else if (choice === "confess") {
-        goTo(g, ODO, g.world.actors[MARA]?.room ?? "common_room", "reporting", 10, id);
-        g.learn(MARA, C_ODO_TOOK, 1, { kind: "told", from: ODO }, id);
-        if (g.maraIsHere())
-          g.say(
-            "Odo comes in wiping his hands, stands in front of Mara, and says it all at once: he took the ledger, he took it to hide two years of skimming, and he is sorry. Mara does not move for a long moment.",
-          );
-      }
-      settle(g, debt, id);
-      return;
-    }
-    case "search_pack": {
-      if (quest !== "suspected") return cancel(g, debt, cause);
-      const { choice, id } = await choose(
-        g,
-        MARA,
-        `It is getting late and the ledger is still missing. ${debt.data.urged_by ? "Odo has just urged her to search the stranger at once." : ""} The stranger is in ${g.world.rooms[g.playerRoom]?.name}.`,
-        [
-          {
-            id: "search_pack",
-            description: "Goes to the stranger and demands they turn out their pack",
-          },
-          { id: "let_it_lie", description: "Lets the stranger be for now" },
-        ],
-        "search_pack",
-        cause,
-      );
-      settle(g, debt, id);
-      if (choice !== "search_pack") return;
-      goTo(g, MARA, g.playerRoom, "searching_pack", 8, id);
-      const turn = g.intent(
-        MARA,
-        PLAYER,
-        "request",
-        { kind: "request", id: "turn_out_pack" },
-        3,
-        id,
-      );
-      g.speak((t, sid) => afterSpeech(g, t, sid));
-      const at = g.world.items.ledger?.at;
-      const caught = Boolean(at && "holder" in at && at.holder === PLAYER);
-      if (caught) {
-        const took = g.commit(
-          { kind: "transfer", item: "ledger", to: { holder: MARA } },
-          turn.cause,
-        );
-        g.commit(
-          { kind: "set_node", target: { type: "machine", id: "ledger_fate" }, to: "returned" },
-          took,
-        );
-        g.say(
-          "There is no hiding a ledger. She lifts it out of your pack with both hands, and her face closes like a door.",
-        );
-        g.witness(
-          g.happened(
-            { subject: PLAYER, predicate: "had_in_pack", object: "ledger", severity: 3 },
-            took,
-          ),
-          g.playerRoom,
-          took,
-        );
-      } else {
-        g.say(
-          "You turn out your pack on the nearest table: a spare shirt, a heel of bread, a whetstone. She goes through it twice, and finds nothing of hers.",
-        );
-        g.witness(
-          g.happened({ subject: PLAYER, predicate: "pack_was_clean" }, id),
-          g.playerRoom,
-          id,
-        );
-      }
-      return;
-    }
-    case "conscience": {
-      const knows = beliefIn(g.world, TOBIN, C_TOBIN_SAW.id);
-      const told = beliefIn(g.world, MARA, C_TOBIN_SAW.id);
-      if (!knows || told || quest !== "suspected") return cancel(g, debt, cause);
-      const { choice, id } = await choose(
-        g,
-        TOBIN,
-        "It is late. Tobin has kept what he saw at dusk to himself all evening, and Mara still blames the stranger. He could speak now, or let the night run out.",
-        [
-          { id: "tell_mara", description: "Goes to Mara and tells her what he saw Odo do at dusk" },
-          {
-            id: "tell_stranger",
-            description: "Finds the stranger and quietly tells them what he saw",
-          },
-          { id: "keep_quiet", description: "Says nothing to anyone" },
-        ],
-        "keep_quiet",
-        cause,
-      );
-      settle(g, debt, id);
-      const to = choice === "tell_mara" ? MARA : choice === "tell_stranger" ? PLAYER : null;
-      if (to)
-        g.commit(
-          {
-            kind: "create_debt",
-            debt: {
-              id: `testify_${id}`,
-              cause: id,
-              stakeholder: TOBIN,
-              kind: "testify",
-              magnitude: 3,
-              fuse: { due: g.world.clock, expires: g.world.clock + 90 },
-              status: "pending",
-              data: { to },
-            },
-          },
-          id,
-        );
-      return;
-    }
-    case "verdict": {
-      if (quest !== "suspected") return cancel(g, debt, cause);
-      const { choice, id } = await choose(
-        g,
-        MARA,
-        "It is close to midnight. The ledger has not been cleared up to her satisfaction and she still holds the stranger responsible. The assessor comes at first light.",
-        [
-          {
-            id: "send_for_constable",
-            description: "Sends Tobin for the constable and holds the stranger until he comes",
-          },
-          { id: "turn_out", description: "Turns the stranger out into the rain and bars the door" },
-          { id: "let_it_lie", description: "Does nothing tonight" },
-        ],
-        "turn_out",
-        cause,
-      );
-      settle(g, debt, id);
-      const to =
-        choice === "send_for_constable" ? "condemned" : choice === "turn_out" ? "thrown_out" : null;
-      if (to) g.commit({ kind: "set_node", target: { type: "machine", id: "quest" }, to }, id);
-      return;
-    }
-    case "eject": {
-      // She cannot act on a fight she has not seen or been told of. The debt stays
-      // pending until the tale reaches her, which is what makes it a consequence.
-      const knows = rankedBeliefs(g.world, MARA).some(
-        (b) => b.claim.subject === PLAYER && b.claim.predicate === "attacked" && b.credence >= 0.4,
-      );
-      if (!knows) return;
-      const { choice, id } = await choose(
-        g,
-        MARA,
-        "The stranger has used their fists on someone under her roof tonight.",
-        [
-          { id: "throw_out", description: "Has the stranger thrown out into the rain at once" },
-          { id: "warn", description: "Tells the stranger that one more blow and they are out" },
-        ],
-        "throw_out",
-        cause,
-      );
-      settle(g, debt, id);
-      if (choice === "throw_out")
-        g.commit(
-          { kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" },
-          id,
-        );
-      else if (g.maraIsHere())
-        g.intent(MARA, PLAYER, "threaten", { kind: "request", id: "no_more_blows" }, 3, id);
-      return;
-    }
-    case "report":
-    case "retaliate":
-    case "testify":
-      return carryTale(g, debt, cause);
-    case "confront":
-      return confront(g, debt, cause);
-    case "face_stranger": {
-      // Waits, pending, until they share a room with the stranger. No walking: it is
-      // something to bring up, not an errand.
-      const held = debt.data.claim ? beliefIn(g.world, debt.stakeholder, debt.data.claim) : null;
-      if (!held || held.credence < 0.4) return cancel(g, debt, cause);
-      // If they have already said it to the stranger's face, it has been brought up.
-      const already = g.log.some(
-        (e) =>
-          e.kind === "effect" &&
-          e.effect.kind === "say" &&
-          e.effect.intent.speaker === debt.stakeholder &&
-          e.effect.intent.listener === PLAYER &&
-          e.effect.intent.topic.kind === "claim" &&
-          e.effect.intent.topic.id === held.claim.id,
-      );
-      if (already) return cancel(g, debt, cause);
-      if (who.room !== g.playerRoom) return;
-      // One thing at a time: if they are already about to speak, the rest keeps.
-      if (g.fresh.some((i) => i.speaker === debt.stakeholder)) return;
-      settle(g, debt, cause);
-      const clause = `${claimClause(g.world, held.claim)}${whenFor(held.claim, g.world.clock)}`;
-      const options: Option[] = [
-        { id: "accuse", description: `Says to the stranger's face that ${clause}` },
-        { id: "ask", description: `Asks the stranger whether it is true that ${clause}` },
-      ];
-      const hears = `${nameOf(g.world, debt.stakeholder)} finds the stranger in the same room, with this still on their mind: ${clause}`;
-      const decision = await g.decide(
-        compileSlice(sceneSlice, {
-          world: g.world,
-          parts: [{ npc: debt.stakeholder, about: PLAYER, extra: { hears } }],
-        }),
-        {
-          raises: pickSpeechAct({
-            npc: `npcs.${debt.stakeholder}`,
-            options,
-            fallback: "accuse",
-          }),
-        },
-        [{ kind: "in_room", actor: debt.stakeholder, room: g.playerRoom }],
-        cause,
-      );
-      if (!decision) return;
-      const act = g.sampleChoice(
-        decision.answers.raises,
-        `${debt.stakeholder} raises it`,
-        decision.id,
-      );
-      if (act === "accuse" || act === "ask")
-        g.intent(
-          debt.stakeholder,
-          PLAYER,
-          act,
-          { kind: "claim", id: held.claim.id },
-          3,
-          decision.id,
-        );
-      return;
-    }
-    case "search_cellar": {
-      // She was told something went down to the cellar, so she goes to look. What she
-      // finds there she sees for herself, and no judge is needed for that.
-      goTo(g, MARA, "cellar", "searching_cellar", 8, cause);
-      settle(g, debt, cause);
-      const near = playerHere("cellar") || playerHere("kitchen");
-      if (!ledgerIn(g, "barrel")) {
-        if (near)
-          g.say(
-            "Mara takes the lantern down the cellar steps. You hear the lid of the flour barrel, a long silence, and the lid again.",
-          );
-        return;
-      }
-      if (g.world.machines.barrel_search?.node === "unsearched")
-        g.commit(
-          { kind: "set_node", target: { type: "machine", id: "barrel_search" }, to: "searched" },
-          cause,
-        );
-      const fate = { type: "machine", id: "ledger_fate" } as const;
-      const found = g.commit({ kind: "set_node", target: fate, to: "found" }, cause);
-      g.commit({ kind: "set_node", target: fate, to: "returned" }, found);
-      for (const item of ["ledger", "apron"])
-        if (g.world.items[item]?.at && "inside" in (g.world.items[item]?.at ?? {}))
-          g.commit({ kind: "transfer", item, to: { holder: MARA } }, found);
-      const deed = g.happened(
-        { subject: MARA, predicate: "found", object: "ledger", place: "cellar", severity: 2 },
-        found,
-      );
-      g.learn(MARA, deed, 1, { kind: "witnessed" }, found);
-      g.learn(MARA, C_APRON, 1, { kind: "witnessed" }, found);
-      if (near)
-        g.say(
-          "Mara takes the lantern down the cellar steps. You hear the lid of the flour barrel come off, and then nothing for a long time. When she comes up she is floured to the elbow, with the ledger in one hand and a cook's apron in the other.",
-        );
-      return;
-    }
-    default:
-      settle(g, debt, cause, "cancelled");
+  await hidingPlaceEmpty(g, debt, cause, quest);
+}
+
+async function handleSearchPack(
+  g: Game,
+  debt: Debt,
+  cause: LogId,
+  quest: string | undefined,
+): Promise<void> {
+  if (quest !== "suspected") return cancel(g, debt, cause);
+  const { choice, id } = await choose(
+    g,
+    MARA,
+    `It is getting late and the ledger is still missing. ${debt.data.urged_by ? "Odo has just urged her to search the stranger at once." : ""} The stranger is in ${g.world.rooms[g.playerRoom]?.name}.`,
+    [
+      {
+        id: "search_pack",
+        description: "Goes to the stranger and demands they turn out their pack",
+      },
+      { id: "let_it_lie", description: "Lets the stranger be for now" },
+    ],
+    "search_pack",
+    cause,
+  );
+  settle(g, debt, id);
+  if (choice !== "search_pack") return;
+  goTo(g, MARA, g.playerRoom, "searching_pack", 8, id);
+  const turn = g.intent(MARA, PLAYER, "request", { kind: "request", id: "turn_out_pack" }, 3, id);
+  g.speak((t, sid) => afterSpeech(g, t, sid));
+  const at = g.world.items.ledger?.at;
+  const caught = Boolean(at && "holder" in at && at.holder === PLAYER);
+  if (caught) {
+    const took = g.commit({ kind: "transfer", item: "ledger", to: { holder: MARA } }, turn.cause);
+    g.commit(
+      { kind: "set_node", target: { type: "machine", id: "ledger_fate" }, to: "returned" },
+      took,
+    );
+    g.say(
+      "There is no hiding a ledger. She lifts it out of your pack with both hands, and her face closes like a door.",
+    );
+    g.witness(
+      g.happened(
+        { subject: PLAYER, predicate: "had_in_pack", object: "ledger", severity: 3 },
+        took,
+      ),
+      g.playerRoom,
+      took,
+    );
+  } else {
+    g.say(
+      "You turn out your pack on the nearest table: a spare shirt, a heel of bread, a whetstone. She goes through it twice, and finds nothing of hers.",
+    );
+    g.witness(g.happened({ subject: PLAYER, predicate: "pack_was_clean" }, id), g.playerRoom, id);
   }
+}
+
+/** Who Tobin's conscience sends him to: Mara, the stranger, or nobody. */
+function confessTarget(choice: string | null): string | null {
+  if (choice === "tell_mara") return MARA;
+  if (choice === "tell_stranger") return PLAYER;
+  return null;
+}
+
+async function handleConscience(
+  g: Game,
+  debt: Debt,
+  cause: LogId,
+  quest: string | undefined,
+): Promise<void> {
+  const knows = beliefIn(g.world, TOBIN, C_TOBIN_SAW.id);
+  const told = beliefIn(g.world, MARA, C_TOBIN_SAW.id);
+  if (!knows || told || quest !== "suspected") return cancel(g, debt, cause);
+  const { choice, id } = await choose(
+    g,
+    TOBIN,
+    "It is late. Tobin has kept what he saw at dusk to himself all evening, and Mara still blames the stranger. He could speak now, or let the night run out.",
+    [
+      { id: "tell_mara", description: "Goes to Mara and tells her what he saw Odo do at dusk" },
+      { id: "tell_stranger", description: "Finds the stranger and quietly tells them what he saw" },
+      { id: "keep_quiet", description: "Says nothing to anyone" },
+    ],
+    "keep_quiet",
+    cause,
+  );
+  settle(g, debt, id);
+  const to = confessTarget(choice);
+  if (!to) return;
+  g.commit(
+    {
+      kind: "create_debt",
+      debt: {
+        id: `testify_${id}`,
+        cause: id,
+        stakeholder: TOBIN,
+        kind: "testify",
+        magnitude: 3,
+        fuse: { due: g.world.clock, expires: g.world.clock + 90 },
+        status: "pending",
+        data: { to },
+      },
+    },
+    id,
+  );
+}
+
+/** What the verdict does to the quest: the constable, the door, or nothing tonight. */
+function verdictOutcome(choice: string | null): string | null {
+  if (choice === "send_for_constable") return "condemned";
+  if (choice === "turn_out") return "thrown_out";
+  return null;
+}
+
+async function handleVerdict(
+  g: Game,
+  debt: Debt,
+  cause: LogId,
+  quest: string | undefined,
+): Promise<void> {
+  if (quest !== "suspected") return cancel(g, debt, cause);
+  const { choice, id } = await choose(
+    g,
+    MARA,
+    "It is close to midnight. The ledger has not been cleared up to her satisfaction and she still holds the stranger responsible. The assessor comes at first light.",
+    [
+      {
+        id: "send_for_constable",
+        description: "Sends Tobin for the constable and holds the stranger until he comes",
+      },
+      { id: "turn_out", description: "Turns the stranger out into the rain and bars the door" },
+      { id: "let_it_lie", description: "Does nothing tonight" },
+    ],
+    "turn_out",
+    cause,
+  );
+  settle(g, debt, id);
+  const to = verdictOutcome(choice);
+  if (to) g.commit({ kind: "set_node", target: { type: "machine", id: "quest" }, to }, id);
+}
+
+async function handleEject(g: Game, debt: Debt, cause: LogId): Promise<void> {
+  // She cannot act on a fight she has not seen or been told of. The debt stays
+  // pending until the tale reaches her, which is what makes it a consequence.
+  const knows = rankedBeliefs(g.world, MARA).some(
+    (b) => b.claim.subject === PLAYER && b.claim.predicate === "attacked" && b.credence >= 0.4,
+  );
+  if (!knows) return;
+  const { choice, id } = await choose(
+    g,
+    MARA,
+    "The stranger has used their fists on someone under her roof tonight.",
+    [
+      { id: "throw_out", description: "Has the stranger thrown out into the rain at once" },
+      { id: "warn", description: "Tells the stranger that one more blow and they are out" },
+    ],
+    "throw_out",
+    cause,
+  );
+  settle(g, debt, id);
+  if (choice === "throw_out")
+    g.commit({ kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" }, id);
+  else if (g.maraIsHere())
+    g.intent(MARA, PLAYER, "threaten", { kind: "request", id: "no_more_blows" }, 3, id);
+}
+
+async function handleFaceStranger(g: Game, debt: Debt, cause: LogId): Promise<void> {
+  const who = g.world.actors[debt.stakeholder];
+  // Waits, pending, until they share a room with the stranger. No walking: it is
+  // something to bring up, not an errand.
+  const held = debt.data.claim ? beliefIn(g.world, debt.stakeholder, debt.data.claim) : null;
+  if (!held || held.credence < 0.4) return cancel(g, debt, cause);
+  // If they have already said it to the stranger's face, it has been brought up.
+  const already = g.log.some(
+    (e) =>
+      e.kind === "effect" &&
+      e.effect.kind === "say" &&
+      e.effect.intent.speaker === debt.stakeholder &&
+      e.effect.intent.listener === PLAYER &&
+      e.effect.intent.topic.kind === "claim" &&
+      e.effect.intent.topic.id === held.claim.id,
+  );
+  if (already) return cancel(g, debt, cause);
+  if (who?.room !== g.playerRoom) return;
+  // One thing at a time: if they are already about to speak, the rest keeps.
+  if (g.fresh.some((i) => i.speaker === debt.stakeholder)) return;
+  settle(g, debt, cause);
+  const clause = `${claimClause(g.world, held.claim)}${whenFor(held.claim, g.world.clock)}`;
+  const options: Option[] = [
+    { id: "accuse", description: `Says to the stranger's face that ${clause}` },
+    { id: "ask", description: `Asks the stranger whether it is true that ${clause}` },
+  ];
+  const hears = `${nameOf(g.world, debt.stakeholder)} finds the stranger in the same room, with this still on their mind: ${clause}`;
+  const decision = await g.decide(
+    compileSlice(sceneSlice, {
+      world: g.world,
+      parts: [{ npc: debt.stakeholder, about: PLAYER, extra: { hears } }],
+    }),
+    { raises: pickSpeechAct({ npc: `npcs.${debt.stakeholder}`, options, fallback: "accuse" }) },
+    [{ kind: "in_room", actor: debt.stakeholder, room: g.playerRoom }],
+    cause,
+  );
+  if (!decision) return;
+  const act = g.sampleChoice(decision.answers.raises, `${debt.stakeholder} raises it`, decision.id);
+  if (act === "accuse" || act === "ask")
+    g.intent(debt.stakeholder, PLAYER, act, { kind: "claim", id: held.claim.id }, 3, decision.id);
+}
+
+function handleSearchCellar(g: Game, debt: Debt, cause: LogId): void {
+  // She was told something went down to the cellar, so she goes to look. What she
+  // finds there she sees for herself, and no judge is needed for that.
+  goTo(g, MARA, "cellar", "searching_cellar", 8, cause);
+  settle(g, debt, cause);
+  const near = playerHere(g, "cellar") || playerHere(g, "kitchen");
+  if (!ledgerIn(g, "barrel")) {
+    if (near)
+      g.say(
+        "Mara takes the lantern down the cellar steps. You hear the lid of the flour barrel, a long silence, and the lid again.",
+      );
+    return;
+  }
+  if (g.world.machines.barrel_search?.node === "unsearched")
+    g.commit(
+      { kind: "set_node", target: { type: "machine", id: "barrel_search" }, to: "searched" },
+      cause,
+    );
+  const fate = { type: "machine", id: "ledger_fate" } as const;
+  const found = g.commit({ kind: "set_node", target: fate, to: "found" }, cause);
+  g.commit({ kind: "set_node", target: fate, to: "returned" }, found);
+  for (const item of ["ledger", "apron"])
+    if (g.world.items[item]?.at && "inside" in (g.world.items[item]?.at ?? {}))
+      g.commit({ kind: "transfer", item, to: { holder: MARA } }, found);
+  const deed = g.happened(
+    { subject: MARA, predicate: "found", object: "ledger", place: "cellar", severity: 2 },
+    found,
+  );
+  g.learn(MARA, deed, 1, { kind: "witnessed" }, found);
+  g.learn(MARA, C_APRON, 1, { kind: "witnessed" }, found);
+  if (near)
+    g.say(
+      "Mara takes the lantern down the cellar steps. You hear the lid of the flour barrel come off, and then nothing for a long time. When she comes up she is floured to the elbow, with the ledger in one hand and a cook's apron in the other.",
+    );
+}
+
+/**
+ * One small function per debt kind (SPEC.md section 9's "add here" is a row in this
+ * table): a new debt kind is a new entry, not a new arm of a growing switch.
+ */
+const DEBT_HANDLERS: Record<
+  string,
+  (g: Game, debt: Debt, cause: LogId, quest: string | undefined) => Promise<void>
+> = {
+  check_hiding_place: handleHidingPlace,
+  burn_ledger: handleHidingPlace,
+  search_pack: handleSearchPack,
+  conscience: handleConscience,
+  verdict: handleVerdict,
+  eject: (g, debt, cause) => handleEject(g, debt, cause),
+  report: (g, debt, cause) => carryTale(g, debt, cause),
+  retaliate: (g, debt, cause) => carryTale(g, debt, cause),
+  testify: (g, debt, cause) => carryTale(g, debt, cause),
+  confront: (g, debt, cause) => confront(g, debt, cause),
+  face_stranger: (g, debt, cause) => handleFaceStranger(g, debt, cause),
+  search_cellar: (g, debt, cause) => Promise.resolve(handleSearchCellar(g, debt, cause)),
+};
+
+async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
+  const who = g.world.actors[debt.stakeholder];
+  if (!(who?.alive && who.present)) {
+    settle(g, debt, cause, "cancelled");
+    return;
+  }
+  const handler = DEBT_HANDLERS[debt.kind];
+  if (handler) {
+    await handler(g, debt, cause, g.world.machines.quest?.node);
+    return;
+  }
+  settle(g, debt, cause, "cancelled");
+}
+
+/** Which belief the tale carries: what Tobin saw, the best grudge against the stranger, or the debt's own claim. */
+function taleToCarry(
+  g: Game,
+  debt: Debt,
+  teller: string,
+  to: string,
+  wanted: Belief | undefined,
+): Belief | undefined {
+  if (debt.kind === "testify") return beliefIn(g.world, teller, C_TOBIN_SAW.id);
+  if (debt.kind === "retaliate")
+    return rankedBeliefs(g.world, teller).find(
+      (b) =>
+        b.claim.subject === PLAYER &&
+        WRONGDOING.includes(b.claim.predicate) &&
+        !beliefIn(g.world, to, b.claim.id),
+    );
+  return wanted;
 }
 
 /** Someone owes someone else a tale. They walk over if it matters enough, and tell it on arrival. */
@@ -757,7 +810,7 @@ async function carryTale(g: Game, debt: Debt, cause: LogId): Promise<void> {
   const to = debt.data.to ?? MARA;
   const here = g.world.actors[teller]?.room;
   const there = g.world.actors[to]?.room;
-  if (!there || !here) return cancel(g, debt, cause);
+  if (!(there && here)) return cancel(g, debt, cause);
   if (here !== there) {
     const walking = g.world.schedules[teller]?.commitments.some(
       (c) => c.id.startsWith("reporting") && c.until > g.world.clock,
@@ -767,17 +820,7 @@ async function carryTale(g: Game, debt: Debt, cause: LogId): Promise<void> {
     if (g.world.actors[teller]?.room !== there) return;
   }
   const wanted = debt.data.claim ? beliefIn(g.world, teller, debt.data.claim) : undefined;
-  const tale =
-    debt.kind === "testify"
-      ? beliefIn(g.world, teller, C_TOBIN_SAW.id)
-      : debt.kind === "retaliate"
-        ? rankedBeliefs(g.world, teller).find(
-            (b) =>
-              b.claim.subject === PLAYER &&
-              WRONGDOING.includes(b.claim.predicate) &&
-              !beliefIn(g.world, to, b.claim.id),
-          )
-        : wanted;
+  const tale = taleToCarry(g, debt, teller, to, wanted);
   settle(g, debt, cause);
   if (debt.data.say) {
     g.intent(teller, to, "promise", { kind: "request", id: debt.data.say }, 3, cause);
@@ -804,7 +847,7 @@ async function carryTale(g: Game, debt: Debt, cause: LogId): Promise<void> {
 async function confront(g: Game, debt: Debt, cause: LogId): Promise<void> {
   const target = debt.data.to ?? ODO;
   const there = g.world.actors[target]?.room;
-  if (!there || !g.world.actors[target]?.present) return cancel(g, debt, cause);
+  if (!(there && g.world.actors[target]?.present)) return cancel(g, debt, cause);
   if (g.world.actors[MARA]?.room !== there) {
     goTo(g, MARA, there, "confronting", 8, cause);
     if (g.world.actors[MARA]?.room !== there) return;
@@ -919,18 +962,82 @@ const noul = (a: unknown): number => {
  * when a flag flips (SPEC.md section 8). The guard is asked only when her
  * slice has changed, in two wordings, and commits on their mean.
  */
-export async function checkGuards(g: Game, cause: LogId): Promise<void> {
-  const quest = g.world.machines.quest?.node;
-  if (quest !== "suspected" && quest !== "cleared") return;
-  if (!g.world.actors[MARA]?.alive) return;
-  const slice = compileSlice(guardSlice, { world: g.world });
+/** Do not ask unless the quest is live, Mara can answer, her slice has moved, and there is doubt to weigh. */
+function shouldAskGuard(g: Game, quest: string | undefined, slice: Slice): boolean {
+  if (quest !== "suspected" && quest !== "cleared") return false;
+  if (!g.world.actors[MARA]?.alive) return false;
   const asked = g.log.findLast((e) => e.kind === "stimulus" && e.what === "guard");
-  if (asked?.kind === "stimulus" && asked.data.slice === slice.hash) return;
+  if (asked?.kind === "stimulus" && asked.data.slice === slice.hash) return false;
   const tonight = (slice.state.npcs as { mara: { recent_events: string[] } }).mara.recent_events;
-  if (tonight.length === 0) return;
+  if (tonight.length === 0) return false;
   // A hard precondition, checked in code: with nothing at all pointing away from the
   // stranger there is nothing for the judge to weigh, so it is not asked.
-  if (!groundsForDoubt(g)) return;
+  return groundsForDoubt(g);
+}
+
+/** Whether Mara is cleared, and whether she has settled on Odo, from the guard's two wordings. */
+function guardVerdict(
+  g: Game,
+  decision: Awaited<ReturnType<Game["decide"]>>,
+): {
+  cleared: boolean;
+  knows: boolean;
+} {
+  // Self-consistency: both wordings must clear the bar, not their mean.
+  const both = (a: unknown, b: unknown) => Math.min(noul(a), noul(b)) >= GUARD_THRESHOLD;
+  let cleared = both(decision?.answers.guard_a, decision?.answers.guard_b);
+  let knows = both(decision?.answers.culprit_a, decision?.answers.culprit_b);
+  if (decision?.source === "fallback") {
+    // No judge: code's own credences stand in, so the quest can still end.
+    const accusation = beliefIn(g.world, MARA, C_ACCUSATION.id)?.credence ?? 0;
+    knows = (beliefIn(g.world, MARA, C_ODO_TOOK.id)?.credence ?? 0) >= 0.7;
+    cleared = accusation <= 0.3 || knows;
+  }
+  // One ledger, one taker: being satisfied that Odo took it entails no longer believing
+  // the stranger did. The judge does not enforce that between two questions (a live run
+  // gave 0.67 and 0.72 for the culprit beside 0.47 and 0.51 for the guard), so code does.
+  return { cleared: cleared || knows, knows };
+}
+
+/** Cancels the debts a settled quest has no more use for, and tells or promises to tell the stranger. */
+function afterVerdict(g: Game, quest: string | undefined, to: string, id: LogId): void {
+  g.retire(MARA, C_ACCUSATION.id, id);
+  g.nudge(MARA, { suspicion: -0.3, trust: 0.3 }, id);
+  g.nudge(MARA, { suspicion: -0.3, trust: 0.2 }, id);
+  for (const d of Object.values(g.world.debts))
+    if (
+      d.status === "pending" &&
+      d.stakeholder === MARA &&
+      (d.kind === "search_pack" || d.kind === "verdict")
+    )
+      g.commit({ kind: "settle_debt", id: d.id, status: "cancelled" }, id);
+  if (quest !== "suspected" || to !== "cleared") return;
+  if (g.maraIsHere()) {
+    g.intent(MARA, PLAYER, "promise", { kind: "request", id: "cleared" }, 3, id);
+    return;
+  }
+  g.commit(
+    {
+      kind: "create_debt",
+      debt: {
+        id: `mara_owns_up_${id}`,
+        cause: id,
+        stakeholder: MARA,
+        kind: "report",
+        magnitude: 3,
+        fuse: { due: g.world.clock, expires: g.world.clock + 120 },
+        status: "pending",
+        data: { to: PLAYER, say: "cleared" },
+      },
+    },
+    id,
+  );
+}
+
+export async function checkGuards(g: Game, cause: LogId): Promise<void> {
+  const quest = g.world.machines.quest?.node;
+  const slice = compileSlice(guardSlice, { world: g.world });
+  if (!shouldAskGuard(g, quest, slice)) return;
 
   const stimulus = g.store.append(
     { kind: "stimulus", what: "guard", data: { slice: slice.hash } },
@@ -948,20 +1055,7 @@ export async function checkGuards(g: Game, cause: LogId): Promise<void> {
     stimulus,
   );
   if (!decision) return;
-  // Self-consistency: both wordings must clear the bar, not their mean.
-  const both = (a: unknown, b: unknown) => Math.min(noul(a), noul(b)) >= GUARD_THRESHOLD;
-  let cleared = both(decision.answers.guard_a, decision.answers.guard_b);
-  let knows = both(decision.answers.culprit_a, decision.answers.culprit_b);
-  if (decision.source === "fallback") {
-    // No judge: code's own credences stand in, so the quest can still end.
-    const accusation = beliefIn(g.world, MARA, C_ACCUSATION.id)?.credence ?? 0;
-    knows = (beliefIn(g.world, MARA, C_ODO_TOOK.id)?.credence ?? 0) >= 0.7;
-    cleared = accusation <= 0.3 || knows;
-  }
-  // One ledger, one taker: being satisfied that Odo took it entails no longer believing
-  // the stranger did. The judge does not enforce that between two questions (a live run
-  // gave 0.67 and 0.72 for the culprit beside 0.47 and 0.51 for the guard), so code does.
-  cleared = cleared || knows;
+  const { cleared, knows } = guardVerdict(g, decision);
   if (!cleared) return;
   const to = knows ? "resolved" : "cleared";
   if (to === quest) return;
@@ -969,35 +1063,5 @@ export async function checkGuards(g: Game, cause: LogId): Promise<void> {
     { kind: "set_node", target: { type: "machine", id: "quest" }, to },
     decision.id,
   );
-  g.retire(MARA, C_ACCUSATION.id, id);
-  g.nudge(MARA, { suspicion: -0.3, trust: 0.3 }, id);
-  g.nudge(MARA, { suspicion: -0.3, trust: 0.2 }, id);
-  for (const d of Object.values(g.world.debts))
-    if (
-      d.status === "pending" &&
-      d.stakeholder === MARA &&
-      (d.kind === "search_pack" || d.kind === "verdict")
-    )
-      g.commit({ kind: "settle_debt", id: d.id, status: "cancelled" }, id);
-  if (quest === "suspected" && to === "cleared") {
-    if (g.maraIsHere())
-      g.intent(MARA, PLAYER, "promise", { kind: "request", id: "cleared" }, 3, id);
-    else
-      g.commit(
-        {
-          kind: "create_debt",
-          debt: {
-            id: `mara_owns_up_${id}`,
-            cause: id,
-            stakeholder: MARA,
-            kind: "report",
-            magnitude: 3,
-            fuse: { due: g.world.clock, expires: g.world.clock + 120 },
-            status: "pending",
-            data: { to: PLAYER, say: "cleared" },
-          },
-        },
-        id,
-      );
-  }
+  afterVerdict(g, quest, to, id);
 }

@@ -23,3 +23,4 @@ Thumbs.db
 saves/
 # the friction report is generated; nights handed in and the loop switch are tracked
 playtests/friction.md
+.claude/worktrees/

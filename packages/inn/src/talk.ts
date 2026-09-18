@@ -5,11 +5,13 @@
  * built by code from the current world and includes a "none".
  */
 import {
+  type Actor,
   type Belief,
   beliefIn,
   beliefsOf,
   type Claim,
   type JudgeAnswer,
+  type Lever,
   type LogId,
   makeClaim,
   persuadability,
@@ -46,7 +48,7 @@ import {
   TRUST,
   WRONGDOING,
 } from "./content.ts";
-import type { Game } from "./game.ts";
+import type { Decision, Game } from "./game.ts";
 import {
   type Action,
   askable,
@@ -150,6 +152,182 @@ const top = (a: JudgeAnswer | undefined) =>
     ? { id: a.choice, p: a.probabilities[a.choice] ?? 0, all: a.probabilities }
     : null;
 
+type TopAnswer = ReturnType<typeof top>;
+type VerbTop = NonNullable<TopAnswer>;
+
+/** Reads the judge's verb choice from the decision, or explains why the line went nowhere. */
+function readVerb(decision: Decision): VerbTop | Matched {
+  const mode = top(decision.answers.mode);
+  if (mode?.id !== "in_story")
+    return { kind: "error", message: "You mutter something that makes no sense, even to you." };
+  const verb = top(decision.answers.verb);
+  if (!verb || verb.id === NONE)
+    return { kind: "error", message: "You turn the thought over and cannot see how to act on it." };
+  if (verb.p < 0.5) {
+    const rivals = Object.entries(verb.all)
+      .filter(([id]) => id !== NONE)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 2)
+      .map(([id]) => id);
+    return { kind: "error", message: `You hesitate. Do you mean to ${orList(rivals)}?` };
+  }
+  return verb;
+}
+
+/** Picks from a pool by mass on the target question, or asks a question naming the rivals. */
+function pickTarget(target: TopAnswer, pool: readonly Named[], needed: number): Named | Matched {
+  const mass = (id: string) => target?.all[id] ?? 0;
+  const best = pool.filter((n) => mass(n.id) > 0).sort((a, b) => mass(b.id) - mass(a.id));
+  const first = best[0];
+  if (first && mass(first.id) >= needed) return first;
+  const rivals = best.filter((n) => mass(n.id) >= 0.1);
+  if (rivals.length >= 2)
+    return {
+      kind: "clarify",
+      question: "",
+      candidates: rivals,
+      complete: () => ({ verb: "look" }),
+    };
+  // M0's pattern: `none` wins while the leftover sits on several things of one kind.
+  const sameKind = pool.filter((n) => mass(n.id) >= 0.05);
+  if (sameKind.length >= 2)
+    return {
+      kind: "clarify",
+      question: "",
+      candidates: sameKind,
+      complete: () => ({ verb: "look" }),
+    };
+  return { kind: "error", message: "Nothing here answers to that." };
+}
+
+const clarifyCandidates = (
+  found: Matched,
+  word: string,
+  complete: (id: string) => Action,
+): Matched =>
+  found.kind === "clarify"
+    ? { ...found, question: whichOne(word, found.candidates), complete }
+    : found;
+
+const isNamed = (x: Named | Matched): x is Named => "aliases" in x;
+
+function buildPlainAction(verbId: string, itemId: string | null): (id: string) => Action {
+  if (verbId === "take") return (id) => ({ verb: "take", item: id });
+  if (verbId === "drop") return (id) => ({ verb: "drop", item: id });
+  if (verbId === "go") return (id) => ({ verb: "go", room: id });
+  if (verbId === "use") return (id) => ({ verb: "use", target: id, item: itemId });
+  return (id) => ({ verb: "examine", target: id });
+}
+
+/**
+ * Who speech or an attack is aimed at. Violence is not undone by an apology, so it needs a
+ * clearer reading than the rest. A name the player typed settles who is meant, whatever the
+ * judge's spread (first playtest: "who told you that mara" asked "Mara or Odo?"). With one
+ * person in the room, speech is to them. With several and no name, ask which, naming them.
+ */
+function resolveSpeechTarget(
+  scope: { people: Named[] },
+  text: string,
+  target: TopAnswer,
+  verbId: string,
+): Named | Matched {
+  const said = ` ${text.toLowerCase().replace(/[^a-z ]+/g, " ")} `;
+  const byName = scope.people.filter((p) => said.includes(` ${p.name.toLowerCase()} `));
+  const judged = pickTarget(target, scope.people, verbId === "attack" ? 0.8 : 0.6);
+  const alone = scope.people.length === 1 && verbId !== "attack" ? scope.people[0] : undefined;
+  if (byName.length === 1 && byName[0]) return byName[0];
+  if (isNamed(judged)) return judged;
+  if (alone) return alone;
+  if (judged.kind === "error" && scope.people.length >= 2)
+    return {
+      kind: "clarify",
+      question: "",
+      candidates: [...scope.people],
+      complete: () => ({ verb: "look" }),
+    };
+  return judged;
+}
+
+function buildSpeechAction(
+  verbId: string,
+  itemId: string | null,
+  topic: PlayerTopic,
+  request: Request | null,
+): (to: string) => Action {
+  return (to: string): Action => {
+    if (verbId === "attack") return { verb: "attack", target: to };
+    if (verbId === "show" && itemId) return { verb: "show", item: itemId, to };
+    if (verbId === "give" && itemId) return { verb: "give", item: itemId, to, topic };
+    const act = (verbId === "give" || verbId === "show" ? "offer" : verbId) as SpeechAct;
+    return { verb: "say", act, to, topic, item: itemId, request };
+  };
+}
+
+/** No content to what was said: ask which, naming what the player could say instead. */
+function emptyStatementClarify(
+  g: Game,
+  found: Named,
+  statements: Option[],
+  topicAnswer: TopAnswer,
+  verbId: string,
+): Matched {
+  const mass = (id: string) => topicAnswer?.all[id] ?? 0;
+  const ranked = [...statements].sort((a, b) => mass(b.id) - mass(a.id)).slice(0, 4);
+  const shown = (o: Option) => {
+    const claim = o.id.startsWith("claim:") ? g.world.claims[o.id.slice(6)] : undefined;
+    if (claim) return `that ${claimClause(g.world, claim, { listener: PLAYER })}`;
+    return String(o.description).replace("the character", "you");
+  };
+  const candidates = ranked.map(
+    (o): Named => ({ id: o.id, name: shown(o), aliases: [], kind: "thing" }),
+  );
+  return {
+    kind: "clarify",
+    question: `What do you tell ${found.name}: ${orList(candidates.map((c) => c.name))}?`,
+    candidates,
+    complete: (id) => ({
+      verb: "say",
+      act: verbId as SpeechAct,
+      to: found.id,
+      topic: decodeTopic(id),
+      item: null,
+      request: null,
+    }),
+  };
+}
+
+function matchSpeechVerb(
+  g: Game,
+  scope: { people: Named[] },
+  text: string,
+  verb: VerbTop,
+  target: TopAnswer,
+  itemId: string | null,
+  topic: PlayerTopic,
+  topicAnswer: TopAnswer,
+  request: Request | null,
+  statements: Option[],
+): Matched {
+  const found = resolveSpeechTarget(scope, text, target, verb.id);
+  const build = buildSpeechAction(verb.id, itemId, topic, request);
+  // A statement with no recognisable content: ask which, naming what the player could say.
+  const empty = topic.kind === "none" && !itemId && !request;
+  // The judge is sure the line asserts nothing the world knows of. Offering four claims to
+  // pick from would put words in the player's mouth, so it is a remark and nothing more.
+  const nothingListed = topicAnswer?.id === NONE && topicAnswer.p >= 0.6;
+  if (isNamed(found) && empty && verb.id === "tell" && nothingListed)
+    return {
+      kind: "action",
+      action: { verb: "say", act: "remark", to: found.id, topic, item: null, request: null },
+    };
+  if (isNamed(found) && empty && (verb.id === "tell" || verb.id === "accuse"))
+    return emptyStatementClarify(g, found, statements, topicAnswer, verb.id);
+  if (isNamed(found)) return { kind: "action", action: build(found.id) };
+  if (found.kind === "error" && scope.people.length === 0)
+    return { kind: "error", message: "There is nobody here to hear you." };
+  return clarifyCandidates(found, verb.id === "attack" ? "attack" : "speak to", build);
+}
+
 /**
  * Reads free text with the parse-intent family. The action's confidence is its
  * weakest argument. A target that does not stand out among things of one kind
@@ -183,56 +361,14 @@ export async function judgeParse(g: Game, text: string): Promise<Matched> {
         "You can't quite find the words. (The judge is not answering. Plain commands still work: type help.)",
     };
 
-  const mode = top(decision.answers.mode);
-  if (mode?.id !== "in_story")
-    return { kind: "error", message: "You mutter something that makes no sense, even to you." };
-
-  const verb = top(decision.answers.verb);
-  if (!verb || verb.id === NONE)
-    return { kind: "error", message: "You turn the thought over and cannot see how to act on it." };
-  if (verb.p < 0.5) {
-    const rivals = Object.entries(verb.all)
-      .filter(([id]) => id !== NONE)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 2)
-      .map(([id]) => id);
-    return { kind: "error", message: `You hesitate. Do you mean to ${orList(rivals)}?` };
-  }
+  const verb = readVerb(decision);
+  if (!("id" in verb)) return verb;
 
   const target = top(decision.answers.target);
   if (target?.id.startsWith("absent:") && target.p >= 0.5) {
     const who = g.world.actors[target.id.slice(7)]?.name ?? "They";
     return { kind: "error", message: `${who} is not here.` };
   }
-  const pickTarget = (pool: readonly Named[], needed: number): Named | Matched => {
-    const mass = (id: string) => target?.all[id] ?? 0;
-    const best = pool.filter((n) => mass(n.id) > 0).sort((a, b) => mass(b.id) - mass(a.id));
-    const first = best[0];
-    if (first && mass(first.id) >= needed) return first;
-    const rivals = best.filter((n) => mass(n.id) >= 0.1);
-    if (rivals.length >= 2)
-      return {
-        kind: "clarify",
-        question: "",
-        candidates: rivals,
-        complete: () => ({ verb: "look" }),
-      };
-    // M0's pattern: `none` wins while the leftover sits on several things of one kind.
-    const sameKind = pool.filter((n) => mass(n.id) >= 0.05);
-    if (sameKind.length >= 2)
-      return {
-        kind: "clarify",
-        question: "",
-        candidates: sameKind,
-        complete: () => ({ verb: "look" }),
-      };
-    return { kind: "error", message: "Nothing here answers to that." };
-  };
-  const clarify = (found: Matched, word: string, complete: (id: string) => Action): Matched =>
-    found.kind === "clarify"
-      ? { ...found, question: whichOne(word, found.candidates), complete }
-      : found;
-  const isNamed = (x: Named | Matched): x is Named => "aliases" in x;
 
   const item = top(decision.answers.item);
   const itemId = item && item.id !== NONE && item.p >= 0.5 ? item.id : null;
@@ -254,77 +390,21 @@ export async function judgeParse(g: Game, text: string): Promise<Matched> {
     verb.id === "give" ||
     verb.id === "show" ||
     verb.id === "attack"
-  ) {
-    // Violence is not undone by an apology, so it needs a clearer reading than the rest.
-    // A name the player typed settles who is meant, whatever the judge's spread (first
-    // playtest: "who told you that mara" asked "Mara or Odo?"). With one person in the
-    // room, speech is to them. With several and no name, ask which, naming them.
-    const said = ` ${text.toLowerCase().replace(/[^a-z ]+/g, " ")} `;
-    const byName = scope.people.filter((p) => said.includes(` ${p.name.toLowerCase()} `));
-    const judged = pickTarget(scope.people, verb.id === "attack" ? 0.8 : 0.6);
-    const alone = scope.people.length === 1 && verb.id !== "attack" ? scope.people[0] : undefined;
-    const found: Named | Matched =
-      byName.length === 1 && byName[0]
-        ? byName[0]
-        : isNamed(judged)
-          ? judged
-          : (alone ??
-            (judged.kind === "error" && scope.people.length >= 2
-              ? {
-                  kind: "clarify",
-                  question: "",
-                  candidates: [...scope.people],
-                  complete: () => ({ verb: "look" }),
-                }
-              : judged));
-    const build = (to: string): Action => {
-      if (verb.id === "attack") return { verb: "attack", target: to };
-      if (verb.id === "show" && itemId) return { verb: "show", item: itemId, to };
-      if (verb.id === "give" && itemId) return { verb: "give", item: itemId, to, topic };
-      const act = (verb.id === "give" || verb.id === "show" ? "offer" : verb.id) as SpeechAct;
-      return { verb: "say", act, to, topic, item: itemId, request };
-    };
-    // A statement with no recognisable content: ask which, naming what the player could say.
-    const empty = topic.kind === "none" && !itemId && !request;
-    // The judge is sure the line asserts nothing the world knows of. Offering four claims to
-    // pick from would put words in the player's mouth, so it is a remark and nothing more.
-    const nothingListed = topicAnswer?.id === NONE && topicAnswer.p >= 0.6;
-    if (isNamed(found) && empty && verb.id === "tell" && nothingListed)
-      return {
-        kind: "action",
-        action: { verb: "say", act: "remark", to: found.id, topic, item: null, request: null },
-      };
-    if (isNamed(found) && empty && (verb.id === "tell" || verb.id === "accuse")) {
-      const mass = (id: string) => topicAnswer?.all[id] ?? 0;
-      const ranked = [...statements].sort((a, b) => mass(b.id) - mass(a.id)).slice(0, 4);
-      const shown = (o: Option) => {
-        const claim = o.id.startsWith("claim:") ? g.world.claims[o.id.slice(6)] : undefined;
-        if (claim) return `that ${claimClause(g.world, claim, { listener: PLAYER })}`;
-        return String(o.description).replace("the character", "you");
-      };
-      const candidates = ranked.map(
-        (o): Named => ({ id: o.id, name: shown(o), aliases: [], kind: "thing" }),
-      );
-      return {
-        kind: "clarify",
-        question: `What do you tell ${found.name}: ${orList(candidates.map((c) => c.name))}?`,
-        candidates,
-        complete: (id) => ({
-          verb: "say",
-          act: verb.id as SpeechAct,
-          to: found.id,
-          topic: decodeTopic(id),
-          item: null,
-          request: null,
-        }),
-      };
-    }
-    if (isNamed(found)) return { kind: "action", action: build(found.id) };
-    if (found.kind === "error" && scope.people.length === 0)
-      return { kind: "error", message: "There is nobody here to hear you." };
-    return clarify(found, verb.id === "attack" ? "attack" : "speak to", build);
-  }
+  )
+    return matchSpeechVerb(
+      g,
+      scope,
+      text,
+      verb,
+      target,
+      itemId,
+      topic,
+      topicAnswer,
+      request,
+      statements,
+    );
 
+  if (verb.id === "wait") return { kind: "action", action: { verb: "wait", minutes: 10 } };
   const pools: Record<string, [readonly Named[], string]> = {
     take: [scope.things, "take"],
     drop: [scope.carried, "drop"],
@@ -332,21 +412,11 @@ export async function judgeParse(g: Game, text: string): Promise<Matched> {
     go: [scope.exits, "go to"],
     use: [scope.exits, "unlock"],
   };
-  if (verb.id === "wait") return { kind: "action", action: { verb: "wait", minutes: 10 } };
   const [pool, word] = pools[verb.id] ?? [[], ""];
-  const found = pickTarget(pool, 0.6);
-  const build = (id: string): Action =>
-    verb.id === "take"
-      ? { verb: "take", item: id }
-      : verb.id === "drop"
-        ? { verb: "drop", item: id }
-        : verb.id === "go"
-          ? { verb: "go", room: id }
-          : verb.id === "use"
-            ? { verb: "use", target: id, item: itemId }
-            : { verb: "examine", target: id };
+  const found = pickTarget(target, pool, 0.6);
+  const build = buildPlainAction(verb.id, itemId);
   if (isNamed(found)) return { kind: "action", action: build(found.id) };
-  return clarify(found, word, build);
+  return clarifyCandidates(found, word, build);
 }
 
 // --- What an NPC could say: closed option sets built from their beliefs -------
@@ -392,14 +462,17 @@ function againstStranger(g: Game, npc: string): Belief | undefined {
   );
 }
 
+/** The phrasing for repeating a held claim back, by how it is delivered. */
+function claimDescription(g: Game, npc: string, act: SpeechAct, clause: string): string {
+  if (act === "confide")
+    return `Quietly confides to the stranger that ${clause}, which ${nameOf(g.world, npc)} has kept back until now`;
+  if (act === "accuse") return `Says to the stranger's face that ${clause}`;
+  return `Tells the stranger that ${clause}`;
+}
+
 function claimReply(g: Game, npc: string, act: SpeechAct, b: Belief): Reply {
   const clause = `${claimClause(g.world, b.claim)}${whenFor(b.claim, g.world.clock)}`;
-  const description =
-    act === "confide"
-      ? `Quietly confides to the stranger that ${clause}, which ${nameOf(g.world, npc)} has kept back until now`
-      : act === "accuse"
-        ? `Says to the stranger's face that ${clause}`
-        : `Tells the stranger that ${clause}`;
+  const description = claimDescription(g, npc, act, clause);
   return {
     option: { id: `${act}:${b.claim.id}`, description },
     act,
@@ -450,133 +523,173 @@ const THROW_OUT: Reply = {
 };
 
 type Situation =
-  | {
-      kind: "greeted" | "entered" | "remarked" | "denied" | "threatened" | "insulted" | "interject";
-    }
+  | { kind: "greeted" }
+  | { kind: "entered" }
+  | { kind: "remarked" }
+  | { kind: "denied" }
+  | { kind: "threatened" }
+  | { kind: "insulted" }
+  | { kind: "interject" }
   | { kind: "asked"; about: string | null; whereabouts: boolean; claim?: Claim }
   | { kind: "told"; believes: boolean; claim: Claim; shown?: boolean }
   | { kind: "accused"; alone: boolean };
 
-function replies(g: Game, npc: string, s: Situation): Reply[] {
+function repliesToGreeting(
+  g: Game,
+  npc: string,
+  s: Extract<Situation, { kind: "greeted" | "entered" | "remarked" }>,
+  accuse: Reply[],
+): Reply[] {
   const out: Reply[] = [];
-  const accusation = againstStranger(g, npc);
-  const accuse = accusation ? [claimReply(g, npc, "accuse", accusation)] : [];
+  // A remark gets no hello back. They may take the opening, or let it lie.
+  if (s.kind !== "remarked") out.push(GREET);
+  out.push(...accuse);
+  if (npc === MARA)
+    out.push(plain("ask_dusk", "ask", "Asks the stranger where they were at dusk", "dusk"));
+  const gossip = held(g, npc).find(
+    (b) =>
+      b.claim.subject !== PLAYER &&
+      b.claim.subject !== npc &&
+      !guarded(g, npc, b.claim) &&
+      b.claim.predicate !== "is_in" &&
+      // Nobody tells the stranger what the stranger just told them.
+      !(b.edge.source && "from" in b.edge.source && b.edge.source.from === PLAYER),
+  );
+  if (gossip) out.push(claimReply(g, npc, "tell", gossip));
+  if (s.kind === "greeted") out.push(REFUSE);
+  return out;
+}
+
+function repliesToAsk(g: Game, npc: string, s: Extract<Situation, { kind: "asked" }>): Reply[] {
+  const out: Reply[] = [];
+  const about = s.about;
+  if (s.whereabouts && about) {
+    const last = beliefsOf(g.world, npc).find(
+      (b) => b.claim.predicate === "is_in" && b.claim.subject === about && b.credence > 0,
+    );
+    out.push(
+      last
+        ? claimReply(g, npc, "tell", last)
+        : plain("tell_nothing", "tell", "Says they have not seen them"),
+    );
+  } else {
+    // Asked about a particular claim: say it again with where it came from. The
+    // citation is the answer to "who told you that?".
+    const asked = s.claim ? beliefIn(g.world, npc, s.claim.id) : undefined;
+    if (asked && asked.credence >= 0.15 && !guarded(g, npc, asked.claim))
+      out.push(claimReply(g, npc, "tell", asked));
+    const relevant = held(g, npc, about ?? undefined).filter(
+      (b) => !about || mentions(b.claim, about),
+    );
+    const open = relevant.filter((b) => !guarded(g, npc, b.claim) && b.claim.predicate !== "is_in");
+    // Their own wrongdoing stays buried; what they owe is only embarrassing.
+    const secret = relevant.filter(
+      (b) => guarded(g, npc, b.claim) && (b.claim.subject !== npc || b.claim.predicate === "owes"),
+    );
+    out.push(...open.slice(0, 2).map((b) => claimReply(g, npc, "tell", b)));
+    out.push(...secret.slice(0, 1).map((b) => claimReply(g, npc, "confide", b)));
+    if (open.length + secret.length === 0)
+      out.push(plain("tell_nothing", "tell", "Says they know nothing about it"));
+  }
+  out.push(REFUSE, ASK_WHY);
+  return out;
+}
+
+/** What the doubter asks, once told and not believed: where from, who vouches, or how. */
+function doubtedReply(s: Extract<Situation, { kind: "told" }>): Reply {
+  if (s.shown) return ASK_WHERE_FROM;
+  if (s.claim.subject === PLAYER) return ASK_VOUCH;
+  return ASK_HOW;
+}
+
+function repliesToTold(
+  g: Game,
+  npc: string,
+  s: Extract<Situation, { kind: "told" }>,
+  accuse: Reply[],
+): Reply[] {
+  const out: Reply[] = [];
+  if (!s.believes) {
+    out.push(...accuse, REFUSE, doubtedReply(s));
+    return out;
+  }
+  out.push(s.shown ? ASK_WHERE_FROM : ASK_HOW);
+  if (npc === MARA && s.claim.subject !== PLAYER && s.claim.subject !== MARA)
+    out.push(
+      plain(
+        "promise_confront",
+        "promise",
+        "Says she will have it out with that person herself, tonight",
+        `confront:${s.claim.subject}`,
+      ),
+    );
+  const more = held(g, npc, s.claim.subject).find(
+    (b) =>
+      b.claim.id !== s.claim.id &&
+      b.claim.subject === s.claim.subject &&
+      WRONGDOING.includes(b.claim.predicate),
+  );
+  if (more) out.push(claimReply(g, npc, guarded(g, npc, more.claim) ? "confide" : "tell", more));
+  out.push(REFUSE);
+  return out;
+}
+
+function repliesToDenial(npc: string, accuse: Reply[]): Reply[] {
+  const out = [...accuse, REFUSE];
+  if (npc === MARA)
+    out.push(plain("ask_dusk", "ask", "Asks the stranger where they were at dusk, then", "dusk"));
+  return out;
+}
+
+function repliesToAccusation(
+  g: Game,
+  npc: string,
+  s: Extract<Situation, { kind: "accused" }>,
+  accuse: Reply[],
+): Reply[] {
+  const out = [...accuse, REFUSE, THREATEN];
+  const own = held(g, npc).find((b) => b.claim.subject === npc && b.claim.predicate === "took");
+  if (own) out.push(claimReply(g, npc, "confide", own));
+  if (s.alone)
+    out.push(plain("offer", "offer", "Quietly offers the stranger money to let the matter drop"));
+  return out;
+}
+
+function repliesToInsult(g: Game, npc: string): Reply[] {
+  // Words are not the only answer to an insult. What the judge may choose from is
+  // built from what this person can do; what they will do is the judge's.
+  const out = [REFUSE, RETORT, THREATEN, WALK_OUT, STRIKE];
+  if (g.world.actors[npc]?.role === "innkeeper") out.push(THROW_OUT);
+  return out;
+}
+
+function repliesFor(g: Game, npc: string, s: Situation, accuse: Reply[]): Reply[] {
   switch (s.kind) {
     case "greeted":
     case "remarked":
-    case "entered": {
-      // A remark gets no hello back. They may take the opening, or let it lie.
-      if (s.kind !== "remarked") out.push(GREET);
-      out.push(...accuse);
-      if (npc === MARA)
-        out.push(plain("ask_dusk", "ask", "Asks the stranger where they were at dusk", "dusk"));
-      const gossip = held(g, npc).find(
-        (b) =>
-          b.claim.subject !== PLAYER &&
-          b.claim.subject !== npc &&
-          !guarded(g, npc, b.claim) &&
-          b.claim.predicate !== "is_in" &&
-          // Nobody tells the stranger what the stranger just told them.
-          !(b.edge.source && "from" in b.edge.source && b.edge.source.from === PLAYER),
-      );
-      if (gossip) out.push(claimReply(g, npc, "tell", gossip));
-      if (s.kind === "greeted") out.push(REFUSE);
-      break;
-    }
-    case "asked": {
-      const about = s.about;
-      if (s.whereabouts && about) {
-        const last = beliefsOf(g.world, npc).find(
-          (b) => b.claim.predicate === "is_in" && b.claim.subject === about && b.credence > 0,
-        );
-        out.push(
-          last
-            ? claimReply(g, npc, "tell", last)
-            : plain("tell_nothing", "tell", "Says they have not seen them"),
-        );
-      } else {
-        // Asked about a particular claim: say it again with where it came from. The
-        // citation is the answer to "who told you that?".
-        const asked = s.claim ? beliefIn(g.world, npc, s.claim.id) : undefined;
-        if (asked && asked.credence >= 0.15 && !guarded(g, npc, asked.claim))
-          out.push(claimReply(g, npc, "tell", asked));
-        const relevant = held(g, npc, about ?? undefined).filter(
-          (b) => !about || mentions(b.claim, about),
-        );
-        const open = relevant.filter(
-          (b) => !guarded(g, npc, b.claim) && b.claim.predicate !== "is_in",
-        );
-        // Their own wrongdoing stays buried; what they owe is only embarrassing.
-        const secret = relevant.filter(
-          (b) =>
-            guarded(g, npc, b.claim) && (b.claim.subject !== npc || b.claim.predicate === "owes"),
-        );
-        out.push(...open.slice(0, 2).map((b) => claimReply(g, npc, "tell", b)));
-        out.push(...secret.slice(0, 1).map((b) => claimReply(g, npc, "confide", b)));
-        if (open.length + secret.length === 0)
-          out.push(plain("tell_nothing", "tell", "Says they know nothing about it"));
-      }
-      out.push(REFUSE, ASK_WHY);
-      break;
-    }
+    case "entered":
+      return repliesToGreeting(g, npc, s, accuse);
+    case "asked":
+      return repliesToAsk(g, npc, s);
     case "told":
-      if (s.believes) {
-        out.push(s.shown ? ASK_WHERE_FROM : ASK_HOW);
-        if (npc === MARA && s.claim.subject !== PLAYER && s.claim.subject !== MARA)
-          out.push(
-            plain(
-              "promise_confront",
-              "promise",
-              "Says she will have it out with that person herself, tonight",
-              `confront:${s.claim.subject}`,
-            ),
-          );
-        const more = held(g, npc, s.claim.subject).find(
-          (b) =>
-            b.claim.id !== s.claim.id &&
-            b.claim.subject === s.claim.subject &&
-            WRONGDOING.includes(b.claim.predicate),
-        );
-        if (more)
-          out.push(claimReply(g, npc, guarded(g, npc, more.claim) ? "confide" : "tell", more));
-        out.push(REFUSE);
-      } else
-        out.push(
-          ...accuse,
-          REFUSE,
-          s.shown ? ASK_WHERE_FROM : s.claim.subject === PLAYER ? ASK_VOUCH : ASK_HOW,
-        );
-      break;
+      return repliesToTold(g, npc, s, accuse);
     case "denied":
-      out.push(...accuse, REFUSE);
-      if (npc === MARA)
-        out.push(
-          plain("ask_dusk", "ask", "Asks the stranger where they were at dusk, then", "dusk"),
-        );
-      break;
-    case "accused": {
-      out.push(...accuse, REFUSE, THREATEN);
-      const own = held(g, npc).find((b) => b.claim.subject === npc && b.claim.predicate === "took");
-      if (own) out.push(claimReply(g, npc, "confide", own));
-      if (s.alone)
-        out.push(
-          plain("offer", "offer", "Quietly offers the stranger money to let the matter drop"),
-        );
-      break;
-    }
+      return repliesToDenial(npc, accuse);
+    case "accused":
+      return repliesToAccusation(g, npc, s, accuse);
     case "threatened":
-      out.push(REFUSE, THREATEN, ...accuse);
-      break;
+      return [REFUSE, THREATEN, ...accuse];
     case "insulted":
-      // Words are not the only answer to an insult. What the judge may choose from is
-      // built from what this person can do; what they will do is the judge's.
-      out.push(REFUSE, RETORT, THREATEN, WALK_OUT, STRIKE);
-      if (g.world.actors[npc]?.role === "innkeeper") out.push(THROW_OUT);
-      break;
+      return repliesToInsult(g, npc);
     case "interject":
-      out.push(...accuse, THREATEN);
-      break;
+      return [...accuse, THREATEN];
   }
+}
+
+function replies(g: Game, npc: string, s: Situation): Reply[] {
+  const accusation = againstStranger(g, npc);
+  const accuse = accusation ? [claimReply(g, npc, "accuse", accusation)] : [];
+  const out = repliesFor(g, npc, s, accuse);
   const seen = new Set<string>();
   return out.filter(
     (r) => !seen.has(r.option.id) && seen.add(r.option.id) && !saidLately(g, npc, r),
@@ -655,25 +768,72 @@ const ACT_WORDS: Partial<Record<SpeechAct, string>> = {
 
 type Say = Extract<Action, { verb: "say" }>;
 
-export async function playerSpeaks(
+/** What the speaker offers to lean on, when bargaining: fear, money, or nothing but goodwill. */
+function leverFor(action: Say): Lever {
+  if (action.act === "threaten") return "threat";
+  if (action.item) return "payment";
+  return "appeal";
+}
+
+function coinsOffer(g: Game, npc: string): string {
+  if (npc === TOBIN && beliefIn(g.world, PLAYER, C_TOBIN_OWES.id))
+    return "enough silver to clear everything Tobin owes Odo, paid now";
+  return "a handful of silver, paid now";
+}
+
+/** What is being offered, in the offer premise the judge reads. */
+function givesFor(g: Game, npc: string, action: Say): string {
+  if (action.act === "threaten") return "not being hurt";
+  if (action.item === COINS) return coinsOffer(g, npc);
+  if (action.item) return g.world.items[action.item]?.name ?? "something";
+  return "nothing but thanks";
+}
+
+/** The "you ask NPC ___" clause: what the question is about, in the player's own words. */
+function askClause(g: Game, npc: string, topic: PlayerTopic, asserted: Claim | null): string {
+  if (topic.kind === "whereabouts") return `where ${nameOf(g.world, topic.id)} is`;
+  if (topic.kind === "entity" && topic.id !== npc && topic.id !== "tonight")
+    return `about ${nameOf(g.world, topic.id)}`;
+  if (topic.kind === "claim" && asserted)
+    return `whether ${claimClause(g.world, asserted, { listener: npc })}`;
+  return "what they know";
+}
+
+/** Which situation to build replies for, when there is no belief question to ask first. */
+function situationFor(
+  toFace: boolean,
+  action: Say,
+  topic: PlayerTopic,
+  asserted: Claim | null,
+  shown: string | null,
+  others: string[],
+  about: string | undefined,
+): Situation {
+  if (toFace) return { kind: "accused", alone: others.length === 0 };
+  if (action.act === "ask")
+    return {
+      kind: "asked",
+      about: about ?? null,
+      whereabouts: topic.kind === "whereabouts",
+      ...(asserted ? { claim: asserted } : {}),
+    };
+  if (action.act === "threaten") return { kind: "threatened" };
+  if (action.act === "insult") return { kind: "insulted" };
+  if (action.act === "remark") return { kind: "remarked" };
+  if (topic.kind === "deny") return { kind: "denied" };
+  if (asserted) return { kind: "told", believes: true, claim: asserted, shown: shown !== null };
+  return { kind: "greeted" };
+}
+
+/** What was said, as structure: the claim asserted, the deed noticed, and what was shown. */
+function buildAsserted(
   g: Game,
   action: Say,
+  npc: string,
+  name: string,
   root: LogId,
-  handOver = false,
-): Promise<number> {
-  const npc = action.to;
-  const listener = g.world.actors[npc];
-  if (!listener || listener.room !== g.playerRoom) {
-    g.say("They are not here.");
-    return 0;
-  }
-  const name = listener.name;
-  g.addressed[npc] = g.world.conversation.beat;
-  const others = g.npcsIn(g.playerRoom).filter((n) => n !== npc);
-  const inFrontOf =
-    others.length > 0 ? others.map((o) => nameOf(g.world, o)).join(" and ") : "nobody else";
-
-  // 1. What was said, as structure. The text itself stopped at the parser.
+  handOver: boolean,
+): { asserted: Claim | null; event: Claim | null; shown: string | null } {
   let asserted: Claim | null = null;
   let event: Claim | null = null;
   let shown: string | null = null;
@@ -731,72 +891,53 @@ export async function playerSpeaks(
       origin: null,
     });
   } else if (topic.kind === "claim") asserted = g.world.claims[topic.id] ?? null;
+  return { asserted, event, shown };
+}
 
+/** Narrates the act itself, in the second person; threatening and insulting are deeds too. */
+function narrateAct(
+  g: Game,
+  action: Say,
+  npc: string,
+  name: string,
+  topic: PlayerTopic,
+  asserted: Claim | null,
+  shown: string | null,
+  event: Claim | null,
+  root: LogId,
+): Claim | null {
   if (action.act === "threaten") {
     g.say(`You lean in close to ${name} and make yourself understood.`);
-    event = g.happened({ subject: PLAYER, predicate: "threatened", to: npc, severity: 2 }, root);
-  } else if (action.act === "insult") {
+    return g.happened({ subject: PLAYER, predicate: "threatened", to: npc, severity: 2 }, root);
+  }
+  if (action.act === "insult") {
     // An insult is a deed like any other: the room sees it, remembers it and may pass it on.
     g.say(`You tell ${name} exactly what you think of them.`);
-    event = g.happened({ subject: PLAYER, predicate: "insulted", to: npc, severity: 1 }, root);
-  } else if (action.act === "remark") g.say(`You say your piece to ${name}.`);
+    return g.happened({ subject: PLAYER, predicate: "insulted", to: npc, severity: 1 }, root);
+  }
+  if (action.act === "remark") g.say(`You say your piece to ${name}.`);
   else if (asserted && !shown) {
     // Narration addresses the player, so the player is "you" and the listener is named.
     const clause = claimClause(g.world, asserted, { listener: PLAYER });
     const face = asserted.subject === npc;
     g.say(face ? `You say it to ${name}'s face: ${clause}.` : `You tell ${name} that ${clause}.`);
   } else if (action.act === "greet") g.say(`You greet ${name}.`);
-  else if (action.act === "ask") {
-    const what =
-      topic.kind === "whereabouts"
-        ? `where ${nameOf(g.world, topic.id)} is`
-        : topic.kind === "entity" && topic.id !== npc && topic.id !== "tonight"
-          ? `about ${nameOf(g.world, topic.id)}`
-          : topic.kind === "claim" && asserted
-            ? `whether ${claimClause(g.world, asserted, { listener: npc })}`
-            : "what they know";
-    g.say(`You ask ${name} ${what}.`);
-  }
-  const toFace =
-    asserted !== null && asserted.subject === npc && WRONGDOING.includes(asserted.predicate);
-  if (
-    asserted &&
-    asserted.subject !== PLAYER &&
-    WRONGDOING.includes(asserted.predicate) &&
-    action.act !== "ask"
-  )
-    event ??= g.happened(
-      {
-        subject: PLAYER,
-        predicate: "accused",
-        object: "ledger",
-        to: asserted.subject,
-        severity: 2,
-      },
-      root,
-    );
+  else if (action.act === "ask") g.say(`You ask ${name} ${askClause(g, npc, topic, asserted)}.`);
+  return event;
+}
 
-  // 2. One call for the whole scene: the listener's judgments and every bystander's.
-  const bargaining =
-    action.act === "offer" ||
-    action.act === "request" ||
-    (action.act === "threaten" && action.request);
-  const gives =
-    action.act === "threaten"
-      ? "not being hurt"
-      : action.item === COINS
-        ? npc === TOBIN && beliefIn(g.world, PLAYER, C_TOBIN_OWES.id)
-          ? "enough silver to clear everything Tobin owes Odo, paid now"
-          : "a handful of silver, paid now"
-        : action.item
-          ? (g.world.items[action.item]?.name ?? "something")
-          : "nothing but thanks";
-  const asks = action.request ? REQUEST_WORDS[action.request].toLowerCase() : "something unclear";
-
-  const named =
-    topic.kind === "entity" || topic.kind === "whereabouts" ? topic.id : asserted?.subject;
-  // "Ask Tobin what he saw" is about tonight, not about Tobin.
-  const about = named === "tonight" || (action.act === "ask" && named === npc) ? undefined : named;
+/** What the room is told the listener hears: the claim, its source, and what backs it. */
+function buildHears(
+  g: Game,
+  npc: string,
+  name: string,
+  action: Say,
+  asserted: Claim | null,
+  shown: string | null,
+  topic: PlayerTopic,
+  about: string | undefined,
+  inFrontOf: string,
+): Record<string, string> {
   const hears: Record<string, string> = {
     said_by: "the stranger",
     what: `The stranger ${ACT_WORDS[action.act] ?? "speaks to"} ${name}`,
@@ -812,11 +953,48 @@ export async function playerSpeaks(
   if (topic.kind === "deny") hears.claim = "The stranger swears they never touched the ledger";
   if (action.act === "ask")
     hears.asks_about = about ? nameOf(g.world, about) : "what they know of tonight's trouble";
+  return hears;
+}
 
+function buildParts(
+  g: Game,
+  npc: string,
+  hears: Record<string, string>,
+  bargaining: boolean,
+  gives: string,
+  asks: string,
+  about: string | undefined,
+): NpcPart[] {
   const extra: NpcPart["extra"] = { hears };
   if (bargaining) extra.offer = { from: relation(g, npc, PLAYER), gives, asks };
-  const parts: NpcPart[] = [{ npc, extra, ...(about ? { about } : {}) }];
+  return [{ npc, extra, ...(about ? { about } : {}) }];
+}
 
+interface ReplyQuestions {
+  questions: Record<string, Asked>;
+  single: Reply[];
+  ifYes: Reply[];
+  ifNo: Reply[];
+}
+
+/** The questions asked of the listener: whether to accept an offer, whether to believe a
+ * claim (with a reply prepared for either answer), or which single reply fits. */
+function buildReplyQuestions(
+  g: Game,
+  npc: string,
+  name: string,
+  listener: Actor,
+  action: Say,
+  asserted: Claim | null,
+  shown: string | null,
+  topic: PlayerTopic,
+  toFace: boolean,
+  others: string[],
+  about: string | undefined,
+  hears: Record<string, string>,
+  bargaining: boolean,
+  root: LogId,
+): ReplyQuestions {
   const questions: Record<string, Asked> = {};
   const judged = asserted !== null && !toFace && action.act !== "ask";
   // Seeing is believing, and that is code's call: initials stitched in a hem or scratched
@@ -829,8 +1007,10 @@ export async function playerSpeaks(
   let ifYes: Reply[] = [];
   let ifNo: Reply[] = [];
   if (bargaining) {
-    const lever = action.act === "threaten" ? "threat" : action.item ? "payment" : "appeal";
-    questions.accepts = acceptOffer(`npcs.${npc}`, persuadability(listener, lever, 0.5) * 0.8);
+    questions.accepts = acceptOffer(
+      `npcs.${npc}`,
+      persuadability(listener, leverFor(action), 0.5) * 0.8,
+    );
   } else if (judged && asserted && !already) {
     const prior = (TRUST[npc]?.[PLAYER] ?? 0.3) + (shown ? 0.45 : 0) + listener.drives.trust * 0.3;
     questions.believes = believeClaim(`npcs.${npc}`, Math.min(0.95, prior));
@@ -851,62 +1031,99 @@ export async function playerSpeaks(
       `${name} has decided that this is not true: ${c}.`,
     );
   } else {
-    single = replies(
-      g,
-      npc,
-      toFace
-        ? { kind: "accused", alone: others.length === 0 }
-        : action.act === "ask"
-          ? {
-              kind: "asked",
-              about: about ?? null,
-              whereabouts: topic.kind === "whereabouts",
-              ...(asserted ? { claim: asserted } : {}),
-            }
-          : action.act === "threaten"
-            ? { kind: "threatened" }
-            : action.act === "insult"
-              ? { kind: "insulted" }
-              : action.act === "remark"
-                ? { kind: "remarked" }
-                : topic.kind === "deny"
-                  ? { kind: "denied" }
-                  : asserted
-                    ? { kind: "told", believes: true, claim: asserted, shown: shown !== null }
-                    : { kind: "greeted" },
-    );
+    single = replies(g, npc, situationFor(toFace, action, topic, asserted, shown, others, about));
     questions.reply = speechQuestion(g, npc, single);
   }
+  return { questions, single, ifYes, ifNo };
+}
 
-  const noticed = event ?? asserted;
-  const bystanders = noticed ? addBystanders(g, others, noticed, parts, questions) : [];
-  const slice = compileSlice(sceneSlice, { world: g.world, parts });
-  const present = [npc, ...others].map((n) => ({
-    kind: "in_room" as const,
-    actor: n,
-    room: g.playerRoom,
-  }));
-  const decision = await g.decide(slice, questions, present, root);
-  if (!decision) {
-    g.say(`${name} is no longer listening.`);
-    return 1;
-  }
+interface SpeechSetup {
+  questions: Record<string, Asked>;
+  parts: NpcPart[];
+  single: Reply[];
+  ifYes: Reply[];
+  ifNo: Reply[];
+  bargaining: boolean;
+}
 
-  // 3. Commit what followed, in code.
+/** One call for the whole scene: the listener's judgments and every bystander's, built as a
+ * closed option set from beliefs, drives and what was shown. */
+function buildSpeechSetup(
+  g: Game,
+  npc: string,
+  name: string,
+  listener: Actor,
+  action: Say,
+  others: string[],
+  asserted: Claim | null,
+  shown: string | null,
+  topic: PlayerTopic,
+  toFace: boolean,
+  root: LogId,
+): SpeechSetup {
+  const inFrontOf =
+    others.length > 0 ? others.map((o) => nameOf(g.world, o)).join(" and ") : "nobody else";
+  const bargaining = Boolean(
+    action.act === "offer" ||
+      action.act === "request" ||
+      (action.act === "threaten" && action.request),
+  );
+  const gives = givesFor(g, npc, action);
+  const asks = action.request ? REQUEST_WORDS[action.request].toLowerCase() : "something unclear";
+
+  const named =
+    topic.kind === "entity" || topic.kind === "whereabouts" ? topic.id : asserted?.subject;
+  // "Ask Tobin what he saw" is about tonight, not about Tobin.
+  const about = named === "tonight" || (action.act === "ask" && named === npc) ? undefined : named;
+  const hears = buildHears(g, npc, name, action, asserted, shown, topic, about, inFrontOf);
+  const parts = buildParts(g, npc, hears, bargaining, gives, asks, about);
+  const { questions, single, ifYes, ifNo } = buildReplyQuestions(
+    g,
+    npc,
+    name,
+    listener,
+    action,
+    asserted,
+    shown,
+    topic,
+    toFace,
+    others,
+    about,
+    hears,
+    bargaining,
+    root,
+  );
+
+  return { questions, parts, single, ifYes, ifNo, bargaining };
+}
+
+/** Commits what followed, in code: belief, bargain, reply and bystander reactions. */
+function commitSpeechOutcome(
+  g: Game,
+  npc: string,
+  action: Say,
+  asserted: Claim | null,
+  shown: string | null,
+  event: Claim | null,
+  setup: SpeechSetup,
+  decision: Decision,
+  bystanders: { npc: string; options: Reply[] }[],
+  noticed: Claim | null,
+): void {
   if (event) g.witness(event, g.playerRoom, decision.id);
-  let pool = single;
+  let pool = setup.single;
   let answer = decision.answers.reply;
-  if (questions.believes && asserted) {
+  if (setup.questions.believes && asserted) {
     const believed = g.sampleYes(decision.answers.believes, `${npc} believes`, decision.id);
     const source = shown
       ? ({ kind: "shown", from: PLAYER } as const)
       : ({ kind: "told", from: PLAYER } as const);
     g.learn(npc, asserted, g.credenceFor(source, believed), source, decision.id);
     if (believed) g.nudge(npc, { trust: 0.05 }, decision.id);
-    pool = believed ? ifYes : ifNo;
+    pool = believed ? setup.ifYes : setup.ifNo;
     answer = believed ? decision.answers.reply_if_believes : decision.answers.reply_if_doubts;
   }
-  if (bargaining) bargain(g, action, decision.answers.accepts, decision.id);
+  if (setup.bargaining) bargain(g, action, decision.answers.accepts, decision.id);
   else {
     const chosen = g.sampleChoice(answer, `${npc} reply`, decision.id);
     const reply = pool.find((r) => r.option.id === chosen);
@@ -915,6 +1132,78 @@ export async function playerSpeaks(
     else g.say(silence(g.world, npc));
   }
   settleBystanders(g, bystanders, noticed, decision.answers, decision.id);
+}
+
+export async function playerSpeaks(
+  g: Game,
+  action: Say,
+  root: LogId,
+  handOver = false,
+): Promise<number> {
+  const npc = action.to;
+  const listener = g.world.actors[npc];
+  if (!listener || listener.room !== g.playerRoom) {
+    g.say("They are not here.");
+    return 0;
+  }
+  const name = listener.name;
+  g.addressed[npc] = g.world.conversation.beat;
+  const others = g.npcsIn(g.playerRoom).filter((n) => n !== npc);
+  const { topic } = action;
+
+  // 1. What was said, as structure. The text itself stopped at the parser.
+  const built = buildAsserted(g, action, npc, name, root, handOver);
+  const { asserted, shown } = built;
+  let event = narrateAct(g, action, npc, name, topic, asserted, shown, built.event, root);
+  const toFace =
+    asserted !== null && asserted.subject === npc && WRONGDOING.includes(asserted.predicate);
+  if (
+    asserted &&
+    asserted.subject !== PLAYER &&
+    WRONGDOING.includes(asserted.predicate) &&
+    action.act !== "ask"
+  )
+    event ??= g.happened(
+      {
+        subject: PLAYER,
+        predicate: "accused",
+        object: "ledger",
+        to: asserted.subject,
+        severity: 2,
+      },
+      root,
+    );
+
+  // 2. One call for the whole scene: the listener's judgments and every bystander's.
+  const setup = buildSpeechSetup(
+    g,
+    npc,
+    name,
+    listener,
+    action,
+    others,
+    asserted,
+    shown,
+    topic,
+    toFace,
+    root,
+  );
+  const noticed = event ?? asserted;
+  const bystanders = noticed ? addBystanders(g, others, noticed, setup.parts, setup.questions) : [];
+  const slice = compileSlice(sceneSlice, { world: g.world, parts: setup.parts });
+  const present = [npc, ...others].map((n) => ({
+    kind: "in_room" as const,
+    actor: n,
+    room: g.playerRoom,
+  }));
+  const decision = await g.decide(slice, setup.questions, present, root);
+  if (!decision) {
+    g.say(`${name} is no longer listening.`);
+    return 1;
+  }
+
+  // 3. Commit what followed, in code.
+  commitSpeechOutcome(g, npc, action, asserted, shown, event, setup, decision, bystanders, noticed);
   g.speak((turn, id) => afterSpeech(g, turn, id));
   return 3;
 }
@@ -995,8 +1284,7 @@ function bargain(g: Game, action: Say, answer: JudgeAnswer | undefined, cause: L
     return;
   }
   const accepted = g.sampleYes(answer, `${npc} accepts`, cause);
-  const lever = action.act === "threaten" ? "threat" : action.item ? "payment" : "appeal";
-  const outcome = resolve(accepted, persuadability(actor, lever, answer.noul));
+  const outcome = resolve(accepted, persuadability(actor, leverFor(action), answer.noul));
   if (outcome === "wavers") {
     g.say(hesitation(g.world, npc));
     return;
@@ -1146,13 +1434,20 @@ export async function greetOnEntry(g: Game, cause: LogId): Promise<void> {
   g.speak((turn, id) => afterSpeech(g, turn, id));
 }
 
+/** What a promised request becomes as a debt: only these two requests are ever promised. */
+function debtKindFor(request: string): "confront" | "testify" | null {
+  if (request === "confront") return "confront";
+  if (request === "speak_to_mara") return "testify";
+  return null;
+}
+
 /** Words have consequences: a told claim is learned, a promise becomes a debt. */
 export function afterSpeech(g: Game, turn: Turn, id: LogId): void {
   g.heard(turn, id);
   const { intent } = turn;
   if (intent.act !== "promise" || intent.topic.kind !== "request") return;
   const [request, whom] = intent.topic.id.split(":");
-  const kind = request === "confront" ? "confront" : request === "speak_to_mara" ? "testify" : null;
+  const kind = debtKindFor(request ?? "");
   if (!kind) return;
   // One confrontation per person, whether she promised it or decided on it herself.
   const debtId = kind === "confront" ? `confront_${whom ?? ODO}` : `${kind}_${intent.speaker}`;

@@ -6,12 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": [
-      "**",
-      "!**/results",
-      "!**/labels",
-      "!demo"
-    ]
+    "includes": ["**", "!**/results", "!**/labels", "!demo"]
   },
   "formatter": {
     "indentStyle": "space",
@@ -74,11 +69,7 @@
         "noConsole": {
           "level": "error",
           "options": {
-            "allow": [
-              "log",
-              "error",
-              "warn"
-            ]
+            "allow": ["log", "error", "warn"]
           }
         },
         "useAwait": "error",

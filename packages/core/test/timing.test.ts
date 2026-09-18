@@ -33,7 +33,7 @@ describe("schedules", () => {
     const world = tinyWorld();
     const ann = world.actors.ann;
     const schedule = world.schedules.ann;
-    if (!ann || !schedule) throw new Error("fixture");
+    if (!(ann && schedule)) throw new Error("fixture");
     expect(locate(world, ann, 600).layer).toBe("home");
 
     schedule.role.push(entry({ id: "cook", at: 590, until: 700, at_location: "kitchen" }));

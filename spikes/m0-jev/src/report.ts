@@ -67,6 +67,10 @@ function distributions(probeId: string, question: string): Distribution[] {
 const f = (x: number, digits = 2) => (Number.isFinite(x) ? x.toFixed(digits) : "n/a");
 const signed = (x: number) => `${x >= 0 ? "+" : ""}${f(x)}`;
 const short = (id: string) => id.replace(/^t\d\./, "");
+const goNoGo = (pass: boolean | null) => {
+  if (pass === null) return "NO DATA";
+  return pass ? "GO" : "NO-GO";
+};
 const lines: string[] = [];
 const out = (s = "") => lines.push(s);
 const summary: [string, string, string][] = [];
@@ -119,15 +123,16 @@ const judged: Judged[] = [];
   };
   const clear = judged.filter((j) => (j.ref[topLabel(j.ref)] ?? 0) >= CRITERIA.referenceClearCut);
   const agree = clear.filter((j) => topLabel(j.jev) === topLabel(j.ref)).length;
-  const agreement = clear.length ? agree / clear.length : Number.NaN;
+  const agreement = clear.length > 0 ? agree / clear.length : Number.NaN;
   const panelNoise = mean(
     judged.map((j) => reference.get(j.probe.id)?.panelDisagreement ?? Number.NaN),
   );
-  const pass = judged.length
-    ? meanTv <= CRITERIA.referenceMeanTv &&
-      rho >= CRITERIA.referenceSpreadCorrelation &&
-      agreement >= CRITERIA.referenceTopAgreement
-    : null;
+  const pass =
+    judged.length > 0
+      ? meanTv <= CRITERIA.referenceMeanTv &&
+        rho >= CRITERIA.referenceSpreadCorrelation &&
+        agreement >= CRITERIA.referenceTopAgreement
+      : null;
   out();
   out(
     `- Mean distance from the reference: ${f(meanTv)} (need ${CRITERIA.referenceMeanTv} or less). The labellers differ from each other by ${f(panelNoise)} on average, which is the noise floor.`,
@@ -153,11 +158,11 @@ const judged: Judged[] = [];
     out(`- **${short(j.probe.id)}**: Jev ${show(j.jev)}. Reference ${show(j.ref)}.`);
   }
   out();
-  out(`**${pass === null ? "NO DATA" : pass ? "GO" : "NO-GO"}**`);
+  out(`**${goNoGo(pass)}**`);
   out();
   summary.push([
     "1 Judges like the reference",
-    pass === null ? "NO DATA" : pass ? "GO" : "NO-GO",
+    goNoGo(pass),
     `distance ${f(meanTv)}, spread correlation ${f(rho)}, top agreement ${agree}/${clear.length}`,
   ]);
 }
@@ -257,11 +262,11 @@ const judged: Judged[] = [];
     `Directional variants that moved as expected by ${CRITERIA.sensitivityMinShift} or more: ${hits} of ${directional} (need ${CRITERIA.sensitivityHitRate * 100}%). Controls that stayed within ${CRITERIA.sensitivityControlTv}: ${controlsOk} of ${controls}.`,
   );
   out();
-  out(`**${pass === null ? "NO DATA" : pass ? "GO" : "NO-GO"}**`);
+  out(`**${goNoGo(pass)}**`);
   out();
   summary.push([
     "2 Sensitivity",
-    pass === null ? "NO DATA" : pass ? "GO" : "NO-GO",
+    goNoGo(pass),
     `${hits}/${directional} directional, ${controlsOk}/${controls} controls`,
   ]);
 }
@@ -298,21 +303,18 @@ const judged: Judged[] = [];
   }
   const median = percentile(worstPerFamily, 50);
   const worst = Math.max(...worstPerFamily, Number.NEGATIVE_INFINITY);
-  const pass = worstPerFamily.length
-    ? median <= CRITERIA.paraphraseMedianTv && worst <= CRITERIA.paraphraseWorstTv
-    : null;
+  const pass =
+    worstPerFamily.length > 0
+      ? median <= CRITERIA.paraphraseMedianTv && worst <= CRITERIA.paraphraseWorstTv
+      : null;
   out();
   out(
     `Median ${f(median)} (need ${CRITERIA.paraphraseMedianTv} or less), worst ${f(worst)} (need ${CRITERIA.paraphraseWorstTv} or less).`,
   );
   out();
-  out(`**${pass === null ? "NO DATA" : pass ? "GO" : "NO-GO"}**`);
+  out(`**${goNoGo(pass)}**`);
   out();
-  summary.push([
-    "3 Paraphrase",
-    pass === null ? "NO DATA" : pass ? "GO" : "NO-GO",
-    `median ${f(median)}, worst ${f(worst)}`,
-  ]);
+  summary.push(["3 Paraphrase", goNoGo(pass), `median ${f(median)}, worst ${f(worst)}`]);
 }
 
 // --- Test 4 -------------------------------------------------------------------------------
@@ -343,7 +345,7 @@ const judged: Judged[] = [];
       const probe = probes.find((x) => x.meta.variant === variant);
       if (!probe) return Number.NaN;
       const ds = distributions(probe.id, question);
-      return ds.length ? (meanDistribution(ds)[option] ?? 0) : Number.NaN;
+      return ds.length > 0 ? (meanDistribution(ds)[option] ?? 0) : Number.NaN;
     };
     const meta = (probes[0] as ProbeOf<"isolation">).meta;
     const clean = p("clean", meta.question, meta.leakOption);
@@ -353,7 +355,7 @@ const judged: Judged[] = [];
     const control = leakProbe?.meta.control
       ? p("leak", leakProbe.meta.control, meta.controlOption)
       : Number.NaN;
-    if (!Number.isFinite(clean) || !Number.isFinite(leak)) continue;
+    if (!(Number.isFinite(clean) && Number.isFinite(leak))) continue;
     counted += 1;
     const shift = leak - clean;
     const knowledge = Math.max(0, meta.leakDirection === "up" ? shift : -shift);
@@ -367,7 +369,10 @@ const judged: Judged[] = [];
   }
   const leakOk = worstLeak <= CRITERIA.isolationMaxKnowledgeLeak && legible;
   const shiftOk = worstShift <= CRITERIA.isolationMaxContextShift;
-  const result = !counted ? "NO DATA" : !leakOk ? "NO-GO" : shiftOk ? "GO" : "CAUTION";
+  let result: string;
+  if (!counted) result = "NO DATA";
+  else if (leakOk) result = shiftOk ? "GO" : "CAUTION";
+  else result = "NO-GO";
   out();
   out(
     `- Worst knowledge leak: ${f(worstLeak)} (need ${CRITERIA.isolationMaxKnowledgeLeak} or less). Every knower's own answer must reach ${CRITERIA.isolationControlLegible}, or the secret was not legible: ${legible ? "all legible" : "at least one was not"}.`,
@@ -449,7 +454,7 @@ const judged: Judged[] = [];
   let flips = 0;
   let repeated = 0;
   for (const probe of run.probes) {
-    if (!probe.nonce || !("question" in probe.meta)) continue;
+    if (!(probe.nonce && "question" in probe.meta)) continue;
     const ds = distributions(probe.id, probe.meta.question);
     if (ds.length < 2) continue;
     repeated += 1;

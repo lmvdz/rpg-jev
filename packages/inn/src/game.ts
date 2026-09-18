@@ -6,6 +6,7 @@
  * except through `Store.commit`.
  */
 import {
+  type Actor,
   type BeliefSource,
   beliefIn,
   beliefsOf,
@@ -64,6 +65,26 @@ export interface Decision {
   answers: Record<string, JudgeAnswer>;
   id: LogId;
   source: "jev" | "cache" | "fallback";
+}
+
+/** Whose mind a slice consults, in the shape a front end can show while it waits. */
+function aboutFor(mindCount: number, hereCount: number): Thinking["about"] {
+  if (mindCount === 0) return "the_player";
+  return hereCount > 0 ? "here" : "elsewhere";
+}
+
+/** The stance the drives call for, one legal FSM step away from wherever things stand now. */
+function wantedStance(mood: number, d: Actor["drives"]): string {
+  if (mood < -0.75) return "hostile";
+  if (d.obligation >= 0.5 && mood > -0.5) return d.trust >= 0.7 ? "loyal" : "indebted";
+  if (mood < 0.05) return "wary";
+  return d.trust >= 0.75 ? "loyal" : "curious";
+}
+
+/** Which ending key the resolved quest maps to, by whether the ledger is in hand or with Mara. */
+function resolvedKey(carried: boolean, withMara: boolean): string {
+  if (carried) return "resolved_in_hand";
+  return withMara ? "resolved" : "resolved_no_ledger";
 }
 
 export class Game {
@@ -191,7 +212,7 @@ export class Game {
     const here = minds.filter((id) => this.world.actors[id]?.room === this.playerRoom);
     return {
       who: here.map((id) => nameOf(this.world, id)),
-      about: minds.length === 0 ? "the_player" : here.length > 0 ? "here" : "elsewhere",
+      about: aboutFor(minds.length, here.length),
     };
   }
 
@@ -253,33 +274,45 @@ export class Game {
     source: BeliefSource,
     cause: LogId,
   ): void {
-    // "Who told me this? The man I now suspect." What the holder has only on the word
-    // of someone implicated loses two fifths of its weight each time that happens: one
-    // piece of evidence leaves her in two minds, a second leaves her doubting.
-    if (claim.subject !== PLAYER && IMPLICATES.includes(claim.predicate))
-      for (const b of beliefsOf(this.world, holder)) {
-        const source = b.edge.source;
-        if (source?.kind !== "told" || source.from !== claim.subject || b.credence <= 0.2) continue;
-        const less = Math.round(b.credence * 60) / 100;
-        this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: less }, cause);
-      }
-
-    // The mirror of discrediting: a second thing pointing at the same person lends weight
-    // to a first that was doubted. One unlucky draw against a trusted witness should not
-    // close a route for the night.
-    if (claim.subject !== PLAYER && IMPLICATES.includes(claim.predicate))
-      for (const b of beliefsOf(this.world, holder)) {
-        const same = b.claim.subject === claim.subject && b.claim.id !== claim.id;
-        if (!same || !IMPLICATES.includes(b.claim.predicate) || b.credence >= 0.6) continue;
-        if (b.credence <= 0) continue;
-        const more = Math.min(0.75, Math.round((b.credence + 0.3) * 100) / 100);
-        this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: more }, cause);
-        if (more >= 0.6) this.maraActsOn(holder, b.claim, cause);
-      }
-
+    this.discredit(holder, claim, cause);
+    this.corroborate(holder, claim, cause);
     this.maraActsOn(holder, claim, cause);
+    this.clearAccusation(holder, claim, credence, cause);
+    if (claim.subject !== PLAYER) return;
+    this.debtForHearsay(holder, claim, source, cause);
+    this.nudgeForClaim(holder, claim, cause);
+  }
 
-    // Someone else did it: the accusation against the stranger loses ground.
+  /** "Who told me this? The man I now suspect." What the holder has only on the word
+   * of someone implicated loses two fifths of its weight each time that happens: one
+   * piece of evidence leaves her in two minds, a second leaves her doubting. */
+  private discredit(holder: string, claim: Claim, cause: LogId): void {
+    if (claim.subject === PLAYER || !IMPLICATES.includes(claim.predicate)) return;
+    for (const b of beliefsOf(this.world, holder)) {
+      const source = b.edge.source;
+      if (source?.kind !== "told" || source.from !== claim.subject || b.credence <= 0.2) continue;
+      const less = Math.round(b.credence * 60) / 100;
+      this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: less }, cause);
+    }
+  }
+
+  /** The mirror of discrediting: a second thing pointing at the same person lends weight
+   * to a first that was doubted. One unlucky draw against a trusted witness should not
+   * close a route for the night. */
+  private corroborate(holder: string, claim: Claim, cause: LogId): void {
+    if (claim.subject === PLAYER || !IMPLICATES.includes(claim.predicate)) return;
+    for (const b of beliefsOf(this.world, holder)) {
+      const same = b.claim.subject === claim.subject && b.claim.id !== claim.id;
+      if (!(same && IMPLICATES.includes(b.claim.predicate)) || b.credence >= 0.6) continue;
+      if (b.credence <= 0) continue;
+      const more = Math.min(0.75, Math.round((b.credence + 0.3) * 100) / 100);
+      this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: more }, cause);
+      if (more >= 0.6) this.maraActsOn(holder, b.claim, cause);
+    }
+  }
+
+  /** Someone else did it: the accusation against the stranger loses ground. */
+  private clearAccusation(holder: string, claim: Claim, credence: number, cause: LogId): void {
     const clears =
       claim.subject !== PLAYER &&
       ["took", "hid", "carried_bundle_to", "burned", "fled"].includes(claim.predicate);
@@ -294,11 +327,12 @@ export class Game {
         },
         cause,
       );
+  }
 
-    if (claim.subject !== PLAYER) return;
-    // A consequence the player cannot perceive is wasted (SPEC.md section 9). Someone who
-    // comes to believe a tale about the stranger owes it to them, to their face, the next
-    // time they share a room. Code decides when; the judge still picks what is said.
+  /** A consequence the player cannot perceive is wasted (SPEC.md section 9). Someone who
+   * comes to believe a tale about the stranger owes it to them, to their face, the next
+   * time they share a room. Code decides when; the judge still picks what is said. */
+  private debtForHearsay(holder: string, claim: Claim, source: BeliefSource, cause: LogId): void {
     const hearsay = source.kind === "told" && source.from !== PLAYER;
     const debtId = `face_${holder}_${claim.id}`;
     if (hearsay && WRONGDOING.includes(claim.predicate) && !this.world.debts[debtId])
@@ -318,6 +352,10 @@ export class Game {
         },
         cause,
       );
+  }
+
+  /** How a drive shifts by what was believed, keyed to the predicate, never to who did it. */
+  private nudgeForClaim(holder: string, claim: Claim, cause: LogId): void {
     if (claim.predicate === "paid_debt" && claim.to === holder) {
       this.retire(holder, C_TOBIN_OWES.id, cause);
       this.nudge(holder, { obligation: 0.3, trust: 0.25, fear: -0.2 }, cause);
@@ -385,21 +423,10 @@ export class Game {
   private restance(npc: string, cause: LogId): void {
     const a = this.world.actors[npc];
     const now = stanceOf(this.world, npc, PLAYER);
-    if (!a || !now) return;
+    if (!(a && now)) return;
     const d = a.drives;
     const mood = d.trust - d.suspicion - d.fear * 0.5;
-    const want =
-      mood < -0.75
-        ? "hostile"
-        : d.obligation >= 0.5 && mood > -0.5
-          ? d.trust >= 0.7
-            ? "loyal"
-            : "indebted"
-          : mood < 0.05
-            ? "wary"
-            : d.trust >= 0.75
-              ? "loyal"
-              : "curious";
+    const want = wantedStance(mood, d);
     if (want === now) return;
     const legal = this.world.def.fsms.stance?.[now] ?? [];
     const order = ["hostile", "wary", "curious", "indebted", "loyal"];
@@ -582,7 +609,7 @@ export class Game {
   runSchedules(cause: LogId): void {
     for (const npc of NPCS) {
       const a = this.world.actors[npc];
-      if (!a?.alive || !a.present) continue;
+      if (!(a?.alive && a.present)) continue;
       const where = this.locate(npc);
       if (!where || (where.room === a.room && where.activity === a.activity)) continue;
       // The schedule is still a pure function of time; carrying it out can wait a beat.
@@ -659,8 +686,7 @@ export class Game {
       const where = this.world.items.ledger?.at;
       const carried = Boolean(where && "holder" in where && where.holder === PLAYER);
       const withMara = this.world.machines.ledger_fate?.node === "returned";
-      const key = carried ? "resolved_in_hand" : withMara ? "resolved" : "resolved_no_ledger";
-      return ENDINGS[key] ?? null;
+      return ENDINGS[resolvedKey(carried, withMara)] ?? null;
     }
     if (quest === "condemned") return ENDINGS.condemned ?? null;
     if (quest === "thrown_out") return ENDINGS.thrown_out ?? null;

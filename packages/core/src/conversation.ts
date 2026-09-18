@@ -57,7 +57,7 @@ export function planBeat(world: World, fresh: readonly SpeechIntent[], ctx: Beat
   for (const intent of [...world.conversation.queue, ...fresh]) {
     const speaker = world.actors[intent.speaker];
     const listener = world.actors[intent.listener];
-    if (!speaker?.alive || !listener?.alive || !speaker.present || !listener.present)
+    if (!(speaker?.alive && listener?.alive && speaker.present && listener.present))
       plan.drop.push({ intent, reason: "someone is gone" });
     else if (speaker.room !== listener.room)
       plan.drop.push({ intent, reason: "no longer in the same room" });
