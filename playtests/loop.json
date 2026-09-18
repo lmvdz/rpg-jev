@@ -21,6 +21,14 @@
     "trusted_authors": ["lmvdz"],
     "max_build_attempts": 3,
     "allow_tool_stages": false,
+    "sandbox": {
+      "kind": "podman",
+      "image": "localhost/rpg-jev-sdlc:1",
+      "model_port": 20128,
+      "cpus": 4,
+      "memory_mb": 6144,
+      "pids": 512
+    },
     "trusted_reviewers": ["lmvdz", "superagent-security[bot]"],
     "gate_check": "check",
     "agent": {

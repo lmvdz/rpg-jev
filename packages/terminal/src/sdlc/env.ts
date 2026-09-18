@@ -16,6 +16,7 @@ import {
 import { join, resolve } from "node:path";
 import { ROOT } from "../session.ts";
 import { AGENT_STAGES, type AgentStage } from "./flow.ts";
+import type { SandboxConfig } from "./sandbox.ts";
 
 export interface LoopConfig {
   enabled: boolean;
@@ -38,6 +39,8 @@ export interface LoopConfig {
      * shut until a person sets this, which is a separate decision from switching the loop on.
      */
     allow_tool_stages: boolean;
+    /** Where the tool stages and the gate run. Without it the tool stages stay shut. */
+    sandbox?: SandboxConfig;
     agent: {
       provider: string;
       models: Record<AgentStage, string>;

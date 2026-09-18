@@ -41,6 +41,7 @@ import {
   reviewComments,
   whoAmI,
 } from "./github.ts";
+import { type Box, openBox, toolStagesAllowed } from "./sandbox.ts";
 
 const GATE = "pnpm check";
 
@@ -88,11 +89,64 @@ function ensureWorktree(config: LoopConfig, issue: Issue): string {
 
 const changedFiles = (tree: string, against: string): string[] =>
   [
-    ...must(run("git", ["diff", "--name-only", against], { cwd: tree }), "git diff").split("\n"),
+    ...must(run("git", ["diff", "--name-only", against, "--"], { cwd: tree }), "git diff").split(
+      "\n",
+    ),
     ...must(run("git", ["ls-files", "--others", "--exclude-standard"], { cwd: tree }), "ls").split(
       "\n",
     ),
   ].filter((f) => f.length > 0);
+
+// --- The sandbox ----------------------------------------------------------------------------
+
+/** A box holding the issue's tree, if the config says tool stages run in one. */
+function boxFor(
+  config: LoopConfig,
+  issue: Issue,
+  profile: "agent" | "gate",
+  tree: string,
+  treeish = "HEAD",
+): Box | null {
+  const sandbox = config.sdlc.sandbox;
+  if (sandbox?.kind !== "podman") return null;
+  const { provider } = config.sdlc.agent;
+  return openBox(sandbox, profile, { id: `${issue.number}-${profile}`, tree, treeish, provider });
+}
+
+const boxed = (config: LoopConfig, open: Box | null) =>
+  open && config.sdlc.sandbox ? { box: { open, sandbox: config.sdlc.sandbox } } : {};
+
+/**
+ * The gate. With a sandbox, the tree exactly as it stands (staged and unstaged) goes into a
+ * box with no network and `pnpm check` runs there: code a model wrote is never run on the host.
+ */
+function runGate(config: LoopConfig, issue: Issue, tree: string): { ok: boolean; out: string } {
+  if (config.sdlc.sandbox?.kind !== "podman")
+    return run("pnpm", ["check"], { cwd: tree, timeoutMs: 900_000 });
+  must(run("git", ["add", "-A"], { cwd: tree }), "git add");
+  const treeish = must(run("git", ["write-tree"], { cwd: tree }), "git write-tree").trim();
+  const box = boxFor(config, issue, "gate", tree, treeish);
+  if (!box) return { ok: false, out: "no sandbox" };
+  try {
+    return box.exec(["pnpm", "check"]);
+  } finally {
+    box.close();
+  }
+}
+
+/** What the agent changed in its box, applied to the real worktree. False if it changed nothing. */
+function bringOut(box: Box, tree: string): boolean {
+  const patch = box.patch();
+  if (patch.trim().length === 0) return false;
+  must(
+    run("git", ["apply", "--index", "--binary", "--whitespace=nowarn", "-"], {
+      cwd: tree,
+      input: patch,
+    }),
+    "git apply",
+  );
+  return true;
+}
 
 // --- Stages ---------------------------------------------------------------------------
 
@@ -128,7 +182,9 @@ const triage: Handler = (config, issue) => {
 
 const plan: Handler = (config, issue) => {
   const tree = ensureWorktree(config, issue);
+  const box = boxFor(config, issue, "agent", tree);
   const reply = askAgent({
+    ...boxed(config, box),
     config,
     issue: issue.number,
     stage: "plan",
@@ -142,11 +198,14 @@ const plan: Handler = (config, issue) => {
     cwd: tree,
     tools: true,
   });
+  // Planning reads; it does not write. In a box, whatever it left behind goes with the box.
+  box?.close();
   const answer = lastJson(reply.text);
   if (!(reply.ok && answer)) return { outcome: "no_answer", note: "" };
-  // Planning reads; it does not write. Anything it left behind is thrown away.
-  must(run("git", ["checkout", "--", "."], { cwd: tree }), "git checkout");
-  must(run("git", ["clean", "-fd"], { cwd: tree }), "git clean");
+  if (!box) {
+    must(run("git", ["checkout", "--", "."], { cwd: tree }), "git checkout");
+    must(run("git", ["clean", "-fd"], { cwd: tree }), "git clean");
+  }
   const outside = outOfBounds(strings(answer.files), config.may_change, config.may_not_change);
   if (outside.length > 0)
     return {
@@ -182,7 +241,9 @@ function failedAttempt(config: LoopConfig, issue: Issue, why: string): Outcome {
 const build: Handler = (config, issue) => {
   const tree = ensureWorktree(config, issue);
   const base = config.sdlc.base_branch;
+  const box = boxFor(config, issue, "agent", tree);
   askAgent({
+    ...boxed(config, box),
     config,
     issue: issue.number,
     stage: "build",
@@ -198,6 +259,12 @@ const build: Handler = (config, issue) => {
     tools: true,
     gate: GATE,
   });
+  // Out of a box comes a patch, and nothing else.
+  try {
+    if (box) bringOut(box, tree);
+  } finally {
+    box?.close();
+  }
   const dirty = must(run("git", ["status", "--porcelain"], { cwd: tree }), "git status");
   if (dirty.trim().length === 0) return failedAttempt(config, issue, "The agent changed nothing.");
   const files = changedFiles(tree, base);
@@ -212,7 +279,7 @@ const build: Handler = (config, issue) => {
     );
   }
   // The gate is run here, by code. What the agent says about it is not evidence.
-  const check = run("pnpm", ["check"], { cwd: tree, timeoutMs: 900_000 });
+  const check = runGate(config, issue, tree);
   const rerecord = !check.ok && onlyReplayFailed(check.out);
   if (!(check.ok || rerecord))
     return failedAttempt(
@@ -238,7 +305,7 @@ const review: Handler = (config, issue) => {
   // Review is the bottleneck by design: at the limit, nothing new is handed over.
   if (openLoopPullRequests() >= config.max_open_pull_requests)
     return { outcome: "waiting", note: "" };
-  const diff = must(run("git", ["diff", `${base}...HEAD`], { cwd: tree }), "git diff");
+  const diff = must(run("git", ["diff", `${base}...HEAD`, "--"], { cwd: tree }), "git diff");
   const reply = askAgent({
     config,
     issue: issue.number,
@@ -360,7 +427,7 @@ const pr: Handler = (config, issue) => {
   if (open.length === 0) return { outcome: "waiting", note: "" };
   const tree = ensureWorktree(config, issue);
   const diff = must(
-    run("git", ["diff", `${config.sdlc.base_branch}...HEAD`], { cwd: tree }),
+    run("git", ["diff", `${config.sdlc.base_branch}...HEAD`, "--"], { cwd: tree }),
     "git diff",
   );
   const judged: { finding: Finding; verdict: PrVerdict; reply: string }[] = [];
@@ -398,10 +465,9 @@ const TOOL_STAGES: readonly AgentStage[] = ["plan", "build"];
 
 /** Runs one stage for one issue and records where it went. Returns the stage it is in now. */
 export function advance(config: LoopConfig, issue: Issue, stage: AgentStage): Stage {
-  if (TOOL_STAGES.includes(stage) && config.sdlc.allow_tool_stages !== true) {
-    console.log(
-      `${stage.padEnd(7)} #${issue.number} held: \`sdlc.allow_tool_stages\` is off in playtests/loop.json`,
-    );
+  const allowed = toolStagesAllowed(config.sdlc);
+  if (TOOL_STAGES.includes(stage) && !allowed.ok) {
+    console.log(`${stage.padEnd(7)} #${issue.number} held: ${allowed.why}`);
     return stage;
   }
   const { outcome, note, labels } = HANDLERS[stage](config, issue);
