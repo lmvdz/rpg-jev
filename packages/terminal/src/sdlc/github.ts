@@ -4,7 +4,7 @@
  * an issue up from here. Bodies go in over stdin, so their text is never on a command line.
  */
 import { must, run } from "./env.ts";
-import { LABELS, MANAGED, STAGES, type Stage, stageLabel } from "./flow.ts";
+import { LABELS, MANAGED, type ReviewComment, STAGES, type Stage, stageLabel } from "./flow.ts";
 
 export interface Issue {
   number: number;
@@ -108,6 +108,77 @@ export function openPullRequest(o: {
   if (o.draft) args.push("--draft");
   return must(run("gh", args, { input: o.body }), "gh pr create").trim();
 }
+
+export interface PullRequest {
+  number: number;
+  state: "OPEN" | "CLOSED" | "MERGED";
+  headRefOid: string;
+  url: string;
+}
+
+/** The pull request for a branch, open or not. The newest, if a branch has had several. */
+export function pullRequestOf(branch: string): PullRequest | null {
+  const out = must(
+    run("gh", [
+      "pr",
+      "list",
+      "--head",
+      branch,
+      "--state",
+      "all",
+      "--limit",
+      "1",
+      "--json",
+      "number,state,headRefOid,url",
+    ]),
+    "gh pr list",
+  );
+  return (JSON.parse(out) as PullRequest[])[0] ?? null;
+}
+
+/** How one named check run ended on a commit: "success", "failure", or null while it runs. */
+export function checkConclusion(sha: string, name: string): string | null {
+  const out = must(
+    run("gh", ["api", `repos/{owner}/{repo}/commits/${sha}/check-runs`, "--paginate"]),
+    "check runs",
+  );
+  const runs = (JSON.parse(out) as { check_runs: { name: string; conclusion: string | null }[] })
+    .check_runs;
+  return runs.find((r) => r.name === name)?.conclusion ?? null;
+}
+
+interface RawReviewComment {
+  id: number;
+  in_reply_to_id?: number;
+  user: { login: string } | null;
+  path: string;
+  line: number | null;
+  body: string;
+}
+
+export function reviewComments(pr: number): ReviewComment[] {
+  const out = must(
+    run("gh", ["api", `repos/{owner}/{repo}/pulls/${pr}/comments`, "--paginate"]),
+    "review comments",
+  );
+  return (JSON.parse(out) as RawReviewComment[]).map((c) => ({
+    id: c.id,
+    inReplyTo: c.in_reply_to_id ?? null,
+    author: c.user?.login ?? "",
+    path: c.path,
+    line: c.line,
+    body: c.body,
+  }));
+}
+
+export const replyOnThread = (pr: number, comment: number, body: string): void => {
+  const path = `repos/{owner}/{repo}/pulls/${pr}/comments/${comment}/replies`;
+  must(run("gh", ["api", "-X", "POST", path, "-F", "body=@-"], { input: body }), "reply");
+};
+
+/** The account the loop acts as. Its own comments are never findings. */
+export const whoAmI = (): string =>
+  must(run("gh", ["api", "user", "-q", ".login"]), "gh api user").trim();
 
 export function ensureLabels(): void {
   for (const [name, description] of Object.entries(LABELS))

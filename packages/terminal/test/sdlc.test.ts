@@ -6,14 +6,17 @@ import {
   CLASSES,
   classLabel,
   clusterSnags,
+  findingWords,
   issueBody,
   keyIn,
   LABELS,
   lastJson,
   nextStage,
   oneOf,
+  openFindings,
   outOfBounds,
   parseFriction,
+  prOutcome,
   STAGES,
   slug,
   snagKey,
@@ -63,9 +66,10 @@ describe("stages", () => {
 
   it("never reaches a pull request except through an approved review", () => {
     const outcomes = ["ok", "approve", "revise", "reject", "gave_up", "retry", ...CLASSES];
+    // Staying in `pr` while it is watched is not reaching it.
     for (const stage of AGENT_STAGES)
       for (const outcome of outcomes)
-        if (nextStage(stage, outcome) === "pr")
+        if (stage !== "pr" && nextStage(stage, outcome) === "pr")
           expect([stage, outcome]).toEqual(["review", "approve"]);
   });
 });
@@ -213,5 +217,53 @@ describe("the stages in which the model has tools", () => {
     const on = { ...config, enabled: true };
     expect(advance(on, issue, "plan")).toBe("plan");
     expect(advance(on, issue, "build")).toBe("build");
+  });
+});
+
+describe("watching a pull request", () => {
+  const c = (id: number, author: string, inReplyTo: number | null = null, body = "x") => ({
+    id,
+    inReplyTo,
+    author,
+    path: "a.ts",
+    line: 1,
+    body,
+  });
+  const trusted = ["owner", "scanner[bot]"];
+
+  it("owes an answer only to listed reviewers, and only once per thread", () => {
+    const comments = [
+      c(1, "scanner[bot]"),
+      c(2, "scanner[bot]"),
+      c(3, "loop", 2),
+      c(4, "scanner[bot]", 2),
+      c(5, "stranger"),
+      c(6, "loop"),
+      c(7, "owner"),
+    ];
+    // 2 was answered (a later word from the bot does not reopen it), 5 is not listed, 6 is ours.
+    expect(openFindings(comments, "loop", trusted).map((f) => f.root.id)).toEqual([1, 7]);
+  });
+
+  it("reads a finding without its hidden markup or folded sections", () => {
+    const body =
+      "<!-- marker -->\n**P1:** real words\n\n<details>\n<summary>AI prompt</summary>\ndo this\n</details>";
+    expect(findingWords(body)).toBe("**P1:** real words");
+  });
+
+  it("lets a person's decision outrank a fix, and a fix outrank waiting", () => {
+    expect(prOutcome(["answer", "fix", "person"])).toBe("needs_person");
+    expect(prOutcome(["answer", "fix"])).toBe("fix");
+    expect(prOutcome(["answer"])).toBe("waiting");
+    expect(prOutcome([])).toBe("waiting");
+  });
+
+  it("sends a failing gate or a needed change back to build, and a closed pull request to a person", () => {
+    expect(nextStage("pr", "retry")).toBe("build");
+    expect(nextStage("pr", "gave_up")).toBe("human");
+    expect(nextStage("pr", "needs_person")).toBe("human");
+    expect(nextStage("pr", "closed")).toBe("human");
+    expect(nextStage("pr", "waiting")).toBe("pr");
+    expect(nextStage("pr", "merged")).toBe("pr");
   });
 });

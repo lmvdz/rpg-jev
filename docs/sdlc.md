@@ -42,7 +42,36 @@ switching it on.
 | triage | no | Walk the snag up the world-design ladder; name the class | Takes the class from a closed list; routes `mechanism` and `unclear` to a person |
 | plan | yes, read-only by instruction | A file-by-file plan, a sibling case, whether a re-record is owed | Throws away anything written to disk; checks the planned files against the bounds |
 | build | yes | Carry out the plan in the issue's worktree | Checks changed paths, runs `pnpm check`, commits; up to `max_build_attempts` |
-| review | no | Approve, revise or reject against the tests of generality | Pushes and opens the pull request on approve; at `max_open_pull_requests` it waits |
+| review | no | Approve, revise or reject against the tests of generality | Pushes and opens the pull request on approve (or updates the one already open); at `max_open_pull_requests` it waits |
+| pr | no | For one reviewer's finding: answer it, fix it, or pass it to a person; and the reply to post | Posts the reply under the finding; sends `fix` back to build; stops at `person` |
+
+## Watching the pull request
+
+Opening a pull request is not the end of the loop's work, because automated reviewers and
+people comment on it. While an issue is at `stage:pr`, each pass:
+
+1. Looks the pull request up by its branch. Merged: nothing to do, and GitHub closes the issue.
+   Closed without merging: that is a person's no, the issue goes to `stage:human`, and the loop
+   will not reopen it.
+2. Reads the repository's own gate in CI (`sdlc.gate_check`, the `check` job). If it failed,
+   the issue goes back to build with that as the note, counted against `max_build_attempts`.
+   Other apps' checks are not chased: what they have to say arrives as review comments.
+3. Reads the review threads and keeps those it owes an answer: opened by someone listed in
+   `sdlc.trusted_reviewers`, and not yet replied to by the account the loop runs as. Anyone can
+   comment on a public pull request, so anyone not listed is left for a person. **One answer
+   per thread, ever**, so the loop and a review bot cannot go round in circles.
+4. For each, a model with no tools gives a verdict from a closed list and the reply to post.
+   `answer`: the reply is posted and that is all. `fix`: the reply is posted and the finding
+   goes to the build stage as its note, then through review again, and the push updates the
+   same pull request. `person`: the reply says so and the issue goes to `stage:human`. The
+   prompt sends anything about security, credentials, workflows, dependencies or the loop
+   itself to `person`, and forbids claiming a fix or asking for a merge.
+5. A reviewer's words reach the model without hidden markup or folded sections, which is where
+   review bots put prompts meant for coding agents.
+
+It never merges, never resolves or dismisses a thread, and never pushes to the base branch.
+If the loop runs as the repository owner, the owner's own review comments count as the loop's
+and are not answered; run it as a separate account if that matters.
 
 ## Commands
 
@@ -76,7 +105,7 @@ names one the model CLI needs. That is hygiene for runners whose environment hol
 as a CI job. It is not containment: a stage with tools can still read files.
 
 The rest of the `sdlc` block: `base_branch`, `worktree_root`, `trusted_authors`,
-`max_build_attempts`, and per stage the `prime-agent` provider and model, with the build
+`trusted_reviewers`, `gate_check`, `max_build_attempts`, and per stage the `prime-agent` provider and model, with the build
 stage's turn, token and time limits. The loop's own files, its prompts and `.claude` are in
 `may_not_change`, so a build cannot rewrite the loop.
 
@@ -87,6 +116,11 @@ stage's turn, token and time limits. The loop's own files, its prompts and `.cla
 - Triage ran once, against a made-up issue, with no writes to GitHub: 14 seconds, 9.4k tokens,
   a parseable answer, and an injected instruction in the player text was ignored. Its choice
   of class was debatable, so the cheap model's triage quality is unknown.
+- The pull-request stage's reads (finding the pull request, the gate's result, the review
+  threads, which of them are owed an answer) were run against this loop's own pull request and
+  gave the right answers. Its model call and its posting of replies have never run. The first
+  round of review-bot findings on that pull request was handled by hand, which is where the
+  stage's rules come from.
 - Plan, build and review have never run. Nothing is known about whether a cheap model can
   carry a plan through this repository's lint and tests.
 - The pure half (`flow.ts`: the stage table, snag keys, bounds, reading a model's answer) has

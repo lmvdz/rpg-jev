@@ -100,7 +100,7 @@ function intake(dryRun: boolean): void {
 // --- tick ---------------------------------------------------------------------------
 
 /** Finish what is furthest along before starting anything new. */
-const ORDER: readonly AgentStage[] = ["review", "build", "plan", "triage"];
+const ORDER: readonly AgentStage[] = ["pr", "review", "build", "plan", "triage"];
 
 function queue(config: LoopConfig): { issue: Issue; stage: AgentStage }[] {
   const open = listIssues(MANAGED, "open").filter((i) => trusted(config, i));

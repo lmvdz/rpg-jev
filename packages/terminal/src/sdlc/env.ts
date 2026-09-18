@@ -28,6 +28,10 @@ export interface LoopConfig {
     worktree_root: string;
     trusted_authors: string[];
     max_build_attempts: number;
+    /** Whose review comments on a loop pull request are answered. Everyone else's wait for a person. */
+    trusted_reviewers: string[];
+    /** The name of the check run that is this repository's own gate in CI. */
+    gate_check: string;
     /**
      * Plan and build give the model tools, and `prime-agent`'s tool is a Python REPL with no
      * sandbox: in those stages it can do whatever the account running the loop can. They stay

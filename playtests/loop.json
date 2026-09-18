@@ -21,13 +21,16 @@
     "trusted_authors": ["lmvdz"],
     "max_build_attempts": 3,
     "allow_tool_stages": false,
+    "trusted_reviewers": ["lmvdz", "superagent-security[bot]"],
+    "gate_check": "check",
     "agent": {
       "provider": "omniroute",
       "models": {
         "triage": "auto/coding:cheap",
         "plan": "auto/coding:cheap",
         "build": "auto/coding:cheap",
-        "review": "auto/coding"
+        "review": "auto/coding",
+        "pr": "auto/coding"
       },
       "build": {
         "max_turns": 40,

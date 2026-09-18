@@ -9,7 +9,7 @@ export const STAGES = ["triage", "plan", "build", "review", "pr", "human"] as co
 export type Stage = (typeof STAGES)[number];
 
 /** The stages in which a model is asked for something. */
-export const AGENT_STAGES = ["triage", "plan", "build", "review"] as const;
+export const AGENT_STAGES = ["triage", "plan", "build", "review", "pr"] as const;
 export type AgentStage = (typeof AGENT_STAGES)[number];
 
 export const CLASSES = ["parser", "question", "mechanism", "content", "unclear"] as const;
@@ -28,7 +28,7 @@ export const LABELS: Record<string, string> = {
   "stage:plan": "Classed. Waiting for a plan",
   "stage:build": "Planned. Waiting to be built in its own worktree",
   "stage:review": "Built and gated. Waiting for review against the tests of generality",
-  "stage:pr": "A pull request is open. The rest is a person's",
+  "stage:pr": "A pull request is open. The loop answers its reviewers; merging is a person's",
   "stage:human": "The loop stopped here on purpose. Needs a person's decision",
   "class:parser": "An obvious command or typo the matcher missed",
   "class:question": "The judge misread free text, or no option fit",
@@ -60,6 +60,12 @@ const NEXT: Record<string, Stage> = {
   "review:approve": "pr",
   "review:revise": "build",
   "review:reject": "human",
+  // A pull request is watched until a person merges or closes it. A failing gate or a
+  // finding that needs a change goes back to build; one that needs a decision stops.
+  "pr:retry": "build",
+  "pr:gave_up": "human",
+  "pr:needs_person": "human",
+  "pr:closed": "human",
 };
 
 export const nextStage = (stage: Stage, outcome: string): Stage =>
@@ -178,7 +184,6 @@ export function lastJson(text: string): Record<string, unknown> | null {
   }
 }
 
-/** A value is only accepted from a closed list; anything else is `fallback`. */
 /** Names that look like they hold a credential. A model's process is started without them. */
 const LOOKS_SECRET = /TOKEN|SECRET|PASSWORD|PASSWD|CREDENTIAL|API_?KEY|PRIVATE_?KEY|_KEY$/i;
 
@@ -198,6 +203,7 @@ export function withoutSecrets(
   return out;
 }
 
+/** A value is only accepted from a closed list; anything else is `fallback`. */
 export const oneOf = <T extends string>(value: unknown, allowed: readonly T[], fallback: T): T =>
   allowed.find((a) => a === value) ?? fallback;
 
@@ -208,4 +214,51 @@ export const strings = (value: unknown): string[] =>
 export function asData(label: string, text: string, limit = 60_000): string {
   const cut = text.length > limit ? `${text.slice(0, limit)}\n[cut at ${limit} characters]` : text;
   return `<${label} untrusted="true">\n${cut.replaceAll(`</${label}>`, "")}\n</${label}>`;
+}
+
+// --- Watching a pull request ------------------------------------------------------------
+
+export interface ReviewComment {
+  id: number;
+  inReplyTo: number | null;
+  author: string;
+  path: string;
+  line: number | null;
+  body: string;
+}
+
+/** A review thread: the comment that opened it, and what was said under it. */
+export interface Finding {
+  root: ReviewComment;
+  replies: ReviewComment[];
+}
+
+/**
+ * The threads the loop still owes an answer: opened by a reviewer it has been told to listen
+ * to, and not yet replied to by the loop's own account. One answer per thread, ever, so two
+ * programs replying to each other cannot go round in circles. Anyone can comment on a public
+ * pull request; a comment from someone not listed is left for a person.
+ */
+export function openFindings(
+  comments: readonly ReviewComment[],
+  me: string,
+  trusted: readonly string[],
+): Finding[] {
+  return comments
+    .filter((c) => c.inReplyTo === null && c.author !== me && trusted.includes(c.author))
+    .map((root) => ({ root, replies: comments.filter((c) => c.inReplyTo === root.id) }))
+    .filter((thread) => !thread.replies.some((r) => r.author === me));
+}
+
+/** What a reviewer wrote, without hidden markup or folded sections (bots put prompts there). */
+export const findingWords = (body: string): string =>
+  (body.split("<details")[0] ?? "").replace(/<!--[\s\S]*?-->/g, "").trim();
+
+export const PR_VERDICTS = ["answer", "fix", "person"] as const;
+export type PrVerdict = (typeof PR_VERDICTS)[number];
+
+/** What a pass over a pull request comes to: a person's decision outranks a fix, a fix outranks waiting. */
+export function prOutcome(verdicts: readonly PrVerdict[]): "needs_person" | "fix" | "waiting" {
+  if (verdicts.includes("person")) return "needs_person";
+  return verdicts.includes("fix") ? "fix" : "waiting";
 }
