@@ -1,0 +1,402 @@
+{
+  "at": "2026-09-18T06:46:27.258Z",
+  "entities": 10000,
+  "hotCellEntities": 7,
+  "windows": [
+    {
+      "scenario": "initial window (cells, none)",
+      "usableMs": 11.5,
+      "doneMs": 11.5,
+      "rows": 92,
+      "messages": 1,
+      "bytes": 4859
+    },
+    {
+      "scenario": "initial window (range, none)",
+      "usableMs": 2.27,
+      "doneMs": 2.27,
+      "rows": 92,
+      "messages": 1,
+      "bytes": 4723
+    },
+    {
+      "scenario": "initial window (cells, gzip)",
+      "usableMs": 11.3,
+      "doneMs": 11.3,
+      "rows": 92,
+      "messages": 1,
+      "bytes": 1241
+    },
+    {
+      "scenario": "initial window (range, gzip)",
+      "usableMs": 6.25,
+      "doneMs": 6.25,
+      "rows": 92,
+      "messages": 1,
+      "bytes": 1214
+    },
+    {
+      "scenario": "move window one cell east: subscribe 3 cells, then drop 3 (none)",
+      "usableMs": 15.9,
+      "doneMs": 31.63,
+      "rows": 88,
+      "messages": 2,
+      "bytes": 3015
+    },
+    {
+      "scenario": "move window one cell east: subscribe new range, then drop old (none)",
+      "usableMs": 2.46,
+      "doneMs": 6.69,
+      "rows": 88,
+      "messages": 2,
+      "bytes": 9243
+    },
+    {
+      "scenario": "move window one cell east: subscribe 3 cells, then drop 3 (gzip)",
+      "usableMs": 16.21,
+      "doneMs": 31.27,
+      "rows": 88,
+      "messages": 3,
+      "bytes": 1231
+    },
+    {
+      "scenario": "move window one cell east: subscribe new range, then drop old (gzip)",
+      "usableMs": 1.05,
+      "doneMs": 2.12,
+      "rows": 88,
+      "messages": 2,
+      "bytes": 2390
+    }
+  ],
+  "changes": [
+    {
+      "scenario": "no subscriber at all (mover RTT only)",
+      "changes": 500,
+      "updatesSeen": 0,
+      "latencyMs": {
+        "n": 0,
+        "min": null,
+        "p50": null,
+        "p90": null,
+        "p99": null,
+        "max": null,
+        "mean": null
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.42,
+        "p50": 2.36,
+        "p90": 4.12,
+        "p99": 8.02,
+        "max": 85.85,
+        "mean": 2.88
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 23
+    },
+    {
+      "scenario": "change inside the window (cells, none)",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 1.58,
+        "p50": 2.82,
+        "p90": 5.29,
+        "p99": 76.43,
+        "max": 141.48,
+        "mean": 4.74
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.51,
+        "p50": 2.8,
+        "p90": 5.21,
+        "p99": 76.28,
+        "max": 141.52,
+        "mean": 4.69
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    },
+    {
+      "scenario": "change far outside the window (cells, none)",
+      "changes": 500,
+      "updatesSeen": 0,
+      "latencyMs": {
+        "n": 0,
+        "min": null,
+        "p50": null,
+        "p90": null,
+        "p99": null,
+        "max": null,
+        "mean": null
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.55,
+        "p50": 2.54,
+        "p90": 4.35,
+        "p99": 8.02,
+        "max": 18.76,
+        "mean": 2.97
+      },
+      "messagesPerChange": 0,
+      "bytesPerChange": 0
+    },
+    {
+      "scenario": "change inside the window (range, none)",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 1.58,
+        "p50": 2.55,
+        "p90": 4.03,
+        "p99": 6.16,
+        "max": 50.63,
+        "mean": 3
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.51,
+        "p50": 2.5,
+        "p90": 4.02,
+        "p99": 6.1,
+        "max": 50.69,
+        "mean": 2.95
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    },
+    {
+      "scenario": "change far outside the window (range, none)",
+      "changes": 500,
+      "updatesSeen": 0,
+      "latencyMs": {
+        "n": 0,
+        "min": null,
+        "p50": null,
+        "p90": null,
+        "p99": null,
+        "max": null,
+        "mean": null
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.58,
+        "p50": 2.63,
+        "p90": 4.82,
+        "p99": 8.3,
+        "max": 36.81,
+        "mean": 3.21
+      },
+      "messagesPerChange": 0,
+      "bytesPerChange": 0
+    },
+    {
+      "scenario": "change inside the window (cells, gzip)",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 1.56,
+        "p50": 4.13,
+        "p90": 6.66,
+        "p99": 8.85,
+        "max": 63.87,
+        "mean": 4.39
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.59,
+        "p50": 4.09,
+        "p90": 6.73,
+        "p99": 8.78,
+        "max": 63.94,
+        "mean": 4.36
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    },
+    {
+      "scenario": "change far outside the window (cells, gzip)",
+      "changes": 500,
+      "updatesSeen": 0,
+      "latencyMs": {
+        "n": 0,
+        "min": null,
+        "p50": null,
+        "p90": null,
+        "p99": null,
+        "max": null,
+        "mean": null
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.66,
+        "p50": 4.39,
+        "p90": 7.29,
+        "p99": 11.72,
+        "max": 43.06,
+        "mean": 4.84
+      },
+      "messagesPerChange": 0,
+      "bytesPerChange": 0
+    },
+    {
+      "scenario": "change inside the window (range, gzip)",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 1.57,
+        "p50": 4.25,
+        "p90": 5.46,
+        "p99": 10.27,
+        "max": 46.03,
+        "mean": 4.52
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.57,
+        "p50": 4.21,
+        "p90": 5.39,
+        "p99": 10.35,
+        "max": 46.23,
+        "mean": 4.49
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    },
+    {
+      "scenario": "change far outside the window (range, gzip)",
+      "changes": 500,
+      "updatesSeen": 0,
+      "latencyMs": {
+        "n": 0,
+        "min": null,
+        "p50": null,
+        "p90": null,
+        "p99": null,
+        "max": null,
+        "mean": null
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.38,
+        "p50": 3.95,
+        "p90": 5.64,
+        "p99": 8.2,
+        "max": 12.31,
+        "mean": 4.2
+      },
+      "messagesPerChange": 0,
+      "bytesPerChange": 0
+    },
+    {
+      "scenario": "change inside the window (cells, none, confirmed reads)",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 1.57,
+        "p50": 3.93,
+        "p90": 5.55,
+        "p99": 8.92,
+        "max": 29.35,
+        "mean": 4.29
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.53,
+        "p50": 3.9,
+        "p90": 5.52,
+        "p99": 8.97,
+        "max": 29.42,
+        "mean": 4.26
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    },
+    {
+      "scenario": "change inside the window, 100 more subscribers on windows elsewhere",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 1.49,
+        "p50": 3.93,
+        "p90": 5.02,
+        "p99": 9.08,
+        "max": 16.85,
+        "mean": 4.18
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.47,
+        "p50": 3.9,
+        "p90": 5.02,
+        "p99": 9.04,
+        "max": 17.02,
+        "mean": 4.15
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    },
+    {
+      "scenario": "change inside the window, 100 more subscribers on the same window",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 2.83,
+        "p50": 6.49,
+        "p90": 8.4,
+        "p99": 10.89,
+        "max": 17.08,
+        "mean": 6.67
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 3.53,
+        "p50": 6.47,
+        "p90": 8.39,
+        "p99": 10.93,
+        "max": 17.42,
+        "mean": 6.53
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    },
+    {
+      "scenario": "change inside the window, 400 more subscribers on windows elsewhere",
+      "changes": 500,
+      "updatesSeen": 500,
+      "latencyMs": {
+        "n": 500,
+        "min": 1.44,
+        "p50": 3.86,
+        "p90": 5.31,
+        "p99": 8.7,
+        "max": 13.56,
+        "mean": 4.15
+      },
+      "moverRttMs": {
+        "n": 500,
+        "min": 1.4,
+        "p50": 3.85,
+        "p90": 5.23,
+        "p99": 8.72,
+        "max": 13.38,
+        "mean": 4.13
+      },
+      "messagesPerChange": 1,
+      "bytesPerChange": 145
+    }
+  ],
+  "crossing": {
+    "enteredSeenAsInsert": 1,
+    "leftSeenAsDelete": 1
+  }
+}
