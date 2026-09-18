@@ -99,15 +99,18 @@ on the host.** The host does git and GitHub; everything else happens in a Podman
   no DNS. The tree exactly as it stands goes in, dependencies install offline from a store
   baked into the image, without lifecycle scripts, and `pnpm check` runs there.
 - **The agent's container can reach one thing**: the model router. It sits on a closed network
-  whose only other member is a relay, a 20-line TCP pipe to one port on the host. Measured from
+  whose only other member is a relay, a small HTTP proxy to one port on the host. Measured from
   inside: the relay answers, the internet does not resolve, and the host's port is unreachable
   except through the relay.
 - **Every container** drops all capabilities, cannot gain privileges, has a read-only root,
   runs as uid 1000, and is bounded in processes, memory and CPU. Tests check that no container
   is ever created with a host path, a device, a socket or host networking.
-- **The one secret inside is the router's key**, read from the agent CLI's config on the host,
-  written into the container, and gone with it. The image holds no `gh`, no ssh, no curl and
-  no credential helper.
+- **No credential is inside a box that holds a tree.** The router's key lives in the relay, a
+  container with no tree, no agent and no tools. The relay is an HTTP proxy that throws away
+  whatever key a request arrives with and adds the real one; the agent is configured with a
+  placeholder. So a model cannot read the key, and cannot write it into the patch that leaves,
+  which would otherwise be a way out: a patch becomes a commit on a public repository. The
+  image holds no `gh`, no ssh, no curl and no credential helper.
 
 ```bash
 pnpm sdlc sandbox-build     # build the image; again whenever pnpm-lock.yaml changes

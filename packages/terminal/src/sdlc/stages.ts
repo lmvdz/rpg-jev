@@ -109,7 +109,8 @@ function boxFor(
 ): Box | null {
   const sandbox = config.sdlc.sandbox;
   if (sandbox?.kind !== "podman") return null;
-  return openBox(sandbox, profile, { id: `${issue.number}-${profile}`, tree, treeish });
+  const { provider } = config.sdlc.agent;
+  return openBox(sandbox, profile, { id: `${issue.number}-${profile}`, tree, treeish, provider });
 }
 
 const boxed = (config: LoopConfig, open: Box | null) =>

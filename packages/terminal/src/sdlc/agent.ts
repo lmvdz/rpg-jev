@@ -9,7 +9,7 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { journal, type LoopConfig, workDir } from "./env.ts";
 import { type AgentStage, withoutSecrets } from "./flow.ts";
-import { agentModels, type Box, HOME, routerKey, type SandboxConfig } from "./sandbox.ts";
+import { agentModels, type Box, HOME, type SandboxConfig } from "./sandbox.ts";
 
 export interface Reply {
   ok: boolean;
@@ -103,7 +103,7 @@ function inBox(
   const config = `${HOME}/.prime/agent`;
   const write = (file: string, text: string) =>
     box.exec(["sh", "-c", `mkdir -p "$(dirname "${file}")" && cat > "${file}"`], text);
-  write(`${config}/models.json`, agentModels(sandbox, provider, model, routerKey(provider)));
+  write(`${config}/models.json`, agentModels(sandbox, provider, model));
   write("/tmp/prompt.md", o.prompt);
   // The gate argument was quoted for the host's shell; here it is one list element.
   const unquoted = args.map((a) => a.replace(/^"(.*)"$/, "$1"));

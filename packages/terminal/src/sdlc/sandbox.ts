@@ -5,9 +5,9 @@
  * The rule is that nothing a model touched is ever executed on the host. A tree goes in as a
  * `git archive` stream. The agent works on that copy. The only thing that comes out is a text
  * patch, which code applies, checks against the bounds, and gates in a second container that
- * has no network at all. No host path is ever mounted, no credential is ever inside, and the
- * one secret the agent needs (the model router's key) is written into the container and dies
- * with it.
+ * has no network at all. No host path is ever mounted and no credential is ever inside a box
+ * that holds a tree: the model router's key lives in the relay, which adds it to each request,
+ * so a model cannot read it, and cannot write it into the patch that leaves.
  *
  * The first half of this file is pure and tested: which flags a container gets, and whether
  * the tool stages may run at all. The second half drives `podman`.
@@ -96,13 +96,12 @@ export function containerFlags(
 /** The model router as the agent sees it: the relay, and nothing behind it. */
 export const routerUrl = (box: SandboxConfig): string => `http://relay:${box.model_port}/v1`;
 
+/** What the agent's config holds where a key would be. The relay replaces it on the way out. */
+export const NO_KEY = "held-by-the-relay";
+
 /** The provider entry the agent is given. Only the model it was told to use is listed. */
-export function agentModels(
-  box: SandboxConfig,
-  provider: string,
-  model: string,
-  apiKey: string,
-): string {
+export function agentModels(box: SandboxConfig, provider: string, model: string): string {
+  const apiKey = NO_KEY;
   const entry = {
     id: model,
     name: model,
@@ -181,7 +180,7 @@ export interface Box {
 export function openBox(
   box: SandboxConfig,
   profile: "agent" | "gate",
-  o: { id: string; tree: string; treeish: string },
+  o: { id: string; tree: string; treeish: string; provider?: string },
 ): Box {
   const names = { container: `sdlc-${o.id}-${profile}`, internal: `sdlc-${o.id}-net` };
   const relay = `sdlc-${o.id}-relay`;
@@ -204,6 +203,9 @@ export function openBox(
         ]),
         "relay",
       );
+      // The key goes to the relay alone, over stdin, into its tmpfs. Never to the box with the tree.
+      const put = ["exec", "--interactive", relay, "sh", "-c", "cat > /tmp/router-key"];
+      if (o.provider) must(podman(box, put, routerKey(o.provider)), "give the relay its key");
     }
     const flags = containerFlags(profile, box, names);
     must(podman(box, ["run", "--detach", ...flags, box.image, "sleep", "7200"]), "run");

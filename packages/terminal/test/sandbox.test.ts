@@ -7,6 +7,7 @@ import {
   ACCEPTANCE,
   agentModels,
   containerFlags,
+  NO_KEY,
   type Profile,
   type SandboxConfig,
   toolStagesAllowed,
@@ -90,9 +91,11 @@ describe("what each container can reach", () => {
   });
 
   it("the agent is told of one provider, one model, and the relay as its address", () => {
-    const models = JSON.parse(agentModels(box, "omniroute", "auto/coding:cheap", "k")) as {
-      providers: Record<string, { baseUrl: string; models: { id: string }[] }>;
+    const models = JSON.parse(agentModels(box, "omniroute", "auto/coding:cheap")) as {
+      providers: Record<string, { baseUrl: string; apiKey: string; models: { id: string }[] }>;
     };
+    // No key is ever written where the model's tool could read it; the relay holds it.
+    expect(models.providers.omniroute?.apiKey).toBe(NO_KEY);
     expect(Object.keys(models.providers)).toEqual(["omniroute"]);
     expect(models.providers.omniroute?.baseUrl).toBe("http://relay:20128/v1");
     expect(models.providers.omniroute?.models.map((m) => m.id)).toEqual(["auto/coding:cheap"]);
