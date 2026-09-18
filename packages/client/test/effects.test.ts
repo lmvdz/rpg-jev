@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { EFFECTS, effectsOf } from "../src/view/effect-rows.ts";
+import { EFFECTS } from "../src/view/effect-rows.ts";
 import {
   checkEffect,
   type EffectRow,
   EMITTER_FLOATS,
   EmitterList,
+  lifeOf,
   MAX_EMITTERS,
+  MAX_ONE_SHOTS,
+  OneShots,
   PARTICLES_PER_EMITTER,
 } from "../src/view/effects.ts";
 import {
@@ -38,18 +41,6 @@ describe("the effect schema", () => {
     for (const [expected, change] of bad) {
       expect(checkEffect({ ...good, ...change } as EffectRow)).toContain(expected);
     }
-  });
-});
-
-describe("which effects a thing shows", () => {
-  it("follows its visible states and nothing else", () => {
-    expect(effectsOf({})).toHaveLength(0);
-    expect(effectsOf({ growth: 3 })).toHaveLength(0);
-    expect(effectsOf({ burning: 1 })).toEqual([EFFECTS.smoke]);
-    expect(effectsOf({ burning: 3 })).toEqual([EFFECTS.flames, EFFECTS.smoke]);
-    expect(effectsOf({ burning: 5 })).toContain(EFFECTS.sparks);
-    expect(effectsOf({ temperature: 5 })).toEqual([EFFECTS.smoke]);
-    expect(effectsOf({ burning: 3 })).toBe(effectsOf({ burning: 2 }));
   });
 });
 
@@ -105,8 +96,32 @@ describe("the frame's emitters", () => {
     expect(first[5]).toBeLessThanOrEqual(PARTICLES_PER_EMITTER);
     expect(first[6]).toBeCloseTo(0.6); // life level 1, in seconds
     expect(first[15]).toBe(1); // glows
-    expect(first.slice(16)).toEqual([...EFFECTS.flames.frames, -1]);
+    expect(first.slice(16, 20)).toEqual([...EFFECTS.flames.frames, -1]);
+    expect(first.slice(20)).toEqual([0, 0, 0, 0]); // a condition: no start, born over and over
     expect(list.data[EMITTER_FLOATS + 3]).not.toBe(first[3]); // neighbours are told apart
+  });
+
+  it("plays an event's rows once from its start, then forgets it, and keeps the newest", () => {
+    const shots = new OneShots();
+    const list = new EmitterList();
+    const playing = (now: number) => {
+      list.begin();
+      shots.emit(list, now);
+      return list.count;
+    };
+    shots.play(1, 0, 1, [], 5);
+    expect(shots.playing).toBe(0);
+    shots.play(3, 1, 4, [EFFECTS.sparks, EFFECTS.smoke], 10);
+    expect(playing(10.1)).toBe(2);
+    expect([...list.data.subarray(20, 22)]).toEqual([10, 1]);
+    // The sparks are over by now, which the shader sees from the start time; the smoke is not.
+    expect(playing(10 + lifeOf(EFFECTS.sparks) + 0.1)).toBe(2);
+    expect(playing(10 + lifeOf(EFFECTS.smoke) + 0.01)).toBe(0);
+    expect(shots.playing).toBe(0);
+    for (let i = 0; i < MAX_ONE_SHOTS + 5; i++) shots.play(i, 0, 0, [EFFECTS.dust], 20);
+    expect(shots.playing).toBe(MAX_ONE_SHOTS);
+    playing(20.1);
+    expect(list.data[0]).toBe(5);
   });
 
   it("is quietly full, and empties for the next frame", () => {

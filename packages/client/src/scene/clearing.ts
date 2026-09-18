@@ -38,52 +38,89 @@ const KIND = {
 
 /** What the client is told of an element: its name, whether it fills its tile, and its look. */
 interface Element {
+  id: string;
+  kind: string;
   name: string;
   solid: boolean;
   look: ElementLook;
+  forms: readonly string[];
+  baseline: Readonly<Record<string, number>>;
 }
 
-/** Stand-ins for rows of the element pool. The look is a glyph and a colour from the closed sets. */
+/**
+ * Stand-ins for rows of the element pool. The look is a glyph and a colour
+ * from the closed sets; forms and baseline levels are the vocabulary's, and
+ * are what an effect is born from.
+ */
 const LOOK = {
   tree: {
+    id: "oak",
+    kind: "plant",
     name: "an oak",
     solid: true,
     look: { glyph: glyphOfExtra("tree"), ink: INK.leaf, scale: 24, sways: true },
+    forms: ["long", "grained"],
+    baseline: { mass: 5, hardness: 3 },
   },
   pine: {
+    id: "pine",
+    kind: "plant",
     name: "a pine",
     solid: true,
     look: { glyph: glyphOfExtra("pine"), ink: INK.pine, scale: 26, sways: true },
+    forms: ["long", "grained"],
+    baseline: { mass: 5, hardness: 2 },
   },
   bush: {
+    id: "bramble",
+    kind: "plant",
     name: "a bramble",
     solid: false,
     look: { glyph: glyphOfExtra("bush"), ink: INK.grass, sways: true },
+    forms: [],
+    baseline: { mass: 2, hardness: 1 },
   },
   reed: {
+    id: "reeds",
+    kind: "plant",
     name: "reeds",
     solid: false,
     look: { glyph: glyphOfExtra("reed"), ink: INK.leaf, sways: true },
+    forms: ["long", "hollow"],
+    baseline: { mass: 1, hardness: 1 },
   },
   stone: {
+    id: "stone",
+    kind: "material",
     name: "loose stone",
     solid: false,
     look: { glyph: glyphOfExtra("rock"), ink: INK.ash },
+    forms: ["round"],
+    baseline: { mass: 3, hardness: 5 },
   },
   fire: {
+    id: "fire",
+    kind: "thing",
     name: "a fire",
     solid: true,
     look: { glyph: glyphOfExtra("flame"), ink: INK.lamp, scale: 18 },
+    forms: [],
+    baseline: { mass: 2, hardness: 2 },
   },
   rat: {
+    id: "rat",
+    kind: "creature",
     name: "a rat",
     solid: false,
     look: { glyph: glyphOfChar("r"), ink: INK.sand, scale: 12 },
+    forms: [],
+    baseline: { mass: 1, hardness: 1 },
   },
 } as const satisfies Record<string, Element>;
 
 function place(element: Element, x: number, z: number, states: VisibleStates): ThingView {
-  return { name: element.name, solid: element.solid, x, z, look: element.look, states };
+  const { id, kind, name, solid, look, forms, baseline } = element;
+  return { element: id, kind, name, solid, x, z, look, forms, baseline, states };
 }
 
 function shapeLand(grid: TileGrid, rng: Rng): void {

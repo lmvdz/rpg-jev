@@ -24,7 +24,10 @@ import { StandInBody } from "./scene/body.ts";
 import { Drift } from "./scene/drift.ts";
 import { Walker } from "./scene/walker.ts";
 import { ChunkManager } from "./terrain/chunks.ts";
+import { groundHeight } from "./terrain/tessellate.ts";
+import { askPriors, delayed, EffectBook } from "./view/effect-book.ts";
 import { EFFECTS } from "./view/effect-rows.ts";
+import { OneShots } from "./view/effects.ts";
 import { LivingThings } from "./view/living.ts";
 import { MOTIONS } from "./view/motions.ts";
 import { applySky } from "./view/sky.ts";
@@ -36,6 +39,9 @@ const NIGHT_HEX = PALETTE_HEX.map((hex, i) => (i === INK.lamp ? hex : dim(hex)))
 const DRAFT_AFTER_MS = 1500;
 /** The hero is always the glyph batch's first instance. */
 const HERO_SLOT = () => 0;
+/** Stand-ins until acts come from the world: when a reach lands, in seconds, and how hard it is. */
+const STRIKE_LANDS = 0.08;
+const STRIKE_LEVEL = 3;
 
 function dim(hex: string): string {
   const value = Number.parseInt(hex.slice(1), 16);
@@ -84,6 +90,10 @@ interface App {
   note: string;
   /** A grown world's things and what changes them, or null for a painted world. */
   living: LivingThings | null;
+  /** The effects born so far, by element and by what is happening to it. */
+  book: EffectBook;
+  /** Effects of events, each played once. */
+  shots: OneShots;
   /** The mouse in play: tooltip, click to walk, menu. Mounted once the page is up. */
   play: MountedPlay | null;
   /** The hero's body (a stand-in until world state has one) and the bars that show it. */
@@ -118,7 +128,12 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   const objects = new ObjectLayer(grid, batch);
   for (const o of placed) objects.set(grid.index(o.x, o.z), o.look);
   const things = loaded.things ?? null;
-  if (things) living = new LivingThings(things, grid, objects);
+  // No judge is attached yet, so the priors answer; `?judge=<ms>` makes them answer late, which
+  // shows the generic row handing over to the born one. Elements are shared between worlds, so
+  // the book's seed is not the map's.
+  const wait = Number(query.get("judge") ?? 0);
+  const book = new EffectBook(wait > 0 ? delayed(askPriors, wait) : askPriors, 1);
+  if (things) living = new LivingThings(things, grid, objects, book);
 
   const worker = new Worker(new URL("./terrain/worker.ts", import.meta.url), { type: "module" });
   worker.onerror = (event) => console.error(`the tessellation worker failed: ${event.message}`);
@@ -153,6 +168,8 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
     changedAt: 0,
     note: loaded.from,
     living,
+    book,
+    shots: new OneShots(),
     play: null,
     body: new StandInBody(),
     status: null,
@@ -317,6 +334,7 @@ function liven(app: App, now: number, dt: number): void {
   const { walker } = app;
   const moving = walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5;
   if (moving) emitters.add(walker.x, walker.y, walker.z, EFFECTS.dust);
+  app.shots.emit(emitters, now / 1000);
   if (!(app.living && app.drift)) return;
   app.living.emit(emitters);
   if (now - app.driftAt > 400) {
@@ -387,15 +405,21 @@ loadWorld(query).then((loaded) => {
       app.note = text;
       writeHud(app);
     },
-    // A stand-in for an act: the hero lunges at the thing and the thing shakes.
+    // A stand-in for an act: the hero lunges at the thing, the thing shakes, and what comes off
+    // a thing of its element when it is struck is played once. How hard is the world's to say.
     reach: (tile) => {
       const { walker, renderer, objects } = app;
       const grid = app.session.world.grid;
       const now = app.last / 1000;
-      const dirX = (tile % grid.width) - walker.tileX;
-      const dirZ = Math.floor(tile / grid.width) - walker.tileZ;
-      renderer.motions.play(HERO_SLOT, MOTIONS.lunge, now, dirX, dirZ);
-      renderer.motions.play(() => objects.slotAt(tile), MOTIONS.shake, now + 0.08);
+      const x = tile % grid.width;
+      const z = Math.floor(tile / grid.width);
+      renderer.motions.play(HERO_SLOT, MOTIONS.lunge, now, x - walker.tileX, z - walker.tileZ);
+      renderer.motions.play(() => objects.slotAt(tile), MOTIONS.shake, now + STRIKE_LANDS);
+      const struck = app.living?.thingAt(tile);
+      if (!struck) return;
+      const rows = app.book.entry(struck, "struck").rows[STRIKE_LEVEL] ?? [];
+      const y = groundHeight(grid, x + 0.5, z + 0.5) + 0.5;
+      app.shots.play(x + 0.5, y, z + 0.5, rows, now + STRIKE_LANDS);
     },
     // There is no world behind the client yet to resolve an act, so the request is kept where
     // a judge or a test can take it (`__acts`), and the HUD says what was handed over.
@@ -413,6 +437,9 @@ loadWorld(query).then((loaded) => {
     __renderer: app.renderer,
     __session: app.session,
     __walker: app.walker,
+    __births: app.book.log,
+    __shots: app.shots,
+    __living: app.living,
   });
   app.camera.snapTo(app.goal);
   // One closure for the life of the page: the frame itself allocates nothing.

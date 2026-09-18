@@ -144,13 +144,11 @@ describe("the status display's body", () => {
 
 describe("a typed act, made ready for a judge", () => {
   const grid = new TileGrid(9, 9);
+  const look = { glyph: 1, ink: 1 };
   const things = new Map<number, ThingView>([
-    [grid.index(5, 4), { name: "an oak", x: 5, z: 4, look: { glyph: 1, ink: 1 }, states: {} }],
-    [
-      grid.index(4, 3),
-      { name: "a fire", x: 4, z: 3, look: { glyph: 1, ink: 1 }, states: { burning: 4 } },
-    ],
-    [grid.index(8, 8), { name: "far away", x: 8, z: 8, look: { glyph: 1, ink: 1 }, states: {} }],
+    [grid.index(5, 4), { element: "e1", name: "an oak", x: 5, z: 4, look, states: {} }],
+    [grid.index(4, 3), { element: "e2", name: "a fire", x: 4, z: 3, look, states: { burning: 4 } }],
+    [grid.index(8, 8), { element: "e3", name: "far away", x: 8, z: 8, look, states: {} }],
   ]);
   const scene = {
     grid,
@@ -192,6 +190,7 @@ describe("a typed act, made ready for a judge", () => {
 
 describe("what the tooltip says", () => {
   const thing: ThingView = {
+    element: "e1",
     name: "an oak",
     x: 1,
     z: 1,

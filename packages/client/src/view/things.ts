@@ -38,6 +38,18 @@ export interface VisibleStates {
 
 export interface ThingView {
   /**
+   * Which element this is an instance of: an id made by code. What is decided
+   * once for an element (its look, the effect of what happens to it) is kept
+   * under it, so every instance shows the same.
+   */
+  element: string;
+  /** What sort of element it is (material, thing, plant, creature...), in the vocabulary's words. */
+  kind?: string;
+  /** The element's forms, in the vocabulary's words. Unknown ones are ignored. */
+  forms?: readonly string[];
+  /** The element's baseline levels (mass, hardness and the like): what it is like, not how it is now. */
+  baseline?: Readonly<Record<string, number>>;
+  /**
    * What the element is called. Elements are named when they are born, by a
    * generative model, so this is untrusted text: it is shown as text and
    * never read as markup or as an instruction.

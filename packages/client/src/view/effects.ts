@@ -60,8 +60,8 @@ export function checkEffect(row: EffectRow): string | null {
   return typeof row.glows === "boolean" ? null : "glows is yes or no";
 }
 
-/** Floats per emitter: five texels of four. The layout is read by `EFFECT_VERTEX`. */
-export const EMITTER_FLOATS = 20;
+/** Floats per emitter: six texels of four. The layout is read by `EFFECT_VERTEX`. */
+export const EMITTER_FLOATS = 24;
 
 const PARTICLES = [0, 2, 4, 6, 9, PARTICLES_PER_EMITTER] as const;
 const SECONDS = [0.3, 0.6, 1, 1.6, 2.5, 4] as const;
@@ -70,7 +70,14 @@ const TILES_PER_SECOND = [0, 0.3, 0.6, 1.1, 1.8, 3] as const;
 /** Size as a multiple of the frame's glyph pixel. */
 const SIZES = [0.15, 0.3, 0.45, 0.65, 0.9, 1.2] as const;
 
-/** Writes an emitter at `offset`: where it is, a seed that tells it from its neighbours, and its row. */
+/** How long one particle of a row lives, which is also how long a row played once lasts. */
+export const lifeOf = (row: EffectRow): number => SECONDS[row.life] ?? 1;
+
+/**
+ * Writes an emitter at `offset`: where it is, a seed that tells it from its
+ * neighbours, and its row. With a `start` (seconds, the frame's clock) it is
+ * an event and not a condition: every particle is born then and lives once.
+ */
 export function packEffect(
   out: Float32Array,
   offset: number,
@@ -78,6 +85,7 @@ export function packEffect(
   y: number,
   z: number,
   row: EffectRow,
+  start = -1,
 ): void {
   out[offset] = x;
   out[offset + 1] = y;
@@ -96,6 +104,10 @@ export function packEffect(
   out[offset + 14] = row.inks[2];
   out[offset + 15] = row.glows ? 1 : 0;
   for (let f = 0; f < MAX_FRAMES; f++) out[offset + 16 + f] = row.frames[f] ?? -1;
+  out[offset + 20] = Math.max(start, 0);
+  out[offset + 21] = start >= 0 ? 1 : 0;
+  out[offset + 22] = 0;
+  out[offset + 23] = 0;
 }
 
 export const MAX_EMITTERS = 256;
@@ -110,9 +122,51 @@ export class EmitterList {
   }
 
   /** Quietly full at `MAX_EMITTERS`: the ones offered first are the ones kept. */
-  add(x: number, y: number, z: number, row: EffectRow): void {
+  add(x: number, y: number, z: number, row: EffectRow, start = -1): void {
     if (this.count >= MAX_EMITTERS) return;
-    packEffect(this.data, this.count * EMITTER_FLOATS, x, y, z, row);
+    packEffect(this.data, this.count * EMITTER_FLOATS, x, y, z, row, start);
     this.count++;
+  }
+}
+
+export const MAX_ONE_SHOTS = 32;
+
+interface Shot {
+  x: number;
+  y: number;
+  z: number;
+  rows: readonly EffectRow[];
+  start: number;
+  ends: number;
+}
+
+/**
+ * Effects of events: a blow, a splash, a thing breaking. The same rows as a
+ * condition's, played once from a start time and then forgotten. Nothing is
+ * stepped while one plays: it is an emitter with a start.
+ */
+export class OneShots {
+  #shots: Shot[] = [];
+
+  /** `rows` is kept, not copied: hand it a list that is not reused. The newest plays are kept. */
+  play(x: number, y: number, z: number, rows: readonly EffectRow[], now: number): void {
+    if (rows.length === 0) return;
+    const ends = now + Math.max(...rows.map(lifeOf));
+    this.#shots.push({ x, y, z, rows, start: now, ends });
+    if (this.#shots.length > MAX_ONE_SHOTS) this.#shots.shift();
+  }
+
+  get playing(): number {
+    return this.#shots.length;
+  }
+
+  /** Adds what is still playing to the frame's emitters and forgets what has ended. */
+  emit(emitters: EmitterList, now: number): void {
+    if (this.#shots.some((shot) => now >= shot.ends)) {
+      this.#shots = this.#shots.filter((shot) => now < shot.ends);
+    }
+    for (const shot of this.#shots) {
+      for (const row of shot.rows) emitters.add(shot.x, shot.y, shot.z, row, shot.start);
+    }
   }
 }

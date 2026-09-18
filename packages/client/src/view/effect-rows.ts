@@ -1,14 +1,12 @@
 /**
- * The first effect rows, written by hand so the schema proves itself before
- * anything generates one, and the rules that say which a thing shows. As with
- * looks, a rule belongs to a visible state and never to a thing: whatever
- * burns flames and smokes. When element and reaction rows carry an `effect`
- * of their own, it is played beside these.
+ * The first effect rows, written by hand so the schema proved itself before
+ * anything generated one. They are kept as the generic effect of each
+ * happening, which plays only until the element's own row is born.
  */
 import { glyphOfChar, glyphOfExtra } from "../glyph/font.ts";
 import { INK } from "../palette.ts";
+import type { Happening } from "./effect-birth.ts";
 import type { EffectRow } from "./effects.ts";
-import type { VisibleStates } from "./things.ts";
 
 const dot = glyphOfChar(".");
 const tick = glyphOfChar("'");
@@ -95,16 +93,17 @@ export const EFFECTS = {
   },
 } as const satisfies Record<string, EffectRow>;
 
-const NONE: readonly EffectRow[] = [];
-const SMOULDER: readonly EffectRow[] = [EFFECTS.smoke];
-const FIRE: readonly EffectRow[] = [EFFECTS.flames, EFFECTS.smoke];
-const BLAZE: readonly EffectRow[] = [EFFECTS.flames, EFFECTS.smoke, EFFECTS.sparks];
-
-/** The effects a thing's visible states call for. The lists are made once, so asking allocates nothing. */
-export function effectsOf(states: VisibleStates): readonly EffectRow[] {
-  const burning = states.burning ?? 0;
-  if (burning >= 4) return BLAZE;
-  if (burning >= 2) return FIRE;
-  if (burning > 0 || (states.temperature ?? 0) >= 5) return SMOULDER;
-  return NONE;
-}
+/**
+ * What plays for a happening until a judge has answered for the element it is
+ * happening to (rule 2: nothing waits on a model). This is the hand rows' only
+ * use: the row an element keeps is born (`effect-book.ts`).
+ */
+export const GENERIC: Readonly<Record<Happening, EffectRow | null>> = {
+  exists: null,
+  burns: EFFECTS.flames,
+  fumes: EFFECTS.smoke,
+  struck: EFFECTS.sparks,
+  soaks: EFFECTS.splash,
+  breaks: EFFECTS.dust,
+  grows: EFFECTS.shimmer,
+};

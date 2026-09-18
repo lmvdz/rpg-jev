@@ -234,7 +234,7 @@ void main() {
 /**
  * Every effect row is played by this one shader. A particle keeps no state:
  * where it is, how big, which colour and which frame all follow from the
- * clock, its emitter's five texels (`view/effects.ts`) and its own number. So
+ * clock, its emitter's six texels (`view/effects.ts`) and its own number. So
  * a playing effect costs the CPU nothing, and one that was generated can do
  * nothing this shader cannot.
  */
@@ -283,11 +283,16 @@ void main() {
   vec4 track = texelFetch(u_emitters, ivec2(2, emitter), 0); // speed, size from, size to, easing
   vec4 inks = texelFetch(u_emitters, ivec2(3, emitter), 0);  // three inks, glows
   vec4 frames = texelFetch(u_emitters, ivec2(4, emitter), 0);
-  if (which >= how.y) {
+  vec4 once = texelFetch(u_emitters, ivec2(5, emitter), 0);  // start, is an event
+  // A condition's particles are born over and over, out of step with each other.
+  // An event's are all born at its start and live once.
+  float turn = once.y > 0.5
+    ? (u_cameraRight.w - once.x) / how.z
+    : u_cameraRight.w / how.z + hash(which + place.w);
+  if (which >= how.y || turn < 0.0 || (once.y > 0.5 && turn >= 1.0)) {
     gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
     return;
   }
-  float turn = u_cameraRight.w / how.z + hash(which + place.w);
   float age = fract(turn);
   float life = floor(turn);
   float r1 = hash(which * 3.1 + life * 7.7 + place.w);

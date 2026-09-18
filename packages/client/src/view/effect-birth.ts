@@ -20,14 +20,26 @@ import { glyphOfChar, glyphOfExtra } from "../glyph/font.ts";
 import { INK } from "../palette.ts";
 import { checkEffect, EASINGS, type EffectRow, MOTIONS } from "./effects.ts";
 
-export const HAPPENINGS = ["exists", "burns", "struck", "soaks", "breaks", "grows"] as const;
-export const FORMS = ["liquid", "gas", "granular", "edged", "hollow", "sheet"] as const;
+export const HAPPENINGS = [
+  "exists",
+  "burns",
+  "fumes",
+  "struck",
+  "soaks",
+  "breaks",
+  "grows",
+] as const;
+export type Happening = (typeof HAPPENINGS)[number];
+export const FORMS = ["liquid", "gas", "granular", "grained", "edged", "hollow", "sheet"] as const;
+export const KINDS = ["material", "thing", "plant", "creature", "person", "place"] as const;
 export const SUBJECT_LEVELS = ["temperature", "burning", "wetness", "mass", "hardness"] as const;
 
 export interface Subject {
   /** What it is called: generated text, shown to the judge in one labelled field and never parsed. */
   name: string;
-  happening: (typeof HAPPENINGS)[number];
+  happening: Happening;
+  /** What sort of element it is, in the vocabulary's closed list. Absent when it is not known. */
+  kind?: (typeof KINDS)[number];
   forms: readonly (typeof FORMS)[number][];
   levels: Partial<Record<(typeof SUBJECT_LEVELS)[number], number>>;
 }
@@ -66,6 +78,8 @@ export interface Question {
 
 type Hint = readonly [field: string, option: string, weight: number];
 
+const comesApart = (s: Subject) => s.happening === "struck" || s.happening === "breaks";
+
 /** One row per thing code knows how to read off a subject. Weights add; they are not rules of any thing. */
 const HINTS: readonly { when(s: Subject): boolean; hints: readonly Hint[] }[] = [
   {
@@ -75,7 +89,13 @@ const HINTS: readonly { when(s: Subject): boolean; hints: readonly Hint[] }[] = 
       ["shape", "flame", 4],
       ["ramp", "fire", 5],
       ["glows", "yes", 5],
-      ["sizeTo", "1", 2],
+      ["easing", "out", 2],
+      ["rate", "4", 3],
+      ["life", "1", 3],
+      ["spread", "1", 2],
+      ["speed", "3", 2],
+      ["sizeFrom", "4", 3],
+      ["sizeTo", "1", 3],
     ],
   },
   {
@@ -87,12 +107,15 @@ const HINTS: readonly { when(s: Subject): boolean; hints: readonly Hint[] }[] = 
     ],
   },
   {
-    when: (s) => s.forms.includes("gas"),
+    when: (s) => s.forms.includes("gas") || s.happening === "fumes",
     hints: [
       ["motion", "rise", 3],
       ["shape", "puff", 4],
       ["ramp", "smoke", 3],
+      ["easing", "out", 2],
+      ["rate", "2", 2],
       ["life", "4", 3],
+      ["sizeFrom", "2", 2],
       ["sizeTo", "5", 3],
       ["speed", "1", 2],
     ],
@@ -107,11 +130,15 @@ const HINTS: readonly { when(s: Subject): boolean; hints: readonly Hint[] }[] = 
     ],
   },
   {
-    when: (s) => s.happening === "struck" || s.happening === "breaks",
+    when: comesApart,
     hints: [
       ["motion", "burst", 4],
+      ["shape", "mote", 2],
+      ["ramp", "earth", 2],
+      ["rate", "3", 2],
       ["life", "1", 3],
-      ["speed", "4", 2],
+      ["speed", "3", 2],
+      ["sizeTo", "1", 2],
       ["easing", "out", 2],
     ],
   },
@@ -120,7 +147,22 @@ const HINTS: readonly { when(s: Subject): boolean; hints: readonly Hint[] }[] = 
     hints: [
       ["shape", "spark", 3],
       ["shape", "shard", 2],
-      ["ramp", "stone", 2],
+      ["ramp", "stone", 3],
+    ],
+  },
+  {
+    when: (s) => s.forms.includes("grained") && comesApart(s),
+    hints: [
+      ["shape", "shard", 3],
+      ["ramp", "earth", 2],
+    ],
+  },
+  {
+    when: (s) => s.kind === "plant" && (comesApart(s) || s.happening === "grows"),
+    hints: [
+      ["shape", "leaf", 3],
+      ["ramp", "growth", 3],
+      ["motion", "fall", 2],
     ],
   },
   {
@@ -153,8 +195,17 @@ const HINTS: readonly { when(s: Subject): boolean; hints: readonly Hint[] }[] = 
   },
 ];
 
-function question(field: string, ask: string, options: readonly string[], s: Subject): Question {
-  const weights = options.map(() => 1);
+/** With nothing known, a level is likelier middling than extreme. */
+const LEVEL_WEIGHTS = [1, 2, 3, 3, 2, 1] as const;
+
+function question(
+  field: string,
+  ask: string,
+  options: readonly string[],
+  s: Subject,
+  base: readonly number[] = [],
+): Question {
+  const weights = options.map((_, i) => base[i] ?? 1);
   for (const row of HINTS) {
     if (!row.when(s)) continue;
     for (const [hinted, option, weight] of row.hints) {
@@ -168,7 +219,7 @@ function question(field: string, ask: string, options: readonly string[], s: Sub
 
 /** The closed questions for one subject: what a single request to the judge holds. */
 export function effectQuestions(s: Subject): Question[] {
-  const level = (field: string, ask: string) => question(field, ask, LEVELS, s);
+  const level = (field: string, ask: string) => question(field, ask, LEVELS, s, LEVEL_WEIGHTS);
   return [
     question("motion", "How does what comes off it move?", ["none", ...MOTIONS], s),
     question("shape", "What do the pieces look like?", Object.keys(SHAPES), s),
@@ -225,8 +276,20 @@ export function decideEffect(subject: Subject, judge: Judge, draw: () => number)
     chosen.set(asked.field, chose);
     record.push({ field: asked.field, chose, odds });
   }
+  return { row: rowOf(chosen), record };
+}
+
+/**
+ * The row a logged birth gave, without asking anyone again (rule 9). The log
+ * is read as untrusted too: a record that no longer makes a row makes nothing.
+ */
+export function replayEffect(record: Birth["record"]): EffectRow | null {
+  return rowOf(new Map(record.map((line) => [line.field, line.chose])));
+}
+
+function rowOf(chosen: ReadonlyMap<string, string>): EffectRow | null {
   const motion = chosen.get("motion");
-  if (motion === undefined || motion === "none") return { row: null, record };
+  if (motion === undefined || motion === "none") return null;
   const level = (field: string) => Number(chosen.get(field) ?? 0);
   const row: EffectRow = {
     motion: motion as EffectRow["motion"],
@@ -242,14 +305,19 @@ export function decideEffect(subject: Subject, judge: Judge, draw: () => number)
     sizeTo: level("sizeTo"),
   };
   // The last word is code's: a row that is not an effect is no effect.
-  return { row: checkEffect(row) === null ? row : null, record };
+  return checkEffect(row) === null ? row : null;
 }
 
 /** A judge wrapper that takes the likeliest option whatever is drawn: for a world that wants no dice here. */
 export function likeliest(judge: Judge): Judge {
   return (subject, asked) => {
-    const odds = judge(subject, asked);
-    const best = odds.indexOf(Math.max(...odds));
-    return asked.options.map((_, i) => (i === best ? 1 : 0));
+    const sharp = sharpen(judge(subject, asked));
+    return asked.options.map((_, i) => sharp[i] ?? 0);
   };
+}
+
+/** All of the odds on the likeliest option, the first of them when several tie. */
+export function sharpen(odds: readonly number[]): number[] {
+  const best = odds.indexOf(Math.max(...odds));
+  return odds.map((_, i) => (i === best ? 1 : 0));
 }
