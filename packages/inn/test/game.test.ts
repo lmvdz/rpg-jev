@@ -202,7 +202,9 @@ describe("violence has a stub", () => {
     expect(game.log.filter((e) => e.kind === "draw" && e.purpose === "player hit")).toHaveLength(1);
     expect(text).toContain("Odo bolts.");
     expect(game.world.schedules.odo?.overrides).toHaveLength(1);
-    expect(game.world.debts.eject).toMatchObject({ stakeholder: "mara", status: "pending" });
+    // Only whoever keeps the inn means to do anything about it, and only once she has heard.
+    for (const d of Object.values(game.world.debts).filter((d) => d.kind === "react"))
+      expect(d).toMatchObject({ stakeholder: "mara", data: { disposition: "keeps_the_peace" } });
     const hurt = game.log.filter((e) => e.kind === "effect" && e.effect.kind === "damage");
     for (const e of hurt)
       if (e.kind === "effect" && e.effect.kind === "damage")

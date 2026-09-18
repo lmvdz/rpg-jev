@@ -130,7 +130,8 @@ needs deepening, and that is a design proposal (see "What to hand to a person").
 | An act a person would notice | A deed: predicate in `WRONGDOING` or the predicate list, phrase ladder in `words.ts` | `content.ts`, `words.ts`; raised with `g.happened` + `g.witness` | Something the player did left no trace in anyone's memory |
 | How someone feels about a deed | Drive nudges by predicate | `game.ts afterBelief` (by predicate, never by person) | A deed changed nothing in anyone's stance |
 | What can be said or done | Closed option sets: `VERBS`, `topicOptions`, `replies`, `pickAction` options | `jev/families.ts` (verbs), `talk.ts` (replies), `parser.ts` (rules) | The judge had no fitting option, or the matcher missed an obvious command |
-| What a person is allowed to do | Powers from `actor.role` | `talk.ts` and `agenda.ts`, keyed on role | An outcome exists only because of who someone is |
+| What a person is allowed to do | `POWERS` by role | `content.ts`; read by `talk.ts` and `reactions.ts` | An outcome exists only because of who someone is |
+| What someone does about a belief | A disposition: who, which beliefs, the closed set of reactions, delays, why it matters | `content.ts` `DISPOSITIONS`; a new kind of reaction is a row in `reactions.ts` `REACTIONS` | Someone came to believe something and did nothing, or only one named person would have |
 | A consequence that comes later | A debt with a fuse | `core/debts.ts`, `content.ts` `debtKinds`, `agenda.ts fire` | A reaction should happen after a delay or once a condition holds |
 | Where people are and why | Schedule layers: override, commitment, need, role | `content.ts` schedules; `apply_override` | Someone should be somewhere else because of what happened |
 | How the world is described | `prose.ts` voice and special lines, `words.ts` ladders | Never the engine | A line read wrong for its cause, or a voice was missing |
@@ -153,11 +154,15 @@ the shape to stop:
   arm. The deep version builds the option list from what the deed cost the listener (the
   needs graph: an insult costs company, a blow costs safety) and what the listener's role
   permits. When you touch `replies()`, do not add an arm; propose the generator.
-- **`maraActsOn`, `face_stranger`, `search_cellar`, the guard's preconditions** in
-  `game.ts` and `agenda.ts` are engine code with names in them, each added after a playtest
-  showed a gap. The class is "an NPC reacts to a belief by doing something". The deep version
-  is a stimulus-to-reaction pipeline over dispositions declared in content (the "reactions
-  and appraisal" backlog family). Listed in `SPEC.md` section 17. Do not add to the pile.
+- **The named debt handlers in `agenda.ts`** (Odo's checking and burning, Tobin's
+  conscience, the search of the pack, the verdict) and `owe` in `talk.ts` (who a witness
+  carries a tale to) are engine code with names in them, each added after a playtest showed a
+  gap. The class is "an NPC reacts to a belief by doing something", and its deep version now
+  exists: `reactions.ts` takes dispositions declared in content, builds the option set from
+  the reactions possible at that moment, asks the judge only when there is a choice, and
+  carries it out. Mara's cellar search, her confrontations and her answer to a brawl were
+  moved there and the named versions deleted. Move the rest the same way (`SPEC.md` sections
+  9 and 17); do not add to the pile.
 - **`SPECIAL` lines keyed by request id** in `prose.ts` are fine as content but the keys are
   invented one at a time. The class is "prose keyed to cause"; a deep version keys on the
   cause's predicate and the speaker's role.

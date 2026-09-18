@@ -364,11 +364,9 @@ const WORLD_DEF: World["def"] = {
     "verdict",
     "report",
     "testify",
-    "confront",
     "retaliate",
-    "eject",
-    "search_cellar",
     "face_stranger",
+    "react",
   ],
 };
 
@@ -667,7 +665,8 @@ export const ACTIVITY_SERVES: Record<string, { need: Need; whose: string }> = {
   searching_pack: { need: "money", whose: "the house, if the ledger is in it" },
   testifying: { need: "company", whose: "their own standing with Mara" },
   confronting: { need: "money", whose: "the house, which needs its ledger" },
-  searching_cellar: { need: "money", whose: "the house, which needs its ledger" },
+  searching: { need: "money", whose: "the house, which needs its ledger" },
+  seeing_to_it: { need: "safety", whose: "the house" },
   checking_cellar: { need: "safety", whose: "Odo's own" },
   reporting: { need: "company", whose: "their own standing with Mara" },
   keeping_clear: { need: "safety", whose: "their own" },
@@ -694,3 +693,92 @@ export const RETELLING_HABIT: Record<string, Record<string, number>> = {
   [TOBIN]: { faithful: 0.5, keep_quiet: 0.5 },
   [ODO]: { exaggerate_severity: 0.6, faithful: 0.2, swap_culprit: 0.2 },
 };
+
+/** What a role lets its holder do that nobody else may (a role is a power, a trait a tendency). */
+export const POWERS: Record<string, readonly string[]> = {
+  innkeeper: ["throw_out"],
+};
+
+/** What looking closely at a thing teaches anyone who looks, with their own eyes. */
+export const EXAMINE_TEACHES: Record<string, Claim> = {
+  latch: C_LATCH,
+  apron: C_APRON,
+  markers: C_ODO_GAMBLES,
+};
+
+/** Things the story follows: the machine that remembers their fate, and whose they are. */
+export const TRACKED: Record<string, { machine: string; owner: string }> = {
+  ledger: { machine: "ledger_fate", owner: MARA },
+};
+
+/**
+ * What someone does about what they come to believe (SPEC.md section 9). A disposition is
+ * data: whose habit it is, which beliefs set it off, and the closed set of reactions they
+ * would choose among. Code builds the option set from the reactions that are possible at
+ * that moment; with more than one the judge picks, and with one it is a habit and nobody is
+ * asked. The reactions themselves are code, in `reactions.ts`, and name nobody.
+ */
+export interface Disposition {
+  id: string;
+  /** Whose habit: everyone with the role, or one person. */
+  who: { role: string } | { actor: string };
+  when: {
+    predicates: readonly string[];
+    /** Who the belief is about: the stranger, or some third person. */
+    about: "stranger" | "another";
+    /** Only beliefs that say where. */
+    placed?: boolean;
+    /** Only about someone who is in the house to be dealt with. */
+    inTheHouse?: boolean;
+    /** Checking costs less than believing: a trusted telling is enough, even half believed. */
+    onTrustedWord?: boolean;
+  };
+  reactions: readonly string[];
+  fallback: string;
+  /** Minutes before acting on it: on what was seen, and on what was only heard. */
+  after: { seen: number; heard: number };
+  /** One reaction per claim, per person it is about, or per place it points to. */
+  once: "claim" | "subject" | "place";
+  /** A stated fact for the judge about why this matters to them. */
+  because: string;
+  /** Request ids for what is said while reacting; the words live in `prose.ts`. */
+  says?: Record<string, string>;
+}
+
+export const DISPOSITIONS: readonly Disposition[] = [
+  {
+    id: "keeps_the_peace",
+    who: { role: "innkeeper" },
+    when: { predicates: ["attacked"], about: "stranger" },
+    reactions: ["throw_out", "warn"],
+    fallback: "throw_out",
+    after: { seen: 0, heard: 6 },
+    once: "claim",
+    because: "It happened under their roof, and keeping the peace of the house is theirs to do.",
+    says: { warn: "no_more_blows" },
+  },
+  {
+    id: "looks_where_it_points",
+    who: { actor: MARA },
+    when: { predicates: IMPLICATES, about: "another", placed: true, onTrustedWord: true },
+    reactions: ["go_look"],
+    fallback: "go_look",
+    after: { seen: 6, heard: 6 },
+    once: "place",
+    because: "The ledger must be found before dawn, and this says where to look.",
+  },
+  {
+    id: "has_it_out",
+    who: { actor: MARA },
+    when: {
+      predicates: IMPLICATES.filter((p) => p !== "dodged"),
+      about: "another",
+      inTheHouse: true,
+    },
+    reactions: ["have_it_out"],
+    fallback: "have_it_out",
+    after: { seen: 12, heard: 12 },
+    once: "subject",
+    because: "The ledger must be found before dawn, and this person may know where it went.",
+  },
+];

@@ -11,7 +11,6 @@ import {
   beliefIn,
   beliefsOf,
   type Claim,
-  type Debt,
   type Effect,
   failedPreconditions,
   type JudgeAnswer,
@@ -50,7 +49,7 @@ import {
 } from "./content.ts";
 import { type Action, type Matched, match, resolveAnswer } from "./parser.ts";
 import { arrival, departure, describeRoom, ENDINGS, INTRO, renderTurn } from "./prose.ts";
-import { trustIn } from "./slices.ts";
+import { considerReacting } from "./reactions.ts";
 import { afterSpeech, judgeParse, npcArrives } from "./talk.ts";
 import { nameOf } from "./words.ts";
 
@@ -245,12 +244,10 @@ export class Game {
       if (credence > held.credence)
         this.commit({ kind: "update_credence", holder, claim: claim.id, credence }, cause);
     } else this.commit({ kind: "add_claim", holder, claim, credence, source }, cause);
+    // What someone does about a belief is theirs, declared in content (`reactions.ts`).
+    considerReacting(this, holder, claim, credence, source, cause);
     if (holder !== PLAYER && credence >= 0.6)
       this.afterBelief(holder, claim, credence, source, cause);
-    // Checking costs less than believing. A cautious woman who only half credits a
-    // trusted first-hand report still goes to look where it points.
-    else if (source.kind === "told" && trustIn(this.world, holder, source.from) >= 0.8)
-      this.maraActsOn(holder, claim, cause, true);
   }
 
   /** Everyone in the room stores what they saw (SPEC.md section 9, step 1). */
@@ -276,7 +273,6 @@ export class Game {
   ): void {
     this.discredit(holder, claim, cause);
     this.corroborate(holder, claim, cause);
-    this.maraActsOn(holder, claim, cause);
     this.clearAccusation(holder, claim, credence, cause);
     if (claim.subject !== PLAYER) return;
     this.debtForHearsay(holder, claim, source, cause);
@@ -291,6 +287,8 @@ export class Game {
     for (const b of beliefsOf(this.world, holder)) {
       const source = b.edge.source;
       if (source?.kind !== "told" || source.from !== claim.subject || b.credence <= 0.2) continue;
+      // What someone admits against themselves is not made doubtful by their being suspected.
+      if (b.claim.subject === source.from) continue;
       const less = Math.round(b.credence * 60) / 100;
       this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: less }, cause);
     }
@@ -307,7 +305,8 @@ export class Game {
       if (b.credence <= 0) continue;
       const more = Math.min(0.75, Math.round((b.credence + 0.3) * 100) / 100);
       this.commit({ kind: "update_credence", holder, claim: b.claim.id, credence: more }, cause);
-      if (more >= 0.6) this.maraActsOn(holder, b.claim, cause);
+      if (more >= 0.6 && b.edge.source)
+        considerReacting(this, holder, b.claim, more, b.edge.source, cause);
     }
   }
 
@@ -371,36 +370,6 @@ export class Game {
     } else if (claim.predicate === "handed_over" || claim.predicate === "pack_was_clean") {
       this.nudge(holder, { trust: 0.1, suspicion: -0.1 }, cause);
     }
-  }
-
-  /**
-   * Mara wants her ledger, so what she comes to believe she acts on: she goes to look
-   * where she is told it went, and she has it out with whoever is implicated. Both are
-   * debts with a short fuse, so they land a little later and can be traced with `why`.
-   */
-  private maraActsOn(holder: string, claim: Claim, cause: LogId, onlyLook = false): void {
-    if (holder !== MARA || claim.subject === PLAYER || !IMPLICATES.includes(claim.predicate))
-      return;
-    const owe = (id: string, kind: string, data: Record<string, string>, minutes: number) => {
-      if (this.world.debts[id]) return;
-      const due = this.world.clock + minutes;
-      const debt: Debt = {
-        id,
-        cause,
-        stakeholder: MARA,
-        kind,
-        magnitude: 3,
-        fuse: { due, expires: due + 120 },
-        status: "pending",
-        data,
-      };
-      this.commit({ kind: "create_debt", debt }, cause);
-    };
-    if (claim.place === "cellar") owe("mara_looks_in_cellar", "search_cellar", {}, 6);
-    if (onlyLook) return;
-    const who = this.world.actors[claim.subject];
-    if (who?.kind === "npc" && who.present && claim.predicate !== "dodged")
-      owe(`confront_${claim.subject}`, "confront", { to: claim.subject }, 12);
   }
 
   nudge(npc: string, deltas: Partial<Record<string, number>>, cause: LogId): void {

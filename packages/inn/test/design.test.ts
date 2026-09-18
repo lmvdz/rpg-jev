@@ -4,15 +4,16 @@ import { describe, expect, it } from "vitest";
 
 /**
  * A ratchet on the shape the world-design skill forbids: engine code that names a
- * character. The counts below are the debt as of 2026-09-17 (SPEC.md section 17). A change
+ * character. The counts below are the debt as of 2026-09-18 (SPEC.md section 17). A change
  * may lower a number, never raise it. Lower it here when you pay some of it off.
  */
 const DEBT: Record<string, number> = {
-  "game.ts": 4,
-  "talk.ts": 20,
-  "agenda.ts": 67,
-  "actions.ts": 10,
+  "game.ts": 2,
+  "talk.ts": 16,
+  "agenda.ts": 49,
+  "actions.ts": 9,
   "attempts.ts": 0,
+  "reactions.ts": 0,
 };
 
 describe("the engine does not learn new names", () => {

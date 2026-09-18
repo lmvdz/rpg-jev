@@ -197,6 +197,10 @@ const MANNER: Record<string, string> = {
 
 const TOPIC_NAMES: Record<string, string> = { ledger: "my ledger" };
 
+/** Whether someone has words of their own for a request. Content checks lean on this. */
+export const hasLine = (npc: string, request: string): boolean =>
+  (SPECIAL[npc]?.[request]?.length ?? 0) > 0;
+
 /** Lines for speech whose topic is a request or a fixed question, by request id. */
 const SPECIAL: Record<string, Record<string, readonly string[]>> = {
   [MARA]: {
@@ -366,7 +370,8 @@ export function arrival(world: World, npc: string, from: string): string {
 /** Why someone is leaving, when the schedule knows. A consequence the player cannot see is wasted. */
 const LEAVING: Record<string, string> = {
   confronting: "with a face like thunder",
-  searching_cellar: "taking the lantern from its hook",
+  searching: "taking the lantern from its hook",
+  seeing_to_it: "with a set jaw",
   reporting: "in a hurry, with the look of someone carrying news",
   testifying: "slowly, twisting a cap in both hands",
   checking_cellar: "wiping both hands on an apron",

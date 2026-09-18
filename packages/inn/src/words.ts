@@ -101,7 +101,17 @@ const PRONOUNS: Record<string, readonly [string, string, string, string]> = {
   odo: ["he", "his", "him", "himself"],
 };
 
+export const theyOf = (id: string): string => (PRONOUNS[id] ?? THEY)[0];
 export const theirOf = (id: string): string => (PRONOUNS[id] ?? THEY)[1];
+export const themOf = (id: string): string => (PRONOUNS[id] ?? THEY)[2];
+export const selfOf = (id: string): string => (PRONOUNS[id] ?? THEY)[3];
+
+/** How `other` stands to `from` in the house, from `from`'s side. Whoever keeps the inn employs the rest. */
+export function tieWords(world: World, from: string, other: string): string {
+  if (world.actors[other]?.role === "innkeeper") return "their employer";
+  if (world.actors[from]?.role === "innkeeper") return `who works for ${themOf(from)}`;
+  return "who works alongside them";
+}
 
 /** Standing facts have no "when": nobody "owes a season's wages this afternoon". */
 const TIMELESS = ["owes", "gambles", "apron_is_odos"];
@@ -241,8 +251,9 @@ export const ACTIVITY: Record<string, string> = {
   eating: "eating supper",
   searching_pack: "come to search the stranger's pack",
   testifying: "come to say something to Mara",
-  confronting: "come to have words with Odo",
-  searching_cellar: "going through the cellar with a lantern",
+  confronting: "come to have words with someone",
+  searching: "going through the place with a lantern",
+  seeing_to_it: "come to see to something",
   checking_cellar: "fetching something from the cellar",
   burning: "feeding the kitchen fire",
   reporting: "come to tell Mara something",

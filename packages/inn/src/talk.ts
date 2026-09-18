@@ -42,6 +42,7 @@ import {
   NPCS,
   ODO,
   PLAYER,
+  POWERS,
   RESTRICTED_ROOMS,
   TOBIN,
   TOBINS_DEBT,
@@ -63,6 +64,7 @@ import {
   whichOne,
 } from "./parser.ts";
 import { hesitation, silence } from "./prose.ts";
+import { canReact, promiseReaction } from "./reactions.ts";
 import { type NpcPart, parseSlice, rankedBeliefs, sceneSlice, standing } from "./slices.ts";
 import { cap, claimClause, feelingWords, nameOf, whenFor } from "./words.ts";
 
@@ -614,7 +616,7 @@ function repliesToTold(
     return out;
   }
   out.push(s.shown ? ASK_WHERE_FROM : ASK_HOW);
-  if (npc === MARA && s.claim.subject !== PLAYER && s.claim.subject !== MARA)
+  if (canReact(g, npc, "have_it_out") && s.claim.subject !== PLAYER && s.claim.subject !== npc)
     out.push(
       plain(
         "promise_confront",
@@ -659,7 +661,7 @@ function repliesToInsult(g: Game, npc: string): Reply[] {
   // Words are not the only answer to an insult. What the judge may choose from is
   // built from what this person can do; what they will do is the judge's.
   const out = [REFUSE, RETORT, THREATEN, WALK_OUT, STRIKE];
-  if (g.world.actors[npc]?.role === "innkeeper") out.push(THROW_OUT);
+  if (POWERS[g.world.actors[npc]?.role ?? ""]?.includes("throw_out")) out.push(THROW_OUT);
   return out;
 }
 
@@ -1209,7 +1211,7 @@ export async function playerSpeaks(
 }
 
 /** A reply that is done rather than said. Every number here is code. */
-function doDeed(g: Game, npc: string, deed: NonNullable<Reply["deed"]>, cause: LogId): void {
+export function doDeed(g: Game, npc: string, deed: NonNullable<Reply["deed"]>, cause: LogId): void {
   const name = nameOf(g.world, npc);
   if (deed === "walk_out") {
     const exits = g.world.rooms[g.playerRoom]?.exits.filter((e) => !e.door) ?? [];
@@ -1235,7 +1237,8 @@ function doDeed(g: Game, npc: string, deed: NonNullable<Reply["deed"]>, cause: L
     return;
   }
   if (deed === "throw_out") {
-    g.say(`${name} takes you by the collar and walks you to the yard door. It is still raining.`);
+    if (g.world.actors[npc]?.room === g.playerRoom)
+      g.say(`${name} takes you by the collar and walks you to the yard door. It is still raining.`);
     g.commit(
       { kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" },
       cause,
@@ -1434,23 +1437,20 @@ export async function greetOnEntry(g: Game, cause: LogId): Promise<void> {
   g.speak((turn, id) => afterSpeech(g, turn, id));
 }
 
-/** What a promised request becomes as a debt: only these two requests are ever promised. */
-function debtKindFor(request: string): "confront" | "testify" | null {
-  if (request === "confront") return "confront";
-  if (request === "speak_to_mara") return "testify";
-  return null;
-}
-
 /** Words have consequences: a told claim is learned, a promise becomes a debt. */
 export function afterSpeech(g: Game, turn: Turn, id: LogId): void {
   g.heard(turn, id);
   const { intent } = turn;
   if (intent.act !== "promise" || intent.topic.kind !== "request") return;
   const [request, whom] = intent.topic.id.split(":");
-  const kind = debtKindFor(request ?? "");
-  if (!kind) return;
-  // One confrontation per person, whether she promised it or decided on it herself.
-  const debtId = kind === "confront" ? `confront_${whom ?? ODO}` : `${kind}_${intent.speaker}`;
+  // One confrontation per person, whether it was promised aloud or decided on alone: a
+  // promised reaction is the same debt the belief would have left.
+  if (request === "confront" && whom) {
+    promiseReaction(g, intent.speaker, "have_it_out", whom, 5, id);
+    return;
+  }
+  if (request !== "speak_to_mara") return;
+  const debtId = `testify_${intent.speaker}`;
   if (g.world.debts[debtId]) return;
   g.commit(
     {
@@ -1459,11 +1459,11 @@ export function afterSpeech(g: Game, turn: Turn, id: LogId): void {
         id: debtId,
         cause: id,
         stakeholder: intent.speaker,
-        kind,
+        kind: "testify",
         magnitude: 3,
         fuse: { due: g.world.clock + 5, expires: g.world.clock + 150 },
         status: "pending",
-        data: { to: kind === "confront" ? (whom ?? ODO) : MARA },
+        data: { to: MARA },
       },
     },
     id,

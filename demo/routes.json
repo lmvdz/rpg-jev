@@ -4,14 +4,14 @@
   "seed": 1,
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
-  "calls": 13,
-  "tokens": 16042,
-  "usd": 0.0006737640000000001,
+  "calls": 14,
+  "tokens": 17563,
+  "usd": 0.0007376460000000001,
   "guard": [
-   0.31,
-   0.64
+   0.52,
+   0.68
   ],
-  "garbledToFace": 0,
+  "garbledToFace": 1,
   "garbledHeld": 1
  },
  {
@@ -20,11 +20,11 @@
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
   "calls": 13,
-  "tokens": 16012,
-  "usd": 0.0006725040000000001,
+  "tokens": 16485,
+  "usd": 0.0006923700000000001,
   "guard": [
-   0.35,
-   0.59
+   0.41,
+   0.67
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -35,11 +35,11 @@
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
   "calls": 14,
-  "tokens": 17012,
-  "usd": 0.0007145040000000001,
+  "tokens": 17600,
+  "usd": 0.0007392,
   "guard": [
-   0.28,
-   0.5
+   0.52,
+   0.67
   ],
   "garbledToFace": 2,
   "garbledHeld": 1
@@ -50,11 +50,11 @@
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
   "calls": 14,
-  "tokens": 16927,
-  "usd": 0.000710934,
+  "tokens": 17475,
+  "usd": 0.00073395,
   "guard": [
-   0.36,
-   0.63
+   0.45,
+   0.66
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -65,11 +65,11 @@
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
   "calls": 14,
-  "tokens": 16946,
-  "usd": 0.0007117320000000002,
+  "tokens": 17534,
+  "usd": 0.0007364280000000001,
   "guard": [
-   0.33,
-   0.61
+   0.55,
+   0.68
   ],
   "garbledToFace": 1,
   "garbledHeld": 1
@@ -78,13 +78,14 @@
   "route": "evidence",
   "seed": 6,
   "quest": "resolved",
-  "clearedAt": "19:29 after \"show markers to mara\"",
-  "calls": 14,
-  "tokens": 16952,
-  "usd": 0.0007119840000000001,
+  "clearedAt": "19:32 after \"give ledger to mara\"",
+  "calls": 16,
+  "tokens": 19556,
+  "usd": 0.0008213520000000001,
   "guard": [
-   0.34,
-   0.67
+   0.55,
+   0.64,
+   0.68
   ],
   "garbledToFace": 2,
   "garbledHeld": 1
@@ -95,11 +96,11 @@
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
   "calls": 13,
-  "tokens": 16065,
-  "usd": 0.0006747300000000001,
+  "tokens": 16615,
+  "usd": 0.0006978300000000001,
   "guard": [
-   0.35,
-   0.63
+   0.41,
+   0.68
   ],
   "garbledToFace": 0,
   "garbledHeld": 1
@@ -109,14 +110,14 @@
   "seed": 8,
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
-  "calls": 14,
-  "tokens": 16982,
-  "usd": 0.0007132440000000001,
+  "calls": 13,
+  "tokens": 16554,
+  "usd": 0.0006952680000000001,
   "guard": [
-   0.31,
-   0.63
+   0.43,
+   0.67
   ],
-  "garbledToFace": 2,
+  "garbledToFace": 0,
   "garbledHeld": 1
  },
  {
@@ -125,8 +126,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 10,
-  "tokens": 12436,
-  "usd": 0.000522312,
+  "tokens": 12986,
+  "usd": 0.000545412,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -137,11 +138,11 @@
   "quest": "resolved",
   "clearedAt": "19:29 after \"show markers to mara\"",
   "calls": 14,
-  "tokens": 16968,
-  "usd": 0.0007126560000000001,
+  "tokens": 17560,
+  "usd": 0.0007375200000000001,
   "guard": [
-   0.32,
-   0.61
+   0.45,
+   0.69
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -152,10 +153,10 @@
   "quest": "resolved",
   "clearedAt": "19:49 after \"wait 10\"",
   "calls": 22,
-  "tokens": 25685,
-  "usd": 0.0010787700000000002,
+  "tokens": 26604,
+  "usd": 0.001117368,
   "guard": [
-   0.73
+   0.72
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -166,8 +167,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 19,
-  "tokens": 22366,
-  "usd": 0.0009393720000000002,
+  "tokens": 23110,
+  "usd": 0.0009706200000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -177,9 +178,9 @@
   "seed": 3,
   "quest": "suspected",
   "clearedAt": null,
-  "calls": 21,
-  "tokens": 24658,
-  "usd": 0.0010356360000000002,
+  "calls": 22,
+  "tokens": 28789,
+  "usd": 0.0012091380000000002,
   "guard": [],
   "garbledToFace": 2,
   "garbledHeld": 0
@@ -190,11 +191,11 @@
   "quest": "resolved",
   "clearedAt": "19:49 after \"wait 10\"",
   "calls": 22,
-  "tokens": 25768,
-  "usd": 0.0010822560000000004,
+  "tokens": 26687,
+  "usd": 0.0011208540000000001,
   "guard": [
-   0.3,
-   0.92
+   0.29,
+   0.93
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -205,10 +206,10 @@
   "quest": "resolved",
   "clearedAt": "19:49 after \"wait 10\"",
   "calls": 21,
-  "tokens": 24884,
-  "usd": 0.0010451280000000002,
+  "tokens": 25670,
+  "usd": 0.00107814,
   "guard": [
-   0.31,
+   0.3,
    0.92
   ],
   "garbledToFace": 0,
@@ -220,10 +221,10 @@
   "quest": "resolved",
   "clearedAt": "19:49 after \"wait 10\"",
   "calls": 22,
-  "tokens": 25671,
-  "usd": 0.001078182,
+  "tokens": 26504,
+  "usd": 0.001113168,
   "guard": [
-   0.68
+   0.69
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -231,15 +232,12 @@
  {
   "route": "witness",
   "seed": 7,
-  "quest": "resolved",
-  "clearedAt": "19:49 after \"wait 10\"",
+  "quest": "suspected",
+  "clearedAt": null,
   "calls": 23,
-  "tokens": 26716,
-  "usd": 0.0011220720000000002,
-  "guard": [
-   0.31,
-   0.92
-  ],
+  "tokens": 29092,
+  "usd": 0.0012218640000000002,
+  "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
  },
@@ -249,8 +247,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 21,
-  "tokens": 26014,
-  "usd": 0.0010925880000000002,
+  "tokens": 27166,
+  "usd": 0.0011409720000000003,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -261,11 +259,11 @@
   "quest": "resolved",
   "clearedAt": "19:49 after \"wait 10\"",
   "calls": 21,
-  "tokens": 24990,
-  "usd": 0.0010495800000000003,
+  "tokens": 25869,
+  "usd": 0.0010864980000000002,
   "guard": [
    0.3,
-   0.93
+   0.92
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -276,8 +274,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 20,
-  "tokens": 25113,
-  "usd": 0.0010547460000000005,
+  "tokens": 26265,
+  "usd": 0.0011031300000000003,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -288,13 +286,13 @@
   "quest": "cleared",
   "clearedAt": "21:20 after \"talk to mara\"",
   "calls": 27,
-  "tokens": 30220,
-  "usd": 0.00126924,
+  "tokens": 30281,
+  "usd": 0.0012718020000000003,
   "guard": [
-   0.49,
-   0.49,
-   0.6,
-   0.89
+   0.46,
+   0.47,
+   0.59,
+   0.88
   ],
   "garbledToFace": 1,
   "garbledHeld": 1
@@ -305,13 +303,13 @@
   "quest": "cleared",
   "clearedAt": "21:17 after \"wait 20\"",
   "calls": 27,
-  "tokens": 30251,
-  "usd": 0.001270542,
+  "tokens": 30290,
+  "usd": 0.00127218,
   "guard": [
-   0.44,
+   0.47,
    0.5,
-   0.67,
-   0.87
+   0.66,
+   0.85
   ],
   "garbledToFace": 2,
   "garbledHeld": 2
@@ -322,12 +320,12 @@
   "quest": "cleared",
   "clearedAt": "21:17 after \"wait 20\"",
   "calls": 27,
-  "tokens": 30253,
-  "usd": 0.0012706260000000002,
+  "tokens": 30292,
+  "usd": 0.0012722640000000002,
   "guard": [
-   0.45,
-   0.52,
-   0.67,
+   0.47,
+   0.5,
+   0.65,
    0.85
   ],
   "garbledToFace": 3,
@@ -339,16 +337,16 @@
   "quest": "cleared",
   "clearedAt": "21:20 after \"talk to mara\"",
   "calls": 26,
-  "tokens": 29327,
-  "usd": 0.001231734,
+  "tokens": 29388,
+  "usd": 0.001234296,
   "guard": [
-   0.49,
-   0.52,
-   0.56,
-   0.89
+   0.5,
+   0.47,
+   0.58,
+   0.9
   ],
-  "garbledToFace": 1,
-  "garbledHeld": 1
+  "garbledToFace": 0,
+  "garbledHeld": 0
  },
  {
   "route": "expose",
@@ -356,13 +354,13 @@
   "quest": "cleared",
   "clearedAt": "21:20 after \"talk to mara\"",
   "calls": 27,
-  "tokens": 30254,
-  "usd": 0.0012706680000000002,
+  "tokens": 30293,
+  "usd": 0.0012723060000000002,
   "guard": [
+   0.46,
    0.45,
-   0.45,
-   0.55,
-   0.86
+   0.62,
+   0.85
   ],
   "garbledToFace": 1,
   "garbledHeld": 1
@@ -373,13 +371,13 @@
   "quest": "cleared",
   "clearedAt": "21:17 after \"wait 20\"",
   "calls": 26,
-  "tokens": 29250,
-  "usd": 0.0012285,
+  "tokens": 29293,
+  "usd": 0.001230306,
   "guard": [
    0.48,
-   0.52,
-   0.68,
-   0.86
+   0.56,
+   0.67,
+   0.85
   ],
   "garbledToFace": 2,
   "garbledHeld": 2
@@ -390,12 +388,12 @@
   "quest": "cleared",
   "clearedAt": "21:20 after \"talk to mara\"",
   "calls": 23,
-  "tokens": 26488,
-  "usd": 0.0011124960000000004,
+  "tokens": 26527,
+  "usd": 0.0011141340000000003,
   "guard": [
-   0.56,
-   0.58,
-   0.82
+   0.55,
+   0.57,
+   0.87
   ],
   "garbledToFace": 0,
   "garbledHeld": 2
@@ -405,16 +403,16 @@
   "seed": 8,
   "quest": "cleared",
   "clearedAt": "21:20 after \"talk to mara\"",
-  "calls": 27,
-  "tokens": 30244,
-  "usd": 0.001270248,
+  "calls": 26,
+  "tokens": 29309,
+  "usd": 0.0012309780000000004,
   "guard": [
-   0.48,
-   0.43,
-   0.6,
-   0.87
+   0.54,
+   0.59,
+   0.57,
+   0.86
   ],
-  "garbledToFace": 1,
+  "garbledToFace": 0,
   "garbledHeld": 1
  },
  {
@@ -423,11 +421,11 @@
   "quest": "cleared",
   "clearedAt": "21:20 after \"talk to mara\"",
   "calls": 24,
-  "tokens": 27478,
-  "usd": 0.001154076,
+  "tokens": 27517,
+  "usd": 0.001155714,
   "guard": [
-   0.43,
-   0.58,
+   0.44,
+   0.53,
    0.85
   ],
   "garbledToFace": 0,
@@ -438,30 +436,31 @@
   "seed": 10,
   "quest": "cleared",
   "clearedAt": "21:20 after \"talk to mara\"",
-  "calls": 26,
-  "tokens": 29371,
-  "usd": 0.001233582,
+  "calls": 27,
+  "tokens": 30860,
+  "usd": 0.0012961200000000002,
   "guard": [
-   0.46,
-   0.42,
-   0.53,
-   0.86
+   0.47,
+   0.56,
+   0.61,
+   0.87
   ],
-  "garbledToFace": 0,
-  "garbledHeld": 0
+  "garbledToFace": 1,
+  "garbledHeld": 1
  },
  {
   "route": "bare_return",
   "seed": 1,
   "quest": "suspected",
   "clearedAt": null,
-  "calls": 9,
-  "tokens": 10176,
-  "usd": 0.000427392,
+  "calls": 13,
+  "tokens": 14527,
+  "usd": 0.000610134,
   "guard": [
-   0.59
+   0.47,
+   0.46
   ],
-  "garbledToFace": 0,
+  "garbledToFace": 1,
   "garbledHeld": 1
  },
  {
@@ -470,14 +469,14 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 14,
-  "tokens": 15533,
-  "usd": 0.0006523860000000001,
+  "tokens": 15529,
+  "usd": 0.0006522180000000001,
   "guard": [
-   0.5,
-   0.58
+   0.43,
+   0.45
   ],
-  "garbledToFace": 1,
-  "garbledHeld": 2
+  "garbledToFace": 0,
+  "garbledHeld": 1
  },
  {
   "route": "bare_return",
@@ -488,8 +487,8 @@
   "tokens": 14566,
   "usd": 0.0006117720000000001,
   "guard": [
-   0.44,
-   0.57
+   0.48,
+   0.5
   ],
   "garbledToFace": 2,
   "garbledHeld": 2
@@ -500,11 +499,11 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 13,
-  "tokens": 14562,
-  "usd": 0.0006116040000000001,
+  "tokens": 14584,
+  "usd": 0.000612528,
   "guard": [
-   0.48,
-   0.46
+   0.44,
+   0.54
   ],
   "garbledToFace": 0,
   "garbledHeld": 1
@@ -518,8 +517,8 @@
   "tokens": 14573,
   "usd": 0.0006120660000000001,
   "guard": [
-   0.48,
-   0.44
+   0.47,
+   0.45
   ],
   "garbledToFace": 1,
   "garbledHeld": 1
@@ -533,8 +532,8 @@
   "tokens": 14566,
   "usd": 0.0006117720000000001,
   "guard": [
-   0.49,
-   0.5
+   0.46,
+   0.53
   ],
   "garbledToFace": 1,
   "garbledHeld": 2
@@ -548,7 +547,7 @@
   "tokens": 12667,
   "usd": 0.0005320140000000001,
   "guard": [
-   0.54
+   0.59
   ],
   "garbledToFace": 0,
   "garbledHeld": 2
@@ -562,8 +561,8 @@
   "tokens": 14589,
   "usd": 0.000612738,
   "guard": [
-   0.48,
-   0.43
+   0.46,
+   0.36
   ],
   "garbledToFace": 1,
   "garbledHeld": 1
@@ -573,10 +572,11 @@
   "seed": 9,
   "quest": "suspected",
   "clearedAt": null,
-  "calls": 12,
-  "tokens": 13593,
-  "usd": 0.000570906,
+  "calls": 13,
+  "tokens": 14591,
+  "usd": 0.0006128220000000001,
   "guard": [
+   0.44,
    0.48
   ],
   "garbledToFace": 0,
@@ -587,11 +587,12 @@
   "seed": 10,
   "quest": "suspected",
   "clearedAt": null,
-  "calls": 11,
-  "tokens": 12578,
-  "usd": 0.000528276,
+  "calls": 13,
+  "tokens": 14524,
+  "usd": 0.0006100080000000001,
   "guard": [
-   0.44
+   0.42,
+   0.49
   ],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -602,8 +603,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12482,
-  "usd": 0.0005242440000000001,
+  "tokens": 13973,
+  "usd": 0.0005868660000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -614,8 +615,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12517,
-  "usd": 0.000525714,
+  "tokens": 13936,
+  "usd": 0.000585312,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -626,8 +627,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12470,
-  "usd": 0.0005237400000000001,
+  "tokens": 13925,
+  "usd": 0.0005848500000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -638,8 +639,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12480,
-  "usd": 0.0005241600000000001,
+  "tokens": 13899,
+  "usd": 0.0005837580000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -650,8 +651,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12517,
-  "usd": 0.000525714,
+  "tokens": 13936,
+  "usd": 0.000585312,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -662,8 +663,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12480,
-  "usd": 0.0005241600000000001,
+  "tokens": 13899,
+  "usd": 0.0005837580000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -674,8 +675,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12482,
-  "usd": 0.0005242440000000001,
+  "tokens": 13973,
+  "usd": 0.0005868660000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -686,8 +687,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12482,
-  "usd": 0.0005242440000000001,
+  "tokens": 13973,
+  "usd": 0.0005868660000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -698,8 +699,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12482,
-  "usd": 0.0005242440000000001,
+  "tokens": 13973,
+  "usd": 0.0005868660000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -710,8 +711,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 7,
-  "tokens": 12482,
-  "usd": 0.0005242440000000001,
+  "tokens": 13925,
+  "usd": 0.0005848500000000001,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -722,8 +723,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7973,
+  "usd": 0.00033486600000000007,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -734,8 +735,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7973,
+  "usd": 0.00033486600000000007,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -746,8 +747,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7917,
+  "usd": 0.000332514,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -758,8 +759,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7973,
+  "usd": 0.00033486600000000007,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -770,8 +771,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7917,
+  "usd": 0.000332514,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -782,8 +783,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7973,
+  "usd": 0.00033486600000000007,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -794,8 +795,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7973,
+  "usd": 0.00033486600000000007,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -806,8 +807,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7973,
+  "usd": 0.00033486600000000007,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -818,8 +819,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7973,
+  "usd": 0.00033486600000000007,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
@@ -830,8 +831,8 @@
   "quest": "suspected",
   "clearedAt": null,
   "calls": 4,
-  "tokens": 7027,
-  "usd": 0.00029513400000000006,
+  "tokens": 7980,
+  "usd": 0.00033516000000000004,
   "guard": [],
   "garbledToFace": 0,
   "garbledHeld": 0
