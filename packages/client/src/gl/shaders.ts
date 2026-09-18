@@ -4,7 +4,7 @@
  * the followed point, foliage sway. Colours are palette indices until here.
  */
 import { ATLAS_COLS, CELL_H, CELL_W, GLYPH_H, GLYPH_W } from "../glyph/font.ts";
-import { PALETTE_SIZE } from "../palette.ts";
+import { INK, PALETTE_SIZE } from "../palette.ts";
 import { TEXELS_PER_TILE, TEXTURE_SIZE } from "../terrain/textures.ts";
 import { PARTICLES_PER_EMITTER } from "../view/effects.ts";
 import { MAX_LIGHTS } from "../view/lights.ts";
@@ -132,6 +132,7 @@ precision highp sampler2DArray;
 ${FRAME_BLOCK}
 ${LIGHTING}
 uniform sampler2DArray u_textures;
+uniform highp usampler2D u_ground;
 in vec3 v_world;
 in vec3 v_normal;
 in vec3 v_color;
@@ -149,7 +150,16 @@ void main() {
   }
   uv.x += v_liquid * floor(u_cameraRight.w * 2.0) / ${TEXELS_PER_TILE.toFixed(1)};
   float grey = texture(u_textures, vec3(uv * ${(TEXELS_PER_TILE / TEXTURE_SIZE).toFixed(4)}, v_layer)).r;
-  vec3 color = v_color * grey * lightAt(v_world, normal);
+  // The states of the ground, one texel a tile. A wall belongs to the tile standing behind it.
+  // One rule per state, whatever the ground is: wet darkens and takes the colour of what wets
+  // it, scorched blackens, snow lies on what faces up. Liquid has no such states.
+  ivec2 tile = ivec2(floor(v_world.xz - normal.xz * 0.01));
+  vec4 ground = vec4(texelFetch(u_ground, clamp(tile, ivec2(0), textureSize(u_ground, 0) - 1), 0));
+  vec3 states = ground.xzw * (1.0 - v_liquid) / 5.0; // wet, scorched, snow
+  vec3 base = mix(v_color, u_palette[int(ground.y)].rgb, states.x * 0.35) * (1.0 - 0.4 * states.x);
+  base = mix(base, vec3(0.03, 0.025, 0.02), states.y * 0.8);
+  base = mix(base, u_palette[${INK.bone}].rgb, states.z * step(0.5, normal.y));
+  vec3 color = base * grey * lightAt(v_world, normal);
   color = mix(color, u_fogColor.rgb, fogAt(v_world));
   // The editor's cursor: tiles inside the rectangle are lit, their rim more so.
   vec2 inside = step(u_cursor.xy, v_world.xz) * step(v_world.xz, u_cursor.zw);

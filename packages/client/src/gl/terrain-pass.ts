@@ -2,6 +2,7 @@ import { TEXTURE_COUNT } from "../terrain/kinds.ts";
 import type { ChunkMesh } from "../terrain/tessellate.ts";
 import { VERTEX_BYTES } from "../terrain/tessellate.ts";
 import { buildTerrainTextures, TEXTURE_SIZE } from "../terrain/textures.ts";
+import { GROUND_CHANNELS, GroundStates } from "../view/ground.ts";
 import type { Frustum } from "./frustum.ts";
 import { buildProgram } from "./program.ts";
 import { TERRAIN_FRAGMENT, TERRAIN_VERTEX } from "./shaders.ts";
@@ -18,6 +19,11 @@ interface Chunk {
   maxY: number;
 }
 
+/** The texture unit of the ground's states: 0 is the terrain textures, 1 the atlas, 2 the emitters. */
+const GROUND_UNIT = 3;
+/** A world with no states of the ground: one dry texel, which the shader's clamp spreads everywhere. */
+const NO_GROUND = new GroundStates(1, 1);
+
 export interface TerrainStats {
   chunksDrawn: number;
   triangles: number;
@@ -31,6 +37,8 @@ export class TerrainPass {
   readonly #origin: WebGLUniformLocation | null;
   readonly #textures: WebGLTexture | null;
   readonly #chunks: (Chunk | undefined)[] = [];
+  #ground: GroundStates = NO_GROUND;
+  #groundTexture: WebGLTexture | null = null;
 
   constructor(gl: WebGL2RenderingContext) {
     this.#gl = gl;
@@ -38,6 +46,8 @@ export class TerrainPass {
     this.#origin = gl.getUniformLocation(this.#program, "u_origin");
     gl.useProgram(this.#program);
     gl.uniform1i(gl.getUniformLocation(this.#program, "u_textures"), 0);
+    gl.uniform1i(gl.getUniformLocation(this.#program, "u_ground"), GROUND_UNIT);
+    this.setGround(NO_GROUND);
 
     this.#textures = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D_ARRAY, this.#textures);
@@ -58,6 +68,50 @@ export class TerrainPass {
     gl.texParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_WRAP_T, gl.REPEAT);
+  }
+
+  /**
+   * The states of the ground, one texel a tile (`view/ground.ts`). The pass
+   * keeps the object and uploads the rows that changed before it draws, so
+   * whoever owns the states only ever sets them.
+   */
+  setGround(ground: GroundStates): void {
+    const gl = this.#gl;
+    gl.deleteTexture(this.#groundTexture);
+    this.#ground = ground;
+    this.#groundTexture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0 + GROUND_UNIT);
+    gl.bindTexture(gl.TEXTURE_2D, this.#groundTexture);
+    gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA8UI, ground.width, ground.depth);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.activeTexture(gl.TEXTURE0);
+    ground.markAllDirty();
+  }
+
+  #syncGround(): void {
+    const gl = this.#gl;
+    const ground = this.#ground;
+    gl.activeTexture(gl.TEXTURE0 + GROUND_UNIT);
+    gl.bindTexture(gl.TEXTURE_2D, this.#groundTexture);
+    if (ground.dirtyTo >= ground.dirtyFrom) {
+      const rows = ground.dirtyTo - ground.dirtyFrom + 1;
+      gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+      gl.texSubImage2D(
+        gl.TEXTURE_2D,
+        0,
+        0,
+        ground.dirtyFrom,
+        ground.width,
+        rows,
+        gl.RGBA_INTEGER,
+        gl.UNSIGNED_BYTE,
+        ground.data,
+        ground.dirtyFrom * ground.width * GROUND_CHANNELS,
+      );
+      ground.clean();
+    }
+    gl.activeTexture(gl.TEXTURE0);
   }
 
   /** Replaces a chunk's mesh. `key` is any stable number per chunk. */
@@ -109,6 +163,7 @@ export class TerrainPass {
   draw(frustum: Frustum, focusX: number, focusZ: number, fogEnd: number): void {
     const gl = this.#gl;
     gl.useProgram(this.#program);
+    this.#syncGround();
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D_ARRAY, this.#textures);
     let drawn = 0;

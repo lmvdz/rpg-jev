@@ -2,6 +2,7 @@ import type { Camera } from "../camera.ts";
 import type { GlyphBatch } from "../glyph/batch.ts";
 import { paletteToFloats } from "../palette.ts";
 import { EmitterList } from "../view/effects.ts";
+import type { GroundStates } from "../view/ground.ts";
 import { LightList } from "../view/lights.ts";
 import { ActorMotions } from "../view/motions.ts";
 import { EffectPass } from "./effect-pass.ts";
@@ -36,6 +37,7 @@ export class Renderer {
   #frame = new FrameUniforms();
   #palette = paletteToFloats();
   #lost = false;
+  #ground: GroundStates | null = null;
 
   constructor(canvas: HTMLCanvasElement) {
     const gl = canvas.getContext("webgl2", { antialias: false, alpha: false });
@@ -53,6 +55,7 @@ export class Renderer {
     });
     canvas.addEventListener("webglcontextrestored", () => {
       this.terrain = new TerrainPass(gl);
+      if (this.#ground) this.terrain.setGround(this.#ground);
       this.glyphs = new GlyphPass(gl);
       this.effects = new EffectPass(gl);
       this.timer = new GpuTimer(gl);
@@ -70,6 +73,12 @@ export class Renderer {
     this.#frame.setAtmosphere(this.atmosphere);
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
+  }
+
+  /** The states of the ground to draw. Kept, so a restored context gets them again. */
+  setGround(ground: GroundStates): void {
+    this.#ground = ground;
+    this.terrain.setGround(ground);
   }
 
   /** One upload recolours the world. */

@@ -22,6 +22,7 @@ import { type MountedPlay, mountPlay } from "./play/pointer.ts";
 import { StatusDisplay } from "./play/status.ts";
 import { StandInBody } from "./scene/body.ts";
 import { Drift } from "./scene/drift.ts";
+import { scorchAround, standInGround } from "./scene/ground.ts";
 import { Walker } from "./scene/walker.ts";
 import { ChunkManager } from "./terrain/chunks.ts";
 import { groundHeight } from "./terrain/tessellate.ts";
@@ -29,9 +30,11 @@ import { askPriors, delayed } from "./view/birth.ts";
 import { Births } from "./view/births.ts";
 import { EFFECTS } from "./view/effect-rows.ts";
 import { OneShots } from "./view/effects.ts";
+import { GroundStates } from "./view/ground.ts";
 import { LivingThings } from "./view/living.ts";
 import { MOTIONS } from "./view/motions.ts";
 import { applySky } from "./view/sky.ts";
+import type { ThingView } from "./view/things.ts";
 import type { WorldContent } from "./world/format.ts";
 import { ObjectLayer } from "./world/objects.ts";
 import { dropDraft, keepDraft, type LoadedWorld, loadWorld, saveWorld } from "./world/storage.ts";
@@ -91,6 +94,9 @@ interface App {
   note: string;
   /** A grown world's things and what changes them, or null for a painted world. */
   living: LivingThings | null;
+  things: readonly ThingView[] | null;
+  /** The states of the ground (wet, scorched, snow), which the terrain shader reads a texel a tile. */
+  ground: GroundStates;
   /** What has been born so far: effects, motions and looks. */
   births: Births;
   /** Effects of events, each played once. */
@@ -137,6 +143,9 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   const wait = Number(query.get("judge") ?? 0);
   const births = new Births(wait > 0 ? delayed(askPriors, wait) : askPriors, 1);
   if (things) living = new LivingThings(things, grid, objects, births);
+  // The states of the ground are a stand-in too; a painted world has none.
+  const ground = things ? standInGround(grid, things) : new GroundStates(grid.width, grid.depth);
+  renderer.setGround(ground);
 
   const worker = new Worker(new URL("./terrain/worker.ts", import.meta.url), { type: "module" });
   worker.onerror = (event) => console.error(`the tessellation worker failed: ${event.message}`);
@@ -171,6 +180,8 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
     changedAt: 0,
     note: loaded.from,
     living,
+    things,
+    ground,
     births,
     shots: new OneShots(),
     play: null,
@@ -342,7 +353,13 @@ function liven(app: App, now: number, dt: number): void {
   app.living.emit(emitters);
   if (now - app.driftAt > 400) {
     app.driftAt = now;
-    app.living.redraw(app.drift.step());
+    const changed = app.drift.step();
+    app.living.redraw(changed);
+    // What burns harder scorches more ground: a texel each, and no chunk is re-meshed.
+    for (const index of changed) {
+      const thing = app.things?.[index];
+      if (thing) scorchAround(app.ground, thing);
+    }
   }
   app.living.shine(app.renderer.lights);
 }
@@ -448,6 +465,8 @@ loadWorld(query).then((loaded) => {
     __births: app.births.log,
     __shots: app.shots,
     __living: app.living,
+    __ground: app.ground,
+    __chunks: app.chunks,
   });
   app.camera.snapTo(app.goal);
   // One closure for the life of the page: the frame itself allocates nothing.
