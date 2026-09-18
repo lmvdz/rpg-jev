@@ -1,0 +1,21 @@
+{
+  "name": "@rpg-jev/spike-s0-spacetimedb",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck:bench": "tsc --noEmit -p tsconfig.bench.json",
+    "server": "node src/server.ts",
+    "deploy:local": "node src/deploy.ts",
+    "bench:fuses": "node src/bench-fuses.ts",
+    "bench:loop": "node src/bench-loop.ts",
+    "bench:subscription": "node src/bench-subscription.ts",
+    "bench:edges": "node src/bench-edges.ts",
+    "bench:seed": "node src/bench-seed.ts",
+    "bench:restart": "node src/bench-restart.ts"
+  },
+  "dependencies": {
+    "spacetimedb": "2.10.1"
+  }
+}
