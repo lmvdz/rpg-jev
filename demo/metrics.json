@@ -3,30 +3,30 @@
   "live": true,
   "actions": 27,
   "actionsThatCalledTheJudge": 23,
-  "calls": 40,
-  "questions": 83,
-  "inputTokens": 52269,
-  "usd": 0.002195298,
+  "calls": 41,
+  "questions": 84,
+  "inputTokens": 53089,
+  "usd": 0.002229738,
   "fallbacks": 0,
   "cached": 0,
   "perAction": {
-    "calls": 1.4814814814814814,
-    "inputTokens": 1935.888888888889,
-    "usd": 0.00008130733333333333,
-    "judgeLatencyMsMedian": 271,
-    "judgeLatencyMsP90": 467,
-    "judgeLatencyMsWorst": 723
+    "calls": 1.5185185185185186,
+    "inputTokens": 1966.2592592592594,
+    "usd": 0.0000825828888888889,
+    "judgeLatencyMsMedian": 353,
+    "judgeLatencyMsP90": 706,
+    "judgeLatencyMsWorst": 757
   },
   "perCall": {
-    "latencyMsMedian": 159,
-    "latencyMsP90": 220,
-    "latencyMsP99": 363,
-    "inputTokensMean": 1306.725
+    "latencyMsMedian": 172,
+    "latencyMsP90": 307,
+    "latencyMsP99": 706,
+    "inputTokensMean": 1294.8536585365853
   },
   "perPlayerHour": {
     "actions": 360,
-    "usd": 0.02927064,
-    "inputTokens": 696920
+    "usd": 0.029729840000000004,
+    "inputTokens": 707853
   },
   "usdPerInputToken": 4.2000000000000006e-8,
   "endings": [
@@ -51,7 +51,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 835,
-      "latencyMs": 363,
+      "latencyMs": 365,
       "usd": 0.00003507
     },
     {
@@ -61,7 +61,7 @@
       "cached": 0,
       "questions": 10,
       "inputTokens": 4511,
-      "latencyMs": 436,
+      "latencyMs": 490,
       "usd": 0.00018946200000000002
     },
     {
@@ -71,7 +71,7 @@
       "cached": 0,
       "questions": 7,
       "inputTokens": 3131,
-      "latencyMs": 212,
+      "latencyMs": 138,
       "usd": 0.00013150200000000003
     },
     {
@@ -81,7 +81,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 910,
-      "latencyMs": 143,
+      "latencyMs": 218,
       "usd": 0.00003822
     },
     {
@@ -91,7 +91,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 967,
-      "latencyMs": 138,
+      "latencyMs": 139,
       "usd": 0.00004061400000000001
     },
     {
@@ -111,7 +111,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1112,
-      "latencyMs": 177,
+      "latencyMs": 134,
       "usd": 0.000046704000000000005
     },
     {
@@ -121,7 +121,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1143,
-      "latencyMs": 220,
+      "latencyMs": 151,
       "usd": 0.00004800600000000001
     },
     {
@@ -131,7 +131,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1136,
-      "latencyMs": 148,
+      "latencyMs": 706,
       "usd": 0.00004771200000000001
     },
     {
@@ -151,7 +151,7 @@
       "cached": 0,
       "questions": 3,
       "inputTokens": 2444,
-      "latencyMs": 336,
+      "latencyMs": 581,
       "usd": 0.00010264800000000001
     },
     {
@@ -161,7 +161,7 @@
       "cached": 0,
       "questions": 3,
       "inputTokens": 2484,
-      "latencyMs": 273,
+      "latencyMs": 374,
       "usd": 0.00010432800000000002
     },
     {
@@ -171,7 +171,7 @@
       "cached": 0,
       "questions": 6,
       "inputTokens": 4880,
-      "latencyMs": 723,
+      "latencyMs": 707,
       "usd": 0.00020496000000000002
     },
     {
@@ -181,7 +181,7 @@
       "cached": 0,
       "questions": 3,
       "inputTokens": 2487,
-      "latencyMs": 271,
+      "latencyMs": 510,
       "usd": 0.00010445400000000003
     },
     {
@@ -191,7 +191,7 @@
       "cached": 0,
       "questions": 3,
       "inputTokens": 2540,
-      "latencyMs": 425,
+      "latencyMs": 562,
       "usd": 0.00010668000000000002
     },
     {
@@ -201,7 +201,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 911,
-      "latencyMs": 126,
+      "latencyMs": 302,
       "usd": 0.00003826200000000001
     },
     {
@@ -211,7 +211,7 @@
       "cached": 0,
       "questions": 2,
       "inputTokens": 1822,
-      "latencyMs": 371,
+      "latencyMs": 293,
       "usd": 0.00007652400000000001
     },
     {
@@ -231,7 +231,7 @@
       "cached": 0,
       "questions": 11,
       "inputTokens": 6088,
-      "latencyMs": 467,
+      "latencyMs": 537,
       "usd": 0.000255696
     },
     {
@@ -241,7 +241,7 @@
       "cached": 0,
       "questions": 5,
       "inputTokens": 2173,
-      "latencyMs": 383,
+      "latencyMs": 353,
       "usd": 0.000091266
     },
     {
@@ -251,7 +251,7 @@
       "cached": 0,
       "questions": 12,
       "inputTokens": 5818,
-      "latencyMs": 582,
+      "latencyMs": 444,
       "usd": 0.00024435600000000004
     },
     {
@@ -261,7 +261,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 910,
-      "latencyMs": 159,
+      "latencyMs": 126,
       "usd": 0.00003822
     },
     {
@@ -271,7 +271,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 912,
-      "latencyMs": 199,
+      "latencyMs": 129,
       "usd": 0.000038304000000000005
     },
     {
@@ -281,7 +281,7 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 933,
-      "latencyMs": 166,
+      "latencyMs": 154,
       "usd": 0.00003918600000000001
     },
     {
@@ -291,18 +291,18 @@
       "cached": 0,
       "questions": 1,
       "inputTokens": 793,
-      "latencyMs": 152,
+      "latencyMs": 139,
       "usd": 0.000033306
     },
     {
       "label": "wait 10",
-      "calls": 3,
+      "calls": 4,
       "fallbacks": 0,
       "cached": 0,
-      "questions": 4,
-      "inputTokens": 3329,
-      "latencyMs": 456,
-      "usd": 0.00013981800000000002
+      "questions": 5,
+      "inputTokens": 4149,
+      "latencyMs": 757,
+      "usd": 0.00017425800000000002
     }
   ]
 }

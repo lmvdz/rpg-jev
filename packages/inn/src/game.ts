@@ -49,7 +49,7 @@ import {
 } from "./content.ts";
 import { type Action, type Matched, match, resolveAnswer } from "./parser.ts";
 import { arrival, departure, describeRoom, ENDINGS, INTRO, renderTurn } from "./prose.ts";
-import { considerReacting } from "./reactions.ts";
+import { considerReacting, lapse } from "./reactions.ts";
 import { afterSpeech, judgeParse, npcArrives } from "./talk.ts";
 import { nameOf } from "./words.ts";
 
@@ -261,6 +261,7 @@ export class Game {
     const held = beliefIn(this.world, holder, claimId);
     if (held && held.credence > 0)
       this.commit({ kind: "update_credence", holder, claim: claimId, credence: 0 }, cause);
+    lapse(this, holder, claimId, cause);
   }
 
   /** Arithmetic on beliefs and drives lives here, not in the judge (SPEC.md rule 3). */

@@ -48,6 +48,7 @@ export const WRONGDOING = [
   "forced",
   "forced_latch",
   "burned",
+  "found_gone",
 ];
 
 /** Predicates that point at their subject as the one behind the missing ledger. */
@@ -61,6 +62,7 @@ export const IMPLICATES = [
   "apron_is_odos",
   "dodged",
   "slipped",
+  "found_gone",
 ];
 
 /** Predicates that bear on who took the ledger; these feed the quest guard's slice. */
@@ -304,13 +306,27 @@ const debt = (d: Omit<Debt, "cause" | "status" | "magnitude" | "data"> & Partial
   ...d,
 });
 
+/** An intention held for the night: a disposition (below) that comes due at a fixed hour. */
+const intends = (
+  id: string,
+  stakeholder: string,
+  due: number,
+  disposition: string,
+  data: Record<string, string>,
+): Debt => debt({ id, stakeholder, kind: "react", fuse: { due }, data: { disposition, ...data } });
+
+/** What hangs on the accusation: it is about the stranger, and lapses if the belief is let go. */
+const ACCUSED = { subject: PLAYER, claim: C_ACCUSATION.id, thing: "ledger" };
+/** What was hidden, and where. */
+const HIDDEN = { thing: "ledger", place: "cellar" };
+
 /** The agenda: what each of the three will do tonight if nobody changes their mind. */
 const AGENDA: Debt[] = [
-  debt({ id: "odo_check", stakeholder: ODO, kind: "check_hiding_place", fuse: { due: at(21) } }),
-  debt({ id: "mara_search", stakeholder: MARA, kind: "search_pack", fuse: { due: at(21, 30) } }),
-  debt({ id: "tobin_conscience", stakeholder: TOBIN, kind: "conscience", fuse: { due: at(22) } }),
-  debt({ id: "odo_burn", stakeholder: ODO, kind: "burn_ledger", fuse: { due: at(22, 40) } }),
-  debt({ id: "mara_verdict", stakeholder: MARA, kind: "verdict", fuse: { due: at(23, 30) } }),
+  intends("odo_check", ODO, at(21), "checks_hiding_place", HIDDEN),
+  intends("mara_search", MARA, at(21, 30), "searches_the_accused", ACCUSED),
+  intends("tobin_conscience", TOBIN, at(22), "conscience", ACCUSED),
+  intends("odo_burn", ODO, at(22, 40), "gets_rid_of_it", HIDDEN),
+  intends("mara_verdict", MARA, at(23, 30), "gives_a_verdict", ACCUSED),
 ];
 
 const WORLD_DEF: World["def"] = {
@@ -356,18 +372,7 @@ const WORLD_DEF: World["def"] = {
     },
   },
   roles: ["innkeeper", "cook", "stablehand", "guest"],
-  debtKinds: [
-    "check_hiding_place",
-    "search_pack",
-    "conscience",
-    "burn_ledger",
-    "verdict",
-    "report",
-    "testify",
-    "retaliate",
-    "face_stranger",
-    "react",
-  ],
+  debtKinds: ["report", "testify", "retaliate", "face_stranger", "react"],
 };
 
 const ACTORS: World["actors"] = {
@@ -668,6 +673,7 @@ export const ACTIVITY_SERVES: Record<string, { need: Need; whose: string }> = {
   searching: { need: "money", whose: "the house, which needs its ledger" },
   seeing_to_it: { need: "safety", whose: "the house" },
   checking_cellar: { need: "safety", whose: "Odo's own" },
+  checking_on_it: { need: "safety", whose: "their own" },
   reporting: { need: "company", whose: "their own standing with Mara" },
   keeping_clear: { need: "safety", whose: "their own" },
   answering_call: { need: "safety", whose: "whoever shouted" },
@@ -696,8 +702,11 @@ export const RETELLING_HABIT: Record<string, Record<string, number>> = {
 
 /** What a role lets its holder do that nobody else may (a role is a power, a trait a tendency). */
 export const POWERS: Record<string, readonly string[]> = {
-  innkeeper: ["throw_out"],
+  innkeeper: ["throw_out", "search_person", "hand_to_law"],
 };
+
+/** Rooms with a fire that will take what is fed to it, and where that ends up. */
+export const FIRES: Record<string, string> = { kitchen: "ashes" };
 
 /** What looking closely at a thing teaches anyone who looks, with their own eyes. */
 export const EXAMINE_TEACHES: Record<string, Claim> = {
@@ -722,10 +731,11 @@ export interface Disposition {
   id: string;
   /** Whose habit: everyone with the role, or one person. */
   who: { role: string } | { actor: string };
-  when: {
+  /** Which beliefs set it off. Absent for an intention, which content seeds for a fixed hour. */
+  when?: {
     predicates: readonly string[];
-    /** Who the belief is about: the stranger, or some third person. */
-    about: "stranger" | "another";
+    /** Who the belief is about: the stranger, the holder, or some third person. */
+    about: "stranger" | "another" | "oneself";
     /** Only beliefs that say where. */
     placed?: boolean;
     /** Only about someone who is in the house to be dealt with. */
@@ -736,14 +746,20 @@ export interface Disposition {
   reactions: readonly string[];
   fallback: string;
   /** Minutes before acting on it: on what was seen, and on what was only heard. */
-  after: { seen: number; heard: number };
-  /** One reaction per claim, per person it is about, or per place it points to. */
-  once: "claim" | "subject" | "place";
+  after?: { seen: number; heard: number };
+  /** One reaction per claim, per person it is about, per place it points to, or ever. */
+  once?: "claim" | "subject" | "place" | "ever";
+  /** Holds only while the story stands here; otherwise what was owed lapses. */
+  while?: { machine: string; nodes: readonly string[] };
+  /** The errand it looks like to anyone watching them go: an activity with words of its own. */
+  activity?: string;
   /** A stated fact for the judge about why this matters to them. */
   because: string;
   /** Request ids for what is said while reacting; the words live in `prose.ts`. */
   says?: Record<string, string>;
 }
+
+const STILL_SUSPECTED = { machine: "quest", nodes: ["suspected"] };
 
 export const DISPOSITIONS: readonly Disposition[] = [
   {
@@ -780,5 +796,58 @@ export const DISPOSITIONS: readonly Disposition[] = [
     after: { seen: 12, heard: 12 },
     once: "subject",
     because: "The ledger must be found before dawn, and this person may know where it went.",
+  },
+  {
+    id: "searches_the_accused",
+    who: { role: "innkeeper" },
+    reactions: ["search_person", "let_it_lie"],
+    fallback: "search_person",
+    while: STILL_SUSPECTED,
+    because: "It is getting late and what was taken is still missing.",
+    says: { search_person: "turn_out_pack" },
+  },
+  {
+    id: "gives_a_verdict",
+    who: { role: "innkeeper" },
+    reactions: ["hand_to_law", "throw_out", "let_it_lie"],
+    fallback: "throw_out",
+    while: STILL_SUSPECTED,
+    because:
+      "It is close to midnight. The matter has not been cleared up to their satisfaction and they still hold the stranger responsible. The assessor comes at first light.",
+  },
+  {
+    id: "conscience",
+    who: { actor: TOBIN },
+    reactions: ["tell_the_house", "tell_the_accused", "let_it_lie"],
+    fallback: "let_it_lie",
+    while: STILL_SUSPECTED,
+    because:
+      "It is late. They have kept what they know to themselves all evening, and the stranger is still blamed for it. They could speak now, or let the night run out.",
+  },
+  {
+    id: "checks_hiding_place",
+    who: { actor: ODO },
+    reactions: ["check_on"],
+    fallback: "check_on",
+    activity: "checking_cellar",
+    because: "What they hid must still be where they left it.",
+  },
+  {
+    id: "gets_rid_of_it",
+    who: { actor: ODO },
+    reactions: ["destroy", "let_it_lie"],
+    fallback: "destroy",
+    activity: "checking_cellar",
+    because: "The house is quiet, and while the thing exists it can still be found.",
+  },
+  {
+    id: "finds_it_gone",
+    who: { actor: ODO },
+    when: { predicates: ["found_gone"], about: "oneself" },
+    reactions: ["press_blame", "flee", "come_clean", "let_it_lie"],
+    fallback: "let_it_lie",
+    after: { seen: 0, heard: 0 },
+    once: "ever",
+    because: "Someone has found what they hid. Whoever runs the house is somewhere in it.",
   },
 ];

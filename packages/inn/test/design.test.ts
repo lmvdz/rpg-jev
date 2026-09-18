@@ -9,11 +9,12 @@ import { describe, expect, it } from "vitest";
  */
 const DEBT: Record<string, number> = {
   "game.ts": 2,
-  "talk.ts": 16,
-  "agenda.ts": 49,
+  "talk.ts": 11,
+  "agenda.ts": 13,
   "actions.ts": 9,
   "attempts.ts": 0,
   "reactions.ts": 0,
+  "repertoire.ts": 0,
 };
 
 describe("the engine does not learn new names", () => {

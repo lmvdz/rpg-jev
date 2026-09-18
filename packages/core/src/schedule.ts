@@ -93,10 +93,13 @@ export function locate(world: World, actor: Actor, t: Minute): Whereabouts {
     ["needs", needEntries(world, actor)],
     ["role", schedule.role],
   ];
-  for (const [layer, entries] of layers) {
+  for (const [layer, listed] of layers) {
+    // What was taken on last comes first: a new errand supersedes the one it interrupts,
+    // which resumes if there is still time when the new one is done.
+    const entries = layer === "commitments" ? [...listed].reverse() : listed;
     for (const entry of entries) {
       // A need has no clock: it is active for as long as the float says so.
-      if (layer === "needs" || activeSpan(entry, t, entries))
+      if (layer === "needs" || activeSpan(entry, t, listed))
         return { room: entry.at_location, activity: entry.activity, layer, entry };
     }
   }

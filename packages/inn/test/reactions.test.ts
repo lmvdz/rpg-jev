@@ -14,7 +14,9 @@ import { choose, play, scripted, yes } from "./helpers.ts";
 
 const reactDebts = (game: Game, who?: string) =>
   Object.values(game.world.debts).filter(
-    (d) => d.kind === "react" && (who === undefined || d.stakeholder === who),
+    (d) =>
+      // Born of a belief, not seeded by content for a fixed hour.
+      d.kind === "react" && d.cause !== null && (who === undefined || d.stakeholder === who),
   );
 
 const claim = (c: Partial<Claim> & Pick<Claim, "subject" | "predicate">): Claim =>
@@ -175,5 +177,103 @@ describe("having it out", () => {
       .filter((b) => b.claim.subject === "odo" && b.credence >= 0.9)
       .map((b) => b.claim.predicate);
     expect(held).toEqual(expect.arrayContaining(["took", "hid", "gambles"]));
+  });
+});
+
+describe("intentions held for the night", () => {
+  it("are seeded by content for people who hold that disposition", () => {
+    const { game } = scripted(() => undefined);
+    const seeded = Object.values(game.world.debts).filter((d) => d.kind === "react");
+    expect(seeded.length).toBeGreaterThan(0);
+    for (const debt of seeded) {
+      const d = DISPOSITIONS.find((x) => x.id === debt.data.disposition);
+      expect(d, `${debt.id}: no disposition ${debt.data.disposition}`).toBeDefined();
+      const role = game.world.actors[debt.stakeholder]?.role;
+      const holds = d && ("role" in d.who ? d.who.role === role : d.who.actor === debt.stakeholder);
+      expect(holds, `${debt.id}: ${debt.stakeholder} does not hold it`).toBe(true);
+    }
+  });
+
+  it("lapse when the belief they hang on is let go", () => {
+    const { game } = scripted(() => undefined);
+    const hanging = Object.values(game.world.debts).filter((d) => d.data.claim);
+    expect(hanging.length).toBeGreaterThan(0);
+    for (const d of hanging) game.retire(d.stakeholder, d.data.claim ?? "", stimulus(game));
+    for (const d of hanging) expect(game.world.debts[d.id]?.status).toBe("cancelled");
+  });
+});
+
+describe("people act on what they believe, not on what is true", () => {
+  const picking = (pick: string[]) => (id: string, request: JudgeRequest) =>
+    id === "act" ? choose(request, id, pick) : undefined;
+
+  it("offers to get rid of a thing that is already gone, and learns it is gone by going", async () => {
+    const offered: string[][] = [];
+    const { game } = scripted((id, request) => {
+      const q = request.questions[id]?.question;
+      if (id === "act" && q?.type === "choice") offered.push(Object.keys(q.criteria));
+      return picking(["destroy", "let_it_lie"])(id, request);
+    });
+    // The stranger takes the ledger early; nobody has told the one who hid it.
+    await play(game, ["go kitchen", "take iron key", "go cellar", "search barrel", "take ledger"]);
+    await play(game, ["go yard", "wait 60", "wait 60", "wait 60", "wait 60"]);
+    const found = beliefsOf(game.world, "odo").map((b) => b.claim.predicate);
+    expect(found).toContain("found_gone");
+    expect(game.world.machines.ledger_fate?.node).not.toBe("burned");
+    // Once he knows, getting rid of it is no longer on offer.
+    const after = offered.filter((o) => o.includes("press_blame"));
+    expect(after.length).toBeGreaterThan(0);
+  });
+
+  it("burns what is still there, in front of whoever is in the room", async () => {
+    const { game } = scripted(picking(["destroy", "let_it_lie"]));
+    await play(game, ["go kitchen", "wait 60", "wait 60", "wait 60", "wait 60"]);
+    expect(game.world.machines.ledger_fate?.node).toBe("burned");
+    const seen = beliefsOf(game.world, PLAYER).map((b) => b.claim.predicate);
+    expect(seen).toContain("burned");
+  });
+
+  it("pressing the blame when the thing is already back in the keeper's hands is a slip", async () => {
+    const { game } = scripted(picking(["press_blame", "search_person"]));
+    const tale = claim({ subject: "odo", predicate: "carried_bundle_to", place: "cellar" });
+    considerReacting(game, "mara", tale, 0.2, { kind: "told", from: "tobin" }, stimulus(game));
+    await play(game, ["wait 60", "wait 60", "wait 60"]);
+    const held = beliefsOf(game.world, "mara").map((b) => b.claim.predicate);
+    expect(held).toContain("found");
+    expect(held).toContain("slipped");
+  });
+
+  it("pressing the blame otherwise brings the search forward", async () => {
+    const { game } = scripted(picking(["press_blame", "search_person"]));
+    const text = await play(game, [
+      "go kitchen",
+      "take iron key",
+      "go cellar",
+      "search barrel",
+      "take ledger",
+      "go common room",
+      "wait 60",
+      "wait 60",
+      "wait 60",
+    ]);
+    const urged = Object.values(game.world.debts).find((d) => d.data.urged_by === "odo");
+    expect(urged?.stakeholder).toBe("mara");
+    expect(game.world.debts.mara_search?.status).toBe("cancelled");
+    expect(text).toContain("lifts it out of your pack");
+    expect(game.world.machines.ledger_fate?.node).toBe("returned");
+  });
+});
+
+describe("speaking up", () => {
+  it("is owed as a tale like any other, to whoever runs the house", async () => {
+    const { game } = scripted((id, request) => {
+      if (id === "act")
+        return choose(request, id, ["tell_the_house", "let_it_lie", "search_person"]);
+      if (id === "version") return choose(request, id, ["faithful"]);
+      return id.startsWith("stake") || id === "believes" ? yes : undefined;
+    });
+    await play(game, ["wait 60", "wait 60", "wait 60", "wait 60"]);
+    const held = beliefsOf(game.world, "mara").map((b) => b.claim.predicate);
+    expect(held).toContain("carried_bundle_to");
   });
 });

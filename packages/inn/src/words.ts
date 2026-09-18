@@ -54,6 +54,7 @@ const PHRASES: Record<string, Ladder> = {
   threatened: ["leaned on {to}", "threatened {to}", "threatened to kill {to}"],
   forced_latch: same("forced the office window latch with a thin blade and left flour on the sill"),
   found: same("found {obj} in {place}"),
+  found_gone: same("went to {place} for {obj} and found it gone"),
   apron_is_odos: same(
     "is the owner of the floury apron the ledger came wrapped in: {their} initials are stitched in the hem",
   ),
@@ -82,7 +83,7 @@ const PHRASES: Record<string, Ladder> = {
     "came to {to} insisting the stranger had the ledger and must be searched. Nobody had told {them} it had been found, so {they} could only have known it was gone by looking in the place where it was hidden",
   ),
   dodged: same(
-    "would not say what {they} carried down to the cellar when {to} asked, and blamed the stranger instead",
+    "would not give {to} a straight answer when it was put to {them} face to face, and tried to turn it on someone else",
   ),
   in_plain_view: same("{be} sitting in {place} in plain view of everyone"),
 };
@@ -255,6 +256,7 @@ export const ACTIVITY: Record<string, string> = {
   searching: "going through the place with a lantern",
   seeing_to_it: "come to see to something",
   checking_cellar: "fetching something from the cellar",
+  checking_on_it: "gone to see to something",
   burning: "feeding the kitchen fire",
   reporting: "come to tell Mara something",
   keeping_clear: "keeping well clear of the stranger",

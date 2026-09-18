@@ -38,9 +38,9 @@ import {
   C_ODO_GAMBLES,
   C_TOBIN_OWES,
   DUSK,
+  IMPLICATES,
   MARA,
   NPCS,
-  ODO,
   PLAYER,
   POWERS,
   RESTRICTED_ROOMS,
@@ -444,6 +444,16 @@ export const guarded = (g: Game, holder: string, c: Claim): boolean => {
   );
   return owes && WRONGDOING.includes(c.predicate);
 };
+
+/** What someone holds that points at a third person: what speaking up would carry. */
+export const keptBack = (g: Game, holder: string, notAbout: string[]): Belief | undefined =>
+  rankedBeliefs(g.world, holder).find(
+    (b) =>
+      b.credence >= 0.4 &&
+      b.claim.subject !== holder &&
+      !notAbout.includes(b.claim.subject) &&
+      IMPLICATES.includes(b.claim.predicate),
+  );
 
 const held = (g: Game, npc: string, about?: string): Belief[] =>
   rankedBeliefs(g.world, npc, about).filter((b) => b.credence >= 0.4);
@@ -1357,10 +1367,16 @@ function settleBystanders(
   }
 }
 
-/** A witness with a stake carries the tale to Mara, or gets even: a debt with a fuse. */
+/** Whoever in the house has powers over it: the one a tale is carried to. */
+const keeperOf = (g: Game): string | undefined =>
+  NPCS.find((n) => (POWERS[g.world.actors[n]?.role ?? ""]?.length ?? 0) > 0);
+
+/** A witness with a stake carries the tale to whoever runs the house, or gets even if it was done to them. */
 export function owe(g: Game, npc: string, noticed: Claim, cause: LogId): void {
-  if (npc === MARA) return;
-  const id = `${npc === ODO && mentions(noticed, ODO) ? "retaliate" : "report"}_${npc}_${noticed.id}`;
+  const keeper = keeperOf(g);
+  if (!keeper || npc === keeper) return;
+  const wronged = noticed.to === npc;
+  const id = `${wronged ? "retaliate" : "report"}_${npc}_${noticed.id}`;
   if (g.world.debts[id]) return;
   g.commit(
     {
@@ -1376,7 +1392,7 @@ export function owe(g: Game, npc: string, noticed: Claim, cause: LogId): void {
           expires: g.world.clock + 120,
         },
         status: "pending",
-        data: { claim: noticed.id, to: MARA },
+        data: { claim: noticed.id, to: keeper },
       },
     },
     cause,

@@ -79,7 +79,7 @@ describe("the judge can fail", () => {
     // Debts fire in code. Mara's search came due and found the ledger in the pack.
     expect(game.world.debts.mara_search?.status).toBe("fired");
     expect(text).toContain("Turn out your pack");
-    expect(text).toContain("She lifts it out of your pack");
+    expect(text).toContain("lifts it out of your pack");
     // Every decision was code's fallback, logged as such, and the night still ended.
     const decisions = game.log.filter((e) => e.kind === "decision");
     expect(decisions.length).toBeGreaterThan(0);
@@ -203,7 +203,9 @@ describe("violence has a stub", () => {
     expect(text).toContain("Odo bolts.");
     expect(game.world.schedules.odo?.overrides).toHaveLength(1);
     // Only whoever keeps the inn means to do anything about it, and only once she has heard.
-    for (const d of Object.values(game.world.debts).filter((d) => d.kind === "react"))
+    for (const d of Object.values(game.world.debts).filter(
+      (d) => d.kind === "react" && d.cause !== null,
+    ))
       expect(d).toMatchObject({ stakeholder: "mara", data: { disposition: "keeps_the_peace" } });
     const hurt = game.log.filter((e) => e.kind === "effect" && e.effect.kind === "damage");
     for (const e of hurt)
