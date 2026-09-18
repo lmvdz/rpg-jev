@@ -24,3 +24,5 @@ saves/
 # the friction report is generated; nights handed in and the loop switch are tracked
 playtests/friction.md
 .claude/worktrees/
+# the development loop's working files: prompts sent, replies, attempts, journal, lock
+.sdlc/

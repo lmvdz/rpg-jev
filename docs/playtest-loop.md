@@ -74,6 +74,8 @@ night played -> snag in the report -> issue (class label) -> branch + regression
 is a design decision, and the pile of special cases this loop exists to prevent is what an agent
 builds when it is allowed to "just fix" those.
 
+**A runner that is plain code.** `pnpm sdlc` does the same lifecycle with the workflow in code and a cheap model (the `prime-agent` CLI) filling in one stage at a time: stage labels on the issue, a table for the next stage, a worktree per issue, the gate run by the loop. It shares this switch and these limits, and has a second switch of its own for the stages in which the model has tools. See [`sdlc.md`](sdlc.md).
+
 **Start, stop, emergency stop**
 
 - Start: set `enabled` to `true` in `playtests/loop.json`, commit, run a pass.

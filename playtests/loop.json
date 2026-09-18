@@ -4,5 +4,39 @@
   "max_snags_per_run": 3,
   "judge_budget_usd_per_run": 0.05,
   "may_change": ["packages/inn", "packages/terminal", "docs", "SPEC.md"],
-  "may_not_change": ["packages/core", "packages/jev", "CLAUDE.md", "playtests/loop.json", ".github"]
+  "may_not_change": [
+    "packages/core",
+    "packages/jev",
+    "CLAUDE.md",
+    "playtests/loop.json",
+    ".github",
+    "sdlc",
+    "packages/terminal/src/sdlc",
+    "packages/terminal/src/sdlc.ts",
+    ".claude"
+  ],
+  "sdlc": {
+    "base_branch": "poc",
+    "worktree_root": "../rpg-jev.worktrees",
+    "trusted_authors": ["lmvdz"],
+    "max_build_attempts": 3,
+    "allow_tool_stages": false,
+    "trusted_reviewers": ["lmvdz", "superagent-security[bot]"],
+    "gate_check": "check",
+    "agent": {
+      "provider": "omniroute",
+      "models": {
+        "triage": "auto/coding:cheap",
+        "plan": "auto/coding:cheap",
+        "build": "auto/coding:cheap",
+        "review": "auto/coding",
+        "pr": "auto/coding"
+      },
+      "build": {
+        "max_turns": 40,
+        "max_tokens": 400000,
+        "timeout_minutes": 30
+      }
+    }
+  }
 }

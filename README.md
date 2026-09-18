@@ -53,6 +53,7 @@ Packages planned in the spec (`server`, `author`, `client`) are added when their
 | `pnpm demo` | Play the fixed script against live Jev; write `demo/transcript.md` and `demo/metrics.json` |
 | `pnpm demo --record` | As above, and re-record `demo/recordings.json` for the offline test. Do this after changing a slice, a question or the content |
 | `pnpm friction` | Read the saved nights and write `playtests/friction.md`: where play snagged. See `docs/playtest-loop.md` |
+| `pnpm sdlc status` | The development loop: snag to pull request through GitHub issues, worktrees and a cheap model. Switched off. See `docs/sdlc.md` |
 | `pnpm --filter @rpg-jev/terminal routes` | Play each quest route across seeds and write `demo/routes.md` |
 | `pnpm --filter @rpg-jev/spike-m2-families probe` | Re-run the family probes |
 | `pnpm format` | Apply Biome fixes |
