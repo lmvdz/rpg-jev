@@ -59,7 +59,13 @@ function ensureWorktree(config: LoopConfig, issue: Issue): string {
     ? ["worktree", "add", tree, branch]
     : ["worktree", "add", "-b", branch, tree, config.sdlc.base_branch];
   must(run("git", args), "git worktree add");
-  must(run("pnpm", ["install", "--frozen-lockfile", "--prefer-offline"], { cwd: tree }), "install");
+  // No lifecycle scripts: setting up a checkout must not run code from a dependency.
+  must(
+    run("pnpm", ["install", "--frozen-lockfile", "--prefer-offline", "--ignore-scripts"], {
+      cwd: tree,
+    }),
+    "install",
+  );
   return tree;
 }
 
