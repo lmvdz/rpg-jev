@@ -11,7 +11,7 @@ import { describe, expect, it } from "vitest";
 import { ACTIVITY_SERVES, initialWorld, NPCS, PLAYER, WRONGDOING } from "../src/content.ts";
 import { Game } from "../src/game.ts";
 import { match } from "../src/parser.ts";
-import { lookAtItem, renderTurn } from "../src/prose.ts";
+import { describeRoom, lookAtItem, lookAtRoom, renderTurn } from "../src/prose.ts";
 import { ACTIVITY, claimClause } from "../src/words.ts";
 
 const world = initialWorld(1);
@@ -163,5 +163,36 @@ describe("every activity is for something", () => {
   for (const activity of Object.keys(ACTIVITY))
     it(`${activity} is for something`, () => {
       expect(ACTIVITY_SERVES[activity], `${activity} serves nothing`).toBeDefined();
+    });
+});
+
+describe("every room, looked at from every room", () => {
+  const inside = (room: string): string => {
+    const w = initialWorld(1);
+    const player = w.actors[PLAYER];
+    if (player) player.room = room;
+    return describeRoom(w);
+  };
+  const rooms = Object.values(world.rooms).filter((r) => r.exits.length > 0);
+
+  for (const here of rooms)
+    it(`from ${here.id}: only the room you are in shows its inside`, () => {
+      const w = initialWorld(1);
+      const player = w.actors[PLAYER];
+      if (player) player.room = here.id;
+      for (const target of rooms) {
+        const seen = lookAtRoom(w, target.id);
+        expect(seen, `${here.id} -> ${target.id}`).not.toMatch(/undefined|[{}]/);
+        if (target.id === here.id) {
+          expect(seen).toBe(describeRoom(w));
+          continue;
+        }
+        // Never another room's interior, whatever is between: a wall, an arch or a locked door.
+        expect(seen, `${here.id} -> ${target.id}`).not.toContain(inside(target.id).slice(0, 40));
+        const way = here.exits.find((e) => e.to === target.id);
+        const locked = way?.door !== undefined && w.machines[way.door]?.node === "locked";
+        if (way) expect(seen).toContain(locked ? "locked" : "the way into");
+        else expect(seen).toContain("can't see");
+      }
     });
 });

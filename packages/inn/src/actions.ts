@@ -261,8 +261,8 @@ async function examine(g: Game, target: string, root: LogId): Promise<number> {
     return 1;
   }
   if (g.world.rooms[target]) {
-    g.say(lookAtRoom(target));
-    return 2;
+    g.say(lookAtRoom(g.world, target));
+    return g.world.rooms[target]?.id === g.playerRoom ? 2 : 1;
   }
   g.say(lookAtItem(target));
   const machine = SEARCHABLE[target];

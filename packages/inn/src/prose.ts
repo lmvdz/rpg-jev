@@ -80,7 +80,21 @@ const NPC_LOOKS: Record<string, string> = {
 };
 
 export const lookAtPerson = (id: string) => NPC_LOOKS[id] ?? "Nobody you know.";
-export const lookAtRoom = (id: string) => ROOMS[id] ?? "A room.";
+/**
+ * What can be told of a room from where the player stands. The room they are in is simply
+ * looked at. A neighbouring room is known only by its way in, and not even that through a
+ * locked door. Any other room cannot be seen from here at all.
+ */
+export function lookAtRoom(world: World, id: string): string {
+  const here = world.actors[PLAYER]?.room ?? "";
+  if (id === here) return describeRoom(world);
+  const name = world.rooms[id]?.name ?? "there";
+  const way = world.rooms[here]?.exits.find((e) => e.to === id);
+  if (!way) return `You can't see ${name} from here.`;
+  if (way.door && world.machines[way.door]?.node === "locked")
+    return `The door to ${name} is locked, and tells you nothing about what is behind it.`;
+  return `From here you can see the way into ${name}, and not much more. You would have to go in.`;
+}
 
 function list(parts: string[]): string {
   if (parts.length <= 1) return parts[0] ?? "";
