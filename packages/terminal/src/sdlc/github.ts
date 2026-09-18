@@ -59,6 +59,14 @@ export const comment = (issue: number, body: string): void => {
   );
 };
 
+/** Closed as done. "Fixes #n" only does this when a pull request merges into the default branch. */
+export const closeAsDone = (issue: number, why: string): void => {
+  must(
+    run("gh", ["issue", "close", String(issue), "--reason", "completed", "--comment", why]),
+    "gh issue close",
+  );
+};
+
 export const reopen = (issue: number, why: string): void => {
   must(run("gh", ["issue", "reopen", String(issue), "--comment", why]), "gh issue reopen");
 };

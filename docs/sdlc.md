@@ -50,7 +50,8 @@ switching it on.
 Opening a pull request is not the end of the loop's work, because automated reviewers and
 people comment on it. While an issue is at `stage:pr`, each pass:
 
-1. Looks the pull request up by its branch. Merged: nothing to do, and GitHub closes the issue.
+1. Looks the pull request up by its branch. Merged: the loop closes the issue as done (GitHub
+   does that by itself only for merges into the default branch).
    Closed without merging: that is a person's no, the issue goes to `stage:human`, and the loop
    will not reopen it.
 2. Reads the repository's own gate in CI (`sdlc.gate_check`, the `check` job). If it failed,
