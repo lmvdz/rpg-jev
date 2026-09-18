@@ -31,6 +31,7 @@ import {
 } from "./flow.ts";
 import {
   checkConclusion,
+  closeAsDone,
   comment,
   type Issue,
   moveTo,
@@ -406,7 +407,13 @@ function judgeFinding(
  */
 const pr: Handler = (config, issue) => {
   const found = pullRequestOf(branchOf(issue));
-  if (!found || found.state === "MERGED") return { outcome: "merged", note: "" };
+  if (!found) return { outcome: "waiting", note: "" };
+  if (found.state === "MERGED") {
+    // A person merged it. The issue is done, and the loop says so: GitHub closes an issue by
+    // itself only when the merge is into the default branch, and the base here may not be.
+    closeAsDone(issue.number, `Merged in ${found.url}. Closed by the development loop.`);
+    return { outcome: "merged", note: "" };
+  }
   if (found.state === "CLOSED")
     return {
       outcome: "closed",
