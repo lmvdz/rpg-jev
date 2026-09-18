@@ -28,6 +28,7 @@ import {
   type Stage,
   slug,
   strings,
+  stuckFor,
 } from "./flow.ts";
 import {
   checkConclusion,
@@ -242,6 +243,9 @@ function failedAttempt(config: LoopConfig, issue: Issue, why: string): Outcome {
 const build: Handler = (config, issue) => {
   const tree = ensureWorktree(config, issue);
   const base = config.sdlc.base_branch;
+  // The worktree is the loop's own. Whatever a pass that died left half-applied in it goes.
+  must(run("git", ["reset", "--hard", "HEAD"], { cwd: tree }), "git reset");
+  must(run("git", ["clean", "-fd"], { cwd: tree }), "git clean");
   const box = boxFor(config, issue, "agent", tree);
   askAgent({
     ...boxed(config, box),
@@ -478,8 +482,30 @@ export function advance(config: LoopConfig, issue: Issue, stage: AgentStage): St
     return stage;
   }
   const { outcome, note, labels } = HANDLERS[stage](config, issue);
+  if (outcome === "no_answer") return stuck(config, issue, stage, "the model gave no answer");
+  keep(issue.number, "stuck", "");
   const next = nextStage(stage, outcome);
   if (note) comment(issue.number, note);
   if (next !== stage || labels) moveTo(issue, next, labels);
+  return next;
+}
+
+/**
+ * A stage came back with nothing: no answer, or an error. It is tried again on a later pass,
+ * a bounded number of times in a row, and then handed to a person with the reason. Without
+ * this, a loop nobody is watching asks the same question every pass for ever.
+ */
+export function stuck(config: LoopConfig, issue: Issue, stage: AgentStage, why: string): Stage {
+  const count = Number(kept(issue.number, "stuck") || "0") + 1;
+  keep(issue.number, "stuck", String(count));
+  const max = config.sdlc.max_unanswered ?? 3;
+  if (stuckFor(count, max) === "again") return stage;
+  keep(issue.number, "stuck", "");
+  const next = nextStage(stage, "stuck");
+  comment(
+    issue.number,
+    `## Stopped at ${stage}\n\nThis stage came back with nothing ${count} times in a row. Last time: ${why.slice(0, 600)}\n\nThe loop has stopped trying. A person decides what happens next.`,
+  );
+  moveTo(issue, next);
   return next;
 }

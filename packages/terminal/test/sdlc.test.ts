@@ -3,6 +3,7 @@ import { readReply } from "../src/sdlc/agent.ts";
 import {
   AGENT_STAGES,
   asData,
+  budgetLeft,
   CLASSES,
   classLabel,
   clusterSnags,
@@ -11,17 +12,22 @@ import {
   keyIn,
   LABELS,
   lastJson,
+  lockIsStale,
+  lockText,
   nextStage,
   oneOf,
   openFindings,
   outOfBounds,
   parseFriction,
+  parseLock,
   prOutcome,
   STAGES,
   slug,
   snagKey,
   stageLabel,
   stageOf,
+  stuckFor,
+  tokensSince,
   withoutSecrets,
 } from "../src/sdlc/flow.ts";
 
@@ -296,5 +302,51 @@ describe("watching a pull request", () => {
     expect(nextStage("pr", "closed")).toBe("human");
     expect(nextStage("pr", "waiting")).toBe("pr");
     expect(nextStage("pr", "merged")).toBe("pr");
+  });
+});
+
+describe("running with nobody watching", () => {
+  it("tries a stage that came back with nothing again, but not for ever", () => {
+    expect(stuckFor(1, 3)).toBe("again");
+    expect(stuckFor(2, 3)).toBe("again");
+    expect(stuckFor(3, 3)).toBe("person");
+    for (const stage of AGENT_STAGES) expect(nextStage(stage, "stuck")).toBe("human");
+  });
+
+  const at = (minutesAgo: number, now: number) => new Date(now - minutesAgo * 60_000).toISOString();
+
+  it("stops a pass at its token limit, and a day at its own", () => {
+    const now = Date.parse("2026-09-18T12:00:00Z");
+    const lines = [
+      { at: at(60 * 30, now), tokens: 9_000_000 },
+      { at: at(60 * 5, now), tokens: 3_000_000 },
+      { at: at(10, now), tokens: 1_500_000 },
+      { at: at(5, now), error: "not a call" } as { at: string },
+      { tokens: 99 },
+    ];
+    const o = { now, passStarted: now - 15 * 60_000, perPass: 4_000_000, perDay: 20_000_000 };
+    expect(tokensSince(lines, o.passStarted)).toBe(1_500_000);
+    expect(budgetLeft(lines, o).ok).toBe(true);
+    expect(budgetLeft(lines, { ...o, perPass: 1_000_000 })).toMatchObject({ ok: false });
+    // The day counts what the last 24 hours spent, not what came before them.
+    expect(tokensSince(lines, now - 24 * 60 * 60_000)).toBe(4_500_000);
+    expect(budgetLeft(lines, { ...o, perDay: 4_000_000 })).toMatchObject({ ok: false });
+  });
+
+  it("takes over a lock only when the pass that wrote it is gone or impossibly old", () => {
+    const now = Date.parse("2026-09-18T12:00:00Z");
+    const lock = parseLock(lockText({ pid: 4242, since: at(30, now) }));
+    expect(lock).toEqual({ pid: 4242, since: at(30, now) });
+    const hours = 6 * 60 * 60_000;
+    expect(lockIsStale(lock, { now, alive: () => true, maxAgeMs: hours })).toBe(false);
+    expect(lockIsStale(lock, { now, alive: () => false, maxAgeMs: hours })).toBe(true);
+    const old = { pid: 4242, since: at(60 * 7, now) };
+    expect(lockIsStale(old, { now, alive: () => true, maxAgeMs: hours })).toBe(true);
+    // A lock no pass could have written holds nothing.
+    expect(parseLock("garbage")).toBeNull();
+    expect(lockIsStale(null, { now, alive: () => true, maxAgeMs: hours })).toBe(true);
+    expect(
+      lockIsStale({ pid: 1, since: "not a date" }, { now, alive: () => true, maxAgeMs: hours }),
+    ).toBe(true);
   });
 });

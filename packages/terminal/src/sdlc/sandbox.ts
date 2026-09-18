@@ -229,3 +229,23 @@ export function openBox(
     throw error;
   }
 }
+
+/** Whether the container engine answers. On Windows its machine needs starting after a reboot. */
+export const sandboxReady = (box: SandboxConfig): boolean => podman(box, ["info"]).ok;
+
+/**
+ * Removes every container and network this loop ever named. Called at the start of a pass,
+ * under the lock, so nothing it removes can be in use: what it finds was left by a pass that died.
+ */
+export function sweep(box: SandboxConfig): string[] {
+  const named = (args: string[]): string[] =>
+    podman(box, args)
+      .out.split("\n")
+      .map((n) => n.trim())
+      .filter((n) => n.startsWith("sdlc-"));
+  const containers = named(["ps", "--all", "--format", "{{.Names}}"]);
+  if (containers.length > 0) podman(box, ["rm", "--force", "--volumes", ...containers]);
+  const networks = named(["network", "ls", "--format", "{{.Name}}"]);
+  if (networks.length > 0) podman(box, ["network", "rm", "--force", ...networks]);
+  return [...containers, ...networks];
+}

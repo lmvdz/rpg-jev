@@ -20,6 +20,7 @@ import {
   type LoopConfig,
   must,
   readConfig,
+  readJournal,
   run,
   withLock,
   worktreeRoot,
@@ -27,6 +28,7 @@ import {
 import {
   AGENT_STAGES,
   type AgentStage,
+  budgetLeft,
   type Cluster,
   clusterSnags,
   issueBody,
@@ -37,8 +39,9 @@ import {
   stageOf,
 } from "./sdlc/flow.ts";
 import { createIssue, ensureLabels, type Issue, listIssues, reopen } from "./sdlc/github.ts";
+import { sandboxReady, sweep } from "./sdlc/sandbox.ts";
 import { buildSandbox } from "./sdlc/sandbox-build.ts";
-import { advance } from "./sdlc/stages.ts";
+import { advance, stuck } from "./sdlc/stages.ts";
 import { ROOT } from "./session.ts";
 
 const flags = process.argv.slice(3);
@@ -119,6 +122,8 @@ function tick(dryRun: boolean): Promise<void> {
     );
     return Promise.resolve();
   }
+  const passStarted = Date.now();
+  if (!dryRun) prepare(config);
   intake(dryRun);
   const work = queue(config);
   if (work.length === 0) console.log("Nothing is waiting on the loop.");
@@ -127,17 +132,49 @@ function tick(dryRun: boolean): Promise<void> {
       console.log(`would run ${stage.padEnd(7)} #${issue.number} ${issue.title}`);
       continue;
     }
+    const budget = budgetLeft(readJournal(), {
+      now: Date.now(),
+      passStarted,
+      perPass: config.sdlc.max_tokens_per_pass ?? 4_000_000,
+      perDay: config.sdlc.max_tokens_per_day ?? 20_000_000,
+    });
+    if (!budget.ok) {
+      journal({ stopped: "budget", why: budget.why });
+      console.log(`Stopping this pass: ${budget.why}.`);
+      break;
+    }
     try {
       const next = advance(config, issue, stage);
       console.log(`${stage.padEnd(7)} #${issue.number} -> ${next}`);
     } catch (error) {
-      // One issue failing must not stop the pass, and must not be lost.
+      // One issue failing must not stop the pass, must not be lost, and must not repeat for ever.
       const message = error instanceof Error ? error.message : String(error);
       journal({ issue: issue.number, stage, error: message });
       console.error(`${stage.padEnd(7)} #${issue.number} failed: ${message.split("\n")[0]}`);
+      stuck(config, issue, stage, message);
     }
   }
   return Promise.resolve();
+}
+
+/**
+ * What a pass does before any work, under the lock: clear away what a pass that died left in
+ * the container engine, and find out whether the engine answers at all. If it does not, the
+ * tool stages are held for this pass and the reason is said once, not once per issue.
+ */
+function prepare(config: LoopConfig): void {
+  const sandbox = config.sdlc.sandbox;
+  if (sandbox?.kind !== "podman" || config.sdlc.allow_tool_stages !== true) return;
+  if (!sandboxReady(sandbox)) {
+    config.sdlc.allow_tool_stages = false;
+    journal({ held: "tool stages", why: "podman does not answer" });
+    console.log(
+      "Podman does not answer (is its machine started?). Tool stages are held this pass.",
+    );
+    return;
+  }
+  const swept = sweep(sandbox);
+  if (swept.length > 0) journal({ swept });
 }
 
 async function runForever(minutes: number): Promise<void> {
@@ -147,7 +184,16 @@ async function runForever(minutes: number): Promise<void> {
       console.log("The loop is switched off. Stopping.");
       return;
     }
-    await withLock(() => tick(false));
+    try {
+      await withLock(() => tick(false));
+    } catch (error) {
+      // A pass that cannot run (another holds the lock, GitHub is down) is skipped, not fatal:
+      // the loop is still there for the next one.
+      const message = error instanceof Error ? error.message : String(error);
+      const why = message.split("\n")[0] ?? message;
+      journal({ pass: "skipped", why });
+      console.error(`Pass skipped: ${why}`);
+    }
     await new Promise((resolve) => setTimeout(resolve, minutes * 60_000));
   }
 }
