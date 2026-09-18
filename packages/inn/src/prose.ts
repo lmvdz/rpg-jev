@@ -58,6 +58,7 @@ const ITEM_LOOKS: Record<string, string> = {
     "The window latch has been slipped from outside with something thin; the wood is freshly scored. There is a dusting of flour on the sill.",
   strongbox:
     "Open, and empty where the ledger should be. The lock was not forced: someone came in another way.",
+  onion: "A yellow onion, papery and pungent.",
   pot: "A pot the size of a font, black outside and full of something brown and hot. It smells better than it looks.",
   bread: "A heel of yesterday's loaf, hard at the edge and fine in the middle.",
   table: "A long oak board on trestles, scarred by forty years of knives and elbows.",
