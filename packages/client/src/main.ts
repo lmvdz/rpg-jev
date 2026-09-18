@@ -25,7 +25,8 @@ import { Drift } from "./scene/drift.ts";
 import { Walker } from "./scene/walker.ts";
 import { ChunkManager } from "./terrain/chunks.ts";
 import { groundHeight } from "./terrain/tessellate.ts";
-import { askPriors, delayed, EffectBook } from "./view/effect-book.ts";
+import { askPriors, delayed } from "./view/birth.ts";
+import { Births } from "./view/births.ts";
 import { EFFECTS } from "./view/effect-rows.ts";
 import { OneShots } from "./view/effects.ts";
 import { LivingThings } from "./view/living.ts";
@@ -90,8 +91,8 @@ interface App {
   note: string;
   /** A grown world's things and what changes them, or null for a painted world. */
   living: LivingThings | null;
-  /** The effects born so far, by element and by what is happening to it. */
-  book: EffectBook;
+  /** What has been born so far: effects, motions and looks. */
+  births: Births;
   /** Effects of events, each played once. */
   shots: OneShots;
   /** The mouse in play: tooltip, click to walk, menu. Mounted once the page is up. */
@@ -127,13 +128,15 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   batch.add(walker.x, walker.y, walker.z, { glyph: glyphOfChar("@"), ink: INK.lamp });
   const objects = new ObjectLayer(grid, batch);
   for (const o of placed) objects.set(grid.index(o.x, o.z), o.look);
-  const things = loaded.things ?? null;
+  // `?born` takes the hand-given looks off the stand-in elements, so every look on screen is born.
+  const given = loaded.things ?? null;
+  const things = given && query.has("born") ? given.map(({ look: _, ...rest }) => rest) : given;
   // No judge is attached yet, so the priors answer; `?judge=<ms>` makes them answer late, which
   // shows the generic row handing over to the born one. Elements are shared between worlds, so
-  // the book's seed is not the map's.
+  // the books' seed is not the map's.
   const wait = Number(query.get("judge") ?? 0);
-  const book = new EffectBook(wait > 0 ? delayed(askPriors, wait) : askPriors, 1);
-  if (things) living = new LivingThings(things, grid, objects, book);
+  const births = new Births(wait > 0 ? delayed(askPriors, wait) : askPriors, 1);
+  if (things) living = new LivingThings(things, grid, objects, births);
 
   const worker = new Worker(new URL("./terrain/worker.ts", import.meta.url), { type: "module" });
   worker.onerror = (event) => console.error(`the tessellation worker failed: ${event.message}`);
@@ -168,7 +171,7 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
     changedAt: 0,
     note: loaded.from,
     living,
-    book,
+    births,
     shots: new OneShots(),
     play: null,
     body: new StandInBody(),
@@ -413,11 +416,16 @@ loadWorld(query).then((loaded) => {
       const now = app.last / 1000;
       const x = tile % grid.width;
       const z = Math.floor(tile / grid.width);
-      renderer.motions.play(HERO_SLOT, MOTIONS.lunge, now, x - walker.tileX, z - walker.tileZ);
-      renderer.motions.play(() => objects.slotAt(tile), MOTIONS.shake, now + STRIKE_LANDS);
-      const struck = app.living?.thingAt(tile);
+      const struck = app.living?.thingAt(tile) ?? null;
+      // How each glyph moves is born too: for the one forcing (X2), and for an element forced.
+      const lunge = app.births.motion("X2", "actor", null, MOTIONS.lunge).value;
+      const shake = app.births.motion("X2", "patient", struck, MOTIONS.shake).value;
+      const [dirX, dirZ] = [x - walker.tileX, z - walker.tileZ];
+      if (lunge) renderer.motions.play(HERO_SLOT, lunge, now, dirX, dirZ);
+      const slotOf = () => objects.slotAt(tile);
+      if (shake) renderer.motions.play(slotOf, shake, now + STRIKE_LANDS, dirX, dirZ);
       if (!struck) return;
-      const rows = app.book.entry(struck, "struck").rows[STRIKE_LEVEL] ?? [];
+      const rows = app.births.effects.entry(struck, "struck").value[STRIKE_LEVEL] ?? [];
       const y = groundHeight(grid, x + 0.5, z + 0.5) + 0.5;
       app.shots.play(x + 0.5, y, z + 0.5, rows, now + STRIKE_LANDS);
     },
@@ -437,7 +445,7 @@ loadWorld(query).then((loaded) => {
     __renderer: app.renderer,
     __session: app.session,
     __walker: app.walker,
-    __births: app.book.log,
+    __births: app.births.log,
     __shots: app.shots,
     __living: app.living,
   });

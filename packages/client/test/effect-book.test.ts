@@ -1,14 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { GlyphBatch } from "../src/glyph/batch.ts";
 import { TileGrid } from "../src/terrain/grid.ts";
+import { type AskJudge, askPriors } from "../src/view/birth.ts";
+import { Births } from "../src/view/births.ts";
 import { effectQuestions, HAPPENINGS } from "../src/view/effect-birth.ts";
-import {
-  type AskJudge,
-  askPriors,
-  EffectBook,
-  showingOf,
-  subjectOf,
-} from "../src/view/effect-book.ts";
+import { EffectBook, showingOf, subjectOf } from "../src/view/effect-book.ts";
 import { EFFECTS, GENERIC } from "../src/view/effect-rows.ts";
 import { checkEffect, EMITTER_FLOATS, EmitterList } from "../src/view/effects.ts";
 import { LivingThings } from "../src/view/living.ts";
@@ -59,10 +55,10 @@ describe("the book of born effects", () => {
     const book = new EffectBook(insists({ motion: "orbit", ramp: "strange" }), 1);
     const entry = book.entry(pitch, "burns");
     expect(entry.born).toBe(false);
-    expect(entry.rows[5]?.[0]).toMatchObject({ motion: GENERIC.burns?.motion });
+    expect(entry.value[5]?.[0]).toMatchObject({ motion: GENERIC.burns?.motion });
     await book.settled();
     expect(entry.born).toBe(true);
-    const row = entry.rows[5]?.[0];
+    const row = entry.value[5]?.[0];
     expect(row?.motion).toBe("orbit");
     expect(row && checkEffect(row)).toBeNull();
   });
@@ -80,9 +76,9 @@ describe("the book of born effects", () => {
     await book.settled();
     book.entry(pitch, "burns");
     expect(asked).toBe(2);
-    expect(book.log.map((line) => [line.element, line.happening, line.fallback])).toEqual([
-      ["e7", "burns", false],
-      ["e7", "fumes", false],
+    expect(book.log.map((line) => [line.book, line.key, line.fallback])).toEqual([
+      ["effect", "burns\ne7", false],
+      ["effect", "fumes\ne7", false],
     ]);
   });
 
@@ -90,9 +86,9 @@ describe("the book of born effects", () => {
     const book = new EffectBook(askPriors, 1);
     const entry = book.entry(pitch, "burns");
     await book.settled();
-    expect(entry.rows).toHaveLength(6);
-    expect(entry.rows[0]).toEqual([]);
-    const rates = entry.rows.slice(1).map((rows) => rows[0]?.rate ?? 0);
+    expect(entry.value).toHaveLength(6);
+    expect(entry.value[0]).toEqual([]);
+    const rates = entry.value.slice(1).map((rows) => rows[0]?.rate ?? 0);
     expect(rates).toEqual([...rates].sort((a, b) => a - b));
     expect(rates[0]).toBeGreaterThanOrEqual(1);
     expect(rates[4]).toBeGreaterThan(rates[0] ?? 9);
@@ -108,14 +104,14 @@ describe("the book of born effects", () => {
     const again = new EffectBook(sampling, 7);
     const twin = again.entry(pitch, "struck");
     await again.settled();
-    expect(twin.rows).toEqual(entry.rows);
+    expect(twin.value).toEqual(entry.value);
 
     const never: AskJudge = () => Promise.reject(new Error("asked"));
     const restored = new EffectBook(never, 99);
     restored.restore(book.log);
     const replayed = restored.entry(pitch, "struck");
     expect(replayed.born).toBe(true);
-    expect(replayed.rows).toEqual(entry.rows);
+    expect(replayed.value).toEqual(entry.value);
     expect(restored.log).toEqual(book.log);
   });
 
@@ -124,7 +120,7 @@ describe("the book of born effects", () => {
     const entry = book.entry(pitch, "burns");
     await book.settled();
     expect(entry.born).toBe(true);
-    expect(entry.rows[3]?.[0]?.motion).toBe("rise");
+    expect(entry.value[3]?.[0]?.motion).toBe("rise");
     expect(book.log[0]?.fallback).toBe(true);
   });
 
@@ -133,7 +129,7 @@ describe("the book of born effects", () => {
     const entries = HAPPENINGS.map((happening) => book.entry(pitch, happening));
     await book.settled();
     for (const entry of entries) {
-      for (const row of entry.rows.flat()) expect(checkEffect(row)).toBeNull();
+      for (const row of entry.value.flat()) expect(checkEffect(row)).toBeNull();
     }
     expect(book.log).toHaveLength(HAPPENINGS.length);
     expect(effectQuestions(subjectOf(pitch, "exists"))[0]?.options[0]).toBe("none");
@@ -152,7 +148,7 @@ describe("the things on screen", () => {
 
   it("emit what the book holds for them, the born row once it is there", async () => {
     const things = [thing(1, 4), thing(2, 0), thing(3, 2)];
-    const book = new EffectBook(insists({ motion: "cling" }), 1);
+    const book = new Births(insists({ motion: "cling" }), 1);
     const living = new LivingThings(things, grid, new ObjectLayer(grid, new GlyphBatch(8)), book);
     const emitters = new EmitterList();
     const motions = () => {

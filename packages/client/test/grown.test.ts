@@ -5,7 +5,8 @@ import { INK } from "../src/palette.ts";
 import { buildClearing, CLEARING_SIZE } from "../src/scene/clearing.ts";
 import { Drift } from "../src/scene/drift.ts";
 import { kindIndex } from "../src/terrain/kinds.ts";
-import { askPriors, EffectBook } from "../src/view/effect-book.ts";
+import { askPriors } from "../src/view/birth.ts";
+import { Births } from "../src/view/births.ts";
 import { LightList, MAX_LIGHTS } from "../src/view/lights.ts";
 import { LivingThings } from "../src/view/living.ts";
 import { applySky } from "../src/view/sky.ts";
@@ -110,7 +111,7 @@ describe("the clearing", () => {
     const copy: ThingView[] = structuredClone(things);
     const batch = new GlyphBatch(16);
     const objects = new ObjectLayer(grid, batch);
-    const living = new LivingThings(copy, grid, objects, new EffectBook(askPriors, 1));
+    const living = new LivingThings(copy, grid, objects, new Births(askPriors, 1));
     expect(batch.count).toBe(copy.length);
     const drift = new Drift(copy, 3);
     let changes = 0;
@@ -130,7 +131,7 @@ describe("the clearing", () => {
 
   it("stops lighting the ground when the fire goes out, and starts again when it is relit", () => {
     const copy: ThingView[] = structuredClone(things);
-    const book = new EffectBook(askPriors, 1);
+    const book = new Births(askPriors, 1);
     const living = new LivingThings(copy, grid, new ObjectLayer(grid, new GlyphBatch(16)), book);
     const fire = copy.findIndex((thing) => (thing.states.burning ?? 0) > 0);
     const lights = new LightList();

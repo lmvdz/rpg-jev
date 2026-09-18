@@ -120,6 +120,8 @@ export type ExtraGlyph = keyof typeof EXTRA;
 export const FIRST_CHAR = 32;
 export const LAST_CHAR = 126;
 const EXTRA_NAMES = Object.keys(EXTRA) as ExtraGlyph[];
+/** The props by name: a closed set a look can be chosen from. */
+export const EXTRA_GLYPHS: readonly ExtraGlyph[] = EXTRA_NAMES;
 
 export const GLYPH_COUNT = LAST_CHAR - FIRST_CHAR + 1 + EXTRA_NAMES.length;
 

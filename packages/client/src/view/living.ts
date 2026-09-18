@@ -8,7 +8,9 @@
 import type { TileGrid } from "../terrain/grid.ts";
 import { groundHeight } from "../terrain/tessellate.ts";
 import type { ObjectLayer } from "../world/objects.ts";
-import { type EffectBook, type Entry, showingOf } from "./effect-book.ts";
+import type { Entry } from "./birth.ts";
+import type { Births } from "./births.ts";
+import { type RowsByLevel, showingOf } from "./effect-book.ts";
 import type { EffectRow, EmitterList } from "./effects.ts";
 import type { LightList } from "./lights.ts";
 import { glyphLookOf, lightOf, type ThingView } from "./things.ts";
@@ -40,7 +42,7 @@ class Few {
 
 /** One effect a thing is showing: the book's entry for its element and the happening, and how hard. */
 interface Play {
-  entry: Entry;
+  entry: Entry<RowsByLevel>;
   level: number;
 }
 
@@ -48,26 +50,28 @@ export class LivingThings {
   readonly #things: readonly ThingView[];
   readonly #grid: TileGrid;
   readonly #objects: ObjectLayer;
-  readonly #book: EffectBook;
+  readonly #births: Births;
   /** The things that give light now, and the things that show an effect. */
   readonly #lit = new Few();
   readonly #showing = new Few();
   readonly #plays = new Map<number, readonly Play[]>();
   readonly #byTile = new Map<number, number>();
+  /** The things that came without a look, by element: redrawn when the element's look is born. */
+  readonly #unlooked = new Map<string, number[]>();
 
-  constructor(
-    things: readonly ThingView[],
-    grid: TileGrid,
-    objects: ObjectLayer,
-    book: EffectBook,
-  ) {
+  constructor(things: readonly ThingView[], grid: TileGrid, objects: ObjectLayer, births: Births) {
     this.#things = things;
     this.#grid = grid;
     this.#objects = objects;
-    this.#book = book;
+    this.#births = births;
     things.forEach((thing, index) => {
       this.#byTile.set(grid.index(thing.x, thing.z), index);
+      if (thing.look) return;
+      const same = this.#unlooked.get(thing.element);
+      if (same) same.push(index);
+      else this.#unlooked.set(thing.element, [index]);
     });
+    births.onLook = (element) => this.redraw(this.#unlooked.get(element) ?? []);
     this.redraw(things.map((_, index) => index));
   }
 
@@ -89,11 +93,12 @@ export class LivingThings {
     for (const index of changed) {
       const thing = this.#things[index];
       if (!thing) continue;
-      const look = glyphLookOf(thing.look, thing.states);
-      this.#objects.set(this.#grid.index(thing.x, thing.z), look);
+      // An element row brings its look; one that came without has it born here, once.
+      const base = thing.look ?? this.#births.look(thing).value;
+      this.#objects.set(this.#grid.index(thing.x, thing.z), glyphLookOf(base, thing.states));
       this.#lit.set(index, lightOf(thing.states) !== null);
       const plays = showingOf(thing.states).map((showing) => ({
-        entry: this.#book.entry(thing, showing.happening),
+        entry: this.#births.effects.entry(thing, showing.happening),
         level: showing.level,
       }));
       this.#showing.set(index, plays.length > 0);
@@ -115,7 +120,7 @@ export class LivingThings {
       const z = thing.z + 0.5;
       const y = groundHeight(this.#grid, x, z);
       for (const play of plays) {
-        for (const row of play.entry.rows[play.level] ?? NOTHING) emitters.add(x, y, z, row);
+        for (const row of play.entry.value[play.level] ?? NOTHING) emitters.add(x, y, z, row);
       }
     }
   }

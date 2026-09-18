@@ -4,51 +4,26 @@
  * and it is decided once for that pair, never per instance or per occurrence:
  *
  * - the first time the pair is met, a subject is built from the element's
- *   forms and baseline levels, and a judge is asked in the background;
+ *   kind, forms and baseline levels, and a judge is asked in the background;
  * - until it answers, the happening's generic row plays (rule 2);
- * - its answer is drawn from with a generator seeded by the pair, composed,
- *   checked and logged (`effect-birth.ts`), and from then on every instance
- *   of the element shows that row. A log that is handed back is replayed, and
- *   those pairs are never asked about again (rule 9).
+ * - its answer is drawn from, composed, checked and logged (`birth.ts`), and
+ *   from then on every instance of the element shows that row.
  *
  * How hard it is happening is the instance's business and is arithmetic, so
  * it is code: the row is played thinner at low levels.
  */
-import { Rng } from "@rpg-jev/core/rng";
+import { type AskJudge, type BirthLine, Book, type Entry } from "./birth.ts";
 import {
-  type Birth,
-  decideEffect,
-  effectQuestions,
+  EFFECT_KIND,
   FORMS,
   type Happening,
   KINDS,
-  type Question,
-  replayEffect,
   SUBJECT_LEVELS,
   type Subject,
-  sharpen,
 } from "./effect-birth.ts";
 import { GENERIC } from "./effect-rows.ts";
 import type { EffectRow } from "./effects.ts";
 import type { ThingView, VisibleStates } from "./things.ts";
-
-/** One request to a judge: every question of a birth at once, answered with odds per option. */
-export type AskJudge = (
-  subject: Subject,
-  questions: readonly Question[],
-) => Promise<readonly (readonly number[])[]>;
-
-/** The judge that is always there: code's own priors, taken at their likeliest. */
-export const askPriors: AskJudge = (_subject, questions) =>
-  Promise.resolve(questions.map((asked) => sharpen(asked.prior)));
-
-/** The same judge, late: to see the generic row hand over to the born one. */
-export function delayed(ask: AskJudge, milliseconds: number): AskJudge {
-  return (subject, questions) =>
-    new Promise((resolve, reject) => {
-      setTimeout(() => ask(subject, questions).then(resolve, reject), milliseconds);
-    });
-}
 
 export interface Showing {
   happening: Happening;
@@ -81,38 +56,40 @@ export function showingOf(states: VisibleStates): Showing[] {
   return out;
 }
 
+/** What is known of an element, as against an instance of it: what births are decided from. */
 export type ElementFacts = Pick<ThingView, "element" | "name" | "kind" | "forms" | "baseline">;
 
-/** The subject of a birth: the element as it is whole and mild, and what is happening. No instance's state. */
-export function subjectOf(thing: ElementFacts, happening: Happening): Subject {
-  const levels: Subject["levels"] = {};
-  for (const key of SUBJECT_LEVELS) {
+export function kindOf(thing: ElementFacts): (typeof KINDS)[number] | undefined {
+  return KINDS.find((known) => known === thing.kind);
+}
+
+/** The element's baseline levels that a birth may look at, clamped to the vocabulary's 0 to 5. */
+export function baselineOf<K extends string>(
+  thing: ElementFacts,
+  keys: readonly K[],
+): Partial<Record<K, number>> {
+  const levels: Partial<Record<K, number>> = {};
+  for (const key of keys) {
     const level = thing.baseline?.[key];
     if (typeof level === "number") levels[key] = levelOf(level);
   }
+  return levels;
+}
+
+/** The subject of a birth: the element as it is whole and mild, and what is happening. No instance's state. */
+export function subjectOf(thing: ElementFacts, happening: Happening): Subject {
   const forms = FORMS.filter((form) => thing.forms?.includes(form) === true);
-  const kind = KINDS.find((known) => known === thing.kind);
+  const kind = kindOf(thing);
+  const levels = baselineOf(thing, SUBJECT_LEVELS);
   return { name: thing.name, happening, ...(kind ? { kind } : {}), forms, levels };
 }
 
-export interface Entry {
-  /** What to play at each level of the happening, 0 to 5. Made once, so playing allocates nothing. */
-  rows: readonly (readonly EffectRow[])[];
-  /** False while the generic row stands in for an answer still on its way. */
-  born: boolean;
-}
-
-export interface BirthLine {
-  element: string;
-  happening: Happening;
-  /** The judge did not answer, so the priors did. Such a pair may be asked again some day. */
-  fallback: boolean;
-  record: Birth["record"];
-}
+/** What to play at each level of the happening, 0 to 5. Made once, so playing allocates nothing. */
+export type RowsByLevel = readonly (readonly EffectRow[])[];
 
 const NONE: readonly EffectRow[] = [];
 
-function byLevel(row: EffectRow | null): readonly (readonly EffectRow[])[] {
+function byLevel(row: EffectRow | null): RowsByLevel {
   return [0, 1, 2, 3, 4, 5].map((level) =>
     row === null || level === 0
       ? NONE
@@ -120,77 +97,36 @@ function byLevel(row: EffectRow | null): readonly (readonly EffectRow[])[] {
   );
 }
 
-/** FNV-1a: a seed for a pair's draws that depends on nothing but the world's seed and the pair. */
-function hash(text: string): number {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 0x01000193);
-  return h >>> 0;
-}
-
-const keyOf = (element: string, happening: Happening) => `${happening}\n${element}`;
-
 export class EffectBook {
-  /** Every birth so far, in order: what was chosen and from what odds. */
-  readonly log: BirthLine[] = [];
-  readonly #entries = new Map<string, Entry>();
-  readonly #asked = new Set<Promise<void>>();
-  readonly #ask: AskJudge;
-  readonly #seed: number;
+  readonly #book: Book<Subject, EffectRow, RowsByLevel>;
 
-  constructor(ask: AskJudge, seed: number) {
-    this.#ask = ask;
-    this.#seed = seed;
+  constructor(ask: AskJudge, seed: number, log?: BirthLine[]) {
+    this.#book = new Book({
+      name: "effect",
+      kind: EFFECT_KIND,
+      ask,
+      seed,
+      present: byLevel,
+      ...(log ? { log } : {}),
+    });
   }
 
-  /** Takes births logged earlier: they are replayed as they were chosen, and nobody is asked. */
+  /** Every birth so far, in order: what was chosen and from what odds. */
+  get log(): BirthLine[] {
+    return this.#book.log;
+  }
+
   restore(lines: readonly BirthLine[]): void {
-    for (const line of lines) {
-      const row = replayEffect(line.record);
-      this.#entries.set(keyOf(line.element, line.happening), { rows: byLevel(row), born: true });
-      this.log.push(line);
-    }
+    this.#book.restore(lines);
   }
 
   /** The entry for an element and a happening. Keep it: it is filled in place when the row is born. */
-  entry(thing: ElementFacts, happening: Happening): Entry {
-    const key = keyOf(thing.element, happening);
-    const known = this.#entries.get(key);
-    if (known) return known;
-    const entry: Entry = { rows: byLevel(GENERIC[happening]), born: false };
-    this.#entries.set(key, entry);
-    this.#bear(thing, happening, entry);
-    return entry;
+  entry(thing: ElementFacts, happening: Happening): Entry<RowsByLevel> {
+    const key = `${happening}\n${thing.element}`;
+    return this.#book.entry(key, () => subjectOf(thing, happening), GENERIC[happening]);
   }
 
-  /** Resolves when every question asked so far has been answered. */
-  async settled(): Promise<void> {
-    await Promise.all(this.#asked);
-  }
-
-  #bear(thing: ElementFacts, happening: Happening, entry: Entry): void {
-    const subject = subjectOf(thing, happening);
-    const questions = effectQuestions(subject);
-    const rng = Rng.fromSeed(hash(`${this.#seed}\n${keyOf(thing.element, happening)}`));
-    const settle = (answers: readonly (readonly number[])[], fallback: boolean) => {
-      const odds = new Map(questions.map((asked, i) => [asked.field, answers[i] ?? []]));
-      const birth = decideEffect(
-        subject,
-        (_subject, asked) => odds.get(asked.field) ?? [],
-        () => rng.next(),
-      );
-      entry.rows = byLevel(birth.row);
-      entry.born = true;
-      this.log.push({ element: thing.element, happening, fallback, record: birth.record });
-    };
-    const asked = this.#ask(subject, questions).then(
-      (answers) => settle(answers, false),
-      () =>
-        settle(
-          questions.map((q) => sharpen(q.prior)),
-          true,
-        ),
-    );
-    this.#asked.add(asked);
-    asked.finally(() => this.#asked.delete(asked));
+  settled(): Promise<void> {
+    return this.#book.settled();
   }
 }

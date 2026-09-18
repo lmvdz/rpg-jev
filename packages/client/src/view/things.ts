@@ -59,7 +59,8 @@ export interface ThingView {
   solid?: boolean;
   x: number;
   z: number;
-  look: ElementLook;
+  /** The element row's look. Absent when the row came without one: the client then bears one for the element. */
+  look?: ElementLook;
   states: VisibleStates;
 }
 
