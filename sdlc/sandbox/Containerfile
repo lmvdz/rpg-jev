@@ -16,7 +16,8 @@ RUN npm install --global "pnpm@${PNPM_VERSION}" && npm cache clean --force
 
 # The agent CLI, from the local install: it is not on the public registry.
 COPY agent.tgz /tmp/agent.tgz
-RUN npm install --global /tmp/agent.tgz && rm /tmp/agent.tgz && npm cache clean --force
+# No lifecycle scripts: neither the agent's nor its dependencies' run as root during the build.
+RUN npm install --global --ignore-scripts /tmp/agent.tgz && rm /tmp/agent.tgz && npm cache clean --force
 
 COPY sandbox/ /opt/sdlc/
 

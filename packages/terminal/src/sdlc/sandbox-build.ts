@@ -39,7 +39,9 @@ function assemble(config: LoopConfig): void {
   cpSync(join(ROOT, "sdlc", "sandbox"), join(CONTEXT, "sandbox"), { recursive: true });
   for (const file of ["pnpm-lock.yaml", "pnpm-workspace.yaml", "package.json"])
     cpSync(join(ROOT, file), join(CONTEXT, "manifests", file));
-  must(run("pnpm", ["pack", "--pack-destination", CONTEXT], { cwd: agentPackage(config) }), "pack");
+  // Packing must not run the package's own prepack or prepare hooks on the host.
+  const pack = ["pack", "--config.ignore-scripts=true", "--pack-destination", CONTEXT];
+  must(run("pnpm", pack, { cwd: agentPackage(config) }), "pack");
   const packed = readdirSync(CONTEXT).find((f) => f.endsWith(".tgz"));
   if (!packed) throw new Error("packing the agent CLI produced no archive");
   renameSync(join(CONTEXT, packed), join(CONTEXT, "agent.tgz"));
