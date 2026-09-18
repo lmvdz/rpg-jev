@@ -17,7 +17,10 @@ constitutional rules in `SPEC.md` section 2 bind every change it produces.
    no option that fit, fallbacks, stale decisions, rejected effects and slow turns. By rule, no
    model. Player text in the report is untrusted data (rule 8).
 3. **Triage.** Each snag is one of four things, and the fix belongs in a different place for
-   each. This is the step that keeps the loop from growing a pile of special cases.
+   each. This is the step that keeps the loop from growing a pile of special cases. The
+   judgment itself, how to walk from a symptom to the general fact and which structure holds
+   it, is written down as the `world-design` skill (`.claude/skills/world-design/SKILL.md`),
+   so that whoever fixes next, person or agent, applies the same one.
 
    | The snag is | The fix goes in | Not in |
    | --- | --- | --- |

@@ -6,6 +6,11 @@ Run one pass of the playtest loop described in `docs/playtest-loop.md`. One pass
 and safe to repeat: everything it needs to remember lives in GitHub issues and pull requests,
 not in this session.
 
+Before step 3, load the `world-design` skill (`.claude/skills/world-design/SKILL.md`) and
+keep it loaded. It is the judgment this loop exists to apply: a snag is a fact the world could
+not answer about itself, and the fix goes in the structure that holds facts of that kind. A
+change that names a character, an item or a sentence in engine code is the failure mode.
+
 ## 0. The switch
 
 Read `playtests/loop.json`. If `enabled` is not `true`, say so and stop. Do nothing else.
@@ -33,9 +38,12 @@ line, lower-cased. Search open and closed issues for the key (`gh issue list --l
 
 ## 3. Triage
 
-Give each new issue exactly one class label, by the table in `SPEC.md` section 13:
-`class:parser`, `class:question`, `class:mechanism` or `class:content`. If you cannot tell,
-label it `class:unclear`, say what would tell you, and do not fix it.
+For each new issue, walk the ladder in the `world-design` skill: symptom, what could not be
+represented, the kind of thing, the rule, the sibling it also fixes. Write the rungs into the
+issue. Then give it exactly one class label, by the table in `SPEC.md` section 13:
+`class:parser`, `class:question`, `class:mechanism` or `class:content`. If you cannot reach
+a rung that names nothing specific, label it `class:unclear`, say what would tell you, and do
+not fix it.
 
 `class:mechanism` issues are never fixed in this loop. They need a design decision. Write the
 proposal in the issue and stop there.
@@ -43,8 +51,11 @@ proposal in the issue and stop there.
 ## 4. Fix
 
 Take at most `max_snags_per_run` issues, oldest first, of class parser, question or content.
-For each: a branch `loop/<issue-number>-<slug>`, the smallest change in the place the class
-names, and the player's line added to a regression test. Stay inside `may_change`. Follow
+For each: a branch `loop/<issue-number>-<slug>`, the smallest change in the first structure in
+the skill's table that can hold the fact, and the player's line added to a regression test.
+Before opening the pull request, check the change against every test under "What general
+means here" in the skill, and say in the pull request which sibling case the change also
+handles. A change with no sibling is a patch; do not open it. Stay inside `may_change`. Follow
 `CLAUDE.md`, above all: no engine code that names a character, no new question family, no
 number decided by a model.
 

@@ -454,7 +454,7 @@ Each snag is triaged before it is fixed, because the place of the fix depends on
 | An NPC not reacting to what any person would react to | A general mechanism (stimulus, stake, debt, scheduler), never a branch naming one NPC |
 | The world having nothing to say | Content |
 
-Engine code that names a specific character is a smell. The rule is either general and loses the name, or content and moves to data. The PoC has several of these (section 17).
+Engine code that names a specific character is a smell. The rule is either general and loses the name, or content and moves to data. The PoC has several of these (section 17). The judgment for walking from a symptom to the general fact, and the structures that hold facts of each kind, is the `world-design` skill in `.claude/skills`, loaded by the loop before it triages.
 
 ## 14. Jev question design rules
 
