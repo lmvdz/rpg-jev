@@ -506,6 +506,8 @@ export function initialWorld(seed: number): World {
         aliases: ["coat", "odo's coat", "odos coat", "pockets"],
         at: { room: "kitchen" },
         takeable: false,
+        serves: { warmth: 1 },
+        forced: { harm: 0, deed: "forced" },
       },
       markers: {
         id: "markers",
@@ -521,6 +523,8 @@ export function initialWorld(seed: number): World {
         aliases: ["flour barrel", "barrel", "flour"],
         at: { room: "cellar" },
         takeable: false,
+        serves: { safety: 1 },
+        forced: { harm: 1, deed: "forced" },
       },
       ledger: {
         id: "ledger",
@@ -544,6 +548,7 @@ export function initialWorld(seed: number): World {
         aliases: ["latch", "window", "window latch", "sill", "windowsill"],
         at: { room: "office" },
         takeable: false,
+        forced: { harm: 1, deed: "forced" },
       },
       strongbox: {
         id: "strongbox",
@@ -551,6 +556,7 @@ export function initialWorld(seed: number): World {
         aliases: ["strongbox", "box", "desk"],
         at: { room: "office" },
         takeable: false,
+        forced: { harm: 2, deed: "forced" },
       },
       tankard: {
         id: "tankard",
@@ -613,6 +619,7 @@ export function initialWorld(seed: number): World {
         at: { room: "yard" },
         takeable: false,
         serves: { rest: 2, warmth: 1, safety: 1 },
+        forced: { harm: 0, deed: "forced" },
       },
     },
     machines: {
@@ -660,6 +667,15 @@ export const ACTIVITY_SERVES: Record<string, { need: Need; whose: string }> = {
   bringing_firewood: { need: "warmth", whose: "the house" },
   eating: { need: "hunger", whose: "their own" },
   burning: { need: "safety", whose: "Odo's own" },
+  idle: { need: "rest", whose: "their own" },
+  searching_pack: { need: "money", whose: "the house, if the ledger is in it" },
+  testifying: { need: "company", whose: "their own standing with Mara" },
+  confronting: { need: "money", whose: "the house, which needs its ledger" },
+  searching_cellar: { need: "money", whose: "the house, which needs its ledger" },
+  checking_cellar: { need: "safety", whose: "Odo's own" },
+  reporting: { need: "company", whose: "their own standing with Mara" },
+  keeping_clear: { need: "safety", whose: "their own" },
+  answering_call: { need: "safety", whose: "whoever shouted" },
 };
 
 /** What searching a fixture reveals, and the machine that remembers it was searched. */

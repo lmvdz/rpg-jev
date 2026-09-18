@@ -120,6 +120,8 @@ export const NEED_VERBS: Record<string, Need> = {
   sit: "rest",
   warm: "warmth",
   hide: "safety",
+  join: "company",
+  mingle: "company",
 };
 
 /** Verbs that only force a thing. */

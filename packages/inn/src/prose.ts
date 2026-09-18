@@ -57,6 +57,14 @@ const ITEM_LOOKS: Record<string, string> = {
     "The window latch has been slipped from outside with something thin; the wood is freshly scored. There is a dusting of flour on the sill.",
   strongbox:
     "Open, and empty where the ledger should be. The lock was not forced: someone came in another way.",
+  pot: "A pot the size of a font, black outside and full of something brown and hot. It smells better than it looks.",
+  bread: "A heel of yesterday's loaf, hard at the edge and fine in the middle.",
+  table: "A long oak board on trestles, scarred by forty years of knives and elbows.",
+  bench:
+    "A bench worn smooth where the same backsides have sat for a generation. The end nearest the hearth is the good end.",
+  hearth:
+    "The hearth: a bed of embers, one log fighting the damp, and a kettle hook nobody has used tonight.",
+  straw: "A heap of straw under the eaves, dry enough, and warmer than it looks.",
   tankard: "Pewter, dented, half full of something brown.",
 };
 
@@ -135,6 +143,7 @@ const VOICE: Record<string, Lines> = {
     refuse: ["I've nothing to say to you about that.", "No. And don't ask me twice."],
     threaten: ["One more word like that and you sleep in the ford."],
     insult: ["I have had better manners from the pig."],
+    remark: ["Hm.", "That's as may be."],
     offer: ["Put my ledger on this bar by midnight and there's no more said. That's the offer."],
     promise: ["I'll look into it. Tonight.", "I'll have that out with him myself. Tonight."],
     request: ["Turn out your pack. Now, on the bar, where I can see it."],
@@ -151,6 +160,7 @@ const VOICE: Record<string, Lines> = {
     refuse: ["It's not my place to say.", "I don't... no. I can't. Sorry."],
     threaten: ["You stay back. I'll shout for her, I will."],
     insult: ["You... you're no better. Everyone says so."],
+    remark: ["Aye. I suppose.", "If you say so."],
     offer: ["I've nothing to give you. I wish I had."],
     promise: ["I'll tell her. I will. Just... let me find the words."],
     request: ["Leave it be. Please."],
@@ -171,6 +181,7 @@ const VOICE: Record<string, Lines> = {
     refuse: ["Ha! I've a pot to mind.", "Can't hear you over the onions, friend."],
     threaten: ["Careful. Knives are sharp in a kitchen, and floors are slippery."],
     insult: ["Big words from a man who sleeps in a borrowed bed."],
+    remark: ["Ha! Isn't that the truth.", "So they say, friend, so they say."],
     offer: ["There's silver in it if you let this lie. Not much. Enough."],
     promise: ["Of course, of course. Leave it with me."],
     request: ["Do an old cook a kindness and keep out of my kitchen."],

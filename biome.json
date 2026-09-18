@@ -6,7 +6,12 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/results", "!**/labels", "!demo"]
+    "includes": [
+      "**",
+      "!**/results",
+      "!**/labels",
+      "!demo"
+    ]
   },
   "formatter": {
     "indentStyle": "space",
@@ -16,7 +21,72 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "preset": "recommended"
+      "preset": "recommended",
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": {
+            "maxAllowedComplexity": 25
+          }
+        },
+        "noExcessiveLinesPerFunction": {
+          "level": "error",
+          "options": {
+            "maxLines": 120,
+            "skipBlankLines": true
+          }
+        },
+        "useSimplifiedLogicExpression": "error",
+        "noUselessTernary": "error",
+        "noUselessStringConcat": "error"
+      },
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
+        "noUnusedFunctionParameters": "error",
+        "noUnusedPrivateClassMembers": "error",
+        "noUndeclaredVariables": "error"
+      },
+      "style": {
+        "noNonNullAssertion": "error",
+        "noParameterAssign": "error",
+        "useConst": "error",
+        "useTemplate": "error",
+        "noUselessElse": "error",
+        "useNodejsImportProtocol": "error",
+        "useAsConstAssertion": "error",
+        "noInferrableTypes": "error",
+        "useExplicitLengthCheck": "error",
+        "noYodaExpression": "error",
+        "useShorthandAssign": "error",
+        "useExponentiationOperator": "error",
+        "noNestedTernary": "error",
+        "useCollapsedElseIf": "error",
+        "noNegationElse": "error",
+        "useDefaultParameterLast": "error",
+        "noEnum": "error",
+        "noNamespace": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noEmptyBlockStatements": "error",
+        "noEvolvingTypes": "error",
+        "noConsole": {
+          "level": "error",
+          "options": {
+            "allow": [
+              "log",
+              "error",
+              "warn"
+            ]
+          }
+        },
+        "useAwait": "error",
+        "noVar": "error"
+      },
+      "performance": {
+        "noAccumulatingSpread": "warn"
+      }
     }
   },
   "assist": {
