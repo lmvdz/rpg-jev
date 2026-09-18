@@ -368,3 +368,30 @@ describe("a live front end", () => {
     expect(serializeLog(game.log)).toBe(serializeLog(plain.log));
   });
 });
+
+describe("any verb on anything", () => {
+  it("lets the player eat the table, break a tooth on the second try, and be talked about", async () => {
+    const { game } = scripted(gossipy);
+    const before = game.world.actors.player?.hp ?? 0;
+    const out = await play(game, ["eat the table", "eat the table", "eat bread", "why table"]);
+    expect(out).toContain("harder than you are");
+    expect(out).toContain("does not give; you do");
+    expect(game.world.actors.player?.hp).toBe(before - 1);
+    // The bread is gone and the player is less hungry for it.
+    expect(game.world.items.bread?.at).toEqual({ room: "ashes" });
+    expect(game.world.actors.player?.needs.hunger).toBeLessThan(0.55);
+    expect(out).toContain("WHY THE LONG TABLE");
+    expect(out).toContain("Forced, it gives nothing");
+    // Mara saw it, so Mara remembers it, as a deed like any other.
+    const seen = beliefsOf(game.world, "mara").find((b) => b.claim.predicate === "forced");
+    expect(seen?.claim.object).toBe("table");
+  });
+
+  it("answers why with the chain of ends", async () => {
+    const { game } = scripted(gossipy);
+    const out = await play(game, ["go kitchen", "why stew", "why odo"]);
+    expect(out).toContain("The stew pot is nourishment, and plenty of it.");
+    expect(out).toContain("And that is for coin.");
+    expect(out).toContain("that is nourishment for the house, and nourishment is for coin");
+  });
+});

@@ -16,7 +16,7 @@ const actor = (id: string, kind: Actor["kind"], room: string): Actor => ({
   motives: [],
   circumstances: [],
   drives: { trust: 0.5, fear: 0.2, greed: 0.3, suspicion: 0.4, obligation: 0.1 },
-  needs: { hunger: 0.2, rest: 0, money: 0, safety: 0, company: 0 },
+  needs: { hunger: 0.2, rest: 0, warmth: 0, money: 0, safety: 0, company: 0 },
   coins: 10,
 });
 

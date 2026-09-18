@@ -6,7 +6,7 @@
  * An ambiguous noun ("grab the key" with two keys in reach) is caught here,
  * before any call, and answered with a question that names the candidates.
  */
-import type { SpeechAct, World } from "@rpg-jev/core";
+import { FORCE_VERBS, NEED_VERBS, type SpeechAct, type World } from "@rpg-jev/core";
 import { C_TOBIN_OWES, NPCS, ODO, PLAYER } from "./content.ts";
 
 export type PlayerTopic =
@@ -27,6 +27,10 @@ export type Action =
   | { verb: "help" }
   | { verb: "quit" }
   | { verb: "why"; npc: string }
+  /** "why stew": what a thing is for, walked down the needs graph. */
+  | { verb: "why_thing"; id: string; place: "item" | "room" }
+  /** Any verb tried on anything: "eat the table". Resolved by what the thing is. */
+  | { verb: "attempt"; how: string; target: { id: string; place: "item" | "room" } | null }
   | { verb: "go"; room: string }
   | { verb: "take"; item: string }
   | { verb: "drop"; item: string }
@@ -193,6 +197,10 @@ export type Matched =
   /** Not an obvious command: stage two (the judge) should read it. */
   | { kind: "unmatched" };
 
+function here(world: World): string {
+  return world.actors[PLAYER]?.room ?? "";
+}
+
 export function normalise(text: string): string {
   return text
     .toLowerCase()
@@ -257,15 +265,84 @@ const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Match
   ],
   [
     /^why (.+)$/,
-    (m, _scope, world) => {
+    (m, scope, world) => {
       const npcs = NPCS.map((id): Named => {
         const name = world.actors[id]?.name ?? id;
         return { id, name, aliases: [name.toLowerCase()], kind: "person" };
       });
-      return pick(m[1] ?? "", npcs, "ask about", "Why who? Try: why mara", (npc) => ({
-        verb: "why",
-        npc,
-      }));
+      const phrase = m[1] ?? "";
+      const thing = resolveNoun(normalise(phrase), [...scope.things, ...scope.carried]);
+      if (thing.kind === "one")
+        return { kind: "action", action: { verb: "why_thing", id: thing.id, place: "item" } };
+      const room = resolveNoun(
+        normalise(phrase),
+        [scope.rooms.find((r) => r.id === here(world)) ?? scope.rooms[0]].filter((r): r is Named =>
+          Boolean(r),
+        ),
+      );
+      if (room.kind === "one")
+        return { kind: "action", action: { verb: "why_thing", id: room.id, place: "room" } };
+      return pick(
+        phrase,
+        npcs,
+        "ask about",
+        "Why who, or why what? Try: why mara, why stew",
+        (npc) => ({
+          verb: "why",
+          npc,
+        }),
+      );
+    },
+  ],
+  [
+    // Any verb on anything. What the thing is decides what happens (needs.ts).
+    new RegExp(
+      `^(${[...Object.keys(NEED_VERBS), ...FORCE_VERBS].join("|")})(?: (?:on|in|at|by|down|up|from|out of|the|some|into|onto|over|through|against))*(?: (.+))?$`,
+    ),
+    (m, scope, world) => {
+      const how = m[1] ?? "";
+      const phrase = normalise(m[2] ?? "");
+      const need = NEED_VERBS[how];
+      const thisRoom = scope.rooms.find((r) => r.id === here(world));
+      const pool = [...scope.things, ...scope.carried, ...(thisRoom ? [thisRoom] : [])];
+      const placeOf = (id: string): "item" | "room" => (world.items[id] ? "item" : "room");
+      if (phrase !== "") {
+        const person = resolveNoun(phrase, scope.people);
+        if (person.kind === "one") {
+          // Teeth and fists on a person are an attack; a person is not furniture.
+          if (need === "hunger" || need === undefined)
+            return { kind: "action", action: { verb: "attack", target: person.id } };
+          return {
+            kind: "error",
+            message: `${world.actors[person.id]?.name ?? "They"} is a person, not a place to ${how}.`,
+          };
+        }
+        return pick(phrase, pool, how, `There is no ${phrase} here to ${how}.`, (id) => ({
+          verb: "attempt",
+          how,
+          target: { id, place: placeOf(id) },
+        }));
+      }
+      if (need === undefined)
+        return { kind: "error", message: `${how.charAt(0).toUpperCase()}${how.slice(1)} what?` };
+      // "eat" with nothing named: whatever here would serve, or the room itself for hiding and resting.
+      const serving = pool.filter(
+        (n) => ((world.items[n.id] ?? world.rooms[n.id])?.serves?.[need] ?? 0) > 0,
+      );
+      const only = serving[0];
+      if (serving.length === 1 && only)
+        return {
+          kind: "action",
+          action: { verb: "attempt", how, target: { id: only.id, place: placeOf(only.id) } },
+        };
+      if (serving.length > 1)
+        return {
+          kind: "clarify",
+          question: whichOne(how, serving),
+          candidates: serving,
+          complete: (id) => ({ verb: "attempt", how, target: { id, place: placeOf(id) } }),
+        };
+      return { kind: "action", action: { verb: "attempt", how, target: null } };
     },
   ],
   [
@@ -458,5 +535,7 @@ export const HELP = [
   "Anything else, say it as you would: tell mara I never touched her ledger; ask tobin what he",
   "saw at dusk; offer tobin my silver if he will talk to mara; accuse odo of taking the ledger.",
   "Debug: why <name> walks the causes behind what someone believes and does. quit saves and leaves.",
+  "Anything can be tried on anything: eat the bread, sit by the fire, kick the table. What a thing is decides",
+  "what happens. why <thing> says what it is for.",
   "If the game got your last line wrong, type huh (or huh <what you meant>): it goes in the playtest log.",
 ].join("\n");

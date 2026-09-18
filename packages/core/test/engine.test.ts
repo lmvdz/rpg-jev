@@ -245,3 +245,27 @@ describe("preconditions", () => {
     expect(failedPreconditions(store.world, pre)).toEqual(["ann is no longer in hall"]);
   });
 });
+
+describe("means and ends", () => {
+  it("lets a thing be tried for what it is: too hard once, harm when insisted on", async () => {
+    const { attempt, endsOf, ENDS } = await import("../src/needs.ts");
+    const table = { forced: { harm: 1, deed: "forced" } };
+    const stew = { serves: { hunger: 3 } };
+    const bread = { serves: { hunger: 1 }, consumable: true };
+    const cloth = {};
+    expect(attempt("eat", table, 0)).toEqual({ kind: "too_hard", need: "hunger", harm: 1 });
+    expect(attempt("eat", table, 1)).toMatchObject({ kind: "harm", harm: 1 });
+    expect(attempt("eat", stew, 0)).toMatchObject({
+      kind: "served",
+      magnitude: 3,
+      consumed: false,
+    });
+    expect(attempt("eat", bread, 0)).toMatchObject({ kind: "served", consumed: true });
+    expect(attempt("eat", cloth, 5)).toEqual({ kind: "nothing", need: "hunger" });
+    expect(attempt("kick", table, 0)).toMatchObject({ kind: "harm" });
+    expect(attempt("kick", cloth, 0)).toEqual({ kind: "nothing", need: null });
+    // Food is for nourishment, nourishment is for work, work is for coin, coin is for safety.
+    expect(endsOf("hunger")).toEqual(["hunger", "money", "safety", "rest"]);
+    for (const e of Object.values(ENDS)) expect(e.enables.length).toBeGreaterThan(0);
+  });
+});

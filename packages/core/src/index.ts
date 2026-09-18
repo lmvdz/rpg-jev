@@ -6,6 +6,7 @@ export * from "./effects.ts";
 export * from "./graph.ts";
 export * from "./hash.ts";
 export * from "./log.ts";
+export * from "./needs.ts";
 export * from "./persuade.ts";
 export * from "./preconditions.ts";
 export { Rng, type RngState } from "./rng.ts";

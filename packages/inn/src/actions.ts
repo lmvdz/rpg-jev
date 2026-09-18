@@ -8,10 +8,12 @@ import {
   COMBAT_RESPONSES,
   type LogId,
   resolveBlow,
+  weakened,
   why,
   woundWords,
 } from "@rpg-jev/core";
 import { compileSlice, type Option, pickAction } from "@rpg-jev/jev";
+import { doingWhy, explain, tryAnything } from "./attempts.ts";
 import {
   C_APRON,
   C_LATCH,
@@ -49,9 +51,18 @@ export async function performAction(g: Game, action: Action, root: LogId): Promi
       return 0;
     case "why": {
       const report = why(g.world, g.log, action.npc, PLAYER);
-      g.say(report ? renderWhy(g.world, report, g.log) : "Nobody by that name.");
+      g.say(
+        report
+          ? [renderWhy(g.world, report, g.log), ...doingWhy(g, action.npc)].join("\n")
+          : "Nobody by that name.",
+      );
       return 0;
     }
+    case "why_thing":
+      g.say(explain(g, action.id, action.place));
+      return 0;
+    case "attempt":
+      return tryAnything(g, action, root);
     case "wait":
       g.say(`You wait. (${clockWords(g.world.clock + action.minutes)})`);
       return action.minutes;
@@ -334,7 +345,14 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
     armed,
   );
   g.say(blow.hit ? `You hit ${victim.name}. It lands.` : `You swing at ${victim.name} and miss.`);
-  const id = blow.hit ? g.commit({ kind: "damage", target, amount: blow.damage }, root) : root;
+  // Neglect is a rule, not a line: a body that has not eaten or slept takes blows harder.
+  const harder = (who: string) => {
+    const body = g.world.actors[who];
+    return body && weakened(body) ? 1 : 0;
+  };
+  const id = blow.hit
+    ? g.commit({ kind: "damage", target, amount: blow.damage + harder(target) }, root)
+    : root;
   const deed = g.happened({ subject: PLAYER, predicate: "attacked", to: target, severity: 2 }, id);
   // Nobody shrugs off a blow: everyone who saw it owes Mara the tale, the victim first.
   for (const npc of g.witness(deed, g.playerRoom, id)) owe(g, npc, { ...deed, severity: 3 }, id);
@@ -401,7 +419,8 @@ async function attack(g: Game, target: string, root: LogId): Promise<number> {
         ? `${victim.name} hits you back, hard.`
         : `${victim.name} swings back wildly and misses.`,
     );
-    if (back.hit) g.commit({ kind: "damage", target: PLAYER, amount: back.damage }, cause);
+    if (back.hit)
+      g.commit({ kind: "damage", target: PLAYER, amount: back.damage + harder(PLAYER) }, cause);
     if ((g.world.actors[PLAYER]?.hp ?? 1) <= 0) {
       g.say("The floor comes up to meet you.");
       g.commit(

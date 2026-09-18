@@ -55,7 +55,7 @@ describe("the deterministic matcher", () => {
   it("scopes what can be acted on to what is actually there", () => {
     const scope = scopeOf(inKitchen());
     expect(scope.people.map((p) => p.id)).toEqual(["odo"]);
-    expect(scope.things.map((t) => t.id).sort()).toEqual(["brass_key", "coat", "iron_key"]);
+    expect(scope.things.map((t) => t.id).sort()).toEqual(["brass_key", "coat", "iron_key", "pot"]);
     // The markers exist but stay out of scope until the coat has been searched.
     expect(scope.things.some((t) => t.id === "markers")).toBe(false);
   });
@@ -84,5 +84,30 @@ describe("answering a clarification", () => {
     ];
     expect(resolveAnswer("tel mara she's fat", candidates).kind).toBe("none");
     expect(resolveAnswer("the coat one", candidates)).toEqual({ kind: "one", id: "c1" });
+  });
+});
+
+describe("any verb on anything", () => {
+  it("reads eat, sit, hide and kick against whatever is here", () => {
+    const world = initialWorld(1);
+    expect(match("eat the table", world)).toMatchObject({
+      action: { verb: "attempt", how: "eat", target: { id: "table", place: "item" } },
+    });
+    // Bread and ale both serve: the game asks which, naming them.
+    expect(match("eat", world).kind).toBe("clarify");
+    expect(match("eat", inKitchen())).toMatchObject({
+      action: { verb: "attempt", how: "eat", target: { id: "pot" } },
+    });
+    expect(match("sit down", world)).toMatchObject({
+      action: { verb: "attempt", how: "sit", target: { id: "bench" } },
+    });
+    expect(match("kick the bench", world)).toMatchObject({
+      action: { verb: "attempt", how: "kick" },
+    });
+    expect(match("bite mara", world)).toMatchObject({ action: { verb: "attack", target: "mara" } });
+    expect(match("why stew", inKitchen())).toMatchObject({
+      action: { verb: "why_thing", id: "pot" },
+    });
+    expect(match("why mara", world)).toMatchObject({ action: { verb: "why", npc: "mara" } });
   });
 });

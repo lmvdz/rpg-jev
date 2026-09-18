@@ -8,6 +8,7 @@ import {
   type Debt,
   type Edge,
   makeClaim,
+  type Need,
   Rng,
   type Schedule,
   type ScheduleEntry,
@@ -44,6 +45,7 @@ export const WRONGDOING = [
   "attacked",
   "threatened",
   "insulted",
+  "forced",
   "forced_latch",
   "burned",
 ];
@@ -77,6 +79,7 @@ export const LEDGER_MATTER = [
   "accused",
   "threatened",
   "insulted",
+  "forced",
   "attacked",
   "searched",
   "burned",
@@ -100,7 +103,7 @@ const npc = (a: Partial<Actor> & Pick<Actor, "id" | "name" | "room" | "activity"
   motives: [],
   circumstances: [],
   drives: { trust: 0.3, fear: 0.2, greed: 0.3, suspicion: 0.4, obligation: 0 },
-  needs: { hunger: 0, rest: 0, money: 0, safety: 0, company: 0 },
+  needs: { hunger: 0, rest: 0, warmth: 0, money: 0, safety: 0, company: 0 },
   coins: 0,
   ...a,
 });
@@ -434,7 +437,7 @@ export function initialWorld(seed: number): World {
         motives: ["his sister's medicine is paid for with borrowed money"],
         circumstances: [],
         drives: { trust: 0.35, fear: 0.5, greed: 0.2, suspicion: 0.4, obligation: 0.2 },
-        needs: { hunger: 0.55, rest: 0, money: 0, safety: 0, company: 0 },
+        needs: { hunger: 0.55, rest: 0, warmth: 0, money: 0, safety: 0, company: 0 },
         coins: 1,
       }),
       [SOMEONE]: npc({
@@ -451,18 +454,21 @@ export function initialWorld(seed: number): World {
         name: "the common room",
         aliases: ["common room", "common", "bar", "taproom", "hall"],
         exits: [{ to: "kitchen" }, { to: "yard" }, { to: "office", door: "office_door" }],
+        serves: { warmth: 1, company: 1 },
       },
       kitchen: {
         id: "kitchen",
         name: "the kitchen",
         aliases: ["kitchen"],
         exits: [{ to: "common_room" }, { to: "yard" }, { to: "cellar", door: "cellar_door" }],
+        serves: { warmth: 2 },
       },
       cellar: {
         id: "cellar",
         name: "the cellar",
         aliases: ["cellar", "downstairs", "down"],
         exits: [{ to: "kitchen", door: "cellar_door" }],
+        serves: { safety: 2, warmth: -1 },
       },
       office: {
         id: "office",
@@ -549,9 +555,64 @@ export function initialWorld(seed: number): World {
       tankard: {
         id: "tankard",
         name: "a pewter tankard",
-        aliases: ["tankard", "mug", "ale"],
+        aliases: ["tankard", "mug", "ale", "beer"],
         at: { room: "common_room" },
         takeable: true,
+        serves: { hunger: 1 },
+      },
+      // Things that are for something. Nothing below is in the plot; all of it can be
+      // eaten, sat on, climbed or kicked, and the outcome follows from the numbers.
+      pot: {
+        id: "pot",
+        name: "the stew pot",
+        aliases: ["pot", "stew", "stew pot", "soup", "food", "supper", "dinner"],
+        at: { room: "kitchen" },
+        takeable: false,
+        serves: { hunger: 3 },
+        forced: { harm: 2, deed: "forced" },
+      },
+      bread: {
+        id: "bread",
+        name: "a heel of bread",
+        aliases: ["bread", "heel", "loaf", "crust"],
+        at: { room: "common_room" },
+        takeable: true,
+        serves: { hunger: 1 },
+        consumable: true,
+      },
+      table: {
+        id: "table",
+        name: "the long table",
+        aliases: ["table", "long table", "board"],
+        at: { room: "common_room" },
+        takeable: false,
+        forced: { harm: 1, deed: "forced" },
+      },
+      bench: {
+        id: "bench",
+        name: "the bench by the hearth",
+        aliases: ["bench", "seat", "chair", "stool"],
+        at: { room: "common_room" },
+        takeable: false,
+        serves: { rest: 1, warmth: 1 },
+        forced: { harm: 1, deed: "forced" },
+      },
+      hearth: {
+        id: "hearth",
+        name: "the hearth",
+        aliases: ["hearth", "fire", "flames", "fireplace", "embers"],
+        at: { room: "common_room" },
+        takeable: false,
+        serves: { warmth: 3 },
+        forced: { harm: 3, deed: "forced" },
+      },
+      straw: {
+        id: "straw",
+        name: "a heap of straw",
+        aliases: ["straw", "hay", "heap"],
+        at: { room: "yard" },
+        takeable: false,
+        serves: { rest: 2, warmth: 1, safety: 1 },
       },
     },
     machines: {
@@ -587,6 +648,19 @@ export function initialWorld(seed: number): World {
 
 /** Which key opens which door. */
 export const KEYS: Record<string, string> = { cellar_door: "iron_key", office_door: "brass_key" };
+
+/** What each activity is for: the need it serves, and whose. */
+export const ACTIVITY_SERVES: Record<string, { need: Need; whose: string }> = {
+  tending_bar: { need: "money", whose: "the house" },
+  checking_kitchen: { need: "money", whose: "the house" },
+  cooking: { need: "hunger", whose: "the house" },
+  serving_stew: { need: "hunger", whose: "the guests" },
+  clearing_tables: { need: "money", whose: "the house" },
+  tending_horses: { need: "money", whose: "Tobin, in wages" },
+  bringing_firewood: { need: "warmth", whose: "the house" },
+  eating: { need: "hunger", whose: "their own" },
+  burning: { need: "safety", whose: "Odo's own" },
+};
 
 /** What searching a fixture reveals, and the machine that remembers it was searched. */
 export const SEARCHABLE: Record<string, string> = {

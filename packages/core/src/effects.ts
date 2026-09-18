@@ -227,7 +227,9 @@ export function validateEffect(world: World, candidate: unknown): string[] {
     case "rewrite_routine":
     case "change_role": {
       liveActor(world, effect.npc, errors, "npc");
-      if (world.actors[effect.npc]?.kind === "player") errors.push("the player has no NPC mind");
+      // Needs belong to every body, player included; schedules and roles are NPC minds.
+      if (effect.kind !== "shift_need" && world.actors[effect.npc]?.kind === "player")
+        errors.push("the player has no NPC mind");
       if (effect.kind === "add_commitment") entryOk(world, effect.entry, errors);
       if (effect.kind === "rewrite_routine")
         for (const e of effect.entries) entryOk(world, e, errors);

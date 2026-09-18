@@ -45,6 +45,7 @@ const PHRASES: Record<string, Ladder> = {
   ],
   searched: ["poked about in {obj}", "went through {obj}", "ransacked {obj}"],
   attacked: ["shoved {to}", "struck {to}", "tried to kill {to}"],
+  forced: ["was fooling with {obj}", "went at {obj} like a madman", "tried to wreck {obj}"],
   insulted: [
     "spoke sharply to {to}",
     "insulted {to}",

@@ -17,7 +17,7 @@ export type Minute = number;
 
 export const DRIVES = ["trust", "fear", "greed", "suspicion", "obligation"] as const;
 export type Drive = (typeof DRIVES)[number];
-export const NEEDS = ["hunger", "rest", "money", "safety", "company"] as const;
+export const NEEDS = ["hunger", "rest", "warmth", "money", "safety", "company"] as const;
 export type Need = (typeof NEEDS)[number];
 
 export interface Actor {
@@ -52,6 +52,11 @@ export interface Item {
   takeable: boolean;
   /** Set when the item can only be seen once its machine reaches this node. */
   visibleFrom?: { machine: string; node: string };
+  /** What it is for, against the needs graph (needs.ts). Absent: it serves nothing. */
+  serves?: Partial<Record<Need, number>>;
+  /** What forcing it does to the one who forces it. */
+  forced?: { harm: number; deed: string };
+  consumable?: boolean;
 }
 
 export interface Exit {
@@ -65,6 +70,8 @@ export interface Room {
   name: string;
   aliases: string[];
   exits: Exit[];
+  /** What being here gives: a cellar is safe and cold. */
+  serves?: Partial<Record<Need, number>>;
 }
 
 /** A finite state machine instance: a quest, a door, a hidden thing. */

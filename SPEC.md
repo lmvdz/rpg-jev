@@ -124,6 +124,18 @@ The vocabulary has two layers. **Effect kinds** are the ontology: code, versione
 
 Each effect has a schema, preconditions, and a cause id pointing at the log entry that produced it. Code rejects any effect that breaks an invariant, such as a dead NPC holding a role.
 
+**Means and ends**
+
+Decided 2026-09-17, after three playtests found gaps one verb at a time: the world does not permit actions from lists, it answers "what is this for?" and lets the answer decide. Every thing and place is described against a small graph of needs (`packages/core/src/needs.ts`), and any verb can be tried on anything.
+
+- **The graph.** Each need (hunger, rest, warmth, money, safety, company) says what restores it, what depletes it, what neglecting it does, and what having enough makes possible, which is the next need in the chain. Food is nourishment; nourishment is an able body; an able body is work; work is coin; coin is a roof and debts kept quiet; that is safety; safety is sleep. `why stew` walks the chain; `why odo` says what his cooking is for.
+- **Description, in numbers.** A thing carries `serves` (how much it gives toward each need, −3 to 3), `forced` (what forcing it costs the one who forces it, and what the deed looks like to a witness), and `consumable`. A room carries `serves`. Rule 3 holds: these are numbers in content, and no model reads or writes them at play time.
+- **Any verb on anything.** Verbs that reach for a need (eat, drink, sit, sleep, warm, hide) resolve by what the target serves. Verbs that only force (kick, break, climb, throw) resolve by what forcing costs. A first try at something too hard finds that out; insisting is what breaks a tooth, and insistence is counted in code from the log. Harm is a witnessed deed on the same path as a blow, so the room remembers it and may pass it on garbled. A person is never furniture: teeth or fists on a person are an attack.
+- **Neglect is a rule.** A body too hungry or too tired takes blows harder. Words describe the rule; the rule is code.
+- **Where descriptions come from.** The inn's are authored. When the author thread starts (after S0), its job is to fill the same fields for things nobody wrote, one ratified hop at a time ("does bread nourish?"), because the judge answers one hop well and cannot chain. The chains stay in this graph, walked by code.
+
+The direction is that this level of reasoning applies to everything: every rule the world has should be an answer to "for what?", so that a new thing needs describing, not programming.
+
 ## 5. Actors and actions
 
 Players and NPCs are both actors, and both produce the same structure: `Action{actor, verb, args}`. Multiplayer and NPC-to-NPC interaction need no separate machinery.
