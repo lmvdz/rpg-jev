@@ -11,7 +11,7 @@ Done, 2026-09-18. **The findings, numbers and recommendation are in [FINDINGS.md
 | `src/bench-*.ts` | One measurement script per checklist item; each writes `results/<name>.json` |
 | `src/lib/` | Pure helpers (statistics, the fake judge's latency draw, the bitemporal predicate, metric parsing), tested in `test/` |
 | `src/module_bindings/` | Generated client bindings. Git-ignored; `pnpm deploy:local` regenerates them |
-| `.stdb/` | The local server's data and logs. Git-ignored |
+| `.stdb/` | The local server's data and logs, and the local tokens of named clients (`.stdb/tokens/`). Git-ignored |
 | `results/` | The numbers FINDINGS.md quotes |
 
 ## Reproduce
@@ -27,6 +27,7 @@ pnpm bench:edges            # items 5 and 6. Run first, on a fresh server, for a
 pnpm bench:fuses            # item 2
 pnpm bench:loop             # item 3 (starts and stops the worker itself)
 pnpm bench:subscription     # item 4
+pnpm bench:auth             # item 1: who may call which reducer, tried against the server
 pnpm bench:seed <label>      # optional: insert cost and memory for 1M rows, on a fresh server and empty table
 pnpm bench:restart --before # then stop the server within 60 s, wait until 90 s have passed, start it, and:
 pnpm bench:restart --after
@@ -34,3 +35,5 @@ pnpm typecheck:bench        # typechecks the benches too (needs the generated bi
 ```
 
 `pnpm typecheck` and the repo's `pnpm check` cover the module, `src/lib` and the tests, which do not need the CLI or the generated bindings.
+
+Reducers that are not player intents refuse callers that are not registered workers. The benches and the worker connect under a name (`connect({ as: "bench" })`), and `src/lib/credentials.ts` has the module's owner register that identity through the CLI, which holds the local credentials that published the module. So `pnpm deploy:local` and the benches must run as the same OS user.

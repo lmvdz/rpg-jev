@@ -5,7 +5,7 @@ import { serverMemory } from "./lib/memory.ts";
 
 const label = process.argv[2] ?? "seed";
 
-const { conn } = await connect();
+const { conn } = await connect({ as: "bench" });
 const before = serverMemory();
 const callMs: number[] = [];
 for (let call = 0; call < 20; call++) {

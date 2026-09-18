@@ -244,7 +244,7 @@ async function archive(conn: DbConnection): Promise<ArchiveResult> {
 }
 
 async function main(): Promise<void> {
-  const { conn } = await connect();
+  const { conn } = await connect({ as: "bench" });
   if ((await edgeCount()) !== 0)
     throw new Error("edge table is not empty: run `pnpm deploy:local` first");
   const empty = serverMemory();

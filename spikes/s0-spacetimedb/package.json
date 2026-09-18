@@ -12,6 +12,7 @@
     "bench:loop": "node src/bench-loop.ts",
     "bench:subscription": "node src/bench-subscription.ts",
     "bench:edges": "node src/bench-edges.ts",
+    "bench:auth": "node src/bench-auth.ts",
     "bench:seed": "node src/bench-seed.ts",
     "bench:restart": "node src/bench-restart.ts"
   },

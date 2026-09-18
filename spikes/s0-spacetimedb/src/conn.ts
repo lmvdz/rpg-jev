@@ -1,7 +1,9 @@
 // Connection helpers shared by the benches. Depends on the generated bindings (`pnpm deploy:local`).
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import type { Identity } from "spacetimedb";
 import { DATABASE, WS_URL } from "./lib/cli.ts";
+import { forgetToken, loadToken, registerWorker, saveToken } from "./lib/credentials.ts";
 import { DbConnection, type SubscriptionHandle } from "./module_bindings/index.ts";
 
 export type WireCounter = {
@@ -47,21 +49,34 @@ globalThis.WebSocket = CountingWebSocket;
 export type ConnectOptions = {
   compression?: "none" | "gzip" | "brotli";
   confirmedReads?: boolean;
+  /**
+   * Connect as a named, registered worker: reuse that name's local token and have the owner
+   * register its identity. Without it the connection is a fresh anonymous identity: a player.
+   */
+  as?: string;
 };
 
-export type Connected = { conn: DbConnection; wire: WireCounter };
+export type Connected = { conn: DbConnection; wire: WireCounter; identity: Identity };
 
-export function connect(options: ConnectOptions = {}): Promise<Connected> {
+function open(options: ConnectOptions, token: string | undefined): Promise<Connected> {
   return new Promise((resolve, reject) => {
     const before = counters.length;
     let builder = DbConnection.builder()
       .withUri(WS_URL)
       .withDatabaseName(DATABASE)
+      .withToken(token)
       .withCompression(options.compression ?? "none")
-      .onConnect((conn) => {
+      .onConnect((conn, identity, issued) => {
         const wire = counters[before];
-        if (wire) resolve({ conn, wire });
-        else reject(new Error("no socket was opened"));
+        if (!wire) {
+          reject(new Error("no socket was opened"));
+          return;
+        }
+        if (options.as) {
+          saveToken(options.as, issued);
+          registerWorker(identity.toHexString(), options.as);
+        }
+        resolve({ conn, wire, identity });
       })
       .onConnectError((_ctx, error) => reject(error));
     if (options.confirmedReads !== undefined) {
@@ -69,6 +84,18 @@ export function connect(options: ConnectOptions = {}): Promise<Connected> {
     }
     builder.build();
   });
+}
+
+export async function connect(options: ConnectOptions = {}): Promise<Connected> {
+  const token = options.as ? loadToken(options.as) : undefined;
+  if (!(options.as && token)) return open(options, undefined);
+  try {
+    return await open(options, token);
+  } catch {
+    // A token from a server whose data was wiped no longer verifies. Start over as a new identity.
+    forgetToken(options.as);
+    return open(options, undefined);
+  }
 }
 
 /** Resolves when the server has sent the initial rows. */

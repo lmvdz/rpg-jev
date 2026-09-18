@@ -18,7 +18,7 @@ async function count(table: string, where = ""): Promise<number> {
 }
 
 async function before(): Promise<void> {
-  const { conn } = await connect();
+  const { conn } = await connect({ as: "bench" });
   await conn.reducers.scheduleFuses({
     batch: BATCH,
     count: FUSES,

@@ -104,7 +104,7 @@ async function staleDecisions(conn: DbConnection, attempts: number): Promise<Sta
 }
 
 async function main(): Promise<void> {
-  const { conn } = await connect();
+  const { conn } = await connect({ as: "bench" });
   conn.db.eventLog.onInsert((_ctx, row) => {
     if (row.kind !== "shift_drive" && row.kind !== "decision_dropped") return;
     const payload = JSON.parse(row.payload) as { tag?: string; judgeMs?: number };

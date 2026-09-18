@@ -7,7 +7,7 @@ import { fakeJudge, seeded } from "./lib/judge.ts";
 
 const instant = process.argv.includes("--instant");
 const rng = seeded(20260918);
-const { conn } = await connect();
+const { conn } = await connect({ as: "jev-worker" });
 
 let handled = 0;
 conn.db.decisionRequest.onInsert((_ctx, request) => {

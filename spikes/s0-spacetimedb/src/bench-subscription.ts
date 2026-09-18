@@ -223,7 +223,7 @@ async function crossing(
 }
 
 async function main(): Promise<void> {
-  const mover = await connect();
+  const mover = await connect({ as: "bench" });
   await mover.conn.reducers.clearEntities({});
   await mover.conn.reducers.seedEntities({ start: 1n, count: ENTITIES, side: SIDE });
   const hot = await idsInCell(16, 16);

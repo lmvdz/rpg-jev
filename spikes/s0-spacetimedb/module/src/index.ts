@@ -3,7 +3,15 @@
 // for payloads. Nothing here needs a SpacetimeDB-only type except the fuse table's
 // `scheduledAt`, which the fallback would replace with a due-time column and a timer.
 import { ScheduleAt } from "spacetimedb";
-import { type InferSchema, Range, type ReducerCtx, schema, t, table } from "spacetimedb/server";
+import {
+  type InferSchema,
+  Range,
+  type ReducerCtx,
+  SenderError,
+  schema,
+  t,
+  table,
+} from "spacetimedb/server";
 
 /** `valid_to` of an edge that is still open. A sentinel keeps the column indexable and portable. */
 const OPEN = 9_223_372_036_854_775_807n;
@@ -120,6 +128,24 @@ const drainTimer = table(
   },
 );
 
+// Who may write. Both tables are private: clients cannot read them, and only reducers write them.
+// `module_owner` holds the one identity that published the module, captured in `init`.
+const moduleOwner = table(
+  { name: "module_owner" },
+  {
+    slot: t.u8().primaryKey(),
+    identity: t.identity(),
+  },
+);
+
+const worker = table(
+  { name: "worker" },
+  {
+    identity: t.identity().primaryKey(),
+    label: t.string(),
+  },
+);
+
 const queryResult = table(
   { name: "query_result", public: true },
   {
@@ -138,6 +164,8 @@ const spacetimedb = schema({
   fuseFired,
   debt,
   drainTimer,
+  moduleOwner,
+  worker,
   queryResult,
 });
 export default spacetimedb;
@@ -153,11 +181,57 @@ function cellOf(x: number, y: number): number {
   return (Math.floor(y / 32) << 16) | Math.floor(x / 32);
 }
 
+// ---------------------------------------------------------------- who may call what
+//
+// Any client can call any reducer, so every reducer that is not a player intent checks its caller.
+// Player intents (open to anyone): `requestDecision`, `moveEntity`, `ping`.
+// Everything else: a registered worker or the owner. Scheduled reducers: the database itself.
+
+function isOwner(ctx: Ctx): boolean {
+  return ctx.db.moduleOwner.slot.find(0)?.identity.equals(ctx.sender) ?? false;
+}
+
+function requireOwner(ctx: Ctx): void {
+  if (!isOwner(ctx)) throw new SenderError("only the module owner may do this");
+}
+
+function requireWorker(ctx: Ctx): void {
+  if (ctx.db.worker.identity.find(ctx.sender) || isOwner(ctx)) return;
+  throw new SenderError("caller is not a registered worker");
+}
+
+/** The scheduler calls with the database's own identity as sender; nobody else has it. */
+function requireScheduler(ctx: Ctx): void {
+  if (!ctx.sender.equals(ctx.databaseIdentity)) {
+    throw new SenderError("only the scheduler may call this");
+  }
+}
+
+/** Runs once, on first publish. The only place the publisher's identity is handed to the module. */
+export const init = spacetimedb.init((ctx) => {
+  ctx.db.moduleOwner.insert({ slot: 0, identity: ctx.sender });
+});
+
+export const addWorker = spacetimedb.reducer(
+  { identity: t.identity(), label: t.string() },
+  (ctx, { identity, label }) => {
+    requireOwner(ctx);
+    ctx.db.worker.identity.delete(identity);
+    ctx.db.worker.insert({ identity, label });
+  },
+);
+
+export const removeWorker = spacetimedb.reducer({ identity: t.identity() }, (ctx, { identity }) => {
+  requireOwner(ctx);
+  ctx.db.worker.identity.delete(identity);
+});
+
 // ---------------------------------------------------------------- item 1: one write path
 
 export const applyEffect = spacetimedb.reducer(
   { kind: t.string(), target: t.u64(), amount: t.f64(), causeId: t.u64() },
   (ctx, { kind, target, amount, causeId }) => {
+    requireWorker(ctx);
     const row = ctx.db.entity.id.find(target);
     if (!row) throw new Error(`no entity ${target}`);
     if (kind !== "shift_drive") throw new Error(`unknown effect kind ${kind}`);
@@ -177,6 +251,7 @@ export const ping = spacetimedb.reducer({ n: t.u32() }, (ctx, { n }) => {
 export const seedEntities = spacetimedb.reducer(
   { start: t.u64(), count: t.u32(), side: t.u32() },
   (ctx, { start, count, side }) => {
+    requireWorker(ctx);
     for (let i = 0; i < count; i++) {
       const x = ctx.random.integerInRange(0, side - 1);
       const y = ctx.random.integerInRange(0, side - 1);
@@ -195,6 +270,7 @@ export const seedEntities = spacetimedb.reducer(
 );
 
 export const clearEntities = spacetimedb.reducer((ctx) => {
+  requireWorker(ctx);
   for (const row of [...ctx.db.entity.iter()]) ctx.db.entity.id.delete(row.id);
 });
 
@@ -238,6 +314,7 @@ export const requestDecision = spacetimedb.reducer(
 export const commitDecision = spacetimedb.reducer(
   { requestId: t.u64(), choice: t.string(), judgeMs: t.f64() },
   (ctx, { requestId, choice, judgeMs }) => {
+    requireWorker(ctx);
     const req = ctx.db.decisionRequest.id.find(requestId);
     if (req?.status !== "pending") return;
     const actor = ctx.db.entity.id.find(req.actor);
@@ -262,6 +339,7 @@ export const fireFuse = spacetimedb.reducer(
   { onSchedule: fuse },
   { timer: fuse.rowType },
   (ctx, { timer }) => {
+    requireScheduler(ctx);
     let acc = 0;
     for (let i = 0; i < timer.spin; i++) acc = (acc + i * 31) % 1_000_003;
     if (timer.fail) throw new Error(`fuse ${timer.debtId} failed on purpose (${acc})`);
@@ -286,6 +364,7 @@ export const scheduleFuses = spacetimedb.reducer(
     failEvery: t.u32(),
   },
   (ctx, { batch, count, delayMicros, staggerMicros, intervalMicros, spin, failEvery }) => {
+    requireWorker(ctx);
     const base = ctx.timestamp.microsSinceUnixEpoch + delayMicros;
     for (let i = 0; i < count; i++) {
       const due = base + BigInt(i) * staggerMicros;
@@ -304,6 +383,7 @@ export const scheduleFuses = spacetimedb.reducer(
 );
 
 export const cancelFuses = spacetimedb.reducer({ batch: t.u32() }, (ctx, { batch }) => {
+  requireWorker(ctx);
   for (const row of [...ctx.db.fuse.iter()]) {
     if (row.batch === batch) ctx.db.fuse.scheduledId.delete(row.scheduledId);
   }
@@ -312,6 +392,7 @@ export const cancelFuses = spacetimedb.reducer({ batch: t.u32() }, (ctx, { batch
 export const createDebts = spacetimedb.reducer(
   { batch: t.u32(), count: t.u32(), delayMicros: t.i64() },
   (ctx, { batch, count, delayMicros }) => {
+    requireWorker(ctx);
     const dueMicros = ctx.timestamp.microsSinceUnixEpoch + delayMicros;
     for (let i = 0; i < count; i++) {
       ctx.db.debt.insert({ id: 0n, dueMicros, batch, debtId: BigInt(i) });
@@ -323,6 +404,7 @@ export const drainDebts = spacetimedb.reducer(
   { onSchedule: drainTimer },
   { timer: drainTimer.rowType },
   (ctx, { timer }) => {
+    requireScheduler(ctx);
     const now = ctx.timestamp.microsSinceUnixEpoch;
     const due: { id: bigint; batch: number; debtId: bigint; dueMicros: bigint }[] = [];
     const upTo = new Range<bigint>({ tag: "unbounded" }, { tag: "included", value: now });
@@ -346,6 +428,7 @@ export const drainDebts = spacetimedb.reducer(
 export const startDrain = spacetimedb.reducer(
   { intervalMicros: t.i64(), limit: t.u32() },
   (ctx, { intervalMicros, limit }) => {
+    requireWorker(ctx);
     for (const row of [...ctx.db.drainTimer.iter()])
       ctx.db.drainTimer.scheduledId.delete(row.scheduledId);
     ctx.db.drainTimer.insert({
@@ -357,11 +440,13 @@ export const startDrain = spacetimedb.reducer(
 );
 
 export const stopDrain = spacetimedb.reducer((ctx) => {
+  requireWorker(ctx);
   for (const row of [...ctx.db.drainTimer.iter()])
     ctx.db.drainTimer.scheduledId.delete(row.scheduledId);
 });
 
 export const clearFired = spacetimedb.reducer((ctx) => {
+  requireWorker(ctx);
   for (const row of [...ctx.db.fuseFired.iter()]) ctx.db.fuseFired.seq.delete(row.seq);
 });
 
@@ -374,6 +459,7 @@ export const clearFired = spacetimedb.reducer((ctx) => {
 export const seedEdges = spacetimedb.reducer(
   { srcStart: t.u64(), srcCount: t.u32(), claims: t.u32(), versions: t.u32() },
   (ctx, { srcStart, srcCount, claims, versions }) => {
+    requireWorker(ctx);
     for (let s = 0; s < srcCount; s++) {
       const src = srcStart + BigInt(s);
       for (let c = 0; c < claims; c++) {
@@ -399,6 +485,7 @@ export const seedEdges = spacetimedb.reducer(
 export const churnEdges = spacetimedb.reducer(
   { srcStart: t.u64(), srcCount: t.u32(), dst: t.u64(), now: t.i64() },
   (ctx, { srcStart, srcCount, dst, now }) => {
+    requireWorker(ctx);
     for (let s = 0; s < srcCount; s++) {
       const src = srcStart + BigInt(s);
       for (const row of [...ctx.db.edge.by_src_kind.filter([src, "believes"])]) {
@@ -424,6 +511,7 @@ export const churnEdges = spacetimedb.reducer(
 export const queryBelief = spacetimedb.reducer(
   { tag: t.string(), src: t.u64(), at: t.i64(), knownAt: t.i64(), repeat: t.u32() },
   (ctx, { tag, src, at, knownAt, repeat }) => {
+    requireWorker(ctx);
     let rows = 0;
     let scanned = 0;
     for (let r = 0; r < repeat; r++) {
@@ -442,6 +530,7 @@ export const queryBelief = spacetimedb.reducer(
 export const queryBeliefScan = spacetimedb.reducer(
   { tag: t.string(), dst: t.u64(), at: t.i64(), knownAt: t.i64() },
   (ctx, { tag, dst, at, knownAt }) => {
+    requireWorker(ctx);
     let rows = 0;
     let scanned = 0;
     for (const row of ctx.db.edge.iter()) {
@@ -459,6 +548,7 @@ export const queryBeliefScan = spacetimedb.reducer(
 export const archiveClosed = spacetimedb.reducer(
   { before: t.i64(), limit: t.u32() },
   (ctx, { before, limit }) => {
+    requireWorker(ctx);
     let n = 0;
     const doomed: bigint[] = [];
     for (const row of ctx.db.edge.by_valid_to.filter(
@@ -475,6 +565,7 @@ export const archiveClosed = spacetimedb.reducer(
 );
 
 export const clearEdges = spacetimedb.reducer((ctx) => {
+  requireWorker(ctx);
   for (const row of [...ctx.db.edge.iter()]) ctx.db.edge.id.delete(row.id);
 });
 

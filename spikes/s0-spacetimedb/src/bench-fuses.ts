@@ -244,7 +244,7 @@ async function repeating(
 }
 
 async function main(): Promise<void> {
-  const { conn } = await connect();
+  const { conn } = await connect({ as: "bench" });
   const { conn: pingConn } = await connect();
   await conn.reducers.clearFired({});
 
