@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-18T06:58:42.835Z",
+  "scheduledBeforeRestart": 100,
+  "firedAfterRestart": 100,
+  "stillPending": 0,
+  "lateByMs": {
+    "n": 100,
+    "min": 52847.36,
+    "p50": 52855.28,
+    "p90": 52857.8,
+    "p99": 52858.31,
+    "max": 52858.36,
+    "mean": 52855.14
+  },
+  "edges": 1000000,
+  "eventLogRows": 0,
+  "memoryOnArrival": {
+    "workingSetMb": 252,
+    "privateMb": 239
+  },
+  "dataDirMb": 194
+}
