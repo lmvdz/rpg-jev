@@ -20,6 +20,7 @@ import {
   lastJson,
   nextStage,
   oneOf,
+  onlyReplayFailed,
   openFindings,
   outOfBounds,
   PR_VERDICTS,
@@ -230,12 +231,6 @@ const boundsWords = (config: LoopConfig): string =>
   `You may change files under: ${config.may_change.join(", ")}.\nYou may not change: ${config.may_not_change.join(", ")}.\nThe loop checks this after you finish and discards a change that breaks it.`;
 
 const attemptsSoFar = (issue: number): number => Number(kept(issue, "attempts") || "0");
-
-/** Only the recorded replay failing means the change is sound and a re-record is owed. */
-function onlyReplayFailed(checkOutput: string): boolean {
-  const failed = [...checkOutput.matchAll(/FAIL\s+(\S+\.test\.ts)/g)].map((m) => m[1] ?? "");
-  return failed.length > 0 && failed.every((file) => file.includes("recorded.test"));
-}
 
 function failedAttempt(config: LoopConfig, issue: Issue, why: string): Outcome {
   const attempts = attemptsSoFar(issue.number) + 1;

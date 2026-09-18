@@ -329,3 +329,20 @@ export function lockIsStale(
   const age = o.now - Date.parse(lock.since);
   return !(o.alive(lock.pid) && age < o.maxAgeMs);
 }
+
+// --- Reading the gate ---------------------------------------------------------------------
+
+/** Colour and style codes, which a test runner prints even into a pipe when told to. */
+const STYLING = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, "g");
+
+/**
+ * Only the recorded replay failing means the change is sound and a re-record is owed. Anything
+ * else failing, or nothing recognisable failing (lint, types), is a failed attempt. The gate's
+ * output is read with its styling stripped: the first honest replay failure was missed because
+ * "FAIL" was followed by a colour code and not by a space.
+ */
+export function onlyReplayFailed(checkOutput: string): boolean {
+  const plain = checkOutput.replace(STYLING, "");
+  const failed = [...plain.matchAll(/FAIL\s+(\S+\.test\.ts)/g)].map((m) => m[1] ?? "");
+  return failed.length > 0 && failed.every((file) => file.includes("recorded.test"));
+}
