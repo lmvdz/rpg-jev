@@ -167,7 +167,38 @@ describe("reading a model's answer", () => {
       text: "answer",
       tokens: 15,
     });
-    expect(readReply("plain text")).toEqual({ text: "plain text", tokens: 0 });
+  });
+});
+
+describe("reading what the agent CLI printed", () => {
+  const said = (text: string) => ({
+    role: "assistant",
+    content: [
+      { type: "thinking", text: "hm" },
+      { type: "text", text },
+    ],
+    usage: { totalTokens: 7 },
+  });
+
+  it("takes the answer from the run's last event when it is there", () => {
+    const out = [
+      '{"type":"turn_end","message":{"role":"assistant","content":[{"type":"text","text":"early"}]}}',
+      JSON.stringify({ type: "agent_end", messages: [{ role: "user" }, said("final")] }),
+    ].join("\n");
+    expect(readReply(out)).toEqual({ text: "final", tokens: 7 });
+  });
+
+  it("falls back to the last turn when the run's last event never arrived", () => {
+    const out = [
+      '{"type":"message_update","delta":"x"}',
+      JSON.stringify({ type: "turn_end", message: said("from the turn"), toolResults: [] }),
+      '{"type":"agent_end","messages":[{"role":"assis',
+    ].join("\n");
+    expect(readReply(out)).toEqual({ text: "from the turn", tokens: 7 });
+  });
+
+  it("says nothing was said, and never hands back the raw stream as if it were an answer", () => {
+    expect(readReply('{"type":"session"}\nnoise')).toEqual({ text: "", tokens: 0 });
   });
 });
 

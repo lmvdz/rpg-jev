@@ -23,15 +23,29 @@ interface AgentMessage {
   usage?: { totalTokens?: number };
 }
 
-/** The final assistant text and the tokens spent, from `--mode json` output. */
+/** The assistant messages an event carries: all of them at the end of a run, one at the end of a turn. */
+function spokenIn(line: string): AgentMessage[] {
+  if (!/^\{"type":"(agent_end|turn_end|message_end)"/.test(line)) return [];
+  try {
+    const event = JSON.parse(line) as { messages?: AgentMessage[]; message?: AgentMessage };
+    const all = event.messages ?? (event.message ? [event.message] : []);
+    return all.filter((m) => m.role === "assistant");
+  } catch {
+    // A last line cut short by the process exiting is not an event.
+    return [];
+  }
+}
+
+/**
+ * The final assistant text and the tokens spent, from `--mode json` output. The run's last
+ * event, `agent_end`, holds everything, but it does not always arrive: a first real pass ended
+ * at `turn_end` with the answer in it. So the reader takes the last event that carries an
+ * assistant message, whichever kind it is.
+ */
 export function readReply(stdout: string): { text: string; tokens: number } {
-  const end = stdout
-    .split("\n")
-    .reverse()
-    .find((line) => line.startsWith('{"type":"agent_end"'));
-  if (!end) return { text: stdout, tokens: 0 };
-  const messages = (JSON.parse(end) as { messages?: AgentMessage[] }).messages ?? [];
-  const spoken = messages.filter((m) => m.role === "assistant");
+  const lines = stdout.split("\n").reverse();
+  const spoken = lines.map(spokenIn).find((found) => found.length > 0);
+  if (!spoken) return { text: "", tokens: 0 };
   const text = (spoken.at(-1)?.content ?? [])
     .filter((part) => part.type === "text")
     .map((part) => part.text ?? "")
@@ -41,7 +55,7 @@ export function readReply(stdout: string): { text: string; tokens: number } {
 
 const quoted = (path: string): string => `"${path.replaceAll('"', "")}"`;
 
-export function askAgent(o: {
+export interface Ask {
   config: LoopConfig;
   issue: number;
   stage: AgentStage;
@@ -52,7 +66,23 @@ export function askAgent(o: {
   gate?: string;
   /** Where a stage with tools runs. Without it the agent runs on the host, in `cwd`. */
   box?: { open: Box; sandbox: SandboxConfig };
-}): Reply {
+}
+
+/** How often a model that said nothing at all is asked again, within one call. */
+const ASKED_AGAIN = 2;
+
+/**
+ * One stage's question, put to the model. A reply with no text in it (the router sometimes
+ * ends a stream with nothing but an empty thought) is not an answer and not a refusal, so it
+ * is asked again, a bounded number of times, before the stage reports that nothing came back.
+ */
+export function askAgent(o: Ask): Reply {
+  let reply = askOnce(o);
+  for (let again = 0; again < ASKED_AGAIN && reply.text.length === 0; again++) reply = askOnce(o);
+  return reply;
+}
+
+function askOnce(o: Ask): Reply {
   const { agent } = o.config.sdlc;
   const promptFile = join(workDir(o.issue), `${o.stage}.prompt.md`);
   writeFileSync(promptFile, o.prompt);

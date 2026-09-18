@@ -35,8 +35,8 @@
       "provider": "omniroute",
       "models": {
         "triage": "auto/coding:cheap",
-        "plan": "auto/coding:cheap",
-        "build": "auto/coding:cheap",
+        "plan": "agy/gemini-3.8-flash-high",
+        "build": "agy/gemini-3.8-flash-high",
         "review": "auto/coding",
         "pr": "auto/coding"
       },

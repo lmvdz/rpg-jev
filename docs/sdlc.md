@@ -151,26 +151,38 @@ The rest of the `sdlc` block: `base_branch`, `worktree_root`, `trusted_authors`,
 stage's turn, token and time limits. The loop's own files, its prompts and `.claude` are in
 `may_not_change`, so a build cannot rewrite the loop.
 
-## What is not proven
+## What has run, and what has not
 
-- `status`, `init`, `tick --dry-run` and the refusal while switched off have been run. `init`
-  created the labels on the repository.
-- Triage ran once, against a made-up issue, with no writes to GitHub: 14 seconds, 9.4k tokens,
-  a parseable answer, and an injected instruction in the player text was ignored. Its choice
-  of class was debatable, so the cheap model's triage quality is unknown.
-- The pull-request stage's reads (finding the pull request, the gate's result, the review
-  threads, which of them are owed an answer) were run against this loop's own pull request and
-  gave the right answers. Its model call and its posting of replies have never run. The first
-  round of review-bot findings on that pull request was handled by hand, which is where the
-  stage's rules come from.
-- The build stage ran once, end to end, in the sandbox, on a hand-written plan ("append this
-  sentence to a doc"): the agent changed the file in its box, the patch came out and applied,
-  the bounds passed, the gate passed in a box with no network, and the loop committed. It took
-  143 seconds with `auto/coding`. The same trial with `auto/coding:cheap` produced reasoning and
-  no tool call; the unchanged tree passed the agent's own gate, and the loop correctly counted
-  it as a failed attempt ("the agent changed nothing"). So the cheap model's fitness for build
-  is doubtful, on a sample of one.
-- Plan and review have never run. A real issue has never gone through. Nothing is known about whether a cheap model can
-  carry a plan through this repository's lint and tests.
-- The pure half (`flow.ts`: the stage table, snag keys, bounds, reading a model's answer) has
-  15 tests. The half that drives `git`, `gh` and `prime-agent` has none.
+**One real issue has gone all the way through**, supervised, on 2026-09-18: #4, a snag from a
+played night (`inspect kitchen` got "You see nothing like that here"), to pull request #5.
+
+| Stage | What happened |
+| --- | --- |
+| triage | Walked the ladder, classed it `parser`, posted it on the issue. 30 s, no tools |
+| plan | In a box. A file-by-file plan: rooms join the examine scope in the matcher and in the judge's option pool. Five files, all in bounds. 4 minutes |
+| build | In a box. The patch came out, was in bounds, the gate passed in a box with no network, the loop committed. 5 minutes |
+| review | Approved against the tests of generality, pushed, opened the pull request. 50 s, no tools |
+| pr | Found the pull request, its gate green and no findings owed an answer, and waited |
+
+What that pass taught, and what was changed because of it:
+
+- **The agent CLI does not always print its last event.** The first triage answered correctly
+  and the loop could not read it, because the run ended at `turn_end` with no `agent_end`.
+  The reader now takes the last event that carries an assistant message, of whichever kind,
+  and never hands a raw stream back as if it were an answer.
+- **A model can say nothing at all.** Through this router, `auto/coding` usually resolves to a
+  model whose tool calls come back as an empty message: five of seven tool-stage runs were
+  silent, while the same prompt without tools always got text. A call now asks again, twice,
+  when a reply has no text. More to the point, **tool stages name a concrete model that is known
+  to call tools**, not a routing alias: `plan` and `build` are set to the model the owner uses
+  daily with this CLI. Triage and review have no tools and can stay on aliases.
+- **The review stage is not a substitute for a person.** It approved a change that lets a player
+  examine a neighbouring room through a closed door. That is noted on the pull request.
+- Build used about 1.5 million tokens by the CLI's own count (each turn re-sends the context),
+  well over the configured `max_tokens` of 400,000, so that limit is not doing what it says.
+
+Still never run: the `pr` stage's model call and its posting of replies (there were no findings
+to answer); a build that fails its gate and is retried with the failure as its note; a change
+that breaks the recorded replay; intake from a handed-in night (issue #4 was filed by hand, in
+intake's format); `pnpm sdlc run` unattended. The half that drives `git`, `gh`, `podman` and
+the agent CLI has no tests of its own; the pure half has them.
