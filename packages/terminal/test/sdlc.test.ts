@@ -16,6 +16,7 @@ import {
   lockText,
   nextStage,
   oneOf,
+  onlyReplayFailed,
   openFindings,
   outOfBounds,
   parseFriction,
@@ -307,6 +308,31 @@ describe("watching a pull request", () => {
     expect(nextStage("pr", "closed")).toBe("human");
     expect(nextStage("pr", "waiting")).toBe("pr");
     expect(nextStage("pr", "merged")).toBe("pr");
+  });
+});
+
+describe("reading the gate", () => {
+  const esc = String.fromCharCode(27);
+  const styled = (file: string) =>
+    `${esc}[41m${esc}[1m FAIL ${esc}[22m${esc}[49m ${file}${esc}[2m > ${esc}[22mthe recorded demo`;
+
+  it("sees that only the recorded replay failed, through the runner's colour codes", () => {
+    const out = [
+      styled("packages/inn/test/recorded.test.ts"),
+      styled("packages/inn/test/recorded.test.ts"),
+    ];
+    expect(onlyReplayFailed(out.join("\n"))).toBe(true);
+    expect(onlyReplayFailed(" FAIL  packages/inn/test/recorded.test.ts > x")).toBe(true);
+  });
+
+  it("does not call it a re-record when anything else failed, or nothing recognisable did", () => {
+    const both = [
+      styled("packages/inn/test/recorded.test.ts"),
+      styled("packages/inn/test/parser.test.ts"),
+    ];
+    expect(onlyReplayFailed(both.join("\n"))).toBe(false);
+    expect(onlyReplayFailed("biome check found 3 errors")).toBe(false);
+    expect(onlyReplayFailed("")).toBe(false);
   });
 });
 
