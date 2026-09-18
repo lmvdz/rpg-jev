@@ -347,7 +347,7 @@ const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Match
   ],
   [
     // The way you came. The room is looked up in the log when the action runs.
-    /^(?:go |head |walk )?back$|^return$|^leave$/,
+    /^(?:(?:go |head |walk |turn )?back|turn (?:around|round|about)|return|leave|retreat)$/,
     () => ({ kind: "action", action: { verb: "go", room: BACK } }),
   ],
   [
