@@ -116,6 +116,11 @@ describe("bounds", () => {
   it("lets through what is inside, and names what is not", () => {
     expect(outOfBounds(["packages/inn/src/parser.ts", "SPEC.md"], may, mayNot)).toEqual([]);
     expect(outOfBounds(["packages\\core\\src\\needs.ts"], may, mayNot)).toHaveLength(1);
+    // A single file can be fenced off inside a directory the loop may otherwise change.
+    const guard = "packages/inn/test/recorded.test.ts";
+    expect(
+      outOfBounds([guard, "packages/inn/test/parser.test.ts"], may, [...mayNot, guard]),
+    ).toEqual([guard]);
     expect(outOfBounds([".github/workflows/ci.yml", "README.md"], may, mayNot)).toHaveLength(2);
   });
 

@@ -13,7 +13,12 @@
     "sdlc",
     "packages/terminal/src/sdlc",
     "packages/terminal/src/sdlc.ts",
-    ".claude"
+    ".claude",
+    "packages/inn/test/recorded.test.ts",
+    "packages/inn/test/design.test.ts",
+    "demo",
+    "package.json",
+    "biome.json"
   ],
   "sdlc": {
     "base_branch": "poc",

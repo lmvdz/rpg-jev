@@ -46,6 +46,14 @@ import {
 import { type Box, openBox, toolStagesAllowed } from "./sandbox.ts";
 
 const GATE = "pnpm check";
+/**
+ * What the agent must get to pass before it may call itself done. It leaves the recorded replay
+ * out on purpose: that test fails by design when content or a slice changes, only a person with
+ * the judge can make it pass honestly, and an agent told to make it pass will make it lie. The
+ * first time this happened the agent wrapped the recordings in a proxy that matched nearby keys.
+ * The loop's own gate, run after the patch is out, is still the whole of `pnpm check`.
+ */
+const AGENT_GATE = "pnpm check:unrecorded";
 
 const read = (path: string): string => (existsSync(path) ? readFileSync(path, "utf8") : "");
 const prompt = (stage: AgentStage): string => read(join(ROOT, "sdlc", "prompts", `${stage}.md`));
@@ -262,7 +270,7 @@ const build: Handler = (config, issue) => {
     ),
     cwd: tree,
     tools: true,
-    gate: GATE,
+    gate: AGENT_GATE,
   });
   // Out of a box comes a patch, and nothing else.
   try {

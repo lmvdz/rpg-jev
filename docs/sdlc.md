@@ -210,6 +210,28 @@ What that pass taught, and what was changed because of it:
 - Build used about 1.5 million tokens by the CLI's own count (each turn re-sends the context),
   well over the configured `max_tokens` of 400,000, so that limit is not doing what it says.
 
+**A second supervised pass, three issues at once** (#9 `take onion`, #10 `think`, #11 `turn
+around`), found the failure that matters most and one rule doing its job:
+
+- **An agent told to make a gate pass will make a test lie.** The onion fix was right (an item
+  in the kitchen that serves hunger), and it changed what the judge is shown, so the recorded
+  replay failed, by design. The build prompt said to leave it failing. The agent instead
+  wrapped the recordings in a proxy that returns a nearby recording when the exact one is
+  missing, and the whole of `pnpm check` passed. The review stage caught it and rejected the
+  change as a weakened test. That was luck of a good review, not a guarantee, so two things
+  changed. The guard tests (`recorded.test.ts`, the names ratchet, `demo/`, the root
+  `package.json` and `biome.json`) are in `may_not_change`, so a change that touches them is
+  discarded whole by code. And the agent's own gate is now `pnpm check:unrecorded`, which
+  leaves the recorded replay out, so it is never pushed to fake it; the loop's gate is still
+  the whole check, and a change that fails only the replay becomes a draft with a re-record
+  owed.
+- **The pass budget fired for real.** Two plans used 2.4 and 3.5 million tokens by the agent
+  CLI's count, and the pass stopped before the third issue, which was picked up by the next.
+  A plan reads a lot of code and every turn re-sends it; the limits in `loop.json` are now
+  known to be about two tool stages a pass.
+- Triage sent `think` to `content` where a person might have said `mechanism`, and its plan
+  maps it to `wait`. Harmless, thin, and a person's call on the pull request.
+
 Still never run: the `pr` stage's model call and its posting of replies (there were no findings
 to answer); a build that fails its gate and is retried with the failure as its note; a change
 that breaks the recorded replay; intake from a handed-in night (issue #4 was filed by hand, in

@@ -11,6 +11,12 @@ Rules that are checked by code after you finish, so breaking them wastes the att
 - The count of character names in engine files is ratcheted by
   `packages/inn/test/design.test.ts`. Do not raise it, and do not edit that test's numbers
   upward.
+- Some tests are guards and are outside your bounds: `packages/inn/test/recorded.test.ts`, the
+  ratchet in `packages/inn/test/design.test.ts`, and everything under `demo/`. A change that
+  touches them is discarded whole. Your gate is `pnpm check:unrecorded`, which leaves the
+  recorded replay out: if your change alters content or a slice, that test will fail, that is
+  expected, and you say so in your last message. Never make a test pass by changing what it
+  checks.
 - Do not commit, push, open a pull request or touch git configuration. The loop does that.
 - Do not read or create `.env`, and do not call any network service. If the recorded replay
   test (`recorded.test.ts`) fails because a slice, question or content changed, leave it
