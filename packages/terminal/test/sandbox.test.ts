@@ -8,6 +8,7 @@ import {
   agentModels,
   containerFlags,
   NO_KEY,
+  OWNED,
   type Profile,
   type SandboxConfig,
   toolStagesAllowed,
@@ -53,6 +54,8 @@ describe("every container", () => {
       expect(flags).toContain("--memory=6144m");
       expect(flags).toContain("--cpus=4");
       expect(flags[flags.indexOf("--user") + 1]).toBe("1000:1000");
+      // Marked as the loop's own, which is the only thing a sweep goes by.
+      expect(flags[flags.indexOf("--label") + 1]).toBe(OWNED);
     });
 
   for (const profile of PROFILES)
