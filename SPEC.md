@@ -81,16 +81,19 @@ Every source ends in effects, code validates them, and only validated effects re
 - A decision is made on a snapshot and carries structured preconditions.
 - At commit, code re-checks hard preconditions. Jev runs a freshness Noul on soft ones. A stale decision is dropped or re-decided.
 - The same mechanism serves 100 ms NPC decisions and minutes-old author proposals.
+- **A hard precondition is a version.** Each row a decision read carries a version; the request records the versions it saw, and the commit reducer compares them with the rows as they are now. S0 built this: 25 of 25 decisions made stale on purpose were rejected and logged as dropped, none applied, and the whole request-and-commit loop adds about 4 ms at the median to the judge's latency.
+- **Reducers check who calls them.** SpacetimeDB lets any client call any reducer, so rule 1 is not enforced by the server alone. Every reducer that is not a player intent starts by checking `ctx.sender` against a private table of worker identities; only the identity that published the module can add or remove one; scheduled reducers check that the sender is the module's own identity. Anonymous SQL writes are refused and private tables are invisible without any help from us. Authenticating players and rate-limiting the open intents is a multiplayer question (section 17).
 
 **Temporal graph**
 
 Claims, beliefs, relationships, rumor paths and cause chains are one bitemporal graph, stored as ordinary tables. No database we looked at provides this natively, so we model it.
 
-- The edge shape is `edge(src, dst, kind, valid_from, valid_to, known_from, cause_id)`.
+- The edge shape is `edge(src, dst, kind, valid_from, valid_to, known_from, cause_id)`. An open row's `valid_to` is the largest 64-bit integer, not null, so the column is a plain indexed integer in SpacetimeDB and in the fallback alike.
 - Valid time is when a fact was true in the world. Known time is when a given NPC learned it. Rumors and stale beliefs run on the gap.
 - Rows are never overwritten. A reducer closes the old row by setting `valid_to` and inserts a new one.
 - Past world states come from replaying the event log, not from a database feature.
 - Queries this serves: what Mara believed on day 12, why the smith is a bandit, how a rumor reached the baron, and the author's digest of recent salient changes.
+- **Every decision-path query starts from an index that leads to one entity's rows**: `(src, kind)` for what someone believes. The time bounds are then a filter over that entity's few hundred rows, because there is no interval index. S0 measured 0.1 to 0.4 ms for "what did X believe at T, as known at K" at a million rows this way, flat in table size, and 188 ms for the same question without the index, during which the world is stopped. A question that starts from the other end ("who believed this claim") gets its own index or goes to the archive.
 - **Hot and archive rows.** NPC decisions read only current-valid rows. Closed rows feed an archive used by the author digest and the cause debugger, which may be eventually consistent. No decision ever scans the full history.
 
 **Effect vocabulary**
@@ -291,6 +294,8 @@ An event does not cascade instantly; it creates debts that come due over time. J
 - A debt is `{cause id, stakeholder, kind, magnitude, fuse}`.
 - Player actions and author events feed the same ledger, so the world's agenda and the player's consequences wait in one queue.
 - Delayed payoff spreads cost across turns and bounds the frontier by construction.
+- **Debts are rows with a due time, drained in order.** One repeating scheduled reducer wakes every 20 ms, reads the debt table through an index on `(due, id)`, takes at most 500 due rows and applies them. Firing order is therefore ours, and it is the order the log records (rule 9). S0 found that one scheduled row per debt is not usable: it dropped nothing up to 100,000 at once, but it fires in reverse insertion order whatever the due times, a client's call arriving during a burst waits for the rest of it (1.95 s at 100,000), and a fuse whose reducer throws is consumed without a retry. The drained table kept order, lost nothing, and never made a client wait more than 16 ms while 100,000 debts drained.
+- **A debt that cannot be applied is settled as dropped by code**, with its reason in the log, never lost to an exception. This is what the PoC's `settle_debt` with status `cancelled` already does.
 
 **Propagation by stake, through witnesses**
 
@@ -450,6 +455,7 @@ The event log is the save file, and replaying it never calls a model. Jev's answ
 - **A fake Jev for tests.** Recorded answers replay by request hash, so unit tests run offline and deterministically. The request id is the slice hash plus a hash of the questions. A request that was never recorded fails the test by name, which is how a changed slice or a reworded question shows up. The cost is that every such change means re-recording the demo (about $0.002).
 - **Time words must not leak into hashes.** A slice that said "a short while ago" changed hash as the clock moved, and the guard, which is re-asked whenever its slice changes, was re-asked for nothing. Slices that gate on their hash use coarse time ("tonight", "at dusk").
 - **`why` shows the dice.** The log holds the judge's odds and the draw separately. Showing "believes yes 0.77" beside "doubts it" is confusing until the draw (0.81) is printed next to it.
+- **The archive is the save, and the hot database is a window on it.** Every row lives in the server's memory: about 215 MB per million edge rows measured in S0, and an estimated 335 MB per million log rows. Space freed by deleting rows is reused but not returned until a restart, and a restart replays the server's whole commit log (6 to 17 s for 3 to 4 million row operations). So an archive worker, shaped like the Jev worker, runs from the start: it reads the oldest closed edges and log rows, appends them to the archive, confirms the write, and only then deletes them through a reducer, 2,000 rows a call (about 16 ms, because a reducer holds the world while it runs). It archives by count, not by date: at most 250,000 closed edges and 500,000 log rows stay hot, about 250 MB above an empty server. Closed rows stay hot for seven game days so that `why` and NPCs citing causes do not need the archive for recent events; open rows are never archived. Rule 9 replays our event log, not the server's commit log, so the hot database can be rebuilt from the archive, which is also how the server's own log is truncated.
 - **The token estimator** used by the budget test was fitted to M0's 83 distinct requests: 0.355 times the characters of state and questions, plus 240 per request and 5 per question (RMS error 24 tokens).
 
 **Telemetry worth keeping**
@@ -558,7 +564,7 @@ A second spike of similar size decides the world server. It is a small TypeScrip
 
 If S0 fails, the fallback is a Node server with embedded SurrealDB. Table schemas are kept identical on purpose, so the fallback is a swap and not a rewrite.
 
-**Result, 2026-09-18:** SpacetimeDB holds, with three conditions. Measured on a local standalone server (2.10.1, Windows, loopback, a fake judge drawing M0's latencies). The request-and-commit loop adds about 4 ms at the median to the judge's latency, and 25 of 25 decisions made stale on purpose were rejected at commit and logged as dropped. A subscription to rows near a position costs one 145-byte message and about 3 ms per visible change, and nothing for a change outside the window. The bitemporal belief query takes 0.1 to 0.4 ms at a million rows when an index leads to the NPC, and 188 ms when it does not. The conditions: (1) debts are rows drained in `(due, id)` order by one repeating scheduled reducer, because one scheduled row per debt, though it dropped nothing up to 100,000 at once, fires in reverse insertion order, makes a client's call wait out the burst (1.95 s at 100,000) and silently loses a fuse that throws; (2) an archive worker exists from the start, because a million edge rows cost about 215 MB of server memory and freed space is reused but not returned; (3) every reducer that is not a player intent checks its caller against an allow-list of worker identities, because any client can call any reducer; this one was built in the spike and measured: unregistered callers are refused with nothing written, player intents stay open, only the publisher can register a worker, and the check adds no measurable cost to the loop. Not measured: a browser client, Linux, a tick that changes hundreds of subscribed rows at once, hours of load, and the fallback itself. S0 is closed; details and the proposed changes to sections 4, 9 and 18 are in `spikes/s0-spacetimedb/FINDINGS.md`. Those changes are not yet made here.
+**Result, 2026-09-18:** SpacetimeDB holds, with three conditions. Measured on a local standalone server (2.10.1, Windows, loopback, a fake judge drawing M0's latencies). The request-and-commit loop adds about 4 ms at the median to the judge's latency, and 25 of 25 decisions made stale on purpose were rejected at commit and logged as dropped. A subscription to rows near a position costs one 145-byte message and about 3 ms per visible change, and nothing for a change outside the window. The bitemporal belief query takes 0.1 to 0.4 ms at a million rows when an index leads to the NPC, and 188 ms when it does not. The conditions: (1) debts are rows drained in `(due, id)` order by one repeating scheduled reducer, because one scheduled row per debt, though it dropped nothing up to 100,000 at once, fires in reverse insertion order, makes a client's call wait out the burst (1.95 s at 100,000) and silently loses a fuse that throws; (2) an archive worker exists from the start, because a million edge rows cost about 215 MB of server memory and freed space is reused but not returned; (3) every reducer that is not a player intent checks its caller against an allow-list of worker identities, because any client can call any reducer; this one was built in the spike and measured: unregistered callers are refused with nothing written, player intents stay open, only the publisher can register a worker, and the check adds no measurable cost to the loop. Not measured: a browser client, Linux, a tick that changes hundreds of subscribed rows at once, hours of load, and the fallback itself. S0 is closed; details are in `spikes/s0-spacetimedb/FINDINGS.md`. The go and its three conditions were accepted on 2026-09-18 and are written into sections 4, 9, 13 and 18.
 
 ## 16. Milestones
 
@@ -607,6 +613,7 @@ These are unverified or undecided. Each names what settles it.
 - [x] How much of an NPC's reacting is content, and how much is engine? The PoC's engine named characters: each reaction was a code path with a name in it, added after a playtest showed a gap, which is the pattern to stop. **Settled, 2026-09-18:** all of them were rebuilt as dispositions in content over one reaction pipeline (section 9), inside the existing `pick_action` and `pick_speech_act` families, so the backlog family "reactions and appraisal" (section 14) was not needed for this. The named versions were deleted. The six routes, re-measured live at ten seeds each, came out as before: evidence 9 of 10 (was 9), exposing the culprit 10 of 10 (was 10), a witness 6 of 10 (was 6, then 5; that route turns on two dice), and 0 of 10 for the bare return, denial and threats. The first re-measurement did not: the witness route fell to 0 and exposing the culprit to 2, because the named code had let people tell someone in another room and do three things in one instant, and because speaking up had been tied to a tale still being guarded. The general rules in section 9 fixed both (same-pass consequences, a new errand supersedes the old, speaking up is for someone); the route scripts were not changed. Character names in engine files went from 101 to 35, held by a ratchet test. Not settled by this: stance is still code derived from drives (appraisal stays on the backlog), and NPCs do not yet choose by the needs graph (section 4); only the player attempts things.
 - [ ] Full combat rules. M2 ships only the stub in section 5.
 - [ ] How time runs in multiplayer: real-time, world ticks, or per-location clocks. Grid movement with turns or ticks hides Jev's latency, so that is the current lean. Needed before M5.
+- [ ] How players are authenticated, and how the open player-intent reducers are rate-limited. S0 closed every other reducer to anyone but registered workers; the intents are open by design. Needed before M5.
 - [ ] Hosting and who pays for Jev and Claude per player. A subscription login suits development; serving other players from it needs checking against usage limits and Anthropic's terms. Needed before M5.
 - [x] How do scheduled reducers in a TypeScript module behave under load? Settled by S0: they do not drop and they survive a restart, but they fire in reverse insertion order within a wake-up, as a block that client calls queue behind, and a throwing one is consumed without a retry. The reviewer's pipelining report is confirmed. Use one repeating reducer that drains a debt table in bounded batches.
 - [x] Are SpacetimeDB procedures stable? Settled by S0 as stable enough and not needed: in 2.10.1 a TypeScript procedure compiled, hot-published over a million rows and answered correctly in 2 ms. Workers still make every outbound call.
@@ -620,37 +627,40 @@ These are unverified or undecided. Each names what settles it.
 
 ## 18. Technology
 
-TypeScript runs everywhere, the world lives in SpacetimeDB, and every model call is made by a worker outside it. Rows marked pending depend on spike S0.
+TypeScript runs everywhere, the world lives in SpacetimeDB, and every model call is made by a worker outside it. Spike S0 settled the rows that were pending on it (section 15).
 
 | Layer | Choice | Status |
 | --- | --- | --- |
 | Language | TypeScript (strict), pnpm monorepo | Decided |
-| World server | SpacetimeDB, TypeScript module, reducers as the only write path | Pending S0 |
+| World server | SpacetimeDB 2.10.x, TypeScript module, reducers as the only write path, each checking its caller (section 4) | Decided by S0 |
 | World data model | Bitemporal graph in ordinary tables (section 4) | Decided |
-| Event log | Our own append-only table; old closed rows archived out of memory | Decided; policy from S0 |
-| Timers | SpacetimeDB scheduled reducers for debt fuses and expiries | Documented; behaviour under load pending S0 |
+| Event log | Our own append-only table; the archive is the save and the hot table a window on it (section 13) | Decided; policy from S0 |
+| Timers | One repeating scheduled reducer draining a debt table in `(due, id)` order, 500 per 20 ms tick. Not one scheduled row per debt (section 9) | Decided by S0 |
 | Schemas | Zod for effects, proposals and messages | Decided |
 | RNG | Our own seeded PRNG, state stored in the log | Decided |
 | Decisions | Jev via `@typesafe-ai/sdk`, pinned to `jev-1.13.0` | Decided |
-| Jev worker | Node process and SpacetimeDB client: reads `decision_request`, calls Jev, commits through a reducer | Pending S0 |
+| Jev worker | Node process and SpacetimeDB client: reads `decision_request`, calls Jev, commits through a reducer that re-checks row versions. Needs a cap on requests in flight and a timeout path | Decided by S0 |
+| Archive worker | Node process and SpacetimeDB client: moves closed edges and old log rows out of memory by count, in 2,000-row batches; a file per game day until a query becomes painful | Decided by S0, built with the world server |
 | Author worker | Node process that runs the Claude CLI in headless mode on the subscription login; no Anthropic API key. Writes to the proposal inbox table | Decided, built at M3 |
 | Model routing | One routing seam that picks the CLI's model per call. Fixed two-model rule at M3; Switchyard's Jev cost policy as the chooser once outcome labels exist | Staged |
 | Player parser | Deterministic verb and scope matcher first, Jev on the remainder | Decided |
 | Slice compiler | Schema per Jev state: required paths, token budget, hash | Decided |
 | Main client | Browser, Vite, raw WebGL2, `gl-matrix`, no engine (section 19) | Decided |
-| State sync | SpacetimeDB TypeScript client SDK; subscribe to rows near the player | Pending S0 |
+| State sync | SpacetimeDB TypeScript client SDK; subscribe to rows near the player, one query per map cell so that moving re-sends only the new cells. Measured with a Node client only | Decided by S0; browser not measured |
 | Terminal client | Node readline view of the same state; first playable, then a debug tool | Decided |
 | Desktop and Steam | Tauri or Electron wrapper | Later |
 | Tests | Vitest, fake Jev by request hash, replay tests | Decided |
 | Lint and format | Biome | Decided |
 | Graph projection | SurrealDB or Raphtory fed from the event log, for the author digest and the cause debugger | Only when a query becomes painful |
-| Fallback server | Node with embedded SurrealDB, same table shapes | Only if S0 fails |
+| Fallback server | Node with embedded SurrealDB, same table shapes. Not needed: S0 passed. Not compared either, so this says SpacetimeDB is good enough, not that it is better | Shelved |
 
 ```mermaid
 flowchart LR
   B[Browser client<br/>WebGL2] -->|subscribe| S[SpacetimeDB module<br/>reducers + tables]
   T[Terminal client] -->|subscribe| S
   J[Jev worker] <-->|request / commit| S
+  R[Archive worker] <-->|read closed rows / delete| S
+  R --> F[(Archive: the save)]
   A[Author worker] -->|proposal inbox| S
   J --> TS[TypeSafe API]
   A --> W[Switchyard]
@@ -659,6 +669,8 @@ flowchart LR
 ```
 
 Clients and workers are all SpacetimeDB clients. Only reducers write.
+
+**What the SpacetimeDB SDK needs from the build.** Its types collapse to `never` under `exactOptionalPropertyTypes`, and it needs `moduleResolution: bundler`, so the world-server package carries a tsconfig of its own with those two exceptions to the base. Generated client bindings import without file extensions and are patched after every generate. The CLI's default server is their cloud; every command passes `--server` explicitly.
 
 **Switchyard**
 

@@ -173,7 +173,7 @@ How fast closed rows arrive is not something this spike could measure, because t
 
 ## Proposed SPEC changes
 
-Not applied by the spike; SPEC.md was left alone.
+The spike left SPEC.md alone. The go and its three conditions were accepted by the owner on 2026-09-18, and the changes below are now in SPEC.md sections 4, 9, 13, 17 and 18.
 
 - **Section 4, Concurrency.** Add: every reducer that is not a player intent checks `ctx.sender` against an allow-list of worker identities, kept in a private table that only the publishing identity (captured in `init`) can change; scheduled reducers require the database's own identity as sender. S0 built and measured this. Tying an identity to a player, and rate-limiting the open intents, is a separate question for M5. Add: a decision's hard precondition is a version on the rows it read, compared at commit; this is what S0 built.
 - **Section 4, Temporal graph.** State that an open row's `valid_to` is the largest i64, not null, so the column is a plain indexed integer in both servers. State the index rule: every decision-path query starts from an index that leads to one entity's rows, `(src, kind)` for beliefs; a question that starts from the other end gets its own index or goes to the archive.
