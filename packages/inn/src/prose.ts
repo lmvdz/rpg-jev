@@ -134,6 +134,7 @@ const VOICE: Record<string, Lines> = {
     confide: ["This stays at this bar. {cite} {c} {when}."],
     refuse: ["I've nothing to say to you about that.", "No. And don't ask me twice."],
     threaten: ["One more word like that and you sleep in the ford."],
+    insult: ["I have had better manners from the pig."],
     offer: ["Put my ledger on this bar by midnight and there's no more said. That's the offer."],
     promise: ["I'll look into it. Tonight.", "I'll have that out with him myself. Tonight."],
     request: ["Turn out your pack. Now, on the bar, where I can see it."],
@@ -149,6 +150,7 @@ const VOICE: Record<string, Lines> = {
     ],
     refuse: ["It's not my place to say.", "I don't... no. I can't. Sorry."],
     threaten: ["You stay back. I'll shout for her, I will."],
+    insult: ["You... you're no better. Everyone says so."],
     offer: ["I've nothing to give you. I wish I had."],
     promise: ["I'll tell her. I will. Just... let me find the words."],
     request: ["Leave it be. Please."],
@@ -168,6 +170,7 @@ const VOICE: Record<string, Lines> = {
     confide: ["All right. All right. {cite} {c} {when}. Happy? Keep your voice down."],
     refuse: ["Ha! I've a pot to mind.", "Can't hear you over the onions, friend."],
     threaten: ["Careful. Knives are sharp in a kitchen, and floors are slippery."],
+    insult: ["Big words from a man who sleeps in a borrowed bed."],
     offer: ["There's silver in it if you let this lie. Not much. Enough."],
     promise: ["Of course, of course. Leave it with me."],
     request: ["Do an old cook a kindness and keep out of my kitchen."],
@@ -286,7 +289,7 @@ export function renderTurn(world: World, turn: Turn): string {
 
 const SILENCE: Record<string, readonly string[]> = {
   [MARA]: [
-    "Mara looks at you for a long moment and goes on polishing the same tankard.",
+    "Mara looks at you for a long moment and says nothing.",
     "Mara says nothing. Her eyes do not leave your hands.",
   ],
   [TOBIN]: [

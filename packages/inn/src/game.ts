@@ -324,6 +324,10 @@ export class Game {
     } else if (claim.predicate === "attacked" || claim.predicate === "threatened") {
       const mine = claim.to === holder;
       this.nudge(holder, { fear: mine ? 0.3 : 0.15, trust: -0.2, suspicion: 0.15 }, cause);
+    } else if (claim.predicate === "insulted") {
+      // An insult costs standing, not safety: trust goes, and the insulted owe nothing.
+      const mine = claim.to === holder;
+      this.nudge(holder, { trust: mine ? -0.25 : -0.05, obligation: mine ? -0.1 : 0 }, cause);
     } else if (WRONGDOING.includes(claim.predicate)) {
       this.nudge(holder, { suspicion: 0.05 * claim.severity, trust: -0.05 }, cause);
     } else if (claim.predicate === "handed_over" || claim.predicate === "pack_was_clean") {

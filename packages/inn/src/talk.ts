@@ -14,6 +14,7 @@ import {
   makeClaim,
   persuadability,
   resolve,
+  resolveBlow,
   type SpeechAct,
   type SpeechIntent,
   stanceOf,
@@ -354,6 +355,8 @@ interface Reply {
   option: Option;
   act: SpeechAct;
   topic: SpeechIntent["topic"];
+  /** A reply that is a deed, not words. Code carries it out (see `doDeed`). */
+  deed?: "throw_out" | "strike" | "walk_out";
 }
 
 export const guarded = (g: Game, holder: string, c: Claim): boolean => {
@@ -422,6 +425,29 @@ const ASK_WHERE_FROM = plain(
 const ASK_VOUCH = plain("ask_vouch", "ask", "Asks who can vouch for that", "vouch");
 const GREET = plain("greet", "greet", "Returns the greeting and no more");
 const THREATEN = plain("threaten", "threaten", "Threatens the stranger");
+const RETORT = plain("retort", "insult", "Gives the stranger as good as they got, to their face");
+const WALK_OUT: Reply = {
+  option: { id: "walk_out", description: "Turns their back and leaves the room" },
+  act: "refuse",
+  topic: { kind: "none" },
+  deed: "walk_out",
+};
+const STRIKE: Reply = {
+  option: { id: "strike", description: "Hits the stranger" },
+  act: "threaten",
+  topic: { kind: "none" },
+  deed: "strike",
+};
+/** Only the one whose house it is can put someone out of it. A role is a power, not a name. */
+const THROW_OUT: Reply = {
+  option: {
+    id: "throw_out",
+    description: "Puts the stranger out of the house, into the rain, tonight",
+  },
+  act: "threaten",
+  topic: { kind: "none" },
+  deed: "throw_out",
+};
 
 type Situation =
   | {
@@ -539,8 +565,13 @@ function replies(g: Game, npc: string, s: Situation): Reply[] {
       break;
     }
     case "threatened":
-    case "insulted":
       out.push(REFUSE, THREATEN, ...accuse);
+      break;
+    case "insulted":
+      // Words are not the only answer to an insult. What the judge may choose from is
+      // built from what this person can do; what they will do is the judge's.
+      out.push(REFUSE, RETORT, THREATEN, WALK_OUT, STRIKE);
+      if (g.world.actors[npc]?.role === "innkeeper") out.push(THROW_OUT);
       break;
     case "interject":
       out.push(...accuse, THREATEN);
@@ -879,12 +910,70 @@ export async function playerSpeaks(
   else {
     const chosen = g.sampleChoice(answer, `${npc} reply`, decision.id);
     const reply = pool.find((r) => r.option.id === chosen);
-    if (reply) g.intent(npc, PLAYER, reply.act, reply.topic, 3, decision.id);
+    if (reply?.deed) doDeed(g, npc, reply.deed, decision.id);
+    else if (reply) g.intent(npc, PLAYER, reply.act, reply.topic, 3, decision.id);
     else g.say(silence(g.world, npc));
   }
   settleBystanders(g, bystanders, noticed, decision.answers, decision.id);
   g.speak((turn, id) => afterSpeech(g, turn, id));
   return 3;
+}
+
+/** A reply that is done rather than said. Every number here is code. */
+function doDeed(g: Game, npc: string, deed: NonNullable<Reply["deed"]>, cause: LogId): void {
+  const name = nameOf(g.world, npc);
+  if (deed === "walk_out") {
+    const exits = g.world.rooms[g.playerRoom]?.exits.filter((e) => !e.door) ?? [];
+    const to = exits[0]?.to;
+    if (!to) return;
+    g.say(`${name} looks at you, turns, and walks out.`);
+    g.commit(
+      {
+        kind: "apply_override",
+        group: [npc],
+        entry: {
+          id: `walked_out_${cause}`,
+          activity: "keeping_clear",
+          at_location: to,
+          at: g.world.clock,
+          until: g.world.clock + 30,
+          cause: null,
+        },
+      },
+      cause,
+    );
+    g.commit({ kind: "move", actor: npc, to, activity: "keeping_clear" }, cause);
+    return;
+  }
+  if (deed === "throw_out") {
+    g.say(`${name} takes you by the collar and walks you to the yard door. It is still raining.`);
+    g.commit(
+      { kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" },
+      cause,
+    );
+    return;
+  }
+  const blow = resolveBlow(
+    g.store.draw("npc hit", cause),
+    g.store.draw("npc damage", cause),
+    false,
+  );
+  g.say(
+    blow.hit ? `${name} hits you, hard, before you can move.` : `${name} swings at you and misses.`,
+  );
+  if (blow.hit) g.commit({ kind: "damage", target: PLAYER, amount: blow.damage }, cause);
+  const struck = g.happened(
+    { subject: npc, predicate: "attacked", to: PLAYER, severity: 2 },
+    cause,
+  );
+  g.witness(struck, g.playerRoom, cause, [npc]);
+  if ((g.world.actors[PLAYER]?.hp ?? 1) <= 0) {
+    g.say("The floor comes up to meet you.");
+    g.commit(
+      { kind: "set_node", target: { type: "machine", id: "quest" }, to: "thrown_out" },
+      cause,
+    );
+  }
 }
 
 function bargain(g: Game, action: Say, answer: JudgeAnswer | undefined, cause: LogId): void {

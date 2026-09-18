@@ -395,3 +395,45 @@ describe("any verb on anything", () => {
     expect(out).toContain("that is nourishment for the house, and nourishment is for coin");
   });
 });
+
+describe("an insult is answered with more than words", () => {
+  /** The parse, scripted: the line is an insult aimed at `who`; the reply is `reply`. */
+  const insulting =
+    (who: string, reply: string): Script =>
+    (id, request) => {
+      if (id === "mode") return choose(request, id, ["in_story"]);
+      if (id === "verb") return choose(request, id, ["insult"]);
+      if (id === "target") return choose(request, id, [who]);
+      if (id === "reply") return choose(request, id, [reply]);
+      return gossipy(id, request);
+    };
+
+  it("lets the innkeeper put the stranger out, and lets anyone walk out", async () => {
+    const thrower = insulting("mara", "throw_out");
+    const { game } = scripted(thrower);
+    const out = await play(game, ["mara, you are a fat old fool"]);
+    expect(out).toContain("takes you by the collar");
+    expect(game.over).toBe(true);
+
+    const second = scripted(insulting("mara", "walk_out")).game;
+    const before = second.world.actors.mara?.room;
+    await play(second, ["mara, you are a fat old fool"]);
+    expect(second.world.actors.mara?.room).not.toBe(before);
+    // Trust is what an insult costs; the numbers are code, so they are exact.
+    expect(second.world.actors.mara?.drives.trust).toBeLessThan(
+      scripted(gossipy).game.world.actors.mara?.drives.trust ?? 1,
+    );
+  });
+
+  it("offers a cook no power to throw anyone out", async () => {
+    const seen: string[][] = [];
+    const spy: Script = (id, request) => {
+      if (id === "reply") seen.push(Object.keys(request.questions[id]?.question.criteria ?? {}));
+      return insulting("odo", "retort")(id, request);
+    };
+    const { game } = scripted(spy);
+    await play(game, ["go kitchen", "odo, you are a fat old fool"]);
+    expect(seen.at(-1)).toContain("retort");
+    expect(seen.at(-1)).not.toContain("throw_out");
+  });
+});
