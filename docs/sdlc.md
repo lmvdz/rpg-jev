@@ -232,8 +232,21 @@ around`), found the failure that matters most and one rule doing its job:
 - Triage sent `think` to `content` where a person might have said `mechanism`, and its plan
   maps it to `wait`. Harmless, thin, and a person's call on the pull request.
 
-Still never run: the `pr` stage's model call and its posting of replies (there were no findings
-to answer); a build that fails its gate and is retried with the failure as its note; a change
-that breaks the recorded replay; intake from a handed-in night (issue #4 was filed by hand, in
-intake's format); `pnpm sdlc run` unattended; a stage stopping after three silences, and a pass stopping on its budget (both are tested as rules, neither has happened). Taking over a dead pass's lock, sweeping its containers, respecting a live lock and holding tool stages when the engine does not answer were each run once for real. The half that drives `git`, `gh`, `podman` and
-the agent CLI has no tests of its own; the pure half has them.
+- **The re-record path ran end to end, after three more fixes it needed.** With the guards in
+  place the onion build failed honestly (only the replay). The loop misread that as a failed
+  attempt, because the test runner's output has colour codes after `FAIL`; the gate reader now
+  strips styling. Review then answered with a bare JSON object, which was read as no answer, and
+  its verdict was `revise` because the replay fails, which nobody had told it is expected. The
+  reader now accepts a bare object, and review is told what the gate found. After that: build
+  ok with a re-record owed, review approved, draft pull request #17. A person re-recorded on
+  that branch (one live run, $0.0022) and marked it ready.
+
+Every one of these was found by watching a pass, none by reading the code. That is the
+argument for more supervised passes before an unattended one.
+
+Still never run: the `pr` stage's model call and its posting of replies (no reviewer has yet
+left a finding on a loop pull request); a build that fails its gate for an ordinary reason and
+is retried with the failure as its note; a stage stopping after three silences in a row;
+intake from a handed-in night (issues so far were filed by hand, in intake's format);
+`pnpm sdlc run` unattended. The half that drives `git`, `gh`, `podman` and the agent CLI has
+no tests of its own; the pure half has them.
