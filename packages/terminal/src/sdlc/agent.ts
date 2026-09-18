@@ -8,7 +8,7 @@ import { spawnSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { journal, type LoopConfig, workDir } from "./env.ts";
-import type { AgentStage } from "./flow.ts";
+import { type AgentStage, withoutSecrets } from "./flow.ts";
 
 export interface Reply {
   ok: boolean;
@@ -70,6 +70,7 @@ export function askAgent(o: {
   // `readConfig` has checked, or a path quoted here, so the line is safe to hand to a shell.
   const ran = spawnSync(["prime-agent", ...args].join(" "), {
     cwd: o.cwd,
+    env: withoutSecrets(process.env, agent.env_keep ?? []),
     encoding: "utf8",
     shell: true,
     timeout: (agent.build.timeout_minutes + 5) * 60_000,

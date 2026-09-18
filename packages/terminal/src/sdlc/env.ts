@@ -37,6 +37,8 @@ export interface LoopConfig {
     agent: {
       provider: string;
       models: Record<AgentStage, string>;
+      /** Environment variables the model's CLI needs although they look like credentials. */
+      env_keep?: string[];
       build: { max_turns: number; max_tokens: number; timeout_minutes: number };
     };
   };

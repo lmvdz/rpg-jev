@@ -19,6 +19,7 @@ import {
   snagKey,
   stageLabel,
   stageOf,
+  withoutSecrets,
 } from "../src/sdlc/flow.ts";
 
 const REPORT = [
@@ -163,6 +164,30 @@ describe("reading a model's answer", () => {
       tokens: 15,
     });
     expect(readReply("plain text")).toEqual({ text: "plain text", tokens: 0 });
+  });
+});
+
+describe("what a model's process is started with", () => {
+  it("leaves out anything that looks like a credential, unless the config keeps it", () => {
+    const env = {
+      PATH: "/bin",
+      HOME: "/home/x",
+      GH_TOKEN: "a",
+      GITHUB_TOKEN: "b",
+      TYPESAFE_API_KEY: "c",
+      ANTHROPIC_API_KEY: "d",
+      NPM_CONFIG_PASSWORD: "e",
+      SSH_PRIVATE_KEY: "f",
+      PROVIDER_KEY: "g",
+      KEYBOARD_LAYOUT: "us",
+      UNSET: undefined,
+    };
+    expect(withoutSecrets(env, [])).toEqual({
+      PATH: "/bin",
+      HOME: "/home/x",
+      KEYBOARD_LAYOUT: "us",
+    });
+    expect(withoutSecrets(env, ["PROVIDER_KEY"]).PROVIDER_KEY).toBe("g");
   });
 });
 

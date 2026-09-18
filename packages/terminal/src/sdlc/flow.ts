@@ -179,6 +179,25 @@ export function lastJson(text: string): Record<string, unknown> | null {
 }
 
 /** A value is only accepted from a closed list; anything else is `fallback`. */
+/** Names that look like they hold a credential. A model's process is started without them. */
+const LOOKS_SECRET = /TOKEN|SECRET|PASSWORD|PASSWD|CREDENTIAL|API_?KEY|PRIVATE_?KEY|_KEY$/i;
+
+/**
+ * The environment a model's process gets: everything except what looks like a credential,
+ * unless the config says the model's own CLI needs it. This is hygiene, not containment: a
+ * stage with tools can still read files. It keeps a runner's tokens (a CI job has several)
+ * out of reach of a stage that was never meant to use them.
+ */
+export function withoutSecrets(
+  env: Readonly<Record<string, string | undefined>>,
+  keep: readonly string[],
+): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [name, value] of Object.entries(env))
+    if (value !== undefined && (keep.includes(name) || !LOOKS_SECRET.test(name))) out[name] = value;
+  return out;
+}
+
 export const oneOf = <T extends string>(value: unknown, allowed: readonly T[], fallback: T): T =>
   allowed.find((a) => a === value) ?? fallback;
 

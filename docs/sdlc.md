@@ -70,6 +70,11 @@ review stop a bad change from being *proposed*. They do not stop a bad command f
 *run*. Turning `allow_tool_stages` on is accepting that, or having first put the loop somewhere
 it does not matter: a container or VM with no credentials beyond a repository-scoped token.
 
+Every model process, in every stage, is started without environment variables that look like
+credentials (`TOKEN`, `SECRET`, `PASSWORD`, `API_KEY` and the like), unless `sdlc.agent.env_keep`
+names one the model CLI needs. That is hygiene for runners whose environment holds tokens, such
+as a CI job. It is not containment: a stage with tools can still read files.
+
 The rest of the `sdlc` block: `base_branch`, `worktree_root`, `trusted_authors`,
 `max_build_attempts`, and per stage the `prime-agent` provider and model, with the build
 stage's turn, token and time limits. The loop's own files, its prompts and `.claude` are in
