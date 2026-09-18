@@ -1,0 +1,474 @@
+{
+  "at": "2026-09-18T06:56:45.936Z",
+  "shape": {
+    "claimsPerSrc": 10,
+    "versionsPerClaim": 10,
+    "rowsPerSrc": 100
+  },
+  "queries": [
+    {
+      "edges": 1000,
+      "memory": {
+        "workingSetMb": 81,
+        "privateMb": 63
+      },
+      "correct": {
+        "rowsAtKnown": 10,
+        "rowsBeforeLearned": 0
+      },
+      "pingRttMs": {
+        "n": 200,
+        "min": 1.63,
+        "p50": 2.45,
+        "p90": 4.39,
+        "p99": 8.25,
+        "max": 15.84,
+        "mean": 3
+      },
+      "reducerIndexedRttMs": {
+        "n": 200,
+        "min": 0.34,
+        "p50": 0.82,
+        "p90": 2.12,
+        "p99": 5.71,
+        "max": 10.41,
+        "mean": 1.2
+      },
+      "table": {
+        "rows": 0,
+        "rowBytes": 0,
+        "indexKeyBytes": 0
+      },
+      "reducerIndexedServerMeanMs": 0.387,
+      "reducerFullScanRttMs": {
+        "n": 5,
+        "min": 0.89,
+        "p50": 1.9,
+        "p90": 12.06,
+        "p99": 12.06,
+        "max": 12.06,
+        "mean": 4.47
+      },
+      "reducerFullScanServerMeanMs": 0.669,
+      "sqlIndexedServerMs": {
+        "n": 100,
+        "min": 0.06,
+        "p50": 0.16,
+        "p90": 0.28,
+        "p99": 0.55,
+        "max": 0.56,
+        "mean": 0.18
+      },
+      "sqlIndexedClientMs": {
+        "n": 100,
+        "min": 2.32,
+        "p50": 3.7,
+        "p90": 7.39,
+        "p99": 13.73,
+        "max": 18.78,
+        "mean": 4.53
+      },
+      "sqlUnindexedServerMs": {
+        "n": 5,
+        "min": 0.21,
+        "p50": 0.25,
+        "p90": 0.27,
+        "p99": 0.27,
+        "max": 0.27,
+        "mean": 0.25
+      },
+      "subscriptionAppliedMs": {
+        "n": 20,
+        "min": 0.91,
+        "p50": 1.91,
+        "p90": 12.37,
+        "p99": 19.38,
+        "max": 19.38,
+        "mean": 4.35
+      },
+      "subscriptionRows": 10
+    },
+    {
+      "edges": 100000,
+      "memory": {
+        "workingSetMb": 123,
+        "privateMb": 107
+      },
+      "correct": {
+        "rowsAtKnown": 10,
+        "rowsBeforeLearned": 0
+      },
+      "pingRttMs": {
+        "n": 200,
+        "min": 1.4,
+        "p50": 1.77,
+        "p90": 2.05,
+        "p99": 3.46,
+        "max": 4.99,
+        "mean": 1.85
+      },
+      "reducerIndexedRttMs": {
+        "n": 200,
+        "min": 0.31,
+        "p50": 0.54,
+        "p90": 0.87,
+        "p99": 1.2,
+        "max": 2.23,
+        "mean": 0.62
+      },
+      "table": {
+        "rows": 100000,
+        "rowBytes": 12800000,
+        "indexKeyBytes": 3200000
+      },
+      "reducerIndexedServerMeanMs": 0.2,
+      "reducerFullScanRttMs": {
+        "n": 5,
+        "min": 19.39,
+        "p50": 30.05,
+        "p90": 45.76,
+        "p99": 45.76,
+        "max": 45.76,
+        "mean": 33.84
+      },
+      "reducerFullScanServerMeanMs": 33.057,
+      "sqlIndexedServerMs": {
+        "n": 100,
+        "min": 0.08,
+        "p50": 0.16,
+        "p90": 0.28,
+        "p99": 0.37,
+        "max": 0.47,
+        "mean": 0.17
+      },
+      "sqlIndexedClientMs": {
+        "n": 100,
+        "min": 2.1,
+        "p50": 3.42,
+        "p90": 4.71,
+        "p99": 8.08,
+        "max": 10.95,
+        "mean": 3.61
+      },
+      "sqlUnindexedServerMs": {
+        "n": 5,
+        "min": 6.84,
+        "p50": 8.06,
+        "p90": 9.76,
+        "p99": 9.76,
+        "max": 9.76,
+        "mean": 8.24
+      },
+      "subscriptionAppliedMs": {
+        "n": 20,
+        "min": 1.12,
+        "p50": 1.61,
+        "p90": 7.96,
+        "p99": 11.56,
+        "max": 11.56,
+        "mean": 3.29
+      },
+      "subscriptionRows": 10
+    },
+    {
+      "edges": 1000000,
+      "memory": {
+        "workingSetMb": 290,
+        "privateMb": 276
+      },
+      "correct": {
+        "rowsAtKnown": 10,
+        "rowsBeforeLearned": 0
+      },
+      "pingRttMs": {
+        "n": 200,
+        "min": 1.47,
+        "p50": 2.19,
+        "p90": 2.98,
+        "p99": 4.36,
+        "max": 4.67,
+        "mean": 2.25
+      },
+      "reducerIndexedRttMs": {
+        "n": 200,
+        "min": 0.4,
+        "p50": 0.73,
+        "p90": 0.9,
+        "p99": 1.56,
+        "max": 2.08,
+        "mean": 0.73
+      },
+      "table": {
+        "rows": 900000,
+        "rowBytes": 115200000,
+        "indexKeyBytes": 28800000
+      },
+      "reducerIndexedServerMeanMs": 0.228,
+      "reducerFullScanRttMs": {
+        "n": 5,
+        "min": 186.65,
+        "p50": 189.49,
+        "p90": 189.92,
+        "p99": 189.92,
+        "max": 189.92,
+        "mean": 189.05
+      },
+      "reducerFullScanServerMeanMs": 188.356,
+      "sqlIndexedServerMs": {
+        "n": 100,
+        "min": 0.07,
+        "p50": 0.12,
+        "p90": 0.15,
+        "p99": 0.18,
+        "max": 0.44,
+        "mean": 0.13
+      },
+      "sqlIndexedClientMs": {
+        "n": 100,
+        "min": 2.18,
+        "p50": 2.54,
+        "p90": 3.47,
+        "p99": 5.32,
+        "max": 10.19,
+        "mean": 2.82
+      },
+      "sqlUnindexedServerMs": {
+        "n": 5,
+        "min": 37.94,
+        "p50": 40.22,
+        "p90": 81.29,
+        "p99": 81.29,
+        "max": 81.29,
+        "mean": 47.71
+      },
+      "subscriptionAppliedMs": {
+        "n": 20,
+        "min": 1.15,
+        "p50": 1.3,
+        "p90": 7.39,
+        "p99": 12.66,
+        "max": 12.66,
+        "mean": 2.55
+      },
+      "subscriptionRows": 10
+    }
+  ],
+  "growth": [
+    {
+      "edges": 0,
+      "workingSetMb": 72,
+      "privateMb": 60,
+      "seedCallMs": 0
+    },
+    {
+      "edges": 1000,
+      "workingSetMb": 74,
+      "privateMb": 62,
+      "seedCallMs": 12
+    },
+    {
+      "edges": 100000,
+      "workingSetMb": 122,
+      "privateMb": 106,
+      "seedCallMs": 141
+    },
+    {
+      "edges": 200000,
+      "workingSetMb": 144,
+      "privateMb": 128,
+      "seedCallMs": 400
+    },
+    {
+      "edges": 300000,
+      "workingSetMb": 161,
+      "privateMb": 145,
+      "seedCallMs": 554
+    },
+    {
+      "edges": 400000,
+      "workingSetMb": 182,
+      "privateMb": 166,
+      "seedCallMs": 452
+    },
+    {
+      "edges": 500000,
+      "workingSetMb": 199,
+      "privateMb": 183,
+      "seedCallMs": 592
+    },
+    {
+      "edges": 600000,
+      "workingSetMb": 216,
+      "privateMb": 200,
+      "seedCallMs": 679
+    },
+    {
+      "edges": 700000,
+      "workingSetMb": 234,
+      "privateMb": 218,
+      "seedCallMs": 752
+    },
+    {
+      "edges": 800000,
+      "workingSetMb": 257,
+      "privateMb": 241,
+      "seedCallMs": 920
+    },
+    {
+      "edges": 900000,
+      "workingSetMb": 274,
+      "privateMb": 258,
+      "seedCallMs": 494
+    },
+    {
+      "edges": 1000000,
+      "workingSetMb": 291,
+      "privateMb": 275,
+      "seedCallMs": 834
+    }
+  ],
+  "perMillion": {
+    "serverAccountedRowMbPerMillionRows": 122.07,
+    "serverAccountedIndexKeyMbPerMillionRows": 30.52,
+    "rows": 1000000,
+    "closedShare": 0.9,
+    "workingSetMbPerMillionRows": 219,
+    "privateMbPerMillionRows": 215
+  },
+  "subscriptionFollowsChurn": {
+    "closedSeenAsDelete": 1,
+    "insertedSeenAsInsert": 1
+  },
+  "churn": {
+    "closeAndInsertPerSecond": 14599,
+    "callMs": {
+      "n": 100,
+      "min": 6.14,
+      "p50": 6.55,
+      "p90": 7.77,
+      "p99": 10.44,
+      "max": 11.3,
+      "mean": 6.85
+    },
+    "pairsPerCall": 100
+  },
+  "diskMbBeforeArchive": 76,
+  "archive": {
+    "before": {
+      "edges": 1010001,
+      "memory": {
+        "workingSetMb": 296,
+        "privateMb": 281
+      }
+    },
+    "after": {
+      "edges": 100000,
+      "memory": {
+        "workingSetMb": 318,
+        "privateMb": 307
+      }
+    },
+    "archived": 910001,
+    "batchLimit": 20000,
+    "batchCallMs": {
+      "n": 46,
+      "min": 16.18,
+      "p50": 155.24,
+      "p90": 263.48,
+      "p99": 327.58,
+      "max": 327.58,
+      "mean": 159.86
+    },
+    "rowsPerSecond": 121572
+  },
+  "queriesAfterArchive": {
+    "edges": 100000,
+    "memory": {
+      "workingSetMb": 321,
+      "privateMb": 311
+    },
+    "correct": {
+      "rowsAtKnown": 0,
+      "rowsBeforeLearned": 0
+    },
+    "pingRttMs": {
+      "n": 200,
+      "min": 1.41,
+      "p50": 1.72,
+      "p90": 2.39,
+      "p99": 4.72,
+      "max": 15.91,
+      "mean": 1.98
+    },
+    "reducerIndexedRttMs": {
+      "n": 200,
+      "min": 0.22,
+      "p50": 0.43,
+      "p90": 0.59,
+      "p99": 1.89,
+      "max": 2.17,
+      "mean": 0.45
+    },
+    "table": {
+      "rows": 810001,
+      "rowBytes": 103680128,
+      "indexKeyBytes": 25920032
+    },
+    "reducerIndexedServerMeanMs": 0.096,
+    "reducerFullScanRttMs": {
+      "n": 5,
+      "min": 17.91,
+      "p50": 19.56,
+      "p90": 20.46,
+      "p99": 20.46,
+      "max": 20.46,
+      "mean": 19.37
+    },
+    "reducerFullScanServerMeanMs": 18.698,
+    "sqlIndexedServerMs": {
+      "n": 100,
+      "min": 0.06,
+      "p50": 0.08,
+      "p90": 0.09,
+      "p99": 0.13,
+      "max": 0.14,
+      "mean": 0.08
+    },
+    "sqlIndexedClientMs": {
+      "n": 100,
+      "min": 2.06,
+      "p50": 2.42,
+      "p90": 2.62,
+      "p99": 4.37,
+      "max": 5.13,
+      "mean": 2.49
+    },
+    "sqlUnindexedServerMs": {
+      "n": 5,
+      "min": 4.06,
+      "p50": 4.38,
+      "p90": 4.71,
+      "p99": 4.71,
+      "max": 4.71,
+      "mean": 4.37
+    },
+    "subscriptionAppliedMs": {
+      "n": 20,
+      "min": 1.06,
+      "p50": 1.42,
+      "p90": 6.7,
+      "p99": 14.78,
+      "max": 14.78,
+      "mean": 2.82
+    },
+    "subscriptionRows": 0
+  },
+  "refilledAfterArchive": {
+    "edges": 1000000,
+    "memory": {
+      "workingSetMb": 351,
+      "privateMb": 339
+    }
+  },
+  "diskMbAfterArchive": 194
+}

@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-18T06:54:17.766Z",
+  "rowsPerCall": 50000,
+  "callMs": [
+    152,
+    143,
+    160,
+    168,
+    212,
+    200,
+    217,
+    241,
+    257,
+    360,
+    330,
+    361,
+    361,
+    383,
+    423,
+    445,
+    600,
+    567,
+    618,
+    667
+  ],
+  "before": {
+    "workingSetMb": 70,
+    "privateMb": 60
+  },
+  "after": {
+    "workingSetMb": 289,
+    "privateMb": 276
+  },
+  "privateMbPerMillionRows": 216
+}

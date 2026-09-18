@@ -1,0 +1,661 @@
+{
+  "at": "2026-09-18T06:43:32.903Z",
+  "idlePingMs": {
+    "n": 193,
+    "min": 1.53,
+    "p50": 1.9,
+    "p90": 2.35,
+    "p99": 3.51,
+    "max": 5.33,
+    "mean": 1.99
+  },
+  "oneOff": [
+    {
+      "scenario": "100 one-off fuses, one due time",
+      "scheduled": 100,
+      "expected": 100,
+      "fired": 100,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 3,
+      "delayMs": {
+        "n": 100,
+        "min": 7.31,
+        "p50": 8.87,
+        "p90": 9.7,
+        "p99": 9.86,
+        "max": 9.87,
+        "mean": 8.88
+      },
+      "burstSpanMs": 3,
+      "firedPerSecond": 39124,
+      "orderInversions": 99,
+      "pingDuringBurstMs": {
+        "n": 1,
+        "min": 5.26,
+        "p50": 5.26,
+        "p90": 5.26,
+        "p99": 5.26,
+        "max": 5.26,
+        "mean": 5.26
+      },
+      "pingOutsideBurstMs": {
+        "n": 225,
+        "min": 1.52,
+        "p50": 1.94,
+        "p90": 3.12,
+        "p99": 5.57,
+        "max": 8.8,
+        "mean": 2.3
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": 6,
+          "rttMs": 5
+        }
+      ]
+    },
+    {
+      "scenario": "1,000 one-off fuses, one due time",
+      "scheduled": 1000,
+      "expected": 1000,
+      "fired": 1000,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 8,
+      "delayMs": {
+        "n": 1000,
+        "min": 4.1,
+        "p50": 11.73,
+        "p90": 16.24,
+        "p99": 17.4,
+        "max": 17.55,
+        "mean": 11.15
+      },
+      "burstSpanMs": 13,
+      "firedPerSecond": 74366,
+      "orderInversions": 999,
+      "pingDuringBurstMs": {
+        "n": 1,
+        "min": 16.51,
+        "p50": 16.51,
+        "p90": 16.51,
+        "p99": 16.51,
+        "max": 16.51,
+        "mean": 16.51
+      },
+      "pingOutsideBurstMs": {
+        "n": 222,
+        "min": 1.41,
+        "p50": 1.9,
+        "p90": 2.96,
+        "p99": 5.51,
+        "max": 36.75,
+        "mean": 2.39
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": 3,
+          "rttMs": 17
+        }
+      ]
+    },
+    {
+      "scenario": "10,000 one-off fuses, one due time",
+      "scheduled": 10000,
+      "expected": 10000,
+      "fired": 10000,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 26,
+      "delayMs": {
+        "n": 10000,
+        "min": 4.72,
+        "p50": 94.68,
+        "p90": 182.52,
+        "p99": 201.9,
+        "max": 203.88,
+        "mean": 96.61
+      },
+      "burstSpanMs": 199,
+      "firedPerSecond": 50209,
+      "orderInversions": 9999,
+      "pingDuringBurstMs": {
+        "n": 2,
+        "min": 1.75,
+        "p50": 1.75,
+        "p90": 187.88,
+        "p99": 187.88,
+        "max": 187.88,
+        "mean": 94.82
+      },
+      "pingOutsideBurstMs": {
+        "n": 212,
+        "min": 1.53,
+        "p50": 1.8,
+        "p90": 2.52,
+        "p99": 40.64,
+        "max": 71.25,
+        "mean": 3.06
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": 3,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 19,
+          "rttMs": 188
+        }
+      ]
+    },
+    {
+      "scenario": "100,000 one-off fuses, one due time",
+      "scheduled": 100000,
+      "expected": 100000,
+      "fired": 100000,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 205,
+      "delayMs": {
+        "n": 100000,
+        "min": 6.74,
+        "p50": 1036.11,
+        "p90": 1884.64,
+        "p99": 2073.3,
+        "max": 2093.78,
+        "mean": 1037.75
+      },
+      "burstSpanMs": 2087,
+      "firedPerSecond": 47915,
+      "orderInversions": 99999,
+      "pingDuringBurstMs": {
+        "n": 3,
+        "min": 4.53,
+        "p50": 127.34,
+        "p90": 1953.4,
+        "p99": 1953.4,
+        "max": 1953.4,
+        "mean": 695.09
+      },
+      "pingOutsideBurstMs": {
+        "n": 213,
+        "min": 1.23,
+        "p50": 1.75,
+        "p90": 2.32,
+        "p99": 4.69,
+        "max": 206.29,
+        "mean": 2.91
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": -1,
+          "rttMs": 5
+        },
+        {
+          "startedAfterBurstStartMs": 14,
+          "rttMs": 127
+        },
+        {
+          "startedAfterBurstStartMs": 154,
+          "rttMs": 1953
+        }
+      ]
+    },
+    {
+      "scenario": "1,000 one-off fuses, due 1 microsecond apart",
+      "scheduled": 1000,
+      "expected": 1000,
+      "fired": 1000,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 8,
+      "delayMs": {
+        "n": 1000,
+        "min": 4.98,
+        "p50": 10.77,
+        "p90": 15.42,
+        "p99": 16.4,
+        "max": 16.51,
+        "mean": 10.92
+      },
+      "burstSpanMs": 12,
+      "firedPerSecond": 86685,
+      "orderInversions": 998,
+      "pingDuringBurstMs": {
+        "n": 1,
+        "min": 5.95,
+        "p50": 5.95,
+        "p90": 5.95,
+        "p99": 5.95,
+        "max": 5.95,
+        "mean": 5.95
+      },
+      "pingOutsideBurstMs": {
+        "n": 227,
+        "min": 1.4,
+        "p50": 1.76,
+        "p90": 2.11,
+        "p99": 4.43,
+        "max": 5.08,
+        "mean": 1.9
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": 4,
+          "rttMs": 6
+        }
+      ]
+    },
+    {
+      "scenario": "1,000 one-off, every 10th throws",
+      "scheduled": 1000,
+      "expected": 900,
+      "fired": 900,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 4,
+      "delayMs": {
+        "n": 900,
+        "min": 2.91,
+        "p50": 15.15,
+        "p90": 21.43,
+        "p99": 22.69,
+        "max": 22.86,
+        "mean": 15.18
+      },
+      "burstSpanMs": 20,
+      "firedPerSecond": 45115,
+      "orderInversions": 899,
+      "pingDuringBurstMs": {
+        "n": 1,
+        "min": 15.87,
+        "p50": 15.87,
+        "p90": 15.87,
+        "p99": 15.87,
+        "max": 15.87,
+        "mean": 15.87
+      },
+      "pingOutsideBurstMs": {
+        "n": 224,
+        "min": 1.4,
+        "p50": 1.81,
+        "p90": 2.85,
+        "p99": 7.36,
+        "max": 27.17,
+        "mean": 2.24
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": 2,
+          "rttMs": 16
+        }
+      ]
+    },
+    {
+      "scenario": "200 one-off, each spins the CPU",
+      "scheduled": 200,
+      "expected": 200,
+      "fired": 200,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 3,
+      "delayMs": {
+        "n": 200,
+        "min": 0.92,
+        "p50": 856.27,
+        "p90": 1573.67,
+        "p99": 1731.02,
+        "max": 1748.11,
+        "mean": 868.59
+      },
+      "burstSpanMs": 1747,
+      "firedPerSecond": 114,
+      "orderInversions": 199,
+      "pingDuringBurstMs": {
+        "n": 2,
+        "min": 635.77,
+        "p50": 635.77,
+        "p90": 1115.77,
+        "p99": 1115.77,
+        "max": 1115.77,
+        "mean": 875.77
+      },
+      "pingOutsideBurstMs": {
+        "n": 226,
+        "min": 1.5,
+        "p50": 1.77,
+        "p90": 2.46,
+        "p99": 4.45,
+        "max": 4.52,
+        "mean": 1.94
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": 0,
+          "rttMs": 1116
+        },
+        {
+          "startedAfterBurstStartMs": 1129,
+          "rttMs": 636
+        }
+      ]
+    },
+    {
+      "scenario": "10,000 debts, one due time, drained 500 per 20 ms tick",
+      "scheduled": 10000,
+      "expected": 10000,
+      "fired": 10000,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 16,
+      "delayMs": {
+        "n": 10000,
+        "min": 5.91,
+        "p50": 192.97,
+        "p90": 350.89,
+        "p99": 382.26,
+        "max": 382.26,
+        "mean": 198.62
+      },
+      "burstSpanMs": 376,
+      "firedPerSecond": 26571,
+      "orderInversions": 0,
+      "pingDuringBurstMs": {
+        "n": 22,
+        "min": 1.29,
+        "p50": 3.81,
+        "p90": 15.69,
+        "p99": 16.1,
+        "max": 16.1,
+        "mean": 5.89
+      },
+      "pingOutsideBurstMs": {
+        "n": 163,
+        "min": 1.44,
+        "p50": 2,
+        "p90": 15.95,
+        "p99": 16.72,
+        "max": 16.82,
+        "mean": 7.2
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": -11,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 20,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 37,
+          "rttMs": 1
+        },
+        {
+          "startedAfterBurstStartMs": 51,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 67,
+          "rttMs": 15
+        },
+        {
+          "startedAfterBurstStartMs": 98,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 114,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 130,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 145,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 177,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 192,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 208,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 224,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 241,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 256,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 271,
+          "rttMs": 4
+        },
+        {
+          "startedAfterBurstStartMs": 287,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 318,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 335,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 357,
+          "rttMs": 2
+        }
+      ]
+    },
+    {
+      "scenario": "100,000 debts, one due time, drained 500 per 20 ms tick",
+      "scheduled": 100000,
+      "expected": 100000,
+      "fired": 100000,
+      "dropped": 0,
+      "leftInFuseTable": 0,
+      "scheduleCallMs": 133,
+      "delayMs": {
+        "n": 100000,
+        "min": 11.08,
+        "p50": 1997.14,
+        "p90": 3599.78,
+        "p99": 3952.26,
+        "max": 3998.24,
+        "mean": 2002.35
+      },
+      "burstSpanMs": 3987,
+      "firedPerSecond": 25080,
+      "orderInversions": 0,
+      "pingDuringBurstMs": {
+        "n": 187,
+        "min": 1.63,
+        "p50": 6.25,
+        "p90": 15.84,
+        "p99": 16.28,
+        "max": 16.38,
+        "mean": 8.85
+      },
+      "pingOutsideBurstMs": {
+        "n": 153,
+        "min": 1.38,
+        "p50": 2.43,
+        "p90": 16.11,
+        "p99": 16.75,
+        "max": 117.9,
+        "mean": 8.69
+      },
+      "pingTimeline": [
+        {
+          "startedAfterBurstStartMs": 10,
+          "rttMs": 15
+        },
+        {
+          "startedAfterBurstStartMs": 41,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 72,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 103,
+          "rttMs": 15
+        },
+        {
+          "startedAfterBurstStartMs": 134,
+          "rttMs": 7
+        },
+        {
+          "startedAfterBurstStartMs": 150,
+          "rttMs": 7
+        },
+        {
+          "startedAfterBurstStartMs": 165,
+          "rttMs": 15
+        },
+        {
+          "startedAfterBurstStartMs": 195,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 226,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 257,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 273,
+          "rttMs": 8
+        },
+        {
+          "startedAfterBurstStartMs": 289,
+          "rttMs": 8
+        },
+        {
+          "startedAfterBurstStartMs": 305,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 320,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 351,
+          "rttMs": 7
+        },
+        {
+          "startedAfterBurstStartMs": 367,
+          "rttMs": 7
+        },
+        {
+          "startedAfterBurstStartMs": 382,
+          "rttMs": 2
+        },
+        {
+          "startedAfterBurstStartMs": 397,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 429,
+          "rttMs": 16
+        },
+        {
+          "startedAfterBurstStartMs": 460,
+          "rttMs": 6
+        }
+      ]
+    }
+  ],
+  "repeating": [
+    {
+      "scenario": "100 repeating fuses, every 100 ms",
+      "fuses": 100,
+      "intervalMs": 100,
+      "windowMs": 5000,
+      "firings": 5000,
+      "firingsPerFuse": {
+        "n": 100,
+        "min": 50,
+        "p50": 50,
+        "p90": 50,
+        "p99": 50,
+        "max": 50,
+        "mean": 50
+      },
+      "expectedPerFuse": 50,
+      "gapMs": {
+        "n": 4900,
+        "min": 77.95,
+        "p50": 96.96,
+        "p90": 109.99,
+        "p99": 118.51,
+        "max": 124.54,
+        "mean": 99.91
+      },
+      "leftAfterCancel": 0,
+      "pingMs": {
+        "n": 341,
+        "min": 2,
+        "p50": 2.56,
+        "p90": 15.72,
+        "p99": 23.73,
+        "max": 34.07,
+        "mean": 4.98
+      }
+    },
+    {
+      "scenario": "1000 repeating fuses, every 100 ms",
+      "fuses": 1000,
+      "intervalMs": 100,
+      "windowMs": 5000,
+      "firings": 50000,
+      "firingsPerFuse": {
+        "n": 1000,
+        "min": 50,
+        "p50": 50,
+        "p90": 50,
+        "p99": 50,
+        "max": 50,
+        "mean": 50
+      },
+      "expectedPerFuse": 50,
+      "gapMs": {
+        "n": 49000,
+        "min": 75.3,
+        "p50": 96.42,
+        "p90": 107.8,
+        "p99": 113.99,
+        "max": 122.29,
+        "mean": 99.61
+      },
+      "leftAfterCancel": 0,
+      "pingMs": {
+        "n": 314,
+        "min": 1.38,
+        "p50": 1.93,
+        "p90": 15.85,
+        "p99": 22.47,
+        "max": 54.42,
+        "mean": 5.62
+      }
+    }
+  ]
+}

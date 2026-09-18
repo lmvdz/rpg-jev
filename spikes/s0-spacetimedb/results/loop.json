@@ -1,0 +1,223 @@
+{
+  "at": "2026-09-18T06:51:14.575Z",
+  "loops": [
+    {
+      "scenario": "fake judge at M0 latency",
+      "concurrency": 1,
+      "requests": 100,
+      "wallMs": 19345,
+      "perSecond": 5.17,
+      "endToEndMs": {
+        "n": 100,
+        "min": 75.12,
+        "p50": 171.47,
+        "p90": 293.58,
+        "p99": 433.87,
+        "max": 435.53,
+        "mean": 193.44
+      },
+      "judgeMs": {
+        "n": 100,
+        "min": 67.16,
+        "p50": 165.84,
+        "p90": 288.93,
+        "p99": 428.12,
+        "max": 431.26,
+        "mean": 188.13
+      },
+      "overheadMs": {
+        "n": 100,
+        "min": 3.28,
+        "p50": 4.74,
+        "p90": 7.66,
+        "p99": 10.74,
+        "max": 11.86,
+        "mean": 5.31
+      }
+    },
+    {
+      "scenario": "fake judge at M0 latency",
+      "concurrency": 4,
+      "requests": 400,
+      "wallMs": 19945,
+      "perSecond": 20.05,
+      "endToEndMs": {
+        "n": 400,
+        "min": 46.91,
+        "p50": 187.1,
+        "p90": 309.47,
+        "p99": 465.37,
+        "max": 764.24,
+        "mean": 198.74
+      },
+      "judgeMs": {
+        "n": 400,
+        "min": 42.82,
+        "p50": 182.11,
+        "p90": 303.72,
+        "p99": 461.24,
+        "max": 761.02,
+        "mean": 194.27
+      },
+      "overheadMs": {
+        "n": 400,
+        "min": 2.92,
+        "p50": 4.13,
+        "p90": 6.03,
+        "p99": 9.35,
+        "max": 15.94,
+        "mean": 4.47
+      }
+    },
+    {
+      "scenario": "fake judge at M0 latency",
+      "concurrency": 16,
+      "requests": 400,
+      "wallMs": 4785,
+      "perSecond": 83.6,
+      "endToEndMs": {
+        "n": 400,
+        "min": 45.93,
+        "p50": 169.35,
+        "p90": 290.98,
+        "p99": 456.92,
+        "max": 581.48,
+        "mean": 184.46
+      },
+      "judgeMs": {
+        "n": 400,
+        "min": 40,
+        "p50": 164.65,
+        "p90": 286.56,
+        "p99": 452.85,
+        "max": 576.68,
+        "mean": 179.23
+      },
+      "overheadMs": {
+        "n": 400,
+        "min": 2.75,
+        "p50": 4.71,
+        "p90": 7.25,
+        "p99": 14.79,
+        "max": 18.41,
+        "mean": 5.24
+      }
+    },
+    {
+      "scenario": "instant judge: the loop alone",
+      "concurrency": 1,
+      "requests": 2000,
+      "wallMs": 6031,
+      "perSecond": 331.61,
+      "endToEndMs": {
+        "n": 2000,
+        "min": 2.27,
+        "p50": 2.84,
+        "p90": 3.21,
+        "p99": 6.16,
+        "max": 10.61,
+        "mean": 3.01
+      },
+      "judgeMs": {
+        "n": 2000,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p99": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "overheadMs": {
+        "n": 2000,
+        "min": 2.27,
+        "p50": 2.84,
+        "p90": 3.21,
+        "p99": 6.16,
+        "max": 10.61,
+        "mean": 3.01
+      }
+    },
+    {
+      "scenario": "instant judge: the loop alone",
+      "concurrency": 16,
+      "requests": 2000,
+      "wallMs": 689,
+      "perSecond": 2900.69,
+      "endToEndMs": {
+        "n": 2000,
+        "min": 4.2,
+        "p50": 5.09,
+        "p90": 6.43,
+        "p99": 10.72,
+        "max": 13.76,
+        "mean": 5.47
+      },
+      "judgeMs": {
+        "n": 2000,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p99": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "overheadMs": {
+        "n": 2000,
+        "min": 4.2,
+        "p50": 5.09,
+        "p90": 6.43,
+        "p99": 10.72,
+        "max": 13.76,
+        "mean": 5.47
+      }
+    },
+    {
+      "scenario": "instant judge: the loop alone",
+      "concurrency": 64,
+      "requests": 2000,
+      "wallMs": 276,
+      "perSecond": 7251.59,
+      "endToEndMs": {
+        "n": 2000,
+        "min": 4.25,
+        "p50": 8.08,
+        "p90": 10.83,
+        "p99": 19.97,
+        "max": 20.03,
+        "mean": 8.6
+      },
+      "judgeMs": {
+        "n": 2000,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p99": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "overheadMs": {
+        "n": 2000,
+        "min": 4.25,
+        "p50": 8.08,
+        "p90": 10.83,
+        "p99": 19.97,
+        "max": 20.03,
+        "mean": 8.6
+      }
+    }
+  ],
+  "stale": {
+    "attempts": 25,
+    "dropped": 25,
+    "committed": 0,
+    "sampleLogRow": [
+      902,
+      [
+        1789714262905223
+      ],
+      "decision_dropped",
+      901,
+      "{\"tag\":\"stale-0\",\"want\":\"0\",\"seen\":\"1\",\"judgeMs\":168.54609999999957}"
+    ]
+  }
+}
