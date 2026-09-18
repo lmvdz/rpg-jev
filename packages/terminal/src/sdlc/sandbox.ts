@@ -52,6 +52,9 @@ export function toolStagesAllowed(sdlc: { allow_tool_stages?: boolean; sandbox?:
 
 export type Profile = "agent" | "gate" | "relay";
 
+/** Everything the loop creates in the container engine carries this, and only that is ever swept. */
+export const OWNED = "io.rpg-jev.sdlc=loop";
+
 /** One writable volume, seeded from the image: the package store, the agent's config, the tree. */
 export const HOME = "/home/agent";
 export const WORK = `${HOME}/work`;
@@ -70,6 +73,8 @@ export function containerFlags(
   const flags = [
     "--name",
     names.container,
+    "--label",
+    OWNED,
     "--cap-drop=all",
     "--security-opt=no-new-privileges",
     "--read-only",
@@ -191,7 +196,10 @@ export function openBox(
   close();
   try {
     if (profile === "agent") {
-      must(podman(box, ["network", "create", "--internal", names.internal]), "network create");
+      must(
+        podman(box, ["network", "create", "--internal", "--label", OWNED, names.internal]),
+        "network create",
+      );
       const pipe = ["node", "/opt/sdlc/relay.mjs", String(box.model_port)];
       must(
         podman(box, [
@@ -228,4 +236,26 @@ export function openBox(
     close();
     throw error;
   }
+}
+
+/** Whether the container engine answers. On Windows its machine needs starting after a reboot. */
+export const sandboxReady = (box: SandboxConfig): boolean => podman(box, ["info"]).ok;
+
+/**
+ * Removes every container and network that carries the loop's own label, and nothing else,
+ * whatever it is called. Called at the start of a pass, under the lock, so nothing it removes
+ * can be in use: what it finds was left by a pass that died.
+ */
+export function sweep(box: SandboxConfig): string[] {
+  const owned = ["--filter", `label=${OWNED}`];
+  const named = (args: string[]): string[] =>
+    podman(box, [...args, ...owned])
+      .out.split("\n")
+      .map((n) => n.trim())
+      .filter((n) => n.length > 0);
+  const containers = named(["ps", "--all", "--format", "{{.Names}}"]);
+  if (containers.length > 0) podman(box, ["rm", "--force", "--volumes", ...containers]);
+  const networks = named(["network", "ls", "--format", "{{.Name}}"]);
+  if (networks.length > 0) podman(box, ["network", "rm", "--force", ...networks]);
+  return [...containers, ...networks];
 }

@@ -20,6 +20,9 @@
     "worktree_root": "../rpg-jev.worktrees",
     "trusted_authors": ["lmvdz"],
     "max_build_attempts": 3,
+    "max_unanswered": 3,
+    "max_tokens_per_pass": 4000000,
+    "max_tokens_per_day": 20000000,
     "allow_tool_stages": false,
     "sandbox": {
       "kind": "podman",

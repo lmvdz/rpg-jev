@@ -15,7 +15,14 @@ import {
 } from "node:fs";
 import { join, resolve } from "node:path";
 import { ROOT } from "../session.ts";
-import { AGENT_STAGES, type AgentStage } from "./flow.ts";
+import {
+  AGENT_STAGES,
+  type AgentStage,
+  type JournalLine,
+  lockIsStale,
+  lockText,
+  parseLock,
+} from "./flow.ts";
 import type { SandboxConfig } from "./sandbox.ts";
 
 export interface LoopConfig {
@@ -29,6 +36,12 @@ export interface LoopConfig {
     worktree_root: string;
     trusted_authors: string[];
     max_build_attempts: number;
+    /** Times in a row a stage may come back with nothing before the issue goes to a person. */
+    max_unanswered?: number;
+    /** Tokens, by the agent CLI's count, after which a pass starts no further stage. */
+    max_tokens_per_pass?: number;
+    /** The same over the last 24 hours. */
+    max_tokens_per_day?: number;
     /** Whose review comments on a loop pull request are answered. Everyone else's wait for a person. */
     trusted_reviewers: string[];
     /** The name of the check run that is this repository's own gate in CI. */
@@ -85,15 +98,49 @@ export function journal(entry: Record<string, unknown>): void {
   );
 }
 
-/** Two passes at once would build the same issue twice. The lock names who holds it. */
+/** What the journal holds, oldest first. A line that does not parse is skipped. */
+export function readJournal(): JournalLine[] {
+  const file = join(LOCAL, "journal.jsonl");
+  if (!existsSync(file)) return [];
+  return readFileSync(file, "utf8")
+    .split("\n")
+    .flatMap((line) => {
+      try {
+        return line.trim() ? [JSON.parse(line) as JournalLine] : [];
+      } catch {
+        return [];
+      }
+    });
+}
+
+const alive = (pid: number): boolean => {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error) {
+    // No such process. "Not permitted" means it exists and is someone else's.
+    return (error as { code?: string }).code === "EPERM";
+  }
+};
+
+/** No pass can outlive this: every stage has a time limit, and a pass runs a few stages. */
+const LOCK_MAX_AGE_MS = 6 * 60 * 60_000;
+
+/**
+ * Two passes at once would build the same issue twice. The lock names who holds it. A lock
+ * left by a pass that died (a reboot, a killed terminal) is taken over, and said so in the
+ * journal, so that an unattended loop does not stop for ever on a file.
+ */
 export function withLock<T>(run: () => Promise<T>): Promise<T> {
   const lock = join(LOCAL, "lock");
   mkdirSync(LOCAL, { recursive: true });
-  if (existsSync(lock))
-    throw new Error(
-      `Another pass holds ${lock} (${readFileSync(lock, "utf8")}). Delete it if that pass is dead.`,
-    );
-  writeFileSync(lock, `pid ${process.pid}, since ${new Date().toISOString()}`);
+  if (existsSync(lock)) {
+    const text = readFileSync(lock, "utf8");
+    if (!lockIsStale(parseLock(text), { now: Date.now(), alive, maxAgeMs: LOCK_MAX_AGE_MS }))
+      throw new Error(`Another pass holds ${lock} (${text}).`);
+    journal({ lock: "stale, taken over", was: text });
+  }
+  writeFileSync(lock, lockText({ pid: process.pid, since: new Date().toISOString() }));
   return run().finally(() => rmSync(lock, { force: true }));
 }
 

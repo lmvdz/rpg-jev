@@ -152,6 +152,34 @@ The rest of the `sdlc` block: `base_branch`, `worktree_root`, `trusted_authors`,
 stage's turn, token and time limits. The loop's own files, its prompts and `.claude` are in
 `may_not_change`, so a build cannot rewrite the loop.
 
+## Running with nobody watching
+
+`pnpm sdlc run --every=15` makes a pass every 15 minutes until the switch goes off. Four rules
+keep a loop that nobody is watching from doing the same wrong thing all night:
+
+- **A stage that keeps coming back with nothing stops.** No answer from the model, or an error
+  (the container engine is down, GitHub refuses), counts against the issue. After
+  `sdlc.max_unanswered` times in a row (3) the issue goes to `stage:human` with the last reason.
+  Any progress starts the count again.
+- **A pass has a budget, and so does a day.** Before each stage the loop adds up the tokens in
+  its journal: over `sdlc.max_tokens_per_pass` (4 million) for this pass, or
+  `sdlc.max_tokens_per_day` (20 million) for the last 24 hours, and it starts nothing further.
+  The check is between stages, so one stage can overshoot: a build has used 1.5 million by the
+  agent CLI's count, which re-counts the context every turn, and the CLI's own `max_tokens`
+  did not stop it. The router reports no cost, so tokens are the only measure there is.
+- **A pass that died does not block the next.** The lock names a process and a time. If that
+  process is gone, or the lock is older than six hours, the next pass takes it over and says so
+  in the journal. At the start of a pass, under the lock, every container and network this loop
+  ever named is removed, and a build starts by resetting its own worktree, so nothing half-done
+  is carried over.
+- **What cannot run is skipped, not fatal.** If the container engine does not answer (on
+  Windows its machine needs an elevated start after a reboot) the tool stages are held for that
+  pass, with one line saying why. If a pass cannot start at all, `run` logs it and waits for the
+  next.
+
+For a first unattended spell, set `max_open_pull_requests` to 1: the loop then stops after each
+pull request until a person has dealt with it, so a mistake costs one pull request to read.
+
 ## What has run, and what has not
 
 **One real issue has gone all the way through**, supervised, on 2026-09-18: #4, a snag from a
@@ -185,5 +213,5 @@ What that pass taught, and what was changed because of it:
 Still never run: the `pr` stage's model call and its posting of replies (there were no findings
 to answer); a build that fails its gate and is retried with the failure as its note; a change
 that breaks the recorded replay; intake from a handed-in night (issue #4 was filed by hand, in
-intake's format); `pnpm sdlc run` unattended. The half that drives `git`, `gh`, `podman` and
+intake's format); `pnpm sdlc run` unattended; a stage stopping after three silences, and a pass stopping on its budget (both are tested as rules, neither has happened). Taking over a dead pass's lock, sweeping its containers, respecting a live lock and holding tool stages when the engine does not answer were each run once for real. The half that drives `git`, `gh`, `podman` and
 the agent CLI has no tests of its own; the pure half has them.

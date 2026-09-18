@@ -66,6 +66,12 @@ const NEXT: Record<string, Stage> = {
   "pr:gave_up": "human",
   "pr:needs_person": "human",
   "pr:closed": "human",
+  // Whatever the stage, coming back with nothing too many times in a row is a person's.
+  "triage:stuck": "human",
+  "plan:stuck": "human",
+  "build:stuck": "human",
+  "review:stuck": "human",
+  "pr:stuck": "human",
 };
 
 export const nextStage = (stage: Stage, outcome: string): Stage =>
@@ -261,4 +267,65 @@ export type PrVerdict = (typeof PR_VERDICTS)[number];
 export function prOutcome(verdicts: readonly PrVerdict[]): "needs_person" | "fix" | "waiting" {
   if (verdicts.includes("person")) return "needs_person";
   return verdicts.includes("fix") ? "fix" : "waiting";
+}
+
+// --- Running with nobody watching -------------------------------------------------------
+
+/**
+ * A stage that keeps coming back with nothing (no answer, or an error) is tried again, but
+ * not for ever: after `max` times in a row it is a person's. Progress of any kind starts
+ * the count again.
+ */
+export const stuckFor = (count: number, max: number): "again" | "person" =>
+  count >= max ? "person" : "again";
+
+export interface JournalLine {
+  at?: string;
+  tokens?: number;
+}
+
+/** Tokens the journal records since a moment. Lines that are not calls count as nothing. */
+export function tokensSince(lines: readonly JournalLine[], since: number): number {
+  return lines
+    .filter((l) => l.at !== undefined && Date.parse(l.at) >= since)
+    .reduce((sum, l) => sum + (l.tokens ?? 0), 0);
+}
+
+/** Whether another stage may start, given what this pass and the last day have spent. */
+export function budgetLeft(
+  lines: readonly JournalLine[],
+  o: { now: number; passStarted: number; perPass: number; perDay: number },
+): { ok: boolean; why: string } {
+  const pass = tokensSince(lines, o.passStarted);
+  if (pass >= o.perPass)
+    return { ok: false, why: `this pass has used ${pass} tokens (limit ${o.perPass})` };
+  const day = tokensSince(lines, o.now - 24 * 60 * 60_000);
+  if (day >= o.perDay)
+    return { ok: false, why: `the last 24 hours used ${day} tokens (limit ${o.perDay})` };
+  return { ok: true, why: "" };
+}
+
+export interface Lock {
+  pid: number;
+  since: string;
+}
+
+export const lockText = (lock: Lock): string => `pid ${lock.pid}, since ${lock.since}`;
+
+export function parseLock(text: string): Lock | null {
+  const found = /^pid (\d+), since (\S+)/.exec(text.trim());
+  return found?.[1] && found[2] ? { pid: Number(found[1]), since: found[2] } : null;
+}
+
+/**
+ * A lock is stale when the pass that wrote it is gone, or when it is older than any pass can
+ * be (every stage has a time limit). A lock that cannot be read was not written by a pass.
+ */
+export function lockIsStale(
+  lock: Lock | null,
+  o: { now: number; alive: (pid: number) => boolean; maxAgeMs: number },
+): boolean {
+  if (!lock) return true;
+  const age = o.now - Date.parse(lock.since);
+  return !(o.alive(lock.pid) && age < o.maxAgeMs);
 }
