@@ -1,41 +1,83 @@
 ---
 name: world-design
-description: How to turn a playtest snag into a change that makes the world more general, never a special case. Load before triaging or fixing anything a player bumped into.
+description: How to turn a playtest snag into a deep, general mechanism rather than a special case. Load before triaging, designing or fixing anything a player bumped into.
 ---
 
-# World design: from a snag to a generalisation
+# World design: from a snag to a deep module
 
 This game is a world that reasons from what things are for. A player bumping into a gap is
 the world failing to answer a question it should be able to answer about itself: what is
 this thing, what does this act cost, who can do what, what follows. The fix is never "handle
-this input". The fix is to make the world able to answer the question, for this case and for
-every sibling of it you did not see.
+this input". The fix is to make the world able to answer that *kind* of question, for this
+case and for every sibling of it nobody has seen yet.
 
 Read this whole file before triaging. Then read `SPEC.md` section 2 (the ten rules) and
 section 4 ("Means and ends"). They bind every change.
+
+## The stance: depth over the quick fix
+
+A quick fix handles the cause and effect that was observed. A deep module handles the class
+of causes and effects the observation belongs to, behind an interface that does not grow
+when the class does. This project chooses depth every time, and accepts that it costs more
+on the day. The reason is arithmetic: a special case costs an hour and is paid for again by
+every sibling; a deep module costs a day and is paid once.
+
+**Deep module, simple interface** means, here:
+
+- The interface is a few functions whose signatures could be written before the cases were
+  known. `attempt(verb, thing, insistence) → Outcome` is deep: eat, kick, climb, hide and
+  every future verb on every future thing go through it, and its signature will not change
+  when a new verb or thing is added. A `switch` over situations with one arm per situation
+  is shallow: every new situation is another arm, and the interface is the list of arms.
+- The interface hides the hard part. Callers say what happened; the module decides what it
+  means and what follows. If a caller has to know the rules to call the module correctly, the
+  module is shallow.
+- Errors are defined out of existence. "You can't eat that" is an error message. "The table
+  is harder than you are" is an outcome. Design so that there is no case the module refuses;
+  there are only outcomes, one of which may be "nothing".
+- Complexity is pulled downward. The rule that insisting on something too hard causes harm
+  lives inside `attempt`, not in each caller. Prose, callers and content stay simple because
+  the module is not.
+- Data grows; code does not. Adding a thing, a verb, a deed predicate, a role power or a need
+  is a row in a table. If it is a branch in a function, the module is not finished.
+
+**Design it twice.** Before building, write two shapes for the module: the smallest that
+handles the observed case, and the one that handles the class. Compare their interfaces.
+If the class-shaped interface is no larger than the case-shaped one, build the class. It
+usually is no larger; the difference is inside.
+
+**Name the class before you name the fix.** Every snag is an instance of a class. Insulting
+Mara is an instance of "speech that is a deed". Eating the table is an instance of "a verb
+tried on a thing that does not serve it". A line understood as the wrong thing is an instance
+of "resolving an answer against candidates". Write the class down in the issue. If you cannot
+name it, you do not yet understand the snag, and you must not fix it.
 
 ## The question to ask of every snag
 
 Not "how do I make this line work?" but:
 
-> What general fact about the world did the player just bump into, and where does the world
-> keep facts of that kind?
+> What general fact about the world did the player just bump into, what class of facts is it,
+> and where does the world keep facts of that class?
 
 Walk it up the ladder until it stops being about this input:
 
 1. **Symptom.** "tel mara she's fat" made the player accuse Mara of theft.
 2. **What could not be represented.** A line was taken as an answer to a question it did not
    answer.
-3. **The kind of thing.** Answer resolution: what counts as an answer to "which do you mean?"
-4. **The rule.** An answer is made of the candidates' words. Anything else is a new line.
-5. **The sibling it also fixes.** "wait, forget it" after any clarification.
+3. **The class.** Resolving a free-text answer against a set of candidates.
+4. **The rule for the class.** An answer is made of the candidates' words. Anything else is a
+   new line.
+5. **Three siblings the rule also covers.** "wait, forget it" after any clarification; a
+   candidate word used in a new sentence; a typo of an unrelated verb.
 
-Stop at the first rung where the fix names no specific character, item, room or sentence. If
-you cannot reach that rung, you have found a design decision, not a bug. Write it up and stop.
+Stop at the first rung where the fix names no specific character, item, room or sentence
+*and* you can name three siblings it covers. One sibling is a coincidence. If you cannot
+reach that rung, you have found a design decision, not a bug. Write it up and stop.
 
 ## What "general" means here, in tests you can apply
 
-A change is general when all of these hold. Check them before opening a pull request.
+A change is general when all of these hold. Check them before opening a pull request, and
+say in the pull request which ones you checked and how.
 
 - **No proper noun in engine code.** `game.ts`, `talk.ts`, `agenda.ts`, `actions.ts`,
   `attempts.ts` must not gain a line that says `MARA`, `ODO`, `TOBIN`, `"ledger"`,
@@ -46,8 +88,8 @@ A change is general when all of these hold. Check them before opening a pull req
   `actor.role`. Whether she does is the judge's.
 - **Things are described, not programmed.** A new thing gets `serves`, `forced`,
   `consumable`, aliases and prose. It never gets a verb handler. If the verb does not exist,
-  the verb table is what grows, and it grows by what need the verb reaches for or what it
-  forces (`core/needs.ts`), not by what object it was tried on.
+  the verb table is what grows, by what need the verb reaches for or what it forces
+  (`core/needs.ts`), never by what object it was tried on.
 - **Acts are deeds on one path.** Anything the player does that a person would notice is a
   claim (`g.happened`) with a predicate in `content.ts`, witnessed by the room, believed,
   weighed, retold, garbled and reacted to by the machinery that already exists. A blow, an
@@ -61,22 +103,29 @@ A change is general when all of these hold. Check them before opening a pull req
   is, how long eating takes: numbers, in code or content. Whether a line is an insult,
   whether Mara believes it, which reply fits her: the judge. Never the other way round.
 - **Prose is keyed to its cause.** A line the player reads must make sense given what caused
-  it. Mara's warning about a fight must say it is about the fight. If a line reads wrong in
-  context, the fix is a line keyed to the cause (`SPECIAL`, `VOICE`), not a rule about when
-  to stay silent.
-- **The typed line becomes a test.** Exactly as typed, in `packages/inn/test/parser.test.ts`
-  or `game.test.ts`, with the world state it happened in.
+  it. If a line reads wrong in context, the fix is a line keyed to the cause (`SPECIAL`,
+  `VOICE`), not a rule about when to stay silent.
+- **The interface did not grow.** Count the exported functions and their parameters in the
+  module you touched, before and after. If the count went up to admit this case, the case
+  was not absorbed; it was appended.
+- **The test is over the class.** The regression test holds the player's exact line, and the
+  unit test iterates over the class: every verb in the table against a thing that serves it,
+  a thing that does not, and a thing that hurts; every role against the power. A test that
+  checks one case proves the case, not the module.
 - **The recording stays honest.** If a slice, a question or the content changed, re-record
   the demo once and keep what comes out. Never re-roll for a nicer transcript.
 
 ## The structures, in the order to try them
 
-When you know the kind of thing, put the fix in the first structure below that can hold it.
-Going further down the list is allowed only when the one above cannot express the fact.
+When you know the class, put the fix in the first structure below that can hold it. Going
+further down the list is allowed only when the one above cannot express the fact. Each row
+is a deep module or a table it reads; the "add here" column is a row in a table, not a
+branch in a function. If the structure cannot hold the class without a branch, the structure
+needs deepening, and that is a design proposal (see "What to hand to a person").
 
 | The fact is about | The structure | Where | Add here when |
 | --- | --- | --- | --- |
-| What a thing is for, or what forcing it costs | The needs graph: `serves`, `forced`, `consumable` | `content.ts` items and rooms; `core/needs.ts` for verbs | A verb on a thing gave a wrong or empty answer |
+| What a thing is for, or what forcing it costs | The needs graph: `serves`, `forced`, `consumable`; `attempt()` | `content.ts` items and rooms; `core/needs.ts` for verbs | A verb on a thing gave a wrong or empty answer |
 | What a body needs and what neglect does | `ENDS`, `weakened`, need rates | `core/needs.ts`, `content.ts` schedules | A consequence of hunger, cold, exhaustion is missing |
 | An act a person would notice | A deed: predicate in `WRONGDOING` or the predicate list, phrase ladder in `words.ts` | `content.ts`, `words.ts`; raised with `g.happened` + `g.witness` | Something the player did left no trace in anyone's memory |
 | How someone feels about a deed | Drive nudges by predicate | `game.ts afterBelief` (by predicate, never by person) | A deed changed nothing in anyone's stance |
@@ -95,35 +144,55 @@ Two things are not on the list because they are decisions for a person:
 - **A new effect kind.** The effect vocabulary is code versioned like a schema. Propose it;
   do not add it.
 
+## Where the current code is shallow, so you do not copy it
+
+Knowing the anti-pattern matters as much as the pattern. These exist, they work, and they are
+the shape to stop:
+
+- **`replies()` in `talk.ts`** is a `switch` over situations with hand-built option lists per
+  arm. The deep version builds the option list from what the deed cost the listener (the
+  needs graph: an insult costs company, a blow costs safety) and what the listener's role
+  permits. When you touch `replies()`, do not add an arm; propose the generator.
+- **`maraActsOn`, `face_stranger`, `search_cellar`, the guard's preconditions** in
+  `game.ts` and `agenda.ts` are engine code with names in them, each added after a playtest
+  showed a gap. The class is "an NPC reacts to a belief by doing something". The deep version
+  is a stimulus-to-reaction pipeline over dispositions declared in content (the "reactions
+  and appraisal" backlog family). Listed in `SPEC.md` section 17. Do not add to the pile.
+- **`SPECIAL` lines keyed by request id** in `prose.ts` are fine as content but the keys are
+  invented one at a time. The class is "prose keyed to cause"; a deep version keys on the
+  cause's predicate and the speaker's role.
+
 ## Worked examples from the playtests, including the wrong fixes
 
 **"shut the fuck up" got "I've nothing to say to you about that."**
-Wrong: a regex for swearing that makes Mara threaten. Right: `insult` joined the closed verb
-set; an insult became a deed (`insulted`) on the witness path; the insulted got real options
-(retort, walk out, strike, and throw out for the innkeeper's role); an insult costs trust by a
-number. Sibling handled for free: insulting Tobin in front of Odo reaches Mara as gossip.
+Class: speech that is a deed. Wrong: a regex for swearing that makes Mara threaten. Right:
+`insult` joined the closed verb set; an insult became a deed (`insulted`) on the witness path;
+the insulted got options generated from their powers (retort, walk out, strike, and throw out
+for the innkeeper's role); an insult costs trust by a number. Siblings handled for free:
+insulting Tobin in front of Odo reaches Mara as gossip; a mocking remark; a slur at a guest
+who is not in the plot.
 
 **"eat" got "You turn the thought over and cannot see how to act on it."**
-Wrong: an `edible` flag on bread and an `eat` handler that checks it. Right: things carry
-what they serve toward each need; `eat` reaches for hunger; the table is too hard once and
-harmful when insisted on; insistence is counted from the log. Sibling handled: `sit`,
-`warm`, `hide`, `kick`, on anything, and `why stew`.
+Class: a verb tried on a thing. Wrong: an `edible` flag on bread and an `eat` handler that
+checks it. Right: things carry what they serve toward each need; verbs reach for a need or
+force; the table is too hard once and harmful when insisted on; insistence is counted from
+the log. Siblings: `sit`, `warm`, `hide`, `kick`, `climb`, on anything; `why stew`.
 
 **Mara said "One more word like that and you sleep in the ford" after "hello".**
-Wrong: suppress the line after greetings. Right: the line was her delayed warning about a
-fight, voiced with a generic threat; the warning got a line keyed to its cause.
+Class: prose keyed to cause. Wrong: suppress the line after greetings. Right: the line was her
+delayed warning about a fight, voiced with a generic threat; the warning got a line keyed to
+its cause.
 
 **"tel mara she's fat" became "Mara took the ledger".**
-Wrong: recognise "tel" as "tell". Right: an answer to a clarification must be made of the
-candidates' words. Sibling handled: any unrelated line typed after any question.
-
-**The pattern to stop.** `maraActsOn`, `face_stranger`, `search_cellar`, the guard's
-preconditions: each is engine code with a name in it, each added after a playtest showed a
-gap, each works. They are debt, listed in `SPEC.md` section 17. Do not add to the pile; when
-you touch one, try to make it lose its name.
+Class: resolving an answer against candidates. Wrong: recognise "tel" as "tell". Right: an
+answer to a clarification must be made of the candidates' words. Siblings: any unrelated line
+typed after any question.
 
 ## What to hand to a person instead of fixing
 
+- A class whose structure does not exist yet, or exists only as a shallow switch. Write the
+  proposal: the class, the interface (a few signatures), three siblings, what it replaces, and
+  what it costs. Do not build it in the loop.
 - Anything that fails the tests above after honest effort.
 - Anything about whether the game is fun. Fewer unparsed lines is not fun.
 - A slice that would need to grow past its budget.
@@ -139,3 +208,5 @@ you touch one, try to make it lose its name.
   was not.
 - The log is the save: `saves/*.jsonl` holds every judge answer with its probabilities. A
   reply the judge gave 0.42 to "none" is a different finding from one it gave 0.97.
+- Several snags in one report often share a class. Triage them together; one deep module
+  closes them all, and one issue should say so.
