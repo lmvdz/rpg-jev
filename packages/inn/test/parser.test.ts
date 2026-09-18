@@ -26,6 +26,15 @@ describe("the deterministic matcher", () => {
     expect(match("search the coat", world)).toMatchObject({
       action: { verb: "examine", target: "coat" },
     });
+    expect(match("inspect kitchen", world)).toMatchObject({
+      action: { verb: "examine", target: "kitchen" },
+    });
+    expect(match("examine cellar", world)).toMatchObject({
+      action: { verb: "examine", target: "cellar" },
+    });
+    expect(match("inspect common room", world)).toMatchObject({
+      action: { verb: "examine", target: "common_room" },
+    });
     expect(match("ask odo about tobin", world)).toMatchObject({
       action: { verb: "say", act: "ask", topic: { kind: "entity", id: "tobin" } },
     });

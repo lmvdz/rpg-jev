@@ -80,6 +80,7 @@ const NPC_LOOKS: Record<string, string> = {
 };
 
 export const lookAtPerson = (id: string) => NPC_LOOKS[id] ?? "Nobody you know.";
+export const lookAtRoom = (id: string) => ROOMS[id] ?? "A room.";
 
 function list(parts: string[]): string {
   if (parts.length <= 1) return parts[0] ?? "";
