@@ -40,8 +40,8 @@ switching it on.
 | Stage | Model has tools | What it is asked | What code does with the answer |
 | --- | --- | --- | --- |
 | triage | no | Walk the snag up the world-design ladder; name the class | Takes the class from a closed list; routes `mechanism` and `unclear` to a person |
-| plan | yes, read-only by instruction | A file-by-file plan, a sibling case, whether a re-record is owed | Throws away anything written to disk; checks the planned files against the bounds |
-| build | yes | Carry out the plan in the issue's worktree | Checks changed paths, runs `pnpm check`, commits; up to `max_build_attempts` |
+| plan | yes, in a box that is thrown away | A file-by-file plan, a sibling case, whether a re-record is owed | Throws away anything written to disk; checks the planned files against the bounds |
+| build | yes, in a box | Carry out the plan on a copy of the issue's tree | Checks changed paths, runs `pnpm check`, commits; up to `max_build_attempts` |
 | review | no | Approve, revise or reject against the tests of generality | Pushes and opens the pull request on approve (or updates the one already open); at `max_open_pull_requests` it waits |
 | pr | no | For one reviewer's finding: answer it, fix it, or pass it to a person; and the reply to post | Posts the reply under the finding; sends `fix` back to build; stops at `person` |
 
@@ -85,24 +85,63 @@ pnpm sdlc run --every=15    # a pass every 15 minutes, until stopped or switched
 pnpm sdlc clean             # remove the worktrees of closed issues
 ```
 
-## The two switches, in `playtests/loop.json`
+## The sandbox
+
+Plan and build give the model a tool, and `prime-agent`'s tool is a Python interpreter. The
+gate runs test files a model wrote. So the rule is: **nothing a model touched is ever executed
+on the host.** The host does git and GitHub; everything else happens in a Podman container.
+
+- **A tree goes in, a patch comes out.** The issue's tree is streamed into the container with
+  `git archive`: no `.git`, no remotes, no host path mounted, ever. The agent works on that
+  copy. What comes back is one text patch. Code applies it to the real worktree, checks the
+  changed paths against the bounds, and only then gates and commits.
+- **The gate runs in a second container with no network at all**: only a loopback interface,
+  no DNS. The tree exactly as it stands goes in, dependencies install offline from a store
+  baked into the image, without lifecycle scripts, and `pnpm check` runs there.
+- **The agent's container can reach one thing**: the model router. It sits on a closed network
+  whose only other member is a relay, a 20-line TCP pipe to one port on the host. Measured from
+  inside: the relay answers, the internet does not resolve, and the host's port is unreachable
+  except through the relay.
+- **Every container** drops all capabilities, cannot gain privileges, has a read-only root,
+  runs as uid 1000, and is bounded in processes, memory and CPU. Tests check that no container
+  is ever created with a host path, a device, a socket or host networking.
+- **The one secret inside is the router's key**, read from the agent CLI's config on the host,
+  written into the container, and gone with it. The image holds no `gh`, no ssh, no curl and
+  no credential helper.
+
+```bash
+pnpm sdlc sandbox-build     # build the image; again whenever pnpm-lock.yaml changes
+```
+
+The image is built from `sdlc/sandbox/Containerfile` with both base images pinned by digest.
+Its build context is assembled in `.sdlc/sandbox-context` (ignored), because the agent CLI is
+not on the public registry and is packed from the local install. The agent's Python
+environment is built at image build time, since a box has no network to build it with. The
+image is about 1.6 GB: most of it is that environment and the agent's own dependencies, not
+this repository. Opening a box and installing takes about 4 seconds; `pnpm check` inside it
+takes about 6.
+
+On Windows, Podman runs its containers in a VM. Use the Hyper-V provider
+(`provider = "hyperv"` under `[machine]` in `%APPDATA%\containers\containers.conf`): a WSL2
+machine shares a kernel with your other distributions and mounts your drives. Creating and
+starting a Hyper-V machine needs an elevated shell; running containers does not.
+
+## The switches, in `playtests/loop.json`
 
 | Key | Default | What it allows |
 | --- | --- | --- |
 | `enabled` | `false` | Any pass at all. Read at the start of every pass, so turning it off stops a running loop at the next one |
 | `sdlc.allow_tool_stages` | `false` | The plan and build stages. With it off, issues are triaged and then held at `stage:plan` |
+| `sdlc.sandbox` | `podman` | Where those stages and the gate run. Without this block the tool stages stay shut even if allowed |
 
-They are separate on purpose. `prime-agent`'s only tool is a Python REPL with no sandbox, so in
-plan and build the model can do anything the account running the loop can do: read files
-outside the worktree, use the network, use the GitHub login. The bounds, the gate and the
-review stop a bad change from being *proposed*. They do not stop a bad command from being
-*run*. Turning `allow_tool_stages` on is accepting that, or having first put the loop somewhere
-it does not matter: a container or VM with no credentials beyond a repository-scoped token.
+`sdlc.sandbox.kind` may be `none` for a machine that is itself disposable (a CI job), but then
+the tool stages run only if `accept` holds one exact sentence, which is in
+`packages/terminal/src/sdlc/sandbox.ts`. There is no quiet way to run them unsandboxed.
 
 Every model process, in every stage, is started without environment variables that look like
 credentials (`TOKEN`, `SECRET`, `PASSWORD`, `API_KEY` and the like), unless `sdlc.agent.env_keep`
 names one the model CLI needs. That is hygiene for runners whose environment holds tokens, such
-as a CI job. It is not containment: a stage with tools can still read files.
+as a CI job, and for the stages that run on the host.
 
 The rest of the `sdlc` block: `base_branch`, `worktree_root`, `trusted_authors`,
 `trusted_reviewers`, `gate_check`, `max_build_attempts`, and per stage the `prime-agent` provider and model, with the build
@@ -121,7 +160,14 @@ stage's turn, token and time limits. The loop's own files, its prompts and `.cla
   gave the right answers. Its model call and its posting of replies have never run. The first
   round of review-bot findings on that pull request was handled by hand, which is where the
   stage's rules come from.
-- Plan, build and review have never run. Nothing is known about whether a cheap model can
+- The build stage ran once, end to end, in the sandbox, on a hand-written plan ("append this
+  sentence to a doc"): the agent changed the file in its box, the patch came out and applied,
+  the bounds passed, the gate passed in a box with no network, and the loop committed. It took
+  143 seconds with `auto/coding`. The same trial with `auto/coding:cheap` produced reasoning and
+  no tool call; the unchanged tree passed the agent's own gate, and the loop correctly counted
+  it as a failed attempt ("the agent changed nothing"). So the cheap model's fitness for build
+  is doubtful, on a sample of one.
+- Plan and review have never run. A real issue has never gone through. Nothing is known about whether a cheap model can
   carry a plan through this repository's lint and tests.
 - The pure half (`flow.ts`: the stage table, snag keys, bounds, reading a model's answer) has
   15 tests. The half that drives `git`, `gh` and `prime-agent` has none.

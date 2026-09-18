@@ -3,7 +3,8 @@
 # repository's lockfile and manifests, and the agent CLI packed from the local install.
 #
 # What is deliberately not here: gh, ssh, curl, any credential helper, any credential.
-ARG BASE=docker.io/library/node:24-slim
+# Pinned by digest, so the image cannot change without a commit here. node:24-slim, 2026-09-18.
+ARG BASE=docker.io/library/node@sha256:713cfbf4a0ac19f40e1bb9919893e126b74a5c8cf5d0623c9f89515c8f74c6fa
 FROM ${BASE}
 
 RUN apt-get update \
@@ -20,13 +21,21 @@ RUN npm install --global /tmp/agent.tgz && rm /tmp/agent.tgz && npm cache clean 
 COPY sandbox/ /opt/sdlc/
 
 # Every package the lockfile names, for this platform, so that installs need no network.
-COPY manifests/ /tmp/manifests/
-RUN cd /tmp/manifests \
-  && pnpm fetch --frozen-lockfile --store-dir /opt/pnpm-store \
-  && rm -rf /tmp/manifests \
-  && chmod -R a+rX /opt/pnpm-store /opt/sdlc
-
-RUN mkdir -p /work /home/agent && chown 1000:1000 /work /home/agent
+RUN chmod -R a+rX /opt/sdlc && mkdir -p /home/agent/work && chown -R 1000:1000 /home/agent
 USER 1000:1000
 ENV HOME=/home/agent
-WORKDIR /work
+
+# The agent's tool is a Python kernel in an environment it builds with uv on first use. A box
+# has no network, so it is built here, once, into the home directory the volume is seeded from.
+# uv 0.12.9, by digest.
+COPY --from=ghcr.io/astral-sh/uv@sha256:3f47db7d4a0e00a2323de663864d0b75cb53e5708121f44b8add6d598be667b9 /uv /uvx /usr/local/bin/
+RUN node --input-type=module -e "const m = await import('/usr/local/lib/node_modules/prime-agent/dist/core/kernel/bootstrap.js'); const py = await m.ensureKernelPython({}); console.log('kernel python:', py);"
+
+# The store lives in the home directory because pnpm writes an index into it and the root is
+# read-only at run time. Home is one volume, seeded from the image, that also holds the working
+# tree, so packages are hard-linked into it and not copied.
+COPY --chown=1000:1000 manifests/ /tmp/manifests/
+RUN cd /tmp/manifests \
+  && pnpm fetch --frozen-lockfile --store-dir /home/agent/store \
+  && rm -rf /tmp/manifests
+WORKDIR /home/agent/work

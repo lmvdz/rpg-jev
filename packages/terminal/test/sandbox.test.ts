@@ -86,7 +86,7 @@ describe("what each container can reach", () => {
 
   it("only the relay has a leg outside, and it is not where the tree is", () => {
     expect(network("relay")).toBe(`${names.internal},podman`);
-    expect(containerFlags("relay", box, names)).not.toContain("/work");
+    expect(containerFlags("relay", box, names)).not.toContain("--volume");
   });
 
   it("the agent is told of one provider, one model, and the relay as its address", () => {

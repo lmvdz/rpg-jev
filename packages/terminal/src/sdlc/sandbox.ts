@@ -13,7 +13,7 @@
  * the tool stages may run at all. The second half drives `podman`.
  */
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
@@ -24,6 +24,8 @@ export interface SandboxConfig {
   accept?: string;
   /** The podman executable, if it is not on the PATH. */
   podman?: string;
+  /** The directory of the agent CLI package, if it is not installed beside node. */
+  agent_package?: string;
   image: string;
   /** The port of the model router on the host: the one place the agent may reach. */
   model_port: number;
@@ -50,6 +52,10 @@ export function toolStagesAllowed(sdlc: { allow_tool_stages?: boolean; sandbox?:
 
 export type Profile = "agent" | "gate" | "relay";
 
+/** One writable volume, seeded from the image: the package store, the agent's config, the tree. */
+export const HOME = "/home/agent";
+export const WORK = `${HOME}/work`;
+
 /**
  * The flags a container is created with. Everything here narrows: no capability, no new
  * privilege, a read-only root, bounded processes, memory and CPU, and a network that leads
@@ -75,14 +81,14 @@ export function containerFlags(
     "--user",
     "1000:1000",
     "--env",
-    "HOME=/home/agent",
+    `HOME=${HOME}`,
   ];
   if (profile === "relay") {
     // One leg on the closed network, one on the default, and one job: a TCP pipe to one port.
     flags.push("--network", `${names.internal},podman`, "--network-alias", "relay");
     return flags;
   }
-  flags.push("--volume", "/work", "--volume", "/home/agent", "--workdir", "/work");
+  flags.push("--volume", HOME, "--workdir", WORK);
   flags.push("--network", profile === "gate" ? "none" : names.internal);
   return flags;
 }
@@ -121,9 +127,16 @@ export interface Ran {
   out: string;
 }
 
+/** The executable: what the config says, else the installer's default on Windows, else the PATH. */
+export function podmanPath(box: SandboxConfig): string {
+  if (box.podman) return box.podman;
+  const installed = "C:/Program Files/RedHat/Podman/podman.exe";
+  return process.platform === "win32" && existsSync(installed) ? installed : "podman";
+}
+
 function podman(box: SandboxConfig, args: readonly string[], input?: Buffer | string): Ran {
   try {
-    const out = execFileSync(box.podman ?? "podman", [...args], {
+    const out = execFileSync(podmanPath(box), [...args], {
       encoding: "utf8",
       maxBuffer: BIG,
       stdio: ["pipe", "pipe", "pipe"],
@@ -155,7 +168,7 @@ export function routerKey(provider: string): string {
 
 export interface Box {
   exec(command: readonly string[], input?: Buffer | string): Ran;
-  /** Everything that changed under /work since the tree went in, as one binary-safe patch. */
+  /** Everything that changed in the working tree since the tree went in, as one binary-safe patch. */
   patch(): string;
   close(): void;
 }
@@ -200,7 +213,7 @@ export function openBox(
       cwd: o.tree,
       maxBuffer: BIG,
     });
-    must(exec(["tar", "-x", "-C", "/work"], archive), "copy the tree in");
+    must(exec(["tar", "-x", "-C", WORK], archive), "copy the tree in");
     // A baseline commit inside the box, so that what changed can be read back as a patch.
     must(exec(["sh", "/opt/sdlc/baseline.sh"]), "baseline");
     must(exec(["sh", "/opt/sdlc/install.sh"]), "offline install");

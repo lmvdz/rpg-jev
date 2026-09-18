@@ -5,6 +5,7 @@
  * pnpm sdlc tick [--dry-run]    one pass: move a few issues one stage forward, then end
  * pnpm sdlc run [--every=15]    a pass every so many minutes, until stopped or switched off
  * pnpm sdlc clean               remove the worktrees of issues that are closed
+ * pnpm sdlc sandbox-build       build the container image the tool stages and the gate run in
  *
  * The development loop (docs/sdlc.md). Code owns the workflow: the stage of an issue is a
  * label, the next stage is a table, the gate is run by this program, and only this program
@@ -36,6 +37,7 @@ import {
   stageOf,
 } from "./sdlc/flow.ts";
 import { createIssue, ensureLabels, type Issue, listIssues, reopen } from "./sdlc/github.ts";
+import { buildSandbox } from "./sdlc/sandbox-build.ts";
 import { advance } from "./sdlc/stages.ts";
 import { ROOT } from "./session.ts";
 
@@ -187,6 +189,7 @@ const COMMANDS: Record<string, () => Promise<void> | void> = {
   tick: () => (has("--dry-run") ? tick(true) : withLock(() => tick(false))),
   run: () => runForever(numberFlag("--every", 15)),
   clean,
+  "sandbox-build": () => buildSandbox(readConfig()),
 };
 
 const command = COMMANDS[process.argv[2] ?? "status"];

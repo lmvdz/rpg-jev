@@ -1,7 +1,7 @@
 #!/bin/sh
 # Dependencies come from the store baked into the image: no network, no lifecycle scripts.
-cd /work
-if pnpm install --offline --frozen-lockfile --ignore-scripts --store-dir /opt/pnpm-store >/tmp/install.log 2>&1; then
+cd /home/agent/work
+if pnpm install --offline --frozen-lockfile --ignore-scripts --store-dir /home/agent/store >/tmp/install.log 2>&1; then
   exit 0
 fi
 tail -n 20 /tmp/install.log
