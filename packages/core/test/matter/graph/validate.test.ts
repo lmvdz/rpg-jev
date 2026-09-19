@@ -129,7 +129,7 @@ describe("checking a row without running it", () => {
     [
       "citing nothing",
       (r: Record<string, unknown>) => {
-        (r.first as { because: string[] }[])[0]!.because = [];
+        for (const alt of r.first as { because: string[] }[]) alt.because = [];
       },
       /cites nothing/,
     ],

@@ -95,16 +95,16 @@ class Checker {
     this.where = where;
   }
 
-  say(problem: string) {
+  say(problem: string): undefined {
     this.problems.push(`${this.where}: ${problem}`);
   }
 
-  path(path: unknown) {
+  path(path: unknown): undefined {
     if (typeof path !== "string" || !split(path, this.allowed).ok)
       this.say(`unknown quantity ${JSON.stringify(path)}`);
   }
 
-  expr(e: unknown): void {
+  expr(e: unknown): undefined {
     if (typeof e === "number") {
       if (!Number.isFinite(e)) this.say("a number that is not finite");
       return;
@@ -124,17 +124,18 @@ class Checker {
     for (const arg of node.of) this.expr(arg);
   }
 
-  cond(c: unknown): void {
+  cond(c: unknown): undefined {
     if (typeof c !== "object" || c === null)
       return this.say(`not a condition: ${JSON.stringify(c)}`);
     const node = c as Record<string, unknown>;
     const strange = Object.keys(node).filter((k) => !COND_KEYS.includes(k));
     if (strange.length > 0) return this.say(`a condition with ${strange.join(", ")}`);
-    for (const key of ["all", "any"] as const)
-      if (key in node)
-        return Array.isArray(node[key])
-          ? (node[key] as unknown[]).forEach((x) => this.cond(x))
-          : this.say(`${key} of nothing`);
+    for (const key of ["all", "any"] as const) {
+      if (!(key in node)) continue;
+      if (!Array.isArray(node[key])) return this.say(`${key} of nothing`);
+      for (const inner of node[key] as unknown[]) this.cond(inner);
+      return;
+    }
     for (const key of ["has", "lacks", "ref"] as const)
       if (key in node) return this.path(node[key]);
     if (!["<", "<=", ">", ">="].includes(node.is as string))
@@ -144,7 +145,7 @@ class Checker {
   }
 
   /** What an effect writes: a scratch quantity, or a state it is allowed to move, within bounds. */
-  target(effect: Record<string, unknown>) {
+  target(effect: Record<string, unknown>): undefined {
     const q = effect.q;
     if (typeof q !== "string") return this.say("an effect on nothing");
     const { root, rest, ok } = split(q, this.allowed);
@@ -158,7 +159,7 @@ class Checker {
       this.say(`moves the level ${key} without bounds`);
   }
 
-  effect(e: unknown): void {
+  effect(e: unknown): undefined {
     if (typeof e !== "object" || e === null) return this.say("an effect that is not a record");
     const node = e as Record<string, unknown>;
     if (!["approach", "accrue", "set", "put"].includes(node.kind as string))
