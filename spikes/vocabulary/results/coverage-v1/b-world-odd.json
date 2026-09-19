@@ -1,0 +1,172 @@
+[
+  {
+    "id": "world-01",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X7", "uses": ["place:temperature", "place:season"], "effects": ["E13"] },
+      { "process": "X7", "uses": ["S1", "P15"], "effects": ["E1:S12", "E1"] },
+      { "process": "X3", "uses": ["S1", "S6"], "effects": ["E1:S6"] },
+      { "process": "X7", "uses": ["B1", "S14"], "effects": ["E5"] },
+      { "process": "X7", "uses": ["B7"], "effects": ["E1:B7"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "colour", "why": "leaves and grass changing colour is part of the stated outcome; section 8 confirms colour is still not granted (rendering only), so it can't be reasoned about even though it appears here." }
+    ],
+    "lost": "the leaves' and grass's colour change is asserted as flavor, not derivable from any property; the rest of the seasonal drift (frost, ice, migration, dormancy) resolves cleanly.",
+    "named_rule": null
+  },
+  {
+    "id": "world-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["place:flow"], "effects": ["E1:place.flow"] },
+      { "process": "X7", "uses": ["P3", "place:flow"], "effects": ["E4", "E13"] },
+      { "process": "Load", "uses": ["R3", "R4"], "effects": ["E1:R4"] },
+      { "process": "X7", "uses": ["place:flow"], "effects": ["E3", "E13"] },
+      { "process": "X7", "uses": ["place:flow"], "effects": ["E13"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "world-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["B2"], "effects": ["E2:B2", "E3"] },
+      { "process": "X6", "uses": ["P19", "R8", "B1"], "effects": ["E4"] },
+      { "process": "X6", "uses": ["P19", "B1"], "effects": ["E4", "E5"] },
+      { "process": "X7", "uses": ["S14", "S9", "R6"], "effects": ["E3"] },
+      { "process": "X6", "uses": ["S14", "S9"], "effects": ["E4", "E3", "E13"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "world-05",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["R2"], "effects": ["E5", "E2:B2"] },
+      { "process": "X7", "uses": ["S9", "S2"], "effects": ["E1:S9"] },
+      { "process": "X6", "uses": ["S9", "P17"], "effects": ["E2:B4"] },
+      { "process": "X10", "uses": [], "effects": ["E8"] },
+      { "process": "X1", "uses": ["R1"], "effects": ["E5"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "taste", "why": "the outcome states the water 'tastes foul'; section 8 confirms taste is still not granted and X8's verb list has no taste sense, so foulness noticed only on drinking can't be told apart from scent noticed at a distance." }
+    ],
+    "lost": "the specific detail that foulness is noticed by taste, only once drinking, distinct from smelling it beforehand, can't be derived; only generic scent stands in.",
+    "named_rule": null
+  },
+  {
+    "id": "world-07",
+    "verdict": "fail",
+    "steps": [
+      { "process": null, "uses": [], "effects": [] },
+      { "process": "X3", "uses": ["P6", "S1"], "effects": ["E1:S3"] },
+      { "process": "X7", "uses": ["P6", "place:wind"], "effects": ["E1:S14"] },
+      { "process": "X7", "uses": ["S2"], "effects": ["E1"] },
+      { "process": "X3", "uses": ["S1", "S2"], "effects": ["E4:S3"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "process", "what": "electrical strike targeting", "why": "section 8 explicitly leaves lightning's choice of what it strikes, and what it does to it, unaddressed, left for a person to decide; there is no property or process a code engine could use to pick a strike target on its own." }
+    ],
+    "lost": "the entire ignition trigger (lightning choosing the tallest dry tree) can't be derived from anything in the vocabulary; only the fire's spread, its slowing at damp scrub, and the storm's own rain putting it out resolve cleanly once it has started.",
+    "named_rule": null
+  },
+  {
+    "id": "world-08",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["R6"], "effects": ["E5"] },
+      { "process": "X7", "uses": ["S14", "B1"], "effects": ["E1:S14"] },
+      { "process": "X7", "uses": ["P15", "S9"], "effects": ["E1:S9", "E4"] },
+      { "process": "X8", "uses": ["P19", "E9"], "effects": ["E2:B7"] },
+      { "process": "X6", "uses": ["S14"], "effects": ["E1:S14", "E4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "odd-02",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["P14", "place:slope", "P1"], "effects": ["E5"] },
+      { "process": null, "uses": ["form:round"], "effects": ["E1"] },
+      { "process": "X2", "uses": ["P1", "P3", "P4"], "effects": ["E1:S4", "E2:B2"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "steering/turning force of an odd shape", "why": "section 8 explicitly leaves 'how a sled veers' unaddressed; the shield's round rim has no property that determines whether it holds or loses a straight line, so the drift into the rock is asserted, not derived." }
+    ],
+    "lost": "why the shield can't hold a line, and so drifts into the rock, can't be derived from any form or property; the slide's speed and the collision's damage otherwise resolve cleanly.",
+    "named_rule": null
+  },
+  {
+    "id": "odd-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "P1", "R10"], "effects": ["E2:B2"] },
+      { "process": "X2", "uses": ["P1", "P3"], "effects": ["E1:S4", "E9", "E2:B8"] },
+      { "process": "Load", "uses": ["R10", "R4"], "effects": ["E1:R10"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "odd-05",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X5", "uses": ["P24"], "effects": ["E3"] },
+      { "process": "X4", "uses": ["P24", "P13", "P21"], "effects": ["E1:S7"] },
+      { "process": null, "uses": ["P17"], "effects": ["E2"] }
+    ],
+    "reactions": [
+      "P24(ash paste) + P21(oily grease) under X4 -> E1: alkaline paste bridges oily and watery, breaking grease's bond to the pot"
+    ],
+    "missing": [
+      { "kind": "body", "what": "skin irritation from alkaline contact", "why": "a touch-route noxiousness would map to B4 sickness, which implies a significant illness with onset and course, not the mild 'dry, a little irritated' skin left by prolonged ash-paste contact; no lighter surface-contact condition exists." }
+    ],
+    "lost": "the mild skin dryness/irritation from handling the alkaline paste must be stretched into B4 sickness, which is built for more significant illness, not glossed-over surface effects.",
+    "named_rule": null
+  },
+  {
+    "id": "odd-06",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["P11", "P2", "P1"], "effects": ["E1"] },
+      { "process": "X1", "uses": ["P1"], "effects": ["E5"] },
+      { "process": "X1", "uses": ["place:flow"], "effects": ["E5"] },
+      { "process": null, "uses": ["P1"], "effects": ["E1"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "mass distribution / balance of a composite", "why": "section 8 explicitly leaves balance of odd shapes unaddressed; the composite rule only sums parts' mass, with no center-of-gravity concept, so tipping toward the denser, hinge-laden corner can't be derived." }
+    ],
+    "lost": "the door's tip toward its heavier corner can't be derived from the stated composite rule, which only sums mass; floating and downstream drift otherwise resolve cleanly.",
+    "named_rule": null
+  },
+  {
+    "id": "odd-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5", "uses": ["R10", "P2"], "effects": ["E6"] },
+      { "process": "X2", "uses": ["P3", "R10"], "effects": ["E1:R4"] },
+      { "process": "X2", "uses": ["P3"], "effects": ["E1:S4", "E6"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]

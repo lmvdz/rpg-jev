@@ -1,0 +1,128 @@
+[
+  {
+    "id": "food-01",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts (spoils warm and damp, satisfies now, sickens hours later; fresh does no harm)."
+  },
+  {
+    "id": "food-02",
+    "status": "rule_error",
+    "needs": ["X1 move (the test carries the strips into the rain by hand)", "weather as a place state that changes"],
+    "note": "Drying, re-wetting by rain, and damp rotting faster than dry over the same hours all derive. But the contamination drift in packages/core/src/matter/drift.ts uses damp = 0.4 + 0.6 * wetness / 5, so bone-dry meat still rots at 40% of full rate: strips are dry in 12 hours and at contamination 5 by 48 hours, eating them gives sickness 3.8, and the finished batch and the rained-on batch both end at 5. General rule: growth should need available water and fall to about nothing as wetness goes to 0 (S11: dried, salted, smoked act on S9's rate), so anything dried right through keeps."
+  },
+  {
+    "id": "food-03",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts as an expected fail (no property of salt slows contamination). The same dryness floor found in food-02 would also rot the salted fish."
+  },
+  {
+    "id": "food-04",
+    "status": "unbuilt",
+    "needs": [
+      "smouldering: damp or air-starved fuel that chars and smokes instead of either burning clean or not lighting",
+      "smoke as a gas substance made by S3 (burning emits no smoke at all today; only dousing does, as a signal)",
+      "air as a place state that gathers smoke where R6 is low",
+      "X6 breathe route",
+      "smoke slowing S9's rate on what hangs in it"
+    ],
+    "note": "In the engine green wood simply will not light until heat has dried it, and then burns clean; no smoke exists as matter, so nothing cures the meat or reaches the player's lungs."
+  },
+  {
+    "id": "food-05",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts (bread moulds over days in a damp cellar, the eater sickens). The rat finding it, and dying, are creature choice and a sickness course, not tested there."
+  },
+  {
+    "id": "food-06",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts. The second, deeper harm days later is not: a sickness is one delay and one loss of health."
+  },
+  {
+    "id": "food-07",
+    "status": "partly",
+    "needs": ["produce: a creature's row yielding milk (E3)", "S13 carried by a body and passed into what it produces", "creature choice or routine grazing (X6 by rate)"],
+    "note": "The goat eats the weed with no sign and loses health two hours later; milk given a taint by hand sickens its drinker after a delay with no sign at the time. The link between them does not exist: a body keeps only a sickness level, not a dose, and nothing makes milk."
+  },
+  {
+    "id": "food-08",
+    "status": "partly",
+    "needs": ["thirst as a need (B1; not in NEEDS, and the shared water row serves hunger as a stand-in)", "a sickness course that draws needs down (fluid lost), not only health", "still against moving water as what lets S9 grow in water (water has no perishability, so its contamination was set by hand)"],
+    "note": "Drinking meets a need at once with no harm shown, and health drops about two and a half hours later; clean water does no harm. The sickness never makes the drinker thirstier than before: driftBody only lowers health."
+  },
+  {
+    "id": "food-09",
+    "status": "partly",
+    "needs": ["M4 second half: contamination in a sugary, watery, sealed thing adds potency and gas (no property says sugary)", "S8 contents, sealed, and pressure", "Load on pressure and the burst as X2 on the jar", "E9 scent signal, X8 sensing, creature choice for the scavenger"],
+    "note": "The mash ferments unattended (contamination 5 within three days) and its effective scent climbs to 4. It gains no potency and makes no gas, and with no contents the jar is not involved at all; a side effect is that the liquid mash dries to wetness 0 in a day as if it stood open."
+  },
+  {
+    "id": "food-10",
+    "status": "partly",
+    "needs": ["a rule for what is swallowed and cannot be digested (toughness and no nourishment against a gut): discomfort, false fullness", "choking as a chance read from size, toughness and care in chewing"],
+    "note": "Derives cleanly with no whitelist: leather serves nothing, so it is consumed and hunger does not move. The cramps and bloat do not happen because ingest reads only serves and noxiousness."
+  },
+  {
+    "id": "body-01",
+    "status": "rule_error",
+    "needs": ["X5 join onto a body: a wrap with a strength set by care and haste, that lowers bleeding and loosens with movement", "X1 move and exertion working a join loose"],
+    "note": "A glancing axe (steel, edge 3, effort 2) opens a wound of depth and bleeding 3.2, and bleeding costs health. Rule error in driftBody (packages/core/src/matter/drift.ts): health falls by bleeding * 0.02 per minute for ever and bleeding never lessens, so this walkable cut kills in about 80 minutes and a bleed of 0.5 kills in about 8 hours. General rule: bleeding should fall on its own at a rate set by depth (clotting), faster at rest and slower or reversed with exertion, so only deep wounds need closing. The bandage itself is unbuilt: coat refuses a body as target."
+  },
+  {
+    "id": "body-02",
+    "status": "rule_error",
+    "needs": ["a coat smearing from one surface to another on contact (burning oil carried onto cloth)", "clothing as something a body wears, met by a blow to the body"],
+    "note": "The core derives (also shown in examples.test.ts): the coat lights, a 0.3 second cut sears the edges and still bleeds. Rule error in surfaceReached (packages/core/src/matter/heat.ts): the surface approaches a flame at 1.2 per minute, so cloth against the burning blade for ten seconds stays unlit; held in an open flame, cloth needs between 1.5 and 2 minutes and dry tinder between 30 and 60 seconds. General rule: a surface in flame reaches ignition in seconds, scaled by flammability and wetness; bulk heating is what takes minutes."
+  },
+  {
+    "id": "body-03",
+    "status": "unbuilt",
+    "needs": ["X1 fall and a landing as X2 with height as effort", "B3 broken and swollen as wound quantities", "X5 join as a splint (brace strength from rigidity and care)", "X7 heal, swell, and healing crooked under load", "body modifier rules (a leg that cannot bear weight)"],
+    "note": "Force with the ground as instrument would give a blunt wound with little bleeding, but a wound has only depth, bleeding and burned, so a break, a brace, swelling and knitting cannot be said."
+  },
+  {
+    "id": "body-04",
+    "status": "unbuilt",
+    "needs": ["S9 on a wound (infection) growing under a damp cover", "X7 fester and heal", "P18 applied to a wound as treatment that lowers severity without clearing it", "B4 sickness arising from a wound's contamination (fever)"],
+    "note": "A wound carries no contamination and nothing can be applied to one except a hot instrument, so neither the infection, the poultice nor the fever is in reach."
+  },
+  {
+    "id": "body-05",
+    "status": "rule_error",
+    "needs": ["B5 intoxication on the body, read from P18 by ingest, adding up over doses", "body modifier rules (clumsiness near the fire)", "a delayed aftermath scaled by dose", "kinds of contamination (a wanted ferment against rot)"],
+    "note": "The vocabulary says ferment is S9, and the engine's only way to a fermented drink is the mash of food-09 left a month. Rule error in M4 (packages/core/src/matter/effective.ts): every contamination adds noxiousness 0.8 per level, so the month-old ferment has noxiousness 4 and one cup gives sickness 4 and costs 2 health, exactly as rotten meat would; potency stays 0 and ingest never reads it. General rule: what contamination turns into depends on what it grows in (sugary, watery, sealed gives potency and gas, not noxiousness), and ingest should pass P18 into B5 as a dose that accumulates. Separately, ingest replaces sickness only when a dose is larger than the present one, so repeated doses never add."
+  },
+  {
+    "id": "body-06",
+    "status": "unbuilt",
+    "needs": ["body temperature or the warmth need drifting toward the place, read from shelter, wind, wetness and clothing", "B4 sickness from exposure with staged thresholds (shivering, then not)", "B7 asleep", "body modifier rules"],
+    "note": "Drift moves the temperature of things toward their place and never touches a body, so a night in the open does nothing to the sleeper."
+  },
+  {
+    "id": "body-07",
+    "status": "unbuilt",
+    "needs": ["thirst as a need and needs drifting with time, heat and exertion", "body heat", "thresholds on needs as events (dizzy, collapse)", "B7 unconscious", "X1 move and exertion"],
+    "note": "Needs only change when something is ingested; hours of walking in heat change nothing on the body."
+  },
+  {
+    "id": "body-08",
+    "status": "partly",
+    "needs": ["S9 on a wound, so a burn can fester", "pain as a body condition"],
+    "note": "Derives well from rows alone: a small blade reaches 4.9 after ten minutes in the fire, held five seconds with no effort it seals the bleeding and leaves a burn of 3.7 on the same wound, a 0.3 second touch does not seal, and a cold knife does nothing. The septic risk afterward cannot happen because a wound has no contamination. Note that with ordinary effort instead of none, the edged knife also opens a second bleeding wound, which is arguably right."
+  },
+  {
+    "id": "body-09",
+    "status": "unbuilt",
+    "needs": ["the rest need drifting up with time awake and exertion", "body modifier rules: fatigue lowering care, balance and senses", "X1 move on footing and slope with a chance of a stumble"],
+    "note": "Nothing in the engine reads or moves rest, and there is no movement for tiredness to spoil."
+  },
+  {
+    "id": "body-10",
+    "status": "partly",
+    "needs": ["E9 scent emitted by drift at the thing's effective scent", "X8 sensing over distance", "creature choice and routine (flies, scavengers), groups", "E3 maggots, E4 flesh eaten away"],
+    "note": "The carcass reaches contamination 3.5 in a day in the warm against 1.0 in the cold, and its effective scent rises from 2 to 4.1. The smell stays a level on the thing: drift emits no signal and nothing can sense it or come."
+  }
+]

@@ -1,0 +1,185 @@
+[
+  {
+    "id": "fire-01",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "fire-02",
+    "status": "rule_error",
+    "needs": [
+      "ignition reachable at every flammability above 0",
+      "wind reaching heat and burning (R7 with a strength)",
+      "fire spreading by itself in drift, patch to patch",
+      "groups or tiles for a field",
+      "smothering: air at the level of the thing, not only the place",
+      "creature choices for the neighbours"
+    ],
+    "note": "Derives: dry grass takes a torch (though it needs over a minute of held flame, not 'at once'), lights hay set against it, and burns to ash in ten minutes. RULE ERROR in heat.ts ignitionPoint: 6 - 0.45 * flammability gives 5.1 at level 2, above the hottest surface (5), so a hedge, a dry oak log or leather can never be lit however long they sit in a fire; the general rule should let anything above flammability 0 light at a reachable temperature, with low flammability costing time and drying rather than being impossible. Wind does not reach heat or burning at all, and nothing spreads unless a caller issues the heat act."
+  },
+  {
+    "id": "fire-03",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts. The contact rule error found under fire-05 applies here too: boots at a sensible distance end as hot as the fire if left long enough."
+  },
+  {
+    "id": "fire-04",
+    "status": "rule_error",
+    "needs": [
+      "deformation (bent, straightened) as a state force can change",
+      "M2 softening reaching the blow contest",
+      "a liquid source raising the heat rate",
+      "M2 'held too hot: S15' in heat",
+      "steam from a quench"
+    ],
+    "note": "Derives: the blade gets hot in ten minutes and is softer and more flexible hot (M2); left ten minutes in the trough it tempers (harder, less tough); a flawed quenched blade looks identical to a sound one and fails under load days later. RULE ERROR 1 in force.ts damage: every blow that gets 'into' a tough thing is taken off integrity, so eight ordinary hammer blows leave the blade at integrity 2.1 (broken), hot or cold alike; the general rule should turn a blow on something tough or soft into deformation and keep fracture for what is not tough. RULE ERROR 2 in heat.ts reached: the rate reads the target's conductivity, mass and contact only, so a blade plunged in water for half a minute goes from 4.86 to 4.45 and does not temper (it needs about six minutes); a liquid or wet contact should carry heat far faster than air. Missing: overheating never sets a flaw, and heat makes a hot blade no more workable under the hammer (blow is resisted by toughness and size only)."
+  },
+  {
+    "id": "fire-05",
+    "status": "rule_error",
+    "needs": [
+      "creature choices and the routine form (the fox)",
+      "move and contents (the pot tipping, the spill)",
+      "contact bounding the balance temperature, not only the rate",
+      "flame intensity or a faster surface rate for fine fuel",
+      "surface wetness apart from bulk wetness"
+    ],
+    "note": "Derives: fat on the coals takes light. RULE ERROR in heat.ts reached and surfaceReached: contact multiplies the rate and never the balance point, so at any distance a thing ends as hot as the source; a damp pelt on a rack at contact 0.2 over banked coals is burning within 30 minutes (bulk still only warm, 3.3) with no flare at all. The general rule: the temperature a thing tends to is a mix of source and place weighted by contact (heat in from the source against heat out to the place), so distance caps how hot it gets. In the other direction a half-minute flare at full contact cannot light the fur: the surface rate is fixed at 1.2 a minute whatever the flame, and the hide's bulk wetness (2) holds flammability at 1.4 until the whole pelt is warm. I am fairly sure of the first; the second depends on my wetness 2 for a fresh pelt, but fails dry as well."
+  },
+  {
+    "id": "fire-06",
+    "status": "rule_error",
+    "needs": [
+      "a spark as a hot thing that lands and meets a surface (E3 or a reaction that heats what is near), not only a light signal",
+      "contact bounding the balance temperature",
+      "burns from a nearby flame reaching a body without a caller's force act"
+    ],
+    "note": "Derives: iron struck hard on iron throws a spark; lit oil burns off in eight minutes and is gone; an earth floor never lights; a half-second in the flash gives a light burn (0.67) and no cut. Does not derive: the spark is a light signal with no heat and no place to land, so it cannot light the oil. RULE ERROR, the same rule as fire-05 (heat.ts surfaceReached): an oil puddle lying across the smithy from the forge at contact 0.05 lights by itself within 30 minutes while its bulk is still at 2.3."
+  },
+  {
+    "id": "fire-07",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "fire-08",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "fire-09",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "fire-10",
+    "status": "partly",
+    "needs": [
+      "smoke as a gas substance made by burning (S3, E3)",
+      "places changing: air as a place state that burning draws down and R6 restores",
+      "breathing through X6 and the air need on a body",
+      "move (taking the fire outside)"
+    ],
+    "note": "Derives only that kindling lights and burns on in a place with little air (air 1). Burning emits no smoke, never changes the place's air, and no body breathes, so the whole hazard is outside the engine; this is the version 2 candidate 'air as a place state'."
+  },
+  {
+    "id": "cold-01",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts. Seen again under cold-08: rain wets by drift at 0.05 of a level a minute, so 'soaked within minutes' takes over an hour."
+  },
+  {
+    "id": "cold-02",
+    "status": "partly",
+    "needs": [
+      "wind strength against the size of a flame in burning's drift, with shelter (R5) as the shield",
+      "sensing: light and line of sight",
+      "move: speed without light, footing near a drop"
+    ],
+    "note": "The lantern burns on out of the wind, and burns on exactly the same in a wind of 5: burning reads the place's air and never its wind. The dark crossing is sensing and move, both unbuilt."
+  },
+  {
+    "id": "cold-03",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts. A row for ice also shows P8 cannot say it: level 5 melts at 3.5, between warm and hot, so ice would stay solid on a mild day."
+  },
+  {
+    "id": "cold-04",
+    "status": "partly",
+    "needs": [
+      "places changing: standing snow accumulating by weather",
+      "covers (R5) and sensing: a buried thing losing its visible cue",
+      "claims about where something is (E8), with a landmark"
+    ],
+    "note": "Derives only that roots keep in a frozen pit (contamination 0.18 after five days, 0.74 after three weeks) and go in a mild damp one. The snow, the burial and the lost cache are unbuilt. A magnitude to look at: at perishability 1, roots in a mild damp pit reach 2.6 in five days and are wholly rotten inside three weeks, because the rate is linear in perishability."
+  },
+  {
+    "id": "cold-05",
+    "status": "rule_error",
+    "needs": [
+      "bearing strength that reads hardness and how much there is (S14 or thickness), apart from toughness",
+      "move: falling through, climbing out",
+      "bodies' wetness and temperature",
+      "place-dependent latent thickness"
+    ],
+    "note": "Derives: ice with a hidden flaw looks the same as sound ice and gives way under a walker with a crack. RULE ERROR in load.ts strength: toughness * 0.6 + hardness * 0.2 + size * 0.4 ignores amount and is led by toughness, so sound thick ice (strength 2.6) and a stone step (1.8) both break under a standing person (mass 4); nothing brittle can bear a person however thick. The general rule: a steady load is borne by hardness and by how much material there is, and toughness should matter for sudden force, not for standing weight. The soaking and chilling of the walker need bodies that can be wet and cold."
+  },
+  {
+    "id": "cold-06",
+    "status": "partly",
+    "needs": [
+      "worn things: a covers relation between clothes and a body",
+      "a body's warmth draining at a rate read from wet covering, air temperature and wind (body modifier and drift)",
+      "move (wading, walking on)"
+    ],
+    "note": "Derives: the ford soaks the cloth to 5, M1 makes wet cloth a worse insulator (conductivity 0 to 2), and four hours on in cool air it is still at 4.2. None of that reaches a body: there is no worn relation and the warmth need does not drift, so the chill and the shivering do not happen."
+  },
+  {
+    "id": "cold-07",
+    "status": "unbuilt",
+    "needs": [
+      "join as building: a covering with a thickness, a coverage and a fastening strength (X5, R4, R5)",
+      "rain passing a cover by porosity and gaps (R6)",
+      "wind as a force on a join",
+      "bodies' wetness"
+    ],
+    "note": "No test. The only join the engine has is a coat, and nothing shelters anything; care and haste do reach coverage in coat, which is the right shape for a hasty roof."
+  },
+  {
+    "id": "cold-08",
+    "status": "partly",
+    "needs": [
+      "electricity (asked for and not granted)",
+      "rain as a soak on exposed things at a rate that matters in minutes",
+      "a source that loses heat as it gives it, and cools faster wet"
+    ],
+    "note": "The strike and the split are electricity, not granted. In reach: dry grass against the hot split wood catches (derives, though helped by the contact rule error of fire-05), and ten minutes of rain first does not stop it (does not derive): drift wets the grass to only 0.5 in ten minutes, the heat act then dries that off, and the wood is still at 4.8. After an hour of rain it no longer catches. The contact of 0.8 and the ten minutes are my encoding of 'close enough' and 'a few minutes later'; the scenario itself says it could go either way."
+  },
+  {
+    "id": "cold-09",
+    "status": "unbuilt",
+    "needs": [
+      "places changing: flow and standing water drawn down by a rainfall deficit over weeks",
+      "contents and mixtures: silt stirred into water, settling by drift",
+      "taint or murk as a reason water is unfit (X6)"
+    ],
+    "note": "No test. Nothing in the engine changes a place, and a scoop of water carries nothing from the bed it was taken from."
+  },
+  {
+    "id": "cold-10",
+    "status": "partly",
+    "needs": [
+      "move: sinking and speed from footing, softness and mass",
+      "viscosity or wet stickiness (version 2 candidate): M1 does not make wet soil grip",
+      "a contested hold between the mud and the foot on the boot",
+      "a coat adding mass"
+    ],
+    "note": "Derives: two days of rain leave ploughed soil at wetness 4.8, hardness 0 and a level and a half heavier, against the packed path at 3.4 and hardness 1.4, from the two rows' absorbency alone; mud coats the boots. The sinking, the stuck boot and the shortcut being slower are move, which is unbuilt."
+  }
+]

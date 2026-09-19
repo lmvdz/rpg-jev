@@ -1,0 +1,830 @@
+[
+  {
+    "id": "careless-01",
+    "domain": "fire",
+    "place": "A dry hillside camp at the edge of a grass meadow, in late summer after weeks without rain.",
+    "initiator": "player",
+    "lines": ["make camp here", "cook the rabbit over the fire", "pack up and head to the ridge to watch the sunset"],
+    "things": ["campfire", "firewood", "grass meadow", "wind", "player's pack", "rabbit"],
+    "outcome": "The player breaks camp without smothering the fire; the last logs are still glowing coals. A gust catches sparks and drops them into the dry grass a few paces off, which catches within minutes. By the time the player looks back from the ridge, a line of flame is spreading downwind through the meadow, and by nightfall it has burned a wide swath and only stops at a stream on the far side.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "campfire",
+        "patient": "firewood",
+        "instrument": null,
+        "because": ["firewood is dry", "fire is hot"],
+        "effects": ["firewood loses solid", "creates ash", "creates coals"],
+        "numbers": ["how long the wood burns down to coals"]
+      },
+      {
+        "process": "abandon",
+        "agent": "player",
+        "patient": "campfire",
+        "instrument": null,
+        "because": ["player is distracted", "coals are still hot"],
+        "effects": ["campfire gains unattended"],
+        "numbers": ["how long coals stay hot enough to ignite something"]
+      },
+      {
+        "process": "gust",
+        "agent": "wind",
+        "patient": "coals",
+        "instrument": null,
+        "because": ["wind is strong", "coals are light enough to lift as sparks"],
+        "effects": ["creates spark", "moves spark to grass meadow"],
+        "numbers": ["how far a spark can travel on this wind"]
+      },
+      {
+        "process": "ignite",
+        "agent": "spark",
+        "patient": "grass meadow",
+        "instrument": null,
+        "because": ["grass is dry", "grass is flammable", "spark is hot"],
+        "effects": ["grass meadow gains burning", "grass meadow loses cover"],
+        "numbers": ["how fast fire spreads through dry grass with this wind"]
+      },
+      {
+        "process": "spread",
+        "agent": "fire",
+        "patient": "grass meadow",
+        "instrument": "wind",
+        "because": ["wind is steady", "grass is continuous", "fire is unchecked"],
+        "effects": ["grass meadow quantity down", "creates ash", "player learns the meadow is burning"],
+        "numbers": ["how much grass burns before it reaches the stream", "how long until it burns out"]
+      }
+    ],
+    "latent": ["the stream on the far side of the meadow will stop the fire", "there is a rabbit warren in the grass that will be destroyed"],
+    "state_after": ["campfire: cold ash, out", "grass meadow: mostly burned, smoldering at edges", "player: safe, downwind and uphill"],
+    "stress": "delayed, unattended consequence with no one watching it happen",
+    "temptation": "a special rule that only this campfire, in this meadow, can start a wildfire"
+  },
+  {
+    "id": "careless-02",
+    "domain": "cold",
+    "place": "A cold river valley in autumn, after the player forded a stream in the rain.",
+    "initiator": "player",
+    "lines": ["ford the stream", "make camp for the night", "sleep"],
+    "things": ["player", "wet clothes", "riverbank", "night air", "bedroll"],
+    "outcome": "The player crosses the stream soaked to the waist and, tired, lies down to sleep without changing into anything dry. Body heat cannot dry heavy wet cloth overnight, and the cold night air keeps drawing warmth away. The player wakes shivering and stiff, and by midday develops a cough that will slow travel for the next few days.",
+    "steps": [
+      {
+        "process": "soak",
+        "agent": "stream",
+        "patient": "player's clothes",
+        "instrument": null,
+        "because": ["stream is water", "clothes are absorbent"],
+        "effects": ["player's clothes gains wet"],
+        "numbers": ["how much water the clothes hold"]
+      },
+      {
+        "process": "sleep",
+        "agent": "player",
+        "patient": "player",
+        "instrument": "wet clothes",
+        "because": ["player is tired", "wet clothes stay wet overnight", "night air is cold"],
+        "effects": ["player loses warmth", "player gains chilled"],
+        "numbers": ["how much body heat is lost overnight at this temperature"]
+      },
+      {
+        "process": "sicken",
+        "agent": "cold",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player is chilled for a long stretch", "player is tired"],
+        "effects": ["player gains sick"],
+        "numbers": ["odds of falling ill from a night this cold and wet", "how many days the cough lasts"]
+      },
+      {
+        "process": "weaken",
+        "agent": "sickness",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player is sick"],
+        "effects": ["player loses stamina"],
+        "numbers": ["how much travel speed drops while sick"]
+      }
+    ],
+    "latent": ["a dry set of clothes in the pack would have prevented this"],
+    "state_after": ["player: sick, coughing, slower than normal", "wet clothes: still damp, drying slowly by the fire"],
+    "stress": "consequence that only appears after a delay and compounds a second choice (not changing clothes)",
+    "temptation": "a special rule that only rivers, or only this stream, cause sickness"
+  },
+  {
+    "id": "careless-03",
+    "domain": "food",
+    "place": "A one-room hut in warm weather, days after a successful hunt.",
+    "initiator": "player",
+    "lines": ["hang the deer meat by the bed", "go check the snares", "come back and sleep"],
+    "things": ["deer meat", "bed", "hut", "rats", "wolf", "player", "door"],
+    "outcome": "The player leaves the fresh meat hanging inside, close to where they sleep, instead of curing it or hanging it outside away from the hut. Over the day the meat's smell fills the small room and draws rats in through a gap in the wall; that night a wolf drawn by the same smell circles the hut and scratches at the door. The meat itself starts to spoil in the warmth, and the player wakes to a chewed-open bag, missing meat, and claw marks on the door.",
+    "steps": [
+      {
+        "process": "decay",
+        "agent": "warmth",
+        "patient": "deer meat",
+        "instrument": null,
+        "because": ["meat is raw", "hut is warm", "meat is unsalted"],
+        "effects": ["deer meat gains spoiling"],
+        "numbers": ["how long meat stays fresh at this temperature"]
+      },
+      {
+        "process": "attract",
+        "agent": "deer meat",
+        "patient": "rats",
+        "instrument": "smell",
+        "because": ["meat is spoiling", "rats are hungry", "hut has a gap in the wall"],
+        "effects": ["creates smell", "moves rats to hut"],
+        "numbers": ["how far the smell carries", "how many rats it draws"]
+      },
+      {
+        "process": "eat",
+        "agent": "rats",
+        "patient": "deer meat",
+        "instrument": null,
+        "because": ["rats are hungry", "meat is reachable"],
+        "effects": ["deer meat quantity down", "deer meat loses container"],
+        "numbers": ["how much meat the rats eat overnight"]
+      },
+      {
+        "process": "approach",
+        "agent": "wolf",
+        "patient": "hut",
+        "instrument": "smell",
+        "because": ["wolf is hungry", "smell is strong", "wolf is drawn by scent"],
+        "effects": ["moves wolf to hut", "player gains disturbed sleep"],
+        "numbers": ["odds the wolf tries to get in"]
+      },
+      {
+        "process": "scratch",
+        "agent": "wolf",
+        "patient": "door",
+        "instrument": "claws",
+        "because": ["wolf wants what it smells", "door is the only barrier"],
+        "effects": ["door loses finish", "player learns something tried to get in"],
+        "numbers": ["how much damage the door takes"]
+      }
+    ],
+    "latent": ["the gap in the wall was already there, unnoticed"],
+    "state_after": ["deer meat: mostly eaten by rats, remainder spoiled", "door: scratched, still shut", "player: safe but short on meat and sleep"],
+    "stress": "one careless placement causing two independent, escalating consequences (rats and a wolf)",
+    "temptation": "a special rule that only deer meat, or only wolves, are drawn by smell"
+  },
+  {
+    "id": "careless-04",
+    "domain": "boats",
+    "place": "A wide, slow river crossed with a small wooden rowboat, carrying cargo home from a trade.",
+    "initiator": "player",
+    "lines": ["load the grain sacks onto the boat", "load the iron tools too", "get in and push off"],
+    "things": ["rowboat", "grain sacks", "iron tools", "player", "river", "waterline"],
+    "outcome": "The player piles grain sacks and iron tools into a boat built for a lighter load, and the hull sits low in the water before they even push off. Partway across, a small wake from the current tips enough water over the low side to start filling the boat, and the extra weight means it cannot be rowed clear fast enough. The boat swamps, the iron tools sink to the riverbed, and the player has to swim the grain sacks and themselves to the far bank, soaked and short on tools.",
+    "steps": [
+      {
+        "process": "load",
+        "agent": "player",
+        "patient": "rowboat",
+        "instrument": null,
+        "because": ["grain sacks are heavy", "iron tools are heavy", "rowboat has a limited capacity"],
+        "effects": ["rowboat gains low waterline"],
+        "numbers": ["total weight loaded against the boat's safe capacity"]
+      },
+      {
+        "process": "swamp",
+        "agent": "river",
+        "patient": "rowboat",
+        "instrument": "wake",
+        "because": ["rowboat sits low", "wake is enough to crest the low side"],
+        "effects": ["rowboat gains flooding", "rowboat loses buoyancy"],
+        "numbers": ["how much water comes over the side", "how much freeboard remained"]
+      },
+      {
+        "process": "sink",
+        "agent": "river",
+        "patient": "iron tools",
+        "instrument": null,
+        "because": ["iron is denser than water", "rowboat is flooding"],
+        "effects": ["moves iron tools to riverbed", "player loses iron tools"],
+        "numbers": ["how fast iron sinks once the boat floods"]
+      },
+      {
+        "process": "swim",
+        "agent": "player",
+        "patient": "player",
+        "instrument": null,
+        "because": ["rowboat is swamped", "player can swim", "grain sacks float"],
+        "effects": ["player gains soaked", "moves grain sacks to far bank"],
+        "numbers": ["how far the swim to the bank is"]
+      }
+    ],
+    "latent": ["the boat's safe capacity was never checked before loading"],
+    "state_after": ["rowboat: swamped, drifting, recovered later", "iron tools: on the riverbed, lost", "player: soaked, on the far bank with grain sacks"],
+    "stress": "cumulative load exceeding capacity with no single action being the obvious cause",
+    "temptation": "a special rule that only this boat, or only iron, causes sinking"
+  },
+  {
+    "id": "careless-05",
+    "domain": "ice",
+    "place": "A frozen pond early in winter, the ice only a few days old and not yet thick.",
+    "initiator": "player",
+    "lines": ["walk across the pond to save time", "keep going"],
+    "things": ["pond", "ice", "player", "cold water", "current", "shore"],
+    "outcome": "The player cuts across the pond instead of going around, trusting ice that only froze a few nights ago. Partway across, the ice under the player's weight, already thin near the middle where the current runs, cracks and gives way. The player drops into cold water over their head, has to claw back onto unbroken ice at the edge of the hole, and reaches shore soaked and dangerously cold, the crossing taking far longer than walking around would have.",
+    "steps": [
+      {
+        "process": "freeze",
+        "agent": "cold",
+        "patient": "pond",
+        "instrument": null,
+        "because": ["air has been cold for only a few days", "water was not yet still long enough to freeze thick"],
+        "effects": ["pond gains ice"],
+        "numbers": ["how thick the ice is after this many cold days"]
+      },
+      {
+        "process": "walk",
+        "agent": "player",
+        "patient": "ice",
+        "instrument": null,
+        "because": ["player is impatient", "ice looks solid from the edge"],
+        "effects": ["ice gains load"],
+        "numbers": ["player's weight against how much the ice can bear at this thickness"]
+      },
+      {
+        "process": "crack",
+        "agent": "ice",
+        "patient": "ice",
+        "instrument": "player's weight",
+        "because": ["ice is thin over the current", "load exceeds what thin ice bears"],
+        "effects": ["ice loses solid", "creates crack"],
+        "numbers": ["how much weight the thin patch could bear before failing"]
+      },
+      {
+        "process": "fall",
+        "agent": "gravity",
+        "patient": "player",
+        "instrument": null,
+        "because": ["ice gave way underfoot", "water is beneath the ice"],
+        "effects": ["moves player to cold water", "player gains soaked"],
+        "numbers": ["how deep the water is at that point"]
+      },
+      {
+        "process": "chill",
+        "agent": "cold water",
+        "patient": "player",
+        "instrument": null,
+        "because": ["water is near freezing", "player is submerged"],
+        "effects": ["player loses warmth", "player gains at risk"],
+        "numbers": ["how long before cold water becomes dangerous"]
+      }
+    ],
+    "latent": ["the ice near the middle is thinner because the current underneath never fully stills"],
+    "state_after": ["ice: cracked open in the middle, refreezing slowly", "player: soaked, cold, safe on shore", "pond: unchanged otherwise"],
+    "stress": "trusting a uniform-looking surface that is not uniform underneath",
+    "temptation": "a special rule that only this pond, or only early-winter ice, breaks"
+  },
+  {
+    "id": "malice-01",
+    "domain": "poison",
+    "place": "A small farming village with one shared well that every household draws from.",
+    "initiator": "player",
+    "lines": ["wait until dark", "tip the crushed nightshade berries into the well", "leave before anyone sees"],
+    "things": ["well", "nightshade berries", "village", "well water", "villagers", "player"],
+    "outcome": "Under cover of night the player crushes poisonous berries into the village's only well and leaves unseen. The poison mixes through the water gradually rather than all at once, so the first households to draw water in the morning get the worst of it and several people fall seriously ill through the day; a few who drank less get away with cramps. By the second day someone connects the illness to the well, stops people drawing from it, and the village starts hauling water from the river instead until the well is drawn down and refilled.",
+    "steps": [
+      {
+        "process": "crush",
+        "agent": "player",
+        "patient": "nightshade berries",
+        "instrument": null,
+        "because": ["berries are poisonous", "berries release poison when crushed"],
+        "effects": ["creates poison"],
+        "numbers": ["how much poison the berries yield"]
+      },
+      {
+        "process": "pour",
+        "agent": "player",
+        "patient": "well water",
+        "instrument": "poison",
+        "because": ["well is unwatched at night", "poison is soluble"],
+        "effects": ["well water gains poisoned"],
+        "numbers": ["how much poison per amount of well water"]
+      },
+      {
+        "process": "mix",
+        "agent": "well water",
+        "patient": "poison",
+        "instrument": null,
+        "because": ["water is disturbed by drawing", "poison is not evenly mixed at first"],
+        "effects": ["well water gains uneven concentration"],
+        "numbers": ["how the poison concentration changes as water is drawn and settles"]
+      },
+      {
+        "process": "drink",
+        "agent": "villagers",
+        "patient": "well water",
+        "instrument": null,
+        "because": ["villagers trust the well", "water looks and tastes normal"],
+        "effects": ["villagers gains sick"],
+        "numbers": ["how much poisoned water it takes to sicken a person", "how many households draw before it's discovered"]
+      },
+      {
+        "process": "investigate",
+        "agent": "villagers",
+        "patient": "well",
+        "instrument": null,
+        "because": ["several people are sick with the same symptoms", "the well is the shared cause"],
+        "effects": ["villagers learns the well is poisoned", "well loses trust"],
+        "numbers": ["how long until the pattern is noticed"]
+      }
+    ],
+    "latent": ["nobody saw who came to the well at night", "the well takes time to refill and dilute after being drawn down"],
+    "state_after": ["well: marked unsafe, being drawn down and left to refill", "villagers: several sick, recovering over days", "player: unseen, unsuspected so far"],
+    "stress": "a delayed, indirect harm to many people from a single unseen act",
+    "temptation": "a special rule that only nightshade, or only wells, poison people"
+  },
+  {
+    "id": "malice-02",
+    "domain": "fire",
+    "place": "A farming valley at harvest time, dry fields ready to cut, at night.",
+    "initiator": "player",
+    "lines": ["walk to the neighbour's wheat field after dark", "set the dry edge of the field alight", "walk away without looking back"],
+    "things": ["wheat field", "neighbour", "player", "torch", "wind", "neighbour's barn"],
+    "outcome": "The player sets fire to the edge of a rival farmer's ripe wheat field at night and walks off. The dry, standing wheat catches fast and the wind pushes the flame across the whole field within the hour, destroying a season's harvest. The fire runs further than the player expected, though, licking close enough to the neighbour's barn that the neighbour and their family spend the night beating out embers on the barn wall to save it, only just managing before dawn.",
+    "steps": [
+      {
+        "process": "ignite",
+        "agent": "player",
+        "patient": "wheat field",
+        "instrument": "torch",
+        "because": ["wheat is dry and ready to cut", "torch is burning"],
+        "effects": ["wheat field gains burning"],
+        "numbers": ["how fast standing dry wheat catches"]
+      },
+      {
+        "process": "spread",
+        "agent": "fire",
+        "patient": "wheat field",
+        "instrument": "wind",
+        "because": ["wind is blowing across the field", "wheat is continuous fuel"],
+        "effects": ["wheat field quantity down", "creates smoke"],
+        "numbers": ["how much of the field burns given the wind", "how long it takes"]
+      },
+      {
+        "process": "threaten",
+        "agent": "fire",
+        "patient": "neighbour's barn",
+        "instrument": "wind",
+        "because": ["wind carries sparks toward the barn", "barn is near the field"],
+        "effects": ["neighbour's barn gains at risk"],
+        "numbers": ["how close the fire gets to the barn"]
+      },
+      {
+        "process": "fight",
+        "agent": "neighbour",
+        "patient": "fire",
+        "instrument": "water and beating",
+        "because": ["neighbour's barn is threatened", "neighbour wants to save it"],
+        "effects": ["neighbour loses sleep", "neighbour's barn loses risk"],
+        "numbers": ["how long the neighbour spends fighting embers"]
+      },
+      {
+        "process": "lose",
+        "agent": "fire",
+        "patient": "neighbour",
+        "instrument": null,
+        "because": ["field burned before it could be harvested"],
+        "effects": ["neighbour loses harvest", "neighbour learns the field was burned deliberately"],
+        "numbers": ["value of the lost harvest"]
+      }
+    ],
+    "latent": ["the barn was closer to the field edge than the player judged in the dark"],
+    "state_after": ["wheat field: burned, unharvestable", "neighbour's barn: scorched but standing", "neighbour: exhausted, suspicious, harvest lost"],
+    "stress": "an act meant to harm one thing risking a second, unintended target",
+    "temptation": "a special rule that only wheat, or only crops at night, burn this way"
+  },
+  {
+    "id": "malice-03",
+    "domain": "bridges",
+    "place": "A rope-and-plank bridge over a steep gorge, the only crossing for miles, used daily by travelers and a mule train.",
+    "initiator": "player",
+    "lines": ["find the anchor rope on the far side, out of sight", "cut most of the way through it, leaving it looking whole", "leave before anyone crosses"],
+    "things": ["rope bridge", "anchor rope", "gorge", "traveler", "mule train", "player", "knife"],
+    "outcome": "The player partly cuts through one of the bridge's anchor ropes where the damage will not be noticed at a glance, meaning to strand or hurt whoever crosses next. The rope holds under a lone traveler's weight that afternoon, since it is only weakened, not severed, but by evening a mule train loaded with goods crosses and the extra weight is enough to snap the weakened rope. The bridge tips hard to one side, spilling cargo and a mule into the gorge; the mule survives on a ledge partway down but has to be hauled out the next day, and the bridge itself is impassable until it is repaired.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "player",
+        "patient": "anchor rope",
+        "instrument": "knife",
+        "because": ["rope is fiber, cuttable", "player wants the damage hidden"],
+        "effects": ["anchor rope loses strength"],
+        "numbers": ["how much of the rope's strength remains after a partial cut"]
+      },
+      {
+        "process": "cross",
+        "agent": "traveler",
+        "patient": "rope bridge",
+        "instrument": null,
+        "because": ["traveler is lone and light", "weakened rope still holds a light load"],
+        "effects": ["moves traveler to far side"],
+        "numbers": ["how much load the weakened rope can still bear"]
+      },
+      {
+        "process": "cross",
+        "agent": "mule train",
+        "patient": "rope bridge",
+        "instrument": null,
+        "because": ["mule train and cargo are heavy", "bridge shows no visible damage"],
+        "effects": ["anchor rope gains load"],
+        "numbers": ["total weight of the mule train and cargo"]
+      },
+      {
+        "process": "snap",
+        "agent": "anchor rope",
+        "patient": "anchor rope",
+        "instrument": "mule train's weight",
+        "because": ["rope was already weakened", "load exceeds the weakened rope's remaining strength"],
+        "effects": ["anchor rope loses hold", "rope bridge gains tilted"],
+        "numbers": ["load at which the weakened rope fails"]
+      },
+      {
+        "process": "fall",
+        "agent": "gravity",
+        "patient": "mule",
+        "instrument": null,
+        "because": ["bridge tilted sharply", "mule lost footing"],
+        "effects": ["moves mule to ledge", "creates spilled cargo", "traveler learns the bridge failed"],
+        "numbers": ["how far the mule falls before the ledge catches it"]
+      }
+    ],
+    "latent": ["the partial cut was invisible without close inspection", "a ledge partway down the gorge happens to catch anything that falls there"],
+    "state_after": ["anchor rope: snapped", "rope bridge: tilted and impassable", "mule: injured on a ledge, needing rescue", "player: unseen, unsuspected so far"],
+    "stress": "a sabotage that harms whoever happens to cross next, not a chosen target",
+    "temptation": "a special rule that only ropes, or only bridges, fail this way"
+  },
+  {
+    "id": "malice-04",
+    "domain": "theft",
+    "place": "A small village where a merchant's silver coins are kept in a chest, and the player wants suspicion for a theft to fall on a rival.",
+    "initiator": "player",
+    "lines": ["take a few of the merchant's silver coins while the chest is unwatched", "hide the coins in the rival's bag while they sleep", "tell the merchant you saw the rival near the chest"],
+    "things": ["silver coins", "merchant's chest", "rival's bag", "merchant", "rival", "player", "village elder", "chest lock"],
+    "outcome": "The player steals a handful of coins, plants them in a sleeping rival's bag, and tells the merchant a story about seeing the rival near the chest. The merchant, trusting the player's word, accuses the rival and searches the bag, finding the coins and seeming to confirm it. But the village elder asks harder questions: the chest's lock was not forced or picked, which the rival could not have managed without a key, and someone recalls the player near the chest earlier that day; suspicion starts shifting back toward the player as the story fails to explain the intact lock.",
+    "steps": [
+      {
+        "process": "steal",
+        "agent": "player",
+        "patient": "silver coins",
+        "instrument": null,
+        "because": ["chest was left unlocked briefly", "coins are valuable and portable"],
+        "effects": ["transfers silver coins from merchant to player"],
+        "numbers": ["how many coins are missing"]
+      },
+      {
+        "process": "plant",
+        "agent": "player",
+        "patient": "rival's bag",
+        "instrument": "silver coins",
+        "because": ["rival is asleep", "bag is unattended"],
+        "effects": ["rival's bag gains silver coins"],
+        "numbers": ["how many coins are planted versus how many are missing"]
+      },
+      {
+        "process": "accuse",
+        "agent": "player",
+        "patient": "rival",
+        "instrument": "false claim",
+        "because": ["merchant trusts the player", "player wants suspicion elsewhere"],
+        "effects": ["merchant learns a false account", "rival gains suspected"],
+        "numbers": []
+      },
+      {
+        "process": "search",
+        "agent": "merchant",
+        "patient": "rival's bag",
+        "instrument": null,
+        "because": ["player's accusation points there", "merchant wants the coins back"],
+        "effects": ["merchant learns coins are in rival's bag"],
+        "numbers": []
+      },
+      {
+        "process": "question",
+        "agent": "village elder",
+        "patient": "player's account",
+        "instrument": null,
+        "because": ["chest lock shows no sign of forcing or picking", "someone remembers the player near the chest"],
+        "effects": ["village elder learns the lock was not forced", "player gains suspected"],
+        "numbers": ["how many coins were planted, against how many are actually missing, and whether that total matches"]
+      }
+    ],
+    "latent": ["the chest's lock was never damaged, which only someone with a key or the owner's trust could manage", "a villager noticed the player near the chest earlier, unremarked at the time"],
+    "state_after": ["rival: no longer clearly suspected, coins returned", "player: increasingly suspected", "merchant: uncertain who to trust", "silver coins: recovered, back with merchant"],
+    "stress": "a frame that works only until physical evidence (the undamaged lock) contradicts the story",
+    "temptation": "a special rule that framing always succeeds, or always fails, rather than following from what the evidence actually shows"
+  },
+  {
+    "id": "malice-05",
+    "domain": "animals",
+    "place": "A farmyard with a goat kept in a small pen, belonging to a neighbour the player resents.",
+    "initiator": "player",
+    "lines": ["sneak into the neighbour's yard while they're away", "move the goat's water trough out of reach", "take the hay out of the pen"],
+    "things": ["goat", "pen", "water trough", "hay", "neighbour", "player"],
+    "outcome": "The player sneaks in while the neighbour is away and removes both the penned goat's water and its hay, leaving it with nothing to eat or drink and no way to reach more since it is fenced in. The goat grows weak within a day, its bleating draws no help since the neighbour is gone for two days, and by the time the neighbour returns the goat is dangerously dehydrated and thin; it survives but only after days of careful feeding, and it never fully regains the weight it lost.",
+    "steps": [
+      {
+        "process": "remove",
+        "agent": "player",
+        "patient": "water trough",
+        "instrument": null,
+        "because": ["trough is portable", "pen fence keeps the goat from following it out"],
+        "effects": ["moves water trough to outside pen", "goat loses water"],
+        "numbers": ["how long a goat can go without water"]
+      },
+      {
+        "process": "remove",
+        "agent": "player",
+        "patient": "hay",
+        "instrument": null,
+        "because": ["hay is the only food in reach", "goat cannot leave the pen"],
+        "effects": ["consumes hay", "goat loses food"],
+        "numbers": ["how long a goat can go without food"]
+      },
+      {
+        "process": "weaken",
+        "agent": "hunger and thirst",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["goat has no food or water", "pen prevents it reaching any"],
+        "effects": ["goat loses strength", "goat gains weak"],
+        "numbers": ["how fast a goat weakens without food and water"]
+      },
+      {
+        "process": "wait",
+        "agent": "time",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["neighbour is away for two days", "nobody else checks the pen"],
+        "effects": ["goat quantity down"],
+        "numbers": ["how much condition the goat loses over two unattended days"]
+      },
+      {
+        "process": "find",
+        "agent": "neighbour",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["neighbour returns after two days", "goat is visibly distressed"],
+        "effects": ["neighbour learns the goat was deprived", "neighbour gains suspicious of player"],
+        "numbers": ["how many days of careful feeding it takes to recover"]
+      }
+    ],
+    "latent": ["the neighbour would be gone for exactly two days, which the player knew"],
+    "state_after": ["goat: recovering slowly, permanently thinner", "water trough: back in the pen", "player: suspected but not proven"],
+    "stress": "harm through deprivation and absence rather than a direct violent act",
+    "temptation": "a special rule that only goats, or only pens, work this way, instead of any confined creature needing food and water on a schedule"
+  },
+  {
+    "id": "exploit-01",
+    "domain": "foraging",
+    "place": "A single patch of open grass beside a footpath, already searched once.",
+    "initiator": "player",
+    "lines": ["search the grass for stones", "search the grass for stones again", "search the grass for stones again", "keep searching the same spot"],
+    "things": ["grass patch", "stones", "player"],
+    "outcome": "The player searches the same small patch of grass over and over, hoping each search turns up a fresh stone. The first search finds the two or three loose stones that were actually lying there; every search after that finds nothing, because the patch does not restock itself between searches and there is nothing left until something changes what's there, like rain washing more in or time turning up a buried one. The player wastes an hour repeating a search that already gave everything it had.",
+    "steps": [
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "grass patch",
+        "instrument": null,
+        "because": ["stones are loose on the surface", "grass patch is small enough to search fully"],
+        "effects": ["player learns what stones are in the patch", "transfers stones from grass patch to player"],
+        "numbers": ["how many stones were actually there to find"]
+      },
+      {
+        "process": "mark",
+        "agent": "grass patch",
+        "patient": "grass patch",
+        "instrument": null,
+        "because": ["patch has just been fully searched"],
+        "effects": ["grass patch gains searched"],
+        "numbers": []
+      },
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "grass patch",
+        "instrument": null,
+        "because": ["player is searching again", "patch is already searched and has nothing new"],
+        "effects": ["player learns nothing new is there"],
+        "numbers": ["count of stones remaining after the first search"]
+      },
+      {
+        "process": "repeat",
+        "agent": "player",
+        "patient": "grass patch",
+        "instrument": null,
+        "because": ["player keeps searching a patch with nothing left"],
+        "effects": ["player loses time"],
+        "numbers": ["how much time is spent for zero further stones"]
+      }
+    ],
+    "latent": ["the patch will only have something new after rain or enough time passes to turn something up, not after more searching"],
+    "state_after": ["grass patch: fully searched, marked, nothing left to find", "player: holding the original two or three stones, an hour poorer", "stones: none remaining in the patch"],
+    "stress": "a repeated identical action against a finite, already-exhausted resource",
+    "temptation": "a special rule that grass patches only, or stones only, cannot be searched twice, instead of a general rule that a place holds a fixed, findable amount until something changes it"
+  },
+  {
+    "id": "exploit-02",
+    "domain": "food",
+    "place": "A kitchen table with a single baked loaf of bread, the player hungry and wanting to stretch it.",
+    "initiator": "player",
+    "lines": ["tear the loaf in half", "call this two loaves now", "eat both halves and expect them to count as two loaves eaten"],
+    "things": ["loaf of bread", "player", "table"],
+    "outcome": "The player tears one loaf into two halves and insists on calling each half a whole loaf. Tearing bread does not make more bread: the two pieces together still weigh and fill exactly what the one loaf did before, so eating both halves is the same as eating the one loaf, not two. The player ends up exactly as fed as eating the original loaf would have made them, no more, and still has only eaten one loaf's worth of food.",
+    "steps": [
+      {
+        "process": "tear",
+        "agent": "player",
+        "patient": "loaf of bread",
+        "instrument": null,
+        "because": ["bread is tearable", "player wants two portions"],
+        "effects": ["loaf of bread loses whole", "creates bread half", "creates bread half"],
+        "numbers": ["total mass of the two halves, which must equal the original loaf's mass"]
+      },
+      {
+        "process": "claim",
+        "agent": "player",
+        "patient": "bread halves",
+        "instrument": "false count",
+        "because": ["player wants credit for two loaves", "two pieces exist now"],
+        "effects": ["player learns the count does not match a real second loaf"],
+        "numbers": ["count of loaves actually baked: one, regardless of how many pieces it is torn into"]
+      },
+      {
+        "process": "eat",
+        "agent": "player",
+        "patient": "bread halves",
+        "instrument": null,
+        "because": ["player is hungry", "halves together are edible"],
+        "effects": ["player loses hunger", "consumes bread halves"],
+        "numbers": ["how much hunger one loaf's worth of bread satisfies, split across two half-sized portions"]
+      }
+    ],
+    "latent": ["nothing about tearing bread adds mass, flour, or baking to the total"],
+    "state_after": ["loaf of bread: gone, eaten as two halves", "player: fed exactly as much as one loaf provides, no more"],
+    "stress": "a naming trick that tries to multiply a fixed quantity by relabeling its pieces",
+    "temptation": "a special rule that bread specifically cannot be split for credit, instead of a general rule that the pieces of a thing sum to the thing's original quantity"
+  },
+  {
+    "id": "exploit-03",
+    "domain": "debt",
+    "place": "A trader's stall in a market town, where the player owes the trader for goods taken on credit weeks ago.",
+    "initiator": "player",
+    "lines": ["tell the trader you already paid off the debt last week", "ask for more goods on credit since the old debt is settled"],
+    "things": ["trader", "player", "debt", "coins", "ledger"],
+    "outcome": "The player tells the trader the earlier debt was already paid, hoping to get new goods on credit without settling the old balance. But nothing in the trader's ledger or memory shows any payment: no coins changed hands, no transaction was recorded, and the trader simply checks the running total against what was actually handed over. Since the claim matches no record, the trader refuses the new credit and the original debt still stands, unchanged by the claim alone.",
+    "steps": [
+      {
+        "process": "claim",
+        "agent": "player",
+        "patient": "debt",
+        "instrument": "false statement",
+        "because": ["player wants new goods without paying", "no payment actually happened"],
+        "effects": ["trader learns a claim was made"],
+        "numbers": []
+      },
+      {
+        "process": "check",
+        "agent": "trader",
+        "patient": "ledger",
+        "instrument": null,
+        "because": ["trader keeps a record of what was paid and owed", "a claim needs to match a record to be believed"],
+        "effects": ["trader learns whether a payment is recorded"],
+        "numbers": ["amount recorded as paid against the debt"]
+      },
+      {
+        "process": "compare",
+        "agent": "trader",
+        "patient": "player's claim",
+        "instrument": "ledger",
+        "because": ["ledger shows no matching entry", "claim and record disagree"],
+        "effects": ["trader learns the claim is false"],
+        "numbers": ["the outstanding balance, unchanged by the claim"]
+      },
+      {
+        "process": "refuse",
+        "agent": "trader",
+        "patient": "player",
+        "instrument": null,
+        "because": ["debt is still unpaid by the record", "trader will not extend more credit against an unpaid debt"],
+        "effects": ["player gains refused"],
+        "numbers": ["the debt balance after the claim, unchanged from before"]
+      }
+    ],
+    "latent": ["only an actual transfer of coins, entered against the debt, would change the ledger"],
+    "state_after": ["debt: unchanged, still owed", "ledger: unchanged, no new entry", "player: refused new credit"],
+    "stress": "a claim about state that is checked against a record instead of taken on the player's word",
+    "temptation": "a special rule that debts specifically cannot be claimed false, instead of a general rule that any claim about world state is checked against what was actually recorded"
+  },
+  {
+    "id": "exploit-04",
+    "domain": "packs",
+    "place": "A traveler's leather pack on the player's back, already holding a day's supplies.",
+    "initiator": "player",
+    "lines": ["put another iron ingot in the pack", "put another iron ingot in the pack", "keep putting iron ingots in the pack", "put in a hundred more"],
+    "things": ["leather pack", "iron ingots", "player", "pack straps"],
+    "outcome": "The player keeps stuffing iron ingots into a pack that already has supplies in it. Each ingot adds real weight, and the pack and the player's back can only bear so much before something gives: partway through, the straps tear under the load and the overloaded pack splits open, spilling most of the ingots onto the ground rather than holding them. What the player ends up actually carrying is whatever the torn pack and their own strength can still bear, not the full pile of ingots they tried to force in.",
+    "steps": [
+      {
+        "process": "load",
+        "agent": "player",
+        "patient": "leather pack",
+        "instrument": null,
+        "because": ["iron ingots are heavy", "pack has a stitched, finite capacity"],
+        "effects": ["leather pack quantity up"],
+        "numbers": ["running total weight in the pack after each ingot"]
+      },
+      {
+        "process": "strain",
+        "agent": "iron ingots",
+        "patient": "pack straps",
+        "instrument": null,
+        "because": ["weight exceeds what the straps are stitched to bear", "each added ingot adds more strain"],
+        "effects": ["pack straps loses strength"],
+        "numbers": ["weight at which the straps are stitched to fail"]
+      },
+      {
+        "process": "tear",
+        "agent": "pack straps",
+        "patient": "pack straps",
+        "instrument": "accumulated weight",
+        "because": ["strain has exceeded the straps' limit"],
+        "effects": ["pack straps loses hold", "leather pack loses closed"],
+        "numbers": []
+      },
+      {
+        "process": "spill",
+        "agent": "gravity",
+        "patient": "iron ingots",
+        "instrument": null,
+        "because": ["pack has torn open", "ingots are no longer held"],
+        "effects": ["moves iron ingots to ground", "player loses iron ingots"],
+        "numbers": ["how many ingots the torn pack keeps versus how many spill out"]
+      }
+    ],
+    "latent": ["the pack's stitching had a real weight it could bear, unrelated to how many times the player tried to add more"],
+    "state_after": ["leather pack: torn, holding only what it can still bear", "iron ingots: mostly on the ground, a few still in the pack", "player: carrying far less than what was pushed in"],
+    "stress": "an attempt to bypass a physical capacity limit by repetition rather than volume",
+    "temptation": "a special rule that packs specifically have a hard item-count cap, instead of a general rule that any container's straps or material fail under real accumulated weight"
+  },
+  {
+    "id": "exploit-05",
+    "domain": "fire",
+    "place": "The bed of a shallow, slow stream, where the player is standing knee to chest deep.",
+    "initiator": "player",
+    "lines": ["hold the torch under the water", "try to light the torch while it's submerged", "keep trying to get it to catch"],
+    "things": ["torch", "stream", "flint and steel", "player"],
+    "outcome": "The player holds an unlit torch underwater and tries to strike a flame onto it while it's submerged. Fire needs the wood to be dry enough to catch and needs air to burn in, and underwater there is neither: the torch is soaked through and any spark struck is smothered by the water before it can catch on anything. No amount of repeated striking changes this, because striking sparks does not remove the water or supply air; the player only wastes flint and steel and ends up with a torch too wet to light even after climbing out.",
+    "steps": [
+      {
+        "process": "submerge",
+        "agent": "player",
+        "patient": "torch",
+        "instrument": null,
+        "because": ["player wants to light it underwater"],
+        "effects": ["torch gains soaked"],
+        "numbers": []
+      },
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "flint and steel",
+        "instrument": null,
+        "because": ["player wants a spark"],
+        "effects": ["creates spark"],
+        "numbers": ["how many strikes before flint or steel wears down"]
+      },
+      {
+        "process": "smother",
+        "agent": "stream",
+        "patient": "spark",
+        "instrument": null,
+        "because": ["spark needs air to catch", "spark is surrounded by water, not air"],
+        "effects": ["spark loses heat"],
+        "numbers": []
+      },
+      {
+        "process": "fail",
+        "agent": "torch",
+        "patient": "torch",
+        "instrument": null,
+        "because": ["wood is soaked, not dry enough to catch", "no air is present at the wood to burn in"],
+        "effects": ["player learns the torch will not light underwater"],
+        "numbers": ["how wet the torch is now, and how long it would take to dry before it could catch at all"]
+      }
+    ],
+    "latent": ["the torch will stay too wet to light for some time even after coming out of the water"],
+    "state_after": ["torch: soaked, unlit, unusable until it dries", "flint and steel: worn down from repeated striking", "player: still without fire"],
+    "stress": "an attempt to force an outcome by repetition against a precondition (dryness, air) that repetition cannot supply",
+    "temptation": "a special rule that fire specifically cannot be lit underwater, instead of a general rule that burning requires both a flammable dry fuel and access to air"
+  }
+]

@@ -1,0 +1,824 @@
+[
+  {
+    "id": "fire-01",
+    "domain": "fire",
+    "place": "A riverside clearing after a night of rain; the ground and gathered branches are still damp.",
+    "initiator": "player",
+    "lines": ["light the fire", "come on, catch", "try the drier stuff underneath"],
+    "things": ["campfire ring of stones", "damp branches", "dry tinder found under a log", "flint and steel", "player"],
+    "outcome": "The damp branches will not catch from sparks alone; the flint throws sparks onto wet bark that just smokes. Once the player digs out dry tinder from under a fallen log and shields it from the breeze, the sparks catch and a small flame builds, which then dries and lights the damp branches stacked over it. Getting a proper fire going takes several tries and some minutes longer than it would with dry wood.",
+    "steps": [
+      {
+        "process": "spark",
+        "agent": "player",
+        "patient": "damp branches",
+        "instrument": "flint and steel",
+        "because": ["patient is damp", "patient is flammable"],
+        "effects": ["creates smoke"],
+        "numbers": ["how many strikes before a spark catches", "how much moisture is in the wood"]
+      },
+      {
+        "process": "gather",
+        "agent": "player",
+        "patient": "dry tinder",
+        "instrument": null,
+        "because": ["patient is dry", "patient is hard to find"],
+        "effects": ["player learns where dry tinder is"],
+        "numbers": ["how long the search takes"]
+      },
+      {
+        "process": "light",
+        "agent": "player",
+        "patient": "dry tinder",
+        "instrument": "flint and steel",
+        "because": ["patient is dry", "patient is flammable"],
+        "effects": ["patient gains burning", "creates flame"],
+        "numbers": ["how many strikes it takes"]
+      },
+      {
+        "process": "burn",
+        "agent": "fire",
+        "patient": "damp branches",
+        "instrument": null,
+        "because": ["patient is close to heat", "patient is flammable"],
+        "effects": ["patient loses damp", "patient gains burning", "consumes tinder"],
+        "numbers": ["how long until the branches catch", "how much heat is needed to dry them first"]
+      }
+    ],
+    "latent": ["dry tinder under the fallen log"],
+    "state_after": ["campfire: burning, established", "damp branches: burning, dried out", "flint and steel: unchanged"],
+    "stress": "fuel readiness (moisture) gates whether ignition succeeds, and drying is itself a precondition before burning can start",
+    "temptation": "a special rule that damp branches specifically need tinder-then-branches, instead of a general moisture property that resists ignition until heat and time reduce it"
+  },
+  {
+    "id": "fire-02",
+    "domain": "fire",
+    "place": "A dry hillside pasture in late summer, grass knee-high and brittle, a hedge and a neighbor's haystack downwind at the bottom of the slope.",
+    "initiator": "player",
+    "lines": ["set the whole field on fire", "whoa wait", "put it out, put it out"],
+    "things": ["dry grass field", "hedge", "haystack", "wind", "player", "neighbors"],
+    "outcome": "The grass is dry and catches at once, and the wind carries the flame line downhill faster than the player can contain it. Beating at the edge with a cloak slows it in places but does not stop it; by the time it reaches the bottom of the slope it has caught the hedge and singed the corner of the haystack before neighbors arrive to help smother it. What was meant as a small controlled burn becomes a hillside fire that takes most of an afternoon to put out and leaves a wide blackened scar.",
+    "steps": [
+      {
+        "process": "light",
+        "agent": "player",
+        "patient": "dry grass field",
+        "instrument": "torch",
+        "because": ["patient is dry", "patient is flammable"],
+        "effects": ["patient gains burning", "creates flame line"],
+        "numbers": ["how fast the flame line spreads"]
+      },
+      {
+        "process": "spread",
+        "agent": "fire",
+        "patient": "dry grass field",
+        "instrument": "wind",
+        "because": ["patient is dry", "instrument is strong", "place is sloped downhill"],
+        "effects": ["patient gains burning", "creates smoke", "observer learns the fire is spreading"],
+        "numbers": ["how far it travels before help arrives", "how much the wind speeds it"]
+      },
+      {
+        "process": "catch",
+        "agent": "fire",
+        "patient": "hedge",
+        "instrument": null,
+        "because": ["patient is flammable", "patient is downwind"],
+        "effects": ["patient gains burning", "patient gains damage"],
+        "numbers": ["how much of the hedge burns"]
+      },
+      {
+        "process": "smother",
+        "agent": "player and neighbors",
+        "patient": "fire",
+        "instrument": "wet sacks",
+        "because": ["patient needs air", "instrument is wet"],
+        "effects": ["patient loses burning", "creates blackened ground"],
+        "numbers": ["how long it takes several people to put out"]
+      }
+    ],
+    "latent": ["how far downhill the haystack sits from the ignition point"],
+    "state_after": ["field: burned, blackened", "hedge: burned, damaged", "haystack: scorched at one corner", "player: exhausted, soot-covered"],
+    "stress": "scale and spread rate from a single ignition, and containment failing to keep pace with propagation",
+    "temptation": "a rule that treats 'field' as one object that either burns or doesn't, instead of grass-by-patch spread driven by a wind property and a slope property"
+  },
+  {
+    "id": "fire-03",
+    "domain": "fire",
+    "place": "A hearth in a stone hut after a rainy day's walk; boots are soaked through.",
+    "initiator": "player",
+    "lines": ["dry my boots by the fire", "a bit closer", "I'll check on them later"],
+    "things": ["wet leather boots", "hearth fire", "player"],
+    "outcome": "Set at a sensible distance the boots would simply dry over an hour or so, but pulled in close for a faster result they sit near enough that the leather grows hot rather than just warm. Left unwatched while the player does something else, the boots stiffen and the leather at the toe scorches and cracks before anyone notices the smell; they are still wearable but never sit right again.",
+    "steps": [
+      {
+        "process": "dry",
+        "agent": "fire",
+        "patient": "wet leather boots",
+        "instrument": null,
+        "because": ["patient is wet", "agent is hot"],
+        "effects": ["patient loses wet", "patient gains warm"],
+        "numbers": ["how long it takes to dry at a safe distance"]
+      },
+      {
+        "process": "heat",
+        "agent": "fire",
+        "patient": "wet leather boots",
+        "instrument": null,
+        "because": ["patient is close to the fire", "patient is scorchable"],
+        "effects": ["patient gains hot", "patient loses moisture fast"],
+        "numbers": ["how close counts as too close", "how long before scorching starts"]
+      },
+      {
+        "process": "scorch",
+        "agent": "fire",
+        "patient": "wet leather boots",
+        "instrument": null,
+        "because": ["patient is left unattended", "patient is hot"],
+        "effects": ["patient gains damage", "patient loses flexibility", "creates smell of burnt leather"],
+        "numbers": ["how long unattended before damage sets in"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["boots: dry, scorched at the toe, stiff"],
+    "stress": "distance from heat as a continuous property, where drying and scorching sit on the same curve rather than being different rules",
+    "temptation": "a specific 'boots near fire' rule instead of a general heat-and-distance-over-time function that applies to any object near a flame"
+  },
+  {
+    "id": "fire-04",
+    "domain": "fire",
+    "place": "A smithy with a coal forge, a hammer and anvil, and a trough of water.",
+    "initiator": "player",
+    "lines": ["heat the blade till it glows", "hammer out the bend", "quench it"],
+    "things": ["iron blade", "forge fire", "hammer", "anvil", "trough of water", "smith"],
+    "outcome": "The blade heats to a dull red and then bright orange under the bellows; worked at the right heat the bend hammers out cleanly. Quenched quickly in the water it hisses and hardens at once. Rushed and left in the fire a little too long, though, the metal has actually overheated past where hammering helps; the blade looks fine leaving the forge, but days later, put to hard use, it cracks along the overheated section rather than bending.",
+    "steps": [
+      {
+        "process": "heat",
+        "agent": "forge fire",
+        "patient": "iron blade",
+        "instrument": null,
+        "because": ["patient is heat-conductive", "agent is hot"],
+        "effects": ["patient gains hot", "patient gains glowing"],
+        "numbers": ["how long to reach working heat", "how hot is too hot"]
+      },
+      {
+        "process": "hammer",
+        "agent": "smith",
+        "patient": "iron blade",
+        "instrument": "hammer",
+        "because": ["patient is glowing", "patient is malleable when hot"],
+        "effects": ["patient loses bend", "patient gains shape"],
+        "numbers": ["how many strikes to straighten it"]
+      },
+      {
+        "process": "quench",
+        "agent": "smith",
+        "patient": "iron blade",
+        "instrument": "trough of water",
+        "because": ["patient is hot", "instrument is cold"],
+        "effects": ["patient loses hot", "patient gains hardness", "creates steam"],
+        "numbers": ["how fast it cools", "how brittle it becomes if it was overheated first"]
+      },
+      {
+        "process": "crack",
+        "agent": "iron blade",
+        "patient": "iron blade",
+        "instrument": "hard use",
+        "because": ["patient was overheated earlier", "patient is brittle underneath"],
+        "effects": ["patient gains damage", "patient loses integrity"],
+        "numbers": ["how many days pass before it is struck hard enough to fail"]
+      }
+    ],
+    "latent": ["whether the blade was heated past the safe working point, invisible until it fails"],
+    "state_after": ["iron blade: hardened, straight, latently brittle, later cracked"],
+    "stress": "a hidden state (overheated) that does not show until a delayed, unrelated event reveals it",
+    "temptation": "checking only the final quench temperature instead of tracking how long the metal sat at excessive heat beforehand"
+  },
+  {
+    "id": "fire-05",
+    "domain": "fire",
+    "place": "A trapper's camp at dusk, a low fire banked with coals, a cooking pot set near the edge, and a fresh pelt hung to dry on a rack just above.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["fox", "cooking pot", "coals", "drying pelt", "rack"],
+    "outcome": "Drawn by the smell of grease in the pot, the fox noses it over; it tips into the coals and spills fat that flares up briefly, and the flare licks up into the pelt hanging just above on the rack. The pelt is fur, and fur close to open flame catches fast: a patch of it singes and curls before the trapper returns to beat it out, leaving a ruined section of the hide.",
+    "steps": [
+      {
+        "process": "knock",
+        "agent": "fox",
+        "patient": "cooking pot",
+        "instrument": null,
+        "because": ["agent is hungry", "patient is unstable", "patient smells of food"],
+        "effects": ["patient moves to coals", "creates spill"],
+        "numbers": ["how much fat spills"]
+      },
+      {
+        "process": "flare",
+        "agent": "coals",
+        "patient": "spilled fat",
+        "instrument": null,
+        "because": ["patient is flammable", "agent is hot"],
+        "effects": ["patient gains burning", "creates flame"],
+        "numbers": ["how high the flare reaches", "how long it lasts"]
+      },
+      {
+        "process": "catch",
+        "agent": "flame",
+        "patient": "drying pelt",
+        "instrument": null,
+        "because": ["patient is flammable", "patient is close above the fire"],
+        "effects": ["patient gains burning", "patient loses value"],
+        "numbers": ["how much of the pelt burns before it is beaten out"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["cooking pot: overturned, empty", "drying pelt: singed, damaged", "fox: fled"],
+    "stress": "a creature's ordinary behavior (foraging) triggering a fire hazard with nobody present to intend it",
+    "temptation": "a scripted 'fox steals food' event instead of deriving the knock from hunger plus an unstable, food-smelling object in reach"
+  },
+  {
+    "id": "fire-06",
+    "domain": "fire",
+    "place": "The same smithy, later, with a puddle of lamp oil spilled near the anvil from an earlier refill.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["spilled lamp oil", "hammer", "anvil", "spark", "smith"],
+    "outcome": "A stray spark thrown off the anvil lands in the puddle of oil nobody noticed on the floor. Oil catches far more readily than the packed dirt around it and flashes up suddenly around the smith's feet; singed eyebrows and a scorched boot cuff are the result before it is stamped out. Nothing else catches, since the floor itself will not burn, but the fright costs the smith the rest of the afternoon's work.",
+    "steps": [
+      {
+        "process": "throw",
+        "agent": "hammer strike",
+        "patient": "spark",
+        "instrument": "anvil",
+        "because": ["agent strikes hard", "instrument is metal"],
+        "effects": ["creates spark"],
+        "numbers": ["how far a spark can fly"]
+      },
+      {
+        "process": "ignite",
+        "agent": "spark",
+        "patient": "spilled lamp oil",
+        "instrument": null,
+        "because": ["patient is flammable", "patient is a thin film", "agent is hot"],
+        "effects": ["patient gains burning", "creates flash of flame"],
+        "numbers": ["how much oil is pooled", "how quickly it catches"]
+      },
+      {
+        "process": "burn",
+        "agent": "flame",
+        "patient": "smith",
+        "instrument": null,
+        "because": ["patient is standing close", "agent is sudden"],
+        "effects": ["patient gains burn", "patient loses eyebrows"],
+        "numbers": ["how severe the burn is"]
+      }
+    ],
+    "latent": ["the oil puddle nobody had cleaned up"],
+    "state_after": ["spilled oil: burned off, gone", "smith: minor burns, singed eyebrows", "floor: sooty patch"],
+    "stress": "an unnoticed hazard, a thin flammable film, that ordinary sparks harmless on bare dirt ignite instantly",
+    "temptation": "hardcoding 'oil is dangerous near forges' instead of letting any spark-generating process meet any flammable puddle through their shared properties"
+  },
+  {
+    "id": "fire-07",
+    "domain": "fire",
+    "place": "A campsite in a forest after days of rain; the only wood in reach is a freshly cut green branch and some sodden deadfall.",
+    "initiator": "player",
+    "lines": ["light the fire", "try again", "this isn't working"],
+    "things": ["green branch", "sodden deadfall", "flint and steel", "player"],
+    "outcome": "Neither piece of wood will take a flame. The green branch is full of sap and living moisture that no amount of sparking will burn off quickly, and the deadfall is soaked through from days of rain; both smoke and hiss without ever catching. Without dry tinder or kindling from somewhere else, the fire simply does not happen, no matter how many times the player tries.",
+    "steps": [
+      {
+        "process": "spark",
+        "agent": "player",
+        "patient": "green branch",
+        "instrument": "flint and steel",
+        "because": ["patient is green", "patient is full of sap"],
+        "effects": ["creates smoke"],
+        "numbers": ["how many attempts before giving up"]
+      },
+      {
+        "process": "spark",
+        "agent": "player",
+        "patient": "sodden deadfall",
+        "instrument": "flint and steel",
+        "because": ["patient is soaked", "patient is too wet to ignite"],
+        "effects": ["creates smoke"],
+        "numbers": ["how wet is too wet to catch"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["green branch: unlit, smoking slightly, unchanged", "sodden deadfall: unlit, unchanged", "player: no fire, frustrated"],
+    "stress": "a hard failure case where no property present supports ignition, and the engine must say no rather than fudge a partial success",
+    "temptation": "letting persistence alone eventually light any wood, instead of moisture and sap content being real gates that effort cannot overcome without a different resource"
+  },
+  {
+    "id": "fire-08",
+    "domain": "fire",
+    "place": "A small cooking fire beside a tent, about to be abandoned for the night.",
+    "initiator": "player",
+    "lines": ["put the fire out", "just dump the water on it"],
+    "things": ["small cooking fire", "waterskin", "player's hand"],
+    "outcome": "Dumped straight on, the water does put the fire out, but the sudden contact between water and hot coals throws up a burst of steam right where the player's hand still holds the skin close over the flames. The fire is out and safe to leave, but the player comes away with a light scald across the knuckles that stings for the rest of the evening.",
+    "steps": [
+      {
+        "process": "douse",
+        "agent": "player",
+        "patient": "small cooking fire",
+        "instrument": "waterskin",
+        "because": ["patient is hot", "instrument is cold", "instrument smothers flame"],
+        "effects": ["patient loses burning", "creates steam"],
+        "numbers": ["how much water is needed to fully douse it"]
+      },
+      {
+        "process": "scald",
+        "agent": "steam",
+        "patient": "player's hand",
+        "instrument": null,
+        "because": ["patient is close to the coals", "agent is hot"],
+        "effects": ["patient gains burn"],
+        "numbers": ["how close counts as too close"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["cooking fire: out, wet ash", "player's hand: minor scald"],
+    "stress": "extinguishing a fire is not a clean, riskless action; the steam it produces carries its own heat that a nearby hand can suffer from",
+    "temptation": "treating 'douse with water' as a single safe undo of burning, instead of generating a real steam byproduct that can itself burn"
+  },
+  {
+    "id": "fire-09",
+    "domain": "fire",
+    "place": "A hearth in a hut, banked with ash for the night beside a stack of firewood and a wicker basket left too close.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["banked coals", "ash covering", "stack of firewood", "wicker basket", "gap in the wall"],
+    "outcome": "Banked under ash the coals keep a low heat through most of the night rather than going fully cold, as banked fires do. Toward morning a draft through a gap in the wall stirs the ash aside and feeds the embers enough air that they catch again on their own, and a stray coal rolls against the wicker basket set too close. By the time anyone wakes, the basket has caught and burned down to a blackened ring, though the fire has not spread past it.",
+    "steps": [
+      {
+        "process": "smolder",
+        "agent": "banked coals",
+        "patient": "banked coals",
+        "instrument": "ash covering",
+        "because": ["agent is banked under ash", "instrument is insulating"],
+        "effects": ["agent loses most heat", "agent keeps some heat"],
+        "numbers": ["how many hours the coals stay warm under ash"]
+      },
+      {
+        "process": "stir",
+        "agent": "night wind",
+        "patient": "ash covering",
+        "instrument": null,
+        "because": ["place has a gap in the wall", "agent blows overnight"],
+        "effects": ["patient loses cover", "creates draft"],
+        "numbers": ["how much ash is disturbed"]
+      },
+      {
+        "process": "reignite",
+        "agent": "banked coals",
+        "patient": "banked coals",
+        "instrument": "draft",
+        "because": ["agent is still hot enough", "instrument feeds combustion"],
+        "effects": ["agent gains burning", "creates rolling coal"],
+        "numbers": ["how long after the draft before flame returns"]
+      },
+      {
+        "process": "catch",
+        "agent": "rolling coal",
+        "patient": "wicker basket",
+        "instrument": null,
+        "because": ["patient is flammable", "patient is too close", "agent is burning"],
+        "effects": ["patient gains burning", "creates ash"],
+        "numbers": ["how long the basket takes to burn down"]
+      }
+    ],
+    "latent": ["that the coals never fully went out under the ash"],
+    "state_after": ["hearth: burning low again", "wicker basket: burned to a ring of ash", "hut: undamaged otherwise"],
+    "stress": "unobserved time overnight where a banked fire's slow heat loss, not a fixed off-state, decides whether embers are still alive by morning",
+    "temptation": "modeling 'banked fire' as simply off until morning, instead of a heat value that decays slowly and can still cross the ignition threshold given air"
+  },
+  {
+    "id": "fire-10",
+    "domain": "fire",
+    "place": "A small stone shelter with one low doorway and no chimney, used to wait out a storm.",
+    "initiator": "player",
+    "lines": ["build a fire in here to warm up", "why can't I breathe"],
+    "things": ["stone shelter", "small fire", "smoke", "player"],
+    "outcome": "The fire itself lights fine on the dry kindling brought in, but with no chimney and only a low doorway, the smoke it makes has nowhere to go. It fills the shelter from the ceiling down, and within a few minutes the player is coughing and eyes stinging; staying inside gets worse, not better, the longer the fire burns. Moving the fire to just outside the doorway, or opening it wider, is the only way to get warmth without the smoke.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "player",
+        "patient": "dry kindling",
+        "instrument": "flint and steel",
+        "because": ["patient is dry", "patient is flammable"],
+        "effects": ["patient gains burning", "creates smoke"],
+        "numbers": ["how much smoke is made per minute of burning"]
+      },
+      {
+        "process": "fill",
+        "agent": "smoke",
+        "patient": "stone shelter",
+        "instrument": null,
+        "because": ["place has no chimney", "place has a low narrow doorway"],
+        "effects": ["patient gains smoke", "creates poor air"],
+        "numbers": ["how long before the air is bad", "how large the doorway would need to be to vent it"]
+      },
+      {
+        "process": "cough",
+        "agent": "smoke-filled air",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is thick with smoke", "patient is breathing it"],
+        "effects": ["patient loses comfort", "patient gains cough"],
+        "numbers": ["how much smoke exposure becomes dangerous"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["stone shelter: smoke-filled, sooty walls", "player: coughing, eyes watering, still cold since sitting outside the smoke near the door"],
+    "stress": "enclosed space plus no vent turns an otherwise ordinary fire into a hazard purely from geometry, not from the fire itself misbehaving",
+    "temptation": "a rule specific to 'shelters' having smoke problems instead of a general venting-and-enclosure property that any confined flame-bearing space shares"
+  },
+  {
+    "id": "cold-01",
+    "domain": "cold",
+    "place": "A drying line strung between two trees outside a hut, hung with washed clothes, under a sky that had looked clear that morning.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["drying line", "washed clothes", "rain cloud", "wind"],
+    "outcome": "The clear morning gives no warning; a rain cloud moves in from the hills within the hour and starts a steady shower. Everything on the line is soaked through again within minutes, undoing the morning's drying, and left long enough the wet cloth starts to smell musty rather than merely being wet, since nobody is there to bring it in.",
+    "steps": [
+      {
+        "process": "rain",
+        "agent": "rain cloud",
+        "patient": "washed clothes",
+        "instrument": null,
+        "because": ["patient is hanging outside", "patient is absorbent", "agent is raining"],
+        "effects": ["patient gains wet", "patient loses dry"],
+        "numbers": ["how long the rain lasts", "how wet the cloth gets"]
+      },
+      {
+        "process": "sour",
+        "agent": "time",
+        "patient": "washed clothes",
+        "instrument": null,
+        "because": ["patient is wet", "patient is left uncollected"],
+        "effects": ["patient gains musty smell", "patient loses freshness"],
+        "numbers": ["how many hours wet before it sours"]
+      }
+    ],
+    "latent": ["that a rain cloud was moving in unseen from beyond the hills"],
+    "state_after": ["washed clothes: wet, musty", "drying line: dripping"],
+    "stress": "weather arriving with nobody watching, and a delayed secondary consequence that depends on how long the first one goes unnoticed",
+    "temptation": "a fixed 'it rains sometimes' random event instead of weather that actually wets specific exposed things with a duration and a follow-on state"
+  },
+  {
+    "id": "cold-02",
+    "domain": "cold",
+    "place": "A narrow mountain pass at night, a footpath running close to a drop on one side, lit only by a hand lantern.",
+    "initiator": "player",
+    "lines": ["keep walking", "wait, where's the path"],
+    "things": ["hand lantern", "gusting wind", "narrow path", "drop-off", "player"],
+    "outcome": "A gust funnels through the pass and snuffs the lantern's flame outright; a small flame in open wind has nothing to shield it. The path is no longer visible, and without light the player has to feel along the rock wall and go slowly rather than risk the drop; relighting is not possible until reaching a place out of the wind, which costs a good deal of time.",
+    "steps": [
+      {
+        "process": "gust",
+        "agent": "wind",
+        "patient": "lantern flame",
+        "instrument": null,
+        "because": ["patient is small", "patient is unshielded", "agent is strong through the pass"],
+        "effects": ["patient loses burning", "creates darkness"],
+        "numbers": ["how strong a gust it takes to snuff a small flame"]
+      },
+      {
+        "process": "grope",
+        "agent": "player",
+        "patient": "narrow path",
+        "instrument": null,
+        "because": ["patient is unlit", "place has a drop nearby"],
+        "effects": ["player loses speed", "player gains caution"],
+        "numbers": ["how much longer the dark crossing takes"]
+      }
+    ],
+    "latent": ["how close the path runs to the drop, only felt for in the dark"],
+    "state_after": ["lantern: out, unlit", "player: safe but delayed, eventually on the far side of the pass"],
+    "stress": "an unshielded flame's vulnerability to wind, and light's role being purely about what can be seen rather than a status effect",
+    "temptation": "a scripted 'wind sometimes extinguishes lights' chance roll instead of deriving it from flame size versus wind strength, which would also apply to campfires and torches"
+  },
+  {
+    "id": "cold-03",
+    "domain": "cold",
+    "place": "A stone hut's doorstep in early winter, a clay water jug left full and uncovered overnight.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["clay water jug", "water", "night frost"],
+    "outcome": "The temperature drops well below freezing overnight and the water in the jug freezes solid. Water expands as it turns to ice, and the clay has nowhere to give; a crack runs up the side of the jug by morning, and once the ice inside thaws through the day the water leaks straight out of it. The jug is still usable for dry storage but can no longer hold water.",
+    "steps": [
+      {
+        "process": "freeze",
+        "agent": "night frost",
+        "patient": "water",
+        "instrument": null,
+        "because": ["patient is exposed overnight", "place is below freezing"],
+        "effects": ["patient gains ice", "patient loses liquid", "patient quantity up"],
+        "numbers": ["how cold and how long before it freezes solid", "how much the ice expands"]
+      },
+      {
+        "process": "crack",
+        "agent": "expanding ice",
+        "patient": "clay water jug",
+        "instrument": null,
+        "because": ["patient is rigid", "patient is full to the top", "agent takes more space than water"],
+        "effects": ["patient gains crack", "patient loses seal"],
+        "numbers": ["how much pressure the jug can take before it fails"]
+      },
+      {
+        "process": "thaw",
+        "agent": "daylight warmth",
+        "patient": "ice",
+        "instrument": null,
+        "because": ["patient is exposed to sun", "place warms by day"],
+        "effects": ["patient loses ice", "creates leak"],
+        "numbers": ["how long it takes to thaw"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["clay water jug: cracked, leaks, unusable for liquids", "water: melted and lost"],
+    "stress": "a physical property, expansion on freezing, that punishes a container property, rigid and full, nobody thought to connect until a specific overnight temperature",
+    "temptation": "a rule that says 'jugs left out in winter break' instead of deriving it from freezing expanding a fixed volume of liquid inside a rigid, sealed container"
+  },
+  {
+    "id": "cold-04",
+    "domain": "cold",
+    "place": "A shallow pit cache of root vegetables covered with branches, dug near a birch stand, a heavy snow falling over several days.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["food cache pit", "root vegetables", "branch cover", "snow", "birch stand"],
+    "outcome": "Snow builds up over several days until it lies deep across the whole area, burying the branch cover and any trace of the pit under a smooth, featureless drift indistinguishable from the ground around it. The vegetables are fine underneath, kept cold, but the cache cannot be found again without either remembering exactly where it was relative to a landmark or waiting for the snow to melt away in spring.",
+    "steps": [
+      {
+        "process": "snow",
+        "agent": "weather",
+        "patient": "food cache pit",
+        "instrument": null,
+        "because": ["patient is open to the sky", "agent is snowing"],
+        "effects": ["patient gains snow cover", "patient quantity up"],
+        "numbers": ["how many days it snows", "how deep the drift gets"]
+      },
+      {
+        "process": "bury",
+        "agent": "accumulated snow",
+        "patient": "branch cover",
+        "instrument": null,
+        "because": ["agent is deep", "patient was at ground level"],
+        "effects": ["patient loses visibility", "creates featureless drift"],
+        "numbers": ["how deep before all landmarks are gone"]
+      }
+    ],
+    "latent": ["exactly where the cache sits relative to the birch stand, now only guessable"],
+    "state_after": ["food cache pit: buried, contents intact but unreachable", "ground: uniform snow cover"],
+    "stress": "unobserved time changing not the food itself but whether it can be found at all, tying discovery to memory of relative position rather than a marker",
+    "temptation": "marking the cache location as always known to the player once created, instead of letting snow genuinely erase the visible cue that finding it depended on"
+  },
+  {
+    "id": "cold-05",
+    "domain": "cold",
+    "place": "A river bend where the current runs slow, ice sheeting over from bank to bank after a cold snap, but only a few days old.",
+    "initiator": "player",
+    "lines": ["cross the frozen river", "it'll hold"],
+    "things": ["river", "young ice sheet", "player"],
+    "outcome": "The ice looks solid but is only a few days old and thinner near the middle where the current runs faster underneath. Partway across it gives way with a crack, dropping the player through into knee-to-waist-deep freezing water. Climbing out onto firmer ice at the edge is possible, but the player is now soaked in near-freezing water some distance from any fire, which is the more dangerous problem.",
+    "steps": [
+      {
+        "process": "walk",
+        "agent": "player",
+        "patient": "young ice sheet",
+        "instrument": null,
+        "because": ["patient looks solid on top", "patient is thin over the current"],
+        "effects": ["player moves onto ice"],
+        "numbers": ["how thick the ice is versus how thick it needs to be"]
+      },
+      {
+        "process": "crack",
+        "agent": "player's weight",
+        "patient": "young ice sheet",
+        "instrument": null,
+        "because": ["patient is thin where the current is fast", "agent exceeds what thin ice bears"],
+        "effects": ["patient loses integrity", "creates hole"],
+        "numbers": ["how much weight the ice fails under"]
+      },
+      {
+        "process": "soak",
+        "agent": "river water",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is freezing", "patient fell through"],
+        "effects": ["patient gains wet", "patient gains cold", "patient loses heat"],
+        "numbers": ["how cold the water is", "how fast heat is lost in it"]
+      }
+    ],
+    "latent": ["that the current runs faster and the ice is thinner near mid-river, not visible from the bank"],
+    "state_after": ["player: soaked, cold, out of the water on the far bank", "young ice sheet: broken open at the crossing point"],
+    "stress": "ice thickness as a hidden, place-dependent property that looking is not enough to judge, distinct from a flat check of whether it is winter",
+    "temptation": "a binary 'is the river frozen: yes or no' flag instead of ice thickness varying by current and days since freezing, which is what actually decides whether it holds"
+  },
+  {
+    "id": "cold-06",
+    "domain": "cold",
+    "place": "A shallow stream crossing on a cool, overcast day, no fire built yet and the trail continuing several more hours.",
+    "initiator": "player",
+    "lines": ["ford the stream here", "keep going, we'll dry off later"],
+    "things": ["stream", "player's clothes", "cool overcast weather", "trail"],
+    "outcome": "The crossing itself is easy and shallow, but it soaks the player's clothes to the waist. Walking on without stopping to dry off, the wet cloth keeps drawing heat away in the cool air far faster than dry clothes would; by the time camp is made hours later the player is properly chilled, shivering, and slower to warm back up even once a fire is finally lit.",
+    "steps": [
+      {
+        "process": "wade",
+        "agent": "player",
+        "patient": "stream",
+        "instrument": null,
+        "because": ["patient is shallow", "patient is crossable"],
+        "effects": ["player gains wet"],
+        "numbers": ["how deep the water is"]
+      },
+      {
+        "process": "chill",
+        "agent": "cool air",
+        "patient": "player",
+        "instrument": null,
+        "because": ["patient is wet", "agent is cool", "patient kept walking instead of drying off"],
+        "effects": ["patient loses heat", "patient quantity down"],
+        "numbers": ["how many hours of wet walking before real chill sets in"]
+      },
+      {
+        "process": "shiver",
+        "agent": "player's body",
+        "patient": "player",
+        "instrument": null,
+        "because": ["patient lost significant heat", "patient is still wet"],
+        "effects": ["patient gains shiver", "patient loses energy"],
+        "numbers": ["how long shivering lasts once warmth returns"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: damp clothes, no longer soaked, shivering, cold", "stream: unchanged"],
+    "stress": "heat loss as a continuous drain that compounds over hours of wet exposure rather than a one-off 'got wet' flag that either matters or doesn't",
+    "temptation": "a single 'wet' status with no ongoing cost, instead of wetness combined with air temperature and time actively draining a body-heat number"
+  },
+  {
+    "id": "cold-07",
+    "domain": "cold",
+    "place": "An open hillside campsite, a lean-to hastily built from branches and broad leaves against an incoming storm.",
+    "initiator": "player",
+    "lines": ["build a shelter quick, storm's coming", "should be enough"],
+    "things": ["lean-to frame", "branches", "broad leaves", "storm rain and wind", "player"],
+    "outcome": "Built in a hurry with whatever was at hand, the leaf covering is thin and gappy rather than properly layered. It sheds the first light rain well enough, but once the storm's heavier rain and wind arrive, water finds the gaps and drips through steadily, and a gust peels back one loose corner entirely. The player stays drier than out in the open but not properly dry, and spends part of the night re-pinning the corner down.",
+    "steps": [
+      {
+        "process": "build",
+        "agent": "player",
+        "patient": "lean-to frame",
+        "instrument": "branches and broad leaves",
+        "because": ["instrument is available", "instrument sheds some water"],
+        "effects": ["creates shelter", "consumes branches", "consumes leaves"],
+        "numbers": ["how long it takes to build", "how thick the covering ends up"]
+      },
+      {
+        "process": "leak",
+        "agent": "heavy rain",
+        "patient": "lean-to frame",
+        "instrument": null,
+        "because": ["patient's covering is thin", "patient's covering has gaps", "agent is heavy"],
+        "effects": ["patient loses dryness inside", "creates drips"],
+        "numbers": ["how much rain gets through per hour"]
+      },
+      {
+        "process": "peel",
+        "agent": "storm wind",
+        "patient": "lean-to frame",
+        "instrument": null,
+        "because": ["patient's corner is loosely fastened", "agent is strong"],
+        "effects": ["patient loses cover", "creates gap"],
+        "numbers": ["how strong a gust it takes to peel a loose corner"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["lean-to frame: standing but damaged at one corner, still leaking", "player: damp, tired, but not soaked"],
+    "stress": "a half-effective structure whose quality, how thick and how fastened, determines a gradient of protection rather than shelter being a pass or fail toggle",
+    "temptation": "a boolean 'has shelter: true or false' instead of a covering with thickness and fastening that storms of different severity can partly defeat"
+  },
+  {
+    "id": "cold-08",
+    "domain": "cold",
+    "place": "A lone oak on a hilltop pasture during a passing thunderstorm, dry grass around its base after a rainless week.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["lone oak tree", "lightning", "hilltop pasture", "dry grass at its base", "following rain"],
+    "outcome": "Being the tallest thing for some distance, the oak draws the strike. The bolt splits a long strip of bark and wood down one side of the trunk and leaves the exposed wood there smoking, sap boiling out at the split. Whether it becomes more than a scorched tree depends on what is around it: the grass at the base is dry from a rainless week and close enough to the smoking wood that it is only luck, and the rain that follows a few minutes later, that keeps it from catching properly and spreading.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "lightning",
+        "patient": "lone oak tree",
+        "instrument": null,
+        "because": ["patient is tallest nearby", "patient is a path to ground"],
+        "effects": ["patient gains damage", "creates loud crack"],
+        "numbers": ["how likely the tallest thing on a hilltop is struck"]
+      },
+      {
+        "process": "split",
+        "agent": "lightning",
+        "patient": "lone oak tree",
+        "instrument": null,
+        "because": ["patient carries the current poorly", "patient's sap boils and expands"],
+        "effects": ["patient gains crack", "patient loses bark", "creates exposed wood"],
+        "numbers": ["how long the split runs"]
+      },
+      {
+        "process": "smolder",
+        "agent": "exposed wood",
+        "patient": "exposed wood",
+        "instrument": null,
+        "because": ["agent is hot from the strike", "agent is exposed"],
+        "effects": ["patient gains smoke", "creates risk to nearby dry grass"],
+        "numbers": ["how close the dry grass is", "how long before following rain douses it"]
+      }
+    ],
+    "latent": ["whether rain follows soon enough to keep the smoldering wood from spreading to the grass"],
+    "state_after": ["lone oak tree: split, scorched, alive but damaged", "hilltop pasture: unburned, damp from following rain"],
+    "stress": "a near-miss where the same event could plausibly have gone two ways, and the outcome depends on a following, unrelated weather event's timing",
+    "temptation": "deciding upfront whether the strike starts a fire, instead of leaving it genuinely contingent on nearby fuel and whatever weather follows within the relevant window"
+  },
+  {
+    "id": "cold-09",
+    "domain": "cold",
+    "place": "A stream that normally runs a few feet wide through a valley, after five rainless weeks in late summer.",
+    "initiator": "player",
+    "lines": ["fill the waterskin at the stream", "seriously?"],
+    "things": ["stream bed", "waterskin", "mud", "weeks of dry weather"],
+    "outcome": "Five weeks without rain has taken the stream down from a running flow to a few stagnant pools linked by cracked, drying mud. There is technically still water to be had, but it comes up thick with silt and mud rather than clear, and needs settling or straining before it is fit to drink; filling the waterskin the normal way just stirs the bottom and makes it worse.",
+    "steps": [
+      {
+        "process": "dry",
+        "agent": "weeks without rain",
+        "patient": "stream bed",
+        "instrument": null,
+        "because": ["patient depends on regular rain", "agent has been dry for weeks"],
+        "effects": ["patient quantity down", "patient loses flow", "creates mud"],
+        "numbers": ["how many rainless weeks before flow stops", "how much water remains in pools"]
+      },
+      {
+        "process": "scoop",
+        "agent": "player",
+        "patient": "stagnant pool",
+        "instrument": "waterskin",
+        "because": ["patient is shallow", "patient's bed is silty"],
+        "effects": ["patient gains murk", "player learns the water needs settling"],
+        "numbers": ["how much silt is stirred up"]
+      }
+    ],
+    "latent": ["how much water is actually left once the mud is accounted for"],
+    "state_after": ["stream bed: mostly dry, a few muddy pools", "waterskin: filled with murky water, not yet safe to drink"],
+    "stress": "a slow, cumulative world process whose effect is a gradient of scarcity rather than a stream being simply present or absent",
+    "temptation": "a season flag that turns streams 'off' in a dry season, instead of an accumulating rainfall deficit that drains a specific stream's flow over real days"
+  },
+  {
+    "id": "cold-10",
+    "domain": "cold",
+    "place": "A ploughed field on the way to the quarry, after two days of steady rain.",
+    "initiator": "player",
+    "lines": ["cut across the field to the quarry", "ugh, come on"],
+    "things": ["ploughed field", "mud", "player's boots", "quarry"],
+    "outcome": "Two days of rain has turned the loose ploughed soil into deep, sucking mud rather than the firmer ground of the path around the edge. Every step sinks well past the ankle, and partway across, pulling a foot free leaves a boot planted in the mud behind; digging it back out costs time and leaves both boots caked and heavier than before, and the shortcut ends up slower than the longer dry path would have been.",
+    "steps": [
+      {
+        "process": "wade",
+        "agent": "player",
+        "patient": "ploughed field",
+        "instrument": null,
+        "because": ["patient is loosened by ploughing", "patient is soaked from two days of rain"],
+        "effects": ["player loses speed", "patient gains footprints"],
+        "numbers": ["how deep the mud is"]
+      },
+      {
+        "process": "suck",
+        "agent": "mud",
+        "patient": "player's boot",
+        "instrument": null,
+        "because": ["agent is deep", "agent grips tightly when pulled against"],
+        "effects": ["patient loses grip on foot", "creates stuck boot"],
+        "numbers": ["how much force it takes to pull the boot free"]
+      },
+      {
+        "process": "dig out",
+        "agent": "player",
+        "patient": "player's boot",
+        "instrument": "hands",
+        "because": ["patient is stuck", "player needs it to keep walking"],
+        "effects": ["player gains delay", "patient gains mud coating"],
+        "numbers": ["how long it takes to free the boot"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player's boots: mud-caked, heavier, both recovered", "ploughed field: deeply rutted from the crossing"],
+    "stress": "a shortcut that looks faster becoming slower once a terrain property is accounted for, an unintended cost of taking the direct route",
+    "temptation": "a flat movement-speed penalty for 'mud terrain' instead of deriving sinking, sticking and the cost to free a boot from soil looseness and saturation together"
+  }
+]
