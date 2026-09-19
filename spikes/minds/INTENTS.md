@@ -80,6 +80,22 @@ Where code does not offer what Jev wants, by count over both sets: `eat_drink` 2
 
 Eleven of the 34 rows cannot be offered yet. Each names what it waits on: speech and claims (`ask`, `tell`, `deceive`, `keep_quiet`), offers made between bodies (`offer_trade`, `accept`, `refuse`), claims of ownership (`demand`), purposes for a thing (`work_on`), seasons and pairing (`court`), a group with a task (`lead`).
 
+## Diet (2026-09-18)
+
+What feeds whom is now a structure (`packages/core/src/matter/diet.ts`): a fare on the food's row, what the eater's row takes of each fare, one function `feeds`, and `preyTo` for food that is still alive. The generator no longer has to be told what a hind eats: it draws meat, haws or browse without regard to who is there, and adds a hare.
+
+| Set | Role | Measured | Routine is Jev's first | In Jev's first two | Chance | Jev says none | Shift | Wanted intent was offered (or its first step) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A seeds, first diet rules | derived from | 49 of 60 (4 calls failed) | 49% | 65% | 24 / 48% | 0% | 0.09 | 41% (61%) |
+| A seeds, quarry rules added | derived from | 53 of 60 | 53% | 72% | 24 / 48% | 0% | 0.08 | 38% (62%) |
+| C, fresh seeds, engine frozen at `f64796b` | **held out** | 52 of 60 | **60%** | **81%** | 22 / 43% | 0% | 0.11 | **54% (85%)** |
+
+The A seeds make other scenes than they did before diet, so the rows above are not a continuation of the table before them. Held out, first choice is 60% against 64% before diet, which at fifty scenes is within the noise; the first two are 81% against 78%; and code offers what Jev wants, or its first step, in 85% against 72%. `attack` has left the list of what is wanted and not offered.
+
+Reading the A seeds found four faults, each fixed as a general rule with a property first. A wolf was food to a wolf: its own kind is not quarry. A wolf was said to make a meal of a bear: what is much weaker does not hunt. Beside its quarry it was offered going toward it before striking: within a rush quarry is struck at. A little hungry is hungry enough to take a hare at hand. Before that, the first property to fail found that worth ignored how well a food feeds, and a hungry wolf ranked near berries over meat.
+
+What is still wanted and not offered, held out: `eat_drink` 16 (the first step, `go_to`, is offered), `defer` 4, `guard` 3, `help` 1. Staying over young is ranked too low against resting: on the A seeds Jev chose it at 0.72 to 0.87 where the routine lay down. That was not changed here, because it is not diet.
+
 ## What this does not show
 
 - **The scenes of the routine measure are thin.** One creature, at most one other, one food, two young. Nothing in them has more than one menace, and no scene runs longer than one choice. The generator and the engine were written by the same hand, so a factor neither thought of is in neither.
