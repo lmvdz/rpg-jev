@@ -74,6 +74,14 @@ relevant revision and an explicit status. Observation time and commit time must
 not be conflated. Module dependencies are declared rather than obtained by handing
 every subsystem unrestricted world state.
 
+**Accepted execution model:** each entity is persistent structured state with
+event-driven work in a shared SpacetimeDB runtime, not a dedicated VM, thread,
+connection or perpetual tick. A bounded scheduler dispatches eligible work and
+the common commit authority resolves interactions. See the
+[runtime decision](world/time-and-persistence.md#accepted-decision-logical-entity-runtimes).
+This does not settle eager versus lazy individual creation or claim measured
+capacity for the full entity model.
+
 ## 4. World construction and persistent identity
 
 Generate a consistent situation, not independent random attributes.

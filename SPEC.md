@@ -949,6 +949,15 @@ observations and memories, not unrestricted world truth. Actions are attempts;
 shared mechanisms determine outcomes and debit resources. Names cannot select
 physical or behavioral outcomes, while actual identity relationships remain facts.
 
+**Accepted execution model:** an entity's logical "microVM" is persistent state
+plus event-driven work inside the shared SpacetimeDB runtime, not a dedicated
+machine, thread, database, connection or permanent tick. A bounded shared
+scheduler dispatches eligible work; reducers remain the common authoritative
+commit path. Sleeping execution does not waive admitted elapsed-time effects.
+This extends section 18's bounded due-work design, not one high-frequency timer
+per creature. Eager versus lazy individual creation, runtime capacity and
+partitioning remain separate decisions; S0 is not an embodied-entity benchmark.
+
 Keep realized truth, subjective uncertainty, evolving physical risk and sampled
 choices distinct. Save/load, offscreen catch-up and refinement preserve committed
 state and causes. Code owns arithmetic, time, effect validation and resource

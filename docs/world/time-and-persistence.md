@@ -10,6 +10,32 @@ It does not promise a simulated ecosystem, general animal society or arbitrary p
 It adds neither a Jev family nor numerical integration or biological formulas.
 Unobserved evolution remains code, with only the constitutional debt exception for Jev.
 
+## Accepted decision: logical entity runtimes
+
+An entity's "microVM" means persistent structured state and event-driven execution
+inside the shared SpacetimeDB runtime. It does not mean one operating-system
+thread, VM, database, network connection or permanently ticking loop per entity.
+Autonomy describes its state, inputs and choices, not dedicated compute.
+
+Relevant stimuli and scheduled boundaries make work eligible. A bounded shared
+scheduler dispatches it; the entity proposes attempts and the shared commit
+authority resolves interactions. Sleeping between eligible work does not erase
+identity, waive elapsed physiological/physical costs or stop external processes
+from affecting the entity. Any cheaper advance still needs admitted semantics.
+
+Runtime state is persisted in tables/logs, not assumed to survive in module-level
+JavaScript objects. This extends SPEC section 18's existing bounded due-work drain
+direction rather than adding an independently firing high-frequency timer per
+creature. Eligibility, priority, fairness and batch budgets still need measurement.
+Subscription scope controls delivery, not simulation or access authorization.
+
+This settles execution architecture only. It does not decide whether all
+individuals are created eagerly, how inactive state is stored, or how databases
+are partitioned. S0's queue/storage measurements are infrastructure evidence, not
+a per-entity compute budget or proof of the integrated embodied runtime.
+Implementation must exercise sleeping populations, scheduled activity, dense
+interactions and clustered/dispersed players before claiming capacity.
+
 ## The problem to solve
 
 Observation must not create a second physical world with different ownership rules.
