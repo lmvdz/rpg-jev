@@ -138,7 +138,7 @@ export const DRIFT_RULES: readonly Rule[] = [
       {
         when: lt("s.wetness", "d.holds"),
         effects: [
-          { kind: "accrue", q: "s.wetness", rate: 0.2, hi: "d.holds" },
+          { kind: "accrue", q: "s.wetness", rate: 0.2, lo: 0, hi: "d.holds" },
           { kind: "put", q: "s.wetWith", value: null },
         ],
         because: ["S2", "P9", "X7"],
@@ -151,6 +151,8 @@ export const DRIFT_RULES: readonly Rule[] = [
           {
             kind: "set",
             q: "s.wetness",
+            lo: 0,
+            hi: 5,
             to: max(
               "d.floor",
               add(
@@ -182,6 +184,7 @@ export const DRIFT_RULES: readonly Rule[] = [
             q: "s.wetness",
             rate: mul(-1, div("d.thirst", 5), "s.coating.coverage", 0.01),
             lo: 0,
+            hi: 5,
           },
         ],
         because: ["S7", "P12", "S2", "X7"],

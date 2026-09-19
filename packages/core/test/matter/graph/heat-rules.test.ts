@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { Rng } from "../../../src/index.ts";
 import { HEAT_DERIVED, HEAT_RULES } from "../../../src/matter/graph/heat-rules.ts";
 import { touches } from "../../../src/matter/graph/rules.ts";
-import { heat } from "../../../src/matter/heat.ts";
+import { heatFrom } from "../../../src/matter/heat.ts";
 import {
   apply,
   type Change,
@@ -111,6 +111,9 @@ const said = (changes: readonly Change[]) =>
       c.quiet === true,
     ].join(" | "),
   );
+
+// The base rows alone: what has grown since is not what the oracle speaks for.
+const heat = heatFrom(HEAT_RULES, HEAT_DERIVED);
 
 const CASES = 6000;
 

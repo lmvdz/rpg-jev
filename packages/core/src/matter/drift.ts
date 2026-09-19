@@ -7,6 +7,7 @@
 import { apply } from "./apply.ts";
 import { faded } from "./deeds.ts";
 import { DRIFT_DERIVED, DRIFT_RULES } from "./graph/drift-rules.ts";
+import { GROWN_DRIFT } from "./graph/grown.ts";
 import { envOf, partyOf, readyAll } from "./graph/kernel.ts";
 import { weathered } from "./living.ts";
 import { report } from "./report.ts";
@@ -19,7 +20,10 @@ export interface DriftAct {
 }
 
 /** The rows, made ready once (graph/kernel.ts). */
-const RULES = readyAll(DRIFT_RULES, DRIFT_DERIVED);
+const RULES = readyAll([...DRIFT_RULES, ...GROWN_DRIFT.rules], {
+  ...DRIFT_DERIVED,
+  ...GROWN_DRIFT.derived,
+});
 
 function driftThing(world: MatterWorld, thing: Thing, minutes: number): Change[] {
   const env = envOf(world, { self: partyOf(world, thing) }, minutes);

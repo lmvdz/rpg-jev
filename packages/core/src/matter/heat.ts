@@ -10,8 +10,11 @@
  * Only what is burning or glowing can light a thing; hot water cannot.
  */
 import { effective } from "./effective.ts";
+import type { Expr } from "./graph/expr.ts";
+import { GROWN_HEAT } from "./graph/grown.ts";
 import { HEAT_DERIVED, HEAT_RULES } from "./graph/heat-rules.ts";
-import { envOf, partyOf, readyAll } from "./graph/kernel.ts";
+import { envOf, partyOf, type Ready, readyAll } from "./graph/kernel.ts";
+import type { Rule } from "./graph/rules.ts";
 import { quantity } from "./scale.ts";
 import type { Burning, Change, MatterWorld, Properties, Thing } from "./types.ts";
 import { clamp } from "./types.ts";
@@ -75,15 +78,23 @@ export function keptWet(world: MatterWorld, thing: Thing, p: Properties): number
   return Math.max(air, Math.min(air * 1.6, 1 + inside));
 }
 
-/** The rows, made ready once (graph/kernel.ts). */
-const RULES = readyAll(HEAT_RULES, HEAT_DERIVED);
-
 /**
  * Heat between two things is four rows of data (graph/heat-rules.ts): the target warms, the
  * source pays, the target may take light, a plunge may crack or temper it. Each rule that acts
  * is one change, said about the party the row names.
  */
-export function heat(world: MatterWorld, act: HeatAct): Change[] {
+export const heat = heatFrom([...HEAT_RULES, ...GROWN_HEAT.rules], {
+  ...HEAT_DERIVED,
+  ...GROWN_HEAT.derived,
+});
+
+/** Heat, from whatever rows it is given: the engine's are the base rows and what has grown. */
+export function heatFrom(rules: readonly Rule[], derived: Readonly<Record<string, Expr>>) {
+  const ready = readyAll(rules, derived);
+  return (world: MatterWorld, act: HeatAct): Change[] => heatBy(ready, world, act);
+}
+
+function heatBy(rules: readonly Ready[], world: MatterWorld, act: HeatAct): Change[] {
   const source = world.things[act.source];
   const target = world.things[act.target];
   if (!(source && target) || source.id === target.id)
@@ -94,7 +105,7 @@ export function heat(world: MatterWorld, act: HeatAct): Change[] {
     contact: act.contact ?? 1,
   });
   const changes: Change[] = [];
-  for (const rule of RULES) {
+  for (const rule of rules) {
     const ran = rule(env);
     const about = ran ? env.parties[ran.about] : undefined;
     if (!(ran && about) || ran.because.length === 0) continue;

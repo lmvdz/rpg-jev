@@ -153,7 +153,14 @@ export const HEAT_RULES: readonly Rule[] = [
             q: "tgt.s.surfaceAbove",
             to: max(0, sub(clamp("tgt.x.surface", 0, 5), "tgt.s.temperature")),
           },
-          { kind: "set", q: "tgt.s.contamination", to: 0, when: gte("tgt.s.temperature", 4.5) },
+          {
+            kind: "set",
+            q: "tgt.s.contamination",
+            to: 0,
+            lo: 0,
+            hi: 5,
+            when: gte("tgt.s.temperature", 4.5),
+          },
           {
             kind: "put",
             q: "tgt.s.set",
@@ -258,7 +265,9 @@ export const HEAT_RULES: readonly Rule[] = [
     first: [
       {
         when: { all: [plunged, lte("tgt.p.toughness", 1.5), lte("tgt.p.meltsAt", 0)] },
-        effects: [{ kind: "set", q: "tgt.s.integrity", to: min("tgt.was.integrity", 3) }],
+        effects: [
+          { kind: "set", q: "tgt.s.integrity", to: min("tgt.was.integrity", 3), lo: 0, hi: 5 },
+        ],
         because: ["P4", "S1", "X3"],
         note: "it cracks from the sudden cold",
       },
