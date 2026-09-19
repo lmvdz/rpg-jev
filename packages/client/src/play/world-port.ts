@@ -9,12 +9,17 @@
  */
 import { type ActRequest, type Answers, REACH } from "./act-request.ts";
 import { answersFit } from "./intents.ts";
-import type { ElementView, WorldChange, WorldLink } from "./world-link.ts";
+import type { After, ElementView, WorldChange, WorldLink } from "./world-link.ts";
 
 export interface Outcome {
   /** The world's name for the process that was resolved (`force`, `soak`...). */
   process: string;
   changes: readonly WorldChange[];
+  /**
+   * Every thing a change names, as the world has it after the act, or null if
+   * it is no more. The world applied the changes; the client only draws this.
+   */
+  after: After;
 }
 
 export interface WorldPort {
@@ -66,6 +71,6 @@ export function perform(
     level: SHOWN_LEVEL,
     now: at.now,
   };
-  const notes = link.show(shown, outcome.changes);
+  const notes = link.show(shown, outcome.changes, outcome.after);
   return notes.length > 0 ? notes.join(" ") : "Nothing seems to change.";
 }

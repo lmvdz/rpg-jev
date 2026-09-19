@@ -3,6 +3,8 @@ import { GlyphBatch } from "../src/glyph/batch.ts";
 import {
   type ElementView,
   freeTileNear,
+  type Seen,
+  type SeenState,
   shownOf,
   type WorldChange,
   WorldLink,
@@ -18,6 +20,11 @@ import type { ThingView } from "../src/view/things.ts";
 import { ObjectLayer } from "../src/world/objects.ts";
 
 const why = { because: ["X2", "P4"], note: "" };
+const seen = (state: Partial<SeenState>, blaze = 0, element = "log"): Seen => ({
+  element,
+  state,
+  blaze,
+});
 
 function scene() {
   const grid = new TileGrid(8, 8);
@@ -59,20 +66,29 @@ function scene() {
 
 describe("what the world's states show as", () => {
   it("is a rule per state, laid over what showed before", () => {
-    expect(shownOf({ burning: { fuel: 30 } })).toEqual({ burning: 3 });
-    const out = shownOf({ burning: null }, { burning: 4, growth: 3 });
-    expect(out).toEqual({ burning: 0, growth: 3 });
-    expect(shownOf({ burning: { fuel: 9999 } }).burning).toBe(5);
-    expect(shownOf({ burning: { fuel: 1 } }).burning).toBe(1);
+    expect(shownOf(seen({}, 2.6))).toEqual({ burning: 3 });
+    expect(shownOf(seen({}), { burning: 4, growth: 3 })).toEqual({ burning: 0, growth: 3 });
+    // A guttering coat of oil burns low, but it burns: it never shows as out.
+    expect(shownOf(seen({}, 0.4)).burning).toBe(1);
+    expect(shownOf(seen({}, 99)).burning).toBe(5);
   });
 
   it("shows the surface before the bulk: held in a flame, a thing glows before it is hot through", () => {
-    expect(shownOf({ temperature: 2, surfaceAbove: 3 }).temperature).toBe(5);
-    expect(shownOf({ temperature: 2, surfaceAbove: 0 }).temperature).toBe(2);
-    expect(shownOf({ wetness: 9, integrity: -2, amount: 2.6 })).toEqual({
+    expect(shownOf(seen({ temperature: 2, surfaceAbove: 3 })).temperature).toBe(5);
+    expect(shownOf(seen({ temperature: 2, surfaceAbove: 0 })).temperature).toBe(2);
+    expect(shownOf(seen({ wetness: 9, integrity: -2, amount: 2.6 }))).toEqual({
+      burning: 0,
       wetness: 5,
       integrity: 0,
       amount: 3,
+    });
+  });
+
+  it("gives rot no sign until anyone would notice it", () => {
+    expect(shownOf(seen({ contamination: 1.2 })).contamination).toBe(0);
+    expect(shownOf(seen({ contamination: 1.6, corrosion: 3 }))).toMatchObject({
+      contamination: 2,
+      corrosion: 3,
     });
   });
 });
@@ -88,36 +104,50 @@ describe("a resolved act, shown", () => {
     expect(shots.playing).toBe(1);
   });
 
-  it("applies a change of state to the thing it names, and says the world's notes in order", () => {
+  it("draws the touched things as the world has them after, and says the world's notes in order", () => {
     const { link, act, living, things } = scene();
     const changes: WorldChange[] = [
-      { ...why, kind: "state", thing: "th1", set: { integrity: 3 }, note: "The log cracks." },
-      { ...why, kind: "state", thing: "th1", set: { surfaceAbove: 2 } },
-      { ...why, kind: "state", thing: "nobody", set: { integrity: 0 } },
+      { ...why, kind: "state", note: "The log cracks." },
+      { ...why, kind: "state" },
       { ...why, kind: "nothing", note: "Nothing else happens." },
     ];
-    expect(link.show({ ...act, now: 1 }, changes)).toEqual([
+    const after = {
+      th1: seen({ integrity: 3, temperature: 2, surfaceAbove: 2 }, 0, "log"),
+      nobody: null,
+    };
+    expect(link.show({ ...act, now: 1 }, changes, after)).toEqual([
       "The log cracks.",
       "Nothing else happens.",
     ]);
-    expect(things[0]?.states).toEqual({ growth: 5, integrity: 3, temperature: 4 });
+    expect(things[0]?.states).toEqual({ growth: 5, burning: 0, integrity: 3, temperature: 4 });
     expect(describeThing(living.thing(0) as ThingView)).toBe("a log: dormant, hot, cracked");
   });
 
-  it("plays breaking and not striking when the act leaves the patient broken", async () => {
-    const { link, act, births } = scene();
-    link.show({ ...act, now: 1 }, [{ ...why, kind: "state", thing: "th1", set: { integrity: 1 } }]);
-    await births.settled();
-    const keys = births.log.map((line) => line.key.split("\n")[0]);
-    expect(keys).toContain("breaks");
-    expect(keys).not.toContain("struck");
+  it("never rebuilds the world from the changes: with nothing handed back, nothing is redrawn", () => {
+    const { link, act, things } = scene();
+    link.show({ ...act, now: 1 }, [{ ...why, kind: "state", note: "It is said to crack." }]);
+    expect(things[0]?.states).toEqual({ growth: 5 });
   });
 
-  it("uses a thing up, and takes it off the map when none is left", () => {
+  it("plays breaking when this act broke the patient, and striking when it was broken already", async () => {
+    const { link, act, births } = scene();
+    link.show({ ...act, now: 1 }, [], { th1: seen({ integrity: 1 }, 0, "log") });
+    await births.settled();
+    const kinds = () => births.log.map((line) => line.key.split("\n")[0]);
+    expect(kinds()).toContain("breaks");
+    expect(kinds()).not.toContain("struck");
+    link.show({ ...act, now: 2 }, [], { th1: seen({ integrity: 1 }, 0, "log") });
+    await births.settled();
+    expect(kinds()).toContain("struck");
+  });
+
+  it("takes a thing off the map when the world no longer has it", () => {
     const { link, act, living, objects, grid } = scene();
-    link.show({ ...act, now: 1 }, [{ ...why, kind: "consume", thing: "th1", amount: 2 }]);
+    link.show({ ...act, now: 1 }, [{ ...why, kind: "consume" }], {
+      th1: seen({ amount: 3 }, 0, "log"),
+    });
     expect(living.thing(0)?.states.amount).toBe(3);
-    link.show({ ...act, now: 2 }, [{ ...why, kind: "consume", thing: "th1", amount: 3 }]);
+    link.show({ ...act, now: 2 }, [{ ...why, kind: "consume" }], { th1: null });
     expect(living.thing(0)).toBeNull();
     expect(living.indexOf("th1")).toBe(-1);
     expect(objects.at(grid.index(3, 3))).toBeNull();
@@ -125,12 +155,12 @@ describe("a resolved act, shown", () => {
 
   it("finds a made thing the nearest free tile, draws it from its element, and ignores an unknown one", () => {
     const { link, act, living, grid } = scene();
-    link.show({ ...act, process: "heat", now: 1 }, [
-      { ...why, kind: "create", thing: { id: "th2", element: "ash", state: { amount: 2 } } },
-      { ...why, kind: "create", thing: { id: "th3", element: "unheard of", state: {} } },
-    ]);
+    link.show({ ...act, process: "heat", now: 1 }, [{ ...why, kind: "create" }], {
+      th2: seen({ amount: 2 }, 0, "ash"),
+      th3: seen({}, 0, "unheard of"),
+    });
     const ash = living.thing(living.indexOf("th2"));
-    expect(ash).toMatchObject({ name: "ash", element: "ash", states: { amount: 2 } });
+    expect(ash).toMatchObject({ name: "ash", element: "ash", states: { amount: 2, burning: 0 } });
     expect(Math.abs((ash?.x ?? 99) - 3) + Math.abs((ash?.z ?? 99) - 3)).toBe(1);
     expect(living.indexOf("th3")).toBe(-1);
     expect(freeTileNear(grid, living, grid.index(3, 3))).not.toBe(grid.index(3, 3));
@@ -150,11 +180,11 @@ describe("a resolved act, shown", () => {
     expect(emitters.count).toBe(1);
   });
 
-  it("shows nothing for a process it has never heard of, and still applies what changed", () => {
+  it("shows nothing for a process it has never heard of, and still draws what it left", () => {
     const { link, act, played, things } = scene();
-    link.show({ ...act, process: "transmute", now: 1 }, [
-      { ...why, kind: "state", thing: "th1", set: { wetness: 4 } },
-    ]);
+    link.show({ ...act, process: "transmute", now: 1 }, [{ ...why, kind: "state" }], {
+      th1: seen({ wetness: 4 }, 0, "log"),
+    });
     expect(played).toEqual([]);
     expect(things[0]?.states.wetness).toBe(4);
   });

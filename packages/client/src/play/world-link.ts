@@ -1,14 +1,16 @@
 /**
  * The seam between the world's rules and what is drawn. The world resolves an
- * act into changes (`matter.resolve` in packages/core: every change says what
- * it did, `because` of which vocabulary ids, and a `note` in words); this turns
- * those changes into the things on screen, and shows the act itself: the
- * actor's motion, the patient's, and what comes off the patient.
+ * act into changes and into itself with those changes applied
+ * (`matter.resolve` in packages/core). Only that code applies changes (rule
+ * 1), so the client never rebuilds the world from the list: it is handed the
+ * things the act touched as they are afterwards and draws those. The list of
+ * changes says three things only: what to redraw, what to play once (a signal
+ * that can be seen), and what to tell on the HUD, in the world's own words.
  *
- * It knows no thing and no element. What a kind of change does is a row of a
- * table; what a state of the world shows as is a rule per state. It is written
- * against a mirror of the world's types, so it does not wait on the engine
- * being importable; a type test will hold the two together when it is.
+ * It knows no thing and no element. What a state of the world shows as is a
+ * rule per state; what is played for an act is a row per process. It is
+ * written against a mirror of the world's types, so it does not wait on the
+ * engine being importable; a type test will hold the two together when it is.
  *
  * Positions are the client's until the world has a move process (X1): the
  * world says a thing came into being, and the client finds it a tile.
@@ -24,36 +26,45 @@ import type { MotionSubject } from "../view/motion-birth.ts";
 import { type ActorMotions, MOTIONS } from "../view/motions.ts";
 import type { ElementLook, ThingView, VisibleStates } from "../view/things.ts";
 
-/** The part of the world's `ThingState` that can be seen. A hidden flaw, by its nature, is not here. */
+/** The part of the world's `ThingState` that can be seen. A hidden flaw, temper and taint are not here. */
 export interface SeenState {
   temperature: number;
   /** How far the surface runs above the bulk: what glows before it is hot through. */
   surfaceAbove: number;
   wetness: number;
   wetWith: string | null;
-  burning: { fuel: number } | null;
   integrity: number;
   amount: number;
   corrosion: number;
   contamination: number;
 }
 
-/** Below this, rot gives no sign anyone would notice (it smells from about here up). */
-const NOTICED = 1.5;
+/** A thing as it is after an act: what the world's adapter reads off `outcome.world`. */
+export interface Seen {
+  element: string;
+  state: Partial<SeenState>;
+  /**
+   * How hard it burns, 0 when it does not, else up to 5 (`matter.blaze`): the
+   * world derives it from what is burning, how much of the thing that covers
+   * and whether it is near its end. Fuel is how long it lasts, not how hard.
+   */
+  blaze: number;
+}
 
 interface Why {
   because: readonly string[];
   note: string;
 }
 
-/** A mirror of the world's `Change`. Kinds the client draws nothing for are still told on the HUD. */
+/**
+ * A mirror of the world's `Change`, as far as the client reads one: its kind,
+ * its words, and a signal's channel. What a change did to a thing is read off
+ * the thing, never off the change.
+ */
 export type WorldChange = Why &
   (
-    | { kind: "state"; thing: string; set: Partial<SeenState> }
-    | { kind: "create"; thing: { id: string; element: string; state: Partial<SeenState> } }
-    | { kind: "consume"; thing: string; amount: number }
     | { kind: "signal"; place: string; channel: string; strength: number }
-    | { kind: "nothing" | "body" | "wound" | "treat" | "settle" }
+    | { kind: "state" | "create" | "consume" | "nothing" | "body" | "wound" | "treat" | "settle" }
   );
 
 /** What the client is told of an element: the row's name, look and what births are decided from. */
@@ -66,43 +77,42 @@ export interface ElementView {
   solid?: boolean;
 }
 
+/** Below this, rot gives no sign anyone would notice (it smells from about here up). */
+const NOTICED = 1.5;
+
 const level = (n: number) => Math.min(Math.max(Math.round(n), 0), 5);
 
-/** Minutes of fuel past which a fire shows one level higher. Arithmetic, so it is here and not judged. */
-const FUEL_STEPS = [0, 5, 15, 60, 180] as const;
-
-/** One rule per state of the world: what it shows as. Absent from `seen` means leave what shows alone. */
-const SHOWN: readonly ((seen: Partial<SeenState>, out: VisibleStates) => void)[] = [
+/** One rule per state of the world: what it shows as. */
+const SHOWN: readonly ((seen: Seen, out: VisibleStates) => void)[] = [
   (seen, out) => {
-    if (seen.burning === undefined) return;
-    const fuel = seen.burning?.fuel ?? 0;
-    out.burning = fuel > 0 ? FUEL_STEPS.filter((step) => fuel > step).length : 0;
+    // What burns at all shows as burning, however low.
+    out.burning = seen.blaze > 0 ? Math.max(level(seen.blaze), 1) : 0;
   },
-  (seen, out) => {
-    if (seen.temperature === undefined && seen.surfaceAbove === undefined) return;
+  ({ state }, out) => {
+    if (state.temperature === undefined && state.surfaceAbove === undefined) return;
     // The surface is what is seen and felt first.
-    out.temperature = level((seen.temperature ?? 2) + (seen.surfaceAbove ?? 0));
+    out.temperature = level((state.temperature ?? 2) + (state.surfaceAbove ?? 0));
   },
-  (seen, out) => {
-    if (seen.wetness !== undefined) out.wetness = level(seen.wetness);
+  ({ state }, out) => {
+    if (state.wetness !== undefined) out.wetness = level(state.wetness);
   },
-  (seen, out) => {
-    if (seen.integrity !== undefined) out.integrity = level(seen.integrity);
+  ({ state }, out) => {
+    if (state.integrity !== undefined) out.integrity = level(state.integrity);
   },
-  (seen, out) => {
-    if (seen.amount !== undefined) out.amount = level(seen.amount);
+  ({ state }, out) => {
+    if (state.amount !== undefined) out.amount = level(state.amount);
   },
-  (seen, out) => {
-    if (seen.corrosion !== undefined) out.corrosion = level(seen.corrosion);
+  ({ state }, out) => {
+    if (state.corrosion !== undefined) out.corrosion = level(state.corrosion);
   },
-  (seen, out) => {
-    if (seen.contamination === undefined) return;
-    out.contamination = seen.contamination >= NOTICED ? level(seen.contamination) : 0;
+  ({ state }, out) => {
+    if (state.contamination === undefined) return;
+    out.contamination = state.contamination >= NOTICED ? level(state.contamination) : 0;
   },
 ];
 
-/** What a thing's seen state shows as, laid over what it showed before (growth is not the world's yet). */
-export function shownOf(seen: Partial<SeenState>, before: VisibleStates = {}): VisibleStates {
+/** What a thing shows as, laid over what it showed before (growth is not the world's yet). */
+export function shownOf(seen: Seen, before: VisibleStates = {}): VisibleStates {
   const out = { ...before };
   for (const rule of SHOWN) rule(seen, out);
   return out;
@@ -151,32 +161,31 @@ export interface ShownAct {
   now: number;
 }
 
+/** The things an act touched, by id, as they are after it. Null: the thing is no more. */
+export type After = Readonly<Record<string, Seen | null>>;
+
 export class WorldLink {
   readonly #host: LinkHost;
-  /** What is known of each thing's seen state, since a change names only what changed. */
-  readonly #seen = new Map<string, Partial<SeenState>>();
-  /** The clock of the act being shown, in seconds. */
-  #now = 0;
 
   constructor(host: LinkHost) {
     this.#host = host;
   }
 
   /**
-   * Shows an act and applies what it changed. Returns the notes, in order, for
-   * the HUD: they are the world's words and are only ever set as text.
+   * Shows an act and what it left behind. Returns the notes, in order, for the
+   * HUD: they are the world's words and are only ever set as text.
    */
-  show(act: ShownAct, changes: readonly WorldChange[]): string[] {
-    this.#now = act.now;
+  show(act: ShownAct, changes: readonly WorldChange[], after: After = {}): string[] {
     const patient = this.#host.living.thingAt(act.tile);
-    const broke = changes.some(
-      (change) =>
-        change.kind === "state" &&
-        change.thing === patient?.id &&
-        (change.set.integrity ?? 5) <= BROKEN,
-    );
+    const left = patient ? after[patient.id] : undefined;
+    // It broke if this act took it from more than broken to broken, or to nothing.
+    const was = patient?.states.integrity ?? 5;
+    const broke = left === null || (was > BROKEN && (left?.state.integrity ?? was) <= BROKEN);
     this.#play(act, patient, broke);
-    for (const change of changes) this.#apply(change, act.tile);
+    for (const [id, seen] of Object.entries(after)) this.#sync(id, seen, act.tile);
+    for (const change of changes) {
+      if (change.kind === "signal") this.#signal(change.channel, change.strength, act);
+    }
     return changes.map((change) => change.note).filter((note) => note.length > 0);
   }
 
@@ -202,52 +211,37 @@ export class WorldLink {
     shots.play(x + 0.5, y, z + 0.5, rows, act.now + LANDS);
   }
 
-  #apply(change: WorldChange, near: number): void {
-    const handle = HANDLERS[change.kind];
-    if (handle) handle(this, change, near);
-  }
-
-  /** A thing's seen state changed: remember it whole, and show it. */
-  setSeen(id: string, set: Partial<SeenState>): void {
+  /** Draws one touched thing as the world now has it: gone, changed, or new. */
+  #sync(id: string, seen: Seen | null, near: number): void {
     const { living } = this.#host;
-    const seen = { ...this.#seen.get(id), ...set };
-    this.#seen.set(id, seen);
     const index = living.indexOf(id);
     const thing = living.thing(index);
-    if (!thing) return;
+    if (seen === null) {
+      if (thing) living.remove(index);
+      return;
+    }
+    if (!thing) {
+      this.#create(id, seen, near);
+      return;
+    }
     thing.states = shownOf(seen, thing.states);
     living.redraw([index]);
   }
 
-  /** Some of a thing was used up: it shows less, and when none is left it is gone. */
-  consume(id: string, amount: number): void {
-    const { living } = this.#host;
-    const index = living.indexOf(id);
-    const thing = living.thing(index);
-    if (!thing) return;
-    const left = (this.#seen.get(id)?.amount ?? thing.states.amount ?? 5) - amount;
-    if (left > 0) this.setSeen(id, { amount: left });
-    else {
-      living.remove(index);
-      this.#seen.delete(id);
-    }
-  }
-
   /** A thing came into being. The world gives no position, so it lands on the nearest free tile. */
-  create(made: { id: string; element: string; state: Partial<SeenState> }, near: number): void {
+  #create(id: string, seen: Seen, near: number): void {
     const { grid, living, elementOf } = this.#host;
-    const element = elementOf(made.element);
+    const element = elementOf(seen.element);
     const tile = freeTileNear(grid, living, near);
     if (!element || tile < 0) return;
-    this.#seen.set(made.id, made.state);
     const { look, kind, forms, baseline, solid } = element;
     living.add({
-      id: made.id,
-      element: made.element,
+      id,
+      element: seen.element,
       name: element.name,
       x: tile % grid.width,
       z: Math.floor(tile / grid.width),
-      states: shownOf(made.state),
+      states: shownOf(seen),
       ...(look ? { look } : {}),
       ...(kind ? { kind } : {}),
       ...(forms ? { forms } : {}),
@@ -257,39 +251,21 @@ export class WorldLink {
   }
 
   /** A signal that can be seen rises where the act was, from whatever stands there. */
-  signal(channel: string, strength: number, near: number): void {
+  #signal(channel: string, strength: number, act: ShownAct): void {
     const { grid, living, births, shots } = this.#host;
     const happening = SIGNAL_SHOWS[channel];
-    const source = living.thingAt(near);
+    const source = living.thingAt(act.tile);
     if (!(happening && source)) return;
     const rows = births.effects.entry(source, happening).value[level(strength)] ?? [];
-    const x = (near % grid.width) + 0.5;
-    const z = Math.floor(near / grid.width) + 0.5;
-    shots.play(x, groundHeight(grid, x, z) + 0.5, z, rows, this.#now);
+    const x = (act.tile % grid.width) + 0.5;
+    const z = Math.floor(act.tile / grid.width) + 0.5;
+    shots.play(x, groundHeight(grid, x, z) + 0.5, z, rows, act.now);
   }
 }
 
-/** What each kind of change does to what is drawn. A kind with no row is told on the HUD and draws nothing. */
-const HANDLERS: Readonly<
-  Partial<Record<WorldChange["kind"], (link: WorldLink, change: WorldChange, near: number) => void>>
-> = {
-  state: (link, change) => {
-    if (change.kind === "state") link.setSeen(change.thing, change.set);
-  },
-  consume: (link, change) => {
-    if (change.kind === "consume") link.consume(change.thing, change.amount);
-  },
-  create: (link, change, near) => {
-    if (change.kind === "create") link.create(change.thing, near);
-  },
-  signal: (link, change, near) => {
-    if (change.kind === "signal") link.signal(change.channel, change.strength, near);
-  },
-};
-
 const SEARCH = 3;
 
-/** The nearest tile to `near` with nothing standing on it, nearest first, or -1. */
+/** The nearest tile to `near` with nothing standing on it and no liquid, or -1. */
 export function freeTileNear(grid: TileGrid, living: LivingThings, near: number): number {
   const nx = near % grid.width;
   const nz = Math.floor(near / grid.width);

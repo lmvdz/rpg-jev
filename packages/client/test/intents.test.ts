@@ -154,10 +154,9 @@ describe("answers taken into the world", () => {
       elementOf: () => null,
       act: (answers, operands) => {
         seen.push(answers.process, operands[answers.patient]);
-        const changes: WorldChange[] = [
-          { ...why, kind: "state", thing: "branch", set: { integrity: 3 }, note: "It cracks." },
-        ];
-        return { process: "force", changes };
+        const changes: WorldChange[] = [{ ...why, kind: "state", note: "It cracks." }];
+        const after = { branch: { element: "branch", state: { integrity: 3 }, blaze: 0 } };
+        return { process: "force", changes, after };
       },
     };
     expect(perform(port, link, request, strike, at)).toBe("It cracks.");
@@ -178,7 +177,7 @@ describe("answers taken into the world", () => {
     expect(perform(nothing, link, far, reach, at)).toBe("That is too far away.");
     expect(perform(nothing, link, request, { ...strike, process: "X99" }, at)).toContain("not");
     expect(perform(nothing, link, request, strike, at)).toBe("That comes to nothing.");
-    const quiet = { ...nothing, act: () => ({ process: "drift", changes: [] }) };
+    const quiet = { ...nothing, act: () => ({ process: "drift", changes: [], after: {} }) };
     expect(perform(quiet, link, request, strike, at)).toBe("Nothing seems to change.");
   });
 });
