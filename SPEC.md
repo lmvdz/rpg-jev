@@ -937,6 +937,10 @@ without replacing the physical substrate or relaxing its C0–C8 gates.
 [`docs/shared-world-contract.md`](docs/shared-world-contract.md) defines the
 shared boundaries for world identity, composition, bodies, perception, knowledge,
 intentions, action execution, time/persistence and player-facing evidence.
+Each module has a dedicated draft in the [module design index](docs/world/README.md),
+including ownership, lifecycle, alternatives/tradeoffs, failure handling and
+acceptance evidence. The shared contract remains the cross-module agreement;
+module recommendations do not independently change it or admit new mechanics.
 
 An NPC is a persistent participant in the same world as the player. Its initial
 body, biological attributes, relationships and history must be seeded coherently,

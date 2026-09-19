@@ -53,15 +53,21 @@ the records below describe required information, not already available APIs.
 
 | Module | Authoritative state / responsibility | Reads and produces |
 | --- | --- | --- |
-| World identity and context | Stable entities, locations, time, version pins, environmental fields and relationship records | Supplies scoped contexts and lifecycle events |
-| Composition and processes | Material portions, parts, contacts, resource accounts, geometry approximations, active processes and structural change | Consumes physical attempts/exposures; produces accounted effects and evidence sources |
-| Embodiment | Organism state, needs, functional capabilities, accumulated injury and development | Reads physical exchanges and activity; proposes metabolic and capability effects |
-| Perception and evidence | Admitted observation opportunities, detection and provenance | Reads scoped signals and sensor capabilities; produces agent-specific observations |
-| Knowledge and memory | Observations, claims, remembered places, uncertainty and source attribution | Consumes evidence; supplies a bounded subjective context |
-| Motivation and intention | Active commitments, reasons, current activity and interruption state | Consumes subjective context and own needs; proposes choices from code-built options |
-| Action execution | Attempt lifecycle, shared-resource admission, progress and cancellation | Validates actions against current truth; invokes admitted physical/social mechanisms |
-| Time and persistence | Scheduling, replay, atomic commits, offscreen catch-up and migration | Coordinates every module without becoming a second outcome engine |
-| Presentation and explanation | Observer-authorized views of committed state and causes | Renders cues and feedback; never feeds invented facts back into simulation |
+| [World identity and context](world/world-identity-and-context.md) | Stable entities, placement, environmental context and relationship records; references clock/version authority | Supplies scoped contexts and lifecycle events |
+| [Composition and processes](world/composition-and-processes.md) | Material portions, parts, contacts, resource accounts, geometry approximations, active processes and structural change | Consumes physical attempts/exposures; produces accounted effects and evidence sources |
+| [Embodiment](world/embodiment.md) | Organism state, needs, functional capabilities, accumulated injury and development | Reads physical exchanges and activity; proposes metabolic and capability effects |
+| [Perception and evidence](world/perception-and-evidence.md) | Admitted observation opportunities, detection and provenance | Reads scoped signals and sensor capabilities; produces agent-specific observations |
+| [Knowledge and memory](world/knowledge-and-memory.md) | Observations, claims, remembered places, uncertainty and source attribution | Consumes evidence; supplies a bounded subjective context |
+| [Motivation and intention](world/motivation-and-intention.md) | Active commitments, reasons, current activity and interruption state | Consumes subjective context and own needs; proposes choices from code-built options |
+| [Action execution](world/action-execution.md) | Attempt lifecycle, shared-resource admission, progress and cancellation | Validates actions against current truth; invokes admitted physical/social mechanisms |
+| [Time and persistence](world/time-and-persistence.md) | Clock, version pins, scheduling, replay, atomic commits, offscreen catch-up and migration | Coordinates every module without becoming a second outcome engine |
+| [Presentation and explanation](world/presentation-and-explanation.md) | Observer-authorized views of committed state and causes | Renders cues and feedback; never feeds invented facts back into simulation |
+
+Each linked file develops that module's reasoning, state boundaries, lifecycle,
+alternatives, failure modes and acceptance evidence. The
+[module design index](world/README.md) records the cross-module questions to resolve
+together. These are draft recommendations, not nine new implemented systems;
+this document remains the shared agreement.
 
 Each handoff must carry stable references, simulation time or interval, cause IDs,
 relevant revision and an explicit status. Observation time and commit time must
