@@ -2,14 +2,12 @@
  * X7, drift: what time does. Every rate reads its conditions (principle 3), and each is in
  * closed form over the minutes that passed, so a gap nobody watched is simulated by this
  * same code (SPEC.md rule 10). What time does to a thing is nine rows of data
- * (graph/drift-rules.ts) carried out by one kernel (graph/rules.ts); no rule is a function.
+ * (graph/drift-rules.ts) carried out by one kernel (graph/kernel.ts); no rule is a function.
  */
 import { apply } from "./apply.ts";
 import { faded } from "./deeds.ts";
-import { effective } from "./effective.ts";
-import { compileRules } from "./graph/compile.ts";
 import { DRIFT_DERIVED, DRIFT_RULES } from "./graph/drift-rules.ts";
-import type { Env } from "./graph/expr.ts";
+import { envOf, partyOf, readyAll } from "./graph/kernel.ts";
 import { weathered } from "./living.ts";
 import { report } from "./report.ts";
 import type { Body, Change, MatterWorld, Thing } from "./types.ts";
@@ -20,29 +18,21 @@ export interface DriftAct {
   minutes: number;
 }
 
-/** The rows, made ready once (graph/compile.ts). */
-const RULES = compileRules(DRIFT_RULES, DRIFT_DERIVED);
+/** The rows, made ready once (graph/kernel.ts). */
+const RULES = readyAll(DRIFT_RULES, DRIFT_DERIVED);
 
 function driftThing(world: MatterWorld, thing: Thing, minutes: number): Change[] {
-  const env: Env = {
-    world,
-    thing,
-    p: effective(world, thing),
-    place: world.places[thing.place],
-    minutes,
-    s: thing.state,
-    derived: DRIFT_DERIVED,
-  };
+  const env = envOf(world, { self: partyOf(world, thing) }, minutes);
   let spent = false;
   const because = new Set<string>();
   // Each rule is a row (graph/drift-rules.ts), and sees the state the rows before it left.
   for (const rule of RULES) {
     const step = rule(env);
+    if (!step) continue;
     spent ||= step.spent === true;
-    env.s = { ...env.s, ...step.set };
     for (const id of step.because) because.add(id);
   }
-  const state = env.s;
+  const state = env.parties.self?.s ?? thing.state;
   const changes: Change[] = [
     {
       kind: "state",

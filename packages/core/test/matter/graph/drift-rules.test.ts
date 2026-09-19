@@ -6,10 +6,10 @@
  */
 import { describe, expect, it } from "vitest";
 import { Rng } from "../../../src/index.ts";
-import { compileRules } from "../../../src/matter/graph/compile.ts";
 import { DRIFT_DERIVED, DRIFT_RULES } from "../../../src/matter/graph/drift-rules.ts";
 import type { Expr } from "../../../src/matter/graph/expr.ts";
-import { type Rule, run, touches } from "../../../src/matter/graph/rules.ts";
+import { envOf, readyAll } from "../../../src/matter/graph/kernel.ts";
+import { type Rule, touches } from "../../../src/matter/graph/rules.ts";
 import { effective, FRESH, POOL, type Thing, type ThingState } from "../../../src/matter/index.ts";
 import { ELEMENTS, world } from "../elements.ts";
 import { type Ctx, DRIFTS } from "./drift-oracle.ts";
@@ -18,7 +18,7 @@ import { type Ctx, DRIFTS } from "./drift-oracle.ts";
 const RULES: Rule[] = JSON.parse(JSON.stringify(DRIFT_RULES));
 const DERIVED: Record<string, Expr> = JSON.parse(JSON.stringify(DRIFT_DERIVED));
 
-const READY = compileRules(RULES, DERIVED);
+const READY = readyAll(RULES, DERIVED);
 
 const ROWS = [...POOL, ...ELEMENTS.filter((e) => !POOL.some((p) => p.id === e.id))];
 const COATS = ["oil", "salt", "ash", "mud", "soapy", "blood"];
@@ -95,10 +95,11 @@ describe("the nine rules of drift, as data", () => {
       for (let n = 0; n < CASES; n++) {
         const { ctx, state } = some(r, n % 2 === 0 ? STEER[rule.id] : undefined);
         const was = (DRIFTS[i] as (typeof DRIFTS)[number])(ctx, state);
-        const now = run(rule, { ...ctx, s: state, derived: DERIVED });
-        // And the row made ready once (compile.ts) says what the row read afresh says.
-        const ready = (READY[i] as (typeof READY)[number])({ ...ctx, s: state, derived: DERIVED });
-        expect(ready, `compiled ${rule.id} case ${n}`).toEqual(now);
+        const party = { thing: ctx.thing, p: ctx.p, place: ctx.place, s: state, was: state, x: {} };
+        const ran = (READY[i] as (typeof READY)[number])(
+          envOf(ctx.world, { self: party }, ctx.minutes),
+        );
+        const now = { set: ran?.sets.self ?? {}, because: ran?.because ?? [], spent: ran?.spent };
         const label = `${rule.id} case ${n}: ${ctx.thing.element}, ${ctx.minutes} minutes`;
         expect(
           close({ ...state, ...now.set }, { ...state, ...was.set }),
