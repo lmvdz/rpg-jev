@@ -9,6 +9,7 @@
  */
 import { buildClearing } from "../scene/clearing.ts";
 import { buildDemoScene } from "../scene/demo.ts";
+import { buildStudy, STUDY_STATES } from "../scene/study.ts";
 import type { ThingView } from "../view/things.ts";
 import { decodeWorld, encodeWorld, type WorldContent } from "./format.ts";
 
@@ -66,6 +67,13 @@ export async function loadWorld(query: URLSearchParams): Promise<LoadedWorld> {
   const seed = Number(query.get("seed") ?? 1);
   const asked = query.get("world") ?? "";
   const name = NAME.test(asked) ? asked : "scratch";
+  if (query.has("study")) {
+    return {
+      content: buildStudy(),
+      name: "visual-study",
+      from: `visual study (not simulated)\nleft to right: ${STUDY_STATES.map((s) => s.name).join(" | ")}`,
+    };
+  }
   if (query.has("stress") || query.has("card")) {
     return { content: demoContent(seed), name, from: `test card, seed ${seed}` };
   }

@@ -124,6 +124,7 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   const { grid, objects: placed, start } = loaded.content;
   const renderer = new Renderer(canvas);
   const camera = new Camera();
+  if (query.has("study")) camera.settings.distance = 64;
   const stress = query.has("stress");
   if (stress) {
     // The R1 gate's worst case: every tile and every glyph on screen at once.
