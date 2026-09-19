@@ -22,6 +22,25 @@ export interface Outcome {
   after: After;
 }
 
+/**
+ * What the client still owns and the world needs for an act: where the actor
+ * stands (positions are the client's until the world has a move process) and
+ * the hour (the sky is the client's until the world has a clock).
+ */
+export interface Standing {
+  where: readonly [number, number];
+  hour: number;
+}
+
+/** One thing the actor is aware of now: what it came from, by which channel, how strongly. */
+export interface Aware {
+  source: string;
+  /** The source's name: generated text, set as text only. */
+  name: string;
+  channel: string;
+  strength: number;
+}
+
 export interface WorldPort {
   /** The vocabulary ids of the processes the world compiles today. */
   compiled: readonly string[];
@@ -33,13 +52,36 @@ export interface WorldPort {
    * operand ids to thing ids. Null means the answers name nothing that can be
    * done: an outcome, not an error.
    */
-  act(answers: Answers, operands: Readonly<Record<string, string>>): Outcome | null;
+  act(
+    answers: Answers,
+    operands: Readonly<Record<string, string>>,
+    standing?: Standing,
+  ): Outcome | null;
+  /** What the actor is aware of now, strongest first: sensed by the world at the end of every act. */
+  aware?(): Aware[];
 }
 
 export interface Performing {
   actorTile: number;
   targetTile: number;
   now: number;
+  standing?: Standing;
+}
+
+const CHANNEL_WORDS: Readonly<Record<string, string>> = {
+  light: "the light of",
+  smoke: "smoke from",
+  sound: "the sound of",
+  scent: "the smell of",
+};
+const NOTICED_AT_MOST = 3;
+
+/** What the actor notices, as a line for the HUD, or nothing. Names in it are generated text. */
+export function noticed(aware: readonly Aware[]): string {
+  const said = aware
+    .slice(0, NOTICED_AT_MOST)
+    .map((one) => `${CHANNEL_WORDS[one.channel] ?? one.channel} ${one.name}`);
+  return said.length > 0 ? `you notice ${said.join(", ")}` : "";
 }
 
 /** How hard an act is shown, until the manner's effort is a level the client is told. */
@@ -62,7 +104,7 @@ export function perform(
   // Until the world has a move process to say what can be reached, the client's reach stands in.
   const onTarget = request.state.inReach.some((o) => o.isTarget && o.id === answers.patient);
   if (onTarget && request.state.target.distance > REACH) return "That is too far away.";
-  const outcome = port.act(answers, request.things);
+  const outcome = port.act(answers, request.things, at.standing);
   if (!outcome) return "That comes to nothing.";
   const shown = {
     process: outcome.process,

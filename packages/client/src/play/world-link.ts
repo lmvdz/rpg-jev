@@ -65,8 +65,19 @@ interface Why {
  */
 export type WorldChange = Why &
   (
-    | { kind: "signal"; place: string; channel: string; strength: number }
-    | { kind: "state" | "create" | "consume" | "nothing" | "body" | "wound" | "treat" | "settle" }
+    | { kind: "signal"; place: string; channel: string; strength: number; source?: string }
+    | {
+        kind:
+          | "state"
+          | "create"
+          | "consume"
+          | "nothing"
+          | "body"
+          | "wound"
+          | "treat"
+          | "settle"
+          | "percept";
+      }
   );
 
 /** What the client is told of an element: the row's name, look and what births are decided from. */
@@ -189,7 +200,7 @@ export class WorldLink {
     for (const [id, seen] of Object.entries(after)) this.#sync(id, seen, act.tile);
     const noticed = changes.filter((change) => !change.quiet);
     for (const change of noticed) {
-      if (change.kind === "signal") this.#signal(change.channel, change.strength, act);
+      if (change.kind === "signal") this.#signal(change, act);
     }
     return noticed.map((change) => change.note).filter((note) => note.length > 0);
   }
@@ -255,15 +266,15 @@ export class WorldLink {
     });
   }
 
-  /** A signal that can be seen rises where the act was, from whatever stands there. */
-  #signal(channel: string, strength: number, act: ShownAct): void {
+  /** A signal that can be seen rises from the thing it came from, or else from what the act was done to. */
+  #signal(signal: { channel: string; strength: number; source?: string }, act: ShownAct): void {
     const { grid, living, births, shots } = this.#host;
-    const happening = SIGNAL_SHOWS[channel];
-    const source = living.thingAt(act.tile);
+    const happening = SIGNAL_SHOWS[signal.channel];
+    const named = living.thing(living.indexOf(signal.source ?? ""));
+    const source = named ?? living.thingAt(act.tile);
     if (!(happening && source)) return;
-    const rows = births.effects.entry(source, happening).value[level(strength)] ?? [];
-    const x = (act.tile % grid.width) + 0.5;
-    const z = Math.floor(act.tile / grid.width) + 0.5;
+    const rows = births.effects.entry(source, happening).value[level(signal.strength)] ?? [];
+    const [x, z] = [source.x + 0.5, source.z + 0.5];
     shots.play(x, groundHeight(grid, x, z) + 0.5, z, rows, act.now);
   }
 }

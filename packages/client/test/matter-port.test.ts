@@ -12,7 +12,7 @@ import {
 import { intentsFor } from "../src/play/intents.ts";
 import { matterPort } from "../src/play/matter-port.ts";
 import { type WorldChange, WorldLink } from "../src/play/world-link.ts";
-import { perform, told } from "../src/play/world-port.ts";
+import { noticed, perform, told } from "../src/play/world-port.ts";
 import { TileGrid } from "../src/terrain/grid.ts";
 import { askPriors } from "../src/view/birth.ts";
 import { Births } from "../src/view/births.ts";
@@ -184,6 +184,25 @@ describe("the clearing as a world of matter", () => {
     expect(port.world.things["branch@3,4"]?.state.burning).not.toBeNull();
     expect(told(["a", "a", "b", "c", "d", "e"])).toBe("a; b; c; and 2 more");
     expect(told([])).toBe("Nothing seems to change.");
+  });
+
+  it("tells the world where things and the hero are and how light it is, and hears back what the hero notices", () => {
+    const { port, request } = scene();
+    expect(port.world.things["branch@3,4"]?.where).toEqual([3, 4]);
+    const asked = request(6, 6);
+    const wait = intentsFor(asked, port.compiled).find((i) => i.answers.process === "X7");
+    port.act(wait?.answers as Answers, asked.things, { where: [4, 4], hour: 23 });
+    expect(port.world.bodies.hero?.where).toEqual([4, 4]);
+    expect(port.world.places.clearing?.light).toBe(0);
+    const night = port.aware?.() ?? [];
+    // Beside a fire at night the hero is aware of it, and never of his own hands.
+    expect(night.some((one) => one.source === "branch@3,4")).toBe(true);
+    expect(night.some((one) => one.source === "hands")).toBe(false);
+    expect([...night].sort((a, b) => b.strength - a.strength)).toEqual(night);
+    expect(noticed(night)).toContain("you notice");
+    port.act(wait?.answers as Answers, asked.things, { where: [4, 4], hour: 12 });
+    expect(port.world.places.clearing?.light).toBe(5);
+    expect(noticed([])).toBe("");
   });
 
   it("comes to nothing for what the engine cannot do yet: a thing with no row, and moving", () => {

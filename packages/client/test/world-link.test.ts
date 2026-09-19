@@ -189,6 +189,19 @@ describe("a resolved act, shown", () => {
     ]);
     shots.emit(emitters, 5.1);
     expect(emitters.count).toBe(1);
+    expect([...emitters.data.subarray(0, 3)]).toEqual([3.5, 0.5, 3.5]);
+  });
+
+  it("places a signal on the thing it came from, when the world says which", () => {
+    const { link, act, shots, living, grid } = scene();
+    living.add({ ...(living.thing(0) as ThingView), id: "th9", x: 6, z: 1 });
+    const emitters = new EmitterList();
+    link.show({ ...act, tile: grid.index(3, 3), process: "heat", now: 5 }, [
+      { ...why, kind: "signal", place: "clearing", channel: "smoke", strength: 3, source: "th9" },
+      { ...why, kind: "percept" },
+    ]);
+    shots.emit(emitters, 5.1);
+    expect([...emitters.data.subarray(0, 3)]).toEqual([6.5, 0.5, 1.5]);
   });
 
   it("shows nothing for a process it has never heard of, and still draws what it left", () => {

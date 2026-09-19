@@ -22,7 +22,7 @@ import { matterPort } from "./play/matter-port.ts";
 import { type MountedPlay, mountPlay } from "./play/pointer.ts";
 import { StatusDisplay } from "./play/status.ts";
 import { WorldLink } from "./play/world-link.ts";
-import { perform, type WorldPort } from "./play/world-port.ts";
+import { noticed, perform, type WorldPort } from "./play/world-port.ts";
 import { StandInBody } from "./scene/body.ts";
 import { Drift } from "./scene/drift.ts";
 import { scorchAround, standInGround } from "./scene/ground.ts";
@@ -462,8 +462,17 @@ loadWorld(query).then((loaded) => {
     world: () => app.world.port,
     // A menu row's answers need no judge: they go to the world now and the outcome is shown.
     intend: (request, answers, tile) => {
-      const at = { actorTile: app.walker.tile, targetTile: tile, now: app.last / 1000 };
-      app.note = perform(app.world.port, app.link, request, answers, at);
+      // Where the hero stands and the hour are the client's, and the world senses by them.
+      const standing = { where: [app.walker.tileX, app.walker.tileZ] as const, hour: app.hour };
+      const at = { actorTile: app.walker.tile, targetTile: tile, now: app.last / 1000, standing };
+      const said = perform(app.world.port, app.link, request, answers, at);
+      // What the hero is aware of now, as the world sensed it at the end of the act.
+      // A thing on the map is called what the map calls it; anything else, what its element is called.
+      const called = (source: string) => app.living?.thing(app.living.indexOf(source))?.name;
+      const sensed = app.world.port?.aware?.() ?? [];
+      const aware = sensed.map((one) => ({ ...one, name: called(one.source) ?? one.name }));
+      const notices = noticed(aware);
+      app.note = notices ? `${said}  |  ${notices}` : said;
       writeHud(app);
     },
     // A typed line needs a judge to answer its questions, and none is attached, so the request is kept where

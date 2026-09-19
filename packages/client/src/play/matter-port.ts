@@ -16,7 +16,7 @@ import { checkLook } from "../view/look-birth.ts";
 import type { ThingView } from "../view/things.ts";
 import type { Answers } from "./act-request.ts";
 import type { After, ElementView, Seen } from "./world-link.ts";
-import type { Outcome, WorldPort } from "./world-port.ts";
+import type { Outcome, Standing, WorldPort } from "./world-port.ts";
 
 const PLACE = "clearing";
 const ACTOR = "hero";
@@ -50,7 +50,9 @@ function worldFrom(things: readonly ThingView[], tiles: number): matter.MatterWo
     // A thing of no element in the pool (a creature, until bodies have rows) is not the world's yet.
     if (!element) continue;
     const state = stateOf(thing, element);
-    const made = { id: thing.id, element: thing.element, place: PLACE, state };
+    // Positions are the client's: sensing needs to know how far off a thing is.
+    const where = [thing.x, thing.z] as const;
+    const made = { id: thing.id, element: thing.element, place: PLACE, state, where };
     // A fire is not an element: it is fuel, burning, for as long as there is of it.
     world.things[thing.id] = (thing.states.burning ?? 0) > 0 ? matter.alight(world, made) : made;
   }
@@ -73,6 +75,26 @@ function touchedBy(change: matter.Change): string[] {
   if (change.quiet) return [];
   if (change.kind === "state" || change.kind === "consume") return [change.thing];
   return change.kind === "create" ? [change.thing.id] : [];
+}
+
+/** How light the place is at an hour of the day, 0 dark to 5 noon: up from five, down by seven at night. */
+const lightAt = (hour: number) =>
+  Math.round(5 * Math.max(0, Math.sin((Math.PI * (hour - 5)) / 14)));
+
+/**
+ * What the client owns and the world needs is set before each act: where the
+ * hero stands and how light it is. These are inputs the world has no process
+ * for yet (move, a clock), not outcomes; outcomes are the engine's alone.
+ */
+function stood(world: matter.MatterWorld, standing: Standing): matter.MatterWorld {
+  const hero = world.bodies[ACTOR];
+  const place = world.places[PLACE];
+  if (!(hero && place)) return world;
+  return {
+    ...world,
+    bodies: { ...world.bodies, [ACTOR]: { ...hero, where: standing.where } },
+    places: { ...world.places, [PLACE]: { ...place, light: lightAt(standing.hour) } },
+  };
 }
 
 /** The hands are a thing so that they can strike, and are never drawn: they are the actor's. */
@@ -121,7 +143,18 @@ export function matterPort(things: readonly ThingView[], tiles: number, seed: nu
       const element = world.elements[id];
       return element ? elementView(element) : null;
     },
-    act(answers: Answers, operands): Outcome | null {
+    aware() {
+      const all = Object.entries(world.bodies[ACTOR]?.aware ?? {});
+      const aware = all.filter(([source]) => drawn(source));
+      const named = aware.map(([source, percept]) => {
+        const element = world.things[source]?.element ?? "";
+        const name = world.elements[element]?.name ?? "something";
+        return { source, name, channel: percept.channel, strength: percept.strength };
+      });
+      return named.sort((a, b) => b.strength - a.strength);
+    },
+    act(answers: Answers, operands, standing): Outcome | null {
+      if (standing) world = stood(world, standing);
       const draw = rng.next();
       const compiling = { answers, operands: { ...operands }, actor: ACTOR, hands: HANDS };
       const act = matter.compile(world, { ...compiling, place: PLACE, draw });
