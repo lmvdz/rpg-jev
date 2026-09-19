@@ -1,0 +1,408 @@
+[
+  {
+    "id": "odd-01",
+    "domain": "odd",
+    "who": "A very old woman, stooped and slow, who has lived in the same house longer than anyone else in the village.",
+    "place": "Her own kitchen, at dusk, the fire burned low and no one else in the house.",
+    "present": ["a pot left boiling on the fire", "a walking stick propped by the door", "a neighbor's dog scratching at the yard gate"],
+    "factors": [
+      { "kind": "a habit worn deep", "fact": "She has stirred that pot at this hour every day for sixty years, long after the need for it passed." },
+      { "kind": "what her body allows", "fact": "Her knees no longer bend without pain, and the stairs to the loft are hard to climb." },
+      { "kind": "a fear she carries", "fact": "She is afraid of admitting she has forgotten the name of the neighbor whose dog is barking." },
+      { "kind": "a memory returning", "fact": "The dog's bark is the same pitch as one she raised as a girl, and for a moment she is certain it is that dog." },
+      { "kind": "what is owed", "fact": "She promised her daughter she would eat supper before dark, and it is nearly dark now." },
+      { "kind": "what she can still do", "fact": "Her hands still know the motions of cooking even when her mind wanders." }
+    ],
+    "does": { "verb": "stirs the pot and talks to the dog as if it were the one she raised as a girl", "toward": "the neighbor's dog", "how": "gently" },
+    "could_also": [
+      { "verb": "calls out for her daughter", "toward": "nothing" },
+      { "verb": "sits down by the fire and forgets the pot", "toward": "nothing" },
+      { "verb": "goes to let the dog in", "toward": "the neighbor's dog" }
+    ],
+    "would_not": [
+      { "verb": "climbs to the loft", "toward": "nothing", "why": "her knees would not carry her and she knows it even when her mind wanders" },
+      { "verb": "leaves the pot to go outside in the cold", "toward": "nothing", "why": "the promise to her daughter about supper holds even when the memory of the dog does not" }
+    ],
+    "then": "She keeps stirring until the pot boils dry, then startles at the smell and only then remembers where she is.",
+    "why": "The old habit of the pot and the promise to her daughter pull her to stay at the fire, while the sound of the dog pulls her thirty years into a memory; her body settles it, since standing to go outside costs more than staying does.",
+    "turns_on": "whether the dog stays quiet or barks again"
+  },
+  {
+    "id": "odd-02",
+    "domain": "odd",
+    "who": "A small child, barely past toddling, left to play while the adults work nearby.",
+    "place": "The riverbank below the washing stones, midmorning, the water low and slow after a dry spell.",
+    "present": ["two women washing clothes upstream", "a smooth flat stone at the water's edge", "a duckling paddling alone near the reeds"],
+    "factors": [
+      { "kind": "what draws the eye", "fact": "The duckling's movement is the brightest, closest thing to watch." },
+      { "kind": "no sense of danger", "fact": "The child has never been told the river drops away past the flat stone, and would not understand the words yet if told." },
+      { "kind": "a need in the body", "fact": "The child is hungry and has been fussy since before noon." },
+      { "kind": "what is nearby", "fact": "The women's voices are close enough to hear but not close enough to reach quickly." },
+      { "kind": "a new skill", "fact": "The child only learned to stand without holding on to something two weeks ago." }
+    ],
+    "does": { "verb": "totters toward the duckling at the water's edge", "toward": "the duckling", "how": "unsteadily" },
+    "could_also": [
+      { "verb": "sits down and cries for food", "toward": "the women washing clothes" },
+      { "verb": "picks up the flat stone to look at it", "toward": "the flat stone" },
+      { "verb": "wanders toward the women's voices instead", "toward": "the women washing clothes" }
+    ],
+    "would_not": [
+      { "verb": "stops at the water's edge on purpose", "toward": "nothing", "why": "it has no sense yet of where the safe ground ends" },
+      { "verb": "calls out a warning to itself", "toward": "nothing", "why": "it does not yet have words for danger, only for wanting" }
+    ],
+    "then": "It reaches the edge of the flat stone and leans after the duckling; one of the women looks up in time to shout and run.",
+    "why": "The bright moving duckling pulls harder on a child this young than hunger does, and the new balance to walk gives it just enough reach to follow that pull past the point an adult would call safe.",
+    "turns_on": "how far the duckling drifts from the bank"
+  },
+  {
+    "id": "odd-03",
+    "domain": "odd",
+    "who": "A grown man laid up with a fever that has not broken in three days.",
+    "place": "A small bedroom at midday, shutters closed against the light, the household going about its work outside the door.",
+    "present": ["a bowl of water and a cloth by the bed", "his wife's voice through the wall", "a jug of the strong drink he keeps for pain"],
+    "factors": [
+      { "kind": "a need in the body", "fact": "The fever makes him thirsty in a way that plain water does not satisfy." },
+      { "kind": "what his mind is doing", "fact": "He has started mistaking his wife's voice through the wall for his dead brother's." },
+      { "kind": "a wish to be left", "fact": "He does not want anyone to see him confused, and would rather they think he is only resting." },
+      { "kind": "what he was told", "fact": "The healer told him plainly that the strong drink would make the fever worse, not better." },
+      { "kind": "how much strength is left", "fact": "He can sit up but standing makes the room tilt." }
+    ],
+    "does": { "verb": "lies still and answers the wall as if it were his brother", "toward": "his wife's voice through the wall", "how": "quietly" },
+    "could_also": [
+      { "verb": "calls out for water", "toward": "his wife's voice through the wall" },
+      { "verb": "reaches for the jug despite the warning", "toward": "nothing" },
+      { "verb": "tries to sit up and go to the door", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "gets up and walks outside", "toward": "nothing", "why": "the tilt in the room when he stands is worse than the confusion he can hide lying down" },
+      { "verb": "tells his wife what he is hearing", "toward": "nothing", "why": "the wish not to be seen confused outweighs the comfort of saying it aloud" }
+    ],
+    "then": "He drifts between answering the wall and dozing until his wife comes in with water and he goes quiet, unsure afterward what he said.",
+    "why": "The fever's thirst pushes him toward the jug, but the healer's warning and the last of his sense hold him to plain water; the confusion about the voice wins out over both because it comes from inside, where warnings do not reach.",
+    "turns_on": "whether the fever breaks before the jug is reached"
+  },
+  {
+    "id": "odd-04",
+    "domain": "odd",
+    "who": "A man who has had far more of the strong drink than he is used to, well after dark.",
+    "place": "The lane outside the tavern, late at night, most windows dark, a low wall running along one side.",
+    "present": ["a low wall along the lane", "a stray cat sitting on the wall", "his own house, three doors further on, dark"],
+    "factors": [
+      { "kind": "what his legs will do", "fact": "His balance is gone enough that the ground feels like it tilts." },
+      { "kind": "a small comfort", "fact": "The cat sitting still and looking at him feels, in the moment, like good company." },
+      { "kind": "where home is", "fact": "He knows his own door by shape more than by thought, three doors down." },
+      { "kind": "what he is owed", "fact": "His wife told him plainly not to be late again." },
+      { "kind": "what dulls the judgment", "fact": "The drink has made small things, like the cat, feel far more important than they are." }
+    ],
+    "does": { "verb": "stops to talk to the cat on the wall", "toward": "the stray cat", "how": "loudly" },
+    "could_also": [
+      { "verb": "leans on the wall to steady himself", "toward": "nothing" },
+      { "verb": "tries to pick up the cat", "toward": "the stray cat" },
+      { "verb": "gives up and sits down in the lane", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "walks straight home without stopping", "toward": "nothing", "why": "the drink has drowned out the sense that would make him hurry" },
+      { "verb": "argues loudly for a long time", "toward": "the stray cat", "why": "even drunk, a stray cat holds his attention only a little while before he loses the thread" }
+    ],
+    "then": "The cat slips away when he reaches for it, and he stands blinking before remembering, slowly, that he was going somewhere.",
+    "why": "The wife's warning is the stronger claim by daylight, but the drink has weakened everything except what is right in front of him, so the cat wins his attention until it leaves and there is nothing left to hold it.",
+    "turns_on": "whether the cat stays on the wall or slips away"
+  },
+  {
+    "id": "odd-05",
+    "domain": "odd",
+    "who": "A workhorse that has pulled a loaded cart uphill since before dawn without rest.",
+    "place": "The top of a long hill road, midafternoon, the cart still half full, the stable still an hour's walk off.",
+    "present": ["the driver holding the reins", "the loaded cart behind it", "a patch of shade under a lone tree at the roadside"],
+    "factors": [
+      { "kind": "what the body has left", "fact": "Its legs are trembling in a way they were not an hour ago." },
+      { "kind": "what it has learned", "fact": "It has pulled this same road for years and knows the stable is close once the hill ends." },
+      { "kind": "a need in the body", "fact": "It has not had water since the morning and the day is hot." },
+      { "kind": "what the driver wants", "fact": "The driver is tapping the reins for it to keep moving." },
+      { "kind": "what is nearby", "fact": "The shade under the tree is a few steps off the road." }
+    ],
+    "does": { "verb": "stops walking and will not go further", "toward": "nothing", "how": "stubbornly" },
+    "could_also": [
+      { "verb": "veers toward the shade under the tree", "toward": "the patch of shade" },
+      { "verb": "keeps pulling at a slower pace", "toward": "nothing" },
+      { "verb": "tosses its head against the reins", "toward": "the driver" }
+    ],
+    "would_not": [
+      { "verb": "bolts forward suddenly", "toward": "nothing", "why": "it has no strength left in its legs to spend on a sudden run" },
+      { "verb": "lies down in the road", "toward": "nothing", "why": "even this tired, standing feels safer to it than being down where the cart could roll onto it" }
+    ],
+    "then": "The driver eventually leads it to the shade and loosens the harness before it will move again, losing the better part of an hour.",
+    "why": "Years of the same road tell it the stable is close, which would normally be enough to finish the pull, but the trembling in its legs and the thirst outweigh that habit today; the driver's tapping cannot substitute for water or rest.",
+    "turns_on": "whether the driver lets it rest at the shade"
+  },
+  {
+    "id": "odd-06",
+    "domain": "odd",
+    "who": "A hunter who lost his sight to an illness two months ago and has not yet relearned his own house.",
+    "place": "His own cottage, midmorning, the furniture recently moved by a well-meaning relative.",
+    "present": ["a low table moved from its old place", "his hunting dog lying by the door", "his sister's voice from the next room"],
+    "factors": [
+      { "kind": "what he remembers", "fact": "He still walks the room by the map of where things used to stand." },
+      { "kind": "what he can use instead", "fact": "He has started, without much success yet, to listen for the dog's breathing to find the door." },
+      { "kind": "a hurt to pride", "fact": "He does not want his sister to see him walk into the moved table again." },
+      { "kind": "what changed without warning", "fact": "The table was moved yesterday and no one told him." },
+      { "kind": "what the dog offers", "fact": "The dog has taken to standing between him and anything newly in his path." }
+    ],
+    "does": { "verb": "walks forward from memory and strikes his shin on the moved table", "toward": "nothing", "how": "carefully, then abruptly" },
+    "could_also": [
+      { "verb": "stops and calls to his sister to ask what moved", "toward": "his sister's voice" },
+      { "verb": "reaches down to follow the dog's lead", "toward": "his hunting dog" },
+      { "verb": "stands still until someone notices", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "admits out loud that he is disoriented", "toward": "his sister's voice", "why": "the hurt to his pride is fresher than the pain in his shin" },
+      { "verb": "kicks the table over in anger", "toward": "nothing", "why": "anger at the table would only confirm to his sister how much he has struggled, which he is trying to hide" }
+    ],
+    "then": "He rubs his shin and mutters that he should be more careful, then works the new shape of the room into his memory before trying the walk again.",
+    "why": "The old map of the room is stronger in his mind than any new habit of listening for the dog, so he trusts it until it fails him outright; pride keeps him from simply asking, even though asking would have cost him nothing.",
+    "turns_on": "whether anyone warns him the table moved before he reaches it"
+  },
+  {
+    "id": "odd-07",
+    "domain": "odd",
+    "who": "A wolf raised from a cub by a shepherd family, grown now to full size and kept mostly as a working dog.",
+    "place": "The sheep pen at dusk, the flock restless, a real wild wolf's howl carrying from the ridge above.",
+    "present": ["the flock of sheep in the pen", "the shepherd calling from the house", "the howl of a wild wolf on the ridge"],
+    "factors": [
+      { "kind": "how it was raised", "fact": "It has slept by the shepherd's fire every night of its life and has never hunted for itself." },
+      { "kind": "what its ears tell it", "fact": "The howl on the ridge is answered, low in its chest, before it can stop itself." },
+      { "kind": "a bond formed young", "fact": "It has guarded this flock since it was half-grown and does not think of the sheep as prey." },
+      { "kind": "what its body wants", "fact": "Something in the howl pulls at muscles it has never used on purpose." },
+      { "kind": "who is calling", "fact": "The shepherd's voice is calling its name, the only word it has ever answered to." }
+    ],
+    "does": { "verb": "answers the shepherd's call and stays at the pen", "toward": "the shepherd calling from the house", "how": "reluctantly" },
+    "could_also": [
+      { "verb": "paces the fence line growling toward the ridge", "toward": "the wild wolf's howl" },
+      { "verb": "howls back once before falling silent", "toward": "the wild wolf's howl" },
+      { "verb": "herds the sheep tighter together", "toward": "the flock of sheep" }
+    ],
+    "would_not": [
+      { "verb": "leaves the pen to find the wild wolf", "toward": "the wild wolf's howl", "why": "it has never once left the flock unwatched and the pull of the howl is not stronger than that habit yet" },
+      { "verb": "attacks the sheep", "toward": "the flock of sheep", "why": "it does not see them as prey, whatever its blood might want elsewhere" }
+    ],
+    "then": "It stays at the fence through the night, restless and pacing, and answers the shepherd's call each time it is given, but sleeps badly.",
+    "why": "The howl reaches something bred into it that a life by the fire never removed, but the years of guarding the flock and answering to the shepherd's voice are the stronger claim tonight; the pull is real without yet being enough.",
+    "turns_on": "how many nights in a row the wild wolf howls"
+  },
+  {
+    "id": "odd-08",
+    "domain": "odd",
+    "who": "A dog that ran off from a farm a year ago and has lived wild in the woods since.",
+    "place": "The edge of the woods near the farm at dusk, the farm gate visible, its old owner outside calling a name it once answered to.",
+    "present": ["the farm gate and yard, visible through the trees", "its old owner calling from the yard", "a rabbit's fresh trail crossing nearby"],
+    "factors": [
+      { "kind": "what it has learned to fear", "fact": "A year of finding its own food and shelter has made it wary of anything that once meant a chain or a shed." },
+      { "kind": "an old habit stirred", "fact": "The sound of that particular voice still loosens something in it that no other voice does." },
+      { "kind": "what it needs now", "fact": "It is thinner than it was on the farm and the winter ahead will be harder than the last." },
+      { "kind": "what its body is trained for now", "fact": "It has learned to read a fresh trail like the rabbit's without thinking about it." },
+      { "kind": "what people mean to it now", "fact": "The last two people it came near threw stones at it." }
+    ],
+    "does": { "verb": "stays at the tree line, watching, and does not come closer", "toward": "its old owner", "how": "warily" },
+    "could_also": [
+      { "verb": "follows the rabbit's trail instead", "toward": "nothing" },
+      { "verb": "circles closer under cover before losing its nerve", "toward": "its old owner" },
+      { "verb": "slinks away deeper into the woods", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "runs straight to the owner as it once did", "toward": "its old owner", "why": "a year of thrown stones from other people has worn down the trust that used to be automatic" },
+      { "verb": "barks to announce itself", "toward": "its old owner", "why": "barking would give away a position it has learned, hard, not to give away" }
+    ],
+    "then": "It watches until the owner gives up calling and goes back inside, then noses along the rabbit's trail once the yard is quiet again.",
+    "why": "The old voice still pulls, more than any other sound would, but a year of learning that people mean danger now outweighs it; the trail offers something certain where the yard only offers a memory.",
+    "turns_on": "whether the old owner comes out into the open unarmed and alone"
+  },
+  {
+    "id": "odd-09",
+    "domain": "odd",
+    "who": "A young deer that has never come across a person before, born and raised in a stretch of forest people rarely enter.",
+    "place": "A clearing at the forest's edge, late afternoon, where a stranger has been standing motionless for hours.",
+    "present": ["the stranger standing still at the clearing's edge", "the deer's mother grazing nearby", "a stream running along the clearing"],
+    "factors": [
+      { "kind": "no learned danger", "fact": "Nothing in its life has taught it that an upright, still shape means danger." },
+      { "kind": "what its senses report", "fact": "The shape has not moved, made a sound, or given off a smell it recognizes as predator in all the time it has watched." },
+      { "kind": "a need in the body", "fact": "It is thirsty and the stream runs closer to the stranger than it would like." },
+      { "kind": "what its mother does", "fact": "Its mother has gone on grazing without alarm, which it takes as a sign." },
+      { "kind": "curiosity untaught", "fact": "Nothing has ever taught it to be curious about something so still, only that stillness is not moving." }
+    ],
+    "does": { "verb": "edges closer to drink at the stream, watching the stranger the whole time", "toward": "the stranger standing still", "how": "cautiously" },
+    "could_also": [
+      { "verb": "stays beside its mother and does not approach", "toward": "the mother grazing" },
+      { "verb": "circles wide around the stranger to reach the stream", "toward": "the stranger standing still" },
+      { "verb": "freezes and watches without drinking", "toward": "the stranger standing still" }
+    ],
+    "would_not": [
+      { "verb": "bolts away at first sight of the stranger", "toward": "nothing", "why": "nothing has taught it to associate a still, silent shape with danger, so there is no reason yet to run" },
+      { "verb": "walks directly up to touch the stranger", "toward": "the stranger standing still", "why": "even without learned fear, an untried shape this size is approached only as far as thirst requires" }
+    ],
+    "then": "It drinks in short bursts, lifting its head to watch the stranger between swallows, and drifts off with its mother once its thirst is settled.",
+    "why": "Thirst and its mother's calm both pull it toward the water, and nothing in its experience pulls the other way since the stranger has given off none of the signs it knows to fear; only the plain unfamiliarity of the shape keeps it cautious rather than careless.",
+    "turns_on": "whether the stranger moves suddenly while it drinks"
+  },
+  {
+    "id": "odd-10",
+    "domain": "odd",
+    "who": "A householder returning home to find a stranger already inside, holding one of her own kitchen knives and turning it over in the light.",
+    "place": "Her own kitchen, early evening, the door left unlatched while she fetched water.",
+    "present": ["the stranger holding her kitchen knife", "the open door behind the stranger", "her own walking stick by the door, within reach"],
+    "factors": [
+      { "kind": "what is hers", "fact": "The knife the stranger is holding is one she uses every day and knows the weight of." },
+      { "kind": "what she does not know", "fact": "She has never seen this person before and has no idea what they want." },
+      { "kind": "what is close at hand", "fact": "Her walking stick is by the door, closer to her than to the stranger." },
+      { "kind": "how the stranger is behaving", "fact": "The stranger is turning the knife over slowly, looking at it with plain curiosity rather than menace, and has not moved toward her." },
+      { "kind": "what is at stake", "fact": "She is alone in the house and the nearest neighbor is a shout away, maybe more." }
+    ],
+    "does": { "verb": "stands in the doorway and demands to know what they are doing with her knife", "toward": "the stranger holding her kitchen knife", "how": "sharply" },
+    "could_also": [
+      { "verb": "backs out to call for the neighbor", "toward": "nothing" },
+      { "verb": "reaches for the walking stick before speaking", "toward": "nothing" },
+      { "verb": "orders them out of the house", "toward": "the stranger holding her kitchen knife" }
+    ],
+    "would_not": [
+      { "verb": "attacks the stranger outright", "toward": "the stranger holding her kitchen knife", "why": "the stranger's calm, curious handling of the knife gives her no sign of a real attack coming, so going straight to force is more risk than the moment calls for" },
+      { "verb": "ignores it and starts on supper", "toward": "nothing", "why": "a stranger holding her knife in her own kitchen is not a thing she can simply work around" }
+    ],
+    "then": "The stranger sets the knife down at her sharp word and stands there, unbothered, waiting to see what she does next, which unsettles her more than if they had run.",
+    "why": "What is hers and what she does not know both push her to challenge the stranger at once, while the stranger's calm manner and her nearness to the stick both weigh against jumping straight to force; the challenge in the doorway does the most with the least risk.",
+    "turns_on": "whether the stranger sets the knife down when challenged"
+  },
+  {
+    "id": "odd-11",
+    "domain": "odd",
+    "who": "A market trader whose regular customer notices a stranger standing far closer than anyone normally does, then following her stall to stall.",
+    "place": "The market square at midday, crowded, the stranger a step behind her at every turn.",
+    "present": ["the crowd of the market", "her own stall, unattended while she walks", "another trader she knows two stalls down"],
+    "factors": [
+      { "kind": "what feels wrong", "fact": "No one she knows stands this close without a reason, and this person has given none." },
+      { "kind": "what the crowd offers", "fact": "The market is crowded enough that raising her voice would draw eyes fast." },
+      { "kind": "what is unguarded", "fact": "Her own stall is sitting unwatched while she is followed away from it." },
+      { "kind": "how the stranger acts", "fact": "The stranger has said nothing and made no move to touch her or take anything, only kept the same short distance." },
+      { "kind": "who she trusts nearby", "fact": "The trader two stalls down has known her for years and would come if called." }
+    ],
+    "does": { "verb": "moves toward the trader she knows and stays near him", "toward": "the trader she knows two stalls down", "how": "briskly" },
+    "could_also": [
+      { "verb": "turns and asks the stranger directly what they want", "toward": "the stranger following her" },
+      { "verb": "cuts back through the crowd to lose them", "toward": "nothing" },
+      { "verb": "hurries back to her unattended stall", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "ignores it and keeps wandering the market alone", "toward": "nothing", "why": "the closeness feels wrong enough that being alone with it is not something she is willing to keep doing" },
+      { "verb": "shouts for help without trying anything else first", "toward": "nothing", "why": "the stranger has done nothing yet worth the scene that shouting would cause in a crowd this size" }
+    ],
+    "then": "She reaches the trader and stands beside him, and the stranger stops a little further back, still watching, until she decides whether to go back for her stall.",
+    "why": "The wrongness of the closeness and the risk to her unattended stall pull in opposite directions, but neither the stranger's silence nor the crowd gives her a clean way to confront it, so she moves to where she has help without yet making a scene.",
+    "turns_on": "whether the stranger closes the distance again once she reaches the trader"
+  },
+  {
+    "id": "odd-12",
+    "domain": "odd",
+    "who": "A trader at his stall approached by a stranger offering a handful of ordinary river stones for a good working axe.",
+    "place": "The trader's stall at the edge of the market, midafternoon, a small line of other customers waiting.",
+    "present": ["the axe on the stall", "the handful of river stones the stranger is offering", "a line of other customers waiting"],
+    "factors": [
+      { "kind": "what the trade is worth", "fact": "The axe took him half a season's coin to have made, and the stones are worth nothing he can use." },
+      { "kind": "what is owed to others", "fact": "Other customers are waiting and watching this go on." },
+      { "kind": "how the stranger is acting", "fact": "The stranger holds the stones out plainly, as if certain they are a fair offer, with no sign of a joke." },
+      { "kind": "his own reputation", "fact": "He is known in this market for driving a hard but fair bargain, and other traders are watching." },
+      { "kind": "what he cannot know", "fact": "He has no way to tell if the stranger is simple-minded, testing him, or means something by the stones he cannot see." }
+    ],
+    "does": { "verb": "refuses the trade and tells the stranger plainly what the axe is worth", "toward": "the stranger offering the river stones", "how": "flatly" },
+    "could_also": [
+      { "verb": "laughs it off and waves the next customer forward", "toward": "nothing" },
+      { "verb": "asks the stranger where they got the idea the stones were worth anything", "toward": "the stranger offering the river stones" },
+      { "verb": "offers a smaller, cheaper item for the stones instead", "toward": "the stranger offering the river stones" }
+    ],
+    "would_not": [
+      { "verb": "accepts the trade as offered", "toward": "the stranger offering the river stones", "why": "half a season's coin is too much to give up on a trade this one-sided, whatever the stranger's reasons" },
+      { "verb": "drives the stranger off with anger", "toward": "the stranger offering the river stones", "why": "the stranger has shown no malice, only a bad sense of value, which does not deserve anger in front of a line of watching customers" }
+    ],
+    "then": "The stranger looks at the refused stones a moment, then puts them away and moves off without arguing, leaving him to wonder what that was about.",
+    "why": "The axe's real worth and the watching line both push him to refuse plainly rather than humor the trade, while his uncertainty about the stranger's reasons and their evident lack of malice keep him from responding with more than a flat no.",
+    "turns_on": "whether the stranger argues the value of the stones or simply moves on"
+  },
+  {
+    "id": "odd-13",
+    "domain": "odd",
+    "who": "A ferryman asked the same question about the river's depth by the same stranger for the fifth time in an hour.",
+    "place": "The riverbank by the ferry landing, late morning, a small queue of other travelers waiting to cross.",
+    "present": ["the queue of travelers waiting to cross", "the ferry tied at the landing", "the river running past, its depth unchanged since the first time he answered"],
+    "factors": [
+      { "kind": "what he already gave", "fact": "He has answered this exact question four times already, in the same words each time." },
+      { "kind": "what is owed to others", "fact": "The queue behind the stranger is growing restless waiting to cross." },
+      { "kind": "how the stranger seems", "fact": "The stranger listens to each answer as though hearing it fresh, with no sign of mocking him or not understanding the words." },
+      { "kind": "his own patience", "fact": "He is not a patient man on a good day, and this is not a good day." },
+      { "kind": "what he cannot rule out", "fact": "He cannot tell whether the stranger is simple, deaf in a way that is not obvious, or testing him on purpose." }
+    ],
+    "does": { "verb": "answers a fifth time, more shortly than before", "toward": "the stranger asking about the river's depth", "how": "curtly" },
+    "could_also": [
+      { "verb": "waves the stranger onto the ferry without answering again", "toward": "the stranger asking about the river's depth" },
+      { "verb": "turns to the next traveler in line instead", "toward": "the queue of travelers" },
+      { "verb": "asks the stranger why they keep asking", "toward": "the stranger asking about the river's depth" }
+    ],
+    "would_not": [
+      { "verb": "refuses to answer at all", "toward": "the stranger asking about the river's depth", "why": "the stranger has shown no sign of mockery, so refusing outright would be punishing something he cannot yet explain" },
+      { "verb": "shouts at the stranger to make them stop", "toward": "the stranger asking about the river's depth", "why": "the queue watching would see more in that than the question deserves, and it would not make the next question less likely" }
+    ],
+    "then": "He gives the fifth answer and turns straight to the queue, hoping the stranger boards without asking a sixth time; they do.",
+    "why": "His own thinning patience and the growing queue both push him toward cutting the exchange short, but the stranger's genuine, unmocking manner keeps him from refusing outright; a short answer costs him less than either extreme.",
+    "turns_on": "whether the stranger asks a sixth time"
+  },
+  {
+    "id": "odd-14",
+    "domain": "odd",
+    "who": "A farmer who spots a stranger crouched at the edge of his dry hay field, striking a small fire for no reason he can see.",
+    "place": "The edge of his hay field at dusk, the hay cut and drying, dangerously close to catching.",
+    "present": ["the dry cut hay, close enough to catch", "the small fire the stranger is building", "his own well and bucket, some distance off"],
+    "factors": [
+      { "kind": "what is at stake", "fact": "A season's cut hay is a few strides from that fire and dry enough to go up fast." },
+      { "kind": "how far help is", "fact": "His well and bucket are a run away, not a step away." },
+      { "kind": "how the stranger is behaving", "fact": "The stranger is not hiding the fire or looking around as if to check for witnesses, only building it, plainly, as though it were an ordinary thing to do here." },
+      { "kind": "what he cannot explain", "fact": "There is no reason he can see for a fire in this spot at all, no food to cook, no cold to warm against in this weather." },
+      { "kind": "what is owed to his family", "fact": "His family's winter depends on that hay surviving to be gathered in." }
+    ],
+    "does": { "verb": "runs to stamp out the fire before it reaches the hay", "toward": "the small fire the stranger is building", "how": "urgently" },
+    "could_also": [
+      { "verb": "shouts at the stranger to stop while running", "toward": "the stranger building the fire" },
+      { "verb": "runs for the bucket and well first", "toward": "nothing" },
+      { "verb": "grabs the stranger away from the fire bodily", "toward": "the stranger building the fire" }
+    ],
+    "would_not": [
+      { "verb": "stops to ask the stranger's reasons first", "toward": "the stranger building the fire", "why": "the hay is too close and too dry to spend the time understanding a reason that plainly is not going to make sense" },
+      { "verb": "walks over calmly assuming it will burn out on its own", "toward": "nothing", "why": "dry hay this close to a fire is not a risk worth trusting to burn out by itself" }
+    ],
+    "then": "He kicks the fire apart and stamps the last of it into the dirt, then rounds on the stranger, who watches him do it without protest or explanation.",
+    "why": "The threat to his family's winter hay outweighs every question about why the stranger lit it at all, and the stranger's plain, unhidden manner rules out the slower approach of asking first; speed wins over understanding here.",
+    "turns_on": "how close the fire has already gotten to the hay when he sees it"
+  },
+  {
+    "id": "odd-15",
+    "domain": "odd",
+    "who": "A traveler new to this village, still unsure of its customs, offered a good milking goat by a stranger for no price at all.",
+    "place": "The village lane near the well, morning, several villagers nearby going about their errands.",
+    "present": ["the milking goat on its lead", "several villagers going about their morning errands", "the well at the center of the lane"],
+    "factors": [
+      { "kind": "what she does not know", "fact": "She has been in this village only a week and does not yet know what a gift like this is supposed to mean here." },
+      { "kind": "what the gift is worth", "fact": "A milking goat is worth more than most people give away without expecting something back." },
+      { "kind": "how the stranger acts", "fact": "The stranger holds out the lead plainly, asking nothing in return and showing no sign of a trick." },
+      { "kind": "what she fears", "fact": "She is afraid that accepting will put her in a debt she does not understand the shape of, by whatever custom governs it here." },
+      { "kind": "who is watching", "fact": "The villagers nearby are watching the exchange without stepping in to explain either way." }
+    ],
+    "does": { "verb": "hesitates and asks the stranger what is expected in return before touching the lead", "toward": "the stranger offering the goat", "how": "warily" },
+    "could_also": [
+      { "verb": "refuses the goat outright", "toward": "the stranger offering the goat" },
+      { "verb": "looks to the watching villagers for a sign of what to do", "toward": "the villagers nearby" },
+      { "verb": "accepts the goat and thanks them plainly", "toward": "the stranger offering the goat" }
+    ],
+    "would_not": [
+      { "verb": "takes the goat without any question", "toward": "the stranger offering the goat", "why": "not knowing the local custom around a gift this size, taking it without asking risks an obligation she cannot see the terms of" },
+      { "verb": "assumes it must be some kind of trick and walks away at once", "toward": "nothing", "why": "the stranger's plain, unpressuring manner gives her no real sign of a trick, only an unfamiliar generosity" }
+    ],
+    "then": "The stranger says plainly that nothing is expected and sets the lead in her hand anyway, and she stands holding it, still unsure whether she has just accepted a kindness or a debt.",
+    "why": "The goat's real worth pulls her to be cautious, since giving that much away for nothing runs against what she assumes any custom would ask, but the stranger's plain manner and the silence of the watching villagers give her no clear signal either way; she asks rather than guessing wrong in a place whose rules she does not know.",
+    "turns_on": "whether any villager steps in to explain what such a gift means here"
+  }
+]

@@ -1,0 +1,550 @@
+[
+  {
+    "id": "care-01",
+    "domain": "care",
+    "who": "A grown man walking home along a cart track.",
+    "place": "A frost-hard road at dusk in late autumn, an hour's walk from the nearest house, with the light going fast.",
+    "present": ["a stranger collapsed half in the ditch, breathing but not answering", "an empty cart standing nearby with no driver in sight"],
+    "factors": [
+      { "kind": "a need", "fact": "The stranger is cold to the touch and cannot stand on their own." },
+      { "kind": "time of day", "fact": "Full dark is less than an hour off and the road has no lanterns." },
+      { "kind": "what it can still do", "fact": "The man is strong enough to half-carry another person but not to carry them far." },
+      { "kind": "a duty", "fact": "His own household is waiting a meal on him and will worry if he is late." },
+      { "kind": "risk to self", "fact": "Walking an unfamiliar stretch of road in full dark risks a fall or losing the path." },
+      { "kind": "what it knows", "fact": "The nearest house with a fire is a quarter hour back the way he came, not forward." }
+    ],
+    "does": { "verb": "carries back", "toward": "the collapsed stranger", "how": "slowly" },
+    "could_also": [
+      { "verb": "goes for help", "toward": "the nearest house" },
+      { "verb": "covers with his coat and waits", "toward": "the stranger" },
+      { "verb": "tries to wake", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "leaves", "toward": "the stranger", "why": "a body found dead on the road next morning would be laid at his door by anyone who saw him pass" },
+      { "verb": "takes the cart", "toward": "the stranger's cart", "why": "he has no claim on it and taking it would make him look like a thief, not a helper" }
+    ],
+    "then": "He half-carries, half-drags the stranger back to the last house with smoke rising, arriving well after dark and missing his own supper.",
+    "why": "The failing light argues for going on to his own hearth, but a helpless stranger left in a ditch at nightfall in a frost would very likely die of it, and turning back costs him only a scolding at home.",
+    "turns_on": "whether the light will hold long enough to reach his own house before dark"
+  },
+  {
+    "id": "care-02",
+    "domain": "care",
+    "who": "A childless couple who keep a small flock of goats.",
+    "place": "Their yard in early spring, the week after a burial three farms over.",
+    "present": ["the dead man's daughter, seven years old, standing by their gate with a bundle", "the couple's own two working goats", "a neighbour who brought the girl over and is waiting to hear the answer"],
+    "factors": [
+      { "kind": "a bond", "fact": "The girl's dead father once lent them seed grain in a bad year and was never repaid." },
+      { "kind": "a need", "fact": "The girl has no other kin willing to take her in before summer." },
+      { "kind": "what it can still do", "fact": "The couple's stores will feed one more mouth through summer but not comfortably through next winter too." },
+      { "kind": "custom", "fact": "It is expected that whoever takes in an orphan keeps her until she can be married or apprenticed out." },
+      { "kind": "rank", "fact": "The couple has no living children of their own to favour over her." },
+      { "kind": "what it fears", "fact": "If they refuse, no one else nearby has offered, and it will be remembered against them." }
+    ],
+    "does": { "verb": "takes in", "toward": "the girl", "how": "readily" },
+    "could_also": [
+      { "verb": "offers to keep her only through summer", "toward": "the girl" },
+      { "verb": "asks the neighbour for time to decide", "toward": "the neighbour" },
+      { "verb": "sends her to a farm with more children", "toward": "the girl" }
+    ],
+    "would_not": [
+      { "verb": "refuses outright", "toward": "the girl", "why": "turning away a debt this plain, in front of a neighbour who will talk, would cost them standing they cannot buy back" },
+      { "verb": "takes her in for pay only", "toward": "the girl", "why": "asking for payment on an orphan of a man who once helped them for nothing would be remembered as shameful" }
+    ],
+    "then": "The girl moves her bundle inside that evening and is given the smaller of the two sleeping mats; the couple say nothing yet about next winter.",
+    "why": "The debt to her father and the shame of refusing outweigh the strain on their stores, though the strain is real and unresolved.",
+    "turns_on": "whether there is enough grain put by to see two more mouths through next winter"
+  },
+  {
+    "id": "care-03",
+    "domain": "care",
+    "who": "A woman who lives two houses down from a family with a bad cough going round.",
+    "place": "A cluster of houses in a wet winter, where a coughing sickness has moved through three households already.",
+    "present": ["the sick family's mother, calling weakly from her doorway for help carrying water", "the woman's own three children, playing in her own yard", "a well shared by both houses"],
+    "factors": [
+      { "kind": "a need", "fact": "The sick mother next door cannot carry water herself and her fire has gone out." },
+      { "kind": "a fear", "fact": "The cough killed an old man on the next row over less than a month ago." },
+      { "kind": "a duty", "fact": "Her own children have not yet caught it and she is the only one minding them." },
+      { "kind": "custom", "fact": "It is usual to help a sick neighbour, and not doing so will be noticed." },
+      { "kind": "what it can still do", "fact": "She can leave food and water at the door without going inside." },
+      { "kind": "a bond", "fact": "The sick woman helped nurse her own mother through a fever two winters back." }
+    ],
+    "does": { "verb": "keeps away from", "toward": "the sick family", "how": "distantly" },
+    "could_also": [
+      { "verb": "sends her eldest child to help", "toward": "the sick family" },
+      { "verb": "calls a warning through the door", "toward": "the sick family" },
+      { "verb": "asks another neighbour to go in her place", "toward": "the sick family" }
+    ],
+    "would_not": [
+      { "verb": "goes inside to nurse", "toward": "the sick family", "why": "with three of her own children young, bringing the cough home to them is a risk she will not take even for an old debt" },
+      { "verb": "ignores the call entirely", "toward": "the sick family", "why": "leaving a sick neighbour with no fire and no water at all would be remembered as heartless even by people who understand her fear" }
+    ],
+    "then": "She leaves a covered pot of broth and a jug of water on the step, knocks, and hurries back to her own yard without waiting to be thanked.",
+    "why": "The debt she owes the sick woman and the shame of doing nothing pull her toward helping, but the fear of bringing the cough to her own young children outweighs both, so she helps at a distance instead of not at all.",
+    "turns_on": "whether the sick household has anyone else nearby able to carry water for them"
+  },
+  {
+    "id": "care-04",
+    "domain": "care",
+    "who": "A widow the morning after her husband died in his sleep.",
+    "place": "The one-room house they shared, in the hours before the body is due to be moved for washing and burial.",
+    "present": ["the dead husband's body, laid out on the bed", "the widow's grown son, come to help arrange the burial", "a neighbour woman who has come to help wash the body, waiting by the door"],
+    "factors": [
+      { "kind": "grief", "fact": "She has not left his side since he stopped breathing before dawn." },
+      { "kind": "custom", "fact": "The body should be washed and moved to the front room before midday, and word sent to kin by evening." },
+      { "kind": "what it can still do", "fact": "She has not slept and can barely stand to help lift him herself." },
+      { "kind": "a duty", "fact": "Her son is waiting on her word before sending for the rest of the family." },
+      { "kind": "what it is owed", "fact": "She feels she owes him these last hours alone before others touch him." },
+      { "kind": "time", "fact": "The ground will be easier to dig today than after the next frost, expected within two days." }
+    ],
+    "does": { "verb": "refuses to leave", "toward": "the body", "how": "at length" },
+    "could_also": [
+      { "verb": "lets the neighbour begin washing", "toward": "the body" },
+      { "verb": "sends her son to fetch kin first", "toward": "her son" },
+      { "verb": "asks for one more hour alone", "toward": "the neighbour" }
+    ],
+    "would_not": [
+      { "verb": "lets the burial wait past the coming frost", "toward": "the body", "why": "however deep her grief, she knows the ground will be far harder to dig in two days and the delay would fall on others to dig through" },
+      { "verb": "sends the neighbour away for good", "toward": "the neighbour", "why": "the washing has to be done by someone, and turning away the one person who came to help would leave her doing it alone" }
+    ],
+    "then": "After a long while she lets the neighbour in and helps lift him herself, though she moves slowly and has to stop twice.",
+    "why": "Grief and what she feels she owes him hold her at his side, but she knows the ground will not stay soft and her son cannot send word to kin until the body is moved, so she gives way before midday rather than past it.",
+    "turns_on": "whether the ground will still be soft enough to dig before the coming frost"
+  },
+  {
+    "id": "care-05",
+    "domain": "care",
+    "who": "A farmer whose adult son has taken to fits of confusion that frighten visitors.",
+    "place": "A farmhouse in the days before the yearly grain count, when an official is due to walk the row counting stores and households.",
+    "present": ["his son, in a lucid stretch that morning but prone to sudden fits", "the farmer's wife", "the row of neighbouring houses whose owners already know something is wrong"],
+    "factors": [
+      { "kind": "shame", "fact": "He does not want the visiting official, or the neighbours who will hear of it, to see his son in a bad state." },
+      { "kind": "a bond", "fact": "The son is otherwise able to work and the farmer relies on him for the heavier chores." },
+      { "kind": "what it fears", "fact": "Talk that the household is cursed or unlucky could hurt the marriage chances of his younger daughter." },
+      { "kind": "a duty", "fact": "The official must be shown the full household and the full stores or the count will be wrong and questioned later." },
+      { "kind": "custom", "fact": "Neighbours expect to be told when someone is unwell, so they can help or at least not be caught by surprise." },
+      { "kind": "what it can still do", "fact": "He can keep his son occupied in the far field while the official walks the row." }
+    ],
+    "does": { "verb": "keeps out of sight", "toward": "his son", "how": "quietly" },
+    "could_also": [
+      { "verb": "tells the official plainly", "toward": "the official" },
+      { "verb": "asks a neighbour to vouch for the household", "toward": "a neighbour" },
+      { "verb": "keeps the son indoors instead", "toward": "his son" }
+    ],
+    "would_not": [
+      { "verb": "locks the son in", "toward": "his son", "why": "treating him like something to be hidden away entirely would be crueler than the shame is worth, and the son still does real work" },
+      { "verb": "tells the official a lie about where his son is", "toward": "the official", "why": "a caught lie to an official doing a count would cost him more standing than the truth ever would" }
+    ],
+    "then": "The official walks the row and counts the stores without seeing the son at all; the neighbours say nothing, though most of them already know.",
+    "why": "Shame and worry for his daughter's chances outweigh the smaller risk of the truth coming out anyway, since the neighbours already half-know and have said nothing so far.",
+    "turns_on": "whether the neighbours have kept quiet about the son so far"
+  },
+  {
+    "id": "care-06",
+    "domain": "care",
+    "who": "A woman on her way through the market with a full basket.",
+    "place": "The market square on a busy morning, with stalls close together and people who know each other by sight.",
+    "present": ["a beggar sitting against the wall near the grain stalls, hand out", "a woman she has quarreled with over a debt, standing two stalls away and watching the square", "other market-goers passing"],
+    "factors": [
+      { "kind": "what it is owed", "fact": "She has a little to spare in her basket today, more than most weeks." },
+      { "kind": "custom", "fact": "Giving something small to a beggar at market is common and costs little." },
+      { "kind": "rank", "fact": "Her rival has been telling others she is stingy since the debt quarrel." },
+      { "kind": "what it fears", "fact": "If she gives now, her rival will say she is only doing it to be seen, and if she does not, her rival will say she is stingy either way." },
+      { "kind": "a need", "fact": "The beggar has been sitting in the same spot since morning without much luck." },
+      { "kind": "shame", "fact": "She does not want to be watched deciding either way." }
+    ],
+    "does": { "verb": "walks past", "toward": "the beggar", "how": "briskly" },
+    "could_also": [
+      { "verb": "gives a small coin", "toward": "the beggar" },
+      { "verb": "gives after circling back once the rival has moved off", "toward": "the beggar" },
+      { "verb": "buys bread and gives that instead of coin", "toward": "the beggar" }
+    ],
+    "would_not": [
+      { "verb": "gives loudly, making a show of it", "toward": "the beggar", "why": "a show of giving in front of the rival would only hand her more to talk about, not less" },
+      { "verb": "tells the beggar to move along", "toward": "the beggar", "why": "she has no standing to order anyone off market ground and it would draw more notice, not less" }
+    ],
+    "then": "She keeps walking to the next stall and buys what she came for, glancing back once the rival has left before deciding whether to return.",
+    "why": "Whatever she does will be talked about while her rival is watching, and passing by quietly draws less notice in the moment than either giving or refusing out loud, even though it leaves the beggar with nothing from her today.",
+    "turns_on": "whether her rival is still watching from nearby"
+  },
+  {
+    "id": "care-07",
+    "domain": "care",
+    "who": "A young servant girl who tends the door of a well-off household.",
+    "place": "The kitchen doorway of a farmhouse on a cold evening, the household mid-meal.",
+    "present": ["a thin traveler at the door asking for any spare food", "the household's elder, seated at the table within earshot", "the rest of the household eating"],
+    "factors": [
+      { "kind": "a duty", "fact": "She was told plainly this morning to turn away beggars this week, since food is being kept for a coming wedding feast." },
+      { "kind": "rank", "fact": "The elder who gave the order is seated close enough to hear whatever she says at the door." },
+      { "kind": "a need", "fact": "The traveler looks like he has not eaten today." },
+      { "kind": "what it is owed", "fact": "She herself was once turned away hungry from a door before she found this position." },
+      { "kind": "custom", "fact": "Turning away a hungry traveler at the door with nothing at all is considered a poor mark on a household." },
+      { "kind": "what it fears", "fact": "Disobeying a plain order in front of the person who gave it would cost her more than any traveler is owed." }
+    ],
+    "does": { "verb": "turns away", "toward": "the traveler", "how": "apologetically" },
+    "could_also": [
+      { "verb": "gives a small heel of bread quietly", "toward": "the traveler" },
+      { "verb": "asks the elder aloud for permission", "toward": "the elder" },
+      { "verb": "tells the traveler where else to try", "toward": "the traveler" }
+    ],
+    "would_not": [
+      { "verb": "gives food openly against the order", "toward": "the traveler", "why": "doing it where the elder can see and hear would be open defiance, not quiet kindness, and would cost her the position" },
+      { "verb": "shuts the door without a word", "toward": "the traveler", "why": "even turning someone away is usually done with some word of apology, not silence" }
+    ],
+    "then": "She closes the door gently and goes back to her work, though she sets aside a scrap from her own plate later to leave out by the gate after dark.",
+    "why": "The order was plain and the elder is within earshot, so open defiance is not worth the cost, but her own memory of hunger pulls her to make it up quietly once no one is watching.",
+    "turns_on": "whether the elder is close enough to hear what she says at the door"
+  },
+  {
+    "id": "care-08",
+    "domain": "care",
+    "who": "A herder driving a small flock along a mountain trail.",
+    "place": "A narrow trail above the treeline in early winter, a day's walk from the village gate, with a storm building.",
+    "present": ["the flock, one ewe lame and falling behind", "the headman's rider, sent ahead with an order", "the rest of the flock moving on without them"],
+    "factors": [
+      { "kind": "a duty", "fact": "The headman's rider has just told him to leave anything that cannot keep pace, since the storm will close the pass by dark." },
+      { "kind": "a bond", "fact": "The lame ewe was hand-raised by him after her mother died two summers back." },
+      { "kind": "risk to self", "fact": "Staying behind with her means crossing the pass alone after the others, in the storm." },
+      { "kind": "what it is owed", "fact": "The flock is counted at the gate and he will be blamed for any animal short, order or no order." },
+      { "kind": "what it can still do", "fact": "He can carry her the rest of the way if he goes slowly enough." },
+      { "kind": "custom", "fact": "A herder who loses count of his own flock is not trusted with one again." }
+    ],
+    "does": { "verb": "stays behind with", "toward": "the lame ewe", "how": "carrying her" },
+    "could_also": [
+      { "verb": "leaves her and follows the order", "toward": "the lame ewe" },
+      { "verb": "ties her and comes back for her after", "toward": "the lame ewe" },
+      { "verb": "calls ahead for help carrying her", "toward": "the rest of the flock" }
+    ],
+    "would_not": [
+      { "verb": "drives her on by force", "toward": "the lame ewe", "why": "forcing a lame animal to keep pace on a mountain trail would likely lame her worse or send her off the edge" },
+      { "verb": "abandons the whole flock to save just her", "toward": "the flock", "why": "the bond is to one animal, not a reason to risk the whole flock he is responsible for" }
+    ],
+    "then": "He falls well behind the others, crosses the last stretch of the pass alone in the first snow of the storm, and reaches the gate after dark, cold but with the ewe and the full flock both accounted for.",
+    "why": "The order argues for leaving her, and the risk of crossing alone in a storm is real, but losing count of his own flock would cost him his standing as a herder for good, and he still has the strength to carry her the rest of the way.",
+    "turns_on": "whether he has the strength left to carry her the whole remaining distance"
+  },
+  {
+    "id": "care-09",
+    "domain": "care",
+    "who": "A household of five on a smallholding.",
+    "place": "Their one-room house on a winter night, three weeks before the next market where they could trade for more grain.",
+    "present": ["a traveler at the door, wet and asking only to sit by the fire", "the household's own store of grain, visibly low", "the household's children, already fed"],
+    "factors": [
+      { "kind": "a need", "fact": "The traveler has walked most of the day in the rain and has not eaten since morning." },
+      { "kind": "what it can still do", "fact": "The household's grain has to last three more weeks before the next market." },
+      { "kind": "custom", "fact": "Turning a traveler out on a wet night with nothing is one of the worst marks a household can earn." },
+      { "kind": "a duty", "fact": "The children have already been fed their full share for the day." },
+      { "kind": "what it is owed", "fact": "The household was once fed by strangers on the road themselves, in a bad year." }
+    ],
+    "does": { "verb": "offers", "toward": "the traveler", "how": "readily" },
+    "could_also": [
+      { "verb": "offers only the fire, not food", "toward": "the traveler" },
+      { "verb": "offers food but not a place to sleep indoors", "toward": "the traveler" },
+      { "verb": "asks the traveler to share what little they have between all", "toward": "the traveler" }
+    ],
+    "would_not": [
+      { "verb": "turns the traveler away with nothing", "toward": "the traveler", "why": "a wet night and empty hands would be remembered against the household by anyone who heard of it, and they remember being helped once themselves" },
+      { "verb": "gives away more than can be spared without telling the rest of the household", "toward": "the traveler", "why": "the store has to stretch three more weeks for five people, and one person deciding that alone would be unfair to the rest" }
+    ],
+    "then": "They share out a smaller portion each so the traveler eats too, and he sleeps by the fire, gone again before first light.",
+    "why": "Custom and their own memory of being helped once outweigh the strain on a store that has to last three more weeks, so they stretch the bread thinner rather than turn him out.",
+    "turns_on": "how many days remain before the next market where more grain can be got"
+  },
+  {
+    "id": "care-10",
+    "domain": "care",
+    "who": "A household that took in a distant cousin passing through, weeks ago.",
+    "place": "Their small house, well into a stay that was meant to last only a few nights.",
+    "present": ["the cousin, still sleeping on their floor and eating at their table", "the household's own children, now sharing less space and food than before", "the cousin's own pack, still unpacked by the door"],
+    "factors": [
+      { "kind": "custom", "fact": "A guest is owed food and shelter, but a stay this long stops being a visit and starts being a burden." },
+      { "kind": "what it is owed", "fact": "The cousin has done no work around the house or fields since arriving." },
+      { "kind": "a bond", "fact": "They are kin, however distant, and turning out kin is remembered longer than turning out a stranger." },
+      { "kind": "a need", "fact": "The household's own store is smaller now than it was before the cousin arrived." },
+      { "kind": "shame", "fact": "Asking kin to leave will be talked about by anyone who hears of it." }
+    ],
+    "does": { "verb": "asks to leave", "toward": "the cousin", "how": "plainly" },
+    "could_also": [
+      { "verb": "asks the cousin to start working for their keep", "toward": "the cousin" },
+      { "verb": "waits for the cousin to leave on their own", "toward": "the cousin" },
+      { "verb": "asks another relative to take the cousin next", "toward": "another relative" }
+    ],
+    "would_not": [
+      { "verb": "throws the cousin's things outside", "toward": "the cousin", "why": "however unwelcome the stay has become, humiliating kin this way would be remembered far worse than simply asking them to go" },
+      { "verb": "says nothing and lets the store run out", "toward": "the cousin", "why": "letting the household's own children go without rather than speaking up would be a worse failure of duty than an awkward conversation" }
+    ],
+    "then": "The cousin packs up within a day, a little offended, and the household's own meals are fuller again within the week.",
+    "why": "The bond of kinship and the shame of being talked about argue for patience, but the strain on the store and the cousin doing no work in return finally outweigh the discomfort of asking.",
+    "turns_on": "whether the cousin has offered any work in return for the stay"
+  },
+  {
+    "id": "care-11",
+    "domain": "care",
+    "who": "The oldest man of a household hosting a shared meal.",
+    "place": "A long table set for a meal that brings several families together, on an ordinary evening.",
+    "present": ["a newcomer to the area, unfamiliar with local ways, seated near the middle of the table", "the rest of the families at the table, mid-meal", "the household's own children, watching"],
+    "factors": [
+      { "kind": "custom", "fact": "By local custom, no one eats before the eldest at the table has taken the first portion." },
+      { "kind": "what it knows", "fact": "The newcomer has clearly not been told this and has already begun eating." },
+      { "kind": "rank", "fact": "As the eldest present, it falls to him whether the breach is noticed or let pass." },
+      { "kind": "custom", "fact": "Hospitality to a guest, especially a newcomer, is owed even when they get something wrong." },
+      { "kind": "what it fears", "fact": "Making an example of the mistake in front of everyone would embarrass the newcomer badly on their first meal among them." }
+    ],
+    "does": { "verb": "lets pass", "toward": "the newcomer's mistake", "how": "silently" },
+    "could_also": [
+      { "verb": "corrects gently, in a low voice", "toward": "the newcomer" },
+      { "verb": "jokes about it lightly to smooth it over", "toward": "the newcomer" },
+      { "verb": "explains the custom afterward, privately", "toward": "the newcomer" }
+    ],
+    "would_not": [
+      { "verb": "calls it out loudly at the table", "toward": "the newcomer", "why": "shaming a guest in front of everyone over a custom they could not have known would be a worse breach than the one they made" },
+      { "verb": "refuses to eat at all in protest", "toward": "the meal", "why": "the mistake was innocent, and making a show of offense over it would cost the household's own hospitality more than it is worth" }
+    ],
+    "then": "The meal goes on as if nothing happened, and someone quietly tells the newcomer the custom afterward, away from the table.",
+    "why": "Hospitality to a guest who could not have known better outweighs the small offense to custom, especially since only a few at the table noticed at all.",
+    "turns_on": "whether other guests at the table noticed the mistake too"
+  },
+  {
+    "id": "care-12",
+    "domain": "care",
+    "who": "A household hosting a wedding feast for a daughter.",
+    "place": "The yard outside their house, set up for a feast, on the day of the wedding.",
+    "present": ["the newly married couple", "elderly relatives seated near the front", "several young children running between the tables", "guests still arriving, more than were planned for"],
+    "factors": [
+      { "kind": "a need", "fact": "More guests have come than there is food prepared for." },
+      { "kind": "custom", "fact": "Elders and children are served first at any shared meal, by long-standing practice." },
+      { "kind": "shame", "fact": "Running short at a wedding feast, in front of guests from other households, would be remembered as a poor showing." },
+      { "kind": "what it can still do", "fact": "There is enough for the elders and children to eat well, but not enough for every adult guest to eat their full fill." },
+      { "kind": "a bond", "fact": "Some of the late-arriving guests traveled a full day to attend." }
+    ],
+    "does": { "verb": "serves", "toward": "the elders and children", "how": "first" },
+    "could_also": [
+      { "verb": "serves everyone smaller portions equally", "toward": "the guests" },
+      { "verb": "quietly sends someone to borrow more food from a neighbour", "toward": "a neighbour" },
+      { "verb": "delays serving the couple's own table until last", "toward": "the couple" }
+    ],
+    "would_not": [
+      { "verb": "turns late guests away from the food entirely", "toward": "the late-arriving guests", "why": "they traveled a full day to be there, and turning them from the table outright would be a deeper insult than a thin portion" },
+      { "verb": "serves the couple's own family first, before elders and children", "toward": "the couple's family", "why": "custom is plain that elders and the young eat first, and setting that aside for the hosts' own comfort would be noticed and judged" }
+    ],
+    "then": "The elders and children eat well; the later adult guests get thinner portions, and word goes round quietly that more should have been prepared, though the day is not ruined by it.",
+    "why": "Custom fixes who eats first, and shame at a poor showing pushes toward stretching what there is rather than admitting the shortfall outright, even though not everyone will eat their fill.",
+    "turns_on": "how many more guests arrived than were planned for"
+  },
+  {
+    "id": "care-13",
+    "domain": "care",
+    "who": "A small group of villagers who found a stranger dead by the roadside.",
+    "place": "The edge of the village burial ground in late autumn, the day after the body was found with no papers, no kin known, and no priest within reach.",
+    "present": ["the body, brought in on a cart", "a few villagers gathered to decide what to do", "the burial ground itself, with its usual rows"],
+    "factors": [
+      { "kind": "custom", "fact": "A body left unburied past a day or two is considered an ill omen for the whole village." },
+      { "kind": "what it knows", "fact": "No one recognizes the stranger or knows what rites, if any, they would have wanted." },
+      { "kind": "what it is owed", "fact": "Even an unknown stranger is owed some decent burial, by common feeling if not by law." },
+      { "kind": "custom", "fact": "Burial rites are usually said by a priest, and none is within a day's travel." },
+      { "kind": "time", "fact": "The ground is still soft enough to dig easily, which will not last much longer this season." }
+    ],
+    "does": { "verb": "buries", "toward": "the stranger", "how": "simply" },
+    "could_also": [
+      { "verb": "sends for a priest first and waits", "toward": "a priest" },
+      { "verb": "buries without any words at all", "toward": "the stranger" },
+      { "verb": "asks around neighbouring villages first for anyone who might know the stranger", "toward": "neighbouring villages" }
+    ],
+    "would_not": [
+      { "verb": "leaves the body unburied until a priest can be found", "toward": "the stranger", "why": "waiting days for a priest while the body lies above ground would be a worse wrong than burying without one, and risks the ground freezing besides" },
+      { "verb": "buries the stranger outside the burial ground entirely, apart from everyone else", "toward": "the stranger", "why": "treating an unknown stranger as unworthy of the shared ground would be harsher than the situation calls for, when no wrongdoing is known against them" }
+    ],
+    "then": "The stranger is buried by evening at the edge of the ground, with the eldest present saying the words a priest would usually say; the village makes a note in case any kin ever come asking.",
+    "why": "The custom against leaving a body unburied and the soft ground both argue for burying now, and the feeling that even a stranger is owed decent rites outweighs waiting on the chance that someone might yet recognize them.",
+    "turns_on": "whether anyone comes forward who recognizes the stranger before burial"
+  },
+  {
+    "id": "care-14",
+    "domain": "care",
+    "who": "A man from a nearby house who hears shouting.",
+    "place": "The shared fence line between two neighbouring smallholdings, mid-afternoon.",
+    "present": ["two neighbours, shouting over a fence that has shifted onto one man's side", "the fence itself, half-broken", "a few other people from nearby houses, watching from a distance"],
+    "factors": [
+      { "kind": "a bond", "fact": "He is friendly with both neighbours and owes neither of them more than the other." },
+      { "kind": "what it fears", "fact": "Stepping into someone else's quarrel can turn their anger onto him instead." },
+      { "kind": "custom", "fact": "It is expected that someone step in before a fence quarrel turns to blows." },
+      { "kind": "what it knows", "fact": "Neither neighbour has raised a hand yet, only voices." },
+      { "kind": "rank", "fact": "He has no authority over either of them and cannot order either to stop." }
+    ],
+    "does": { "verb": "stands between", "toward": "the two neighbours", "how": "calmly" },
+    "could_also": [
+      { "verb": "calls for someone with more standing to come settle it", "toward": "another villager" },
+      { "verb": "talks to each one separately, away from the other", "toward": "the neighbours" },
+      { "verb": "waits to see if it settles on its own", "toward": "the quarrel" }
+    ],
+    "would_not": [
+      { "verb": "takes one neighbour's side outright", "toward": "one of the neighbours", "why": "he owes neither of them more than the other, and picking a side would only make an enemy of the one he did not pick" },
+      { "verb": "walks away and leaves them to it", "toward": "the quarrel", "why": "custom expects someone to step in before it turns physical, and doing nothing while it worsens would be judged badly afterward" }
+    ],
+    "then": "The shouting dies down once he is standing between them, and the two neighbours agree to fix the fence together the next day, still simmering but not fighting.",
+    "why": "Custom calls for someone to step in before voices become blows, and since neither has struck the other yet, stepping between them calmly is safer and more useful than picking a side or walking away.",
+    "turns_on": "whether either neighbour has already raised a hand before he arrives"
+  },
+  {
+    "id": "care-15",
+    "domain": "care",
+    "who": "A farmer and the old dog that has worked his herd for years.",
+    "place": "The farmyard in the first hard weeks of winter, with the grain store already thinner than usual.",
+    "present": ["the old dog, too stiff now to run the herd like before", "the younger dog that has taken over most of the herding work", "the farmer's own family, eating from the same store"],
+    "factors": [
+      { "kind": "a bond", "fact": "The old dog has worked this farm's herd for most of its life and is trusted by the farmer above the younger dog still." },
+      { "kind": "what it can still do", "fact": "The old dog can no longer run fast enough to be much use herding, though it can still bark at trouble near the yard." },
+      { "kind": "a need", "fact": "The grain store is thinner than usual this winter, and every mouth fed is a mouth counted." },
+      { "kind": "custom", "fact": "A working animal that stops working is usually let go one way or another, once it can no longer earn its keep." },
+      { "kind": "what it fears", "fact": "Selling or putting down a dog this old and this well known on the farm would be talked about by anyone who hears of it." }
+    ],
+    "does": { "verb": "keeps", "toward": "the old dog", "how": "gently" },
+    "could_also": [
+      { "verb": "sells it to someone with lighter work for it", "toward": "the old dog" },
+      { "verb": "puts it down quickly and without ceremony", "toward": "the old dog" },
+      { "verb": "gives it full rations same as the younger dog", "toward": "the old dog" }
+    ],
+    "would_not": [
+      { "verb": "turns it out to fend for itself", "toward": "the old dog", "why": "a dog that has worked a farm its whole life being turned out to starve alone would be one of the harshest things said of any farmer nearby" },
+      { "verb": "feeds it the same full ration as the working dog", "toward": "the old dog", "why": "grain is short this winter and a dog that no longer works cannot be fed as if it still does, whatever the bond" }
+    ],
+    "then": "The old dog spends its days by the fire and its nights barking at nothing much, fed on scraps and bones rather than grain, while the farmer says nothing about what next winter might bring if the store runs shorter still.",
+    "why": "The bond to an animal that has served the farm its whole life outweighs the small saving of grain that letting it go would bring, but the family's own stores keep it from being fed as well as it once was, and the question is only deferred, not settled.",
+    "turns_on": "how much grain is left in the store by winter's end"
+  },
+  {
+    "id": "care-16",
+    "domain": "care",
+    "who": "A child of about eight, out gathering firewood near a ditch.",
+    "place": "The edge of a field near the family's house, in the late afternoon.",
+    "present": ["a young stray dog, thin and limping, caught in briars near the ditch", "the child's parent, back at the house and unaware", "the family's own working dog, back at the house too"],
+    "factors": [
+      { "kind": "a bond", "fact": "The child has wanted a dog of its own for a long time and has been told plainly not to bring strays home." },
+      { "kind": "a need", "fact": "The stray is limping and cannot free itself from the briars alone." },
+      { "kind": "what it fears", "fact": "Bringing it home against the rule will mean trouble with the parent." },
+      { "kind": "what it knows", "fact": "Strays that hang around a farmyard sometimes draw other strays, or worse, after them." },
+      { "kind": "what it can still do", "fact": "The child is strong enough to free the dog from the briars and small enough that the dog is not afraid of it." }
+    ],
+    "does": { "verb": "frees and hides", "toward": "the stray dog", "how": "secretly" },
+    "could_also": [
+      { "verb": "frees it and leaves it where it was", "toward": "the stray dog" },
+      { "verb": "runs to tell the parent first", "toward": "the parent" },
+      { "verb": "frees it and brings it straight to the house openly", "toward": "the stray dog" }
+    ],
+    "would_not": [
+      { "verb": "leaves it caught in the briars", "toward": "the stray dog", "why": "however afraid of trouble the child is, leaving an animal to starve caught in briars in plain sight is not something the child would simply walk away from" },
+      { "verb": "tells the parent a lie about where the dog came from", "toward": "the parent", "why": "a lie that unravels quickly would make the trouble worse than the truth, and the child knows this from past scoldings" }
+    ],
+    "then": "The dog stays hidden in the barn for two days, fed on scraps smuggled from the child's own meals, until the parent finds it anyway and the whole matter comes out.",
+    "why": "The wish to have a dog and the plain sight of one suffering pull toward helping it, but the rule against strays and fear of trouble mean the child hides it rather than asking outright, even though hiding it cannot last.",
+    "turns_on": "whether the stray is likely to draw other strays to the yard after it"
+  },
+  {
+    "id": "care-17",
+    "domain": "care",
+    "who": "An old man who lives alone since his wife died.",
+    "place": "His house at the top of a steep path, on a day he needs to bring water up from the well below.",
+    "present": ["a younger neighbour passing by with an empty bucket of his own", "the well at the bottom of the path", "the old man's own bucket, already half full and heavy"],
+    "factors": [
+      { "kind": "a need", "fact": "His back has not been right in some time and carrying water up the steep path is hard on him." },
+      { "kind": "shame", "fact": "He does not want to be seen as someone who can no longer manage his own house." },
+      { "kind": "a bond", "fact": "The younger neighbour has offered to help before and been turned down each time." },
+      { "kind": "custom", "fact": "Helping an old man with water is a small, ordinary kindness that costs the neighbour little." },
+      { "kind": "rank", "fact": "The old man was once looked up to in the village and is not used to needing help from someone younger." }
+    ],
+    "does": { "verb": "refuses", "toward": "the younger neighbour's offer to carry the bucket", "how": "firmly" },
+    "could_also": [
+      { "verb": "accepts the help this once", "toward": "the younger neighbour" },
+      { "verb": "asks the neighbour to walk alongside instead of carrying it for him", "toward": "the younger neighbour" },
+      { "verb": "waits until the neighbour has gone and rests partway up instead", "toward": "the bucket" }
+    ],
+    "would_not": [
+      { "verb": "asks outright for help unprompted", "toward": "the younger neighbour", "why": "he has never once asked for help outright and is not about to start now, however hard the path is" },
+      { "verb": "snaps angrily at the offer", "toward": "the younger neighbour", "why": "the neighbour means well and has offered before, and there is no real cause to be short with him over a kind offer" }
+    ],
+    "then": "He carries the bucket up himself, resting twice on the way and arriving with his back aching worse than usual, though he would not say so to anyone.",
+    "why": "The plain need for help is real, but the shame of being seen as unable to manage, on top of a rank he once held, outweighs the small cost of accepting an offer he has turned down before.",
+    "turns_on": "whether anyone he once held rank over is there to see him accept the help"
+  },
+  {
+    "id": "care-18",
+    "domain": "care",
+    "who": "A grown man with a full day's paid work waiting on him.",
+    "place": "His own house, on a morning he was due at a job that pays by the day, not by the task.",
+    "present": ["an older person who once took him in and fed him for a whole winter as a boy, now alone and unwell", "the paid work waiting elsewhere, which will go to someone else if he does not show", "no one else nearby able to sit with the older person that day"],
+    "factors": [
+      { "kind": "a bond", "fact": "This is the same person who took him in and fed him through a whole winter when his own family could not, years ago." },
+      { "kind": "a need", "fact": "The older person is unwell enough today to need someone sitting with them, not just food left at the door." },
+      { "kind": "a duty", "fact": "Missing the day's paid work means losing that pay, and possibly the job itself if he is unreliable too often." },
+      { "kind": "what it is owed", "fact": "No one else nearby knows the debt he owes this person, so no one else feels obliged to come instead." },
+      { "kind": "what it can still do", "fact": "He could send word to the paid job that he cannot come today, at some cost to how he is seen there." }
+    ],
+    "does": { "verb": "stays to tend", "toward": "the older person", "how": "unhesitatingly" },
+    "could_also": [
+      { "verb": "sends someone else in his place", "toward": "the older person" },
+      { "verb": "splits the day, checking in briefly then going to work", "toward": "the older person" },
+      { "verb": "asks the paid work to hold his place for one day", "toward": "the paid work" }
+    ],
+    "would_not": [
+      { "verb": "goes to the paid work and leaves the older person alone", "toward": "the paid work", "why": "the debt he owes is one only he remembers, and letting that person lie unwell and alone today, of all days, is not something he would do even for needed pay" },
+      { "verb": "brings the older person along to the paid work site", "toward": "the older person", "why": "someone unwell enough to need sitting with cannot be moved to a work site and left there unattended either" }
+    ],
+    "then": "He sends word that he cannot come and spends the day at the older person's bedside instead, losing the day's pay and an uncertain amount of standing with the job.",
+    "why": "The debt he alone remembers, and the plain fact that no one else will come in his place today, outweigh the pay and standing he stands to lose by not showing up to work.",
+    "turns_on": "whether anyone else nearby knows of the debt he owes and might go in his place"
+  },
+  {
+    "id": "care-19",
+    "domain": "care",
+    "who": "A nanny goat with a kid a few days old.",
+    "place": "The pen behind a house, in daylight, with the kid resting near the fence.",
+    "present": ["the kid, lying near the fence", "a loose dog from another house that has wandered in through a gap", "the household's own children, playing farther off"],
+    "factors": [
+      { "kind": "a bond", "fact": "The kid is only a few days old and still cannot run fast or far." },
+      { "kind": "a fear", "fact": "The loose dog is unfamiliar and has come close to the kid before being noticed." },
+      { "kind": "what it can still do", "fact": "The goat is larger than the dog and has horns, though it does not usually act aggressively." },
+      { "kind": "where it is at home", "fact": "This is the goat's own pen, where it is bolder than it would be elsewhere." },
+      { "kind": "how close the threat is", "fact": "The dog is now only a few steps from the kid and closing." }
+    ],
+    "does": { "verb": "charges and drives off", "toward": "the loose dog", "how": "head-on" },
+    "could_also": [
+      { "verb": "stands over the kid without charging", "toward": "the kid" },
+      { "verb": "bleats loudly to draw the household's attention", "toward": "the household" },
+      { "verb": "moves the kid behind itself first, then faces the dog", "toward": "the kid" }
+    ],
+    "would_not": [
+      { "verb": "runs off and leaves the kid", "toward": "the kid", "why": "a mother goat with a kid this young does not simply abandon it to run itself, especially on its own home ground" },
+      { "verb": "ignores the dog until it is right on top of the kid", "toward": "the loose dog", "why": "the dog is already close enough that waiting longer would risk the kid being hurt before help could come" }
+    ],
+    "then": "The dog yelps and bolts back through the gap in the fence, and the goat stands close over the kid for a while afterward before going back to grazing.",
+    "why": "Being on its own home ground makes the goat bolder than usual, and with the dog already this close to a kid too young to run, charging outweighs the smaller risk of standing off and hoping the dog loses interest.",
+    "turns_on": "how close the dog gets to the kid before it is noticed"
+  },
+  {
+    "id": "care-20",
+    "domain": "care",
+    "who": "A mother of three young children.",
+    "place": "Her own house, next door to a family where a child has come down with a spreading fever.",
+    "present": ["the neighbour's sick child, heard crying through the wall", "her own three children, all still well", "the sick child's mother, exhausted and asking for anyone's help"],
+    "factors": [
+      { "kind": "a fear", "fact": "The fever has already spread to two other houses on the row." },
+      { "kind": "a duty", "fact": "Her first duty, by her own reckoning, is to keep her own three children from catching it." },
+      { "kind": "a need", "fact": "The sick child's mother has not slept properly in two days and badly needs someone to spell her." },
+      { "kind": "a bond", "fact": "She and the sick child's mother have helped each other through hard winters before." },
+      { "kind": "what it knows", "fact": "None of her own children have been inside that house or played with the sick child since the fever started." }
+    ],
+    "does": { "verb": "keeps away from", "toward": "the sick child's house", "how": "from outside" },
+    "could_also": [
+      { "verb": "takes the sick child's mother's other children in for a few days", "toward": "the sick child's mother's other children" },
+      { "verb": "goes in briefly to help, leaving her own children with someone else first", "toward": "the sick child's mother" },
+      { "verb": "asks an older, childless neighbour to go in her place", "toward": "an older neighbour" }
+    ],
+    "would_not": [
+      { "verb": "sends her own children over to play as usual, unaware of the fever", "toward": "her own children", "why": "she knows exactly what is going on next door and would never send her own children in blind to it" },
+      { "verb": "refuses to help in any form, food included", "toward": "the sick child's mother", "why": "the bond between the two of them through past hard winters means doing nothing at all is not something she would choose, whatever her fear" }
+    ],
+    "then": "She leaves food and water at the door twice a day and offers to take the other children in once they are confirmed not sick themselves, but does not go inside the house herself.",
+    "why": "The bond and the plain exhaustion of the sick child's mother pull her to go in and help directly, but her first duty to her own three children, none of whom have been exposed yet, outweighs it, so she helps from outside the door instead.",
+    "turns_on": "whether her own child has already been near the sick one"
+  }
+]

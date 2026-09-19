@@ -1,0 +1,546 @@
+[
+  {
+    "id": "group-01",
+    "domain": "group",
+    "who": "a young wolf nearing full growth in a hunting pack",
+    "place": "the edge of a fresh kill at dusk, where the pack has just brought down a deer",
+    "present": ["the pack's current lead male", "four other adult wolves", "two half-grown pups", "the carcass of the deer"],
+    "factors": [
+      { "kind": "rank", "fact": "The lead male has held first bite at every kill for two winters." },
+      { "kind": "physical condition", "fact": "The young wolf's shoulder is now nearly as broad as the lead male's." },
+      { "kind": "what it just did", "fact": "The young wolf ran the deer down and turned it back toward the pack." },
+      { "kind": "custom", "fact": "Among this pack, the one who turns the prey is given no special claim at the kill." },
+      { "kind": "risk", "fact": "A serious fight now would leave the loser too hurt to hunt for days." },
+      { "kind": "need", "fact": "The young wolf has eaten only scraps for three days." }
+    ],
+    "does": { "verb": "waits at the edge and lets the other feed first", "toward": "the lead male", "how": "stiff-legged" },
+    "could_also": [
+      { "verb": "steps in and bites for a hold on the deer's flank", "toward": "the lead male" },
+      { "verb": "growls and holds its ground without approaching", "toward": "the lead male" },
+      { "verb": "circles to the far side of the carcass", "toward": "the carcass" }
+    ],
+    "would_not": [
+      { "verb": "walks away from the kill entirely", "toward": "nothing", "why": "it is too hungry to give up its share, only to wait for it" },
+      { "verb": "attacks the lead male outright", "toward": "the lead male", "why": "the cost of losing a real fight now outweighs a few minutes' earlier feeding" }
+    ],
+    "then": "It eats from the flank once the lead male steps back, and by full dark all six wolves have fed.",
+    "why": "Its body could likely win a fight, but a fight risks an injury it cannot afford before the next hunt, and pack custom gives the runner no special claim regardless. Hunger pushes it to feed the moment it is allowed, not to force the matter early.",
+    "turns_on": "how sure it is of beating the lead male in a fight"
+  },
+  {
+    "id": "group-02",
+    "domain": "group",
+    "who": "an old cow at the edge of a grazing herd, one of the first to lift her head at strange sounds",
+    "place": "an open pasture in late afternoon, with a line of brush and a dry riverbed downwind",
+    "present": ["thirty other cattle grazing", "several calves close to their mothers", "a scent on the wind from the brush"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "Her eyes are weak now but her nose is as sharp as ever." },
+      { "kind": "a threat", "fact": "The scent on the wind is the same one that took a calf from the herd last spring." },
+      { "kind": "custom", "fact": "This herd has learned to freeze and look to her, not to run at the first alarm." },
+      { "kind": "distance", "fact": "The brush where the scent is strongest is still several hundred paces off." },
+      { "kind": "wind", "fact": "The wind is shifting, and in a few minutes it will carry her own scent toward the brush instead." },
+      { "kind": "bond", "fact": "Her own grown calf grazes closest to the brush of anyone in the herd." }
+    ],
+    "does": { "verb": "snorts sharply and turns to face the brush", "toward": "the herd", "how": "loud" },
+    "could_also": [
+      { "verb": "bolts away from the brush at a run", "toward": "the brush" },
+      { "verb": "moves quietly toward her own calf", "toward": "her calf" },
+      { "verb": "keeps grazing and says nothing", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "charges toward the brush to drive off the threat alone", "toward": "the brush", "why": "one old cow charging blind into brush is a way to die, not to protect anyone" },
+      { "verb": "leads a full stampede away immediately", "toward": "the herd", "why": "the threat is not yet close enough to justify a panicked run that could trample calves" }
+    ],
+    "then": "The herd stops grazing and bunches toward the center, watching the brush, while she keeps her head up until the wind shifts and the scent fades.",
+    "why": "The scent is real and close enough to matter, and her herd relies on her nose over her eyes to judge it. But the threat is still distant, so the sound she gives is a warning to gather and watch, not the full alarm that would send calves running blind.",
+    "turns_on": "how far off the scent still is"
+  },
+  {
+    "id": "group-03",
+    "domain": "group",
+    "who": "a foreman overseeing a road-building gang",
+    "place": "a half-finished stretch of road at midday, with the overseer's cart visible on the rise behind",
+    "present": ["a dozen laborers breaking stone", "one laborer moving much slower than the rest, favoring a leg", "the overseer's cart in the distance"],
+    "factors": [
+      { "kind": "what it is owed", "fact": "The foreman is paid by the length of road finished each week, not by the man." },
+      { "kind": "what someone just did", "fact": "The slow laborer twisted his ankle badly on loose stone an hour ago." },
+      { "kind": "who is watching", "fact": "The overseer can see the gang from the cart but not tell one man's pace from another's at that distance." },
+      { "kind": "custom", "fact": "This gang covers for an injured man by shifting his stone to others, unspoken." },
+      { "kind": "rank", "fact": "The foreman answers to the overseer for the gang's output, and to no one for how it is shared." },
+      { "kind": "bond", "fact": "The injured man has worked under this foreman for six seasons without complaint." }
+    ],
+    "does": { "verb": "quietly moves the injured man to sorting the smaller stone", "toward": "the injured laborer", "how": "without announcing it" },
+    "could_also": [
+      { "verb": "sends the injured man to sit out the rest of the day", "toward": "the injured laborer" },
+      { "verb": "reports the injury to the overseer", "toward": "the overseer" },
+      { "verb": "orders him to keep pace regardless", "toward": "the injured laborer" }
+    ],
+    "would_not": [
+      { "verb": "makes a show of the change in front of the overseer's cart", "toward": "the overseer", "why": "drawing attention risks the overseer deciding to dock the gang's count for the day" },
+      { "verb": "docks the injured man's pay on his own account", "toward": "the injured laborer", "why": "the foreman's loyalty runs to a gang that has served him for years, not to squeezing an injured man" }
+    ],
+    "then": "The other laborers pick up the heavier stone without being told, and the day's count comes in only slightly short.",
+    "why": "The foreman is judged on total output, not on any one man, so quietly shifting the load costs him little. Making a visible fuss risks the overseer's attention landing on the gang's pace, which threatens everyone, so the fix stays unspoken.",
+    "turns_on": "whether the overseer's cart is close enough to notice"
+  },
+  {
+    "id": "group-04",
+    "domain": "group",
+    "who": "a mid-ranking female in a small pack of wild dogs",
+    "place": "a clearing at dawn, minutes after the pack has pulled down a young antelope",
+    "present": ["the pack's breeding pair, who did not run in the final chase", "three other adults, all winded from the chase", "the antelope carcass, already opened", "a lone pup crying at the edge"],
+    "factors": [
+      { "kind": "what it just did", "fact": "She was the one who caught the antelope's leg and brought it down." },
+      { "kind": "custom", "fact": "This pack lets the breeding pair eat first regardless of who made the kill." },
+      { "kind": "bond", "fact": "The crying pup is her own, born this season." },
+      { "kind": "need", "fact": "She spent everything she had in the final chase and is more exhausted than hungry just now." },
+      { "kind": "rank", "fact": "The breeding female has driven off challengers to that first place before." }
+    ],
+    "does": { "verb": "carries a torn piece back to the crying pup", "toward": "her pup", "how": "gently" },
+    "could_also": [
+      { "verb": "pushes in beside the breeding pair to feed", "toward": "the breeding pair" },
+      { "verb": "eats where she stands until she is driven off", "toward": "the carcass" },
+      { "verb": "waits at a distance until called in" }
+    ],
+    "would_not": [
+      { "verb": "drives the breeding pair off the kill she made", "toward": "the breeding pair", "why": "she is too spent from the chase to win that contest, and the custom runs against her regardless" },
+      { "verb": "ignores the pup's crying to eat first herself", "toward": "the pup", "why": "the bond to her own pup outweighs a hunger she can still stand to delay" }
+    ],
+    "then": "She returns twice more with scraps before the pup stops crying, then finally eats what is left near the edge of the group.",
+    "why": "Making the kill earns her nothing extra under this pack's custom, and she is too tired to force a rank challenge she might lose anyway. Her pup's hunger is the more pressing pull once the first, harder chase is behind her.",
+    "turns_on": "whether the pup would go on crying if fed later"
+  },
+  {
+    "id": "group-05",
+    "domain": "group",
+    "who": "a mother in a household with little stored food",
+    "place": "the family's single room at supper time, near the end of a lean winter",
+    "present": ["her husband, thinner than last month", "three children, the youngest still small", "a pot with barely enough for four full bowls, split six ways"],
+    "factors": [
+      { "kind": "need", "fact": "The youngest child has been listless for two days and has eaten less than the others." },
+      { "kind": "custom", "fact": "In this house the father's bowl is filled first, as the one who works the heaviest labor." },
+      { "kind": "what it knows", "fact": "There is a little more grain due in three days when the next wage comes." },
+      { "kind": "bond", "fact": "She has quietly eaten less than her share for a week already." },
+      { "kind": "fairness", "fact": "The two older children watch closely to see that no one's bowl looks fuller than another's." }
+    ],
+    "does": { "verb": "gives the youngest an extra spoonful skimmed from her own bowl", "toward": "the youngest child", "how": "quietly, before anyone counts" },
+    "could_also": [
+      { "verb": "divides the pot into six equal shares", "toward": "the family" },
+      { "verb": "serves her husband first and fullest as custom holds", "toward": "her husband" },
+      { "verb": "tells the older children to eat less tonight", "toward": "the older children" }
+    ],
+    "would_not": [
+      { "verb": "takes an extra share for herself openly", "toward": "nothing", "why": "she has already been eating less than her share for a week and would not reverse that now" },
+      { "verb": "cuts her husband's share to feed the youngest", "toward": "her husband", "why": "his labor keeps the wage coming that will feed all of them in three days, so weakening him risks everyone" }
+    ],
+    "then": "The pot is scraped clean, the youngest sleeps sooner and more quietly than the last two nights, and she goes to bed still hungry.",
+    "why": "The sick child's need is sharper than the older children's ordinary hunger, and taking from her own bowl avoids the older children noticing an unfair split. It costs her, but not the family's earner, whose strength the whole house depends on for three more days.",
+    "turns_on": "how much worse the youngest child's hunger looks than the others'"
+  },
+  {
+    "id": "group-06",
+    "domain": "group",
+    "who": "a lead cow guiding a small herd of cattle along a migration trail",
+    "place": "a narrow pass between two ridges at midday, with a predator's cry heard twice already this morning",
+    "present": ["fifteen other cattle", "a lame older cow limping badly at the rear", "steep rock to either side of the trail"],
+    "factors": [
+      { "kind": "custom", "fact": "This herd has always kept moving toward water rather than waiting for a straggler." },
+      { "kind": "a threat", "fact": "The predator's cry has come twice this morning, each time closer." },
+      { "kind": "physical condition", "fact": "The lame cow's leg will not carry her at the herd's pace no matter how much time is given." },
+      { "kind": "bond", "fact": "The lame cow raised two calves now grown and walking in this same herd." },
+      { "kind": "what it knows", "fact": "Water lies less than an hour ahead at the herd's current pace." },
+      { "kind": "risk", "fact": "Slowing the whole herd to her pace would put every calf within it closer to the predator for longer." }
+    ],
+    "does": { "verb": "keeps the herd moving at its pace toward the water", "toward": "the herd", "how": "without waiting" },
+    "could_also": [
+      { "verb": "slows the herd's pace to match the lame cow" },
+      { "verb": "circles back once to check on her before moving on", "toward": "the lame cow" },
+      { "verb": "bunches the calves tighter into the middle of the herd" }
+    ],
+    "would_not": [
+      { "verb": "drives the lame cow forward by force", "toward": "the lame cow", "why": "her leg cannot go faster no matter how hard she is pushed, so force gains nothing" },
+      { "verb": "stops the whole herd to wait for her at the pass", "toward": "the herd", "why": "waiting in the open pass with a predator closing is a danger to every calf, not only to her" }
+    ],
+    "then": "The lame cow falls further behind and out of sight around the bend; the herd reaches water within the hour and does not slow again.",
+    "why": "Her injury cannot be waited out, and the pass is a bad place to linger with the predator's cry getting closer each time. The bond to her grown calves does not change what her leg can do, and the herd's safety weighs heavier than one animal's chance.",
+    "turns_on": "how close the predator's cry sounds each time"
+  },
+  {
+    "id": "group-07",
+    "domain": "group",
+    "who": "a young sailor newly signed onto a fishing crew",
+    "place": "the deck of a working boat on its second day out, hauling nets in choppy water",
+    "present": ["the boat's captain", "four crew who have worked together for years", "a coil of wet rope no one has claimed to stow", "the nets, half-hauled"],
+    "factors": [
+      { "kind": "custom", "fact": "This crew tests a new hand by watching who reaches for the worst job first." },
+      { "kind": "what it can still do", "fact": "The newcomer has never worked a boat before but is strong enough for rope work." },
+      { "kind": "rank", "fact": "Nothing is yet settled about where the newcomer stands among the crew." },
+      { "kind": "what someone just did", "fact": "One of the older hands just finished the hardest pull on the net without being asked." },
+      { "kind": "risk", "fact": "The wet rope is slick enough that a careless stow could cost a finger." }
+    ],
+    "does": { "verb": "reaches for the wet rope and coils it before anyone asks", "toward": "the rope", "how": "quickly" },
+    "could_also": [
+      { "verb": "asks the captain what to do next", "toward": "the captain" },
+      { "verb": "waits to be told a job", "toward": "nothing" },
+      { "verb": "helps pull the net alongside the older hand", "toward": "the older hand" }
+    ],
+    "would_not": [
+      { "verb": "stands back and lets an older hand take the rope", "toward": "nothing", "why": "letting the worst job pass to someone else is exactly what this crew is watching for and against" },
+      { "verb": "complains about the rope's condition", "toward": "the crew", "why": "a new hand with no standing yet has nothing to gain and much to lose by complaining" }
+    ],
+    "then": "One of the older hands nods once and shows the newcomer a better way to coil it, and by the end of the day the crew talks to the newcomer without being asked to.",
+    "why": "Standing on this crew is earned by taking the job no one wants, not by asking permission or waiting to be assigned one. The newcomer has nothing yet to protect and everything to gain by reaching first.",
+    "turns_on": "whether the newcomer reaches before being asked"
+  },
+  {
+    "id": "group-08",
+    "domain": "group",
+    "who": "an aging bull that has lost its place at the head of a herd",
+    "place": "the fringe of a grazing herd's evening ground, some distance from the main body",
+    "present": ["the herd's current dominant bull", "the main body of the herd grazing closer to the water", "a younger bull that recently displaced this one"],
+    "factors": [
+      { "kind": "rank", "fact": "It lost a fight for the herd's lead only two months ago and has not challenged since." },
+      { "kind": "physical condition", "fact": "One horn is broken and healing badly from that fight." },
+      { "kind": "custom", "fact": "This herd does not drive off a displaced bull outright, but does not make room for him at the center either." },
+      { "kind": "need", "fact": "The grass at the fringe is thinner than at the center where the herd grazes." },
+      { "kind": "risk", "fact": "Approaching the center again risks drawing the new bull's attention and another fight it cannot win yet." }
+    ],
+    "does": { "verb": "grazes alone at the fringe, a stone's throw from the herd", "toward": "the herd", "how": "watchful" },
+    "could_also": [
+      { "verb": "moves in closer when the new bull is occupied elsewhere", "toward": "the herd" },
+      { "verb": "challenges the new bull again despite the horn", "toward": "the new bull" },
+      { "verb": "leaves the herd's ground entirely" }
+    ],
+    "would_not": [
+      { "verb": "pushes into the center of the herd directly", "toward": "the herd", "why": "the broken horn has not healed enough to survive the fight that would follow" },
+      { "verb": "attacks a calf or weaker animal out of frustration", "toward": "nothing", "why": "there is no gain in it and it would draw the whole herd's hostility, not just the new bull's" }
+    ],
+    "then": "It stays at the fringe through the evening, edging a little closer once the new bull moves off to the far side, and grazes what thin grass it can reach.",
+    "why": "The horn has not healed enough to risk another fight, so pushing back toward the center now would likely cost more than the better grass is worth. Staying near, but not too near, keeps it inside the herd's protection without inviting a fight it would lose.",
+    "turns_on": "how well the broken horn has healed"
+  },
+  {
+    "id": "group-09",
+    "domain": "group",
+    "who": "the oldest of a group of children playing near a village well",
+    "place": "a dusty yard between houses in the late afternoon, chores mostly done for the day",
+    "present": ["three other children close in age", "a younger child who wants to join the game", "a woman drawing water at the well nearby"],
+    "factors": [
+      { "kind": "custom", "fact": "This game only has room for four to run at once without someone getting hurt." },
+      { "kind": "bond", "fact": "The younger child is a cousin, not a stranger to the group." },
+      { "kind": "what it can still do", "fact": "The younger child is not yet fast enough to keep up with the others' game." },
+      { "kind": "who is watching", "fact": "The woman at the well is close enough to see how the younger child is treated." },
+      { "kind": "rank", "fact": "The other children usually follow the oldest one's decisions about the game." }
+    ],
+    "does": { "verb": "gives the younger child a slower, easier part in the game", "toward": "the younger child", "how": "patiently" },
+    "could_also": [
+      { "verb": "tells the younger child to wait for the next round", "toward": "the younger child" },
+      { "verb": "lets the younger child watch from the side", "toward": "the younger child" },
+      { "verb": "changes the game to one everyone can play" }
+    ],
+    "would_not": [
+      { "verb": "turns the younger child away outright", "toward": "the younger child", "why": "the bond of family and the woman watching both make an outright refusal costly" },
+      { "verb": "lets the younger child play the full game unchanged", "toward": "the younger child", "why": "the younger child genuinely cannot keep the pace, and getting hurt would cost the whole group more trouble" }
+    ],
+    "then": "The game goes on with the younger child given the caught-by-fewer role, and the woman at the well goes back to her work without comment.",
+    "why": "Being watched by an adult and being kin both push toward including the smaller child rather than shutting her out, but her real limits mean the fair answer is a smaller part, not the same part. It costs little to the group and avoids either an injury or a scolding.",
+    "turns_on": "whether the woman at the well is close enough to see"
+  },
+  {
+    "id": "group-10",
+    "domain": "group",
+    "who": "the oldest female in a small herd of goats, the one the others usually follow",
+    "place": "a rocky hillside pasture at dusk, minutes after a loud crack of falling rock startled the herd",
+    "present": ["a dozen other goats, several already bolting", "two kids close to their mothers", "loose scree above the pasture where the noise came from"],
+    "factors": [
+      { "kind": "custom", "fact": "This herd runs in whatever direction its leader runs first." },
+      { "kind": "a threat", "fact": "The crack of rock is a sound this herd has heard before from falling stone, not from a predator." },
+      { "kind": "what it can still do", "fact": "She can still tell a falling-rock sound from a predator's sound, though the others are already running." },
+      { "kind": "risk", "fact": "Goats already bolting downhill are heading toward a steep drop in the failing light." },
+      { "kind": "bond", "fact": "The two kids are too small to keep pace with a full-speed run downhill." }
+    ],
+    "does": { "verb": "stands still and calls out rather than running", "toward": "the herd", "how": "loudly" },
+    "could_also": [
+      { "verb": "runs uphill away from the noise", "toward": "the noise" },
+      { "verb": "joins the bolt downhill with the others", "toward": "the herd" },
+      { "verb": "moves toward the two kids directly", "toward": "the kids" }
+    ],
+    "would_not": [
+      { "verb": "keeps grazing as though nothing happened", "toward": "nothing", "why": "the herd is already bolting and ignoring it entirely would let them run straight for the drop" },
+      { "verb": "runs downhill fastest to get ahead of the herd", "toward": "the herd", "why": "getting ahead of a panicked run does nothing to turn it, and risks the same drop" }
+    ],
+    "then": "A few goats near her slow and turn back at her call; the rest keep running until the slope levels out on its own, and no one goes over the drop.",
+    "why": "She recognizes the sound as harmless rockfall, not a predator, so the danger worth acting on is the panic itself, specifically the drop the bolt is heading toward, not the noise. Standing and calling is the one thing that can pull a following herd's attention back before the drop, where joining the run or ignoring it cannot.",
+    "turns_on": "whether she recognizes the sound as harmless"
+  },
+  {
+    "id": "group-11",
+    "domain": "group",
+    "who": "one of a pair of hunting dogs working together on a hillside",
+    "place": "an open hillside at dawn, with a hare freshly startled from cover",
+    "present": ["its hunting partner, positioned on the far side of a gully", "the hare, running in a wide loop", "a stand of brush the hare is heading toward"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "It is faster than the hare in a straight line but not in the turns." },
+      { "kind": "bond", "fact": "This pair has hunted together long enough to read each other's positions without a sound." },
+      { "kind": "what it knows", "fact": "The hare always turns toward the brush when it tires of running straight." },
+      { "kind": "custom", "fact": "Whichever of the pair is nearer the brush drives, and the other cuts across to meet the turn." },
+      { "kind": "risk", "fact": "Running full out on the loose hillside footing risks a bad fall for either dog." }
+    ],
+    "does": { "verb": "angles across the gully to cut off the brush", "toward": "the brush", "how": "at speed" },
+    "could_also": [
+      { "verb": "chases the hare directly in a straight line", "toward": "the hare" },
+      { "verb": "waits at the gully's edge for the hare to come to it", "toward": "the hare" },
+      { "verb": "barks to drive the hare toward its partner", "toward": "the hare" }
+    ],
+    "would_not": [
+      { "verb": "gives up the chase once the hare turns", "toward": "nothing", "why": "the pair has read this turn before and knows the angle is still theirs to take" },
+      { "verb": "runs full speed over the loose scree to catch up directly", "toward": "the hare", "why": "a fall on bad footing costs far more than the extra moment the angled path takes" }
+    ],
+    "then": "The hare, cut off from the brush, doubles back into the partner's path and the pair brings it down within a minute.",
+    "why": "Neither dog alone is fast enough through the turns to catch the hare, but the angle each takes, learned from hunting together, closes the gap the straight chase cannot. The loose footing rules out simply running harder in a straight line.",
+    "turns_on": "whether its partner is already in position at the gully"
+  },
+  {
+    "id": "group-12",
+    "domain": "group",
+    "who": "an adult son in a household with an aging parent",
+    "place": "the family's small farmhouse kitchen after the evening meal, grain stores visible on a shelf",
+    "present": ["his aging father, whose hands shake too badly now to do fine work", "his wife, tallying the grain left in the jar", "two young children finishing their bowls"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "His father can no longer manage the finer farm tasks but can still mind the children and tend the fire." },
+      { "kind": "need", "fact": "The grain jar has less in it than at this time last winter." },
+      { "kind": "custom", "fact": "In this household the elders eat what is served without complaint, whatever portion that is." },
+      { "kind": "bond", "fact": "His father taught him the farm work he now does himself." },
+      { "kind": "what it is owed", "fact": "Every mouth in the house is expected to do what work it still can." }
+    ],
+    "does": { "verb": "serves his father a full portion before serving himself", "toward": "his father", "how": "without comment" },
+    "could_also": [
+      { "verb": "gives his father a smaller share to stretch the grain", "toward": "his father" },
+      { "verb": "asks his father to take on lighter chores in exchange", "toward": "his father" },
+      { "verb": "says nothing and eats what remains last" }
+    ],
+    "would_not": [
+      { "verb": "tells his father he is no longer worth feeding fully", "toward": "his father", "why": "the debt of what his father taught him and the custom of the house both stand against treating an elder's share as less earned" },
+      { "verb": "cuts the children's portions to keep his father's full", "toward": "the children", "why": "the grain is short enough that the children's growth matters more than a portion he can make up elsewhere" }
+    ],
+    "then": "His father minds the children by the fire while he and his wife go back out to check the last of the stores before dark.",
+    "why": "His father can no longer do the heavy work but still tends the fire and the children, which this household counts as its own worth, and the debt of what he was taught runs deep. The short grain is a real pressure, but it falls on his own portion before it falls on his father's.",
+    "turns_on": "how much grain is left in the jar"
+  },
+  {
+    "id": "group-13",
+    "domain": "group",
+    "who": "one of a dozen rowers on a river barge, midway through a long haul",
+    "place": "the open deck of a barge at midday, oars going in a fixed rotation of rest and work",
+    "present": ["eleven other rowers", "the barge master watching from the stern", "a rota chalked on the deck marking whose turn is next"],
+    "factors": [
+      { "kind": "custom", "fact": "The rota gives each rower an equal turn at rest, marked in chalk for all to see." },
+      { "kind": "who is watching", "fact": "The barge master is at the stern and can see the chalk marks from where he stands." },
+      { "kind": "what it can still do", "fact": "This rower's arms are more tired than most after taking an extra pull earlier to cover a slower man." },
+      { "kind": "fairness", "fact": "Taking rest out of turn would push someone else's rest later down the rota." },
+      { "kind": "bond", "fact": "The man whose turn is next has covered for others before without complaint." }
+    ],
+    "does": { "verb": "waits for its marked turn before resting", "toward": "the rota", "how": "patiently" },
+    "could_also": [
+      { "verb": "asks the man next in line to trade turns", "toward": "the next rower" },
+      { "verb": "quietly rests a stroke early when the master looks away" },
+      { "verb": "tells the barge master its arms are spent", "toward": "the barge master" }
+    ],
+    "would_not": [
+      { "verb": "takes the next turn's rest by force", "toward": "the next rower", "why": "the rota is watched by the whole crew and by the master, and breaking it openly costs standing it cannot easily win back" },
+      { "verb": "keeps rowing well past exhaustion without saying anything", "toward": "nothing", "why": "arms too spent to row well slow the whole barge more than a fair word to the master would" }
+    ],
+    "then": "It rows two more strokes past the ache, and the chalk mark comes up its turn a few minutes later, exactly on schedule.",
+    "why": "The rota is visible to everyone including the man in charge, so taking a turn early would be seen and costly, while the extra pull it gave earlier was its own choice, not a debt anyone else owes back immediately. Waiting keeps faith with a system that has treated it fairly so far.",
+    "turns_on": "whether the barge master's eyes are on the chalk mark"
+  },
+  {
+    "id": "group-14",
+    "domain": "group",
+    "who": "one of the birds flying in the second rank of a large migrating flock",
+    "place": "high over open country at midmorning, the flock strung out in a long formation",
+    "present": ["the bird currently at the point of the formation", "several dozen others in the ranks behind", "a line of hills visible ahead, off the usual line of travel"],
+    "factors": [
+      { "kind": "custom", "fact": "This flock follows whoever holds the point until that bird tires and drops back." },
+      { "kind": "what it knows", "fact": "This bird has made this same migration several times before and remembers the true line past the hills." },
+      { "kind": "what it can still do", "fact": "It has enough strength left to push forward and take the point if it chooses." },
+      { "kind": "risk", "fact": "Breaking formation to pass the point bird costs real effort and disorders the ranks behind for a moment." },
+      { "kind": "rank", "fact": "The bird at the point has held it since dawn and has not shown signs of tiring yet." }
+    ],
+    "does": { "verb": "pushes up alongside the point bird and angles back onto the true line", "toward": "the point bird", "how": "steadily" },
+    "could_also": [
+      { "verb": "keeps following the point bird's wrong line without correcting" },
+      { "verb": "calls out from its place in the ranks without moving up", "toward": "the point bird" },
+      { "verb": "drops out of formation entirely to fly its own line" }
+    ],
+    "would_not": [
+      { "verb": "waits for the point bird to tire on its own before doing anything", "toward": "nothing", "why": "the flock could be well past the true line into worse country before that happens" },
+      { "verb": "cuts sharply across the whole formation to force the turn", "toward": "the flock", "why": "cutting across scatters the ranks badly for a correction that a gentler pass alongside can manage" }
+    ],
+    "then": "The point bird yields the lead within the wingbeat, and the whole flock bends smoothly onto the remembered line before the hills are reached.",
+    "why": "Its memory of the true line is worth more here than the point bird's rank, since the flock is drifting into worse country the longer the wrong line holds. Pushing up alongside costs effort but corrects the drift without the disorder a sharper move across the formation would cause.",
+    "turns_on": "how far off the true line the point bird has already gone"
+  },
+  {
+    "id": "group-15",
+    "domain": "group",
+    "who": "an ox yoked at the front of a two-animal team hauling a loaded cart",
+    "place": "a muddy cart track at midday, the cart's wheel sunk to the hub in a rut",
+    "present": ["the second ox in the yoke, straining beside it", "the cart's driver, whip in hand", "a stretch of firmer ground a short distance ahead"],
+    "factors": [
+      { "kind": "physical condition", "fact": "The rut's mud is deep enough that a single hard pull could strain a leg badly." },
+      { "kind": "bond", "fact": "This ox has worked this same yoke-mate for three seasons without serious trouble." },
+      { "kind": "what someone just did", "fact": "The driver has just raised the whip after two failed pulls." },
+      { "kind": "custom", "fact": "This team has learned to pull together on a shared signal from the driver's voice, not the whip." },
+      { "kind": "risk", "fact": "Pulling out of rhythm with its yoke-mate could twist the yoke and injure both." }
+    ],
+    "does": { "verb": "holds steady and waits for the voice signal", "toward": "its yoke-mate", "how": "braced" },
+    "could_also": [
+      { "verb": "lunges forward alone against the whip", "toward": "nothing" },
+      { "verb": "backs against the yoke to ease the strain", "toward": "the cart" },
+      { "verb": "stops pulling entirely" }
+    ],
+    "would_not": [
+      { "verb": "pulls with everything it has the instant the whip is raised", "toward": "the whip", "why": "a pull out of rhythm with the other ox risks twisting the yoke and hurting them both" },
+      { "verb": "shies sideways away from the whip", "toward": "nothing", "why": "shying in the deep rut is more likely to strain a leg than the whip itself is to land hard" }
+    ],
+    "then": "The driver's voice comes a moment later, both oxen pull together, and the cart lurches free onto firmer ground.",
+    "why": "The team has learned to move on the driver's voice, not the whip, and pulling out of time with its yoke-mate in deep mud is more dangerous than waiting the extra moment for the right signal. The bond of a working pair holds even under the whip's threat.",
+    "turns_on": "whether the driver uses the voice signal or the whip"
+  },
+  {
+    "id": "group-16",
+    "domain": "group",
+    "who": "a laborer partway up the pecking order of a quarry gang",
+    "place": "a stone quarry at the start of a shift, where the day's jobs are handed out",
+    "present": ["the gang's informal strongest man, who claims the easiest job most mornings", "seven other laborers", "the day's job list: one easy sorting job and six hard ones"],
+    "factors": [
+      { "kind": "custom", "fact": "In this gang, whoever speaks first for the easy job usually gets it unopposed." },
+      { "kind": "what someone just did", "fact": "The strongest man beat down the last person who challenged him for a job two weeks ago." },
+      { "kind": "physical condition", "fact": "This laborer's hands are still raw from yesterday's hard job and could use the easier one today." },
+      { "kind": "rank", "fact": "No one has successfully taken the easy job from the strongest man since that fight." },
+      { "kind": "risk", "fact": "Losing a challenge here means both a beating and the hard job anyway." }
+    ],
+    "does": { "verb": "stays quiet and takes a hard job without contesting it", "toward": "the job list", "how": "resigned" },
+    "could_also": [
+      { "verb": "speaks up first to claim the easy job before anyone else", "toward": "the strongest man" },
+      { "verb": "asks another laborer to trade jobs later", "toward": "another laborer" },
+      { "verb": "complains to the gang generally about the job split" }
+    ],
+    "would_not": [
+      { "verb": "challenges the strongest man outright for the easy job", "toward": "the strongest man", "why": "the last man who tried that lost both the fight and the job, and the outcome is unlikely to be different" },
+      { "verb": "sabotages the strongest man's tools quietly", "toward": "the strongest man", "why": "getting caught would cost more standing in the gang than raw hands cost today" }
+    ],
+    "then": "It picks up a hard job at the far end of the quarry, and the strongest man takes the easy sorting job as most mornings.",
+    "why": "The recent beating settled who wins a direct challenge for now, and raw hands are not worth a fight it is likely to lose along with the job anyway. Staying quiet keeps today's cost to sore hands rather than sore hands and a beating both.",
+    "turns_on": "how recently the strongest man last won a challenge"
+  },
+  {
+    "id": "group-17",
+    "domain": "group",
+    "who": "an aging sheepdog working a flock alongside a shepherd",
+    "place": "a hillside pasture in cold weather, the flock spread wide and restless",
+    "present": ["the shepherd, calling commands from the far side of the flock", "a younger dog also working the flock", "around forty sheep, several straying toward a gap in the fence"],
+    "factors": [
+      { "kind": "physical condition", "fact": "A stiffness in its hips has been worsening for weeks and running hurts it now." },
+      { "kind": "what it is owed", "fact": "The shepherd has kept this dog working past the age most are put out to pasture." },
+      { "kind": "what someone just did", "fact": "The shepherd has just whistled the command for a hard run to close the gap." },
+      { "kind": "bond", "fact": "This dog and shepherd have worked together longer than the younger dog has been alive." },
+      { "kind": "risk", "fact": "The younger dog is closer to the gap and could reach it first if given the chance." }
+    ],
+    "does": { "verb": "runs toward the gap despite the pain, favoring one hip", "toward": "the straying sheep", "how": "labored" },
+    "could_also": [
+      { "verb": "barks from where it stands to turn the sheep instead of running", "toward": "the straying sheep" },
+      { "verb": "lets the younger dog take the run", "toward": "the younger dog" },
+      { "verb": "limps toward the gap at a slower pace" }
+    ],
+    "would_not": [
+      { "verb": "ignores the whistle entirely and rests", "toward": "nothing", "why": "the bond and years of trained habit run too deep to simply ignore the shepherd's call" },
+      { "verb": "pushes into a full run that risks the hip failing outright", "toward": "the straying sheep", "why": "a hip that gives out completely would leave it unable to work at all afterward" }
+    ],
+    "then": "It reaches the gap just ahead of the sheep, turns them back with a bark, and lies down heavily once the flock is settled again.",
+    "why": "Years of habit and loyalty to the shepherd's call pull it to answer the whistle rather than yield the run to the younger dog, but the worsening hip means it holds back from the hardest possible effort. It runs, but not at the cost of the hip failing for good.",
+    "turns_on": "how much worse the hip pain has become"
+  },
+  {
+    "id": "group-18",
+    "domain": "group",
+    "who": "a mother horse with a newborn foal, standing at the edge of a small herd",
+    "place": "a fenced paddock an hour after the foal's birth, the rest of the herd grazing nearby",
+    "present": ["the herd's dominant mare", "six other horses grazing at a middle distance", "the newborn foal, still unsteady on its legs"],
+    "factors": [
+      { "kind": "physical condition", "fact": "The mother is still weak and sore from giving birth an hour ago." },
+      { "kind": "custom", "fact": "This herd lets a new foal in close once the mother signals it is safe, not before." },
+      { "kind": "bond", "fact": "The foal has not yet nursed enough to have real strength in its legs." },
+      { "kind": "rank", "fact": "The dominant mare has approached newborns before, sometimes gently and sometimes not." },
+      { "kind": "risk", "fact": "A kick or shove from another horse right now could seriously hurt the unsteady foal." }
+    ],
+    "does": { "verb": "stands between the foal and the approaching mare", "toward": "the dominant mare", "how": "firmly" },
+    "could_also": [
+      { "verb": "moves the foal further away from the herd", "toward": "the foal" },
+      { "verb": "lets the mare approach and sniff the foal", "toward": "the dominant mare" },
+      { "verb": "nickers a warning without moving her feet" }
+    ],
+    "would_not": [
+      { "verb": "leaves the foal to rest and go graze with the herd", "toward": "the herd", "why": "the foal cannot yet stand against a careless shove and the mare is already approaching" },
+      { "verb": "charges the dominant mare aggressively", "toward": "the dominant mare", "why": "she is too weak from the birth to win a real confrontation and a fight now risks the foal more than the approach does" }
+    ],
+    "then": "The dominant mare sniffs from a short distance and moves off without pressing closer, and the foal manages its first real steps a little later.",
+    "why": "The foal's legs are not yet strong enough to survive a careless bump, so keeping her own tired body between it and the approaching mare costs little compared to what a shove could do. Her own weakness rules out anything more forceful than simply standing her ground.",
+    "turns_on": "how steady the foal's legs are"
+  },
+  {
+    "id": "group-19",
+    "domain": "group",
+    "who": "a matriarch elephant in a small family group",
+    "place": "a dry waterhole at dusk, where the group's oldest female has just collapsed and stopped breathing",
+    "present": ["three younger females", "two calves, one of them the dead female's own", "the body of the elephant that has just died"],
+    "factors": [
+      { "kind": "bond", "fact": "The elephant that died was the matriarch's own sister, traveling with this group for decades." },
+      { "kind": "what it knows", "fact": "This group has stayed near a dead member's body before, sometimes for days." },
+      { "kind": "need", "fact": "Water at this hole is nearly gone and the nearest other source is a day's walk." },
+      { "kind": "bond", "fact": "The dead female's calf keeps returning to touch the body with its trunk." },
+      { "kind": "risk", "fact": "Staying near open, dry ground after dark draws predators that a full waterhole usually keeps at a distance." }
+    ],
+    "does": { "verb": "stays beside the body through the night, touching it now and then", "toward": "the body", "how": "slowly" },
+    "could_also": [
+      { "verb": "leads the group away toward the next water at first light" },
+      { "verb": "pushes the orphaned calf to a younger female to care for it", "toward": "another female" },
+      { "verb": "stands watch at a distance while the calf grieves alone", "toward": "the body" }
+    ],
+    "would_not": [
+      { "verb": "leaves immediately that same evening", "toward": "nothing", "why": "the bond to a decades-long companion and the calf's visible distress both weigh too heavily to walk away at once" },
+      { "verb": "stays at the dry waterhole for days as some grief could call for", "toward": "the body", "why": "the water is nearly gone and the group's need for it will outlast their grief by only a day" }
+    ],
+    "then": "At first light the group moves off toward the next water, the orphaned calf lagging behind the rest and glancing back more than once.",
+    "why": "The decades of bond and the calf's own attachment to the body pull the group to stay through the night rather than leave at once, but the waterhole's dryness sets a hard limit on how long grief can be indulged. By morning the group's need for water outweighs staying any longer.",
+    "turns_on": "how much water is left at the waterhole"
+  },
+  {
+    "id": "group-20",
+    "domain": "group",
+    "who": "a mid-ranking member of a small trading caravan's crew",
+    "place": "a campfire at night after a tense argument over the caravan's route, now sitting in silence",
+    "present": ["the caravan's leader, who chose the disputed route", "two other crew members who muttered against the choice earlier", "the pack animals settled for the night nearby"],
+    "factors": [
+      { "kind": "what it knows", "fact": "The disputed route crosses land known for bandits at this time of year." },
+      { "kind": "custom", "fact": "This crew's leader has been right about routes more often than wrong over several years." },
+      { "kind": "what someone just did", "fact": "Two crew members muttered against the route loudly enough for everyone to hear, then fell silent." },
+      { "kind": "rank", "fact": "Speaking against the leader's decision now, after the muttering, would look like backing a challenge rather than raising a concern." },
+      { "kind": "risk", "fact": "A caravan that argues openly at night travels worse the next day than one that has settled its doubts." }
+    ],
+    "does": { "verb": "breaks the silence with a calm question about the route, not a challenge", "toward": "the leader", "how": "evenly" },
+    "could_also": [
+      { "verb": "stays silent and lets the tension sit unresolved" },
+      { "verb": "backs the leader's choice loudly in front of the others", "toward": "the leader" },
+      { "verb": "sides quietly with the muttering crew members", "toward": "the other crew members" }
+    ],
+    "would_not": [
+      { "verb": "openly challenges the leader's authority to decide", "toward": "the leader", "why": "the leader's record is good enough that an open challenge would likely fail and cost standing besides" },
+      { "verb": "stays silent all night while the tension festers", "toward": "nothing", "why": "an unresolved argument going into tomorrow's travel through bandit country is a real danger to the whole caravan" }
+    ],
+    "then": "The leader answers the question by naming the precautions already planned for the crossing, and the muttering crew members settle once they hear it.",
+    "why": "The leader's long record of good calls makes an open challenge unwise, but the bandit danger and the visible unease both need answering before morning. A calm question threads between backing down silently and forcing a confrontation the group cannot afford tonight.",
+    "turns_on": "who breaks the silence first"
+  }
+]

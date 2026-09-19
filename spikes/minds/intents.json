@@ -1,0 +1,300 @@
+{
+  "version": 1,
+  "derived_from": "batch A only: 120 scenarios, 118 distinct chosen verbs, 342 alternative verbs, 240 refused verbs; version 1 adds five intents found by a control of acts outside the list (results/control-v0.json): what is done for its own sake, which no choice-under-pressure scenario brought out",
+  "intents": [
+    {
+      "id": "go_to",
+      "what": "Move toward someone or something: approach, stalk, creep up on, pursue, follow a trail, head for a place",
+      "not_for": "Rushing at someone to hurt them; that is attack",
+      "examples": [
+        "edges toward the carcass",
+        "keeps following the blood trail"
+      ]
+    },
+    {
+      "id": "keep_away",
+      "what": "Put or keep distance from someone or something: back off, flee, bolt, turn aside, give it a wide berth",
+      "not_for": "Leaving a task or a place for good with no threat behind it; that is give_up",
+      "examples": [
+        "backs away from the dog",
+        "bolts for the gap"
+      ]
+    },
+    {
+      "id": "hide",
+      "what": "Avoid being noticed: freeze, lie flat, keep out of sight, go still and silent",
+      "not_for": "Pretending to be something it is not; that is deceive",
+      "examples": [
+        "freezes flat against the ground",
+        "keeps out of sight"
+      ]
+    },
+    {
+      "id": "wait_watch",
+      "what": "Stay where it is, alert, to see what happens or for a moment to act",
+      "not_for": "Resting or sleeping; carrying on with a task as if nothing had happened",
+      "examples": [
+        "holds steady and waits for the signal",
+        "watches him pass without approaching"
+      ]
+    },
+    {
+      "id": "give_up",
+      "what": "Abandon what it was doing or where it was and move on: break off a chase, leave a place, walk away from a task or a bargain",
+      "not_for": "Running from a threat; that is keep_away",
+      "examples": [
+        "breaks off the chase and slows to a walk",
+        "moves on to check its other caches"
+      ]
+    },
+    {
+      "id": "carry_on",
+      "what": "Go on with what it was already doing, paying the new thing no mind",
+      "not_for": "Staying alert to it; that is wait_watch",
+      "examples": [
+        "keeps grazing",
+        "ignores him and turns back to his drink"
+      ]
+    },
+    {
+      "id": "rest",
+      "what": "Rest, sleep, settle down, nurse an injury",
+      "examples": [
+        "lies down in the shade",
+        "sleeps by the fire"
+      ]
+    },
+    {
+      "id": "take",
+      "what": "Take hold of or take possession of something, whether or not it is its own to take",
+      "not_for": "Eating it on the spot; buying it in an agreed trade",
+      "examples": [
+        "snatches the kill",
+        "takes a loaf from the edge of the stack"
+      ]
+    },
+    {
+      "id": "eat_drink",
+      "what": "Eat or drink what is here",
+      "examples": [
+        "feeds on the berries",
+        "drinks at the trough"
+      ]
+    },
+    {
+      "id": "carry_to",
+      "what": "Bring something or someone to another place or to another: fetch, deliver, carry home, move someone to safety",
+      "examples": [
+        "carries a torn piece back to the crying pup",
+        "moves the injured man out of the way"
+      ]
+    },
+    {
+      "id": "store",
+      "what": "Put something by for later: bury, cache, hide a thing, lay in stores",
+      "not_for": "Hiding itself; that is hide",
+      "examples": [
+        "buries the bone",
+        "stacks the grain in the loft"
+      ]
+    },
+    {
+      "id": "guard",
+      "what": "Put itself between a threat and what it protects, or stay over and watch what is its own: young, a mate, a kill, a home, a body",
+      "not_for": "Threatening or driving the other off; that is warn_off or attack",
+      "examples": [
+        "stands between the foal and the mare",
+        "stays beside the body through the night"
+      ]
+    },
+    {
+      "id": "warn_off",
+      "what": "Threaten without striking: growl, hiss, bare teeth, roar, a rush that stops short, mark a boundary, square up",
+      "not_for": "Actually striking or biting; pressing a claim in words; that is demand",
+      "examples": [
+        "arches and hisses, holding its spot",
+        "rattles and coils tighter"
+      ]
+    },
+    {
+      "id": "attack",
+      "what": "Use force on another: strike, bite, charge home, shove, drive off by force",
+      "examples": [
+        "charges and drives off the intruder",
+        "shoves back"
+      ]
+    },
+    {
+      "id": "defer",
+      "what": "Give way to another's strength, rank, order or the custom: hand over, let them go first, obey, submit, take the lower place without contesting it",
+      "not_for": "Sparing someone it could have pressed; that is let_go",
+      "examples": [
+        "waits at the edge and lets the other feed first",
+        "serves his father before himself"
+      ]
+    },
+    {
+      "id": "let_go",
+      "what": "Refrain from pressing an advantage or a claim it could press: spare, release, forgive, allow",
+      "not_for": "Giving way because it is the weaker; that is defer",
+      "examples": [
+        "lowers his rifle and lets her go",
+        "forgives the debt"
+      ]
+    },
+    {
+      "id": "demand",
+      "what": "Press a claim on another in words or by standing on it: demand, order, confront, challenge for a place, call in what is owed",
+      "not_for": "Threatening harm with the body; that is warn_off",
+      "examples": [
+        "demands the debt be paid now, in front of the line",
+        "orders him to drop the sack"
+      ]
+    },
+    {
+      "id": "give",
+      "what": "Give or lend something of its own with nothing agreed in return: share food, make a gift, lend",
+      "not_for": "An exchange; that is offer_trade. Caring for someone's body; that is help",
+      "examples": [
+        "gives the youngest an extra spoonful from her own bowl",
+        "lends a measure of seed grain"
+      ]
+    },
+    {
+      "id": "help",
+      "what": "Do something for another's good: tend, clean a wound, free, shelter, take in, lend a hand with work, teach by showing",
+      "examples": [
+        "cleans and wraps the wound",
+        "carries tools to the neighbour's to help with the roof"
+      ]
+    },
+    {
+      "id": "offer_trade",
+      "what": "Propose or pursue an exchange: offer, haggle, counter, sell, buy, hire, bribe",
+      "examples": [
+        "offers the goat for the axe",
+        "counters with a lower price"
+      ]
+    },
+    {
+      "id": "accept",
+      "what": "Agree to what another has offered or asked",
+      "examples": [
+        "takes the coin and nods",
+        "agrees to the price"
+      ]
+    },
+    {
+      "id": "refuse",
+      "what": "Decline what another has offered, asked or ordered",
+      "examples": [
+        "refuses the bribe",
+        "refuses to leave"
+      ]
+    },
+    {
+      "id": "ask",
+      "what": "Ask another for something: help, leave, information, a favour, to be vouched for; send for someone",
+      "examples": [
+        "asks the trader to vouch for him",
+        "sends for the midwife"
+      ]
+    },
+    {
+      "id": "tell",
+      "what": "Say something as so to another: inform, report, warn in words, admit, answer",
+      "not_for": "Saying what it knows to be false; that is deceive",
+      "examples": [
+        "reports the cheating trader to the warden",
+        "tells her what he saw"
+      ]
+    },
+    {
+      "id": "deceive",
+      "what": "Act or speak to make another believe what is not so: lie, give false weight, play dead, lay a false trail, bluff",
+      "examples": [
+        "tells the buyer the lame mare is sound",
+        "goes limp and plays dead"
+      ]
+    },
+    {
+      "id": "keep_quiet",
+      "what": "Know something or feel something and say nothing: hold its tongue, let it pass unremarked",
+      "not_for": "Hiding its body; that is hide",
+      "examples": [
+        "says nothing about the missing coin",
+        "stays quiet and takes the hard job"
+      ]
+    },
+    {
+      "id": "call",
+      "what": "Make a sound or a sign to others of its kind or its household: give the alarm, call the young, whistle a dog in, summon",
+      "not_for": "Threatening an enemy; that is warn_off",
+      "examples": [
+        "hops back and calls loudly, watching the hawk",
+        "whistles and swings the lure"
+      ]
+    },
+    {
+      "id": "lead",
+      "what": "Direct others: herd, drive, set the pace, give the working order, coordinate a task",
+      "examples": [
+        "keeps the herd moving toward the water",
+        "orders the dog to drive them back"
+      ]
+    },
+    {
+      "id": "court",
+      "what": "Seek a mate or a pairing: display, bring a gift, keep company",
+      "examples": [
+        "courts her with a fish",
+        "dances before the hen"
+      ]
+    },
+    {
+      "id": "work_on",
+      "what": "Act on a thing to change it or make something of it: hammer, cut, dig, sow, build, mend, cook, crack open, tie, light. The way a mind reaches the physics of things",
+      "not_for": "Doing it for another's good as a kindness; that is help. Putting a thing by; that is store",
+      "examples": [
+        "hammers a horseshoe into shape",
+        "drops a nut on the stones to crack it"
+      ]
+    },
+    {
+      "id": "play",
+      "what": "Do something for the fun of it: tumble, chase for sport, a game, build something idle",
+      "not_for": "Real fighting; that is attack",
+      "examples": [
+        "two cubs tumble and play-fight",
+        "a child builds a little dam of pebbles"
+      ]
+    },
+    {
+      "id": "tend_self",
+      "what": "See to its own body: preen, groom, scratch, wash, dress, warm itself, lick a wound",
+      "not_for": "Grooming or tending another; that is help",
+      "examples": [
+        "preens its feathers",
+        "scratches its back on a tree"
+      ]
+    },
+    {
+      "id": "express",
+      "what": "Show what it feels with no one addressed: weep, sing, laugh, howl, pray, pace",
+      "not_for": "Signalling to others of its kind; that is call",
+      "examples": [
+        "weeps",
+        "sings to himself while he works"
+      ]
+    },
+    {
+      "id": "examine",
+      "what": "Look into something out of curiosity or to be sure of it: sniff at, poke, turn over, test, count, try out",
+      "not_for": "Staying alert to a threat; that is wait_watch. Searching for something in particular to take; that is go_to",
+      "examples": [
+        "sniffs at the strange bundle",
+        "counts his coins twice"
+      ]
+    }
+  ]
+}
