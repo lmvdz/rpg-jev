@@ -52,7 +52,7 @@ function rowPath(rest: readonly string[]): boolean {
   const [kind = "", key = ""] = rest;
   if (kind === "p") return PROPS.has(key);
   if (kind === "is") return FORM_SET.has(key);
-  return kind === "moist" && rest.length === 1;
+  return (kind === "moist" || kind === "id") && rest.length === 1;
 }
 
 const statePath = ([key = "", inner]: readonly string[]) =>
@@ -84,9 +84,9 @@ function split(path: string, allowed: Allowed) {
   return { root, rest, ok: partyOk && (KNOWN[root]?.(rest, allowed) ?? false) };
 }
 
-const MADE = ["emit", "split", "wound", "seal"];
+const MADE = ["emit", "split", "wound", "seal", "use"];
 const CHANNELS = ["light", "sound", "scent", "smoke", "sight"];
-const COND_KEYS = ["a", "is", "b", "has", "lacks", "ref", "equals", "all", "any"];
+const COND_KEYS = ["a", "is", "b", "has", "lacks", "ref", "equals", "same", "all", "any"];
 
 class Checker {
   readonly problems: string[] = [];
@@ -141,6 +141,10 @@ class Checker {
     }
     for (const key of ["has", "lacks", "ref"] as const)
       if (key in node) return this.path(node[key]);
+    if ("same" in node) {
+      for (const path of Array.isArray(node.same) ? node.same : [null]) this.path(path);
+      return;
+    }
     if (!["<", "<=", ">", ">="].includes(node.is as string))
       return this.say(`unknown comparison ${JSON.stringify(node.is)}`);
     this.expr(node.a);
@@ -167,8 +171,9 @@ class Checker {
     const party = node.kind === "wound" || node.kind === "seal" ? node.on : node.from;
     if (typeof party !== "string" || !this.allowed.parties.includes(party))
       this.say(`${String(node.kind)} names ${JSON.stringify(party)}, who is not there`);
-    // Only the engine wounds a body: a proposed row may give something off, or split a thing.
-    if ((node.kind === "wound" || node.kind === "seal") && !this.allowed.engine)
+    // Only the engine wounds a body or uses a thing up: a proposed row may give something off,
+    // or split a thing.
+    if (["wound", "seal", "use"].includes(node.kind as string) && !this.allowed.engine)
       this.say(`${node.kind}s a body, which only the engine may`);
     for (const key of ["strength", "amount", "depth", "bleeding", "burned"])
       if (node[key] !== undefined) this.expr(node[key]);
@@ -188,7 +193,8 @@ class Checker {
     const node = e as Record<string, unknown>;
     if (node.when !== undefined) this.cond(node.when);
     if (MADE.includes(node.kind as string)) return this.made(node);
-    if (!["approach", "accrue", "set", "put"].includes(node.kind as string))
+    if (node.kind === "copy") this.path(node.of);
+    if (!["approach", "accrue", "set", "put", "copy"].includes(node.kind as string))
       return this.say(`unknown kind of effect ${JSON.stringify(node.kind)}`);
     this.target(node);
     for (const key of ["toward", "rate", "to", "lo", "hi", "over"])

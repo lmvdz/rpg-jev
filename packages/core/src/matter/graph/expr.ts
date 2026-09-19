@@ -30,6 +30,16 @@ export const OPS = {
   max: (xs: readonly number[]) => Math.max(...xs),
   pow: (xs: readonly number[]) => (xs[0] ?? 0) ** (xs[1] ?? 1),
   clamp: (xs: readonly number[]) => Math.min(xs[2] ?? 5, Math.max(xs[1] ?? 0, xs[0] ?? 0)),
+  abs: (xs: readonly number[]) => Math.abs(xs[0] ?? 0),
+  floor: (xs: readonly number[]) => Math.floor(xs[0] ?? 0),
+  exp: (xs: readonly number[]) => Math.exp(xs[0] ?? 0),
+  /** The natural logarithm; of nothing or less, nothing. */
+  ln: (xs: readonly number[]) => ((xs[0] ?? 0) > 0 ? Math.log(xs[0] ?? 1) : 0),
+  /** A table read by level: the first is the index, floored and kept in range; the rest the rows. */
+  at: (xs: readonly number[]) => {
+    const i = Math.min(xs.length - 2, Math.max(0, Math.floor(xs[0] ?? 0)));
+    return xs[i + 1] ?? 0;
+  },
 } as const;
 export type Op = keyof typeof OPS;
 
@@ -46,6 +56,8 @@ export type Cond =
   | { readonly has: string }
   | { readonly lacks: string }
   | { readonly ref: string; readonly equals: string | boolean }
+  /** Two paths hold the same thing: the same word, the same number. */
+  | { readonly same: readonly [string, string] }
   | { readonly all: readonly Cond[] }
   | { readonly any: readonly Cond[] };
 

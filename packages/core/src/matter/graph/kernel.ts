@@ -132,6 +132,7 @@ function rowReader(which: (party: Party) => string | null | undefined, rest: rea
   const [kind = "", key = ""] = rest;
   return (env: Env, party: Party): unknown => {
     const row = env.world.elements[which(party) ?? ""];
+    if (kind === "id") return which(party) ?? null;
     if (kind === "p") return (row?.props as Record<string, number> | undefined)?.[key] ?? 0;
     if (kind === "is") return (row?.forms as readonly string[] | undefined)?.includes(key) ?? false;
     return (row as unknown as Bag | undefined)?.[kind] ?? 0;
@@ -257,6 +258,10 @@ export class Kernel {
       const get = this.read(cond.ref);
       return (env) => get(env) === cond.equals;
     }
+    if ("same" in cond) {
+      const [a, b] = [this.read(cond.same[0]), this.read(cond.same[1])];
+      return (env) => a(env) === b(env);
+    }
     const [a, b, compare] = [this.num(cond.a), this.num(cond.b), COMPARE[cond.is]];
     return (env) => compare(a(env), b(env));
   }
@@ -347,6 +352,20 @@ const BUILD: { [K in Effect["kind"]]: Build<K> } = {
     const { value } = e;
     // A record is laid down afresh each time, so that no two things share one.
     return (w) => put(w.env, typeof value === "object" && value !== null ? { ...value } : value);
+  },
+  copy: (k, e) => {
+    const [get, put] = [k.read(e.of), writer(e.q)];
+    return (w) => put(w.env, get(w.env));
+  },
+  use: (k, e) => {
+    const amount = k.num(e.amount);
+    return (w) => {
+      const from = w.env.parties[e.from];
+      const used = amount(w.env);
+      if (!from) return;
+      const said = { because: [...e.because], note: e.note };
+      w.made.push({ kind: "consume", thing: from.thing.id, amount: used, ...said });
+    };
   },
   emit: (k, e) => {
     const strength = k.num(e.strength);
@@ -502,7 +521,7 @@ export function ready(k: Kernel, rule: Rule): Ready {
  */
 export function changesOf(env: Env, ran: Ran): Change[] {
   const said = { because: [...ran.because], note: ran.note ?? "it changes" };
-  if (ran.nothing) return [{ kind: "nothing", ...said }, ...ran.made];
+  if (ran.nothing) return [...ran.made, { kind: "nothing", ...said }];
   const about = env.parties[ran.about];
   if (!about || ran.because.length === 0) return ran.made;
   const quiet = ran.quiet ? { quiet: true as const } : {};

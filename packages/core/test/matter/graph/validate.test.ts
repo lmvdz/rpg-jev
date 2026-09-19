@@ -11,6 +11,15 @@ import {
 } from "../../../src/matter/graph/force-rules.ts";
 import { HEAT_DERIVED, HEAT_RULES } from "../../../src/matter/graph/heat-rules.ts";
 import type { Rule } from "../../../src/matter/graph/rules.ts";
+import {
+  COAT_DERIVED,
+  COAT_RULES,
+  FALL_RULES,
+  LOAD_DERIVED,
+  LOAD_RULES,
+  SOAK_DERIVED,
+  SOAK_RULES,
+} from "../../../src/matter/graph/soak-rules.ts";
 import { type Allowed, validate, validateDerived } from "../../../src/matter/graph/validate.ts";
 
 const DRIFT: Allowed = { parties: [], act: [], derived: DRIFT_DERIVED };
@@ -58,6 +67,23 @@ describe("checking a row without running it", () => {
       expect(validate(rule, { ...HEAT, engine: true }), rule.id).toEqual([]);
     for (const rule of [...FORCE_THING_RULES, ...FORCE_BODY_RULES])
       expect(validate(rule, { ...FORCE, engine: true }), rule.id).toEqual([]);
+    const others: [readonly Rule[], Allowed][] = [
+      [SOAK_RULES, { parties: ["tgt", "liq"], act: ["amount"], derived: SOAK_DERIVED }],
+      [
+        COAT_RULES,
+        { parties: ["tgt", "sub"], act: ["amount", "care", "haste"], derived: COAT_DERIVED },
+      ],
+      [
+        [...LOAD_RULES, ...FALL_RULES],
+        { parties: ["sup", "who"], act: ["borne"], derived: LOAD_DERIVED },
+      ],
+    ];
+    for (const [rules, allowed] of others) {
+      for (const rule of rules)
+        expect(validate(rule, { ...allowed, engine: true }), rule.id).toEqual([]);
+      for (const [name, expr] of Object.entries(allowed.derived))
+        expect(validateDerived(name, expr, allowed), name).toEqual([]);
+    }
     for (const [name, expr] of Object.entries(FORCE_DERIVED))
       expect(validateDerived(name, expr, FORCE), name).toEqual([]);
     for (const [name, expr] of Object.entries(DRIFT_DERIVED))

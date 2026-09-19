@@ -48,6 +48,10 @@ export type Effect = (
     }
   | { readonly kind: "set"; readonly q: string; readonly to: Expr }
   | { readonly kind: "put"; readonly q: string; readonly value: Literal }
+  /** A state is given whatever another path holds: a word as well as a number. */
+  | { readonly kind: "copy"; readonly q: string; readonly of: string }
+  /** So much of a thing is used up. */
+  | ({ readonly kind: "use"; readonly from: string; readonly amount: Expr } & Said)
   | ({
       readonly kind: "emit";
       /** The party it comes from. */
