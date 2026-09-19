@@ -95,9 +95,17 @@ The browser path is platform-specific; the script does not install a browser.
 
 The older dirty `poc` worktree was audited separately in `uncommitted-sweep.md`;
 all of its content is already represented in published history or the sweep archive.
-Before aligning the attached checkout, preserve its exact working layout in a
-named local Git stash including non-ignored untracked files. Do not reset or clean
-it away. Report that stash ID and the integration branch after switching.
+The attached checkout is now on `integration/causal-world`. Before switching, its
+exact tracked and non-ignored untracked working content was preserved in local
+stash `45375a80c7f6e6e18bc4c2b697d6fa72d8333a89`, named
+`pre-integration poc workspace: content audited and published, preserve exact layout`.
+All 196 changed paths were hash-verified against the stash before switching;
+the resulting integration checkout was clean.
+
+That stash is a recovery record in the agent clone, not a published branch or
+an integration patch. Do not apply it onto the integrated tree: it contains the
+mixed-age copies described in the sweep report. The published histories and
+sweep archives remain the shared recovery sources.
 
 The integration does not complete C1–C8, remove the 331 acknowledged expected
 failures, certify arbitrary future generated-rule composition, or synchronize the
