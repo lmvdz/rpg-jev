@@ -17,7 +17,8 @@
     "play": "pnpm --filter @rpg-jev/terminal run play",
     "demo": "pnpm --filter @rpg-jev/terminal run demo",
     "friction": "pnpm --filter @rpg-jev/terminal run friction",
-    "sdlc": "pnpm --filter @rpg-jev/terminal run sdlc"
+    "sdlc": "pnpm --filter @rpg-jev/terminal run sdlc",
+    "client": "pnpm --filter @rpg-jev/client run dev"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",

@@ -1,0 +1,842 @@
+[
+  {
+    "id": "water-01",
+    "domain": "water",
+    "place": "A shallow rocky stream at the edge of a forest, current gentle, water cold and clear.",
+    "initiator": "player",
+    "lines": ["fill my boots with water", "carry it back to camp"],
+    "things": ["player", "leather boots", "stream water", "camp"],
+    "outcome": "Boots are not sealed containers, so water poured in sloshes straight back out through the laces and seams with every step. Only a trickle survives the walk to camp, and the player's feet and socks end up soaked in the meantime. The wet leather rubs against skin as it walks, raising a blister within an hour or two. A half-work: some water was moved, most was not, and a minor injury came free.",
+    "steps": [
+      {
+        "process": "fill",
+        "agent": "player",
+        "patient": "boots",
+        "instrument": "stream water",
+        "because": ["boots is open-topped", "water is liquid"],
+        "effects": ["boots gains wet", "boots fullness up"],
+        "numbers": ["how much water the boots hold before overflowing"]
+      },
+      {
+        "process": "carry",
+        "agent": "player",
+        "patient": "filled boots",
+        "instrument": null,
+        "because": ["boots is not sealed", "water is heavy and mobile"],
+        "effects": ["boots fullness down", "creates puddle"],
+        "numbers": ["how much leaks per step, how far it is to camp"]
+      },
+      {
+        "process": "chafe",
+        "agent": "wet leather",
+        "patient": "player's feet",
+        "instrument": null,
+        "because": ["leather stiffens when wet", "skin is soft"],
+        "effects": ["player gains blister"],
+        "numbers": ["how long of walking before a blister forms"]
+      }
+    ],
+    "latent": ["whether the boot seams are tight enough to hold any water at all"],
+    "state_after": ["boots: damp inside and out, laces loosened", "player: feet sore, a blister forming", "camp: barely any water delivered"],
+    "stress": "a container improvised from a thing never meant to hold liquid",
+    "temptation": "a rule that boots always leak a fixed amount, instead of deriving it from an unsealed opening and the length of the walk"
+  },
+  {
+    "id": "water-02",
+    "domain": "water",
+    "place": "A steep dirt path switchbacking up from a well to a hilltop camp, loose gravel underfoot.",
+    "initiator": "player",
+    "lines": ["fill the bucket at the well", "carry it up to camp"],
+    "things": ["player", "wooden bucket", "well water", "path", "camp"],
+    "outcome": "The bucket fills fine and starts the climb full, but the path is steep and loose. Partway up a foot slips on gravel and the bucket lurches, throwing out a good fraction of the water at once; the rest keeps sloshing out over an open rim with every uneven stride for the remaining climb. Only a partial amount reaches camp, and the player has to consider a second trip.",
+    "steps": [
+      {
+        "process": "fill",
+        "agent": "player",
+        "patient": "bucket",
+        "instrument": "well water",
+        "because": ["bucket is watertight", "well has standing water to draw"],
+        "effects": ["bucket fullness up"],
+        "numbers": ["how full the bucket is filled"]
+      },
+      {
+        "process": "stumble",
+        "agent": "loose gravel",
+        "patient": "player carrying bucket",
+        "instrument": null,
+        "because": ["path is steep", "gravel is loose underfoot"],
+        "effects": ["bucket fullness down", "creates puddle"],
+        "numbers": ["odds of a slip on this slope, how much spills from the lurch"]
+      },
+      {
+        "process": "slosh",
+        "agent": "player's gait",
+        "patient": "bucket",
+        "instrument": null,
+        "because": ["water shifts with movement", "bucket is open-topped"],
+        "effects": ["bucket fullness down"],
+        "numbers": ["how much sloshes out per remaining stretch of climb"]
+      }
+    ],
+    "latent": ["whether that stretch of gravel was loose enough to slip on"],
+    "state_after": ["bucket: mostly empty", "path: a wet patch where it spilled", "camp: water goal well short of what was drawn"],
+    "stress": "carrying a volume over distance and terrain, not just possessing a full container",
+    "temptation": "a fixed spill amount for this well and this camp instead of deriving it from slope, gait and how full the bucket was"
+  },
+  {
+    "id": "water-03",
+    "domain": "water",
+    "place": "A dry, sun-baked ridge campsite in midsummer, a waterskin left on a flat rock in direct sun.",
+    "initiator": "player",
+    "lines": ["leave the waterskin open on the rock, I'll be back later"],
+    "things": ["player", "waterskin", "sun", "rock"],
+    "outcome": "Left uncapped in direct sun for hours, the waterskin loses water steadily to the heat and dry air even though nothing visibly happens to it. By the time the player checks back, the skin holds noticeably less than was left, and a faint pale mineral ring has formed at the old waterline where dissolved minerals stayed behind as the water they were part of left. Nobody did anything more after walking away; the loss just accrued.",
+    "steps": [
+      {
+        "process": "leave",
+        "agent": "player",
+        "patient": "waterskin",
+        "instrument": null,
+        "because": ["waterskin is open at the neck", "rock sits in direct sun"],
+        "effects": ["waterskin gains exposed"],
+        "numbers": ["how many hours it sits like this"]
+      },
+      {
+        "process": "evaporate",
+        "agent": "sun and dry air",
+        "patient": "water in the waterskin",
+        "instrument": null,
+        "because": ["water is a liquid with an open surface", "heat and airflow draw moisture off an exposed surface"],
+        "effects": ["waterskin fullness down", "creates mineral residue"],
+        "numbers": ["how much water is lost per hour of sun, how much residue is left behind"]
+      }
+    ],
+    "latent": ["how hot the rock itself gets sitting in full sun"],
+    "state_after": ["waterskin: much less water than was left, a pale mineral ring at the old waterline", "player: returns thirstier than expected"],
+    "stress": "loss that happens entirely while nobody is watching the process run",
+    "temptation": "a flat 'containers lose a fixed share overnight' rule instead of deriving loss from heat, exposure and time elapsed"
+  },
+  {
+    "id": "water-04",
+    "domain": "water",
+    "place": "A camp pitched in a shallow hollow beside a dry streambed, tents low to the ground, no drainage dug.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["tent", "dry streambed", "rain", "bedding", "camp gear"],
+    "outcome": "Heavy rain falls overnight while everyone sleeps. The dry streambed the camp sits beside fills fast and its rising water spills past its old bank into the hollow the camp occupies. By dawn the tent floor is standing in a couple of inches of water and the bedding is soaked through; nobody noticed anything happen, only its result. The soaked bedding takes most of the next day to dry out in the sun, and smells of mildew afterward regardless.",
+    "steps": [
+      {
+        "process": "rain",
+        "agent": "storm",
+        "patient": "streambed",
+        "instrument": null,
+        "because": ["ground is sloped toward the hollow", "streambed channels runoff downhill"],
+        "effects": ["streambed fullness up", "creates runoff"],
+        "numbers": ["how much rain falls overnight, how fast the streambed fills"]
+      },
+      {
+        "process": "flood",
+        "agent": "rising streambed",
+        "patient": "tent floor",
+        "instrument": null,
+        "because": ["camp sits below the streambed's old bank", "tent floor is low to the ground"],
+        "effects": ["tent gains flooded", "bedding gains wet"],
+        "numbers": ["how deep the water gets, how long before it reaches the tent"]
+      },
+      {
+        "process": "soak",
+        "agent": "standing floodwater",
+        "patient": "bedding",
+        "instrument": null,
+        "because": ["bedding is absorbent", "water is standing, not draining away"],
+        "effects": ["bedding gains soaked", "bedding loses dry"],
+        "numbers": ["how long bedding stays wet, how long it takes to dry after"]
+      }
+    ],
+    "latent": ["whether the hollow drains at all once it has flooded"],
+    "state_after": ["tent: standing water on the floor", "bedding: soaked, later musty", "streambed: back to a trickle once the rain stops"],
+    "stress": "a consequence of where the camp was pitched, arriving from time passing with nobody acting",
+    "temptation": "a named rule 'streambeds flood camps' instead of deriving it from slope, rainfall and the lack of drainage"
+  },
+  {
+    "id": "water-05",
+    "domain": "water",
+    "place": "A single waterhole in dry scrubland, the only water for a day's walk, already a little silty on the bottom.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["dog", "waterhole", "mud", "water"],
+    "outcome": "A thirsty dog wades in to drink and cool off, stirring the soft bottom into a cloud that does not settle quickly. The camp's only water source for a day's walk is left cloudy and gritty for a good while afterward. Left alone, the sediment slowly resettles; drawn or drunk too soon, the water carries stirred-up mud and whatever was living in that mud with it.",
+    "steps": [
+      {
+        "process": "wade",
+        "agent": "dog",
+        "patient": "waterhole",
+        "instrument": null,
+        "because": ["waterhole is shallow with a soft bottom", "dog is hot and thirsty"],
+        "effects": ["waterhole gains muddy"],
+        "numbers": ["how much sediment gets stirred up"]
+      },
+      {
+        "process": "drink",
+        "agent": "dog",
+        "patient": "water",
+        "instrument": null,
+        "because": ["dog is thirsty", "water is at hand"],
+        "effects": ["dog loses thirst", "consumes water"],
+        "numbers": ["how much the dog drinks"]
+      },
+      {
+        "process": "settle",
+        "agent": "time",
+        "patient": "mud in the water",
+        "instrument": null,
+        "because": ["mud is denser than water", "water is now still"],
+        "effects": ["waterhole loses muddy"],
+        "numbers": ["how many hours before it clears again"]
+      }
+    ],
+    "latent": ["how deep the waterhole's silt bed actually is"],
+    "state_after": ["waterhole: cloudy for now, clearing slowly", "dog: no longer thirsty", "camp: its only nearby water currently fouled"],
+    "stress": "the only water source for miles degraded by something nobody controls, before any choice is made",
+    "temptation": "a special case for 'dogs muddy waterholes' instead of deriving disturbance from an animal entering a soft-bottomed shallow body of water"
+  },
+  {
+    "id": "water-06",
+    "domain": "water",
+    "place": "A slow, waist-deep river crossing point, banks lined with fallen logs and loose stones.",
+    "initiator": "player",
+    "lines": ["lash some logs together with rope", "load the stones on it", "push it across"],
+    "things": ["player", "logs", "rope", "raft", "stones", "river"],
+    "outcome": "The lashed logs float fine on their own. Loaded with a stack of stones to ferry across, the raft sits lower and lower in the water as weight is added; partway across the river its waterline reaches the tops of the logs and buoyancy simply runs out. The raft goes under, dumping the stones to the riverbed and leaving the player soaked and wading the rest of the way. It floats when light and sinks when it does not have enough of itself above water to carry the load.",
+    "steps": [
+      {
+        "process": "build",
+        "agent": "player",
+        "patient": "logs and rope",
+        "instrument": null,
+        "because": ["logs are wood, wood is buoyant", "rope can bind things together"],
+        "effects": ["creates raft"],
+        "numbers": ["how many logs are needed, how long lashing takes"]
+      },
+      {
+        "process": "load",
+        "agent": "player",
+        "patient": "raft",
+        "instrument": "stones",
+        "because": ["raft has a limited buoyancy", "stones are dense and heavy"],
+        "effects": ["raft weight up", "raft loses buoyancy"],
+        "numbers": ["how much weight the raft can carry before its waterline reaches the logs' tops"]
+      },
+      {
+        "process": "sink",
+        "agent": "load and water",
+        "patient": "raft",
+        "instrument": null,
+        "because": ["raft is now heavier than the water it displaces", "logs offer only so much buoyancy"],
+        "effects": ["raft loses floating", "creates spill", "player gains wet"],
+        "numbers": ["how far across the river this happens, how deep the water is there"]
+      }
+    ],
+    "latent": ["exactly how much the lashed logs can carry before swamping"],
+    "state_after": ["raft: submerged, logs drifting apart at the ropes", "stones: on the riverbed", "player: soaked, wading the rest of the way across"],
+    "stress": "a made thing with a load limit nobody stated, only implied by its materials",
+    "temptation": "a rule 'this raft holds N stones' instead of deriving a limit from displaced water against the logs' buoyancy"
+  },
+  {
+    "id": "water-07",
+    "domain": "water",
+    "place": "A chest-deep ford across a river running faster than it looks, far bank visible but current strong.",
+    "initiator": "player",
+    "lines": ["wade across holding the pack over my head"],
+    "things": ["player", "pack", "bread", "river current", "far bank"],
+    "outcome": "The current catches the player's legs partway across and they stumble; holding the pack one-handed overhead to keep balance, it slips free and the current sweeps it off downstream. The player makes it across without it. Nobody intended the loss: the loaf of bread inside soaks through and turns to an inedible sodden mass by the time the pack snags on rocks downstream hours later, and anything else unwrapped inside fares no better.",
+    "steps": [
+      {
+        "process": "wade",
+        "agent": "player",
+        "patient": "river",
+        "instrument": null,
+        "because": ["current is strong for this depth", "riverbed footing is uneven"],
+        "effects": ["player loses balance"],
+        "numbers": ["odds of a stumble given current speed and depth"]
+      },
+      {
+        "process": "sweep",
+        "agent": "current",
+        "patient": "pack",
+        "instrument": null,
+        "because": ["pack is not tied to the player", "current is faster than a one-handed grip can resist"],
+        "effects": ["moves pack to downstream rocks", "player loses pack"],
+        "numbers": ["how far downstream it travels before snagging"]
+      },
+      {
+        "process": "soak",
+        "agent": "river water",
+        "patient": "bread in the pack",
+        "instrument": null,
+        "because": ["bread is absorbent", "pack is not waterproof"],
+        "effects": ["bread gains ruined", "creates soggy mass"],
+        "numbers": ["how long submerged before the bread is inedible"]
+      }
+    ],
+    "latent": ["where downstream the pack eventually snags, and on what"],
+    "state_after": ["pack: lodged against rocks downstream, sodden", "bread: ruined", "player: across the river but without supplies"],
+    "stress": "an unintended loss from a choice that made sense in the moment but carried a hidden cost",
+    "temptation": "a rule that 'players lose packs crossing rivers' instead of deriving it from grip, current strength and whether the pack was secured"
+  },
+  {
+    "id": "water-08",
+    "domain": "water",
+    "place": "A river camp where the only nearby supply is murky-looking river water, a cook fire already going.",
+    "initiator": "player",
+    "lines": ["fill the pot from the river", "boil it over the fire", "let it cool before drinking"],
+    "things": ["player", "pot", "river water", "fire", "drinking cup"],
+    "outcome": "Water fetched from the river is silty but not obviously foul. Set over the fire, it takes some minutes to reach a full rolling boil, which is enough heat to make it safe to drink even though boiling does nothing for the silt or the taste. Left to cool afterward, it can be drunk without scalding. The fix solves the real danger, not the visible complaint: the water is safe now, but still cloudy.",
+    "steps": [
+      {
+        "process": "fill",
+        "agent": "player",
+        "patient": "pot",
+        "instrument": "river water",
+        "because": ["pot is watertight", "river has water to draw"],
+        "effects": ["pot fullness up"],
+        "numbers": ["how much water the pot holds"]
+      },
+      {
+        "process": "boil",
+        "agent": "fire",
+        "patient": "water",
+        "instrument": "pot",
+        "because": ["water is a liquid", "fire supplies enough heat to reach a boil"],
+        "effects": ["water gains boiled", "water loses unsafe"],
+        "numbers": ["how long over the fire until it boils, how much boils away as steam"]
+      },
+      {
+        "process": "cool",
+        "agent": "air",
+        "patient": "boiled water",
+        "instrument": null,
+        "because": ["boiled water is very hot", "surrounding air is cooler"],
+        "effects": ["pot loses hot"],
+        "numbers": ["how long until it is safe to drink without scalding"]
+      }
+    ],
+    "latent": ["how much silt settles to the bottom of the pot versus stays suspended"],
+    "state_after": ["water: boiled, safe, still slightly cloudy, cooling", "pot: hot, some water lost to steam", "player: can drink safely once it has cooled"],
+    "stress": "a fix that solves the real danger but leaves the surface complaint untouched",
+    "temptation": "a rule 'boiled water is clean' collapsing safety and clarity into one flag instead of two separate properties"
+  },
+  {
+    "id": "water-09",
+    "domain": "water",
+    "place": "A village well with a low stone rim and no cover, rope and bucket hanging inside.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["child", "bucket", "rope", "well", "water", "nearby adult"],
+    "outcome": "A child sent to fetch water drops the bucket down the well and, reaching over the low rim after the trailing rope, overbalances and slips in. The well is deep enough that standing on the bottom is not possible, and the child's own splashing keeps their head above water only briefly before tiring. An adult nearby hears the splash and shouting, lowers a second rope, and hauls the child out soaked and frightened but unhurt. It was a close thing that depended entirely on someone being within earshot.",
+    "steps": [
+      {
+        "process": "drop",
+        "agent": "child",
+        "patient": "bucket",
+        "instrument": "rope",
+        "because": ["rope is slippery when wet", "child's grip is small"],
+        "effects": ["child loses bucket", "creates splash"],
+        "numbers": ["how far the bucket falls before it splashes"]
+      },
+      {
+        "process": "overbalance",
+        "agent": "child",
+        "patient": "self",
+        "instrument": "well rim",
+        "because": ["rim is low", "child is reaching past their own balance point"],
+        "effects": ["child gains falling"],
+        "numbers": ["odds of overbalancing given rim height and the child's size"]
+      },
+      {
+        "process": "fall",
+        "agent": "gravity",
+        "patient": "child",
+        "instrument": null,
+        "because": ["well is deep", "water is too deep to touch bottom and stand"],
+        "effects": ["child gains wet", "child gains drowning risk"],
+        "numbers": ["how deep the water is, how long the child can stay afloat unaided"]
+      },
+      {
+        "process": "rescue",
+        "agent": "nearby adult",
+        "patient": "child",
+        "instrument": "rope",
+        "because": ["adult is close enough to hear the splash", "rope can be lowered and gripped"],
+        "effects": ["child loses drowning risk", "child gains rescued"],
+        "numbers": ["how long the rescue takes, whether it is fast enough"]
+      }
+    ],
+    "latent": ["whether anyone was close enough to hear the splash"],
+    "state_after": ["child: soaked, shaken, unharmed", "bucket: still at the bottom of the well", "well: uncovered, same risk remains for the next person"],
+    "stress": "a hazard that only becomes an incident once several small things line up: a low rim, deep water, someone reaching too far",
+    "temptation": "a scripted 'child falls in well' event instead of deriving the fall from rim height, balance and depth, so it could happen to anyone reaching over any deep water"
+  },
+  {
+    "id": "water-10",
+    "domain": "water",
+    "place": "A campfire in a small forest clearing, dry grass and leaf litter around its edges, evening.",
+    "initiator": "player",
+    "lines": ["dump the waterskin on the fire to put it out"],
+    "things": ["player", "waterskin", "campfire", "embers", "dry grass"],
+    "outcome": "The water hits the coals and flashes into a burst of steam that scalds the player's forearm. Most of the visible flame goes out, but the water only wets the top layer of a deep coal bed, leaving buried embers still hot and dry underneath. Hours later, while camp sleeps, a stray gust stirs those embers back to life, and a carried spark reaches the dry grass at the clearing's edge. Looking out is not the same as being out.",
+    "steps": [
+      {
+        "process": "douse",
+        "agent": "player",
+        "patient": "campfire",
+        "instrument": "waterskin",
+        "because": ["fire is hot", "water can smother flame"],
+        "effects": ["campfire loses flame", "creates steam", "player gains burn"],
+        "numbers": ["how much water a coal bed this size needs to fully soak, versus how much was poured"]
+      },
+      {
+        "process": "smother",
+        "agent": "water",
+        "patient": "coal bed",
+        "instrument": null,
+        "because": ["coal bed is deep, water only wets the surface", "embers underneath stay hot and dry"],
+        "effects": ["campfire loses visible fire"],
+        "numbers": ["how deep the water penetrates the coal bed"]
+      },
+      {
+        "process": "reignite",
+        "agent": "wind",
+        "patient": "buried embers",
+        "instrument": null,
+        "because": ["embers are still hot", "wind supplies the air a smothered ember needs to flare"],
+        "effects": ["campfire gains flame", "creates spark"],
+        "numbers": ["how many hours until the embers cool below reignition, whether wind arrives before then"]
+      },
+      {
+        "process": "catch",
+        "agent": "spark",
+        "patient": "dry grass",
+        "instrument": "wind",
+        "because": ["dry grass is flammable", "spark is hot enough to ignite it"],
+        "effects": ["dry grass gains burning"],
+        "numbers": ["how far the spark travels, how dry the grass is"]
+      }
+    ],
+    "latent": ["how deep the coal bed actually is under the ash"],
+    "state_after": ["campfire: appeared out, embers still live underneath", "player: burned forearm", "dry grass: catching fire hours later while camp sleeps"],
+    "stress": "putting a fire out looking done and being done are different states, and the gap only shows up later",
+    "temptation": "a flag 'fire: out' set the moment water touches it, instead of tracking how much heat actually remains"
+  },
+  {
+    "id": "mix-01",
+    "domain": "mix",
+    "place": "A boat-repair yard by a dock, a coil of hemp rope and a pot of hot tar warmed over coals.",
+    "initiator": "player",
+    "lines": ["cover the rope in tar"],
+    "things": ["player", "rope", "tar", "pot", "coals"],
+    "outcome": "Dipping and smearing the rope through the warm tar coats it evenly. While still warm the tar stays gummy, transferring onto the player's hands and anything else it touches. Left to cool for a good while, the tar hardens and the rope turns stiff and water-resistant, useful for outdoor rigging. Handling it before it has cooled is what makes the mess, not the tarring itself.",
+    "steps": [
+      {
+        "process": "coat",
+        "agent": "player",
+        "patient": "rope",
+        "instrument": "tar",
+        "because": ["tar is a thick sticky liquid when warm", "rope is fibrous and porous"],
+        "effects": ["rope gains coating", "consumes tar"],
+        "numbers": ["how much tar the rope's length and thickness soak up"]
+      },
+      {
+        "process": "touch",
+        "agent": "player",
+        "patient": "tarred rope",
+        "instrument": null,
+        "because": ["tar is still warm and gummy", "player handled it too soon"],
+        "effects": ["player gains sticky", "transfers tar from rope to player's hands"],
+        "numbers": ["how long tar stays gummy before it sets"]
+      },
+      {
+        "process": "harden",
+        "agent": "air",
+        "patient": "tar coating",
+        "instrument": null,
+        "because": ["tar stiffens as it cools", "air is cooler than the pot"],
+        "effects": ["rope gains stiff", "rope loses gummy"],
+        "numbers": ["how many hours until it is fully hardened"]
+      }
+    ],
+    "latent": ["how evenly the tar soaked into the rope's fibers versus sat on the surface"],
+    "state_after": ["rope: tar-coated, stiff and water-resistant once cooled", "player: tar on hands until scrubbed off", "pot: less tar left"],
+    "stress": "a coating genuinely useful once finished but actively worse to handle mid-process",
+    "temptation": "a rule 'tar rope = waterproof rope' that skips the sticky, not-yet-set state in between"
+  },
+  {
+    "id": "mix-02",
+    "domain": "mix",
+    "place": "A toolshed with a rusty iron gate hinge that squeals, a small tin of oil on the shelf.",
+    "initiator": "player",
+    "lines": ["oil the hinge, it keeps squealing", "put more on, still squeaks a bit"],
+    "things": ["player", "hinge", "oil", "dust", "gate"],
+    "outcome": "A light coat of oil works into the rusty joint and quiets most of the squeal. Unsatisfied, the player pours on more than the joint can hold; the excess runs down the gate. Sitting open in the dusty shed afterward, dust sticks to the oily film and builds a gritty grime over the following while, leaving the hinge stiffer than before it was ever oiled.",
+    "steps": [
+      {
+        "process": "coat",
+        "agent": "player",
+        "patient": "hinge",
+        "instrument": "oil",
+        "because": ["oil is thin and slippery", "hinge joint is rusted metal-on-metal"],
+        "effects": ["hinge gains coating", "hinge loses squeaky"],
+        "numbers": ["how much oil the joint absorbs before it is saturated"]
+      },
+      {
+        "process": "overcoat",
+        "agent": "player",
+        "patient": "hinge",
+        "instrument": "oil",
+        "because": ["hinge joint is already saturated", "extra oil has nowhere to go but run off"],
+        "effects": ["creates drip"],
+        "numbers": ["how much runs off versus stays in the joint"]
+      },
+      {
+        "process": "gather",
+        "agent": "airborne dust",
+        "patient": "oily drip on the gate",
+        "instrument": null,
+        "because": ["oil is sticky once exposed to air", "dust settles on any sticky surface over time"],
+        "effects": ["hinge gains grime", "hinge loses coating"],
+        "numbers": ["how long before enough dust collects to matter"]
+      }
+    ],
+    "latent": ["how much dust is actually airborne in this shed"],
+    "state_after": ["hinge: quieter at first, then building a gritty film needing a wipe before re-oiling", "gate: an oily drip mark below the hinge", "oil tin: less oil left"],
+    "stress": "more of a good thing turning into a new problem once the surrounding environment gets involved",
+    "temptation": "a rule 'oil fixes squeaky hinges' with no ceiling on how much helps versus how much makes it worse"
+  },
+  {
+    "id": "mix-03",
+    "domain": "mix",
+    "place": "A work yard where iron tools were left leaning against a fence overnight, an unexpected storm passing through.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["iron tools", "fence", "rain", "storm"],
+    "outcome": "Rain falls on iron tools left outside rather than stored under cover. Water sits on the bare metal, and moisture together with air starts the slow chemical work of rusting. By the next day faint orange spotting shows on the blades and heads. Nothing dramatic has happened yet, but left out through more wet weather over the following days, the spotting would spread and begin to pit the edges.",
+    "steps": [
+      {
+        "process": "rain",
+        "agent": "storm",
+        "patient": "iron tools",
+        "instrument": null,
+        "because": ["iron is not coated against moisture", "tools were left outside"],
+        "effects": ["tools gains wet"],
+        "numbers": ["how much rain falls overnight"]
+      },
+      {
+        "process": "dry",
+        "agent": "air",
+        "patient": "wet iron",
+        "instrument": null,
+        "because": ["iron's surface is uneven, holding moisture in pits and crevices", "air alone dries slowly"],
+        "effects": ["tools loses wet"],
+        "numbers": ["how long a film of moisture lingers on the metal"]
+      },
+      {
+        "process": "rust",
+        "agent": "moisture and air",
+        "patient": "iron tools",
+        "instrument": null,
+        "because": ["iron reacts with water and air over time", "tools were never dried or oiled"],
+        "effects": ["tools gains rust"],
+        "numbers": ["how many hours of dampness before visible rust, how much it spreads per day left uncovered"]
+      }
+    ],
+    "latent": ["whether any tool happened to be under a scrap of cover that spared it"],
+    "state_after": ["iron tools: faint rust spotting, will worsen if left out again", "fence: unaffected", "rain: passed, ground drying"],
+    "stress": "a slow chemical change nobody watches happen, showing up only once someone looks again",
+    "temptation": "a rule 'iron left in rain rusts by morning' as a fixed timer instead of deriving speed from wetness, air and time sitting"
+  },
+  {
+    "id": "mix-04",
+    "domain": "mix",
+    "place": "A stream bank near camp, a shirt stained with dried mud and old blood from a scraped knee, no soap on hand.",
+    "initiator": "player",
+    "lines": ["wash the blood and mud out of my shirt in the stream"],
+    "things": ["player", "shirt", "stream water", "mud stain", "blood stain"],
+    "outcome": "Plain running water and scrubbing lift the mud well, since it was only loose particles never bound to the fibers. The blood is a different matter: dried and set into the weave, it only lightens to a dull brown shadow under water alone, since nothing breaks down a set protein stain without soap. The shirt comes out cleaner, not clean; the stain would have needed soap, or a rinse before it ever dried.",
+    "steps": [
+      {
+        "process": "wash",
+        "agent": "player",
+        "patient": "shirt",
+        "instrument": "stream water",
+        "because": ["mud is loose particles, not bonded to the fabric", "water can carry loose particles away"],
+        "effects": ["shirt loses muddy"],
+        "numbers": ["how much scrubbing and time gets the mud out"]
+      },
+      {
+        "process": "wash",
+        "agent": "player",
+        "patient": "shirt",
+        "instrument": "stream water",
+        "because": ["blood has dried and set into the fibers", "plain water alone does not break down a set stain without soap"],
+        "effects": ["shirt loses bloodstained"],
+        "numbers": ["how much the stain lightens versus how much remains"]
+      }
+    ],
+    "latent": ["how long ago the blood dried, which decides how set-in it already is"],
+    "state_after": ["shirt: mud gone, a faint brown shadow remaining where the blood was", "stream: briefly clouded downstream of the wash, then clears"],
+    "stress": "two stains that look similarly dirty but behave completely differently under the same wash",
+    "temptation": "a single 'wash removes stains' effect instead of separating what a stain is made of from what it takes to lift it"
+  },
+  {
+    "id": "mix-05",
+    "domain": "mix",
+    "place": "A hearth-side workspace: rendered fat saved from cooking, a barrel of wood ash and rainwater, a big pot.",
+    "initiator": "player",
+    "lines": ["strain rainwater through the ash to make lye", "mix the lye with the fat and boil it", "let it set"],
+    "things": ["player", "wood ash", "rainwater", "fat", "lye", "pot", "soap"],
+    "outcome": "Water passed slowly through wood ash pulls its alkaline salts out into a sharp, slippery lye. Mixed with rendered fat and heated, the two react into a thick, cloudy paste that resembles neither ingredient it came from. Left to cool and sit for days in a mold, the paste firms from soft to a hard bar that can actually lift grease and dirt, unlike either ash or fat alone.",
+    "steps": [
+      {
+        "process": "leach",
+        "agent": "rainwater",
+        "patient": "wood ash",
+        "instrument": "barrel",
+        "because": ["ash holds soluble alkaline salts", "water dissolves them as it passes through"],
+        "effects": ["creates lye", "consumes ash"],
+        "numbers": ["how much lye a given amount of ash and water yields, how strong it is"]
+      },
+      {
+        "process": "boil",
+        "agent": "player",
+        "patient": "fat",
+        "instrument": "lye",
+        "because": ["fat and lye react together when heated", "the reaction needs heat to proceed at a useful pace"],
+        "effects": ["creates soap paste", "consumes fat", "consumes lye"],
+        "numbers": ["how long boiling and stirring takes, the ratio of fat to lye needed"]
+      },
+      {
+        "process": "cure",
+        "agent": "time",
+        "patient": "soap paste",
+        "instrument": null,
+        "because": ["soap must lose moisture and finish reacting to be safe and firm", "fresh soap is still caustic"],
+        "effects": ["soap gains hard", "soap loses caustic"],
+        "numbers": ["how many days curing takes before it is safe and firm to use"]
+      }
+    ],
+    "latent": ["exactly how strong the lye turned out, which decides whether the soap sets properly or stays soft"],
+    "state_after": ["soap: a firm bar after curing, ready to use", "ash: mostly spent", "fat: consumed", "pot: needs its own scrubbing afterward"],
+    "stress": "a genuine transformation where two things become a third, that also needs unattended time to finish safely",
+    "temptation": "a recipe rule 'ash plus fat makes soap' with no ratio, no heat and no cure time, skipping the chemistry that makes rushing it dangerous"
+  },
+  {
+    "id": "mix-06",
+    "domain": "mix",
+    "place": "A smokehouse shed, strips of meat laid out with a small sack of salt, humid weather outside.",
+    "initiator": "player",
+    "lines": ["rub salt on the meat to keep it from spoiling"],
+    "things": ["player", "meat", "salt", "shed", "humid air"],
+    "outcome": "Salt rubbed over the meat draws moisture out and slows the bacteria that cause spoiling, but only where it actually reaches. The coat is thin and uneven, and the shed sits humid rather than dry, so the meat never fully dries out either. A few days on, the well-salted outer parts hold up fine, but a damp patch under a fold where the salt never reached starts to smell and discolor: it spoils anyway, and has to be cut away before the rest is trusted.",
+    "steps": [
+      {
+        "process": "coat",
+        "agent": "player",
+        "patient": "meat",
+        "instrument": "salt",
+        "because": ["salt draws moisture out of flesh by osmosis", "meat surface has uneven folds and creases"],
+        "effects": ["meat gains salted", "consumes salt"],
+        "numbers": ["how much salt was used versus how much the meat's surface needs for full coverage"]
+      },
+      {
+        "process": "dry",
+        "agent": "humid air",
+        "patient": "meat",
+        "instrument": null,
+        "because": ["humid air does not pull moisture out well", "salt alone is not enough without airflow"],
+        "effects": ["meat loses moisture"],
+        "numbers": ["how much moisture remains after a day in this humidity"]
+      },
+      {
+        "process": "spoil",
+        "agent": "bacteria and time",
+        "patient": "under-salted patch",
+        "instrument": null,
+        "because": ["that patch stayed moist and under-salted", "days passed at a temperature bacteria favor"],
+        "effects": ["meat gains spoiled", "creates smell"],
+        "numbers": ["how many days before the unsalted patch turns, versus the well-salted parts"]
+      }
+    ],
+    "latent": ["which fold or crease the salt failed to reach"],
+    "state_after": ["meat: mostly preserved, one spoiled patch needing to be cut away and discarded", "salt: partly used", "shed: smells faintly off near the spoiled patch"],
+    "stress": "a preservation method that only works where it is actually applied, in a place too humid to help it along",
+    "temptation": "a rule 'salted meat doesn't spoil' as a flat flag instead of tracking coverage, moisture and time together"
+  },
+  {
+    "id": "mix-07",
+    "domain": "mix",
+    "place": "A farmyard after a rainstorm, puddles everywhere, a sack of stored grain left open near the gate, a goat penned nearby.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["goat", "puddle", "mud", "grain sack", "gate"],
+    "outcome": "Something startles the goat and it bolts across the yard, straight through a fresh puddle, splashing mud onto everything in its path, including a sack of grain someone left open near the gate. Nobody meant for the grain to be touched at all; it happened to sit in the way of a startled animal's dash. The top layer is now muddy and has to be picked over or discarded, while the grain underneath is untouched.",
+    "steps": [
+      {
+        "process": "startle",
+        "agent": "sudden noise",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["goat startles easily", "noise was sudden and close"],
+        "effects": ["goat gains startled"],
+        "numbers": ["how far and fast the goat bolts"]
+      },
+      {
+        "process": "splash",
+        "agent": "goat",
+        "patient": "puddle",
+        "instrument": null,
+        "because": ["goat is running through standing water", "puddle has loose mud stirred into it"],
+        "effects": ["creates mud spray"],
+        "numbers": ["how wide the splash radius is"]
+      },
+      {
+        "process": "coat",
+        "agent": "mud spray",
+        "patient": "grain sack",
+        "instrument": null,
+        "because": ["sack was open and in the splash's path", "grain is absorbent and the mud is wet"],
+        "effects": ["grain gains muddy"],
+        "numbers": ["how deep into the sack the mud reaches"]
+      }
+    ],
+    "latent": ["what actually startled the goat, never seen by anyone"],
+    "state_after": ["grain sack: top layer muddy, rest underneath clean", "goat: calmed down, unaware of the mess it caused", "yard: mud splashed across the path too"],
+    "stress": "a mess nobody chose, caused by an animal's ordinary reaction meeting an object left in an ordinary place",
+    "temptation": "a rule that only the player's actions can dirty stored food, missing that anything moving through mud near an open container can"
+  },
+  {
+    "id": "mix-08",
+    "domain": "mix",
+    "place": "A kitchen shelf, a wooden bowl with a cracked handle mended with hide glue the day before, left to dry near the hearth.",
+    "initiator": "player",
+    "lines": ["glue the handle back on the bowl"],
+    "things": ["player", "bowl", "broken handle", "hide glue", "hearth", "dishwater"],
+    "outcome": "Hide glue applied to the crack and clamped overnight sets hard and holds the handle firmly once dry, a real repair rather than a cosmetic one. Days later the bowl goes into a basin of hot dishwater for washing; hide glue softens and loses its grip when warm and wet, and the handle comes loose again mid-wash, dropping the bowl. The mend was sound against ordinary handling and never against soaking.",
+    "steps": [
+      {
+        "process": "glue",
+        "agent": "player",
+        "patient": "broken handle",
+        "instrument": "hide glue",
+        "because": ["hide glue bonds wood surfaces as it dries", "the pieces were held together while curing"],
+        "effects": ["creates bond", "consumes glue"],
+        "numbers": ["how long the glue takes to cure fully"]
+      },
+      {
+        "process": "cure",
+        "agent": "air",
+        "patient": "glue joint",
+        "instrument": null,
+        "because": ["glue needs to dry out to reach full strength"],
+        "effects": ["bowl loses broken"],
+        "numbers": ["how many hours to reach full strength"]
+      },
+      {
+        "process": "soften",
+        "agent": "hot water",
+        "patient": "glue joint",
+        "instrument": "dishwater",
+        "because": ["hide glue is water-soluble and softens when warm and wet", "dishwater is hot"],
+        "effects": ["bowl loses bond", "bowl gains broken"],
+        "numbers": ["how many days after the repair this washing happens, how hot and how long submerged before it fails"]
+      }
+    ],
+    "latent": ["whether anyone remembers this bowl was ever glued by the time it is washed"],
+    "state_after": ["bowl: handle detached again, glue residue softened", "dishwater: a bit of glue residue in it", "player: repair undone, needs a different glue or method"],
+    "stress": "a repair genuinely sound under the conditions it was made for, and genuinely unsound under a different one",
+    "temptation": "a rule 'glued things stay glued' with no material property for what breaks the bond"
+  },
+  {
+    "id": "mix-09",
+    "domain": "mix",
+    "place": "A camp table by a berry patch: a bowl, a handful of dark berries, a plain linen cloth, other clean laundry drying nearby.",
+    "initiator": "player",
+    "lines": ["crush the berries in the bowl", "soak the cloth in the juice to dye it", "hang it up to dry"],
+    "things": ["player", "berries", "bowl", "linen cloth", "juice", "other laundry", "drying line"],
+    "outcome": "Crushing the berries releases a deep-colored juice that readily stains any porous thing it touches. Soaking the linen cloth in it takes up the color evenly, dyeing it a rich purple-red as intended. Wringing it out before hanging, the player's hands come away stained for a couple of days, and a few flung droplets land on a clean shirt drying on the same line, leaving small blotches that never wash out.",
+    "steps": [
+      {
+        "process": "crush",
+        "agent": "player",
+        "patient": "berries",
+        "instrument": "bowl",
+        "because": ["berries are soft and full of colored juice", "crushing breaks their skins"],
+        "effects": ["creates juice", "consumes berries"],
+        "numbers": ["how much juice a handful of berries yields"]
+      },
+      {
+        "process": "soak",
+        "agent": "player",
+        "patient": "linen cloth",
+        "instrument": "juice",
+        "because": ["linen is absorbent", "juice carries pigment that binds to fiber"],
+        "effects": ["cloth gains dyed"],
+        "numbers": ["how long soaking takes for an even, deep color"]
+      },
+      {
+        "process": "wring",
+        "agent": "player",
+        "patient": "dyed cloth",
+        "instrument": "drying line",
+        "because": ["cloth is still saturated with juice", "wringing flings loose droplets outward"],
+        "effects": ["player gains stained hands", "transfers dye from cloth to other laundry"],
+        "numbers": ["how far flung droplets travel, how long the stain on hands or the other shirt lasts"]
+      }
+    ],
+    "latent": ["how close the other clean laundry happened to be hanging"],
+    "state_after": ["cloth: evenly dyed purple-red", "player: stained hands for a couple of days", "other laundry: small dye blotches that never wash out", "berries: used up"],
+    "stress": "an intended dye job whose stray droplets are just as effective a dye on anything else nearby",
+    "temptation": "a rule that dye only affects the thing deliberately dyed, ignoring that the same staining property acts on whatever else it touches"
+  },
+  {
+    "id": "mix-10",
+    "domain": "mix",
+    "place": "A storeroom shelf where an iron pot sits half-full of leftover brine from preserving vegetables, forgotten for days.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["iron pot", "brine", "salt", "storeroom shelf"],
+    "outcome": "Salty water left standing in an iron pot is far harder on the metal than plain water, since dissolved salt speeds the same rusting that rain causes elsewhere, working from the inside where nobody is looking. Over several days the rust eats through a weak spot at the pot's bottom seam. The brine slowly seeps out through the new pinhole, leaving a crusty salt-and-rust stain on the shelf and, eventually, an empty pot with a hole in it.",
+    "steps": [
+      {
+        "process": "sit",
+        "agent": "time",
+        "patient": "brine in the pot",
+        "instrument": null,
+        "because": ["nobody emptied the pot", "brine was left standing"],
+        "effects": ["pot gains standing liquid"],
+        "numbers": ["how many days it sits untouched"]
+      },
+      {
+        "process": "rust",
+        "agent": "salt, water and air",
+        "patient": "iron pot",
+        "instrument": null,
+        "because": ["dissolved salt speeds the rusting reaction", "iron is uncoated on the inside", "water and air are both present"],
+        "effects": ["pot gains rust"],
+        "numbers": ["how much faster salt water rusts iron than plain water, how many days to weaken the seam"]
+      },
+      {
+        "process": "leak",
+        "agent": "rust damage",
+        "patient": "pot seam",
+        "instrument": null,
+        "because": ["rust has eaten through the thinnest point, the seam", "a hole lets liquid through"],
+        "effects": ["pot loses brine", "creates stain", "pot gains hole"],
+        "numbers": ["how long it takes to fully drain through a pinhole"]
+      }
+    ],
+    "latent": ["exactly where the pot's seam was thinnest to begin with"],
+    "state_after": ["pot: a rusted-through hole at the seam, empty", "shelf: a crusty white-and-orange stain", "brine: gone, seeped away"],
+    "stress": "an ordinary material weakness turned into a failure by something as mundane as forgetting to empty a pot",
+    "temptation": "a rule 'iron pots eventually rust out' on a timer, instead of deriving the rate from salt, water and time actually present"
+  }
+]

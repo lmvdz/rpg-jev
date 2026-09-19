@@ -1,0 +1,910 @@
+{
+ "files": [
+  "H:/rpg-jev/saves/night.jsonl",
+  "H:/rpg-jev/demo/log.jsonl"
+ ],
+ "decisions": 92,
+ "fallback": 0,
+ "cached": 0,
+ "dropped": 0,
+ "stats": {
+  "opens_<npc>": {
+   "type": "choice",
+   "n": 8,
+   "none": 3,
+   "close": 1,
+   "mid": 0
+  },
+  "stake_<npc>": {
+   "type": "noul",
+   "n": 13,
+   "none": 0,
+   "close": 0,
+   "mid": 1
+  },
+  "interject_<npc>": {
+   "type": "choice",
+   "n": 10,
+   "none": 2,
+   "close": 3,
+   "mid": 0
+  },
+  "mode": {
+   "type": "choice",
+   "n": 26,
+   "none": 0,
+   "close": 0,
+   "mid": 0
+  },
+  "verb": {
+   "type": "choice",
+   "n": 26,
+   "none": 9,
+   "close": 1,
+   "mid": 0
+  },
+  "target": {
+   "type": "choice",
+   "n": 26,
+   "none": 12,
+   "close": 1,
+   "mid": 0
+  },
+  "item": {
+   "type": "choice",
+   "n": 26,
+   "none": 24,
+   "close": 0,
+   "mid": 0
+  },
+  "states": {
+   "type": "choice",
+   "n": 26,
+   "none": 24,
+   "close": 0,
+   "mid": 0
+  },
+  "asks_about": {
+   "type": "choice",
+   "n": 26,
+   "none": 26,
+   "close": 1,
+   "mid": 0
+  },
+  "request": {
+   "type": "choice",
+   "n": 26,
+   "none": 23,
+   "close": 1,
+   "mid": 0
+  },
+  "version": {
+   "type": "choice",
+   "n": 11,
+   "none": 0,
+   "close": 1,
+   "mid": 0
+  },
+  "stake": {
+   "type": "noul",
+   "n": 11,
+   "none": 0,
+   "close": 0,
+   "mid": 0
+  },
+  "believes": {
+   "type": "noul",
+   "n": 13,
+   "none": 0,
+   "close": 0,
+   "mid": 4
+  },
+  "raises": {
+   "type": "choice",
+   "n": 9,
+   "none": 3,
+   "close": 5,
+   "mid": 0
+  },
+  "reply": {
+   "type": "choice",
+   "n": 12,
+   "none": 5,
+   "close": 4,
+   "mid": 0
+  },
+  "respond": {
+   "type": "choice",
+   "n": 3,
+   "none": 1,
+   "close": 2,
+   "mid": 0
+  },
+  "act": {
+   "type": "choice",
+   "n": 1,
+   "none": 0,
+   "close": 0,
+   "mid": 0
+  },
+  "accepts": {
+   "type": "noul",
+   "n": 1,
+   "none": 0,
+   "close": 0,
+   "mid": 0
+  },
+  "reply_if_believes": {
+   "type": "choice",
+   "n": 2,
+   "none": 0,
+   "close": 0,
+   "mid": 0
+  },
+  "reply_if_doubts": {
+   "type": "choice",
+   "n": 2,
+   "none": 1,
+   "close": 0,
+   "mid": 0
+  },
+  "guard_a": {
+   "type": "noul",
+   "n": 2,
+   "none": 0,
+   "close": 0,
+   "mid": 1
+  },
+  "guard_b": {
+   "type": "noul",
+   "n": 2,
+   "none": 0,
+   "close": 0,
+   "mid": 1
+  },
+  "culprit_a": {
+   "type": "noul",
+   "n": 2,
+   "none": 0,
+   "close": 0,
+   "mid": 1
+  },
+  "culprit_b": {
+   "type": "noul",
+   "n": 2,
+   "none": 0,
+   "close": 0,
+   "mid": 1
+  }
+ },
+ "guardDiffs": [
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1180,
+   "input": "show apron to mara",
+   "guard_a": 0.3,
+   "guard_b": 0.33,
+   "dGuard": 0.030000000000000027,
+   "culprit_a": 0.56,
+   "culprit_b": 0.61,
+   "dCulprit": 0.04999999999999993
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1183,
+   "input": "hold the gambling markers out where mara can see them",
+   "guard_a": 0.49,
+   "guard_b": 0.49,
+   "dGuard": 0,
+   "culprit_a": 0.67,
+   "culprit_b": 0.7,
+   "dCulprit": 0.029999999999999916
+  }
+ ],
+ "examples": [
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1143,
+   "input": "quit",
+   "q": "states",
+   "top": "none_of_these 0.65, blame:odo 0.35, claim:c_256a2bebed 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1143,
+   "input": "quit",
+   "q": "asks_about",
+   "top": "none_of_these 0.91, about:odo 0.08, about:brass_key 0.01",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1146,
+   "input": "ransack",
+   "q": "states",
+   "top": "none_of_these 1.00, claim:c_256a2bebed 0.00, blame:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1146,
+   "input": "ransack",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, about:tankard 0.00, where:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1150,
+   "input": "read ledger",
+   "q": "states",
+   "top": "none_of_these 1.00, claim:c_256a2bebed 0.00, alibi 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1150,
+   "input": "read ledger",
+   "q": "asks_about",
+   "top": "none_of_these 0.92, about:ledger 0.08, about:latch 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1152,
+   "input": "go to cellar",
+   "q": "believes",
+   "top": "noul 0.63",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1154,
+   "input": "go to common",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:tobin 0.00, blame:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1154,
+   "input": "go to common",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, about:coat 0.00, where:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1154,
+   "input": "go to common",
+   "q": "verb",
+   "top": "none_of_these 0.86, use 0.14, show 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1154,
+   "input": "go to common",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:tobin 0.00, blame:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1154,
+   "input": "go to common",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, about:iron_key 0.00, about:tobin 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1154,
+   "input": "go to common",
+   "q": "opens_mara",
+   "top": "ask_dusk 0.40, none_of_these 0.33, greet 0.22",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1156,
+   "input": "ask mara where did they hear that",
+   "q": "target",
+   "top": "mara 0.54, odo 0.45, none_of_these 0.01",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1156,
+   "input": "ask mara where did they hear that",
+   "q": "states",
+   "top": "none_of_these 0.95, blame:mara 0.04, blame:odo 0.01",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1156,
+   "input": "ask mara where did they hear that",
+   "q": "asks_about",
+   "top": "none_of_these 0.50, about:mara 0.35, about:odo 0.14",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1156,
+   "input": "ask mara where did they hear that",
+   "q": "states",
+   "top": "none_of_these 1.00, claim:c_256a2bebed 0.00, blame:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1156,
+   "input": "ask mara where did they hear that",
+   "q": "asks_about",
+   "top": "none_of_these 0.53, about:mara 0.43, about:tonight 0.03",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1164,
+   "input": "take key",
+   "q": "version",
+   "top": "exaggerate_severity 0.56, faithful 0.43, keep_quiet 0.01",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1164,
+   "input": "kill odo",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:tobin 0.00, blame:odo 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1164,
+   "input": "kill odo",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:odo 0.02, about:ledger 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "brass",
+   "q": "raises",
+   "top": "accuse 0.54, ask 0.40, none_of_these 0.06",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "kill odo",
+   "q": "believes",
+   "top": "noul 0.62",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "quit",
+   "q": "states",
+   "top": "none_of_these 1.00, deny 0.00, alibi 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "quit",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:odo 0.02, about:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "history",
+   "q": "verb",
+   "top": "none_of_these 0.74, ask 0.22, request 0.02",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "history",
+   "q": "states",
+   "top": "none_of_these 1.00, claim:c_a957973a24 0.00, deny 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "history",
+   "q": "asks_about",
+   "top": "none_of_these 0.95, about:tonight 0.05, about:brass_key 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "summon god",
+   "q": "verb",
+   "top": "none_of_these 0.55, request 0.40, use 0.04",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "summon god",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:odo 0.00, blame:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "summon god",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, source:c_467e5941d7 0.00, about:brass_key 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1165,
+   "input": "check pockets",
+   "q": "interject_mara",
+   "top": "accuse:c_1b17777730 0.47, none_of_these 0.38, threaten 0.15",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1169,
+   "input": "hello",
+   "q": "states",
+   "top": "none_of_these 1.00, claim:c_256a2bebed 0.00, claim:c_1b17777730 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1169,
+   "input": "hello",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, about:latch 0.00, source:c_1b17777730 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1172,
+   "input": "mara, shut the fuck up",
+   "q": "states",
+   "top": "none_of_these 0.97, blame:mara 0.03, claim:c_1b17777730 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1172,
+   "input": "mara, shut the fuck up",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:mara 0.02, about:tonight 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1175,
+   "input": "mara, yeah thats what I thought",
+   "q": "states",
+   "top": "none_of_these 0.99, blame:mara 0.01, claim:c_42daa37dc5 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1175,
+   "input": "mara, yeah thats what I thought",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:mara 0.02, about:tonight 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1175,
+   "input": "tel mara she's fat",
+   "q": "reply",
+   "top": "none_of_these 0.89, refuse 0.11",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1175,
+   "input": "tel mara she's fat",
+   "q": "interject_odo",
+   "top": "threaten 0.54, none_of_these 0.46",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1175,
+   "input": "tel mara she's fat",
+   "q": "interject_tobin",
+   "top": "none_of_these 0.57, accuse:c_1b17777730 0.42, threaten 0.01",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1178,
+   "input": "hi mara",
+   "q": "reply",
+   "top": "none_of_these 0.60, refuse 0.30, greet 0.10",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1181,
+   "input": "fuck you mara",
+   "q": "states",
+   "top": "none_of_these 0.97, blame:mara 0.03, claim:c_a957973a24 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1181,
+   "input": "fuck you mara",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:mara 0.02, source:c_467e5941d7 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1181,
+   "input": "fuck you mara",
+   "q": "reply",
+   "top": "none_of_these 0.89, refuse 0.11",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1184,
+   "input": "fuck you tobin",
+   "q": "states",
+   "top": "none_of_these 0.88, blame:tobin 0.12, claim:c_256a2bebed 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1184,
+   "input": "fuck you tobin",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:tobin 0.02, about:pot 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1184,
+   "input": "fuck you tobin",
+   "q": "reply",
+   "top": "none_of_these 0.55, refuse 0.45, threaten 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1184,
+   "input": "fuck you tobin",
+   "q": "stake_odo",
+   "top": "noul 0.61",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "summon god",
+   "q": "verb",
+   "top": "none_of_these 0.52, request 0.44, use 0.04",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "summon god",
+   "q": "states",
+   "top": "none_of_these 1.00, claim:c_42daa37dc5 0.00, alibi 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "summon god",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, about:hearth 0.00, about:tankard 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "introspect",
+   "q": "verb",
+   "top": "none_of_these 0.79, examine 0.16, remark 0.04",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "introspect",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:mara 0.00, claim:c_a957973a24 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "introspect",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, where:mara 0.00, source:c_467e5941d7 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "think",
+   "q": "verb",
+   "top": "none_of_these 0.85, wait 0.07, remark 0.07",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "think",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:odo 0.00, claim:c_256a2bebed 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "think",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, about:tobin 0.00, about:ledger 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "turn",
+   "q": "verb",
+   "top": "none_of_these 0.56, wait 0.25, request 0.05",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "turn",
+   "q": "states",
+   "top": "none_of_these 1.00, deny 0.00, blame:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "turn",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, source:c_1b17777730 0.00, where:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "turn around",
+   "q": "verb",
+   "top": "none_of_these 0.96, examine 0.02, go 0.01",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "turn around",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:tobin 0.00, blame:mara 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "turn around",
+   "q": "asks_about",
+   "top": "none_of_these 1.00, about:latch 0.00, about:brass_key 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "spin",
+   "q": "verb",
+   "top": "none_of_these 0.68, use 0.30, attack 0.02",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "spin",
+   "q": "states",
+   "top": "none_of_these 1.00, alibi 0.00, claim:c_42daa37dc5 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/saves/night.jsonl",
+   "t": 1187,
+   "input": "spin",
+   "q": "asks_about",
+   "top": "none_of_these 0.99, about:markers 0.01, about:tonight 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1140,
+   "input": "go kitchen",
+   "q": "reply",
+   "top": "ask_dusk 0.46, greet 0.37, accuse:c_39ad7425bc 0.06",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1143,
+   "input": "go kitchen",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:mara 0.01, about:tonight 0.01",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1146,
+   "input": "punch odo in the face",
+   "q": "states",
+   "top": "none_of_these 1.00, blame:odo 0.00, blame:tobin 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1146,
+   "input": "punch odo in the face",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:mara 0.02, about:coat 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1164,
+   "input": "punch odo in the face",
+   "q": "believes",
+   "top": "noul 0.62",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1165,
+   "input": "take apron",
+   "q": "believes",
+   "top": "noul 0.62",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1171,
+   "input": "punch odo in the face",
+   "q": "raises",
+   "top": "ask 0.47, accuse 0.47, none_of_these 0.06",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1171,
+   "input": "talk to mara",
+   "q": "reply",
+   "top": "none_of_these 0.35, refuse 0.33, accuse:c_46e469f24a 0.23",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1174,
+   "input": "punch odo in the face",
+   "q": "raises",
+   "top": "accuse 0.44, ask 0.43, none_of_these 0.13",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1174,
+   "input": "tell mara I found her ledger buried in the flour barrel down in the cellar",
+   "q": "asks_about",
+   "top": "none_of_these 0.96, about:ledger 0.04, about:bench 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1177,
+   "input": "go cellar",
+   "q": "raises",
+   "top": "ask 0.50, accuse 0.45, none_of_these 0.05",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1177,
+   "input": "show apron to mara",
+   "q": "reply",
+   "top": "ask_where_from 0.48, promise_confront 0.45, refuse 0.04",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1180,
+   "input": "show apron to mara",
+   "q": "culprit_a",
+   "top": "noul 0.56",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1180,
+   "input": "show apron to mara",
+   "q": "culprit_b",
+   "top": "noul 0.61",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1180,
+   "input": "hold the gambling markers out where mara can see them",
+   "q": "states",
+   "top": "none_of_these 0.91, claim:c_d5481f9c0b 0.09, blame:tobin 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1180,
+   "input": "hold the gambling markers out where mara can see them",
+   "q": "asks_about",
+   "top": "none_of_these 0.98, about:markers 0.02, about:tonight 0.00",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1183,
+   "input": "hold the gambling markers out where mara can see them",
+   "q": "guard_a",
+   "top": "noul 0.49",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1183,
+   "input": "hold the gambling markers out where mara can see them",
+   "q": "guard_b",
+   "top": "noul 0.49",
+   "tag": "mid-noul"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1142,
+   "input": "punch odo in the face",
+   "q": "respond",
+   "top": "none_of_these 0.44, shove 0.31, call_for_help 0.11",
+   "tag": "none"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1143,
+   "input": "hit odo again",
+   "q": "respond",
+   "top": "shove 0.31, call_for_help 0.26, none_of_these 0.22",
+   "tag": "close"
+  },
+  {
+   "file": "H:/rpg-jev/demo/log.jsonl",
+   "t": 1156,
+   "input": "punch odo in the face",
+   "q": "raises",
+   "top": "accuse 0.47, ask 0.35, none_of_these 0.18",
+   "tag": "close"
+  }
+ ]
+}

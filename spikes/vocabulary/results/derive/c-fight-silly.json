@@ -1,0 +1,177 @@
+[
+  {
+    "id": "fight-01",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "wears/covers relation between a thing and a body (R5), with what it covers and what it leaves open",
+      "aim on a body: where a blow lands and how squarely (Wound has no site)",
+      "body modifier rule: wounds and blood loss lowering strength, speed and the use of a limb",
+      "recovery time of a heavy weapon: haste and the instrument's mass against the actor's speed (Manner.haste is read by nothing in force)",
+      "creature choices, fatigue",
+      "bleeding rate against a sensible clock"
+    ],
+    "note": "Derives: axe into bare flesh is depth 2.0 bleeding 2.0, the heavier sword bites deeper (2.96), the cuirass as a thing takes the first swing at integrity 2.4 and parts on the third, and the wound is still bleeding an hour on. Does not: a force act at a body always meets bare FLESH, so a cuirass in the world changes nothing (armoured 2.32 = naked 2.32); and 'bleeding badly' costs only 0.41 health in the hour (the worst wound on the scale, 5/5, takes over four hours to kill), which I flag as a magnitude doubt rather than a rule error because my one-fifth-in-an-hour threshold is my reading of 'bleeding badly'."
+  },
+  {
+    "id": "fight-02",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "covers relation: a held shield between a blow and a body",
+      "composite: a hide face joined to planks as one thing (encoded here as two things)",
+      "B8 impairment: a numbed arm",
+      "contested hold (grapple), move, creature choices",
+      "a bruise rule for bodies that is not the fracture bar"
+    ],
+    "note": "Derives: the hide face (shared leather, a sheet) holds the first knife thrust at 1.85 and parts on the second, exactly as told, and the board loses integrity with every thrust so hits absorbed are tracked. Does not: a thrust takes 0.4 off the plank (4.57, 4.15, 3.75), so it cracks after five and fails after fourteen, not three; the scenario may be generous to a skinning knife, so that is a magnitude gap, not an error. RULE ERROR in force.ts blow()/woundBody: bare hands at effort 5 leave no mark on a body (1*5*0.5+0.3 = 2.8 against flesh's 3.7), and a cudgel at ordinary effort 2 leaves none either, because a blow on a body must clear the same toughness-and-bulk bar that decides whether a thing fractures. The general rule: a body bruises in proportion to momentum from the first, and only breaking needs a threshold."
+  },
+  {
+    "id": "fight-03",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "place rows with slope and footing (section 4 has them, Place in types.ts does not)",
+      "height as an input to force (R7), move and its cost in effort, fatigue and winded (B1 rest, B8)",
+      "fall and landing (X1 into X2)",
+      "aim on a body",
+      "creature choices"
+    ],
+    "note": "Only the blow derives: a staff swung hard gives a wound of depth 0.96 that bleeds 0.29, where a knife swung as hard bleeds 2.96, and the body is at health above 4.5 an hour on. Everything the scenario is about (uphill costs effort, scree slides, a downward blow carries more, the fall back down) is outside the engine: a force act has no actor, no place and no direction."
+  },
+  {
+    "id": "fight-04",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "sensing and attention (X8, B7): an unaware patient, cover hiding a standing man",
+      "surprise as a free first act, time to draw",
+      "creature choices: bandits weighing a wound against a thin pack (pick_action), feeling (B6)",
+      "move"
+    ],
+    "note": "Only the blow derives: a cudgel landing squarely is a bruise of 0.96 bleeding 0.29, and the player is above 4.5 health an hour later, so 'bruised shoulder, shaken but standing' holds. That the blow was free, and that the bandits withdraw, are sensing and choice and are not there. Note the same cudgel at ordinary effort 2 leaves no wound at all (see fight-02's rule error)."
+  },
+  {
+    "id": "fight-05",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "aim and distance: where a shot lands, wind strength on a thing in flight (R7), distance finer than three buckets",
+      "wound site on a body (haunch against chest)",
+      "body modifier rule: a wounded animal's speed and stamina",
+      "move and chase, flee as a creature choice",
+      "sensing: a blood trail as a trace signal that fades (E9), light failing (R8)"
+    ],
+    "note": "Derives: the arrow opens a wound of depth 2.8 bleeding 2.8; three hours on the stag has lost blood (health about 3.5), is alive, and the bleeding has slowed of itself, which is the scenario's 'a hit is not a kill' and 'the wound closing enough to let it keep running'. Haunch and chest are the same wound to the engine, and nothing about the shot, the wind, the flight or the trail can be said."
+  },
+  {
+    "id": "fight-06",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "places changing (E13): digging a pit, and what it costs in time against the ground's hardness",
+      "load passing on to what was held: a fall and a landing (X1, X2 on a body)",
+      "covers and hidden: a disguise as a signal strength against acuity and attention (X8)",
+      "claims: the second pursuer learning where the pit is (E8)",
+      "move, creature choices"
+    ],
+    "note": "Load derives the heart of the trap: a lattice of thin branches (strength 2.8) bears its needles and gives way under a man (mass 4), with a crack, and is left at integrity 1, so it works once and is visibly broken. But load breaks the support and does nothing to what it held, so the pursuer is not hurt; digging, the disguise, and the second pursuer noticing are all unbuilt."
+  },
+  {
+    "id": "fight-07",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "tell (X10) and claims with credence and source (E8), including a false one",
+      "sensing: line of sight and light level (R8, X8) deciding whether the claim can be checked",
+      "creature choices and feeling (pick_action, B6)",
+      "move"
+    ],
+    "note": "Nothing in the outcome is matter. The only act in reach is banging the shield, which emits a sound signal that goes nowhere; the bluff, the guard's doubt and his withdrawal are claims, sensing and choice."
+  },
+  {
+    "id": "fight-08",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "join onto a body (X5): a bandage as a join with a strength from the cloth's flexibility and absorbency and the actor's care, slowing bleeding and consumed",
+      "needs drifting with time (B1): hunger, rest",
+      "S9 on a wound: infection over days (Wound has depth, bleeding, burned only)",
+      "B7/B8: dizzy, out cold, concussed; body modifier rule (cannot walk unaided)",
+      "healing: wound depth and health never recover"
+    ],
+    "note": "Derives: nothing is zeroed when the fight ends. A thigh cut of 3 is still bleeding 2.1 two hours on and has cost 1.2 health, a scratch of 0.5 has closed inside the hour, and both wounds are still there next day (health 2.6 for the rival). Does not: a coat act aimed at a body finds nothing to coat and cloth is too hard to spread, so binding is impossible; hunger does not move with time; a wound cannot fester; dizziness has nowhere to live."
+  },
+  {
+    "id": "silly-01",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "taste (asked for and not granted, section 8)",
+      "ingesting a coat: the film of sap and dust is what a lick takes, and ingest sees only the thing",
+      "care read by force on a body (Manner.care is ignored in woundBody)"
+    ],
+    "note": "Derives well at the ends: a lick at effort 0 of a cold edge does nothing and leaves the sword as it was, a swing opens 2.8, and the same lick of a blade left in the fire burns the tongue 1.3 with no cut, all from state and not from the verb. RULE ERROR 1, force.ts cut() with driven(): keenness is added to depth and effort only caps it at effort*2, so a tongue pressed at effort 1 is cut 1.52 deep, over half a full swing (2.8) and deeper than a cudgel swung with everything (0.96). The general rule: the arm drives and the edge only decides how much of that drive becomes depth, so depth should scale with effort, not start from edge minus a constant. RULE ERROR 2, body.ts ingest(): it consumes a share of any thing whatever its hardness, size or form, so the lick takes 1% of the iron and 'eat the sword' swallows it whole with no harm. The general rule: a mouth takes only what flows, is granular, or is soft enough for teeth to part, and otherwise takes nothing (or the coat). My encoding of a lick as force plus ingest is a judgment; the ingest error stands on 'eat the sword' alone."
+  },
+  {
+    "id": "silly-02",
+    "status": "derives",
+    "confidence": "high",
+    "needs": ["sickness never clears once it has come on (no recovery)", "grit and taste are rendering"],
+    "note": "From the row alone (serves nothing, noxiousness 1, a little living contamination in the soil): it goes down, hunger is unchanged, sickness 1.8 shows after 168 minutes and costs 0.9 health, against sickness 5 in 40 minutes for the deadly mushroom. No refusal and no special case: inedibility is the absence of serves."
+  },
+  {
+    "id": "silly-03",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "a body row: Body has no element, so every body is the same FLESH and a bear's hide, bulk and strength are nowhere",
+      "the actor's strength as an input to force (principle 5): ForceAct has an instrument and a manner but no actor",
+      "sensing and attention (the unaware bear), creature choices and feeling (threat, a warning strike rather than a committed one)",
+      "contested hold, move"
+    ],
+    "note": "Derives: bare hands at any effort do nothing to the bear, and a paw swung hard opens depth 2.3 bleeding 2.3, so the player leaves bleeding. But that is exactly what a hand axe does in a man's hand, because the bear's strength cannot be said, and a cudgel wounds the bear exactly as it wounds the man (0.96 each). Why the bear strikes, and that it stops, is choice and is unbuilt."
+  },
+  {
+    "id": "silly-04",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "skill (section 9: needs a person to decide): nothing says a first attempt from a hundredth, so whether and when a catch is missed cannot be derived",
+      "move: the torch falling, and a landing",
+      "scorch mark as a place or thing state"
+    ],
+    "note": "Everything around the juggling derives: a minute at a hearth built from burning fuel lights each torch; the lit torch brushing a forearm for half a second with no effort is a burn of 0.67 with no cut and no bleeding; on the stone floor it burns on and lights nothing in ten minutes, and on straw it starts a fire within one. The drop itself is skill and is not there."
+  },
+  {
+    "id": "silly-05",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "move (X1): a throw, how far an arm sends a mass, where it lands, possession lost (E5, E7)",
+      "sensing: searching for a particular lost thing in poor light (search only settles the latent abundance of an element in a place)",
+      "wear on a body from ground: bare feet on rough footing (place friction, B8 or a wound)"
+    ],
+    "note": "The honest answer the scenario wants (the boots go up a little, come down somewhere, and must be found) is all move and sense. The one thing in reach, that a boot landing on a hillside is undamaged, is incidental, so no test was written."
+  },
+  {
+    "id": "silly-06",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "tell and claims (X10, E8): a declaration that attaches to nothing because no mind or record takes it",
+      "creature routine: a goat gnawing a post as a rate (principle 4)"
+    ],
+    "note": "There is no act to resolve: the engine's honest 'nothing' is only available to a process it has, and declaring is not one. No test."
+  },
+  {
+    "id": "silly-07",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "emitting a signal as an act of its own (E9 from a voice), and signals that persist and carry by place (apply drops every signal)",
+      "sensing (X8), groups startling as one, creature choices, move"
+    ],
+    "note": "A shout is not a process. Striking the river does return 'nothing comes of it' because what flows is not struck, but that is a different act from the one typed, so no test was written."
+  }
+]

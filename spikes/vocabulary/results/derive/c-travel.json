@@ -1,0 +1,194 @@
+[
+  {
+    "id": "travel-01",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "move (X1): sinking, being stuck, pulling free, a thing left behind",
+      "ground firmness as a place state (footing) that load is checked against when something steps on it",
+      "viscosity: haste makes soft ground grip harder, steady effort frees (section 9 candidate)",
+      "contested hold: the mud's grip on the boot against the leg's pull",
+      "a load spread over two supports (staff laid across the mat)",
+      "tiring (B1 rest) as a drift"
+    ],
+    "note": "Derives only at the edges: load breaks the grass mat under a person's weight (strength 3.06 against 4), the staff bears half a person's pull (3.9 against 3), and a hasty coat leaves the staff caked in mud. The person is a thing standing in as a weight, because a body has no mass. Everything the scenario is about (struggling sinks you deeper, a steady braced pull frees you, the boot stays) has no process."
+  },
+  {
+    "id": "travel-02",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "air as something a body needs: `air` is on the place (R6) and only a fire reads it",
+      "exertion and rate of ascent against a body adjusting over time",
+      "body conditions for breathless, headache, nausea (B4, B8) and rest easing them",
+      "warmth on a body: a body has no temperature, so cold falls only on things",
+      "wind in the temperature rate (X3 names it; drift.ts does not read it)",
+      "thirst (B1) and drinking easing it"
+    ],
+    "note": "The only part in reach is cold on what is carried: water warm from the valley is cold (1.09) after three hours at the pass. The wind picking up changes nothing: the temperature rate in drift.ts reads conductivity and mass, and place.wind only enters drying, so a skin in a wind of 4 and one in still air cool identically. Altitude sickness itself is unbuilt."
+  },
+  {
+    "id": "travel-03",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "places changing (E13): a water level on a place that rises and falls on a cycle, as code, unobserved",
+      "standing water on a place acting as a soak on everything in it at a rate",
+      "buoyancy read by anything (packs afloat): P11 is in the row and no process reads it",
+      "sensing: the sound of the water waking a sleeper (X8, B7)",
+      "move (carrying gear up the beach against time)"
+    ],
+    "note": "Once a caller pours the sea on things, the consequences derive: 50 units drown the fire and leave the unburned wood, a splash does not, the low pack is soaked through, and sodden driftwood does not take light in the half minute dry driftwood does. The tide itself does not exist: eight hours of drift leave the shore's moisture where it was, because no drift touches a place."
+  },
+  {
+    "id": "travel-04",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "thirst as a need (vocabulary B1 has it; `Need` in packages/core does not, so water serves hunger and nothing can be made thirstier)",
+      "a serves that can be negative in effect over time: a drink that costs the body water",
+      "mixtures: salinity as an amount of a solute in a liquid rather than a row of its own",
+      "onset delay by route and kind of harm, not only by dose"
+    ],
+    "note": "Sea water (noxiousness 2, my row) goes down harmlessly and leaves sickness 2, fresh water leaves none, and boiling it does not help because heat clears S9 and not P17: all as the scenario wants. Two misses. The harm shows after 160 minutes (ingest: 240 less 40 a level, whatever the harm), not within the hour. And the heart of the scenario, thirstier than before, cannot be written at all: there is no thirst. Whether 2 is the right level for sea water is my judgment; at 1 it would still sicken, later."
+  },
+  {
+    "id": "travel-05",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "digging: `granular` matter coming away by the handful under force (X2 lists dig; force.ts has blows and cuts only)",
+      "a dug pit changing the place (E13) and water rising in it by depth against the place's moisture",
+      "needs that drift with time, heat and effort: thirst, tiring, sweat (X7 starve, tire)",
+      "a search that costs the searcher something besides minutes"
+    ],
+    "note": "The search rule does what the scenario asks. In a place of extent 4 with a rare spring an hour's search has odds 0.19, a middling draw finds nothing, the next hour still has odds (0.13, less than the first), and where abundance is 0 the search reports exactly the same words and the odds stay 0: the player cannot tell a dry story from an unlucky hour. Digging fails: ten hard digs by hand take 0.07 of a level of integrity each off the sand and remove nothing, because a hand on sand is a weak blow on a big soft thing. The cost of the search in water and strength is unbuilt."
+  },
+  {
+    "id": "travel-06",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "bearing: a mind's claim about where it is, with a credence that decays without landmarks (section 9 candidate, E8)",
+      "move with a heading that drifts",
+      "sensing (X8): finding a thing that exists and is out of sight; the marker is not latent, it was placed",
+      "light as a place state that search and sight read",
+      "conspicuousness: a search's rate reads only the abundance level, never the size or visibility of what is sought",
+      "traces (footprints) as signals that fade (E9)"
+    ],
+    "note": "No test. The one process near it, search, draws only on latent abundance: a marker the player placed is an existing thing, and nothing finds existing things (see travel-10's failing test). Encoded as abundance 1 instead, a twenty-minute search would have odds under 0.1 whether the branch was broken to be seen or not, which is the opposite of the scenario's point that a placed marker reliably works."
+  },
+  {
+    "id": "travel-07",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "a latent fact that is one thing which may or may not exist, as against a density of a kind",
+      "light as a place state, and search reading it (the torch and the search are connected only by the caller spending the same minutes on both)",
+      "move: the way back costing torch time"
+    ],
+    "note": "Derives: a torch is good for 30 minutes, 25 minutes of search with a middling draw finds nothing and leaves 5 minutes of fuel, a second stretch outlasts the torch, and the question stays open (odds for a further hour 0.13, never settled to absent). Rule error in searchYield, body.ts: stock is STOCK[level] times extent while the find rate per minute stays the same, so the one rumoured cache is likelier found in 25 minutes in workings of extent 4 (0.090) than in a single chamber (0.071), and a long enough search of the workings turns up 2.5 caches. For a kind that is a density (stones) that is right. For a single thing somewhere in a bigger place it is backwards, and abundance has no level below 'a couple per patch' to say it with. General rule: a latent fact should be able to carry a count for the whole place, and then the rate per minute falls with extent. Medium confidence because it turns on whether a rumoured cache should be an abundance at all; the engine offers nothing else."
+  },
+  {
+    "id": "travel-08",
+    "status": "partly",
+    "confidence": "low",
+    "needs": [
+      "flow strength as a force (R7) on what stands in it, against footing and load",
+      "move: a crossing, losing and regaining footing, a thing carried downstream",
+      "depth as a place state that changes with rain (E13)",
+      "creature choices and a body row (strength) for the animal",
+      "joined to (R4) with a strength: a lashing is a relation, not a support under a hanging weight",
+      "wet and cold on a body"
+    ],
+    "note": "In reach: the soaked pack is heavier (3.0 to 3.6) and the dry lashing holds the dry pack. The third fragment fails, and for a wrong reason: the wet lashing (3.9 dry, 3.2 wet) parts under the soaked pack's dead weight in still water. The current, which should do it, is no input. The lashing is weak because it is short (the travel-10 error in strength) and M1 takes most of the 0.7 through hardness, which a cord in tension does not bear by. Low confidence: a load act is a poor stand-in for a lashing, and the margin turns on my rows."
+  },
+  {
+    "id": "travel-09",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "sensing (X8) with a standing distortion: heat shimmer as a place state that makes a false sight",
+      "claims that are false and held with credence (E8), and distance not closing as evidence against one",
+      "heat and sun on a body: temperature, sunburn (B3 burned from exposure), thirst drifting with heat and effort",
+      "covers and sheltered by (R5): the shade a pack casts",
+      "move"
+    ],
+    "note": "No test. Nothing in the engine sees, and a body has neither temperature nor thirst, so neither the mirage nor what the sun costs can be said."
+  },
+  {
+    "id": "travel-10",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "groups (a swarm with a count) and their routine form",
+      "feeling building with repeated experience (B6) until a creature's choice overrides training",
+      "a creature's strength (body row) as a dynamic pull, not a dead weight",
+      "move (bolting), and sensing to find an existing thing in tall grass in poor light",
+      "light as a place state"
+    ],
+    "note": "With the animal as a weight, the tether (shared rope, strength 4.6) holds a lean of a quarter of its weight and snaps loudly under the whole of it (5): the right shape, though a lunge is not a dead weight and a sound rope should hold a hanging mule. Rule error in strength, load.ts: only `long` things bear by their thin dimension; a `cord` counts its whole size, and a cord's size is its length, so the same cordage a tree's height long bears 6.0 against 4.6, two and a half times as much for being longer. force.ts already treats a cord as having no thickness. General rule: a cord bears in tension by its section and toughness; length adds nothing, and hardness should not count. Also fails: two hours of search with the luckiest draw cannot find the mule that is a thing in the meadow, because search reads latent abundance only."
+  },
+  {
+    "id": "travel-11",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "move on a slope: friction, slope and looseness giving a slide per step",
+      "stones as a group that shifts together",
+      "wound kinds (B3 swollen, broken) beyond depth, bleeding and burn",
+      "impairment (B8 lame) slowing later movement, and the body modifier rule",
+      "healing as a drift, so that 'does not resolve with rest alone' means something"
+    ],
+    "note": "A bad landing on stone is a real injury (depth 1.6). But it is a bleeding wound (0.48), not a sprain: every blunt hurt in force.ts bleeds at three tenths of its depth, and there is nowhere to put swelling or a limb that will not take weight. The slide itself is unbuilt."
+  },
+  {
+    "id": "travel-12",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "weather as a source of wind and water that moves and arrives (section 9 candidate)",
+      "contents (S8): water coming into a hollow thing and being bailed out, as amounts and rates",
+      "move on water: speed against speed, steering, and how a lost oar changes it (turning force is not granted)",
+      "joined to (R4) under a wrenching force, for the oar",
+      "tiring, wet and cold on a body"
+    ],
+    "note": "No test. A race between a storm and a boat, a hull filling and being bailed, and steering with one oar are all outside the eight processes built."
+  },
+  {
+    "id": "travel-13",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "a body row: strength, and a carried load against it",
+      "move: pace read from load, slope and strength",
+      "tiring as a drift that reads load",
+      "contents (S8) so that a pack's weight is the sum of what is in it",
+      "holds (R9) and leaving a thing in a place to be found again"
+    ],
+    "note": "Only the arithmetic is in reach, and it is right: weights add as powers of two, so taking out the rope and the pot drops the load 0.85 of a level (18 units to 10) while the rope alone is 0.36. What the load does to the walker is unbuilt: nothing carries, and a body has no strength or tiredness."
+  },
+  {
+    "id": "travel-14",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "warmth and rest on a body, drifting with the temperature around it, with the cost showing the next day",
+      "nearness to a fire as a relation drift can read, so a night beside one is not a caller alternating heat and drift",
+      "a burn rate that reads how much air reaches the fuel: banking, damping, a draught",
+      "covers (R5): a blanket between a body and the cold"
+    ],
+    "note": "The fire half derives well. Three logs burn 180 minutes: alight at two hours, gone by morning with cold ash (0.52) in their place; nine logs last the night. A stone beside the fire holds at 2.0 while it burns and is at 0.56 by morning, and by the bigger fire still 2.0. The blanket is damp with dew (1.6) and conducts more for it. Fails: banking under ash does not slow the burn, because fuel is spent a minute a minute whatever covers it. The sleeper being stiff and under-rested is unbuilt. First run: my test played four hours and called it morning; with eight it derives."
+  },
+  {
+    "id": "travel-15",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "burning emits (E9): light and smoke from S3, at a strength read from the fuel's wetness and size",
+      "signals carrying over distance against cover and height (X8), and other minds who may or may not sense them",
+      "an outcome left open: a claim nobody holds yet"
+    ],
+    "note": "Green wood is wood with moist 3, and the rules do the rest: it does not catch in the half minute seasoned wood does, it catches within two minutes on a good fire, it burns three times as long (605 minutes of fuel against 180), and it ends as ash. But nothing that burns emits anything: the only smoke signal in the engine is the steam of a dousing, so the column of smoke the scenario is about does not exist, and nobody could see it if it did."
+  }
+]

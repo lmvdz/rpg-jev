@@ -1,0 +1,944 @@
+[
+  {
+    "id": "clever-01",
+    "domain": "fire",
+    "place": "A wild bee hive built into a hollow oak at the forest edge; the brush nearby is dry from a week without rain.",
+    "initiator": "player",
+    "lines": [
+      "pile damp wood under the hive and light it",
+      "wave the smoke into the hollow",
+      "reach in and take the honeycomb"
+    ],
+    "things": ["hollow oak", "bee hive", "honeycomb", "honey", "damp wood", "fire", "smoke", "bees", "dry brush", "player's hand"],
+    "outcome": "The damp wood smokes rather than flaming cleanly, and enough drifts into the hollow that most bees leave the hive or go still instead of swarming the intruder. After a few minutes of smoke the player reaches in and pulls out honeycomb, though a few bees that never left sting the reaching hand and some honey drips out and is lost onto the bark. The whole business takes the better part of an hour and leaves the hive's stores depleted, so it makes less honey for a long while after.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "player",
+        "patient": "damp wood",
+        "instrument": "fire",
+        "because": ["patient is damp", "patient is flammable"],
+        "effects": ["creates smoke", "consumes damp wood"],
+        "numbers": ["how much smoke per minute of burning"]
+      },
+      {
+        "process": "drift",
+        "agent": "smoke",
+        "patient": "bees",
+        "instrument": null,
+        "because": ["agent is irritating", "patient is sensitive to smoke"],
+        "effects": ["patient loses aggression", "patient moves to nearby branches"],
+        "numbers": ["how many minutes of smoke before the hive empties enough"]
+      },
+      {
+        "process": "reach",
+        "agent": "player",
+        "patient": "honeycomb",
+        "instrument": "player's hand",
+        "because": ["patient is reachable", "place is undefended"],
+        "effects": ["player gains honeycomb", "hive loses honeycomb", "creates honey spill", "player gains stung hand"],
+        "numbers": ["how much honey recovered versus how much is lost", "how many stings taken"]
+      },
+      {
+        "process": "damage",
+        "agent": "player",
+        "patient": "hive",
+        "instrument": null,
+        "because": ["patient is depleted", "patient is weakened"],
+        "effects": ["hive loses honeycomb reserve", "hive gains reduced yield"],
+        "numbers": ["how long the hive needs to recover its honey stock"]
+      }
+    ],
+    "latent": ["whether the wood available nearby is damp enough to smoke instead of flame", "how many bees are inside versus foraging when the smoke starts"],
+    "state_after": ["hive: smoke-damaged, fewer bees, less honey stored", "player: carrying honeycomb, one hand stung and swelling", "fire: smoldering, burning down under the oak"],
+    "stress": "smoke changing an animal's behavior without harming it outright, and honey gained against a real fire risk sitting under a tree",
+    "temptation": "a rule that says smoking oak-bees always yields honey, instead of deriving it from smoke irritating an insect and reducing its aggression, which should generalize to any hive or nest a player smokes"
+  },
+  {
+    "id": "clever-02",
+    "domain": "water",
+    "place": "A shallow, narrow stream running through a gravel bed with loose stones on both banks, fish visible darting in the current.",
+    "initiator": "player",
+    "lines": [
+      "pile stones across the stream to block it",
+      "wait for the water downstream to drop",
+      "grab the fish stuck in the shrinking pool"
+    ],
+    "things": ["stream", "stones", "fish", "gravel bed", "downstream pool", "player's hands"],
+    "outcome": "Piling stones across the narrow point slows and partly blocks the flow, so water backs up behind the dam and the channel downstream shrinks to shallow puddles over the next while. Fish trapped in the retreating pools are left in ankle-deep water and easy to grab, though the dam is imperfect and leaks, so only the slower or larger fish get stranded before the rest slip through gaps. Left long enough, the trapped pools warm and thin, and the smaller fish left behind start to suffocate before the player returns.",
+    "steps": [
+      {
+        "process": "stack",
+        "agent": "player",
+        "patient": "stones",
+        "instrument": null,
+        "because": ["patient is heavy", "place is narrow"],
+        "effects": ["creates dam", "stream loses flow downstream"],
+        "numbers": ["how many stones needed to mostly block the width"]
+      },
+      {
+        "process": "block",
+        "agent": "dam",
+        "patient": "stream",
+        "instrument": null,
+        "because": ["agent is imperfect", "patient is fluid"],
+        "effects": ["stream loses volume downstream", "dam gains a pool upstream"],
+        "numbers": ["how much flow still leaks through gaps"]
+      },
+      {
+        "process": "strand",
+        "agent": "time",
+        "patient": "fish",
+        "instrument": null,
+        "because": ["patient is aquatic", "place is shallow"],
+        "effects": ["fish loses cover", "fish moves to shrinking pool", "fish gains stranded"],
+        "numbers": ["how long until the pool is too shallow to swim in"]
+      },
+      {
+        "process": "catch",
+        "agent": "player",
+        "patient": "stranded fish",
+        "instrument": "player's hands",
+        "because": ["patient is stranded", "patient is exposed"],
+        "effects": ["player gains fish", "pool loses fish"],
+        "numbers": ["how many fish stranded versus how many escaped through the leak"]
+      },
+      {
+        "process": "suffocate",
+        "agent": "shrinking pool",
+        "patient": "remaining fish",
+        "instrument": null,
+        "because": ["agent is shallow", "patient is aquatic"],
+        "effects": ["remaining fish loses life", "pool gains dead fish"],
+        "numbers": ["how long before an unattended pool kills the smaller fish left behind"]
+      }
+    ],
+    "latent": ["whether the stream is narrow enough anywhere nearby to dam with the stones on hand", "how many fish happen to be in this stretch"],
+    "state_after": ["stream: partly dammed, leaking, pooled upstream", "downstream pool: shallow, some fish stranded or dead", "player: carrying fish, stones spent"],
+    "stress": "a dam that is never perfect, so the yield is partial and time-dependent rather than a guaranteed haul",
+    "temptation": "a rule that says building a dam here always traps the stream's fish, instead of deriving it from blocked flow reducing downstream water and fish needing water to swim and breathe, which should apply to damming any stream anywhere"
+  },
+  {
+    "id": "clever-03",
+    "domain": "stone",
+    "place": "A camp with a fire pit, a fresh animal hide staked out like a shallow bowl, and a scatter of fist-sized stones nearby.",
+    "initiator": "player",
+    "lines": [
+      "heat some stones in the fire",
+      "drop the hot stones into the hide full of water",
+      "add more hot stones until the water boils"
+    ],
+    "things": ["fire", "stones", "hide", "water", "green wood tongs", "player's hands"],
+    "outcome": "The stones heat in the fire over some minutes, and dropped into the water-filled hide they give up their heat fast, hissing a little; the hide itself does not scorch because the water inside keeps its temperature below the point where the skin would burn. It takes several batches of hot stones swapped in and out before the water climbs to a boil, and one stone cracks apart under the sudden cooling, scattering hot fragments that singe the ground nearby. The result is boiling water without ever needing a metal pot.",
+    "steps": [
+      {
+        "process": "heat",
+        "agent": "fire",
+        "patient": "stones",
+        "instrument": null,
+        "because": ["patient is dense", "agent is hot"],
+        "effects": ["stones gains heat"],
+        "numbers": ["how long to heat stones through"]
+      },
+      {
+        "process": "carry",
+        "agent": "player",
+        "patient": "hot stones",
+        "instrument": "green wood tongs",
+        "because": ["patient is hot", "instrument is heat-resistant briefly"],
+        "effects": ["player avoids burn"],
+        "numbers": ["how many stones moved per trip"]
+      },
+      {
+        "process": "drop",
+        "agent": "player",
+        "patient": "water",
+        "instrument": "hot stones",
+        "because": ["instrument is hot", "patient is heat-absorbent"],
+        "effects": ["water gains heat", "instrument loses heat", "creates steam", "one stone gains cracked"],
+        "numbers": ["how much the water's temperature rises per stone"]
+      },
+      {
+        "process": "protect",
+        "agent": "water",
+        "patient": "hide",
+        "instrument": null,
+        "because": ["agent is heat-absorbent", "patient is heat-sensitive"],
+        "effects": ["hide avoids burning"],
+        "numbers": ["how hot the hide's contents can get before the skin itself is damaged"]
+      },
+      {
+        "process": "boil",
+        "agent": "player",
+        "patient": "water",
+        "instrument": "hot stones",
+        "because": ["instrument is hot", "patient is cold"],
+        "effects": ["water gains boiling", "creates hot water"],
+        "numbers": ["how many stone batches needed to reach a boil"]
+      }
+    ],
+    "latent": ["whether any stone in the fire has a hidden crack or trapped moisture that will make it shatter"],
+    "state_after": ["hide: intact, holding boiling water", "stones: several spent and cooling in the water, one cracked into fragments", "fire: stones removed, needs restoking"],
+    "stress": "heat transfer through an intermediate object rather than direct fire contact, and a container that survives because of what is inside it",
+    "temptation": "a rule naming hide and stone specifically, boiling stones in a hide always works, instead of deriving it from water's heat capacity protecting a scorch-prone container and dense stones storing and releasing heat, which should generalize to any container that resists heat only up to a point and any dense, heatable object"
+  },
+  {
+    "id": "clever-04",
+    "domain": "combat",
+    "place": "A campsite at dusk with a fire burning low, an iron sword, a skin of lamp oil, and a wolf circling at the edge of the light.",
+    "initiator": "player",
+    "lines": [
+      "pour oil along the sword's blade",
+      "hold the blade in the fire until it catches",
+      "swing the burning sword at the wolf"
+    ],
+    "things": ["iron sword", "lamp oil", "fire", "wolf", "player", "darkness"],
+    "outcome": "The oil coats the blade and catches quickly when held to the fire, so the sword burns along its coated length, giving off light and heat while the iron itself stays too dense to burn. Swinging it keeps the flame alive and makes a fast, threatening weapon that scares the wolf back rather than actually wounding it much at range, though a heavy swing can drip burning oil onto the player's own arm if held carelessly. The coating burns down in a few minutes, after which the sword is hot metal and nothing more, its edge no sharper than before the fire.",
+    "steps": [
+      {
+        "process": "coat",
+        "agent": "player",
+        "patient": "sword",
+        "instrument": "lamp oil",
+        "because": ["instrument is liquid", "patient is bare"],
+        "effects": ["sword gains oil coating", "consumes lamp oil"],
+        "numbers": ["how much oil coats the blade"]
+      },
+      {
+        "process": "ignite",
+        "agent": "fire",
+        "patient": "oil coating",
+        "instrument": null,
+        "because": ["patient is flammable", "agent is hot"],
+        "effects": ["oil coating gains burning", "sword gains light", "sword gains heat"],
+        "numbers": ["how long the coating burns before it is used up"]
+      },
+      {
+        "process": "threaten",
+        "agent": "player",
+        "patient": "wolf",
+        "instrument": "burning sword",
+        "because": ["patient is fire-averse", "instrument is bright"],
+        "effects": ["wolf gains fear", "wolf moves away from player"],
+        "numbers": ["how close the wolf will come despite the fire"]
+      },
+      {
+        "process": "drip",
+        "agent": "burning sword",
+        "patient": "player's arm",
+        "instrument": null,
+        "because": ["agent is unstable", "patient is nearby"],
+        "effects": ["player gains burn", "player loses attention"],
+        "numbers": ["odds of a careless swing dripping oil back onto the wielder"]
+      },
+      {
+        "process": "burn out",
+        "agent": "time",
+        "patient": "oil coating",
+        "instrument": null,
+        "because": ["patient is finite", "agent is ongoing"],
+        "effects": ["sword loses burning", "sword loses light", "sword gains retained heat"],
+        "numbers": ["how many minutes of burning the oil gave"]
+      }
+    ],
+    "latent": ["whether the wolf is hungry enough to press through its fear of fire"],
+    "state_after": ["sword: unlit, hot to the touch, edge unchanged", "player: possibly burned on the arm, oil skin lighter", "wolf: kept at a distance or driven off"],
+    "stress": "a burning weapon that intimidates and lights the dark but does not actually cut better, so the player's clever idea over-delivers on fire and under-delivers on damage",
+    "temptation": "a rule that a burning sword deals extra sword damage, instead of deriving separate effects for fire (light, heat, fear, burn risk) and blade (sharpness, unchanged by fire), which should apply to any tool set alight rather than swords specifically"
+  },
+  {
+    "id": "clever-05",
+    "domain": "tools",
+    "place": "A game trail through brush where fox tracks cross a fallen log; scraps of dried meat are in the player's pack.",
+    "initiator": "player",
+    "lines": [
+      "prop a heavy flat stone on a stick over some meat",
+      "back away and wait",
+      "check the trap the next morning"
+    ],
+    "things": ["flat stone", "stick prop", "dried meat", "fox", "game trail", "trap"],
+    "outcome": "The stone balances on the thin stick with meat set under it as bait; pulling at the meat is meant to knock the stick loose and drop the stone. Overnight a fox takes the bait carefully enough not to trigger it, and by morning the meat is gone with the trap untouched, so the trick fails outright the first time. A second attempt with the stick set more precariously does trigger when a fox tugs harder, and the stone comes down fast enough to kill it cleanly, though a smaller, lighter animal drawn by the same smell might only be stunned or escape uninjured.",
+    "steps": [
+      {
+        "process": "balance",
+        "agent": "player",
+        "patient": "flat stone",
+        "instrument": "stick prop",
+        "because": ["patient is heavy", "instrument is thin"],
+        "effects": ["creates trap"],
+        "numbers": ["how little force is needed to dislodge the stick"]
+      },
+      {
+        "process": "bait",
+        "agent": "player",
+        "patient": "trap",
+        "instrument": "dried meat",
+        "because": ["instrument is appealing", "instrument is exposed"],
+        "effects": ["trap gains bait", "consumes dried meat"],
+        "numbers": ["how far the smell of meat carries"]
+      },
+      {
+        "process": "steal",
+        "agent": "fox",
+        "patient": "bait",
+        "instrument": null,
+        "because": ["agent is cautious", "patient is easy to pull free"],
+        "effects": ["fox gains meat", "trap loses bait", "creates a failed trigger"],
+        "numbers": ["odds the stick holds despite a careful tug"]
+      },
+      {
+        "process": "reset",
+        "agent": "player",
+        "patient": "trap",
+        "instrument": "stick prop",
+        "because": ["instrument is stable", "patient needs adjustment"],
+        "effects": ["trap gains bait again", "consumes dried meat"],
+        "numbers": ["how much less force the new setting needs"]
+      },
+      {
+        "process": "trigger",
+        "agent": "fox",
+        "patient": "trap",
+        "instrument": null,
+        "because": ["patient is precarious", "agent is hungry"],
+        "effects": ["trap loses balance", "fox gains crushed", "fox loses life"],
+        "numbers": ["odds the fall lands squarely enough to kill outright rather than only injure"]
+      }
+    ],
+    "latent": ["whether a fox happens to pass the trail overnight at all", "how sturdy the first stick prop actually turns out to be once set"],
+    "state_after": ["trap: sprung, stone down", "fox: dead, or on a different night merely injured and fled", "dried meat: spent across two baitings"],
+    "stress": "a trap that can fail cleanly on a reasonable first attempt, and whose lethality depends on how the mechanism was actually set rather than on the idea of trapping working automatically",
+    "temptation": "a rule that says a baited deadfall always kills a fox, instead of deriving the outcome from how little force a given prop needs, an animal's caution, and how squarely a falling weight lands, which should apply to any trap and any animal drawn to bait"
+  },
+  {
+    "id": "clever-06",
+    "domain": "crafting",
+    "place": "A dug pit at the forest edge lined with green branches, a stack of split wood ready, and loose earth piled beside it.",
+    "initiator": "player",
+    "lines": [
+      "build a fire of split wood in the pit",
+      "let it burn down to glowing coals",
+      "cover the pit with earth and turf to cut off the air"
+    ],
+    "things": ["pit", "split wood", "fire", "glowing coals", "earth", "turf", "charcoal", "smoke"],
+    "outcome": "The wood burns down over an hour or two into a bed of glowing coals, still hot and still consuming itself as long as air reaches it. Piling earth and turf over the top seals out most of the air, so the fire cannot get enough to keep flaming, but the wood is already hot enough that it goes on smoldering slowly rather than going out, turning to charcoal instead of burning fully to ash. Left sealed overnight and opened the next day, the pit yields blackened charcoal that burns hotter and cleaner than raw wood, along with a few unburned chunks where the earth seal let in a stray gap of air and burned that patch down to nothing.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "player",
+        "patient": "split wood",
+        "instrument": "fire",
+        "because": ["patient is flammable", "instrument is hot"],
+        "effects": ["creates coals", "consumes split wood", "creates smoke"],
+        "numbers": ["how long until the wood burns down to coals"]
+      },
+      {
+        "process": "smother",
+        "agent": "player",
+        "patient": "fire pit",
+        "instrument": "earth and turf",
+        "because": ["instrument blocks air", "patient needs air to flame"],
+        "effects": ["fire pit loses flame", "fire pit gains smoldering"],
+        "numbers": ["how completely the seal cuts off air"]
+      },
+      {
+        "process": "char",
+        "agent": "time",
+        "patient": "smoldering coals",
+        "instrument": null,
+        "because": ["patient is starved of air", "patient is still hot"],
+        "effects": ["coals gains charcoal", "coals loses moisture"],
+        "numbers": ["how many hours sealed before it is fully charred"]
+      },
+      {
+        "process": "leak",
+        "agent": "stray gap",
+        "patient": "one patch of wood",
+        "instrument": null,
+        "because": ["place is imperfectly sealed", "patient is exposed to air"],
+        "effects": ["that patch loses wood entirely", "creates ash"],
+        "numbers": ["how much of the batch is lost to seal gaps"]
+      }
+    ],
+    "latent": ["whether the earth pile actually seals every gap around the pit's edge"],
+    "state_after": ["pit: cooled, holding mostly charcoal with a few ash pockets", "charcoal: ready to burn hotter and cleaner than raw wood", "turf and earth: scorched on the underside, still in place as a lid"],
+    "stress": "a process whose success depends on excluding air completely, and that fails partially rather than all at once when the seal is imperfect",
+    "temptation": "a rule that says covering a fire with earth makes charcoal, as a fixed recipe, instead of deriving it from air-starved hot wood smoldering rather than burning to ash, which should apply to smothering any hot flammable material, not only a wood fire in a pit"
+  },
+  {
+    "id": "clever-07",
+    "domain": "signal",
+    "place": "A bare hilltop overlooking a valley, with a pile of dry kindling, green leafy branches, and a steady crosswind.",
+    "initiator": "player",
+    "lines": [
+      "light a fire on the hilltop",
+      "throw green branches on once it's burning well",
+      "keep feeding it to keep the smoke column going"
+    ],
+    "things": ["hilltop", "dry kindling", "fire", "green branches", "smoke column", "wind", "distant camp"],
+    "outcome": "The dry kindling catches fast and burns bright, and once it is established the green branches thrown on smoke heavily instead of burning clean, since their moisture turns to steam and carries soot up with it. A steady column of dark smoke rises for as long as the player keeps feeding it, visible for a long way across the valley on a still day. The crosswind bends the column sideways rather than straight up, which cuts how far it can be seen from some directions, and if the wind picks up further it can scatter the smoke until it is barely a smear that nobody far off would notice.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "player",
+        "patient": "dry kindling",
+        "instrument": "fire",
+        "because": ["patient is flammable", "instrument is hot"],
+        "effects": ["creates fire", "consumes dry kindling"],
+        "numbers": ["how quickly a bright fire establishes"]
+      },
+      {
+        "process": "smoke",
+        "agent": "fire",
+        "patient": "green branches",
+        "instrument": null,
+        "because": ["patient is moist", "agent is hot"],
+        "effects": ["creates smoke column", "consumes green branches", "fire loses clean burn"],
+        "numbers": ["how much smoke per branch added"]
+      },
+      {
+        "process": "bend",
+        "agent": "wind",
+        "patient": "smoke column",
+        "instrument": null,
+        "because": ["agent is steady", "patient is light"],
+        "effects": ["smoke column loses straightness", "smoke column loses visibility from some directions"],
+        "numbers": ["how much the column leans per gust"]
+      },
+      {
+        "process": "scatter",
+        "agent": "strengthening wind",
+        "patient": "smoke column",
+        "instrument": null,
+        "because": ["agent is strong", "patient is dispersible"],
+        "effects": ["smoke column loses visibility", "distant camp fails to notice"],
+        "numbers": ["wind speed at which the column stops reading as a signal"]
+      }
+    ],
+    "latent": ["whether anyone at the distant camp happens to be looking toward the hilltop at the right time"],
+    "state_after": ["fire: still burning, fed with green branches", "smoke column: rising but bent or scattered depending on wind", "distant camp: noticed the signal, or never saw it"],
+    "stress": "a signal whose legibility depends on wind the player cannot control, so cleverness (green wood for smoke) can still be undone by weather",
+    "temptation": "a rule that says a hilltop fire is always seen, instead of deriving visibility from smoke density, column height, and wind bending or scattering it, which should apply to any smoke source seen from any distance and condition"
+  },
+  {
+    "id": "clever-08",
+    "domain": "animal",
+    "place": "A forest camp the player has to leave unattended overnight, with a dead deer carcass from an earlier hunt and a wolf pack known to range the area.",
+    "initiator": "player",
+    "lines": [
+      "drag the deer carcass a good distance from camp",
+      "leave it in a clearing downwind",
+      "walk back to camp a different way"
+    ],
+    "things": ["deer carcass", "camp", "wolf pack", "clearing", "wind", "blood trail", "player's tracks"],
+    "outcome": "Dragging the carcass leaves a blood trail that a wolf's nose can follow, and leaving it in a clearing downwind of the pack's usual range means the scent carries to them faster than it would drift toward camp. By the following night the wolves have found and fed on the carcass instead of pushing toward camp, buying the player a quiet night, though the blood trail itself runs partway back toward camp before it veers off, so a wolf tracking it too closely could still stumble near the tents rather than committing fully to the clearing kill.",
+    "steps": [
+      {
+        "process": "drag",
+        "agent": "player",
+        "patient": "deer carcass",
+        "instrument": null,
+        "because": ["patient is heavy", "patient is awkward"],
+        "effects": ["creates blood trail", "deer carcass moves to clearing"],
+        "numbers": ["how far the carcass can be dragged before exhaustion"]
+      },
+      {
+        "process": "carry",
+        "agent": "wind",
+        "patient": "carcass scent",
+        "instrument": null,
+        "because": ["patient is pungent", "agent is downwind"],
+        "effects": ["creates scent trail toward wolf pack"],
+        "numbers": ["how far scent carries under a given wind"]
+      },
+      {
+        "process": "track",
+        "agent": "wolf pack",
+        "patient": "blood trail",
+        "instrument": null,
+        "because": ["agent is keen-scented", "patient is traceable"],
+        "effects": ["wolf pack moves toward the blood trail", "wolf pack loses attention on camp"],
+        "numbers": ["odds the pack follows the whole trail to the clearing versus breaking off partway"]
+      },
+      {
+        "process": "feed",
+        "agent": "wolf pack",
+        "patient": "deer carcass",
+        "instrument": null,
+        "because": ["patient is easy food", "agent is opportunistic"],
+        "effects": ["wolf pack gains satiation", "deer carcass loses mass", "wolf pack loses reason to keep hunting tonight"],
+        "numbers": ["how long a carcass this size holds the pack's attention"]
+      },
+      {
+        "process": "return",
+        "agent": "player",
+        "patient": "camp",
+        "instrument": null,
+        "because": ["patient is unmarked", "agent is careful"],
+        "effects": ["player avoids leading wolves to camp"],
+        "numbers": ["how close the trail's veer point comes to camp"]
+      }
+    ],
+    "latent": ["exactly where the blood trail veers off relative to camp, which nobody measured while dragging in the dark", "whether the wolf pack is hungry enough tonight to bother tracking at all"],
+    "state_after": ["clearing: carcass being fed on, wolf pack present", "camp: quiet, unvisited, this night", "blood trail: still on the ground, a hazard if wolves are drawn out again later"],
+    "stress": "a decoy that works through scent and hunger rather than certainty, leaving a trail that is itself a liability if anything follows it the wrong way",
+    "temptation": "a rule that says a dragged carcass always protects camp, instead of deriving it from scent carrying on wind, an animal's hunger and tracking behavior, and the actual path of the trail relative to camp, which should generalize to any bait used to redirect any predator"
+  },
+  {
+    "id": "clever-09",
+    "domain": "trade",
+    "place": "A trailside camp where a traveling trader has stopped for the night, examining goods to barter by firelight.",
+    "initiator": "player",
+    "lines": [
+      "offer the frayed rope to the trader",
+      "tell them it's barely been used",
+      "trade it for a skin of oil"
+    ],
+    "things": ["frayed rope", "trader", "skin of oil", "firelight", "player"],
+    "outcome": "In the dim firelight the trader cannot see the fraying well, and takes the player's word that the rope is nearly new, so the trade for the oil goes through. Later, in daylight or under load, the rope's weak strands show or it snaps outright, and the trader remembers exactly who sold it and under what claim. The player keeps the oil, but the trader's trust is spent, and word of a dishonest trade travels with the trader to wherever they go next, making future trades with anyone who hears of it harder.",
+    "steps": [
+      {
+        "process": "inspect",
+        "agent": "trader",
+        "patient": "frayed rope",
+        "instrument": "firelight",
+        "because": ["instrument is dim", "patient is subtly frayed"],
+        "effects": ["trader fails to notice fraying"],
+        "numbers": ["odds a flaw this fine is caught in poor light"]
+      },
+      {
+        "process": "claim",
+        "agent": "player",
+        "patient": "trader",
+        "instrument": null,
+        "because": ["patient is unable to verify", "agent is dishonest"],
+        "effects": ["trader gains false belief about the rope's condition"],
+        "numbers": ["how much the false claim raises the rope's perceived value"]
+      },
+      {
+        "process": "trade",
+        "agent": "player",
+        "patient": "frayed rope",
+        "instrument": null,
+        "because": ["patient is believed sound", "agent is trading"],
+        "effects": ["transfers frayed rope from player to trader", "transfers skin of oil from trader to player"],
+        "numbers": ["fair value of a sound rope versus a frayed one"]
+      },
+      {
+        "process": "fail",
+        "agent": "frayed rope",
+        "patient": "trader",
+        "instrument": null,
+        "because": ["agent is fragile", "agent is worn"],
+        "effects": ["frayed rope loses strength entirely", "trader learns the rope was bad"],
+        "numbers": ["how much load or time it takes before the weak rope gives out"]
+      },
+      {
+        "process": "spread",
+        "agent": "trader",
+        "patient": "word of the lie",
+        "instrument": null,
+        "because": ["agent is aggrieved", "agent is well-traveled"],
+        "effects": ["trader loses trust in player", "other people learn player traded dishonestly"],
+        "numbers": ["how far and how fast the word travels"]
+      }
+    ],
+    "latent": ["whether the trader happens to test the rope's strength before leaving, rather than only after"],
+    "state_after": ["trader: holding a ruined rope, distrustful of the player", "player: holding the oil, reputation damaged with anyone who hears", "rope: broken, discarded"],
+    "stress": "a deception that succeeds immediately but has a delayed, wider social cost the player cannot see coming",
+    "temptation": "a rule that says lying in a trade always works, or always gets found out, instead of deriving the outcome from what the light lets the trader see now, what the rope's true state does later under use, and how word travels afterward, which should generalize to any lie about any traded thing"
+  },
+  {
+    "id": "clever-10",
+    "domain": "cold",
+    "place": "A quarry face with a large boulder split by a narrow crack, in a season where nights drop below freezing.",
+    "initiator": "player",
+    "lines": [
+      "pour water into the crack in the boulder",
+      "leave it overnight in the cold",
+      "come back and check if the rock has split"
+    ],
+    "things": ["boulder", "crack", "water", "cold night air", "ice", "fragments"],
+    "outcome": "The water settles into the narrow crack and, as the night air drops below freezing, it turns to ice, and ice takes up more space than the water it froze from. That expansion pushes outward on the crack's walls with more force than the stone can bear at its weakest point, and by morning the crack has widened, though a boulder this size rarely splits clean through on one freeze; it usually takes several nights of the same treatment before a chunk finally breaks free, and if the days between are warm enough the ice melts back out before it can do much.",
+    "steps": [
+      {
+        "process": "pour",
+        "agent": "player",
+        "patient": "water",
+        "instrument": null,
+        "because": ["place is narrow", "patient is fluid"],
+        "effects": ["crack gains water"],
+        "numbers": ["how much water the crack holds"]
+      },
+      {
+        "process": "freeze",
+        "agent": "cold night air",
+        "patient": "water in the crack",
+        "instrument": null,
+        "because": ["agent is cold", "patient is freezable"],
+        "effects": ["water gains ice", "ice gains volume"],
+        "numbers": ["how far below freezing, and for how long overnight"]
+      },
+      {
+        "process": "wedge",
+        "agent": "ice",
+        "patient": "crack",
+        "instrument": null,
+        "because": ["agent is expansive", "patient is brittle"],
+        "effects": ["crack gains width", "boulder loses cohesion at the crack"],
+        "numbers": ["how much the crack widens per freeze"]
+      },
+      {
+        "process": "thaw",
+        "agent": "daytime warmth",
+        "patient": "ice",
+        "instrument": null,
+        "because": ["agent is warm", "patient is meltable"],
+        "effects": ["ice loses solid form", "crack loses some of its gain if the day is warm enough"],
+        "numbers": ["how much of the widening is undone by a mild day"]
+      },
+      {
+        "process": "split",
+        "agent": "repeated freezing",
+        "patient": "boulder",
+        "instrument": null,
+        "because": ["patient is weakened", "agent is repeated"],
+        "effects": ["boulder loses cohesion entirely", "creates fragments"],
+        "numbers": ["how many freeze-thaw nights before it actually splits"]
+      }
+    ],
+    "latent": ["whether the crack is deep enough to hold water all the way through, or just at the surface", "whether the coming nights actually drop below freezing or stay mild"],
+    "state_after": ["boulder: crack visibly wider, not yet split after one night", "water: refrozen or drained depending on the day's warmth", "quarry: unchanged otherwise, waiting on more cold nights"],
+    "stress": "a physical process that needs repetition and specific weather to complete, so a clever one-step idea does not pay off in a single try",
+    "temptation": "a rule that says water in a crack always splits the rock overnight, instead of deriving it from ice's expansion versus the stone's strength and needing that force repeated across enough freeze-thaw cycles, which should generalize to any brittle material with any liquid-filled crack in freezing weather"
+  },
+  {
+    "id": "clever-11",
+    "domain": "repair",
+    "place": "A riverbank campsite where a stitched leather waterskin has sprung a small hole at a worn seam, with soft clay in the bank mud nearby.",
+    "initiator": "player",
+    "lines": [
+      "dig up some wet clay from the riverbank",
+      "press it into the hole in the waterskin",
+      "let it dry before filling the skin again"
+    ],
+    "things": ["waterskin", "seam hole", "wet clay", "riverbank mud", "water", "sun"],
+    "outcome": "The wet clay is soft enough to press into the small seam hole and takes the shape of the gap, sealing it while it is still damp. Left to dry in the sun it stiffens and holds its seal fairly well for light use, though it is not as flexible as the leather around it, so repeated flexing of the skin during carrying eventually cracks the dried clay plug loose again, and it needs redoing sooner than a proper stitched patch would last.",
+    "steps": [
+      {
+        "process": "dig",
+        "agent": "player",
+        "patient": "wet clay",
+        "instrument": null,
+        "because": ["patient is pliable", "patient is abundant"],
+        "effects": ["player gains wet clay"],
+        "numbers": ["how much clay is needed to fill the hole"]
+      },
+      {
+        "process": "press",
+        "agent": "player",
+        "patient": "seam hole",
+        "instrument": "wet clay",
+        "because": ["instrument is soft", "patient is small"],
+        "effects": ["seam hole gains clay plug", "waterskin loses leak while wet"],
+        "numbers": ["how well the plug holds shape before drying"]
+      },
+      {
+        "process": "dry",
+        "agent": "sun",
+        "patient": "clay plug",
+        "instrument": null,
+        "because": ["agent is hot", "patient is moist"],
+        "effects": ["clay plug loses moisture", "clay plug gains hardness"],
+        "numbers": ["how long until the clay is dry enough to hold water again"]
+      },
+      {
+        "process": "seal",
+        "agent": "dried clay plug",
+        "patient": "waterskin",
+        "instrument": null,
+        "because": ["agent is watertight", "agent is well-fitted"],
+        "effects": ["waterskin gains a working seal", "consumes wet clay"],
+        "numbers": ["how much pressure or water volume the seal can take before failing"]
+      },
+      {
+        "process": "crack",
+        "agent": "repeated flexing",
+        "patient": "dried clay plug",
+        "instrument": null,
+        "because": ["patient is rigid", "agent is repeated"],
+        "effects": ["clay plug loses cohesion", "waterskin gains leak again"],
+        "numbers": ["how many times the skin can be flexed and carried before the plug fails"]
+      }
+    ],
+    "latent": ["whether the clay near this stretch of riverbank is fine enough to seal well, or too sandy and crumbly"],
+    "state_after": ["waterskin: temporarily sealed, holding water, prone to failing again with use", "clay plug: hardened, brittle at the edges", "riverbank: a small dig mark where clay was taken"],
+    "stress": "a fix that is real but temporary because the patch material's properties (stiff when dry) do not match the surrounding material's (flexible leather)",
+    "temptation": "a rule that says clay patches a waterskin, as a fixed fact, instead of deriving the seal from a pliable material conforming to a gap and then hardening, and the failure from a mismatch in flexibility with the material it is patching, which should generalize to patching any container with any moldable material"
+  },
+  {
+    "id": "clever-12",
+    "domain": "weather",
+    "place": "A lean-to shelter with a sloped bark roof, an empty waterskin, and dark storm clouds building overhead.",
+    "initiator": "player",
+    "lines": [
+      "angle a strip of bark to funnel water off the roof",
+      "set the waterskin under the low end",
+      "wait out the storm"
+    ],
+    "things": ["lean-to", "bark roof", "bark strip", "waterskin", "rain", "storm wind"],
+    "outcome": "The rain, once it starts, runs down the sloped roof and the angled bark strip funnels a good share of it into the waterskin's mouth rather than letting it scatter off the roof's edge. Over the course of the storm the skin fills steadily, though gusts of wind blow some of the rain sideways past the funnel and a hard gust at one point knocks the bark strip out of position entirely, so the flow stops until the player notices and resets it.",
+    "steps": [
+      {
+        "process": "angle",
+        "agent": "player",
+        "patient": "bark strip",
+        "instrument": null,
+        "because": ["patient is rigid", "patient is curved"],
+        "effects": ["creates funnel"],
+        "numbers": ["how much of the roof's runoff the funnel width can catch"]
+      },
+      {
+        "process": "fall",
+        "agent": "rain",
+        "patient": "bark roof",
+        "instrument": null,
+        "because": ["agent is falling", "patient is sloped"],
+        "effects": ["creates runoff on roof"],
+        "numbers": ["how much rain falls per minute of storm"]
+      },
+      {
+        "process": "funnel",
+        "agent": "bark strip",
+        "patient": "runoff",
+        "instrument": null,
+        "because": ["agent is positioned", "patient is fluid"],
+        "effects": ["waterskin gains water", "runoff loses volume that would otherwise scatter"],
+        "numbers": ["how fast the skin fills under steady rain"]
+      },
+      {
+        "process": "scatter",
+        "agent": "storm wind",
+        "patient": "falling rain",
+        "instrument": null,
+        "because": ["agent is gusty", "patient is light"],
+        "effects": ["funnel loses some catch to wind-blown rain"],
+        "numbers": ["how much of the total rainfall the funnel actually captures under gusty wind"]
+      },
+      {
+        "process": "displace",
+        "agent": "hard gust",
+        "patient": "bark strip",
+        "instrument": null,
+        "because": ["patient is unsecured", "agent is forceful"],
+        "effects": ["bark strip loses position", "waterskin loses inflow until reset"],
+        "numbers": ["how strong a gust it takes to knock the strip loose"]
+      }
+    ],
+    "latent": ["how hard the storm's wind actually gets partway through, which nobody can know until it happens"],
+    "state_after": ["waterskin: partly filled, filling resumed after the reset", "bark strip: back in place, or still out of position if unnoticed", "storm: ongoing"],
+    "stress": "a passive collection method at the mercy of wind the player cannot see coming, so a clever setup still needs tending",
+    "temptation": "a rule that says a rain funnel always fills the skin during a storm, instead of deriving the catch rate from roof slope, funnel width, wind direction, and whether the funnel stays in position, which should generalize to any water collection rig in any weather"
+  },
+  {
+    "id": "clever-13",
+    "domain": "tools",
+    "place": "A thicket at the edge of a clearing where hare tracks cross a game run, with a young springy sapling growing right beside the trail.",
+    "initiator": "player",
+    "lines": [
+      "bend the sapling down and tie a noose of rope to its top",
+      "rig a trigger stick to hold it bent over the trail",
+      "leave it set overnight"
+    ],
+    "things": ["sapling", "rope", "noose", "trigger stick", "game run", "hare", "thicket"],
+    "outcome": "Bending the sapling stores tension in the bent wood, and tying the noose to its tip means that whatever releases the trigger lets the sapling snap upright and yank the noose closed and skyward at once. A hare running the trail at night catches a foot or its neck in the noose while brushing the trigger, and the sudden upward snap either kills it quickly by the neck or leaves it thrashing and caught by a leg, alive but unable to flee, until the player checks the snare. A different, lighter animal might slip free of a loosely tied noose loop before the sapling finishes its snap.",
+    "steps": [
+      {
+        "process": "bend",
+        "agent": "player",
+        "patient": "sapling",
+        "instrument": null,
+        "because": ["patient is springy", "patient is flexible"],
+        "effects": ["sapling gains stored tension"],
+        "numbers": ["how much force the sapling can store before it either snaps back or breaks"]
+      },
+      {
+        "process": "tie",
+        "agent": "player",
+        "patient": "rope",
+        "instrument": "sapling's tip",
+        "because": ["patient is knottable", "instrument is mobile"],
+        "effects": ["creates noose", "rope gains attachment to sapling"],
+        "numbers": ["how wide the noose loop needs to be for a hare's size"]
+      },
+      {
+        "process": "rig",
+        "agent": "player",
+        "patient": "trigger stick",
+        "instrument": null,
+        "because": ["patient is delicately balanced", "patient is sensitive"],
+        "effects": ["creates trap", "sapling gains held-down tension"],
+        "numbers": ["how little disturbance releases the trigger"]
+      },
+      {
+        "process": "trip",
+        "agent": "hare",
+        "patient": "trigger stick",
+        "instrument": null,
+        "because": ["agent is swift", "patient is exposed"],
+        "effects": ["trigger stick loses hold on sapling"],
+        "numbers": ["odds the hare's foot actually catches the trigger rather than missing it"]
+      },
+      {
+        "process": "snap",
+        "agent": "sapling",
+        "patient": "hare",
+        "instrument": "noose",
+        "because": ["agent is tensioned", "instrument is snug"],
+        "effects": ["hare gains caught", "hare loses ability to flee", "sapling loses stored tension"],
+        "numbers": ["odds the snap catches the neck for a quick kill versus a leg for a live catch"]
+      }
+    ],
+    "latent": ["whether any animal actually runs this trail overnight", "exactly where on the hare's body the noose happens to close"],
+    "state_after": ["sapling: sprung straight, tension spent", "hare: dead or caught alive and struggling, or gone if the noose slipped a lighter animal free", "trigger stick: displaced on the ground"],
+    "stress": "a mechanism whose lethality is a matter of where on the body it happens to catch, not a guaranteed kill, and that can fail to catch weaker or smaller animals at all",
+    "temptation": "a rule that says a sapling snare always kills whatever runs the trail, instead of deriving the outcome from stored tension releasing fast, where the noose happens to close, and whether an animal's size lets it slip the loop, which should generalize to any spring trap with any flexible tensioned material and any animal"
+  },
+  {
+    "id": "clever-14",
+    "domain": "food",
+    "place": "A camp beside a fast, cold mountain stream, with fresh meat from a hunt that cannot all be eaten or smoked before it spoils, and warm weather in the days ahead.",
+    "initiator": "player",
+    "lines": [
+      "wrap the meat in wet leaves",
+      "weight it down in the shallows of the stream",
+      "check on it after a couple of days"
+    ],
+    "things": ["fresh meat", "wet leaves", "stream", "stones", "warm weather", "flies"],
+    "outcome": "Wrapping the meat and submerging it in the cold, fast-moving stream keeps it well below the warm air temperature and away from flies, both of which slow what spoils meat, so it lasts noticeably longer than it would hanging in the warm camp air. It is not true preservation, though: the meat is still slowly breaking down the whole time, just more slowly, and after a couple of days it is edible but starting to turn, with the smell more noticeable than fresh meat. Left much longer, or if the stones weighting it shift and let it wash loose, the meat spoils outright or is lost downstream.",
+    "steps": [
+      {
+        "process": "wrap",
+        "agent": "player",
+        "patient": "fresh meat",
+        "instrument": "wet leaves",
+        "because": ["instrument is pliable", "patient is exposed"],
+        "effects": ["creates wrapped bundle"],
+        "numbers": ["how much meat a single bundle holds"]
+      },
+      {
+        "process": "submerge",
+        "agent": "player",
+        "patient": "wrapped bundle",
+        "instrument": "stones",
+        "because": ["instrument is heavy", "place is cold"],
+        "effects": ["wrapped bundle moves to stream shallows", "wrapped bundle gains cold"],
+        "numbers": ["how many degrees cooler the stream is than the air"]
+      },
+      {
+        "process": "slow",
+        "agent": "cold",
+        "patient": "spoilage",
+        "instrument": null,
+        "because": ["agent is cold", "patient is ongoing"],
+        "effects": ["meat loses spoilage rate"],
+        "numbers": ["how many extra days the cold buys compared to open air"]
+      },
+      {
+        "process": "block",
+        "agent": "stream water",
+        "patient": "flies",
+        "instrument": null,
+        "because": ["patient is airborne", "agent is submerging"],
+        "effects": ["meat avoids fly eggs"],
+        "numbers": ["how much faster meat spoils when flies reach it versus when they cannot"]
+      },
+      {
+        "process": "spoil",
+        "agent": "time",
+        "patient": "submerged meat",
+        "instrument": null,
+        "because": ["patient is perishable", "agent is extended"],
+        "effects": ["meat gains spoilage", "meat loses freshness"],
+        "numbers": ["how many days before it turns from edible-but-turning to inedible"]
+      },
+      {
+        "process": "wash away",
+        "agent": "current",
+        "patient": "wrapped bundle",
+        "instrument": null,
+        "because": ["patient is buoyant", "agent is strong"],
+        "effects": ["wrapped bundle moves downstream", "player loses meat entirely"],
+        "numbers": ["odds the stone weighting holds over several days of current"]
+      }
+    ],
+    "latent": ["whether the stream's flow is steady or whether it will rise and shift the weighting stones", "how warm the days ahead actually get"],
+    "state_after": ["meat: edible but turning after a couple of days, or spoiled, or lost downstream", "stream shallows: bundle present or washed away", "player: with usable meat, spoiled meat, or none, depending on how it played out"],
+    "stress": "a preservation method that only slows an ongoing process rather than stopping it, so it worked is a matter of degree and timing, not a binary",
+    "temptation": "a rule that says meat in a stream is preserved, instead of deriving a slowed but ongoing spoilage from cold temperature and no fly access, which should generalize to any perishable thing cooled by any cold water source"
+  },
+  {
+    "id": "clever-15",
+    "domain": "predator",
+    "place": "A dark trail through the woods at night, a big cat's eyes visible reflecting firelight from the brush a short distance off, and a burning torch in the player's hand.",
+    "initiator": "player",
+    "lines": [
+      "hold the torch up and step toward the cat",
+      "wave it and shout",
+      "back away slowly toward camp, keeping the torch between them"
+    ],
+    "things": ["torch", "big cat", "darkness", "trail", "camp", "brush"],
+    "outcome": "Bright firelight close to a night predator's eyes overwhelms its night vision and the sudden movement and noise reads as a threat rather than an opportunity, so stepping toward the cat with the torch raised makes it flinch back into the brush rather than press its approach. Backing away with the torch still between them keeps that advantage as long as the flame holds and the retreat is slow enough not to trigger a chase instinct in a startled predator; a fast retreat or a stumble that lets the torchlight waver can undo the bluff and invite exactly the pursuit the player was trying to avoid.",
+    "steps": [
+      {
+        "process": "dazzle",
+        "agent": "torch",
+        "patient": "big cat",
+        "instrument": null,
+        "because": ["agent is bright", "patient is night-adapted"],
+        "effects": ["big cat loses clear night vision", "big cat gains startled"],
+        "numbers": ["how close the torch needs to be to have this effect"]
+      },
+      {
+        "process": "threaten",
+        "agent": "player",
+        "patient": "big cat",
+        "instrument": "torch and shouting",
+        "because": ["instrument is startling", "patient is cautious"],
+        "effects": ["big cat gains fear", "big cat moves back into brush"],
+        "numbers": ["odds the bluff works versus the cat pressing forward anyway if hungry enough"]
+      },
+      {
+        "process": "retreat",
+        "agent": "player",
+        "patient": "trail toward camp",
+        "instrument": null,
+        "because": ["patient is direct", "agent is retreating"],
+        "effects": ["player moves toward camp", "torch retains its deterrent effect"],
+        "numbers": ["how slowly the retreat must go to avoid triggering a chase"]
+      },
+      {
+        "process": "waver",
+        "agent": "sudden fast movement",
+        "patient": "torch's light",
+        "instrument": null,
+        "because": ["agent is abrupt", "patient is unsteady"],
+        "effects": ["torch loses steady deterrent effect", "big cat gains renewed interest"],
+        "numbers": ["odds a stumble happens on uneven ground in the dark"]
+      },
+      {
+        "process": "pursue",
+        "agent": "big cat",
+        "patient": "player",
+        "instrument": null,
+        "because": ["patient is fleeing", "agent is predatory"],
+        "effects": ["big cat moves toward player", "player loses safe distance"],
+        "numbers": ["how fast a big cat closes distance once it commits to a chase"]
+      }
+    ],
+    "latent": ["how hungry the cat actually is, which changes whether the bluff holds at all", "how even or uneven the trail underfoot is for the retreat"],
+    "state_after": ["big cat: driven off into the brush, or pursuing depending on how the retreat went", "torch: still burning, held or dropped", "player: safely retreating toward camp, or in danger"],
+    "stress": "a bluff that depends on maintaining a threatening appearance under stress, where the same tool that creates the advantage can lose it through a moment of clumsiness",
+    "temptation": "a rule that says a torch always scares off a predator, instead of deriving the effect from disrupted night vision, startled-versus-committed predator behavior, and a chase instinct triggered by fleeing motion, which should generalize to any bright light against any night-hunting animal"
+  }
+]

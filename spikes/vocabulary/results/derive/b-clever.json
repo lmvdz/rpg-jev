@@ -1,0 +1,190 @@
+[
+  {
+    "id": "clever-01",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "burning emits smoke and light (E9 from S3), more smoke the wetter the fuel",
+      "smoke as a gas that gathers where access is low (air as a place state)",
+      "groups (a swarm with a count)",
+      "sensing and creature choices (smoke calming or driving off an insect)",
+      "move and give (reaching in, taking comb)",
+      "growth and routine rates (a hive's stores recovering)"
+    ],
+    "note": "Step 1 derives in part: damp wood (wetness 2) will not take a flame in half a minute where the same wood dry does, catches by three minutes, and once lit holds twice the fuel minutes, so it burns slower. The chain breaks inside step 1 at 'creates smoke': burning emits no signal on any channel, so there is nothing to drift into the hollow. Steps 2 to 4 (bees, reaching, the hive's yield) are out of reach."
+  },
+  {
+    "id": "clever-02",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "move and build (stacking stones into a composite)",
+      "places changing (E13: flow strength and depth of a dammed stream, a leak through porosity)",
+      "groups with a spread (the slowest fish stranded first)",
+      "creature choices and routine rates",
+      "the air need drifting for a body in shallow warm water",
+      "give (catching by hand)"
+    ],
+    "note": "No step is in reach: the chain breaks at step 1. A dam is a joined composite that changes a place's flow and depth, and everything after is fish as a group responding to the place. No test written."
+  },
+  {
+    "id": "clever-03",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "heat exchanged between two things, weighted by mass and amount, drawing the source down",
+      "contents (S8): water in the hide keeping it wet and capping its temperature",
+      "shock that reads S15 and is independent of how time is cut into acts",
+      "a boiling threshold and steam as events",
+      "move (carrying stones with tongs)"
+    ],
+    "note": "Derives: stones take minutes to heat (2.3 after 1 min, 4.9 after 30) and do not burn; a hot stone burns a bare hand and does not light green tongs; with the caller issuing heat both ways the stones shed heat fast, one batch leaves the water at 2.6 and it passes 4.5 on the tenth; a soaked hide will not light in a flame that lights it dry. RULE ERRORS, all in heat.ts: (1) heat() never cools the source and reads no amounts, so one stone left in a hide full of water takes it to 4.9, and a cupful with four stones heats exactly as a hide full with one; the general rule is an exchange toward a balance weighted by mass times amount. (2) `drying` runs whatever the source is and ignition() asks only how hot the source is, so a hide holding boiling water for an hour dries to 0 and catches fire, and water at 4.2 lights dry kindling (ignition point 3.8); a liquid source should wet rather than dry, and only a burning or glowing source should light. (3) shock() tests the drop within one act against 2: five minutes in the water as one act cracks the stone, as five acts of one minute never does; it should depend on the rate of change, not the act's length. Also shock never reads flaw, so every stone of this row cracks on every long plunge where the scenario makes it the flawed one."
+  },
+  {
+    "id": "clever-04",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "burning emits light (E9 from S3)",
+      "a burning coat heating what it covers at a flame's rate, not the ambient one",
+      "feeling, sensing and creature choices (a wolf's fear of fire against its hunger)",
+      "odds for a careless swing (manner into a chance of a drip), and attention (B7)"
+    ],
+    "note": "Derives: oil coats the blade (coverage 0.78) and is consumed; held in the fire the coat catches inside half a minute and bare iron never burns; the lit sword sears (burned 0.4) and cuts exactly as deep as the unlit one (1.84), which is the scenario's point; a burning drop burns an arm without cutting; the coat burns out in about three minutes leaving no coat and the same edge and hardness. Does not derive: no light is emitted, so step 3 has nothing for the wolf to see and the chain breaks there; and the blade ends at 2.5, not hot to the touch, because drift warms a burning thing at the slow ambient rate (magnitude, not direction)."
+  },
+  {
+    "id": "clever-05",
+    "status": "rule_error",
+    "confidence": "low",
+    "needs": [
+      "load that knows along from across (a prop in compression)",
+      "supports as a relation with a balance that a small force undoes (R3, precariousness from care)",
+      "scent signal and sensing (bait)",
+      "creature choices with caution (a careful tug)",
+      "a body row with size and mass, and health taken by a crush",
+      "odds of a square landing"
+    ],
+    "note": "RULE ERROR in load.ts strength(): a long support's section is size minus 2 whatever the direction of the load, so a sound thin stick (strength 2.1) snaps under half a heavy flat stone (weight 3) and the trap cannot be set; a prop borne along its length should bear far more than the same stick as a beam. Confidence is low: the mass scale is coarse and with the slab at mass 3 it would hold. The fall derives as a deep crushing wound that bleeds little (depth 2.8, bleeding 0.8), but it does not kill: health stays 4.8 because a wound costs health only through bleeding, and a lighter animal cannot be told from a fox because every body is the same flesh. Baiting, the careful theft and the reset are out of reach; the chain breaks at step 1."
+  },
+  {
+    "id": "clever-06",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "S3 'starved of air it chars': going out for lack of air keeps the remaining fuel, as a charred element (a charsTo beside burnsTo)",
+      "air at the level of the thing or a cover relation (R5, R6), so a seal can be partial and leak",
+      "places changing (covering a pit)",
+      "a glowing-coals stage of burning"
+    ],
+    "note": "Derives: split wood lights and burns away in the open in about an hour (fuel 60) to ash, and with no air it stops flaming. RULE ERROR in drift.ts: the burning drift sets fuel to 0 when the place's air is 0, and driftThing reads 'was burning of self, now is not' as burned away, so wood sealed with thirty minutes of fuel left is consumed whole and replaced by ash in the first step: smothering destroys exactly what it should save. The general rule: only fuel running out consumes; going out for lack of air leaves what had not burned, charred. The partial leak in step 4 needs air per thing, not per place."
+  },
+  {
+    "id": "clever-07",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "burning and drying emit smoke (E9), denser for moist fuel",
+      "signals bent and scattered by wind strength (R7, X8)",
+      "sensing at a distance with attention (the distant camp)"
+    ],
+    "note": "Derives: dry kindling catches within a quarter of a minute; green branches thrown on do not flame, dry on the fire over minutes (wetness 3 to 2.1) and only then light at about ten minutes. The chain breaks at step 2's product: no smoke is emitted by anything burning or drying, so wind has nothing to bend and nobody has anything to see."
+  },
+  {
+    "id": "clever-08",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "move (dragging) leaving a trace signal (blood trail)",
+      "scent carried by wind with a strength (R7, E9)",
+      "sensing and tracking (X8)",
+      "groups and creature choices (a pack choosing the carcass over the camp, hunger as a latent)",
+      "routine rates for feeding unobserved"
+    ],
+    "note": "Only the ends are in reach. A day on, the carcass smells stronger than fresh (M4; scent is at 5), and a wolf with tolerance 3 that feeds on it is sated (hunger 4 to 2.5), barely sickened (0.3) and leaves less carcass. The chain breaks at step 1: nothing moves, leaves a trail, carries scent on wind or chooses. Note the carcass is at contamination 4.5 after one mild day, which is fast for a whole deer."
+  },
+  {
+    "id": "clever-09",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "sensing under a light level (a fine flaw missed by firelight)",
+      "tell (a false claim held with a source)",
+      "give and accept_offer (the trade)",
+      "claims spreading between minds, feeling (trust lost)",
+      "wear as a visible state distinct from a hidden flaw"
+    ],
+    "note": "Only step 4 is in reach, and it derives: encoded as flaw 2, the frayed rope reads the same as a sound one through effective(), holds less (2.6 against 4.6) and snaps with a loud crack under a load the sound rope bears. Encoding caveat: fraying is visible in daylight, so it is not quite S15; the engine has no state for visible wear short of integrity. Inspecting, lying, trading and word spreading are all out of reach: the chain breaks at step 1."
+  },
+  {
+    "id": "clever-10",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "phase change for liquids (S6 from S1: water freezing and thawing)",
+      "P22 swell pushing on what holds it, checked by Load against strength and S15",
+      "flaw growing under repeated sub-critical load (a crack widening per cycle)",
+      "contents for a crack that holds water"
+    ],
+    "note": "Derives: the rock takes the poured water as a film, rock and water reach 0 by morning, and one night does not split it. RULE ERROR in drift.ts, the wetness drift: film drying reads warmth only above mild (exposed = 1 + max(0, T - 2) + wind), so the water in the crack has dried to 0 by morning at freezing, as fast as on a mild day; drying should slow toward nothing as temperature falls to freezing and stop for ice. Beyond that the chain breaks at step 2: isLiquid() is true for a liquid element at any temperature so nothing freezes, and nothing reads swell, so there is no wedge, no widening and no freeze-thaw count. Medium confidence because the water is encoded as wetness on the rock; with contents it might not be exposed to drying at all."
+  },
+  {
+    "id": "clever-11",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "join as a plug with fit (X5, R10) and a strength that drifts under flexing (R4)",
+      "contents and leaking through an opening (S8, R6)",
+      "a force that flexes rather than strikes"
+    ],
+    "note": "Derives: ten minutes of searching the bank turns up clay (yield 2.2) and none on the trail; the plug is still soft after an hour in the sun, dry and set within a day (wetness 0.4 at 18 h, set by 24 h), harder than it was, stiff (flexibility 1 or less) where the leather round it flexes (4), and wetting it again does not soften it (M5). The chain breaks at step 2: there is no plug in a hole, so neither the seal nor its cracking loose under flexing can happen; the mismatch the failure comes from is visible only as two numbers. Note that M5 makes sun-dried clay waterproof for good, which is true of fired clay and not of a dried plug."
+  },
+  {
+    "id": "clever-12",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "weather as a source (rain with a rate, gusts with a strength)",
+      "liquid moving by gravity along a slope into contents (X4 over R3 and S8)",
+      "wind deflecting what falls",
+      "move by wind (a gust displacing an unsecured thing: force against friction and mass)"
+    ],
+    "note": "No step is in reach. Rain in the engine is a place's moisture that wets things; it has no amount that runs anywhere or fills anything. The chain breaks at step 1. No test written."
+  },
+  {
+    "id": "clever-13",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "deformation with stored tension (a bent springy thing, from flexibility and toughness)",
+      "join (tying, a noose with a fit against the size of what it closes on)",
+      "a trigger: a support relation a small force undoes",
+      "creature movement and odds of where a noose closes",
+      "a body row with size, and harm by strangling or holding (contested hold)"
+    ],
+    "note": "No step is in reach: force only cuts, breaks or wounds, and a bent sapling has no state to hold. The chain breaks at step 1. No test written."
+  },
+  {
+    "id": "clever-14",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "creatures as routine rates (flies seeding contamination where they have access, R6)",
+      "join (wrapping) and a weight holding against flow strength (move by current)",
+      "place states changing (the stream rising)"
+    ],
+    "note": "The core derives from the contamination drift alone: in the stream (cold, soaked) the meat reaches contamination 2.5 three to four times later than in warm camp air; it never stops (0.8 at 12 h, 1.6 at a day, 3.1 at two days: turning, and smelling more than fresh); the camp's is spoiled outright within a day and the stream's within four; cooked through at two days it feeds and does not sicken. Flies, the wrapping and the bundle washing loose are out of reach, so steps 1, 4 and 6 are untested."
+  },
+  {
+    "id": "clever-15",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "burning emits light (E9 from S3)",
+      "sensing with impairment (B8 dazzled, night-adapted eyes)",
+      "feeling and creature choices (fear against hunger; a chase triggered by fleeing)",
+      "move with speed against speed, and odds of a stumble from footing and haste",
+      "tell (shouting as a threat)"
+    ],
+    "note": "No step is in reach: every step is a signal, a sense, a feeling or a choice. The chain breaks at step 1. No test written."
+  }
+]

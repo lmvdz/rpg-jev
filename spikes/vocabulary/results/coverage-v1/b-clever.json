@@ -1,0 +1,174 @@
+[
+  {
+    "id": "clever-01",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["P6", "S2", "S3"], "effects": ["E1:S3", "E9", "E4"] },
+      { "process": "X8", "uses": ["S14", "B6", "R1"], "effects": ["E1:B6", "E5"] },
+      { "process": "X1", "uses": ["R1", "R6", "P2"], "effects": ["E7", "E3", "E2:B3"] },
+      { "process": "X7", "uses": ["S14", "P20", "S12"], "effects": ["E1:S14", "E1:S12"] }
+    ],
+    "reactions": [
+      "P6(smoke, on the smoke channel) + B6(fear tied to an alarm scent) under X8 -> E1:B6: smoke masks the alarm signal, calming the group instead of alerting it"
+    ],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-02",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X5", "uses": ["P1", "P3", "R3"], "effects": ["E3", "E6"] },
+      { "process": "X4", "uses": ["P10", "R3"], "effects": ["E1:place.flow"] },
+      { "process": "X7", "uses": ["place:depth", "place:flow"], "effects": ["E1:place.depth"] },
+      { "process": "X1", "uses": ["S14", "R6", "P2", "B1"], "effects": ["E1:S14", "E5"] },
+      { "process": "X6", "uses": ["B1", "B2"], "effects": ["E2:B2", "E7"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "individual variation within a group", "why": "the outcome needs specifically the slower or larger fish in the shoal to be stranded while the rest escape; a group carries one baseline row plus a count, with no trait distribution across members to explain why some differ enough to be caught." }
+    ],
+    "lost": "why the stranded fish are specifically the slower or larger ones, rather than an arbitrary share of the shoal, can't be derived from a group that shares one baseline row; it can only be asserted.",
+    "named_rule": null
+  },
+  {
+    "id": "clever-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["P1", "P7", "S1"], "effects": ["E1:S1"] },
+      { "process": "X1", "uses": ["P7", "S1"], "effects": [] },
+      { "process": "X3", "uses": ["P1", "P7", "S1"], "effects": ["E1:S1", "E3"] },
+      { "process": "X3", "uses": ["P1", "P7"], "effects": ["E1:S1"] },
+      { "process": "X3", "uses": ["P4", "S1", "S4"], "effects": ["E1:S4", "E3", "E1:S6"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-06",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["P6", "S3"], "effects": ["E1:S3", "E9", "E4"] },
+      { "process": "X5", "uses": ["R6"], "effects": ["E1:R6"] },
+      { "process": "X7", "uses": ["S3", "R6"], "effects": ["E1:S3", "E3"] },
+      { "process": "X7", "uses": ["R6", "S3"], "effects": ["E4", "E3"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-08",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P1", "R7"], "effects": ["E5", "E9"] },
+      { "process": "X7", "uses": ["R7", "place:wind"], "effects": ["E9"] },
+      { "process": "X8", "uses": ["S14", "R1", "R7"], "effects": ["E1:B7", "E5"] },
+      { "process": "X6", "uses": ["B1", "S14"], "effects": ["E4", "E2:B1"] },
+      { "process": "X1", "uses": ["R1"], "effects": [] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-09",
+    "verdict": "full",
+    "steps": [
+      { "process": "X8", "uses": ["R8", "S4"], "effects": [] },
+      { "process": "X10", "uses": [], "effects": ["E8"] },
+      { "process": "X9", "uses": ["R9"], "effects": ["E7"] },
+      { "process": "Load", "uses": ["P4", "S4", "S15"], "effects": ["E1:S4"] },
+      { "process": "X10", "uses": ["B6"], "effects": ["E8"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-10",
+    "verdict": "full",
+    "steps": [
+      { "process": "X4", "uses": ["R2"], "effects": ["E1:S8"] },
+      { "process": "X3", "uses": ["S1", "S6", "P22"], "effects": ["E1:S6", "E1"] },
+      { "process": "Load", "uses": ["P22", "P3", "P4", "S15"], "effects": ["E1:S4"] },
+      { "process": "X3", "uses": ["S1", "S6"], "effects": ["E1:S6"] },
+      { "process": "X7", "uses": ["S4"], "effects": ["E1:S4", "E3"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-11",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P9", "S2"], "effects": ["E3"] },
+      { "process": "X5", "uses": ["P5", "P13", "S2"], "effects": ["E3", "E6"] },
+      { "process": "X7", "uses": ["S2", "P23"], "effects": ["E1:P3", "E1:P5"] },
+      { "process": "X5", "uses": ["R4", "R10"], "effects": ["E6"] },
+      { "process": "X2", "uses": ["P5", "P4"], "effects": ["E1:S4", "E6"] }
+    ],
+    "reactions": [
+      "S2(wet clay) under M1 -> E1: softer and more flexible while damp, letting it be pressed into the gap; S2 drying past P23's threshold under M5 -> E1: hardens for good, losing the flexibility match to the leather it patches"
+    ],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-12",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X5", "uses": ["form:sheet", "R3"], "effects": ["E3"] },
+      { "process": "X4", "uses": ["place:slope"], "effects": ["E3"] },
+      { "process": "X4", "uses": ["form:sheet", "R10"], "effects": ["E1:S8"] },
+      { "process": "X4", "uses": ["place:wind"], "effects": ["E1"] },
+      { "process": "Load", "uses": ["R3", "place:wind"], "effects": ["E6"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "form", "what": "curved channel / trough", "why": "the form tag set only offers a flat 'sheet', so concentrating rain toward one low edge and out a narrow spout needs a two-axis curved gutter shape that no tag represents." }
+    ],
+    "lost": "the funnel's specific water-concentrating geometry, beyond a flat sloped sheet, is asserted rather than derived from any form tag.",
+    "named_rule": null
+  },
+  {
+    "id": "clever-14",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5", "uses": ["P9"], "effects": ["E3"] },
+      { "process": "X1", "uses": ["R3", "place:depth"], "effects": ["E5", "E1:S1"] },
+      { "process": "X7", "uses": ["S1", "P15", "S9"], "effects": ["E1:S9"] },
+      { "process": "X7", "uses": ["R6"], "effects": ["E1:S9"] },
+      { "process": "X7", "uses": ["P15", "S9"], "effects": ["E1:S9"] },
+      { "process": "Load", "uses": ["P1", "R3", "R4"], "effects": ["E6", "E5", "E4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "clever-15",
+    "verdict": "full",
+    "steps": [
+      { "process": "X8", "uses": ["R8", "B8"], "effects": ["E1:B8"] },
+      { "process": "X8", "uses": ["B6"], "effects": ["E2:B6", "E5"] },
+      { "process": "X1", "uses": ["R8"], "effects": [] },
+      { "process": "X1", "uses": ["R8"], "effects": ["E1:E9"] },
+      { "process": "X8", "uses": ["B7", "B8"], "effects": ["E2:B7", "E5"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]

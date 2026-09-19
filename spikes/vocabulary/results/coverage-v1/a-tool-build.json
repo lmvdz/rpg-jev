@@ -1,0 +1,78 @@
+[
+  {
+    "id": "tool-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P2", "R3"], "effects": ["E5"] },
+      { "process": "X2", "uses": ["P3", "P1", "S5"], "effects": ["E5"] },
+      { "process": "X2", "uses": ["P4", "P3", "grained"], "effects": ["E1:S4", "E3"] }
+    ],
+    "reactions": ["P3(wedge hard) + grained(oak, splits along one direction) under X2 with driven pressure -> E1:S4: wedge splits the round clean along the grain"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "tool-06",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["P1", "P3"], "effects": ["E1:S4", "E3"] },
+      { "process": "X7", "uses": ["R4", "S2"], "effects": ["E1:R4"] },
+      { "process": "Load", "uses": ["R4", "S15"], "effects": ["E6", "E5"] }
+    ],
+    "reactions": ["R4(wedged haft) strength driven down by repeated X2 use plus drying (S2) -> Load fails against S15 -> E6: head separates, E5: head flies off"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "tool-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["grained", "S5", "P4"], "effects": ["E3", "E4"] },
+      { "process": "X2", "uses": ["grained", "S15"], "effects": ["E1:S4"] },
+      { "process": "X2", "uses": ["P3", "edged"], "effects": ["E2:B3"] }
+    ],
+    "reactions": ["S15(hidden knot) + grained(catches across grain) under X2 -> E1:S4: the cut catches at the knot and the branch cracks instead of shaving clean"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "tool-08",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P1", "P3", "P4"], "effects": ["E5", "E1:S4"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "grip/aim control", "why": "an irregular, handleless striking face causing more glancing misses is about steering and balance of an odd shape in the hand, which section 8 names as not granted beyond fit (R10) and hardness for something like a coin used as a screwdriver" }
+    ],
+    "lost": "the extra glancing blows and bruised knuckles trace to the rock's lack of a handle and its irregular face, not to its mass or hardness; X2 can make the peg go in, but nothing makes it go in worse for that specific reason",
+    "named_rule": null
+  },
+  {
+    "id": "tool-09",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["S1", "S6"], "effects": ["E1:S6"] },
+      { "process": "Load", "uses": ["P22", "S8", "S4", "S15"], "effects": ["E1:S4", "E3"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "build-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P2", "R3"], "effects": ["E1:R3"] },
+      { "process": "Load", "uses": ["P4", "P3", "S15"], "effects": ["E1:S4"] }
+    ],
+    "reactions": ["R3(long rail across a support) multiplies the player's effort onto the boulder under X1 pry -> the same amplified force loads the rail itself, checked by Load against the rail's own P4/S15 -> E1:S4: the rail snaps before the boulder moves"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]
