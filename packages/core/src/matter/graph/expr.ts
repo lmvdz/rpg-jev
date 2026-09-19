@@ -13,6 +13,7 @@
  * - `s.wetness`      a state, as the rules so far have left it (`s.burning.fuel` reaches inside)
  * - `was.wetness`    a state, as it was when the act began
  * - `x.surface`      a scratch quantity a rule wrote for a later rule; never part of the world
+ * - `b.bleeding`     a number about a party that is a body, given by whoever built the act
  * - `place.air`      the place the party is in
  * - `row.moist`, `row.p.scent`, `row.is.liquid`   the party's own element row
  * - `coat.p.…`, `wetWith.p.…`   the row of what coats it, or of what it is wet with
@@ -55,6 +56,7 @@ export const ROOTS = [
   "s",
   "was",
   "x",
+  "b",
   "place",
   "row",
   "coat",

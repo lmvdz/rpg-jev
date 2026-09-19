@@ -65,6 +65,7 @@ const KNOWN: Record<string, (rest: readonly string[], allowed: Allowed) => boole
   s: statePath,
   was: statePath,
   x: ([key = ""]) => /^[a-z][A-Za-z]*$/.test(key),
+  b: ([key = ""]) => /^[a-z][A-Za-z]*$/.test(key),
   place: ([key = ""]) => PLACE.has(key),
   row: rowPath,
   coat: rowPath,
@@ -83,6 +84,8 @@ function split(path: string, allowed: Allowed) {
   return { root, rest, ok: partyOk && (KNOWN[root]?.(rest, allowed) ?? false) };
 }
 
+const MADE = ["emit", "split", "wound", "seal"];
+const CHANNELS = ["light", "sound", "scent", "smoke", "sight"];
 const COND_KEYS = ["a", "is", "b", "has", "lacks", "ref", "equals", "all", "any"];
 
 class Checker {
@@ -159,13 +162,35 @@ class Checker {
       this.say(`moves the level ${key} without bounds`);
   }
 
+  /** The kinds that make something besides moving a state: each says what it rests on. */
+  made(node: Record<string, unknown>): undefined {
+    const party = node.kind === "wound" || node.kind === "seal" ? node.on : node.from;
+    if (typeof party !== "string" || !this.allowed.parties.includes(party))
+      this.say(`${String(node.kind)} names ${JSON.stringify(party)}, who is not there`);
+    // Only the engine wounds a body: a proposed row may give something off, or split a thing.
+    if ((node.kind === "wound" || node.kind === "seal") && !this.allowed.engine)
+      this.say(`${node.kind}s a body, which only the engine may`);
+    for (const key of ["strength", "amount", "depth", "bleeding", "burned"])
+      if (node[key] !== undefined) this.expr(node[key]);
+    if (typeof node.note !== "string" || !Array.isArray(node.because) || node.because.length === 0)
+      this.say(`${String(node.kind)} does not say what it rests on`);
+    if (node.kind === "emit" && !CHANNELS.includes(node.channel as string))
+      this.say(`emits on ${JSON.stringify(node.channel)}, which is no channel`);
+    if (node.kind !== "split") return;
+    for (const [key, to] of Object.entries((node.state as Record<string, unknown>) ?? {})) {
+      if (!STATES.has(key) || key === "amount") this.say(`a piece with ${key}`);
+      if (typeof to !== "object" || to === null || !("value" in to)) this.expr(to);
+    }
+  }
+
   effect(e: unknown): undefined {
     if (typeof e !== "object" || e === null) return this.say("an effect that is not a record");
     const node = e as Record<string, unknown>;
+    if (node.when !== undefined) this.cond(node.when);
+    if (MADE.includes(node.kind as string)) return this.made(node);
     if (!["approach", "accrue", "set", "put"].includes(node.kind as string))
       return this.say(`unknown kind of effect ${JSON.stringify(node.kind)}`);
     this.target(node);
-    if (node.when !== undefined) this.cond(node.when);
     for (const key of ["toward", "rate", "to", "lo", "hi", "over"])
       if (node[key] !== undefined) this.expr(node[key]);
     const record = node.kind === "put" && typeof node.value === "object" && node.value !== null;
@@ -196,10 +221,13 @@ export function validate(rule: unknown, allowed: Allowed): string[] {
     if (Array.isArray(alt.effects)) for (const e of alt.effects) check.effect(e);
     else check.say("an alternative without effects");
     const cites =
-      Array.isArray(alt.because) && alt.because.every((b: string) => /^[A-Z]\d+$/.test(b));
+      Array.isArray(alt.because) &&
+      alt.because.every((b: string) => /^[A-Z]\d+$/.test(b) || FORM_SET.has(b));
     if (!cites) check.say("cites something that is not a vocabulary id");
-    if (Array.isArray(alt.effects) && alt.effects.length > 0 && (alt.because?.length ?? 0) === 0)
-      check.say("acts and cites nothing");
+    const moves =
+      Array.isArray(alt.effects) &&
+      alt.effects.some((e: { kind: string }) => !MADE.includes(e.kind));
+    if (moves && (alt.because?.length ?? 0) === 0) check.say("acts and cites nothing");
   }
   return check.problems;
 }

@@ -8,7 +8,8 @@
  * The rows stay the source of truth. Nothing here knows any rule.
  */
 import { effective } from "../effective.ts";
-import type { MatterWorld, Place, Properties, Thing, ThingState } from "../types.ts";
+import type { Change, MatterWorld, Place, Properties, Thing, ThingState, Wound } from "../types.ts";
+import { clamp } from "../types.ts";
 import { type Cond, type Expr, OPS, ROOTS } from "./expr.ts";
 import type { Alternative, Effect, Rule } from "./rules.ts";
 
@@ -20,6 +21,8 @@ export interface Party {
   s: ThingState;
   was: ThingState;
   x: Record<string, number>;
+  /** For a party that is a body: numbers about it that a rule may read (`b.bleeding`). */
+  b?: Readonly<Record<string, number>>;
   /** Properties worked out against a later state, kept until the state moves again. */
   now?: { state: ThingState; p: Properties };
 }
@@ -59,6 +62,10 @@ export interface Ran {
   note?: string;
   quiet?: true;
   spent?: true;
+  /** Nothing came of it, and the rule says so. */
+  nothing?: true;
+  /** What the rule made besides moving states: signals, pieces, wounds. In order. */
+  made: Change[];
 }
 
 type Num = (env: Env) => number;
@@ -156,6 +163,10 @@ const PARTY_ROOTS: Record<
     ([key = ""]) =>
     (_env, party) =>
       party.x[key] ?? 0,
+  b:
+    ([key = ""]) =>
+    (_env, party) =>
+      party.b?.[key] ?? 0,
   place:
     ([key = ""]) =>
     (_env, party) =>
@@ -254,6 +265,7 @@ export class Kernel {
 interface Working {
   env: Env;
   spent: boolean;
+  made: Change[];
 }
 type Step = (w: Working) => void;
 type Put = (env: Env, value: unknown) => void;
@@ -336,6 +348,85 @@ const BUILD: { [K in Effect["kind"]]: Build<K> } = {
     // A record is laid down afresh each time, so that no two things share one.
     return (w) => put(w.env, typeof value === "object" && value !== null ? { ...value } : value);
   },
+  emit: (k, e) => {
+    const strength = k.num(e.strength);
+    return (w) => {
+      const from = w.env.parties[e.from];
+      if (!from) return;
+      w.made.push({
+        kind: "signal",
+        place: from.thing.place,
+        channel: e.channel,
+        source: from.thing.id,
+        strength: strength(w.env),
+        because: [...e.because],
+        note: e.note,
+      });
+    };
+  },
+  split: (k, e) => {
+    const amount = k.num(e.amount);
+    const fields = Object.entries(e.state).map(([key, to]) => {
+      const literal = typeof to === "object" && to !== null && "value" in to;
+      return { key, literal: literal ? to.value : null, num: literal ? null : k.num(to as Expr) };
+    });
+    return (w) => {
+      const from = w.env.parties[e.from];
+      const taken = amount(w.env);
+      if (!(from && taken > 0)) return;
+      const state: Bag = { ...from.was };
+      for (const f of fields) state[f.key] = f.num ? f.num(w.env) : f.literal;
+      state.amount = taken;
+      const { id, element, place } = from.thing;
+      const piece = {
+        id: `${id}.${e.suffix}`,
+        element,
+        place,
+        state: state as unknown as ThingState,
+      };
+      w.made.push({ kind: "create", thing: piece, because: [...e.because], note: e.note });
+      // What the piece has, the parent loses.
+      const less = { because: [...e.less.because], note: e.less.note };
+      w.made.push({ kind: "consume", thing: id, amount: taken, ...less });
+    };
+  },
+  wound: (k, e) => {
+    const [depth, bleeding, burned] = [k.num(e.depth), k.num(e.bleeding), k.num(e.burned)];
+    return (w) => {
+      const on = w.env.parties[e.on];
+      if (!on) return;
+      const wound: Wound = {
+        depth: depth(w.env),
+        bleeding: bleeding(w.env),
+        burned: burned(w.env),
+      };
+      w.made.push({
+        kind: "wound",
+        body: on.thing.id,
+        wound,
+        because: [...e.because],
+        note: e.note,
+      });
+    };
+  },
+  seal: (k, e) => {
+    const burned = k.num(e.burned);
+    return (w) => {
+      const body = w.env.world.bodies[w.env.parties[e.on]?.thing.id ?? ""];
+      body?.wounds.forEach((was, index) => {
+        if (was.bleeding <= 0) return;
+        const set = { bleeding: 0, burned: clamp(was.burned + burned(w.env)) };
+        w.made.push({
+          kind: "treat",
+          body: body.id,
+          index,
+          set,
+          because: [...e.because],
+          note: e.note,
+        });
+      });
+    };
+  },
 };
 
 function step(k: Kernel, effect: Effect): Step {
@@ -388,7 +479,7 @@ export function ready(k: Kernel, rule: Rule): Ready {
     if (!found) return null;
     const before: Record<string, ThingState> = {};
     for (const [name, party] of Object.entries(env.parties)) before[name] = party.s;
-    const w: Working = { env, spent: false };
+    const w: Working = { env, spent: false, made: [] };
     for (const s of found.steps) s(w);
     const { because, quiet } = found.alt;
     const note = found.note(env);
@@ -399,8 +490,24 @@ export function ready(k: Kernel, rule: Rule): Ready {
       ...(note === undefined ? {} : { note }),
       ...(quiet ? { quiet } : {}),
       ...(w.spent ? { spent: true as const } : {}),
+      ...(found.alt.nothing ? { nothing: true as const } : {}),
+      made: w.made,
     };
   };
+}
+
+/**
+ * What one rule did, as the changes the world is rewritten by: the state it moved on the party
+ * it is about (if it cites anything), then whatever it made, in order.
+ */
+export function changesOf(env: Env, ran: Ran): Change[] {
+  const said = { because: [...ran.because], note: ran.note ?? "it changes" };
+  if (ran.nothing) return [{ kind: "nothing", ...said }, ...ran.made];
+  const about = env.parties[ran.about];
+  if (!about || ran.because.length === 0) return ran.made;
+  const quiet = ran.quiet ? { quiet: true as const } : {};
+  const set = ran.sets[ran.about] ?? {};
+  return [{ kind: "state", thing: about.thing.id, set, ...said, ...quiet }, ...ran.made];
 }
 
 export function readyAll(rules: readonly Rule[], derived: Readonly<Record<string, Expr>>): Ready[] {

@@ -11,10 +11,21 @@
  *   construction. Reaching the lower bound may be an event with effects of its own.
  * - `set`: a quantity is given a value. `put`: a discrete state is switched, or a small record
  *   is laid down whole.
+ * - `emit`: something is given off that others may notice. It changes nothing.
+ * - `split`: part of a thing comes away as a thing of its own. What the piece has, the parent
+ *   loses: nothing is made from nothing, by construction.
+ * - `wound`, `seal`: what force and heat do to a body.
  *
  * Nothing here is a function.
  */
+import type { Channel } from "../types.ts";
 import { type Cond, type Expr, ROOTS } from "./expr.ts";
+
+/** What a change says of itself: the vocabulary it rests on, and what someone would say. */
+export interface Said {
+  readonly because: readonly string[];
+  readonly note: string;
+}
 
 export type Literal =
   | string
@@ -37,6 +48,34 @@ export type Effect = (
     }
   | { readonly kind: "set"; readonly q: string; readonly to: Expr }
   | { readonly kind: "put"; readonly q: string; readonly value: Literal }
+  | ({
+      readonly kind: "emit";
+      /** The party it comes from. */
+      readonly from: string;
+      readonly channel: Channel;
+      readonly strength: Expr;
+    } & Said)
+  | ({
+      readonly kind: "split";
+      readonly from: string;
+      /** The piece is named after its parent: `<parent>.<suffix>`. */
+      readonly suffix: string;
+      /** How much comes away. It is taken from the parent. */
+      readonly amount: Expr;
+      /** How the piece differs from what its parent was: the rest it inherits. */
+      readonly state: Readonly<Record<string, Expr | { readonly value: Literal }>>;
+      /** What is said of the parent being the less for it. */
+      readonly less: Said;
+    } & Said)
+  | ({
+      readonly kind: "wound";
+      readonly on: string;
+      readonly depth: Expr;
+      readonly bleeding: Expr;
+      readonly burned: Expr;
+    } & Said)
+  /** Every wound that bleeds is closed, and burned by so much more. */
+  | ({ readonly kind: "seal"; readonly on: string; readonly burned: Expr } & Said)
 ) & {
   readonly when?: Cond;
   readonly lo?: Expr;
@@ -50,6 +89,8 @@ export interface Alternative {
   readonly effects: readonly Effect[];
   /** The vocabulary ids this cites, as every change does. None: nothing is said to have happened. */
   readonly because: readonly string[];
+  /** Nothing came of it, and that is worth saying: the change is a `nothing`, with this note. */
+  readonly nothing?: true;
   /** What someone standing there would say happened: one thing, or one of two by a condition. */
   readonly note?: string | { readonly if: Cond; readonly say: string; readonly otherwise: string };
   readonly quiet?: true;

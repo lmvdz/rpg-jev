@@ -4,6 +4,11 @@
  */
 import { describe, expect, it } from "vitest";
 import { DRIFT_DERIVED, DRIFT_RULES } from "../../../src/matter/graph/drift-rules.ts";
+import {
+  FORCE_BODY_RULES,
+  FORCE_DERIVED,
+  FORCE_THING_RULES,
+} from "../../../src/matter/graph/force-rules.ts";
 import { HEAT_DERIVED, HEAT_RULES } from "../../../src/matter/graph/heat-rules.ts";
 import type { Rule } from "../../../src/matter/graph/rules.ts";
 import { type Allowed, validate, validateDerived } from "../../../src/matter/graph/validate.ts";
@@ -13,6 +18,12 @@ const HEAT: Allowed = {
   parties: ["src", "tgt"],
   act: ["minutes", "contact"],
   derived: HEAT_DERIVED,
+};
+
+const FORCE: Allowed = {
+  parties: ["tool", "tgt", "arm"],
+  act: ["effort", "care", "haste", "seconds", "surface", "along"],
+  derived: FORCE_DERIVED,
 };
 
 const good: Rule = {
@@ -45,6 +56,10 @@ describe("checking a row without running it", () => {
       expect(validate(rule, { ...DRIFT, engine: true }), rule.id).toEqual([]);
     for (const rule of HEAT_RULES)
       expect(validate(rule, { ...HEAT, engine: true }), rule.id).toEqual([]);
+    for (const rule of [...FORCE_THING_RULES, ...FORCE_BODY_RULES])
+      expect(validate(rule, { ...FORCE, engine: true }), rule.id).toEqual([]);
+    for (const [name, expr] of Object.entries(FORCE_DERIVED))
+      expect(validateDerived(name, expr, FORCE), name).toEqual([]);
     for (const [name, expr] of Object.entries(DRIFT_DERIVED))
       expect(validateDerived(name, expr, DRIFT), name).toEqual([]);
     for (const [name, expr] of Object.entries(HEAT_DERIVED))

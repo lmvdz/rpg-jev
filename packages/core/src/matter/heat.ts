@@ -13,7 +13,7 @@ import { effective } from "./effective.ts";
 import type { Expr } from "./graph/expr.ts";
 import { GROWN_HEAT } from "./graph/grown.ts";
 import { HEAT_DERIVED, HEAT_RULES } from "./graph/heat-rules.ts";
-import { envOf, partyOf, type Ready, readyAll } from "./graph/kernel.ts";
+import { changesOf, envOf, partyOf, type Ready, readyAll } from "./graph/kernel.ts";
 import type { Rule } from "./graph/rules.ts";
 import { quantity } from "./scale.ts";
 import type { Burning, Change, MatterWorld, Properties, Thing } from "./types.ts";
@@ -107,16 +107,7 @@ function heatBy(rules: readonly Ready[], world: MatterWorld, act: HeatAct): Chan
   const changes: Change[] = [];
   for (const rule of rules) {
     const ran = rule(env);
-    const about = ran ? env.parties[ran.about] : undefined;
-    if (!(ran && about) || ran.because.length === 0) continue;
-    changes.push({
-      kind: "state",
-      thing: about.thing.id,
-      set: ran.sets[ran.about] ?? {},
-      because: [...ran.because],
-      note: ran.note ?? "it changes",
-      ...(ran.quiet ? { quiet: true as const } : {}),
-    });
+    if (ran) changes.push(...changesOf(env, ran));
   }
   return changes;
 }
