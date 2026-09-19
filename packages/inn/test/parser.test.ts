@@ -80,6 +80,7 @@ describe("the deterministic matcher", () => {
     const world = inKitchen();
     expect(match("go to celler", world)).toMatchObject({ action: { verb: "go", room: "cellar" } });
     expect(match("go back", world)).toMatchObject({ action: { verb: "go", room: BACK } });
+    expect(match("turn around", world)).toMatchObject({ action: { verb: "go", room: BACK } });
     expect(match("kill odo", world)).toMatchObject({ action: { verb: "attack", target: "odo" } });
     for (const mine of ["check backpack", "check pockets", "look in my bag"])
       expect(match(mine, world)).toMatchObject({ action: { verb: "inventory" } });
@@ -90,6 +91,13 @@ describe("the deterministic matcher", () => {
     expect(match("take onion", world)).toMatchObject({
       action: { verb: "take", item: "onion" },
     });
+  });
+
+  it("resolves reversal and return commands to the way you came", () => {
+    const world = inKitchen();
+    for (const phrase of ["turn around", "turn back", "turn round", "turn about", "retreat"]) {
+      expect(match(phrase, world)).toMatchObject({ action: { verb: "go", room: BACK } });
+    }
   });
 });
 
