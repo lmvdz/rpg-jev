@@ -36,13 +36,14 @@ packages/jev       the judge port: the eight question families, the slice compil
                    recorded, scripted, caching, metered and resilient judges
 packages/inn       the Gilded Carp: content, parser, slices, the game engine, prose templates
 packages/terminal  pnpm play, pnpm demo, and the route harness
+packages/client    WebGL2 glyph renderer, grown clearing, world editor and visual study
 spikes/            experiments that answer one question each
 demo/              the recorded demo: transcript, costs, recordings for the offline tests, routes
 docs/              the world bible and the PoC report
 SPEC.md            architecture spec
 ```
 
-Packages planned in the spec (`server`, `author`, `client`) are added when their milestone starts, not before.
+Packages planned in the spec (`server`, `author`) are added when their milestone starts, not before.
 
 ## Commands
 
@@ -50,6 +51,7 @@ Packages planned in the spec (`server`, `author`, `client`) are added when their
 | --- | --- |
 | `pnpm check` | Lint, typecheck and tests. Tests run offline against recorded judge answers. The lint is strict (complexity, length, nested ternaries, unused code) and the tests include a ratchet on character names in engine code and coverage over every verb, thing, deed, voice and activity |
 | `pnpm play` | Play the inn |
+| `pnpm client` | Open the renderer at http://localhost:5174. `?study` compares glyphs and material states, `?stress` shows the performance scene, and Tab opens the editor |
 | `pnpm demo` | Play the fixed script against live Jev; write `demo/transcript.md` and `demo/metrics.json` |
 | `pnpm demo --record` | As above, and re-record `demo/recordings.json` for the offline test. Do this after changing a slice, a question or the content |
 | `pnpm friction` | Read the saved nights and write `playtests/friction.md`: where play snagged. See `docs/playtest-loop.md` |
