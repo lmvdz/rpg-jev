@@ -62,9 +62,28 @@ About 500 live calls, 3.2 million input tokens, $0.17.
 
 **Agreement is about two in three, and that is about right.** Given only the situation, Jev's first choice is one of the acts the writer called plausible 62 to 68% of the time, and one of its first two is, 80 to 84% of the time. The disagreements are diffuse (no pair of intents is confused systematically; the commonest are `go_to` against `eat_drink`, which is a question of sequence, and `help` against `carry_on`). A scenario writer's "what it does" is one reading of a situation that honestly admits several, so this is not a ceiling to push toward 100%. It is the baseline the routine has to match: when the engine scores the same options in code, its choice should be among Jev's first two about as often as a human writer's is.
 
+## The routine against the judge (2026-09-18)
+
+The preconditions and the salience now exist (`packages/core/src/matter/intents.ts`), so the first item below could be measured. `results/scripts/routine.ts` makes scenes from a seeded generator over engine structures only, builds the slice with `sliceFor` and the handful with `offers`, shuffles the handful, and asks Jev three things, kept apart: which of the handful (two wordings), and which of all 34 intents with no targets.
+
+| Set | Role | Measured | Routine is Jev's first | In Jev's first two | Chance | Jev says none | Shift | Wanted intent was offered (or its first step) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A, first rules | derived from | 46 of 60 | 41% | 72% | 22 / 43% | 4% | 0.10 | 50% (67%) |
+| A, four general rules added | derived from | 55 of 60 | 55% | 75% | 22 / 44% | 0% | 0.09 | 56% (75%) |
+| B, engine frozen at `151151a` | **held out** | 50 of 60 | **64%** | **78%** | 23 / 46% | 2% | 0.09 | 46% (72%) |
+
+The writer baseline above is 62 to 68% and 80 to 84%. Held out, the routine matches it on first choice and is just under on the first two. Scenes left out had one offer only. Set B was read only as its summary.
+
+What set A taught, each written as a property before the code: what is at hand counts for more than what can be had later; what feeds it and lies right here is worth something even fed; a keeper may stay over its young with nothing menacing; a need that nothing in sight would meet offers going to look. Two faults in the words were found the same way: a smelled food was called strange, and the slice never said fed.
+
+Where code does not offer what Jev wants, by count over both sets: `eat_drink` 24 (23 of them with `go_to` offered, which is the same want one act earlier), `guard` 7, `defer` 6, `attack` 5, `help` 4. Three structures explain most of it. **What feeds whom** does not exist: prey is not food, and a grazer would be offered meat. **Helping** is offered only to the hurt. **Guarding** is wanted more widely than a menace or a helpless ward allows.
+
+Eleven of the 34 rows cannot be offered yet. Each names what it waits on: speech and claims (`ask`, `tell`, `deceive`, `keep_quiet`), offers made between bodies (`offer_trade`, `accept`, `refuse`), claims of ownership (`demand`), purposes for a thing (`work_on`), seasons and pairing (`court`), a group with a task (`lead`).
+
 ## What this does not show
 
-- **Preconditions and salience are untested.** Here the judge was offered all 34 intents at once. In play, code offers the handful whose preconditions hold. Whether code offers the right handful is the next thing to measure, and it cannot be measured until bonds, custom and rank, and the ground exist as structures.
-- **Targets are untested.** An intent is toward something. The measure asked which intent, never toward what.
+- **The scenes of the routine measure are thin.** One creature, at most one other, one food, two young. Nothing in them has more than one menace, and no scene runs longer than one choice. The generator and the engine were written by the same hand, so a factor neither thought of is in neither.
+- **A third of the rows wait on structures.** The measure says nothing about trade, speech or work, because code cannot offer them.
+- **Most offers do nothing yet.** Of the 23 rows code can offer, 7 become an act the rules resolve (`go_to`, `keep_away`, `take`, `eat_drink`, `carry_to`, `attack`, `give`). Guarding, warning off, hiding, calling and the rest can be chosen and change nothing in the world. The measure is of the choice, never of what follows from it.
 - **The same family of model wrote the scenarios, the list and the control.** The control shows how much that matters: a frame none of us took is invisible until someone takes it. The next frame nobody took is still out there. A person's playtest remains the only outside view.
 - **34 options is a long list for one Choice.** Jev handled it here (paraphrase shift 0.14, the same as the inn's loosest family). In play the list is pruned by code first, as SPEC section 14 requires.

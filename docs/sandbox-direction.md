@@ -181,7 +181,31 @@ Sex is not a factor. What matters is on the row and in the state: whether it bea
 
 **How to know it covers "so many other factors".** The way the vocabulary was tested. Write held-out scenarios of what a creature or a person does and why, with no vocabulary given; derive the smallest set of factor kinds and intents that says them; test on a batch its author has not read. Expect it not to close, as the vocabulary did not: a domain of behaviour (parenthood, rank in a pack, territory, trade) is a feature, admitted when held-out coverage says so. The table above is version 0 and came from one example.
 
-**What to build, in order.** Bonds and homes as structures, with a ward's needs reaching its keeper. Deeds from percepts, moving feelings by predicate. Intents as rows, with preconditions and salience, replacing `optionsFor`. The slice builder, replacing the hand-written words of the probes. The routine as a score over the same options, with the agreement test against the judge. Properties first, each time.
+**Built and measured** (2026-09-18, `packages/core/src/matter/{bonds,deeds,intents,slice,names}.ts`, properties in `test/matter/minds.test.ts`). The five steps are done, each written properties first.
+
+- *Structures.* Bonds with a weight (a ward's needs reach its keeper, never more than the ward's own need), a home, the ground as ways out, custom and rank as rows of a place, and witnesses derived from sensing. A body is now noticed as any thing is.
+- *Deeds.* A deed is derived from an act and its changes, and moves feelings in who suffered it, in who is bound to them by the weight of the bond, and a little in who saw. Feelings fade by half-lives in closed form. A kind of deed is a row.
+- *Intents as rows.* All 34 measured intents have a row. 23 can be offered from the structures that exist, and 7 of those become an act the rules resolve (go to, keep away, take, eat, carry to, attack, give); the other 16 can be chosen and do nothing in the world yet. The remaining 11 each name the structure they wait on: speech and claims, offers made between bodies, claims of ownership, purposes for a thing, seasons and pairing, a group with a task. A handful is offered, with none always last.
+- *One slice builder.* `sliceFor` compiles what the judge reads from the structures, in words, with no digit in it.
+- *The routine* is the first of the same offers.
+
+A mother with hungry young goes to a kill, carries it home, sets it down, and the young eat and come to trust her. No rule says mother: the same rows under other names are offered the same, and a test ratchets that no engine file names a creature.
+
+**The routine against the judge** (`spikes/minds/results/routine-*.json`). Scenes come from a seeded generator over engine structures only. Code builds the slice and the handful. Jev chooses among the handful, shuffled so their order says nothing.
+
+| Set | Role | Scenes measured | Routine is Jev's first choice | Routine in Jev's first two | Chance | Jev says none of the handful | Paraphrase shift |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| A, first rules | derived from | 46 of 60 | 41% | 72% | 22% / 43% | 4% | 0.10 |
+| A, after four general rules | derived from | 55 of 60 | 55% | 75% | 22% / 44% | 0% | 0.09 |
+| B, engine frozen at `151151a` | **held out** | 50 of 60 | **64%** | **78%** | 23% / 46% | 2% | 0.09 |
+
+The baseline from the intent measure is a human writer: Jev's first choice is one of the writer's plausible acts 62 to 68% of the time, and one of its first two is, 80 to 84%. Held out, the routine is at 64% and 78%. It matches the writer on first choice and is just under on the first two. Scenes left out had only one offer. About 540,000 input tokens, $0.02.
+
+Four general rules came from set A and were written as properties before the code: what is at hand counts for more than what can be had later (food a few steps off before lying down), what feeds it and lies right here is worth something even fed, a keeper may stay over its young with nothing menacing, and a need that nothing in sight would meet offers going to look. Set B was read only as a summary.
+
+**What the measure says is missing.** Asked over all 34 intents with no targets, the intent Jev wants is among what code offered in 46% of held-out scenes, or 72% when going toward food counts as the first step of eating it. The rest is mostly three things. *What feeds whom* is not a structure: a hungry bear beside a wolf wants to attack, and the generator had to be told that a hind is not fed by meat. *Helping* is offered only to the hurt. *Guarding* is wanted in more situations than a menace or a helpless ward. Diet is the next structure, before speech.
+
+**What was to be built, in order (now done).** Bonds and homes as structures, with a ward's needs reaching its keeper. Deeds from percepts, moving feelings by predicate. Intents as rows, with preconditions and salience, replacing `optionsFor`. The slice builder, replacing the hand-written words of the probes. The routine as a score over the same options, with the agreement test against the judge. Properties first, each time.
 
 ## Admitting a feature
 
