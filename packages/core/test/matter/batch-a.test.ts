@@ -276,7 +276,8 @@ describe("food and bodies", () => {
     const stale = resolve(w, { process: "drift", minutes: 720 }).world;
     expect(stale.things.meat?.state.contamination).toBeGreaterThan(1.5);
     const ate = resolve(stale, { process: "ingest", body: "player", thing: "meat" }).world;
-    expect(ate.bodies.player?.needs.hunger).toBe(0);
+    // Hunger rises with the hours now, so it is lower than it was, not nothing.
+    expect(ate.bodies.player?.needs.hunger).toBeLessThan(stale.bodies.player?.needs.hunger ?? 0);
     expect(ate.bodies.player?.health).toBe(5);
     expect(ate.bodies.player?.sickensIn).toBeGreaterThan(60);
     const later = resolve(ate, { process: "drift", minutes: 300 }).world;

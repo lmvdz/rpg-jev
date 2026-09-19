@@ -5,6 +5,7 @@
  */
 import { apply } from "./apply.ts";
 import { effective } from "./effective.ts";
+import { weathered } from "./living.ts";
 import { report } from "./report.ts";
 import type { Body, Change, MatterWorld, Place, Properties, Thing, ThingState } from "./types.ts";
 import { clamp, FRESH } from "./types.ts";
@@ -75,7 +76,8 @@ const DRIFTS: readonly Drift[] = [
     const film = Math.max(0, s.wetness - inside);
     const filmLeft = Math.max(0, film - exposed * 0.0015 * minutes);
     const open = 0.1 + p.porosity * 0.4;
-    const bulk = 1 + p.mass * 0.4 + p.absorbency * 0.2 + p.size * 0.3;
+    // Bulk counts by powers: a timber takes weeks where a pot takes days.
+    const bulk = 1.5 ** (p.mass + p.size - 1) + p.absorbency * 0.2;
     const heldLeft = Math.max(0, s.wetness - film - (exposed * open * 0.0045 * minutes) / bulk);
     return {
       set: { wetness: Math.max(floor, heldLeft + filmLeft) },
@@ -196,7 +198,7 @@ function driftThing(world: MatterWorld, thing: Thing, minutes: number): Change[]
  * deep one, which is why a scratch closes and a gash needs binding. A sickness shows once
  * its delay has run.
  */
-function driftBody(body: Body, minutes: number): Change[] {
+function driftBody(world: MatterWorld, body: Body, minutes: number): Change[] {
   // Each wound bleeds along a falling line until it stops; the loss is the area under it.
   const lost = body.wounds.reduce((sum, w) => {
     const rate = 0.03 / (1 + w.depth);
@@ -204,7 +206,10 @@ function driftBody(body: Body, minutes: number): Change[] {
     return sum + w.bleeding * runs - (rate * runs ** 2) / 2;
   }, 0);
   const due = body.sickness > 0 && body.sickensIn > 0 && body.sickensIn <= minutes + 1e-9;
-  const health = clamp(body.health - lost * 0.004 - (due ? body.sickness * 0.5 : 0));
+  const lived = weathered(world, body, minutes);
+  const health = clamp(
+    (lived.health ?? body.health) - lost * 0.004 - (due ? body.sickness * 0.5 : 0),
+  );
   const sickensIn = Math.max(0, body.sickensIn - minutes);
   const changes: Change[] = [];
   body.wounds.forEach((w, index) => {
@@ -219,11 +224,10 @@ function driftBody(body: Body, minutes: number): Change[] {
       note: clotted > 0 ? "the bleeding slows" : "the bleeding stops",
     });
   });
-  if (health === body.health && sickensIn === body.sickensIn) return changes;
   changes.push({
     kind: "body",
     body: body.id,
-    set: { health, sickensIn },
+    set: { ...lived, health, sickensIn },
     because: ["B2", "B3", "B4", "X7"],
     note: due ? "the sickness comes on" : "time passes over the body",
   });
@@ -234,7 +238,7 @@ function driftBody(body: Body, minutes: number): Change[] {
 function step(world: MatterWorld, minutes: number): Change[] {
   return [
     ...Object.values(world.things).flatMap((t) => driftThing(world, t, minutes)),
-    ...Object.values(world.bodies).flatMap((b) => driftBody(b, minutes)),
+    ...Object.values(world.bodies).flatMap((b) => driftBody(world, b, minutes)),
   ];
 }
 

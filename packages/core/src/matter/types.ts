@@ -212,6 +212,10 @@ export interface Body {
   attention?: "alert" | "distracted" | "asleep";
   /** What it is aware of now, by source. Written only by sensing. */
   aware?: Record<string, Percept>;
+  /** How wet it is, 0 to 5. Absent is dry. */
+  wetness?: number;
+  /** The things it wears, by id: what keeps the cold off, and what a blow meets first. */
+  wears?: string[];
   needs: Partial<Record<Need, number>>;
   /** B2: 0 to 5. */
   health: number;

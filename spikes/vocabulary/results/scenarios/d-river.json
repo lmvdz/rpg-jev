@@ -1,0 +1,992 @@
+[
+  {
+    "id": "river-01",
+    "domain": "river",
+    "place": "A slow lowland river with a muddy launch bank where a freshly hollowed dugout, cut from a green log, waits to be tried.",
+    "initiator": "player",
+    "lines": ["I push the dugout into the water and climb in", "I paddle out toward the middle of the river"],
+    "things": ["dugout canoe", "green log", "paddle", "river water", "mud bank", "player", "sun"],
+    "outcome": "The dugout floats, but because the wood is green it is dense and heavy, so the hull sits low with little freeboard from the start. Paddling out works, but leaning to either side brings water right up to the gunwale. Over the following days in the sun the wood loses some of the water it was cut with and rides a little higher, though never as high as a boat carved from dry timber.",
+    "steps": [
+      {
+        "process": "push",
+        "agent": "player",
+        "patient": "dugout canoe",
+        "instrument": null,
+        "because": ["patient is heavy", "place is slick"],
+        "effects": ["moves canoe to river"],
+        "numbers": ["how much force is needed to slide it over the mud"]
+      },
+      {
+        "process": "float",
+        "agent": "river water",
+        "patient": "dugout canoe",
+        "instrument": null,
+        "because": ["patient is heavy", "patient is dense"],
+        "effects": ["patient freeboard down"],
+        "numbers": ["how low it sits, from the wood's density and the hull's shape"]
+      },
+      {
+        "process": "paddle",
+        "agent": "player",
+        "patient": "dugout canoe",
+        "instrument": "paddle",
+        "because": ["instrument is rigid", "place is calm"],
+        "effects": ["moves canoe to middle of river"],
+        "numbers": ["how fast it travels for the effort spent"]
+      },
+      {
+        "process": "lean",
+        "agent": "player",
+        "patient": "dugout canoe",
+        "instrument": null,
+        "because": ["patient is low", "agent is heavy"],
+        "effects": ["patient gains water", "player gains wet"],
+        "numbers": ["how much water comes over the side for a given lean"]
+      },
+      {
+        "process": "dry",
+        "agent": "sun",
+        "patient": "dugout canoe",
+        "instrument": null,
+        "because": ["patient is wet", "place is warm"],
+        "effects": ["patient loses water", "patient freeboard up"],
+        "numbers": ["how many days it takes to dry, how much lighter it gets"]
+      }
+    ],
+    "latent": ["a hairline crack along the log's grain, hidden under the bark, that will open into a leak later"],
+    "state_after": ["dugout canoe: afloat, low in the water, slowly drying and lightening"],
+    "stress": "buoyancy follows from a specific log's density and hull volume, not from 'canoes' being a stable category of thing",
+    "temptation": "a rule that says dugout canoes always tip when you lean, instead of computing freeboard from weight and hull shape"
+  },
+  {
+    "id": "river-02",
+    "domain": "river",
+    "place": "A boatwright's landing where a plank boat with open, gapped seams sits pulled half out of the river.",
+    "initiator": "player",
+    "lines": ["I pack moss into the gaps between the planks", "I melt pitch over a fire and smear it along the seams", "I push the boat back into the water"],
+    "things": ["plank boat", "moss", "pitch", "fire", "river water", "player"],
+    "outcome": "The moss and pitch close the gaps and the boat floats dry at first, exactly as caulking should. But the pitch is brittle once it cools, and the boat flexes slightly every time it rocks on the current, so over the following days a seam along one plank works the coating loose. The boat starts taking on a slow trickle of water at that one seam, well before anyone would call it damaged.",
+    "steps": [
+      {
+        "process": "pack",
+        "agent": "player",
+        "patient": "plank boat",
+        "instrument": "moss",
+        "because": ["patient is gapped", "instrument is fibrous"],
+        "effects": ["patient gains moss", "consumes moss"],
+        "numbers": ["how much moss fills the gaps"]
+      },
+      {
+        "process": "melt",
+        "agent": "player",
+        "patient": "pitch",
+        "instrument": "fire",
+        "because": ["instrument is hot", "patient is solid"],
+        "effects": ["patient gains liquid", "patient loses solid"],
+        "numbers": ["how long and how hot it must be melted"]
+      },
+      {
+        "process": "smear",
+        "agent": "player",
+        "patient": "plank boat",
+        "instrument": "pitch",
+        "because": ["patient is gapped", "instrument is sticky"],
+        "effects": ["patient gains coating", "patient loses gapped"],
+        "numbers": ["how much pitch is needed to cover the seams"]
+      },
+      {
+        "process": "float",
+        "agent": "river water",
+        "patient": "plank boat",
+        "instrument": null,
+        "because": ["patient is sealed", "patient is buoyant"],
+        "effects": ["patient gains dry"],
+        "numbers": ["how much water stays out at first"]
+      },
+      {
+        "process": "flex",
+        "agent": "river water",
+        "patient": "plank boat",
+        "instrument": null,
+        "because": ["patient is brittle", "place is rough"],
+        "effects": ["patient loses coating", "patient gains leak"],
+        "numbers": ["how many days before the pitch cracks, how much water gets in per day after"]
+      }
+    ],
+    "latent": ["a plank with tighter, oilier grain that never fully took the pitch, hidden beneath the smooth coat"],
+    "state_after": ["plank boat: afloat, one seam cracking, taking on a slow leak"],
+    "stress": "a seal fails from material fatigue and flexing over time, not from a fixed leak-chance rolled once at launch",
+    "temptation": "a rule that says caulked boats never leak until a set number of days have passed"
+  },
+  {
+    "id": "river-03",
+    "domain": "river",
+    "place": "A river crossing where a flat ferry raft carries goods and passengers between two landings on a moderate current.",
+    "initiator": "player",
+    "lines": ["I load the sacks of grain onto the ferry", "I wave the last two passengers aboard", "I push off from the landing"],
+    "things": ["ferry raft", "sacks of grain", "passengers", "bucket", "river water", "pole", "player"],
+    "outcome": "Each sack and each passenger sinks the ferry a little further, and by the time it pushes off there is barely a hand's width of freeboard left. Mid-river, chop from the current starts washing over the low side faster than a passenger can bail it out, and the raft settles lower still. Depending on how much more comes aboard, it either limps to the far bank leaking badly or swamps outright, dumping cargo over the side.",
+    "steps": [
+      {
+        "process": "load",
+        "agent": "player",
+        "patient": "ferry raft",
+        "instrument": "sacks of grain",
+        "because": ["instrument is heavy"],
+        "effects": ["patient gains weight", "patient freeboard down"],
+        "numbers": ["how much freeboard is lost per sack"]
+      },
+      {
+        "process": "board",
+        "agent": "passengers",
+        "patient": "ferry raft",
+        "instrument": null,
+        "because": ["patient freeboard down"],
+        "effects": ["patient freeboard down"],
+        "numbers": ["how much more it sinks per passenger"]
+      },
+      {
+        "process": "push off",
+        "agent": "player",
+        "patient": "ferry raft",
+        "instrument": "pole",
+        "because": ["place is deep enough"],
+        "effects": ["moves ferry raft to river"],
+        "numbers": []
+      },
+      {
+        "process": "wash over",
+        "agent": "river water",
+        "patient": "ferry raft",
+        "instrument": null,
+        "because": ["patient is low", "place is choppy"],
+        "effects": ["patient gains water"],
+        "numbers": ["how much water comes aboard per wave, from freeboard"]
+      },
+      {
+        "process": "bail",
+        "agent": "passengers",
+        "patient": "ferry raft",
+        "instrument": "bucket",
+        "because": ["patient is low", "instrument is small"],
+        "effects": ["patient loses water"],
+        "numbers": ["how fast bailing removes water compared to how fast it comes in"]
+      },
+      {
+        "process": "swamp",
+        "agent": "river water",
+        "patient": "ferry raft",
+        "instrument": null,
+        "because": ["patient is overloaded", "patient is low"],
+        "effects": ["patient loses buoyancy", "transfers sacks of grain from ferry raft to river water"],
+        "numbers": ["how much cargo is lost, whether it swamps fully or barely reaches the bank"]
+      }
+    ],
+    "latent": ["a passenger who cannot swim, unmentioned until the raft starts going under"],
+    "state_after": ["ferry raft: swamped, drifting, part of its cargo gone", "sacks of grain: soaked, some sunk"],
+    "stress": "load determines freeboard, and freeboard determines how much each wave adds, compounding rather than a single overload check",
+    "temptation": "a rule that says ferries capsize once more than a fixed number of units are aboard"
+  },
+  {
+    "id": "river-04",
+    "domain": "river",
+    "place": "A narrow stretch where the current runs fast over a stony riverbed, and a punt boat is being poled upstream against it.",
+    "initiator": "player",
+    "lines": ["I plant the pole against the riverbed and push", "I lift the pole and plant it again further along"],
+    "things": ["punt boat", "pole", "river water", "riverbed", "player"],
+    "outcome": "Poling normally walks the boat upstream a step at a time, but here the pole's foot wedges into a gap between two stones on the bed. While the player wrestles it free, the current has nothing holding the boat's line and swings it broadside, and by the time the pole comes loose the boat has drifted back downstream past where the push began.",
+    "steps": [
+      {
+        "process": "plant",
+        "agent": "player",
+        "patient": "riverbed",
+        "instrument": "pole",
+        "because": ["place is stony", "instrument is rigid"],
+        "effects": ["instrument gains grip"],
+        "numbers": []
+      },
+      {
+        "process": "push",
+        "agent": "player",
+        "patient": "punt boat",
+        "instrument": "pole",
+        "because": ["instrument gains grip", "place is fast"],
+        "effects": ["moves punt boat upstream"],
+        "numbers": ["how far it advances per push"]
+      },
+      {
+        "process": "wedge",
+        "agent": "riverbed",
+        "patient": "pole",
+        "instrument": null,
+        "because": ["patient is narrow", "place is stony"],
+        "effects": ["patient gains stuck"],
+        "numbers": ["how likely a gap catches the pole's foot"]
+      },
+      {
+        "process": "swing",
+        "agent": "river water",
+        "patient": "punt boat",
+        "instrument": null,
+        "because": ["place is fast", "patient is unsteered"],
+        "effects": ["moves punt boat sideways", "patient gains turned"],
+        "numbers": ["how fast it turns broadside once unheld"]
+      },
+      {
+        "process": "wrench",
+        "agent": "player",
+        "patient": "pole",
+        "instrument": null,
+        "because": ["agent is strong", "patient is stuck"],
+        "effects": ["patient loses stuck", "player loses balance"],
+        "numbers": ["how long it takes to free"]
+      },
+      {
+        "process": "carry",
+        "agent": "river water",
+        "patient": "punt boat",
+        "instrument": null,
+        "because": ["patient is unsteered", "place is fast"],
+        "effects": ["moves punt boat downstream"],
+        "numbers": ["how far it drifts back while the pole is stuck"]
+      }
+    ],
+    "latent": ["the same gap between stones has snagged other poles before, its edges already worn smooth"],
+    "state_after": ["punt boat: drifted downstream of the starting point", "pole: scraped and muddy at the foot"],
+    "stress": "steerage is lost the instant the pole is committed to the bed and not free to correct the boat's line",
+    "temptation": "a rule that says poling upstream always advances the boat by one fixed step per push"
+  },
+  {
+    "id": "river-05",
+    "domain": "river",
+    "place": "A landing stage where a rowboat is tied to a rough wooden piling, the current tugging steadily at the line day and night.",
+    "initiator": "player",
+    "lines": ["I loop the rope twice around the piling and tie it off"],
+    "things": ["rowboat", "rope", "piling", "river water", "player"],
+    "outcome": "The knot holds perfectly well; nothing about the tying is wrong. But the rope rubs against the piling's rough edge with every small surge of current, and the same few inches of fiber take all the wear. Over several days those fibers fray through, and the rope finally parts on its own with nobody there to see it, leaving the rowboat to drift off and be found downstream, or not found at all.",
+    "steps": [
+      {
+        "process": "tie",
+        "agent": "player",
+        "patient": "rope",
+        "instrument": "piling",
+        "because": ["instrument is fixed", "patient is flexible"],
+        "effects": ["patient gains knot"],
+        "numbers": []
+      },
+      {
+        "process": "tug",
+        "agent": "river water",
+        "patient": "rope",
+        "instrument": null,
+        "because": ["place is flowing", "patient is taut"],
+        "effects": ["patient gains tension"],
+        "numbers": ["how much force the current puts on the line"]
+      },
+      {
+        "process": "chafe",
+        "agent": "piling",
+        "patient": "rope",
+        "instrument": null,
+        "because": ["patient is taut", "instrument is rough"],
+        "effects": ["patient loses fiber"],
+        "numbers": ["how many days of rubbing it takes to fray through at one spot"]
+      },
+      {
+        "process": "snap",
+        "agent": "rope",
+        "patient": "rope",
+        "instrument": null,
+        "because": ["patient is frayed"],
+        "effects": ["patient loses strength", "patient loses knot"],
+        "numbers": ["how much tension the frayed spot can still take before parting"]
+      },
+      {
+        "process": "drift",
+        "agent": "river water",
+        "patient": "rowboat",
+        "instrument": null,
+        "because": ["patient is unmoored", "place is flowing"],
+        "effects": ["moves rowboat downstream"],
+        "numbers": ["how far and how fast it drifts before anyone notices"]
+      }
+    ],
+    "latent": ["a second, looser wrap of old rope on the piling that nobody thought to use as a backup line"],
+    "state_after": ["rowboat: adrift downstream, unattended", "rope: parted, one frayed end still knotted to the piling"],
+    "stress": "mooring failure comes from sustained wear at a single contact point, not a random break rolled after some fixed number of days",
+    "temptation": "a rule that says ropes break after a set number of days tied up, regardless of what they rub against"
+  },
+  {
+    "id": "river-06",
+    "domain": "river",
+    "place": "A fishing stretch of open current where an old branch lies fully submerged and invisible from the surface.",
+    "initiator": "player",
+    "lines": ["I cast the net out across the current", "I let it sink on its weights", "I start hauling it back in"],
+    "things": ["fishing net", "lead weights", "cork floats", "sunken branch", "river water", "fish", "knife", "player"],
+    "outcome": "The net spreads, sinks on its weights as intended, and starts to gather fish. But its trailing edge drapes over the hidden branch and hooks fast on it, and hauling only pulls the mesh tighter against the snag instead of freeing it. The net tears where it is stressed hardest, most of the catch slips out through the gap, and the caught corner has to be cut away and left on the branch.",
+    "steps": [
+      {
+        "process": "cast",
+        "agent": "player",
+        "patient": "fishing net",
+        "instrument": null,
+        "because": ["patient is wide", "place is open"],
+        "effects": ["moves fishing net to river"],
+        "numbers": ["how far it spreads on the cast"]
+      },
+      {
+        "process": "sink",
+        "agent": "lead weights",
+        "patient": "fishing net",
+        "instrument": null,
+        "because": ["agent is heavy", "patient is loose"],
+        "effects": ["moves fishing net to riverbed"],
+        "numbers": ["how fast it sinks"]
+      },
+      {
+        "process": "snag",
+        "agent": "sunken branch",
+        "patient": "fishing net",
+        "instrument": null,
+        "because": ["place is uneven", "patient is thin"],
+        "effects": ["patient gains caught"],
+        "numbers": []
+      },
+      {
+        "process": "haul",
+        "agent": "player",
+        "patient": "fishing net",
+        "instrument": null,
+        "because": ["patient is caught"],
+        "effects": ["patient loses mesh", "patient gains torn"],
+        "numbers": ["how much force it takes before the mesh gives"]
+      },
+      {
+        "process": "escape",
+        "agent": "fish",
+        "patient": "fishing net",
+        "instrument": null,
+        "because": ["patient is torn"],
+        "effects": ["transfers fish from fishing net to river water"],
+        "numbers": ["how many fish escape through the tear"]
+      },
+      {
+        "process": "cut free",
+        "agent": "player",
+        "patient": "fishing net",
+        "instrument": "knife",
+        "because": ["patient is caught", "instrument is sharp"],
+        "effects": ["consumes net section"],
+        "numbers": ["how much net is abandoned on the branch"]
+      }
+    ],
+    "latent": ["the sunken branch has snagged other nets before, still wrapped in rotted cord from past losses"],
+    "state_after": ["fishing net: torn, missing a corner", "sunken branch: wrapped in old net cord", "fish: mostly escaped downstream"],
+    "stress": "an unseen obstacle below the surface causes a gear loss that is only ever discovered by its effect, never announced in advance",
+    "temptation": "a rule that names this stretch of river as the place nets always snag"
+  },
+  {
+    "id": "river-07",
+    "domain": "river",
+    "place": "A shallow bend where a weir of stakes and wattle fencing spans part of the river to funnel fish into a basket trap.",
+    "initiator": "player",
+    "lines": ["I check the fish trap at the weir", "I pull the caught branches and reeds out from between the stakes"],
+    "things": ["fish weir", "stakes", "wattle fencing", "basket trap", "driftwood", "reeds", "fish", "river water", "player"],
+    "outcome": "Over the days between visits, the weir catches drifting branches and mats of reeds against its upstream face just as readily as it catches fish. The blockage backs the water up and slows the flow through the trap, so fewer fish are carried into the basket and the water pools noticeably higher on the upstream side. Clearing the debris restores the flow and the catch, but the same thing starts building again with the next rise in the current.",
+    "steps": [
+      {
+        "process": "drift",
+        "agent": "river water",
+        "patient": "driftwood",
+        "instrument": null,
+        "because": ["patient is buoyant", "place is flowing"],
+        "effects": ["moves driftwood to fish weir"],
+        "numbers": ["how much debris arrives per day"]
+      },
+      {
+        "process": "catch",
+        "agent": "fish weir",
+        "patient": "driftwood",
+        "instrument": "stakes",
+        "because": ["instrument is closely spaced", "patient is drifting"],
+        "effects": ["patient gains caught", "fish weir gains debris"],
+        "numbers": []
+      },
+      {
+        "process": "back up",
+        "agent": "driftwood",
+        "patient": "river water",
+        "instrument": null,
+        "because": ["patient is blocked", "place is narrow"],
+        "effects": ["patient level up"],
+        "numbers": ["how much the water rises behind the weir"]
+      },
+      {
+        "process": "slow",
+        "agent": "river water",
+        "patient": "fish weir",
+        "instrument": null,
+        "because": ["patient is blocked"],
+        "effects": ["patient loses flow"],
+        "numbers": ["how much the flow through the trap drops"]
+      },
+      {
+        "process": "avoid",
+        "agent": "fish",
+        "patient": "fish weir",
+        "instrument": null,
+        "because": ["patient is blocked", "patient loses flow"],
+        "effects": ["fish weir loses fish"],
+        "numbers": ["how many fewer fish enter the trap"]
+      },
+      {
+        "process": "clear",
+        "agent": "player",
+        "patient": "fish weir",
+        "instrument": null,
+        "because": ["patient gains debris", "patient is blocked"],
+        "effects": ["patient loses debris", "patient gains flow"],
+        "numbers": ["how long clearing takes"]
+      }
+    ],
+    "latent": ["a stake near the base already loosened by the pressure of the trapped debris behind it"],
+    "state_after": ["fish weir: cleared and flowing again, one stake loose at the base", "river water: settling back toward its normal level upstream"],
+    "stress": "the weir's own working principle, catching things in the current, works against it by catching debris as readily as fish",
+    "temptation": "a rule that says weirs need clearing every fixed number of days regardless of how much debris the river is carrying"
+  },
+  {
+    "id": "river-08",
+    "domain": "river",
+    "place": "A mill built over a fast side-channel of the river, its water wheel turning steadily to drive the grindstone.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["water wheel", "mill axle", "grindstone", "gear tooth", "branch", "river water", "miller"],
+    "outcome": "A branch swept down the side-channel wedges between the wheel's paddles and its housing, and the wheel jams solid with nobody nearby to see it happen. The current keeps pushing on the stopped wheel, straining the axle, and the strain concentrates on the weakest part of the gearing until a wooden tooth cracks. The mill goes quiet, and only the sudden silence tells the miller something is wrong.",
+    "steps": [
+      {
+        "process": "carry",
+        "agent": "river water",
+        "patient": "branch",
+        "instrument": null,
+        "because": ["patient is buoyant", "place is fast"],
+        "effects": ["moves branch to water wheel"],
+        "numbers": ["how often the channel carries something this size"]
+      },
+      {
+        "process": "wedge",
+        "agent": "branch",
+        "patient": "water wheel",
+        "instrument": null,
+        "because": ["place is narrow", "patient is turning"],
+        "effects": ["patient gains jammed"],
+        "numbers": []
+      },
+      {
+        "process": "strain",
+        "agent": "river water",
+        "patient": "mill axle",
+        "instrument": null,
+        "because": ["patient is jammed", "agent is flowing"],
+        "effects": ["patient gains strain"],
+        "numbers": ["how much force builds against the jam over time"]
+      },
+      {
+        "process": "crack",
+        "agent": "mill axle",
+        "patient": "gear tooth",
+        "instrument": null,
+        "because": ["patient is wooden", "agent gains strain"],
+        "effects": ["patient loses shape", "consumes gear tooth"],
+        "numbers": ["how much strain the tooth can take before it fails"]
+      },
+      {
+        "process": "stop",
+        "agent": "water wheel",
+        "patient": "grindstone",
+        "instrument": null,
+        "because": ["agent is jammed"],
+        "effects": ["patient loses motion"],
+        "numbers": []
+      },
+      {
+        "process": "notice",
+        "agent": "miller",
+        "patient": "water wheel",
+        "instrument": null,
+        "because": ["patient is jammed", "agent is nearby"],
+        "effects": ["miller learns wheel is jammed"],
+        "numbers": ["how long before the silence is noticed"]
+      }
+    ],
+    "latent": ["the branch snapped off a tree upstream during last week's wind, entirely unrelated to anything happening at the mill"],
+    "state_after": ["water wheel: jammed, motionless, branch still wedged in the paddles", "gear tooth: cracked", "grindstone: stopped"],
+    "stress": "an object's arrival is independent of anyone's action, and mechanical strain accumulates against a fixed obstruction until something gives",
+    "temptation": "a rule that says water wheels jam on a fixed schedule rather than from a specific branch arriving and wedging"
+  },
+  {
+    "id": "river-09",
+    "domain": "river",
+    "place": "The dug channel, or mill race, that feeds a water wheel from the main river, during a dry stretch when the river itself is running low.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["mill race", "silt", "river water", "water wheel", "miller"],
+    "outcome": "With the main river low, less water enters the race and the current through it slows. Slower water can no longer sweep along the fine silt it used to carry straight through, so the silt settles on the race's bed, making it shallower still, which slows the current further in turn. Over the following weeks the wheel gets less water and less push, and the grinding grows steadily weaker until someone dredges the race back out.",
+    "steps": [
+      {
+        "process": "drop",
+        "agent": "river water",
+        "patient": "mill race",
+        "instrument": null,
+        "because": ["place is dry season", "patient is fed by the river"],
+        "effects": ["patient loses flow"],
+        "numbers": ["how much the flow through the race drops"]
+      },
+      {
+        "process": "settle",
+        "agent": "silt",
+        "patient": "mill race",
+        "instrument": null,
+        "because": ["agent is heavy", "patient is slow"],
+        "effects": ["patient gains silt", "patient depth down"],
+        "numbers": ["how much silt settles per day at this flow"]
+      },
+      {
+        "process": "shrink",
+        "agent": "silt",
+        "patient": "mill race",
+        "instrument": null,
+        "because": ["patient depth down"],
+        "effects": ["patient loses flow"],
+        "numbers": ["how much further the flow drops once shallower"]
+      },
+      {
+        "process": "weaken",
+        "agent": "mill race",
+        "patient": "water wheel",
+        "instrument": null,
+        "because": ["agent is slow"],
+        "effects": ["patient loses power"],
+        "numbers": ["how much the grinding output falls over the weeks"]
+      }
+    ],
+    "latent": ["a buried stone in the race bed that will catch and turn a dredging shovel once someone tries to clear it"],
+    "state_after": ["mill race: shallow, half silted, flowing weakly", "water wheel: turning slowly, grinding little"],
+    "stress": "a feedback loop where reduced flow causes silting, which further reduces flow, compounding gradually rather than a single one-shot event",
+    "temptation": "a rule that says mill races silt up after a fixed number of dry days"
+  },
+  {
+    "id": "river-10",
+    "domain": "river",
+    "place": "A shallow, gravelly stretch of bank where woven cloth is beaten and trodden in the current to clean and full it.",
+    "initiator": "player",
+    "lines": ["I weight the cloth down with flat stones and start treading it in the shallows", "I lift a corner to see how it's coming along"],
+    "things": ["woven cloth", "river water", "flat stones", "gravel bed", "player"],
+    "outcome": "Treading works the cloth against the gravel exactly as fulling should, loosening dirt and tightening the weave. But the current keeps tugging at whatever isn't weighted down, and when a stone slips off a wet corner the current catches that loose end and carries a length of it downstream before the player can grab it back, leaving the cloth torn and shorter than it was.",
+    "steps": [
+      {
+        "process": "weight",
+        "agent": "player",
+        "patient": "woven cloth",
+        "instrument": "flat stones",
+        "because": ["instrument is heavy", "patient is light"],
+        "effects": ["patient gains weight"],
+        "numbers": []
+      },
+      {
+        "process": "tread",
+        "agent": "player",
+        "patient": "woven cloth",
+        "instrument": "gravel bed",
+        "because": ["instrument is rough", "patient is loose weave"],
+        "effects": ["patient loses dirt", "patient gains tight weave"],
+        "numbers": ["how long treading takes to full it"]
+      },
+      {
+        "process": "tug",
+        "agent": "river water",
+        "patient": "woven cloth",
+        "instrument": null,
+        "because": ["patient is light", "place is flowing"],
+        "effects": ["patient gains pulled"],
+        "numbers": ["how much force the current puts on any unweighted edge"]
+      },
+      {
+        "process": "slip",
+        "agent": "woven cloth",
+        "patient": "flat stones",
+        "instrument": null,
+        "because": ["patient is wet", "instrument is smooth"],
+        "effects": ["woven cloth loses weight"],
+        "numbers": ["how likely the weighting slips loose while treading"]
+      },
+      {
+        "process": "carry",
+        "agent": "river water",
+        "patient": "woven cloth",
+        "instrument": null,
+        "because": ["patient is unweighted", "place is flowing"],
+        "effects": ["moves woven cloth downstream"],
+        "numbers": ["how far it travels before it's grabbed or lost"]
+      },
+      {
+        "process": "grab",
+        "agent": "player",
+        "patient": "woven cloth",
+        "instrument": null,
+        "because": ["agent is quick", "patient is moving"],
+        "effects": ["moves woven cloth to bank", "patient loses length"],
+        "numbers": ["how much is recovered against how much tears off"]
+      }
+    ],
+    "latent": ["a weak spot in the weave from an old mend, exactly where the cloth gives way under the current's pull"],
+    "state_after": ["woven cloth: cleaner and tighter-woven, but torn and shorter", "flat stones: scattered loose in the shallows"],
+    "stress": "the same current that fulls the cloth by working it against the gravel is what steals it the moment its grip is lost",
+    "temptation": "a rule that says fulling cloth in a river always damages it by some fixed amount"
+  },
+  {
+    "id": "river-11",
+    "domain": "river",
+    "place": "A shallow ford where a cart track crosses the river, normally no deeper than a knee, the day after heavy rain fell upstream.",
+    "initiator": "player",
+    "lines": ["I lead the ox and cart down to the ford and start across"],
+    "things": ["ford", "ox", "cart", "grain sacks", "river water", "player"],
+    "outcome": "The ford that was easy yesterday is higher and faster today from rain that fell upstream overnight. Partway across, the water reaches the cart bed and pushes sideways against the wheels, and when the ox misjudges its footing on a submerged stone the current drags the cart off the ford's usual line into deeper water, soaking the grain sacks before anyone can pull it back onto course.",
+    "steps": [
+      {
+        "process": "rise",
+        "agent": "river water",
+        "patient": "ford",
+        "instrument": null,
+        "because": ["place is fed by rain upstream"],
+        "effects": ["patient level up", "patient speed up"],
+        "numbers": ["how much higher and faster than the usual crossing"]
+      },
+      {
+        "process": "lead",
+        "agent": "player",
+        "patient": "ox",
+        "instrument": null,
+        "because": ["agent is familiar with the ford"],
+        "effects": ["moves ox to ford"],
+        "numbers": []
+      },
+      {
+        "process": "push",
+        "agent": "river water",
+        "patient": "cart",
+        "instrument": null,
+        "because": ["patient is broad", "place is fast"],
+        "effects": ["cart gains sideways force"],
+        "numbers": ["how much sideways push at this depth and speed"]
+      },
+      {
+        "process": "slip",
+        "agent": "ox",
+        "patient": "ford",
+        "instrument": null,
+        "because": ["patient is submerged", "place is uneven"],
+        "effects": ["ox loses footing"],
+        "numbers": ["how likely a misstep is on a hidden stone at this depth"]
+      },
+      {
+        "process": "drag",
+        "agent": "river water",
+        "patient": "cart",
+        "instrument": null,
+        "because": ["agent is fast", "patient is off balance"],
+        "effects": ["moves cart off the ford line"],
+        "numbers": ["how far off course it is pushed"]
+      },
+      {
+        "process": "soak",
+        "agent": "river water",
+        "patient": "grain sacks",
+        "instrument": null,
+        "because": ["patient is exposed", "place is deep"],
+        "effects": ["patient gains wet"],
+        "numbers": ["how much of the load is ruined"]
+      }
+    ],
+    "latent": ["a deep scour hole just off the ford's usual line, cut into the bed by this same overnight flood"],
+    "state_after": ["ford: still passable, but changed since yesterday", "cart: pushed off line, wheels in deep water", "grain sacks: soaked"],
+    "stress": "a ford's safety is a property of the current water level and speed on that day, not a fixed label on the map",
+    "temptation": "a rule that says fords are always safe, or that they close for a fixed number of hours after rain"
+  },
+  {
+    "id": "river-12",
+    "domain": "river",
+    "place": "A wide, slow stretch of the river frozen over after a hard frost, thick near the bank and untested further out.",
+    "initiator": "player",
+    "lines": ["I walk out onto the ice near the bank to break a hole for water", "I take a few more steps further out to see how it holds"],
+    "things": ["river ice", "hole", "hand axe", "bucket", "river water", "companion", "player"],
+    "outcome": "The ice near the bank is thick enough to stand on, and breaking a hole there for water goes fine. Further out, where it's thinner, it gives way under the player's weight and drops them straight into the cold water beneath. The current running under the sheet pulls at them and makes climbing back onto the edge nearly impossible alone, and it takes a companion's rope and a hard pull to get them out, soaked and shaking.",
+    "steps": [
+      {
+        "process": "walk",
+        "agent": "player",
+        "patient": "river ice",
+        "instrument": null,
+        "because": ["patient is thick", "place is near bank"],
+        "effects": ["moves player onto ice"],
+        "numbers": ["how thick the ice is close to the bank"]
+      },
+      {
+        "process": "break",
+        "agent": "player",
+        "patient": "river ice",
+        "instrument": "hand axe",
+        "because": ["patient is brittle", "instrument is hard"],
+        "effects": ["patient loses solid", "creates hole"],
+        "numbers": ["how many blows it takes to break through"]
+      },
+      {
+        "process": "walk",
+        "agent": "player",
+        "patient": "river ice",
+        "instrument": null,
+        "because": ["patient is thin", "place is far from bank"],
+        "effects": ["moves player further from bank"],
+        "numbers": []
+      },
+      {
+        "process": "give way",
+        "agent": "player",
+        "patient": "river ice",
+        "instrument": null,
+        "because": ["patient is thin", "agent is heavy"],
+        "effects": ["patient loses solid", "moves player into river water"],
+        "numbers": ["how much weight the thin ice can bear at this distance out"]
+      },
+      {
+        "process": "chill",
+        "agent": "river water",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is cold", "patient is wet"],
+        "effects": ["patient gains cold", "patient loses strength"],
+        "numbers": ["how fast the cold saps strength"]
+      },
+      {
+        "process": "pull",
+        "agent": "companion",
+        "patient": "player",
+        "instrument": "rope",
+        "because": ["patient is weak", "place is slick"],
+        "effects": ["moves player to riverbank", "player gains cold"],
+        "numbers": ["how much strength it takes to haul someone out over a slick edge"]
+      }
+    ],
+    "latent": ["a current running faster under the ice than on the surface, sweeping loose fragments of broken ice beneath the unbroken sheet"],
+    "state_after": ["player: soaked, cold, on the bank, shaking", "river ice: a hole near the bank, a wider break further out", "companion: exhausted from the pull"],
+    "stress": "ice thickness varies by place and distance from shore, and the failure point is a threshold of load against thickness, not a flat safe or unsafe switch",
+    "temptation": "a rule that says ice breaks after a fixed number of steps from the bank regardless of how thick it actually is"
+  },
+  {
+    "id": "river-13",
+    "domain": "river",
+    "place": "An old stone bridge pier standing in the main channel, where the current runs fastest against its upstream face.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["bridge pier", "riverbed", "river water", "foundation stones", "bridge"],
+    "outcome": "Nobody does anything here; the fast water simply keeps scouring sand and gravel from around the base of the pier on its upstream side, over a long stretch of time deepening a hollow beneath the foundation stones. As the hollow grows, one side of the pier loses its footing and begins to lean, and eventually, most likely during the next high flow, enough support gives way at once that the pier settles hard and takes part of the bridge down with it.",
+    "steps": [
+      {
+        "process": "scour",
+        "agent": "river water",
+        "patient": "riverbed",
+        "instrument": null,
+        "because": ["agent is fast", "place is narrowed by the pier"],
+        "effects": ["riverbed loses sediment", "creates hollow"],
+        "numbers": ["how deep the hollow becomes over months and years"]
+      },
+      {
+        "process": "undercut",
+        "agent": "river water",
+        "patient": "foundation stones",
+        "instrument": null,
+        "because": ["patient rests on riverbed", "agent is fast"],
+        "effects": ["patient loses support"],
+        "numbers": ["how much support is lost as the hollow deepens"]
+      },
+      {
+        "process": "lean",
+        "agent": "bridge pier",
+        "patient": "bridge pier",
+        "instrument": null,
+        "because": ["patient is unsupported"],
+        "effects": ["patient gains tilt"],
+        "numbers": ["how much it tilts, and how fast"]
+      },
+      {
+        "process": "fail",
+        "agent": "river water",
+        "patient": "bridge pier",
+        "instrument": null,
+        "because": ["patient is tilted", "agent is fast"],
+        "effects": ["patient loses structure", "creates rubble"],
+        "numbers": ["how high a flow it takes to trigger the final failure"]
+      },
+      {
+        "process": "collapse",
+        "agent": "bridge pier",
+        "patient": "bridge",
+        "instrument": null,
+        "because": ["patient rests on the pier", "agent loses structure"],
+        "effects": ["bridge loses span", "creates rubble"],
+        "numbers": ["how much of the bridge comes down"]
+      }
+    ],
+    "latent": ["a mason's inspection years ago that noted the same hollow forming, and was never acted on"],
+    "state_after": ["bridge pier: leaning, undercut, part collapsed", "bridge: missing a span", "riverbed: a scoured hollow beneath where the pier stood"],
+    "stress": "gradual, invisible erosion beneath the waterline determines a structural failure that only looks sudden from above",
+    "temptation": "a rule that says bridges collapse after a fixed number of years regardless of current speed or the ground beneath them"
+  },
+  {
+    "id": "river-14",
+    "domain": "river",
+    "place": "A raft lashed together from logs at a riverside camp, one of the logs having lain sunk in a still backwater for a whole season before being pulled out and used.",
+    "initiator": "player",
+    "lines": ["I lash the logs together into a raft", "I load the barrels on top and push off"],
+    "things": ["raft", "logs", "waterlogged log", "rope lashings", "barrels", "river water", "player"],
+    "outcome": "Most of the logs float exactly as expected, but the one that soaked for a season in still water has taken on water all the way through and gives almost no lift. Lashed in among the others, it drags that corner of the raft low even before any load is added, and once the barrels go on, that corner dips under the surface. The raft tips enough that a barrel slides off the low side and is carried away.",
+    "steps": [
+      {
+        "process": "soak",
+        "agent": "river water",
+        "patient": "waterlogged log",
+        "instrument": null,
+        "because": ["place is still", "patient is porous"],
+        "effects": ["patient gains water", "patient loses buoyancy"],
+        "numbers": ["how long submersion takes to fill the wood through"]
+      },
+      {
+        "process": "lash",
+        "agent": "player",
+        "patient": "raft",
+        "instrument": "rope lashings",
+        "because": ["instrument is strong", "patient is loose logs"],
+        "effects": ["creates raft", "consumes rope lashings"],
+        "numbers": []
+      },
+      {
+        "process": "float",
+        "agent": "river water",
+        "patient": "raft",
+        "instrument": null,
+        "because": ["patient is uneven", "place is calm"],
+        "effects": ["patient gains tilt"],
+        "numbers": ["how much one waterlogged log drags a corner down"]
+      },
+      {
+        "process": "load",
+        "agent": "player",
+        "patient": "raft",
+        "instrument": "barrels",
+        "because": ["instrument is heavy", "patient is tilted"],
+        "effects": ["patient freeboard down"],
+        "numbers": ["how much lower the already-low corner sits once loaded"]
+      },
+      {
+        "process": "dip",
+        "agent": "river water",
+        "patient": "raft",
+        "instrument": null,
+        "because": ["patient is tilted", "patient is low"],
+        "effects": ["patient gains water", "patient loses level"],
+        "numbers": ["at what added load the low corner goes under"]
+      },
+      {
+        "process": "slide off",
+        "agent": "barrels",
+        "patient": "raft",
+        "instrument": null,
+        "because": ["patient is tilted", "agent is round"],
+        "effects": ["transfers barrel from raft to river water"],
+        "numbers": ["how steep a tilt it takes before a barrel slides"]
+      }
+    ],
+    "latent": ["the waterlogged log was chosen for the raft because it looked identical to the dry ones from the outside"],
+    "state_after": ["raft: tilted, one corner riding low, missing a barrel", "waterlogged log: barely above the surface, most of it submerged", "barrels: one afloat downstream or sunk depending on what it holds"],
+    "stress": "buoyancy is a property of how much water has already soaked into one specific log, invisible from the outside, not a fixed rule that wood floats",
+    "temptation": "a rule that says rafts float unless overloaded by weight alone, ignoring what state the logs themselves are in"
+  },
+  {
+    "id": "river-15",
+    "domain": "river",
+    "place": "A stretch of fast water just below a bend, where the current runs strongest against the outer bank, a boat with two people aboard drifting through it.",
+    "initiator": "player",
+    "lines": ["I lean out from the boat to grab the oar before it drifts away", "I lose my footing and go in"],
+    "things": ["boat", "oar", "river water", "rope", "companion", "player"],
+    "outcome": "Reaching too far for a lost oar tips the player's balance and pitches them into the fast water beside the boat. The current is stronger than it looked from the boat and pulls them under briefly before sweeping them downstream, and it is the companion throwing a rope from the boat, not swimming out after them, that finally gets them back aboard. Afterward the player is exhausted, chilled, and coughing up water, and the oar is gone for good.",
+    "steps": [
+      {
+        "process": "drift",
+        "agent": "river water",
+        "patient": "oar",
+        "instrument": null,
+        "because": ["patient is buoyant", "place is fast"],
+        "effects": ["moves oar away from boat"],
+        "numbers": []
+      },
+      {
+        "process": "lean",
+        "agent": "player",
+        "patient": "boat",
+        "instrument": null,
+        "because": ["agent is reaching", "patient is unstable"],
+        "effects": ["player loses balance"],
+        "numbers": ["how far out is too far to reach safely"]
+      },
+      {
+        "process": "fall",
+        "agent": "player",
+        "patient": "river water",
+        "instrument": null,
+        "because": ["agent is off balance", "place is deep"],
+        "effects": ["moves player into river water"],
+        "numbers": []
+      },
+      {
+        "process": "pull under",
+        "agent": "river water",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is fast", "patient is heavy with clothing"],
+        "effects": ["patient loses breath", "patient gains cold"],
+        "numbers": ["how long the current holds them under"]
+      },
+      {
+        "process": "sweep",
+        "agent": "river water",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is fast", "patient is afloat"],
+        "effects": ["moves player downstream"],
+        "numbers": ["how far downstream before being reached"]
+      },
+      {
+        "process": "throw",
+        "agent": "companion",
+        "patient": "rope",
+        "instrument": null,
+        "because": ["agent is quick", "instrument is long enough"],
+        "effects": ["moves rope to player"],
+        "numbers": ["how far the throw has to reach"]
+      },
+      {
+        "process": "pull",
+        "agent": "companion",
+        "patient": "player",
+        "instrument": "rope",
+        "because": ["patient is exhausted", "instrument is taut"],
+        "effects": ["moves player to boat", "player gains cold"],
+        "numbers": ["how much strength it takes to haul someone in against the current"]
+      }
+    ],
+    "latent": ["a stretch of even faster water just downstream, missed only because the rescue happened before reaching it"],
+    "state_after": ["player: soaked, cold, coughing, exhausted", "oar: lost downstream, never recovered", "rope: wet and slack now"],
+    "stress": "rescue depends on a second person and a tool being at hand; the outcome would be very different if the player were alone",
+    "temptation": "a rule that says falling in the river always ends in drowning, or that a thrown rope always saves whoever grabs it"
+  }
+]

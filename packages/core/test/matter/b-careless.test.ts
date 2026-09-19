@@ -74,7 +74,7 @@ describe("careless-01: the campfire left alight", () => {
     expect(after.things["tuft.ash"]).toBeDefined();
   });
 
-  it.fails("careless-01: a meadow's worth of grass burns for longer than a tuft (fuel is worked out from the row's mass and size and never from the amount: a thousand tufts are gone in the ten minutes one is)", () => {
+  it("careless-01: a meadow's worth of grass burns for longer than a tuft (fuel is worked out from the row's mass and size and never from the amount: a thousand tufts are gone in the ten minutes one is)", () => {
     const w = world(
       [
         thing("ember", "ember", "meadow", alight(5)),
@@ -126,7 +126,7 @@ describe("careless-02: asleep in wet clothes", () => {
     );
   });
 
-  it.fails("careless-02: the sleeper wakes colder than they lay down (nothing lets a cold place or wet clothing reach a body: time over a body only bleeds it and brings on a sickness already taken in)", () => {
+  it("careless-02: the sleeper wakes colder than they lay down (nothing lets a cold place or wet clothing reach a body: time over a body only bleeds it and brings on a sickness already taken in)", () => {
     const morning = resolve(forded, hours(8)).world;
     expect(morning.bodies.player?.needs.warmth ?? 0).toBeGreaterThan(1);
   });
@@ -364,7 +364,7 @@ describe("malice-03: the anchor rope cut part through", () => {
     expect(after.things.anchor?.state.integrity).toBeLessThanOrEqual(1);
   });
 
-  it.fails("RULE ERROR: malice-03: whole and sound, the anchor rope gives way under a single mule, let alone the train it carries daily (load.ts rates a cord as a beam: hardness counts 0.5 a level and toughness 0.3, so the toughest rope there is bears 4.6 against a mule's 5)", () => {
+  it("fixed rule: malice-03: whole and sound, the anchor rope gives way under a single mule, let alone the train it carries daily (load.ts rates a cord as a beam: hardness counts 0.5 a level and toughness 0.3, so the toughest rope there is bears 4.6 against a mule's 5)", () => {
     const after = resolve(gorge, cross(["lead"])).world;
     expect(after.things.anchor?.state.integrity).toBe(5);
   });
@@ -606,7 +606,7 @@ describe("exploit-05: lighting a torch under water", () => {
     expect(after.things.torch?.state.wetness).toBeGreaterThan(3);
   });
 
-  it.fails("RULE ERROR: exploit-05: so the trick works by the back door: a hundred showers of sparks under water leave the torch hot and half dried, and carried up the bank it lights at the first spark (the same rule, and heat never reads how small its source is)", () => {
+  it("fixed rule: exploit-05: so the trick works by the back door: a hundred showers of sparks under water leave the torch hot and half dried, and carried up the bank it lights at the first spark (the same rule, and heat never reads how small its source is)", () => {
     const struck = play(under, times(100, shower)).world;
     const ashore = resolve(carried(struck, "bank"), shower).world;
     expect(ashore.things.torch?.state.burning).toBeNull();

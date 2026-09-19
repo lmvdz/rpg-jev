@@ -142,6 +142,8 @@ Batch B's chains broke at the first step that needed something to reach somethin
 
 **Built** (`packages/core/src/matter/sense.ts`, `test/matter/sensing.test.ts`): the six invariants were written first and the rule passed them on its first run. A fire is seen across a wood at night and hardly at noon; a carcass is smelt further each day, by a wolf long before a person; a blow is heard by who is near, and the act that made it records the hearing. A body may now name an element row for its hide, bulk and senses (the first step toward a body being a thing with needs, which three batch C runners asked for independently); a blow reads it, so a bear is no longer a man.
 
+**The next layer exists in its first form** (`packages/core/src/matter/living.ts`): `optionsFor()` builds a creature's closed options from its percepts, `routine()` chooses by its needs when nobody watches, and a live probe had Jev choose for a wolf through the existing `pick_action` family, with every twin moving the right way (`spikes/vocabulary/FINDINGS.md`).
+
 **What it will not do yet.** Line of sight around things (there is no geometry in matter; "what is in the way" is the place's cover as one level). Memory of what was sensed (that is the claim store's). Deciding what a creature does about it.
 
 ## Admitting a feature

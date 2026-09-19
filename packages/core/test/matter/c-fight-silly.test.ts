@@ -208,7 +208,7 @@ describe("fight-06: a covered pit", () => {
     expect(sprung.changes.some((c) => c.kind === "signal" && c.channel === "sound")).toBe(true);
   });
 
-  it.fails("fight-06: the man who goes through it is hurt by the drop (a load that fails breaks the support and does nothing to what it held: no fall, no landing)", () => {
+  it("fight-06: the man who goes through it is hurt by the drop (a load that fails breaks the support and does nothing to what it held: no fall, no landing)", () => {
     const sprung = resolve(path, {
       process: "load",
       support: "cover",
@@ -248,7 +248,7 @@ describe("fight-08: after the fight", () => {
     expect(lastWound(bound, "rival").bleeding).toBeLessThan(3);
   });
 
-  it.fails("fight-08: both are hungrier some hours after than they were (time over a body only bleeds it and brings on a sickness: no need drifts)", () => {
+  it("fight-08: both are hungrier some hours after than they were (time over a body only bleeds it and brings on a sickness: no need drifts)", () => {
     const later = resolve(yard, minutes(240)).world;
     expect(later.bodies.player?.needs.hunger ?? 0).toBeGreaterThan(
       yard.bodies.player?.needs.hunger ?? 9,

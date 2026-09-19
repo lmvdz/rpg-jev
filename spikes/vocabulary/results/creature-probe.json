@@ -1,0 +1,124 @@
+[
+ {
+  "case": "starving, no fire",
+  "options": [
+   "approach:kill",
+   "rest"
+  ],
+  "knows": [
+   "smells meat, clearly"
+  ],
+  "v0": {
+   "rest": 0.01,
+   "approach_kill": 0.95,
+   "none_of_these": 0.04
+  },
+  "tokens0": 559,
+  "v1": {
+   "approach_kill": 0.93,
+   "rest": 0.02,
+   "none_of_these": 0.05
+  },
+  "tokens1": 561
+ },
+ {
+  "case": "fed, no fire",
+  "options": [
+   "approach:kill",
+   "rest"
+  ],
+  "knows": [
+   "smells meat, clearly"
+  ],
+  "v0": {
+   "rest": 0.68,
+   "approach_kill": 0.27,
+   "none_of_these": 0.05
+  },
+  "tokens0": 557,
+  "v1": {
+   "approach_kill": 0.16,
+   "rest": 0.8,
+   "none_of_these": 0.04
+  },
+  "tokens1": 559
+ },
+ {
+  "case": "starving, fire far (40)",
+  "options": [
+   "flee:campfire",
+   "approach:kill",
+   "rest"
+  ],
+  "knows": [
+   "smells meat, clearly",
+   "sees the light of a fire, faintly, far off"
+  ],
+  "v0": {
+   "approach_kill": 0.87,
+   "none_of_these": 0.02,
+   "rest": 0.01,
+   "flee_campfire": 0.1
+  },
+  "tokens0": 612,
+  "v1": {
+   "flee_campfire": 0.26,
+   "rest": 0.01,
+   "none_of_these": 0.02,
+   "approach_kill": 0.71
+  },
+  "tokens1": 614
+ },
+ {
+  "case": "starving, fire by the kill (9)",
+  "options": [
+   "flee:campfire",
+   "approach:kill",
+   "rest"
+  ],
+  "knows": [
+   "smells meat, clearly",
+   "sees the light of a fire, clearly"
+  ],
+  "v0": {
+   "none_of_these": 0.03,
+   "approach_kill": 0.77,
+   "flee_campfire": 0.2,
+   "rest": 0
+  },
+  "tokens0": 602,
+  "v1": {
+   "approach_kill": 0.56,
+   "flee_campfire": 0.4,
+   "rest": 0.01,
+   "none_of_these": 0.03
+  },
+  "tokens1": 604
+ },
+ {
+  "case": "fed, fire by the kill (9)",
+  "options": [
+   "flee:campfire",
+   "approach:kill",
+   "rest"
+  ],
+  "knows": [
+   "smells meat, clearly",
+   "sees the light of a fire, clearly"
+  ],
+  "v0": {
+   "flee_campfire": 0.74,
+   "none_of_these": 0.01,
+   "approach_kill": 0.1,
+   "rest": 0.15
+  },
+  "tokens0": 600,
+  "v1": {
+   "flee_campfire": 0.76,
+   "approach_kill": 0.07,
+   "none_of_these": 0.01,
+   "rest": 0.16
+  },
+  "tokens1": 602
+ }
+]
