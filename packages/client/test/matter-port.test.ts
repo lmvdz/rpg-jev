@@ -35,11 +35,12 @@ const made = (element: string, x: number, z: number, states = {}): ThingView => 
 function scene() {
   const things = [
     made("branch", 5, 4),
-    made("fire", 3, 4, { burning: 4 }),
+    // A fire is a pile of branches alight: fuel burning, and no element of its own.
+    { ...made("branch", 3, 4, { burning: 4, amount: 5 }), name: "a fire" },
     made("oil", 4, 3),
     made("rat", 4, 5),
   ];
-  const port = matterPort(things, 7);
+  const port = matterPort(things, 96 * 96, 7);
   const births = new Births(askPriors, 1);
   const objects = new ObjectLayer(grid, new GlyphBatch(8));
   const living = new LivingThings(things, grid, objects, births);
@@ -86,12 +87,17 @@ describe("the clearing as a world of matter", () => {
   it("holds the scattered things of elements in the pool, hands and a body, and nothing it has no row for", () => {
     const { port } = scene();
     expect(Object.keys(port.world.things).sort()).toEqual([
+      "branch@3,4",
       "branch@5,4",
-      "fire@3,4",
       "hands",
       "oil@4,3",
     ]);
-    expect(port.world.things["fire@3,4"]?.state.burning).toMatchObject({ of: "self" });
+    expect(port.world.things["branch@3,4"]?.state).toMatchObject({
+      burning: { of: "self" },
+      temperature: 5,
+    });
+    expect(port.world.things["branch@5,4"]?.state.burning).toBeNull();
+    expect(port.world.places.clearing?.extent).toBe(230);
     expect(port.world.bodies.hero).toBeDefined();
     expect(port.sought()).toContain("stone");
     expect(port.compiled).toContain("X2");
@@ -136,6 +142,16 @@ describe("the clearing as a world of matter", () => {
     expect(branch?.state.temperature).toBeGreaterThan(2);
   });
 
+  it("turns up a branch in a wood with a few quick looks: the menu's search leaves its length to the effort", () => {
+    const { port, request } = scene();
+    const asked = request(6, 6);
+    const look = intentsFor(asked, port.compiled).find((i) => i.answers.kind === "branch");
+    expect(look?.answers.duration).toBe(NONE);
+    const had = Object.keys(port.world.things).length;
+    for (let glance = 0; glance < 4; glance++) port.act(look?.answers as Answers, asked.things);
+    expect(Object.keys(port.world.things).length).toBeGreaterThan(had);
+  });
+
   it("logs the draw a search was given, and a found thing appears on the map", () => {
     const { port, request, link, living } = scene();
     const asked = request(6, 6);
@@ -162,9 +178,10 @@ describe("the clearing as a world of matter", () => {
     const said = perform(port, link, asked, wait?.answers as Answers, at);
     expect(said.split("; ").length).toBeLessThanOrEqual(4);
     expect(living.indexOf("hands")).toBe(-1);
-    // Whether the hearth outlasts the wait is the engine's to say; that nothing else catches is ours.
+    // The hearth outlasts the wait, and nothing else catches.
     const lit = things.filter((thing) => thing.states.burning !== undefined);
-    expect(lit.every((thing) => thing.element === "fire")).toBe(true);
+    expect(lit.map((thing) => thing.id)).toEqual(["branch@3,4"]);
+    expect(port.world.things["branch@3,4"]?.state.burning).not.toBeNull();
     expect(told(["a", "a", "b", "c", "d", "e"])).toBe("a; b; c; and 2 more");
     expect(told([])).toBe("Nothing seems to change.");
   });

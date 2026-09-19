@@ -7,8 +7,8 @@
  * Nothing here applies a change or decides an outcome.
  *
  * Stand-ins, until the world is the server's: the whole clearing is one
- * place, what it has an abundance of is written here, a fire is given a
- * night's fuel, and whether a thing fills its tile is read off its size.
+ * place whose extent is its area, what it has an abundance of is written
+ * here, and whether a thing fills its tile is read off its size.
  */
 import { matter } from "@rpg-jev/core";
 import { Rng } from "@rpg-jev/core/rng";
@@ -23,13 +23,14 @@ const ACTOR = "hero";
 const HANDS = "hands";
 /** What can be found here by looking, as the place's latent abundance (a Score per element). */
 const ABUNDANCE = { stone: 2, flint: 1, branch: 3, berries: 1 };
-const FIRE_FUEL_MINUTES = 600;
+/** How many tiles make one patch of ground a person goes over in half an hour: the place's extent. */
+const TILES_PER_PATCH = 40;
 /** From this size up a thing fills its tile (P2). */
 const FILLS_TILE = 4;
 
 /** The engine's state for a thing as the client first shows it: fresh, then what can be seen. */
 function stateOf(thing: ThingView, element: matter.Element): matter.ThingState {
-  const { burning, temperature, amount, wetness, integrity } = thing.states;
+  const { temperature, amount, wetness, integrity } = thing.states;
   return {
     ...matter.FRESH,
     // What is fresh is not bone dry: whether it rots or burns depends on it.
@@ -37,23 +38,21 @@ function stateOf(thing: ThingView, element: matter.Element): matter.ThingState {
     ...(temperature === undefined ? {} : { temperature }),
     ...(amount === undefined ? {} : { amount }),
     ...(integrity === undefined ? {} : { integrity }),
-    ...((burning ?? 0) > 0 ? { burning: { of: "self", fuel: FIRE_FUEL_MINUTES } } : {}),
   };
 }
 
-function worldFrom(things: readonly ThingView[]): matter.MatterWorld {
-  const place = matter.placeOf(PLACE, { abundance: ABUNDANCE });
+function worldFrom(things: readonly ThingView[], tiles: number): matter.MatterWorld {
+  const extent = Math.max(1, Math.round(tiles / TILES_PER_PATCH));
+  const place = matter.placeOf(PLACE, { abundance: ABUNDANCE, extent });
   const world = matter.worldOf(matter.POOL, [place]);
   for (const thing of things) {
     const element = world.elements[thing.element];
     // A thing of no element in the pool (a creature, until bodies have rows) is not the world's yet.
     if (!element) continue;
-    world.things[thing.id] = {
-      id: thing.id,
-      element: thing.element,
-      place: PLACE,
-      state: stateOf(thing, element),
-    };
+    const state = stateOf(thing, element);
+    const made = { id: thing.id, element: thing.element, place: PLACE, state };
+    // A fire is not an element: it is fuel, burning, for as long as there is of it.
+    world.things[thing.id] = (thing.states.burning ?? 0) > 0 ? matter.alight(world, made) : made;
   }
   world.things[HANDS] = { id: HANDS, element: "hand", place: PLACE, state: { ...matter.FRESH } };
   world.bodies[ACTOR] = {
@@ -70,6 +69,8 @@ function worldFrom(things: readonly ThingView[]): matter.MatterWorld {
 
 /** The ids of the things a change is about. What happened to them is read off the world, not the change. */
 function touchedBy(change: matter.Change): string[] {
+  // Nothing a person standing there would notice: the world applied it, and there is nothing to redraw.
+  if (change.quiet) return [];
   if (change.kind === "state" || change.kind === "consume") return [change.thing];
   return change.kind === "create" ? [change.thing.id] : [];
 }
@@ -97,9 +98,10 @@ export interface MatterPort extends WorldPort {
   readonly draws: { process: string; draw: number }[];
 }
 
-export function matterPort(things: readonly ThingView[], seed: number): MatterPort {
+/** `tiles` is how much ground the things are scattered over: the one place's extent follows from it. */
+export function matterPort(things: readonly ThingView[], tiles: number, seed: number): MatterPort {
   const rng = Rng.fromSeed(seed);
-  let world = worldFrom(things);
+  let world = worldFrom(things, tiles);
   const draws: MatterPort["draws"] = [];
 
   const seenOf = (id: string): Seen | null => {

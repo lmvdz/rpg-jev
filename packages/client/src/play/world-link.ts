@@ -54,6 +54,8 @@ export interface Seen {
 interface Why {
   because: readonly string[];
   note: string;
+  /** Nothing a person standing there would notice: the world applied it, and it is neither said nor drawn. */
+  quiet?: true;
 }
 
 /**
@@ -185,10 +187,11 @@ export class WorldLink {
     const broke = left === null || (was > BROKEN && (left?.state.integrity ?? was) <= BROKEN);
     this.#play(act, patient, broke);
     for (const [id, seen] of Object.entries(after)) this.#sync(id, seen, act.tile);
-    for (const change of changes) {
+    const noticed = changes.filter((change) => !change.quiet);
+    for (const change of noticed) {
       if (change.kind === "signal") this.#signal(change.channel, change.strength, act);
     }
-    return changes.map((change) => change.note).filter((note) => note.length > 0);
+    return noticed.map((change) => change.note).filter((note) => note.length > 0);
   }
 
   #play(act: ShownAct, patient: ThingView | null, broke: boolean): void {

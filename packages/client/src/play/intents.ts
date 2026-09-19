@@ -83,7 +83,12 @@ const OFFERS: Readonly<Record<string, (scene: Scene) => Intent[]>> = {
     const solid = (operand: Operand) => !(flows(operand) || heats(operand));
     return [{ label: `strike ${target.name}`, answers }, ...onto("X2", "strike", scene, solid)];
   },
-  X3: (scene) => onto("X3", "heat", scene, heats),
+  // Nothing warms in a moment: a menu's heating is held there a while.
+  X3: (scene) =>
+    onto("X3", "heat", scene, heats).map((intent) => ({
+      ...intent,
+      answers: { ...intent.answers, duration: "a while" },
+    })),
   X4: (scene) => onto("X4", "soak", scene, pours),
   X5: (scene) => onto("X5", "coat", scene, spreads),
   X6: ({ target }) => {
@@ -97,7 +102,15 @@ const OFFERS: Readonly<Record<string, (scene: Scene) => Intent[]>> = {
   X8: ({ sought }) =>
     sought.map((kind) => ({
       label: `look around for ${kind}`,
-      answers: { ...ORDINARY, process: "X8", patient: UNSEEN, kind, effort: "a quick look" },
+      // For a search the effort is the time spent, and a worded duration would override it.
+      answers: {
+        ...ORDINARY,
+        process: "X8",
+        patient: UNSEEN,
+        kind,
+        effort: "a quick look",
+        duration: NONE,
+      },
     })),
 };
 

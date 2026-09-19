@@ -123,6 +123,17 @@ describe("a resolved act, shown", () => {
     expect(describeThing(living.thing(0) as ThingView)).toBe("a log: dormant, hot, cracked");
   });
 
+  it("says nothing of what nobody standing there would notice", () => {
+    const { link, act, shots } = scene();
+    const said = link.show({ ...act, process: "drift", now: 1 }, [
+      { ...why, kind: "state", note: "it cools", quiet: true },
+      { ...why, kind: "signal", place: "p", channel: "smoke", strength: 3, quiet: true },
+      { ...why, kind: "state", note: "it burns down" },
+    ]);
+    expect(said).toEqual(["it burns down"]);
+    expect(shots.playing).toBe(0);
+  });
+
   it("never rebuilds the world from the changes: with nothing handed back, nothing is redrawn", () => {
     const { link, act, things } = scene();
     link.show({ ...act, now: 1 }, [{ ...why, kind: "state", note: "It is said to crack." }]);

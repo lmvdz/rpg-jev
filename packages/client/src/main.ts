@@ -151,7 +151,8 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   const shots = new OneShots();
   // The world behind the client, once one is attached (`play/world-port.ts`).
   // A grown world's things are put into a world of matter; a painted world has none behind it.
-  const world: App["world"] = { port: things ? matterPort(things, 1) : null };
+  const tiles = grid.width * grid.depth;
+  const world: App["world"] = { port: things ? matterPort(things, tiles, 1) : null };
   // Where the world's changes arrive. Until a world is attached nothing is known of any
   // element but what its things already carry, so nothing can be created.
   const link = new WorldLink({

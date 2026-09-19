@@ -98,13 +98,15 @@ const LOOK = {
     forms: ["round"],
     baseline: { mass: 3, hardness: 5 },
   },
+  // A fire is not an element: it is fuel, burning. The hearth is a pile of branches alight, and
+  // this look is the pile's own, as a thing that burns. Anything that can burn can be a hearth.
   fire: {
-    id: "fire",
+    id: "branch",
     kind: "thing",
-    name: "a fire",
+    name: "a pile of branches",
     solid: true,
     look: { glyph: glyphOfExtra("flame"), ink: INK.lamp, scale: 18 },
-    forms: [],
+    forms: ["long", "grained"],
     baseline: { mass: 2, hardness: 2 },
   },
   rat: {
@@ -264,7 +266,7 @@ export function buildClearing(seed = 1): Clearing {
       const z = hearth[1] + dz;
       grid.set(x, z, { height: level, kind: KIND.dirt, shape: SHAPE.flat });
       // A ring of stones with a gap to the south, and the fire in the middle.
-      if (dx === 0 && dz === 0) things.push(place(LOOK.fire, x, z, { burning: 4 }));
+      if (dx === 0 && dz === 0) things.push(place(LOOK.fire, x, z, { burning: 4, amount: 5 }));
       else if (!(dx === 0 && dz === 1)) things.push(place(LOOK.stone, x, z, { amount: 3 }));
     }
   }
