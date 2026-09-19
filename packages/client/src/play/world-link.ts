@@ -9,12 +9,13 @@
  *
  * It knows no thing and no element. What a state of the world shows as is a
  * rule per state; what is played for an act is a row per process. It is
- * written against a mirror of the world's types, so it does not wait on the
- * engine being importable; a type test will hold the two together when it is.
+ * written against a presentation projection of the world's types. Change kinds
+ * come from the engine; adding one must not leave a stale client-side vocabulary.
  *
  * Positions are the client's until the world has a move process (X1): the
  * world says a thing came into being, and the client finds it a tile.
  */
+import type { matter } from "@rpg-jev/core";
 import type { TileGrid } from "../terrain/grid.ts";
 import { kindAt } from "../terrain/kinds.ts";
 import { groundHeight } from "../terrain/tessellate.ts";
@@ -66,18 +67,7 @@ interface Why {
 export type WorldChange = Why &
   (
     | { kind: "signal"; place: string; channel: string; strength: number; source?: string }
-    | {
-        kind:
-          | "state"
-          | "create"
-          | "consume"
-          | "nothing"
-          | "body"
-          | "wound"
-          | "treat"
-          | "settle"
-          | "percept";
-      }
+    | { kind: Exclude<matter.Change["kind"], "signal"> }
   );
 
 /** What the client is told of an element: the row's name, look and what births are decided from. */

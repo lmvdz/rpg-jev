@@ -1,3 +1,4 @@
+import type { matter } from "@rpg-jev/core";
 import { describe, expect, it } from "vitest";
 import { GlyphBatch } from "../src/glyph/batch.ts";
 import {
@@ -138,6 +139,24 @@ describe("a resolved act, shown", () => {
     const { link, act, things } = scene();
     link.show({ ...act, now: 1 }, [{ ...why, kind: "state", note: "It is said to crack." }]);
     expect(things[0]?.states).toEqual({ growth: 5 });
+  });
+
+  it("accepts new core change kinds but uses authoritative positions rather than event payloads", () => {
+    const { link, act, living, shots } = scene();
+    const changes: matter.Change[] = [
+      {
+        kind: "carried",
+        thing: "th1",
+        where: [7, 7],
+        because: ["X1"],
+        note: "carried",
+        quiet: true,
+      },
+    ];
+    const notes = link.show({ ...act, process: "move", now: 1 }, changes, {}, { th1: [4, 4] });
+    expect(notes).toEqual([]);
+    expect(shots.playing).toBe(0);
+    expect(living.thing(0)).toMatchObject({ x: 4, z: 4 });
   });
 
   it("plays breaking when this act broke the patient, and striking when it was broken already", async () => {
