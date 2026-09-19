@@ -1,0 +1,218 @@
+batch a: 120 scenarios, 325 steps: full 69 (58%), partial 39, fail 12
+batch b: 45 scenarios, 202 steps: full 18 (40%), partial 23, fail 4
+
+== ID USE ==
+P1:62  P2:25  P3:42  P4:33  P5:15  P6:38  P7:13  P8:4  P9:17  P10:13  P11:8  P12:9  P13:12  P14:16  P15:13  P16:3  P17:8  P18:3  P19:15  P20:11  S1:83  S2:78  S3:53  S4:64  S5:20  S6:18  S7:30  S8:27  S9:25  S10:6  S11:7  S12:30  S13:13  S14:20  B1:56  B2:21  B3:25  B4:17  B5:3  B6:22  B7:17  R1:50  R2:10  R3:26  R4:23  R5:19  R6:14  R7:25  R8:25  R9:14  X1:78  X2:74  X3:64  X4:46  X5:33  X6:33  X7:92  X8:59  X9:10  X10:13  E1:279  E2:104  E3:107  E4:45  E5:52  E6:52  E7:22  E8:25  E9:42  E10:6  E11:41  E12:4
+
+never used: none
+
+== MISSING (102) ==
+a beast-02 [partial] body: trust accumulation rate — B6 stores fear/trust but nothing distinguishes a one-off dip from a lasting change built by repeated feedings over days, or how it resets on a startle
+a beast-03 [partial] body: desperation / fight response — B6 lists fear, anger, trust, wariness; the flight-to-fight flip a cornered animal shows has no state of its own and must be approximated as anger
+a beast-03 [partial] property: speed / agility — X1 resolves chase and escape by mass, size, strength, friction and slope; nothing scores how fast a boar or player moves, which is what 'outrun' and 'barrels past' need
+a beast-04 [fail] other: shared group startle — the herd bolts 'as one' rather than each deer separately sensing and choosing; no relation or process models a reaction propagating instantly through a group
+a beast-04 [fail] property: sound loudness — thunder's power to startle at a distance has no scalar; P19 covers scent only, and nothing plays the same role for sound, yet the whole outcome turns on a stimulus loud enough to move the entire herd at once
+a beast-07 [fail] other: population count — the outcome is the warren doubling in rabbit numbers over a season; S12 tracks one organism's growth stage and S14 tracks a substance pile's amount, but nothing scores how many individuals a breeding group holds
+a beast-07 [fail] place: erosion — burrowing turning a slope patchy has no matching place field among slope, footing, cover, shelter, enclosure, fertility, depth, flow
+a beast-10 [partial] other: population size (pack) — 'a fox or two' and 'a wolf pack' imply group size shaping the takeover, but no state tracks numbers in a mobile group
+a beast-10 [partial] process: creature vs creature contest — wolves displacing foxes at a kill needs a body-to-body contest over who holds a resource; X2 is defined as instrument against material, so using it for two creatures stretches its definition
+a body-01 [partial] process: actor haste/one-handedness input — X5's resolution takes only material stickiness/friction/flexibility and the join's state, not how rushed or one-handed the agent was, which is what the scenario says made this wrap weak.
+a body-03 [partial] body: swelling flag on wound — B3's wound flags are bleeding, burned, broken and infected; swelling has no place to live, so the un-set bone's swelling and its risk of healing crooked can't be tracked as their own quantity.
+a body-04 [partial] body: swelling flag on wound — same gap as body-03: B3 has no swelling flag, so the poultice easing swelling without curing the infection has no separate quantity to move.
+a body-07 [fail] body: fluid/thirst need distinct from hunger — the chain (sweat depletes fluid, low fluid causes dizziness then collapse) runs on a resource B1's needs graph folds into hunger, so it can't be tracked or thresholded on its own.
+a build-03 [partial] process: lever mechanical advantage — a lever's fulcrum amplifies the load onto the beam itself; X2 treats the instrument as a direct force applier, not a beam under amplified bending stress
+a build-10 [full] process: precipitation accrual — snow piling up as a weight source over unobserved days is not one of X7's listed verbs; S14 amount and place weather can carry it, but only by stretching X7's verb list
+a cold-02 [partial] property: wind strength — whether a gust snuffs a flame depends on gust magnitude versus flame size; only wind direction (R7) exists, no wind-speed scalar
+a cold-03 [fail] property: expansion on freezing — ice must occupy more volume than the water it came from to build pressure a rigid sealed jug fails under; no property tracks volume change across a phase transition, so the crack can't be derived without hardcoding water's known behavior
+a cold-04 [partial] other: spatial memory of a place — refinding the cache depends on remembering its position relative to landmarks once the visual cue is buried; nothing tracks a searcher's retained location knowledge apart from a fresh X8 search
+a cold-07 [partial] property: wind strength — whether a gust peels a loosely fastened corner needs a wind-force value to weigh against the join's strength in the Load check; no wind-speed scalar exists
+a cold-08 [fail] process: lightning strike — no process models an electrical discharge targeting the tallest, most-grounded object at a place; X2 (force) and X3 (heat) cover mechanical and conductive-contact damage, not a strike event
+a cold-08 [fail] property: electrical conductivity / grounding — why the tallest thing with a path to ground draws the strike needs a conductivity-to-ground concept; P7 conductivity is defined only as heat conduction
+a cold-10 [partial] property: suction / viscous grip — pulling a boot free of saturated mud is a pressure/suction effect distinct from surface stickiness; it is stretched here into P13, a tar-like coating property
+a find-05 [partial] process: incidental discovery — finding an unrelated buried kind while searching for another isn't given an explicit rule; inferable from per-kind place abundance settling on any disturbance, but not stated
+a find-08 [partial] process: unobserved creature consumption — X7's closed-form guarantee for unobserved time covers passive drift, not agent-chosen predation (X6 via pick_action); no stated mechanism resolves an unwatched creature's feeding into a real population change without a Jev call
+a fire-02 [partial] property: wind strength — spread rate down a slope needs a graded wind-speed scalar; only direction (R7) and an unspecified 'weather' place field exist
+a fire-03 [partial] state: heat-damage stiffening — scorching permanently reduces the leather's flexibility, but P5 flexibility is fixed for the element and S4 integrity only has whole/cracked/broken/pieces, no stiffening gradient
+a fire-04 [fail] property: temperature-linked hardness — hammering can only reshape metal without cracking it while hot, but P3 hardness and P4 toughness are fixed per element with no link to S1 temperature
+a fire-04 [fail] state: hidden overheat damage — the blade needs an invisible flaw from being overheated that only shows as a crack days later under unrelated stress; S4 only offers whole/cracked/broken/pieces
+a fire-04 [fail] state: quench hardening — quenching is supposed to raise hardness and set brittleness, but P3 hardness is fixed for the element and no state records a heat-treatment outcome
+a fire-10 [partial] state: enclosed smoke hazard — smoke reaching a harmful concentration in a confined space needs an accumulating hazard quantity; E9 is defined as a sensed signal, not a quantity that itself harms a body
+a folk-02 [fail] property: pressure / weight underfoot — a creak from sudden weight on a loose plank needs a mechanical-stress input; nothing in P1-P20 scores pressure, and X2 is built for striking and cutting, not incidental noise from footing
+a folk-02 [fail] property: sound loudness — whether the creak beats the quiet street and reaches the watchman needs a loudness scalar; no property plays the role P19 plays for scent
+a folk-03 [fail] property: value / price — settling on a 'fair' quantity of turnips for a knife needs a shared worth scale across unlike goods; P20 only scores how a thing serves needs, and X9's resolution never mentions comparing worth
+a food-01 [partial] body: thirst distinct from hunger — B1's needs graph folds thirst into hunger, so the 'fluid down' from sickness can't be tracked apart from the hunger the meal already satisfied.
+a food-03 [partial] process: actor care/skill input — X2's resolution uses only instrument and patient properties, so nothing lets one fish rot under salt from a careless gutting job while others succeed.
+a food-08 [fail] body: thirst distinct from hunger — the whole point of the scenario, that sickness leaves the player thirstier than before drinking, needs a fluid need tracked apart from hunger, which section 8 says version 0 does not grant.
+a grow-01 [partial] property: soil souring — no property tracks decomposition byproducts lowering place fertility; only a static place.fertility field exists
+a grow-02 [partial] state: soil moisture by depth — S2 wetness is one scalar per soil instance; a dry topsoil over a soaked subsoil (the whole mechanism here) needs manually splitting soil into layered instances, not natively supported
+a grow-04 [partial] process: plant water/nutrient uptake — no process consumes local soil wetness or place fertility as a plant grows, so root-level competition for water between plants can't be computed; only shading via R8 is supported
+a grow-05 [full] state: depth-dependent soil temperature — S1 is one scalar per instance; frost reaching a buried seed depends on burial depth, not linked to temperature, though survival can be approximated with a latent fact (E11) instead
+a grow-06 [partial] property: composite trait inheritance — the composite-derivation rule in section 2 defines mass and join strength from parts, not which part's 'produces' a grafted composite carries; applying it to produces stretches it beyond its stated definition
+a grow-07 [partial] process: plant nutrient uptake — no process consumes place fertility as the vine grows, so the compost's nutrient draw has no mechanism
+a grow-09 [partial] process: wind-driven grain shatter — the untaken option's cost (storm shattering ripe grain, bird loss) that makes cutting early a real trade-off has no clean process; forcing it through Load stretches Load's weight/tension failure mode to wind dislodging grain
+a grow-10 [partial] property: growth-stage sizing — P2 size is fixed per element yet S12 growth stages plainly imply changing size/height over an individual's life; no rule maps growth stage or rate to an instance's effective size, so 'years behind an unshaded tree' has no defined quantity to compare
+a mix-02 [partial] process: friction noise from motion — squeaking is sound from ordinary repeated motion under high friction; X2 ties noise to force/impact, and X1 move does not mention noise, so quieting a squeak has no clean process
+a mix-04 [fail] property: surfactant-dependent removal — blood needs soap to lift once set, but P12 is a single water-solubility scalar with no notion that a stain needs a specific other substance, not just more water, to remove
+a mix-04 [fail] state: set vs fresh stain — the same substance must behave differently once dried and bonded than freshly deposited, and no state tracks how set-in a stain has become
+a mix-05 [partial] property: causticity/pH — curing soap needs its harshness-to-skin to fall from caustic to safe over days; P17 is a fixed ingestion-toxicity property, not a skin-contact causticity that eases with curing time
+a mix-06 [partial] state: per-region coating coverage — S7 coating holds one amount for the whole surface, but the scenario needs salt to reach some folds and miss others on the same piece of meat, with no per-site granularity the way B3 gives wounds a site
+a mix-09 [partial] property: stain permanence/bondedness — the dye blotches on other laundry never wash out, but nothing distinguishes a permanently-bonded stain from an ordinary S7 coating a later wash would lift, the same gap as a set stain elsewhere
+a mix-10 [partial] state: corrosion rate multiplier — S9 freshness has an explicit multiplier state, S11, but S10 corrosion has none, even though the scenario's outcome depends on salt water rusting iron faster than plain water
+a tool-02 [partial] property: grain direction — whether a split runs clean or catches is decided by grain and knots, which no property represents
+a tool-06 [partial] state: joint/fit wear — no state tracks a wedged fit loosening under repeated shock plus drying; only S5 edge wear exists, and that is scoped to cutting edges
+a tool-07 [partial] property: grain direction — a knotted or cross-grain cut catching and splitting the handle needs a grain property that does not exist
+a tool-08 [partial] property: grip/leverage control — a handleless, irregular striking face causing more glancing misses is about aiming control, not covered by hardness, edge or mass
+a tool-09 [fail] property: pressure / expansion — the whole outcome turns on confined water expanding on freezing and exerting enough force to split rock; no property or state carries pressure or a volume change on phase change
+a water-01 [partial] process: friction wear on skin — no process turns sustained rubbing from a stiffened wet object into a wound; X2's wear/noise is tied to strike or impact contact, not walking-duration chafing
+a water-01 [partial] property: wetness-linked stiffness — P3 hardness and P5 flexibility are fixed per element, but wet leather needs to be stiffer than dry leather to drive the chafing
+a water-03 [partial] body: thirst as distinct need — B1's needs graph folds drink into hunger, so 'player returns thirstier' cannot be represented apart from a generic hunger change
+a water-05 [partial] body: thirst as distinct need — the dog losing thirst needs a need separate from hunger, which the vocab folds together
+a water-05 [partial] property: turbidity/suspension — clouding water by disturbance is a suspension effect; P12 solubility only covers dissolving, not particulates that suspend by disturbance and settle by mass
+a water-07 [partial] state: saturation threshold event — S1 has explicit threshold-crossing events, but S2 wetness has no equivalent 'fully soaked triggers ruin' event for absorbent friable things like bread
+a water-08 [fail] property: pathogen safety vs clarity — no state distinguishes microbial safety, killed by heat, from turbidity/silt, unaffected by heat; P17 is a fixed ingestion-toxicity property and S13 taint has no heat-neutralization rule, so 'safe now, still cloudy' has nowhere to live
+a water-09 [partial] body: drowning / breath need — B1's needs graph has no air/breath need, so submersion risk has to be rebuilt indirectly from a failed X6 breathe process draining B2 health over a fuse, with no explicit drowning condition
+b careless-01 [partial] property: wind strength/force — no scalar exists for how hard wind blows; R7 gives only direction, but ember-lift distance and grass-fire spread rate need a magnitude to compare against mass and fuel.
+b careless-05 [partial] place: sub-regional variation within one place — a single place's depth and flow are one value per row; the scenario needs ice thickness to vary across the pond's area (thin over the current, thick elsewhere) without being split into many place rows.
+b clever-01 [partial] other: population of a creature group — a hive is many individual bees with different fates (fled, stayed, stung); the vocabulary has no scalar for population count, only a single creature instance.
+b clever-01 [partial] property: scent masking / pheromone signal — smoke's real calming effect is masking a bee alarm pheromone; there is only generic scent (P19) and fear (B6), with no concept of one signal overriding another.
+b clever-02 [partial] body: aquatic breathing need — B1's needs graph (hunger, rest, warmth, money, safety, company) has no entry for a fish needing water; suffocation has to be stretched onto a starve-like drift with no proper need behind it.
+b clever-02 [partial] other: population of fish — how many fish are trapped versus escape through leaks needs a population count, not modeled distinctly from a single creature instance.
+b clever-03 [partial] property: heat capacity (thermal mass) — P7 conductivity only covers how fast heat passes through a substance, not how much heat it absorbs before its temperature rises; without it, water buffering the hide from scorching can't be derived, only approximated as slow conduction.
+b clever-06 [partial] state: charring / pyrolysis product — no state represents partial, air-starved combustion producing a new stable material distinct from ash; it must be improvised as a new element with guessed properties.
+b clever-08 [partial] other: group / pack coordination — a wolf pack deciding and acting together isn't modeled; pick_action and body conditions are defined per individual creature, so a pack must be treated as one aggregate creature as a workaround.
+b clever-09 [partial] other: aggregate reputation / renown — only pairwise claims (E8) and pairwise trust (B6) exist; there's no single reputation quantity, so word reaching "anyone who hears of it" has no mechanism besides simulating many separate tell-and-believe chains.
+b clever-09 [partial] other: price / fair value — P20 serves touches the money need abstractly, but there is no price or market-value scalar to judge what a sound rope is worth against a frayed one, or how much a lie inflates perceived value.
+b clever-10 [fail] other: pressure / confined force — the wedging force of expanding ice against the crack's walls is a pressure building in a confined space, distinct from Load's weight-bearing checks, and the vocabulary has no general pressure concept beyond the unexplained word in Load's definition.
+b clever-10 [fail] property: volume change on phase transition — ice takes up more space than the water it froze from, and nothing in P1-P20 or S1-S14 represents a phase transition changing volume; without it the expansion force that widens the crack can't be derived.
+b clever-11 [fail] property: moisture-dependent hardness/flexibility — P3 hardness and P5 flexibility are declared fixed per element, but clay (like dough, leather, plaster) genuinely changes hardness and flexibility with its moisture; there's no mechanism for a state (S2) to shift a fixed property.
+b clever-12 [partial] form: curved / trough shape — the form tag set (hollow, flat, long, pointed, edged, round, sheet, cord, granular, liquid, gas) has nothing for a curved channel that directs flow without enclosing it, unlike a true container (hollow) or a flat sheet water would run off the side of.
+b clever-14 [partial] relation: insect / pest access — R5 (covers/sheltered by) is stretched to explain how submersion blocks flies from reaching meat; there's no relation specific to vermin/insect access distinct from general shelter from weather.
+b clever-15 [partial] body: dazzle / flash-blindness — B7 attention only has alert, distracted, asleep; a night-adapted eye overwhelmed by sudden bright light is a distinct, temporary sensory impairment not captured by generic distraction, nor is its recovery time.
+b malice-02 [partial] property: wind strength/force — spread rate across the field and how far sparks carry toward the barn depend on wind force, which has no scalar (R7 gives direction only).
+b malice-04 [partial] other: witness memory of an event — a bystander's unremarked sighting of the player near the chest, recalled later under questioning, needs stored, retrievable memory of a past observation, not just a search settling a fact that exists now.
+b malice-05 [fail] body: thirst separate from hunger — VOCABULARY.md section 8 explicitly folds drink into hunger in the needs graph and counts this as a failure wherever a scenario needs them apart; this scenario deprives water and food separately, with different timelines and separate 'numbers' asked for each.
+b odd-02 [partial] form: steering/keel shape — form tags describe cutting, holding and containing but not what keeps a direction of travel stable, so the shield veering off-line can only be asserted, not derived from its round rim.
+b odd-03 [partial] body: dazed/temporary deafness — no B-condition covers short-term sensory impairment from a loud impact; B7 attention (alert/distracted/asleep) doesn't capture ringing ears.
+b odd-03 [partial] property: sound loudness — a metal impact ringing 'loudly enough to daze and half-deafen' needs a loudness scalar tied to impact force; E9 emits a signal but has no intensity comparable to P19's scent strength.
+b odd-05 [partial] body: chemical/alkaline irritation — dry, irritated hands from prolonged alkaline contact aren't a wound's 'burned' flag (heat-based) or sickness (B4); no B-condition fits without stretching.
+b odd-06 [partial] property: mass distribution/balance — the door tipping because iron hinges are denser than the wood needs a center-of-gravity effect; the composite rule only sums mass and takes the weakest join's strength, not how mass is spread across the object.
+b odd-07 [partial] process: torque/turning force — loosening a threaded screw is a rotational force, distinct from X2's strike/cut model and X1's linear push/pull; no process resolves turning against friction.
+b odd-07 [partial] relation: tool-to-socket fit — whether the coin's edge actually engages the screw slot before any force transmits isn't any of R1-R9; without it there is no gate on whether the interaction can even begin.
+b world-01 [partial] body: hibernation dormancy — B7 only has alert, distracted, asleep; the hedgehog's winter dormancy also needs slowed need-decay, which nothing in B1-B7 models.
+b world-01 [partial] other: animal migration knowledge — geese choosing to fly 'to south' needs habitat/route knowledge; X1 move has no source for a destination this far away.
+b world-01 [partial] property: color — leaves and grass changing color is stated as part of the outcome and no property represents color.
+b world-02 [partial] place: terrain reshaping — place fields (slope, depth, flow) change within a fixed place, but no process creates a new channel's geometry or splits a place into an old and new course.
+b world-02 [partial] relation: new place identity — the abandoned channel becoming its own stagnant place distinct from the new river course has no R-id or process for a place forking into two.
+b world-03 [partial] process: oviposition/breeding act — flies laying eggs onto exposed flesh is a deliberate agent act, not covered by X1-X10; X7's 'fester' is a passive drift, not this act.
+b world-03 [partial] state: population count — maggot numbers climbing and then the carcass being 'picked clean' by a growing brood has no scalar for a count of discrete creature instances, only S14 amount for substances/piles.
+b world-05 [partial] property: taste — water 'tastes foul' is distinct from smell at a distance; only P19 (scent) exists, so taste is folded into it as a stretch.
+b world-07 [partial] property: electrical conductivity — no property represents what makes lightning pick a given object; only P2 (height) is available, so the strike has to be a special-cased rule rather than derived.
+b world-08 [fail] process: breeding rate — no process models reproduction rate as a function of food and safety for a creature group.
+b world-08 [fail] state: population count — the mouse colony climbing then dropping sharply is the scenario's core mechanic; S14 covers a substance's amount, not a count of discrete creature instances.
+
+== NAMED RULES (3) ==
+a beast-04: with no general loud-sound-plus-group-startle mechanic, a working version would have to hardcode a trigger for 'thunder' startling 'this herd', not a general property comparison
+a beast-07: with no population state, the only way to make the warren visibly grow is a rule that hardcodes this warren's size on a timer, exactly the temptation the scenario names
+a folk-03: without a value scale, a working trade rule would have to hardcode this knife's worth in turnips rather than deriving it from properties generally
+
+== LOST (66) ==
+a beast-02: the rule that repeated feedings by the same agent over days build lasting tameness, while one scrap does not, has no home in any process; it must be improvised as a reaction with no stated decay or reset
+a beast-03: the boar's speed advantage over the player, and the specific 'cornered desperation' feeling driving the charge, both have to be stood in for by nearby properties (mass/size, anger) rather than expressed directly
+a beast-10: the pack takeover is only expressible by stretching X2 (instrument vs material) onto two creatures contesting possession, using mass and size as a stand-in for dominance since dominance is not a property
+a fire-02: how far and fast the flame line travels cannot be quantified from wind, only its direction
+a fire-03: the boots' permanent loss of flexibility from scorching, since flexibility is a fixed material property and integrity has no stiffness stage
+a fire-10: smoke as a harm-causing accumulating quantity rather than just a sensed signal that fades
+a cold-02: graded wind-gust strength to weigh against flame size; only direction (R7) is available
+a cold-04: the searcher's memory of the cache's approximate position relative to landmarks; only an equally-blind fresh search remains
+a cold-07: quantified wind force to weigh against the join's strength
+a cold-10: the resistive suction of waterlogged mud, stretched into surface stickiness (P13) rather than a true pressure/vacuum mechanism
+a food-01: the delayed dehydration/fluid effect collapses into the single hunger need, so 'weak and dehydrated' can't be shown as distinct from ordinary hunger.
+a food-03: why exactly one fish among many silently fails can't be tied to how carefully it was gutted; only instrument and patient properties feed X2.
+a food-08: the scenario's core outcome, drinking relieving thirst and sickness then deepening that same thirst, can't be shown since thirst is folded into hunger.
+a body-01: the wrap's weakness traces to the player being rushed and one-handed, a fact X5 has no input for; the engine could only make it fail by chance, not for that reason.
+a body-03: how swollen the leg gets, and whether it is going down, cannot be represented; only the broken flag and pain are trackable.
+a body-04: the swelling the herbs ease apart from the underlying infected flag can't be shown as its own, partly-reduced amount.
+a body-07: the fluid depletion that drives dizziness and collapse has no need of its own to run down; only the combined hunger/thirst need exists.
+a grow-01: the causal path from rotting flesh to soured soil (future fertility loss) has no defined mechanism
+a grow-02: the surface-dry/subsoil-wet distinction that misleads the gardener is only representable by hand-splitting soil into two joined instances
+a grow-04: the water-competition half of the mechanism ('pulling water out from under them') has no process; only the shading half is computable
+a grow-06: which fruit variety the grafted tree eventually bears is undefined by the stated composite rule
+a grow-07: the nutrient cost the unplanned vine imposes on the finished compost is not computable
+a grow-09: the cost of waiting (shatter/bird loss) that motivates the early cut can't be computed cleanly, so only one side of the farmer's dilemma is modelable
+a grow-10: the comparative growth-rate deficit that defines 'stunted' has no size/vigor quantity tied to S12 to compare against an unshaded control
+a find-05: the rule that any ground disturbance can settle latent facts for an unrelated kind, not only the sought one, is implied but not written down
+a find-08: how an off-screen predator's choice becomes a genuine, code-only reduction in the pool's fish count is unspecified
+a tool-02: whether the split is clean depends on wood grain/knots, which has no property; the vocabulary can only compare hardness and toughness, not grain orientation
+a tool-06: the gradual loosening of a friction-fit joint under cyclic strike stress combined with drying has no state to carry it, so it can only be approximated by reusing edge-wear or wetness drift outside their stated scope
+a tool-07: why the cut catches at a hidden knot and cracks the handle, versus shaving cleanly, depends on grain direction, which has no property; only toughness/hardness are available
+a tool-08: the extra glancing blows and bruised knuckles come from the rock lacking a handle and having an irregular face; only the round/flat form tags loosely proxy this, and neither is defined as a control or grip property
+a build-03: the rail snapping from its own bending strength under an amplified load (not from the strike force alone) is only reachable by stretching Load's weight/tension/pressure check to cover a fulcrum's mechanical advantage, which is not stated
+a water-01: the blister's cause (wet leather stiffening then chafing over a walk) stretches X2 past strike/impact and treats fixed hardness/flexibility as if wetness could change them
+a water-03: the closing detail that the player is thirstier cannot be told apart from ordinary hunger, since thirst has no state of its own
+a water-05: the exact mechanism for cloudy water from disturbed sediment stretches P12 solubility, and the dog's thirst state can't be told apart from a generic need change
+a water-07: bread turning to an irreversible ruined mass once fully soaked has no explicit threshold the way S1's heat thresholds are stated
+a water-09: the child's drowning risk has to be reconstructed from a failed breathe process and a fuse rather than a tracked body condition
+a mix-02: reducing the squeal by oiling has to borrow X2's strike-based noise description even though this is ordinary hinge motion, not a blow
+a mix-05: soap's drop from caustic to skin-safe over the cure has no state to sit on beyond a fixed, ingestion-only toxicity property
+a mix-06: which specific fold the salt missed is lost; S7 can only give an aggregate coating amount, not per-region unevenness
+a mix-09: that the stray dye blotches are permanent can't be told apart from an ordinary S7 coating a later wash would simply remove
+a mix-10: that salt water corrodes iron meaningfully faster than plain water has no multiplier state to sit on, unlike S9 which has S11 for this exact need
+b careless-01: the numbers for spark travel distance and spread speed under wind can only be asserted, not derived from a scored property.
+b careless-05: why the ice is specifically thin near the middle, rather than uniformly thin or thick, can only be asserted, not derived from a place's fields.
+b malice-02: how much of the field burns and how close the fire comes to the barn can only be asserted, not derived from a scored wind property.
+b malice-04: the origin of the recalled testimony (passive memory of an event nobody was searching for) has no process behind it; it can only be asserted as a claim, not derived.
+b clever-01: the mechanism that pacifies bees is approximated as generic fear-driven flight rather than masking an alarm pheromone, and the hive's population split (most left, a few stung) has no population scalar to drive it.
+b clever-02: fish suffocating out of water has no proper need/state pairing, and the number of fish trapped versus escaped has no population scalar to drive the split outcome.
+b clever-03: the reason the hide doesn't scorch (water absorbs heat with little temperature rise) is stretched onto conductivity, which is about transmission speed, not storage capacity.
+b clever-06: the transformation from wood to charcoal under starved air is not given by any existing state; it has to be written as an unlisted reaction producing an ad hoc new material.
+b clever-08: the pack's collective tracking-then-feeding decision is approximated as a single creature's pick_action rather than a modeled group behavior.
+b clever-09: the wider, systemic reputation damage ("word travels... making future trades with anyone who hears of it harder") has no aggregate quantity to settle on; it can only be built from many separate pairwise claims, not a single reputation score.
+b clever-10: the entire mechanism (ice expanding and wedging the crack wider) cannot be derived from any existing property; it would have to be invented outside the closed vocabulary.
+b clever-11: the entire premise (soft and moldable while wet, hard and brittle once dry) needs a property that changes with state, but the vocabulary fixes hardness and flexibility per element, so wet clay and dry clay can't be told apart.
+b clever-12: the funnel's shape-specific water-directing behavior is stretched onto 'sheet' or 'hollow', neither of which actually describes a curved trough.
+b clever-14: the fly-blocking mechanism is stretched onto R5, which is defined for shelter from weather/exposure generally, not specifically for keeping insects off a surface.
+b clever-15: the cat's vision being specifically overwhelmed by contrast is stretched onto the generic 'distracted' attention state, losing the specific sensory mechanism and its own recovery time.
+b world-01: the geese's chosen destination and the hedgehog's metabolic slowdown are asserted, not derived from any property or state.
+b world-02: the map itself changing shape (a new channel carved, the old one becoming a separate stagnant place) is not expressible; only property drift within one fixed place is.
+b world-03: egg-laying is asserted rather than derived from a process, and the maggot population's growth (and its effect on consumption speed) cannot be tracked as a number.
+b world-05: the sense of taste that lets someone notice foulness only once drinking is not represented separately from smell.
+b world-07: why the tallest, driest thing specifically gets struck (an electrical mechanism) can't be derived; everything after ignition (spread, slowing, quenching) resolves cleanly.
+b odd-02: why the shield can't hold a line (lacking a keel or steering edge) is inferred from an absence rather than derived from any defined form.
+b odd-03: the pot's protective effect on the skull is expressible, but the dazing/half-deafening side effect of the loud impact is not.
+b odd-05: the degreasing reaction is expressible, but the skin irritation it causes has no clean body condition to land in.
+b odd-06: the tipping caused by uneven density across the composite (dense hinges vs. wood) can't be derived from the stated composite rules.
+b odd-07: whether the coin fits the slot at all, and whether it turns the screw or bends first, are both approximated by stretching X2's linear force model rather than expressed directly.
+
+== REACTIONS (32) ==
+a beast-02: B6(fear of a specific agent) + repeated X6(ingest food thrown by that agent) over several days -> E2: fear down cumulatively, crossing a taming threshold, distinct from any single feeding
+a beast-03: place.enclosure(high) + R1(near) under X1(flee blocked) -> pick_action drops flee, offers attack; B6 shifts from fear toward anger
+a fire-01: P3(flint) + P3(steel) under X2 (percussive strike) -> E3: spark (hot fragment) created
+a fire-06: P3(hammer) + P3(anvil) under X2 (hard strike) -> E3: spark (hot fragment) created
+a fire-08: S1(hot coals) + S2(water poured) under X3/X4 -> E3: steam; then under X3 with R1(close) -> E2: scald on nearby flesh
+a food-01: S9(rotten) + X6(ingest) -> E2,E10: spoiled food carries a delayed bacterial harm the meat's own fixed properties don't otherwise give
+a food-05: S9(mouldy) + X7(threshold) -> E3: mould grows in as its own instance carrying a fixed P17 that then poisons whatever eats it
+a food-08: place flow=0 (stagnant) + X7(time) -> water carries harmful taint, general to any still water source
+a body-08: S1(scorching) + B3(bleeding) under X3 with long contact -> E2: bleeding stops, burn added
+a grow-01: S9(rotten, moist flesh) + R5(covers seed) under X7 with low R6 -> E1: germination blocked, seedling smothered
+a grow-02: S2(soaked) + P10(low porosity soil) under X7 -> E1: R6 air access to roots drops, roots rot despite continued moisture
+a grow-04: R8(shaded by taller weeds) under X7 -> E1: cabbage growth rate falls
+a grow-06: R4(matched, fresh cut faces) + S7(sealed) under X7 -> E1: graft knits into a growing union
+a grow-07: hardy seed + S1(mild at heap edge) + S2(moist) under X7 -> E1: discarded seed germinates unplanned
+a grow-10: R8(long-term shade from a taller neighbor) under X7 -> E1: sapling growth rate and vigor fall over years
+a tool-02: P3(wedge hard) + P4(oak toughness) under X2 with pressure held -> E1:S4: driven wedge splits the round along its length
+a tool-04: S2(wet) + P16(corrodibility) under R2/R6(enclosed sheath) -> E1:S10: rust creeps along the sheathed edge overnight
+a build-09: P1(rock impact) + R1(nest near strike point on same tree) under X2 -> E1: shaking one part of a tree jars something attached elsewhere on it
+a water-01: S2(wet) + P5(leather) under X1 with long contact -> E2:B3: stiffened wet leather rubbing raises a blister, a synergy plain X2 strike rules would not give
+a water-03: S1(hot,sun) + S2(open,liquid) under X7 over hours -> E1:S8 down + E3 mineral residue: heat and dry air pull water off an exposed surface, leaving dissolved minerals behind
+a water-05: P1(mud,dense) + X2(wade/trample, disturbance) -> E1 mud mixture, later cleared by X7 settling: disturbing a soft sediment bed clouds the water, a synergy plain move/force would not give without the loose bottom as a suspendable substance
+a water-10: S1(hot,embers) + P6(fuel left) + R6(air access via wind) -> E1:S3 reignite: buried hot embers with fuel resume open flame once wind restores air access, a synergy a flat quench-equals-out rule would not give without tracking retained heat
+a mix-02: P13(oil,sticky) + airborne dust under X5 -> E1:S7 grime: an oily film exposed to dusty air collects grit, a synergy plain X5 joining would not give without dust present and time passing
+a mix-05: lye + fat under X3 heat -> E3 soap paste, E4 consumes fat, E4 consumes lye: fat and lye react under sustained heat into a paste neither ingredient resembles, a transformation the general heat-balance rule would not give by itself
+b careless-02: S2(wet clothes) + S1(cold night air) under X3 -> E2:B1: wet cloth carries heat away faster overnight than dry contact/conductivity alone would predict
+b clever-01: S2(wet) + P6(flammable) under X3 -> E9: damp wood smokes instead of burning clean
+b clever-01: E9(smoke) + B6(fear/wariness) under X8 -> E2:B6, E5: bees pacified or driven off instead of stinging
+b clever-02: P10(porosity of stacked stones) + R3(dam support) under X4 -> leaks: flow is reduced, not stopped
+b clever-03: S1(hot stone) + quench in liquid under X3 -> E1:S4: stone cracks from rapid cooling
+b clever-06: S3(burning, hot) + R6(air-starved) under X7 (sustained) -> E3: produces charcoal (altered P6/P1/P7) instead of ash or going out
+b world-03: carcass(dead,wet) + R6(air access) under X7 -> E1:S9 down, E9: emits scent that draws scavengers
+b odd-05: P12(ash's soluble alkaline residue) + P13(grease stickiness) under X4 contact -> E1: grease's bond to metal breaks, pot gains cleanliness

@@ -6,6 +6,8 @@ export * from "./effects.ts";
 export * from "./graph.ts";
 export * from "./hash.ts";
 export * from "./log.ts";
+/** The sandbox's physics (spikes/vocabulary). Namespaced: its words overlap the inn's. */
+export * as matter from "./matter/index.ts";
 export * from "./needs.ts";
 export * from "./persuade.ts";
 export * from "./preconditions.ts";

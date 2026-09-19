@@ -1,0 +1,1625 @@
+[
+  {
+    "id": "cave-01",
+    "domain": "cave",
+    "place": "A dry-stone well shaft on an abandoned holding, some ten fathoms deep, covered for years with a slab and never drawn from.",
+    "initiator": "player",
+    "lines": [
+      "tie the lamp to the rope and lower it down the well",
+      "watch the flame as it goes"
+    ],
+    "things": [
+      "player",
+      "oil lamp, lit",
+      "hemp rope",
+      "well shaft",
+      "heavy stale air pooled at the bottom",
+      "rotting leaves and a little black water at the bottom"
+    ],
+    "outcome": "The lamp burns steadily for most of the way down, then the flame shrinks to a blue bead and goes out a couple of fathoms above the bottom. Hauled up, the lamp is unharmed and relights at once in the open. The player now knows a person climbing down would grow dizzy and drop in the same place, but knows nothing about how to clear the air, and the bad air is still there tomorrow because nothing stirs it.",
+    "steps": [
+      {
+        "process": "lower",
+        "agent": "player",
+        "patient": "lamp",
+        "instrument": "rope",
+        "because": [
+          "patient is lit",
+          "instrument is long",
+          "place is deep"
+        ],
+        "effects": [
+          "moves patient to the lower shaft",
+          "agent learns roughly how deep the shaft is",
+          "agent learns the shaft walls are sound as far as the light shows"
+        ],
+        "numbers": [
+          "rope paid out against the depth of the shaft",
+          "how far the lamp light reaches on wet stone"
+        ]
+      },
+      {
+        "process": "smother",
+        "agent": "stale air",
+        "patient": "lamp flame",
+        "instrument": null,
+        "because": [
+          "agent is heavy",
+          "agent is unbreathable",
+          "place is unventilated",
+          "patient is burning"
+        ],
+        "effects": [
+          "patient loses burning",
+          "player learns the air near the bottom will not keep a flame",
+          "player learns the depth at which the flame failed"
+        ],
+        "numbers": [
+          "depth at which the flame dims and the depth at which it dies",
+          "how long a flame lasts once inside the bad air"
+        ]
+      },
+      {
+        "process": "haul",
+        "agent": "player",
+        "patient": "lamp",
+        "instrument": "rope",
+        "because": [
+          "patient is tied",
+          "agent is strong enough"
+        ],
+        "effects": [
+          "moves patient to the well head",
+          "patient gains smoking wick",
+          "patient loses nothing but its flame"
+        ],
+        "numbers": [
+          "time to haul the full length of rope hand over hand"
+        ]
+      }
+    ],
+    "latent": [
+      "how deep the layer of bad air lies",
+      "whether there is water or only muck at the bottom",
+      "what is rotting down there to foul the air",
+      "whether the rope was long enough to touch bottom"
+    ],
+    "state_after": [
+      "lamp: unlit, warm, nearly full of oil, at the well head",
+      "well bottom: bad air still pooled, undisturbed",
+      "player: knows a flame dies below a certain depth, does not know why or how to clear it",
+      "rope: damp and slimed along its lower length"
+    ],
+    "stress": "An invisible quality of a place that is only ever learned through what it does to something else put into it.",
+    "temptation": "A rule 'lamp lowered into a well goes out' keyed on wells and lamps, instead of heavy unbreathable air that settles in any low unventilated hollow and stops any flame and any breathing creature alike."
+  },
+  {
+    "id": "cave-02",
+    "domain": "cave",
+    "place": "A worked-out level in an old tin mine, wet-walled, its roof held by round oak props and lid-boards set forty years ago and not inspected since.",
+    "initiator": "world",
+    "lines": [],
+    "things": [
+      "oak pit props",
+      "lid boards",
+      "slabby roof rock",
+      "seeping water",
+      "white fungus on the timber",
+      "the level beyond the props",
+      "a wheelbarrow left standing under the roof"
+    ],
+    "outcome": "Nobody is there. Damp and fungus have been softening the props at the foot for decades; through a wet winter one prop crushes at its base, its neighbours take the load and creak for days, and then two more fail together and a slab of roof the size of a cart comes down with its rubble. The level is blocked, the barrow is flattened, and dust hangs for an hour. The warning signs, props bulging and shedding splinters, a trickle of grit from the roof, were there for weeks for anyone who had come to look.",
+    "steps": [
+      {
+        "process": "rot",
+        "agent": "damp",
+        "patient": "props",
+        "instrument": "fungus",
+        "because": [
+          "patient is wooden",
+          "place is wet",
+          "place is airless",
+          "patient is old"
+        ],
+        "effects": [
+          "patient strength down",
+          "patient gains soft foot",
+          "patient gains fungus"
+        ],
+        "numbers": [
+          "years for oak to lose its strength in standing damp",
+          "how much faster at the wet foot than at the dry head"
+        ]
+      },
+      {
+        "process": "crush",
+        "agent": "roof rock",
+        "patient": "weakest prop",
+        "instrument": null,
+        "because": [
+          "agent is heavy",
+          "patient is rotten",
+          "patient is loaded"
+        ],
+        "effects": [
+          "patient gains broken",
+          "neighbouring props load up",
+          "creates creaking and falling grit",
+          "anyone present learns the roof is working"
+        ],
+        "numbers": [
+          "load each prop carries and what is passed to neighbours when one fails",
+          "days between the first failure and the fall"
+        ]
+      },
+      {
+        "process": "fall",
+        "agent": "roof rock",
+        "patient": "level floor",
+        "instrument": null,
+        "because": [
+          "agent is unsupported",
+          "agent is slabby",
+          "patient is below"
+        ],
+        "effects": [
+          "moves agent to the floor of the level",
+          "creates rubble heap",
+          "creates dust cloud",
+          "place gains blocked",
+          "wheelbarrow gains crushed"
+        ],
+        "numbers": [
+          "how much rock comes down and how far along the level it spreads",
+          "how long dust stays in still air",
+          "whether the hole above keeps dropping afterwards"
+        ]
+      }
+    ],
+    "latent": [
+      "how sound each prop is inside, which cannot be seen from its bark",
+      "how far up the roof has loosened above the fall",
+      "whether there is another way round the blockage",
+      "whether anyone was beyond the props"
+    ],
+    "state_after": [
+      "level: blocked by a rubble heap to the roof",
+      "three props: broken and buried",
+      "remaining props: carrying more than before",
+      "wheelbarrow: crushed under the fall",
+      "roof above the fall: a raw hollow, still shedding stones now and then"
+    ],
+    "stress": "Slow unseen weakening that ends in a sudden event, with load handed from a failed support to its neighbours.",
+    "temptation": "A timer on 'old mine' that triggers a scripted cave-in, instead of wood that loses strength in damp, weight that must be carried by something, and whatever is underneath when it is not."
+  },
+  {
+    "id": "cave-03",
+    "domain": "cave",
+    "place": "The lip of a pothole on a limestone moor, a black slot a stride wide whose bottom cannot be seen by daylight.",
+    "initiator": "player",
+    "lines": [
+      "drop a stone down the hole and count until it lands",
+      "listen for what it hits"
+    ],
+    "things": [
+      "player",
+      "fist-sized stone",
+      "pothole shaft",
+      "ledge partway down",
+      "pool at the bottom",
+      "jackdaws nesting in the shaft wall"
+    ],
+    "outcome": "The stone falls clear for two breaths, cracks off a ledge, rattles, and ends in a deep plop. The player learns it is a long drop, more than a short rope, that it is not a clean shaft, and that there is standing water at the bottom, but the count is muddled by the ledge so the depth is a guess good to a few fathoms at best. The jackdaws burst out past the player's face. The stone is gone for good.",
+    "steps": [
+      {
+        "process": "drop",
+        "agent": "player",
+        "patient": "stone",
+        "instrument": null,
+        "because": [
+          "patient is heavy",
+          "place is sheer",
+          "patient is unsupported"
+        ],
+        "effects": [
+          "moves patient to the bottom of the shaft",
+          "agent loses the stone"
+        ],
+        "numbers": [
+          "time of fall for the depth",
+          "where on the way down it strikes the wall"
+        ]
+      },
+      {
+        "process": "sound",
+        "agent": "stone",
+        "patient": "player",
+        "instrument": "echoing shaft",
+        "because": [
+          "agent is hard",
+          "place is hollow",
+          "place is quiet",
+          "instrument is echoing"
+        ],
+        "effects": [
+          "patient learns the drop is long",
+          "patient learns there is a ledge partway",
+          "patient learns there is water at the bottom",
+          "patient learns only a rough depth"
+        ],
+        "numbers": [
+          "delay between release and each sound",
+          "how much the ledge strike spoils the estimate",
+          "how deep a pool must be to give a plop rather than a slap"
+        ]
+      },
+      {
+        "process": "startle",
+        "agent": "noise",
+        "patient": "jackdaws",
+        "instrument": null,
+        "because": [
+          "patient is nesting",
+          "patient is wary",
+          "agent is sudden"
+        ],
+        "effects": [
+          "moves patient to the open sky",
+          "player learns birds nest in the shaft so the upper air is good",
+          "creates clatter of wings and falling grit"
+        ],
+        "numbers": [
+          "how long before the birds settle back"
+        ]
+      }
+    ],
+    "latent": [
+      "the true depth",
+      "whether the ledge is wide enough to stand on",
+      "how deep the pool is",
+      "whether any passage leads off at the bottom"
+    ],
+    "state_after": [
+      "stone: at the bottom of the pool",
+      "player: holds a rough depth, knows of a ledge and water, knows the rope in hand is too short",
+      "jackdaws: circling, back within the quarter hour"
+    ],
+    "stress": "Learning about an unseen place from sound and timing, with the answer being partial and noisy rather than a number.",
+    "temptation": "A 'drop stone' command that simply prints the shaft's stored depth, instead of a falling thing that strikes what is in its way and a listener who gets only what the sounds can honestly tell."
+  },
+  {
+    "id": "cave-04",
+    "domain": "cave",
+    "place": "A miners' dry store cut into the side of an adit near the entrance, with a plank shelf, a box of tallow candles, a coil of greased rope and a sack of oat bread.",
+    "initiator": "creature",
+    "lines": [],
+    "things": [
+      "rats",
+      "tallow candles in a wooden box",
+      "greased hemp rope",
+      "sack of oat bread",
+      "plank shelf",
+      "tinderbox in a tin",
+      "the miner who returns after five days"
+    ],
+    "outcome": "Rats find the store within a night or two. They eat the bread first, then gnaw through the corner of the candle box and eat the tallow candles down to a few stubs and loose wicks, and they chew the greased rope for its fat in several places without eating much of it. The tin tinderbox is untouched. The miner comes back to a store with no food, an hour or so of light instead of a week's, and a rope that looks whole in the coil but has strands bitten through in its middle.",
+    "steps": [
+      {
+        "process": "find",
+        "agent": "rats",
+        "patient": "store",
+        "instrument": "smell",
+        "because": [
+          "patient is unguarded",
+          "patient is smelly",
+          "agent is hungry",
+          "agent is nocturnal"
+        ],
+        "effects": [
+          "moves agent to the store",
+          "agent learns where food is kept"
+        ],
+        "numbers": [
+          "nights before rats find a new food source",
+          "how many rats come once one has found it"
+        ]
+      },
+      {
+        "process": "eat",
+        "agent": "rats",
+        "patient": "bread and candles",
+        "instrument": "teeth",
+        "because": [
+          "patient is edible",
+          "patient is fatty",
+          "patient is poorly boxed",
+          "agent is gnawing"
+        ],
+        "effects": [
+          "consumes patient",
+          "candle box gains gnawed hole",
+          "creates droppings",
+          "creates loose wicks and tallow crumbs"
+        ],
+        "numbers": [
+          "how much a rat eats in a night",
+          "how many candles are left after five nights",
+          "hours of light in what remains"
+        ]
+      },
+      {
+        "process": "gnaw",
+        "agent": "rats",
+        "patient": "rope",
+        "instrument": "teeth",
+        "because": [
+          "patient is greased",
+          "patient is fibrous"
+        ],
+        "effects": [
+          "patient strength down",
+          "patient gains bitten strands",
+          "patient loses nothing visible from outside the coil"
+        ],
+        "numbers": [
+          "how many strands are cut and where along the length",
+          "what load the damaged rope will still bear"
+        ]
+      },
+      {
+        "process": "discover",
+        "agent": "miner",
+        "patient": "store",
+        "instrument": null,
+        "because": [
+          "agent is returning",
+          "patient is ransacked"
+        ],
+        "effects": [
+          "agent learns the food and most candles are gone",
+          "agent learns rats did it from the droppings and tooth marks"
+        ],
+        "numbers": [
+          "days away"
+        ]
+      }
+    ],
+    "latent": [
+      "whether the rope is damaged, found only by uncoiling it",
+      "where the rats live",
+      "how many stubs are left at the bottom of the box"
+    ],
+    "state_after": [
+      "oat bread: gone, sack torn",
+      "candles: a few stubs and wicks",
+      "rope: coiled, weakened in its middle, looks sound",
+      "tinderbox: untouched in its tin",
+      "store: fouled with droppings",
+      "rats: fed, will return nightly"
+    ],
+    "stress": "A creature that values things for what they are made of, not what people use them for, and damage that stays hidden until the thing is used.",
+    "temptation": "A rule 'rats eat food items' that skips candles and rope because they are tagged as light and tool, instead of anything made of fat or grain being food to a rat and a wooden box being no barrier to teeth."
+  },
+  {
+    "id": "cave-05",
+    "domain": "cave",
+    "place": "A body-width rift in limestone, shoulder high, that narrows to a squeeze a hand's breadth wider than a man's chest before opening into a chamber.",
+    "initiator": "player",
+    "lines": [
+      "squeeze through the gap",
+      "take off the pack and push it through ahead of me",
+      "breathe out and try again"
+    ],
+    "things": [
+      "player",
+      "canvas pack with a frame of sticks",
+      "oil lamp carried in the hand",
+      "the squeeze",
+      "sharp rock flakes on the walls",
+      "coat with horn buttons"
+    ],
+    "outcome": "With the pack on, the player jams at the chest and cannot go on or, for a bad minute, back. Pack off and pushed ahead, breath let out, they scrape through sideways in a few minutes, leaving a coat button and some skin behind. The lamp, held at arm's length and tipped while wriggling, spills a third of its oil and nearly goes out. Coming back the same way will be harder if they are tired, wet, or carrying anything they found.",
+    "steps": [
+      {
+        "process": "jam",
+        "agent": "player",
+        "patient": "squeeze",
+        "instrument": null,
+        "because": [
+          "agent is bulky",
+          "agent is pack-laden",
+          "patient is narrow",
+          "patient is rigid"
+        ],
+        "effects": [
+          "agent gains stuck",
+          "agent fear up",
+          "agent learns the pack will not go through on the back"
+        ],
+        "numbers": [
+          "width of the gap against the depth of chest plus pack",
+          "how long and how much struggle to back out"
+        ]
+      },
+      {
+        "process": "push",
+        "agent": "player",
+        "patient": "pack",
+        "instrument": null,
+        "because": [
+          "patient is soft enough",
+          "patient is narrow enough"
+        ],
+        "effects": [
+          "moves patient to the far side of the squeeze",
+          "patient gains scuffed",
+          "agent loses reach of the pack until through"
+        ],
+        "numbers": [
+          "whether the pack alone fits",
+          "how far it can be shoved at arm's length"
+        ]
+      },
+      {
+        "process": "squeeze",
+        "agent": "player",
+        "patient": "player",
+        "instrument": null,
+        "because": [
+          "agent is breathed out",
+          "place is sharp",
+          "place is narrow"
+        ],
+        "effects": [
+          "moves agent to the chamber side",
+          "agent gains grazed chest and hip",
+          "coat loses a button",
+          "agent tiredness up"
+        ],
+        "numbers": [
+          "minutes to pass",
+          "chance of sticking again with lungs empty",
+          "how much harder on the return when tired"
+        ]
+      },
+      {
+        "process": "spill",
+        "agent": "player",
+        "patient": "lamp",
+        "instrument": null,
+        "because": [
+          "patient is open topped",
+          "patient is tipped",
+          "agent is wriggling"
+        ],
+        "effects": [
+          "patient oil down",
+          "creates oil slick on the rock",
+          "patient flame down"
+        ],
+        "numbers": [
+          "oil lost",
+          "burning time lost with it"
+        ]
+      }
+    ],
+    "latent": [
+      "whether the gap is passable at all, known only by trying",
+      "whether it can be passed in the other direction carrying a load",
+      "what is in the chamber beyond"
+    ],
+    "state_after": [
+      "player: in the chamber, grazed, winded, coat torn",
+      "pack: through, scuffed",
+      "lamp: lit, a third of its oil gone",
+      "squeeze: slick with oil at hand height, a button wedged in it",
+      "way back: the same squeeze"
+    ],
+    "stress": "Size and shape of a body plus what it carries against the size of an opening, with passing being costly rather than yes or no.",
+    "temptation": "A flag on this passage saying 'requires dropping pack', instead of openings having a width, bodies and loads having a bulk, and hard sharp rock taking its toll on whatever is forced through."
+  },
+  {
+    "id": "cave-06",
+    "domain": "cave",
+    "place": "A stream cave under a moor, entered by a dry crawl that dips to within a forearm of the stream before rising into larger passage beyond.",
+    "initiator": "world",
+    "lines": [],
+    "things": [
+      "rain on the moor above",
+      "peat and thin soil",
+      "cave stream",
+      "the low crawl",
+      "inner chamber with a high shelf",
+      "a person exploring the inner chamber",
+      "their lamp",
+      "foam and twigs on the water"
+    ],
+    "outcome": "Heavy rain starts on the moor while the explorer is inside and knows nothing of it. The peat soaks it up for an hour or two, then the stream rises fast, turns brown and loud, and within half an hour of the first rise the low crawl is filled to the roof. The explorer is cut off in the inner chamber, safe on the high shelf but wet, cold and using up light, and must wait most of a day after the rain stops for the water to drop enough to pass. The only warnings were a change in the stream's sound, a cold draught dying, and foam arriving.",
+    "steps": [
+      {
+        "process": "rain",
+        "agent": "rain",
+        "patient": "moor",
+        "instrument": null,
+        "because": [
+          "patient is peaty",
+          "patient is already wet",
+          "agent is heavy"
+        ],
+        "effects": [
+          "patient gains saturated",
+          "creates runoff into the sinkholes"
+        ],
+        "numbers": [
+          "how much rain the ground holds before it runs",
+          "delay between rain starting above and water rising below"
+        ]
+      },
+      {
+        "process": "rise",
+        "agent": "runoff",
+        "patient": "cave stream",
+        "instrument": null,
+        "because": [
+          "place is confined",
+          "agent is sudden",
+          "patient is rain-fed"
+        ],
+        "effects": [
+          "patient level up",
+          "patient gains brown and loud",
+          "creates foam and floating twigs",
+          "explorer learns something has changed if paying attention"
+        ],
+        "numbers": [
+          "rate of rise in a narrow passage",
+          "how much warning between first change and the crawl closing"
+        ]
+      },
+      {
+        "process": "flood",
+        "agent": "cave stream",
+        "patient": "low crawl",
+        "instrument": null,
+        "because": [
+          "patient is low",
+          "patient is sole way",
+          "agent is risen"
+        ],
+        "effects": [
+          "patient gains filled to the roof",
+          "place loses draught",
+          "explorer gains cut off"
+        ],
+        "numbers": [
+          "water level against the roof height of the crawl",
+          "hours after the rain ends before it reopens"
+        ]
+      },
+      {
+        "process": "wait",
+        "agent": "explorer",
+        "patient": "explorer",
+        "instrument": "lamp",
+        "because": [
+          "agent is wet",
+          "place is cold",
+          "instrument is burning"
+        ],
+        "effects": [
+          "agent warmth down",
+          "agent hunger up",
+          "consumes lamp oil",
+          "agent learns the water is falling by marking a stone"
+        ],
+        "numbers": [
+          "how fast a wet still person chills at cave cold",
+          "hours of light left against hours of waiting"
+        ]
+      }
+    ],
+    "latent": [
+      "what the weather is doing outside",
+      "how high the water came last time, shown by a line of stranded twigs on the wall",
+      "whether the shelf is above the highest flood"
+    ],
+    "state_after": [
+      "crawl: underwater to the roof for most of a day",
+      "explorer: on the shelf, chilled, hungry, rationing light",
+      "stream: brown and high, falling slowly once rain stops",
+      "walls of the crawl afterwards: a fresh line of foam and twigs near the roof"
+    ],
+    "stress": "Weather somewhere else arriving late in a place that cannot see the sky, and a passage whose state depends on a water level.",
+    "temptation": "A scripted 'the cave floods' event fired when the player enters the inner chamber, instead of rain that falls whether or not anyone watches, ground that holds then sheds it, and low places that fill first."
+  },
+  {
+    "id": "cave-07",
+    "domain": "cave",
+    "place": "A long dry cave system of walking passages and junctions that look alike, an hour's walk in from daylight.",
+    "initiator": "player",
+    "lines": [
+      "keep going deeper",
+      "how much oil is left in the lamp",
+      "turn back now"
+    ],
+    "things": [
+      "player",
+      "small oil lamp with a finger of oil",
+      "spare wick but no spare oil",
+      "tinderbox",
+      "branching passages",
+      "a drop in the floor of one side passage"
+    ],
+    "outcome": "The lamp gives perhaps two hours on what is in it and the player has used one getting here. Going on, the flame shrinks and yellows as the oil gets low, and it dies on the way back with a third of the distance still to go. In total dark the tinderbox gives sparks but nothing to keep alight except the dry wick, which glows for a minute. The player must feel along one wall, slowly, and a journey of twenty minutes takes hours, with every junction a guess and the floor drop a real danger.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "lamp",
+        "patient": "oil",
+        "instrument": "wick",
+        "because": [
+          "patient is fuel",
+          "agent is lit",
+          "patient is scarce"
+        ],
+        "effects": [
+          "consumes patient",
+          "agent light down as the oil runs low",
+          "player learns the oil is low only by looking into the lamp"
+        ],
+        "numbers": [
+          "burning time per measure of oil",
+          "time already spent walking in",
+          "time needed to walk out"
+        ]
+      },
+      {
+        "process": "gutter",
+        "agent": "lamp",
+        "patient": "flame",
+        "instrument": null,
+        "because": [
+          "agent is empty",
+          "patient is unfed"
+        ],
+        "effects": [
+          "patient loses burning",
+          "place gains total darkness",
+          "player loses sight",
+          "player fear up"
+        ],
+        "numbers": [
+          "distance still to go when the light fails"
+        ]
+      },
+      {
+        "process": "spark",
+        "agent": "player",
+        "patient": "wick",
+        "instrument": "tinderbox",
+        "because": [
+          "patient is dry",
+          "patient is unoiled",
+          "instrument is working"
+        ],
+        "effects": [
+          "patient gains smouldering",
+          "consumes patient",
+          "agent learns the shape of the passage for a moment"
+        ],
+        "numbers": [
+          "seconds of glow from a dry wick",
+          "how many times it can be done"
+        ]
+      },
+      {
+        "process": "grope",
+        "agent": "player",
+        "patient": "passage wall",
+        "instrument": "hands and feet",
+        "because": [
+          "place is dark",
+          "place is branching",
+          "agent is blind"
+        ],
+        "effects": [
+          "moves agent to somewhere nearer or further from the entrance",
+          "agent tiredness up",
+          "agent gains bruised shins",
+          "agent learns a turn was wrong only after it dead-ends"
+        ],
+        "numbers": [
+          "speed of travel by touch against speed by light",
+          "odds of a wrong choice at each junction",
+          "odds of finding the floor drop with a foot rather than a hand"
+        ]
+      }
+    ],
+    "latent": [
+      "how much oil was really in the lamp",
+      "which junctions the player noticed on the way in",
+      "where the floor drop is"
+    ],
+    "state_after": [
+      "lamp: empty, cold",
+      "wick: charred short",
+      "player: somewhere in the dark, moving by touch, hours from daylight at best",
+      "tinderbox: still works, nothing to light"
+    ],
+    "stress": "Light as a stock that runs down with time, and what a person can and cannot do once sight is gone.",
+    "temptation": "A countdown that teleports the player out or kills them when the lamp empties, instead of darkness simply removing what sight gives and leaving touch, memory and slow movement."
+  },
+  {
+    "id": "cave-08",
+    "domain": "cave",
+    "place": "An earth-floored stone cellar under a farmhouse, cool all year, its walls sweating in summer, with one slatted shelf and iron hooks in the beams.",
+    "initiator": "world",
+    "lines": [],
+    "things": [
+      "sack of wheat flour set on the earth floor",
+      "second sack of flour on the slatted shelf",
+      "damp earth floor",
+      "cool still air",
+      "grey mould",
+      "flour mites",
+      "the cook who opens the sacks six weeks later"
+    ],
+    "outcome": "Nothing happens that anyone sees. The sack on the floor draws damp up through the cloth; within a fortnight the bottom hand's depth of flour is caked, within six weeks it is grey, musty and crawling, and the taint has spread through half the sack. The sack on the shelf, with air under it, is sound apart from a slight cellar smell. The cook loses about half a sack and cannot tell from the outside of either sack which is which until a hand goes in.",
+    "steps": [
+      {
+        "process": "wick",
+        "agent": "damp floor",
+        "patient": "floor sack",
+        "instrument": null,
+        "because": [
+          "agent is damp",
+          "patient is absorbent",
+          "patient is unraised",
+          "place is still"
+        ],
+        "effects": [
+          "patient dampness up",
+          "patient gains caked bottom"
+        ],
+        "numbers": [
+          "how fast damp climbs through cloth and flour",
+          "how high it reaches"
+        ]
+      },
+      {
+        "process": "mould",
+        "agent": "mould",
+        "patient": "damp flour",
+        "instrument": null,
+        "because": [
+          "patient is damp",
+          "patient is starchy",
+          "place is cool",
+          "place is dark"
+        ],
+        "effects": [
+          "patient gains musty",
+          "patient gains inedible",
+          "creates mites",
+          "patient spoiled share up over weeks"
+        ],
+        "numbers": [
+          "weeks from damp to mouldy at cellar temperature",
+          "share of the sack lost by six weeks"
+        ]
+      },
+      {
+        "process": "keep",
+        "agent": "shelf",
+        "patient": "shelf sack",
+        "instrument": "air gap",
+        "because": [
+          "patient is raised",
+          "agent is slatted",
+          "place is cool"
+        ],
+        "effects": [
+          "patient gains faint cellar smell",
+          "patient loses nothing else"
+        ],
+        "numbers": [
+          "how long flour keeps dry and cool"
+        ]
+      },
+      {
+        "process": "open",
+        "agent": "cook",
+        "patient": "both sacks",
+        "instrument": "hand",
+        "because": [
+          "agent is needing flour"
+        ],
+        "effects": [
+          "agent learns the floor sack is half ruined",
+          "agent learns the shelf sack is good",
+          "agent learns the floor was the cause"
+        ],
+        "numbers": [
+          "usable flour left in the floor sack after sifting off the top"
+        ]
+      }
+    ],
+    "latent": [
+      "the state of the flour inside each sack",
+      "how damp the floor is in this season",
+      "whether mites have crossed to the shelf"
+    ],
+    "state_after": [
+      "floor sack: bottom half caked, grey, mity, top half musty but usable if sifted",
+      "shelf sack: sound",
+      "earth floor: a pale damp ring where the sack stood",
+      "cook: knows to keep sacks off the floor"
+    ],
+    "stress": "The same stuff in the same room keeping or spoiling by what it touches, with no event and nobody present.",
+    "temptation": "A flat 'flour spoils after N days' clock on the item, instead of damp moving from wet things to dry things that touch them and spoilage following the damp."
+  },
+  {
+    "id": "cave-09",
+    "domain": "cave",
+    "place": "A pitch of four fathoms inside a cave, with a sharp limestone lip at its head and a single stout stalagmite boss a few paces back from the edge.",
+    "initiator": "player",
+    "lines": [
+      "tie the rope round the stone pillar and climb down",
+      "climb back up",
+      "go down again for the second load"
+    ],
+    "things": [
+      "player",
+      "hemp rope, thumb thick",
+      "stalagmite boss",
+      "sharp rock lip",
+      "pitch",
+      "sacks of ore at the bottom",
+      "player's leather jerkin"
+    ],
+    "outcome": "The anchor is good and the first descent and climb are fine. But every time weight comes on and off, the rope saws a finger's width back and forth over the lip, and hemp does not stand that: after the first trip a strand is furred, after the second it is cut half through at that one spot. On the third climb, loaded with a sack, it parts a fathom below the top. Folding the jerkin under the rope at the lip would have prevented all of it, and looking at that one hand's breadth of rope between trips would have shown it coming.",
+    "steps": [
+      {
+        "process": "tie",
+        "agent": "player",
+        "patient": "rope",
+        "instrument": "stalagmite boss",
+        "because": [
+          "instrument is solid",
+          "instrument is rooted",
+          "patient is long enough"
+        ],
+        "effects": [
+          "patient gains anchored",
+          "patient gains running over the lip"
+        ],
+        "numbers": [
+          "rope length used by the knot and the run to the edge",
+          "length left against the depth of the pitch"
+        ]
+      },
+      {
+        "process": "climb",
+        "agent": "player",
+        "patient": "rope",
+        "instrument": null,
+        "because": [
+          "agent is heavy",
+          "patient is loaded",
+          "patient is stretchy"
+        ],
+        "effects": [
+          "moves agent to the bottom then back to the top",
+          "agent tiredness up",
+          "patient gains sawing at the lip"
+        ],
+        "numbers": [
+          "minutes and effort to climb four fathoms hand over hand",
+          "extra effort with a sack"
+        ]
+      },
+      {
+        "process": "chafe",
+        "agent": "rock lip",
+        "patient": "rope",
+        "instrument": null,
+        "because": [
+          "agent is sharp",
+          "patient is fibrous",
+          "patient is sliding loaded",
+          "patient is unpadded"
+        ],
+        "effects": [
+          "patient strength down at one spot",
+          "patient gains furred then cut strands",
+          "player learns of it only by looking at the lip"
+        ],
+        "numbers": [
+          "wear per trip under a person's weight",
+          "trips until the remaining strands cannot hold the load"
+        ]
+      },
+      {
+        "process": "part",
+        "agent": "rope",
+        "patient": "player",
+        "instrument": null,
+        "because": [
+          "agent is worn through",
+          "patient is hanging",
+          "patient is burdened"
+        ],
+        "effects": [
+          "agent gains broken in two",
+          "moves patient to the bottom of the pitch",
+          "patient gains injured",
+          "patient gains stranded below",
+          "creates a short rope end at the top and a long one at the bottom"
+        ],
+        "numbers": [
+          "height of the fall",
+          "injury from a fall of that height onto rock",
+          "whether the long piece can be got back up to an anchor"
+        ]
+      }
+    ],
+    "latent": [
+      "how sharp the lip is, known by feeling it",
+      "the state of the rope at the lip between trips",
+      "whether there is any other way up"
+    ],
+    "state_after": [
+      "rope: in two pieces, the short end still tied to the boss",
+      "player: at the bottom, hurt, with the long piece and the ore",
+      "ore: one sack at the top, the rest below",
+      "rock lip: tufted with hemp fibre"
+    ],
+    "stress": "Wear that accumulates at a point of contact between two particular things across repeated use, and is preventable by putting a third thing between them.",
+    "temptation": "A per-rope 'durability' number that ticks down with every climb anywhere, instead of damage coming from this rope moving under load against this sharp edge, and none at all where the edge is padded or round."
+  },
+  {
+    "id": "cave-10",
+    "domain": "cave",
+    "place": "The dead end of a hand-cut copper level, the face hard quartzy rock that iron picks barely mark, a rill of water running in the floor gutter.",
+    "initiator": "player",
+    "lines": [
+      "stack the firewood against the rock face and light it",
+      "get out and wait for it to burn down",
+      "come back and throw water on the hot rock"
+    ],
+    "things": [
+      "player",
+      "two barrow loads of dry split wood",
+      "rock face",
+      "fire",
+      "smoke",
+      "leather buckets of water from the gutter",
+      "steam",
+      "iron pick and wedges"
+    ],
+    "outcome": "This is the old way and it works, slowly. The fire has to burn hard against the face for hours, and the level fills with smoke so nobody can stay in it until the next morning. Water thrown on the hot face makes it crack and spit scalding flakes and a rush of steam; afterwards a hand's depth of rock is shattered and comes away easily with pick and wedge. A day and a night and a cartload of wood buy about as much ground as a week of bare pick work, and the roof above the fire is loosened too and must be barred down before anyone works under it.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "fire",
+        "patient": "rock face",
+        "instrument": "stacked wood",
+        "because": [
+          "instrument is dry",
+          "instrument is plentiful",
+          "patient is adjacent",
+          "patient is slow-heating"
+        ],
+        "effects": [
+          "consumes instrument",
+          "patient heat up",
+          "creates smoke",
+          "creates ash and embers",
+          "roof rock heat up"
+        ],
+        "numbers": [
+          "hours of burning to heat rock a hand deep",
+          "wood needed per stretch of face"
+        ]
+      },
+      {
+        "process": "fill",
+        "agent": "smoke",
+        "patient": "level",
+        "instrument": null,
+        "because": [
+          "patient is dead-ended",
+          "patient is unventilated",
+          "agent is choking"
+        ],
+        "effects": [
+          "patient gains unbreathable",
+          "moves player to outside",
+          "player loses use of the level until it clears"
+        ],
+        "numbers": [
+          "hours for smoke to clear from a blind level",
+          "how far out the smoke reaches"
+        ]
+      },
+      {
+        "process": "quench",
+        "agent": "player",
+        "patient": "rock face",
+        "instrument": "buckets of water",
+        "because": [
+          "patient is very hot",
+          "instrument is cold",
+          "patient is brittle"
+        ],
+        "effects": [
+          "patient gains cracked",
+          "patient heat down",
+          "creates steam",
+          "creates flying hot flakes",
+          "agent gains scalded if standing close"
+        ],
+        "numbers": [
+          "depth of rock shattered",
+          "buckets needed",
+          "odds of a scald or a flake in the eye"
+        ]
+      },
+      {
+        "process": "pick",
+        "agent": "player",
+        "patient": "cracked rock",
+        "instrument": "pick and wedges",
+        "because": [
+          "patient is shattered",
+          "instrument is iron"
+        ],
+        "effects": [
+          "creates broken ore and waste",
+          "patient loses a hand's depth",
+          "agent learns the roof above is loose and drummy"
+        ],
+        "numbers": [
+          "ground won per firing against ground won per day with pick alone",
+          "how much loosened roof must be brought down first"
+        ]
+      }
+    ],
+    "latent": [
+      "whether there is ore behind the face at all",
+      "how far the heat loosened the roof",
+      "whether the smoke found its way into other workings"
+    ],
+    "state_after": [
+      "rock face: a hand's depth further in, fresh and cracked",
+      "level floor: ash, charcoal, broken rock, puddles",
+      "wood: gone",
+      "roof over the fire: loose until barred down",
+      "air: foul for the rest of the day"
+    ],
+    "stress": "Heat and sudden cold breaking something that force alone cannot, with the price paid in fuel, time and air.",
+    "temptation": "A recipe 'fire plus water on ore wall yields ore', instead of hard brittle stuff cracking when heated through and chilled fast, whatever it is, and fire in a blind hole making air nobody can breathe."
+  },
+  {
+    "id": "cave-11",
+    "domain": "cave",
+    "place": "Rough hill grazing over limestone, with an open shaft a body wide hidden in bracken, and a spring line at the hill foot where the village draws water.",
+    "initiator": "creature",
+    "lines": [],
+    "things": [
+      "a ewe",
+      "bracken",
+      "open shaft",
+      "rubble floor five fathoms down",
+      "underground stream",
+      "spring at the hill foot",
+      "the shepherd",
+      "villagers drinking from the spring",
+      "blowflies"
+    ],
+    "outcome": "The ewe, grazing head down into the bracken, steps into the shaft and falls. She breaks a leg and lies bleating; the shepherd, two fields away, might hear it on a still evening and might not, and she dies in two or three days of thirst and injury. In warm weather the carcass is foul within the week, and rain washes it into the stream that feeds the spring. A fortnight after a sheep went missing, people in the village have griping bowels and nobody connects the two.",
+    "steps": [
+      {
+        "process": "fall",
+        "agent": "ewe",
+        "patient": "ewe",
+        "instrument": "hidden shaft",
+        "because": [
+          "instrument is hidden",
+          "instrument is open",
+          "agent is grazing",
+          "agent is unwary"
+        ],
+        "effects": [
+          "moves agent to the bottom of the shaft",
+          "agent gains broken leg",
+          "agent gains trapped"
+        ],
+        "numbers": [
+          "height of the fall",
+          "odds a sheep survives it"
+        ]
+      },
+      {
+        "process": "bleat",
+        "agent": "ewe",
+        "patient": "shepherd",
+        "instrument": null,
+        "because": [
+          "agent is hurt",
+          "place is muffling",
+          "patient is distant"
+        ],
+        "effects": [
+          "patient learns a sheep is in trouble somewhere if the wind is right",
+          "patient learns nothing if it is not"
+        ],
+        "numbers": [
+          "how far a bleat carries out of a shaft",
+          "days she keeps calling"
+        ]
+      },
+      {
+        "process": "die",
+        "agent": "thirst",
+        "patient": "ewe",
+        "instrument": null,
+        "because": [
+          "patient is injured",
+          "patient is without water",
+          "patient is unreachable"
+        ],
+        "effects": [
+          "patient gains dead",
+          "creates carcass",
+          "shepherd flock count down"
+        ],
+        "numbers": [
+          "days a hurt sheep lasts without water"
+        ]
+      },
+      {
+        "process": "foul",
+        "agent": "carcass",
+        "patient": "spring water",
+        "instrument": "underground stream",
+        "because": [
+          "agent is rotting",
+          "instrument is flowing",
+          "patient is downstream",
+          "place is warm"
+        ],
+        "effects": [
+          "patient gains tainted",
+          "village gains sickness",
+          "creates blowflies at the shaft mouth",
+          "nobody learns the cause unless someone smells the shaft"
+        ],
+        "numbers": [
+          "days to putrefy",
+          "days for the taint to reach the spring",
+          "weeks the water stays bad",
+          "how many drinkers sicken"
+        ]
+      }
+    ],
+    "latent": [
+      "that the shaft exists at all",
+      "that the shaft drains to the village spring",
+      "where the missing ewe went"
+    ],
+    "state_after": [
+      "ewe: dead at the bottom of the shaft",
+      "shepherd: one ewe short, cause unknown",
+      "spring: tainted for some weeks, looks and mostly tastes as usual",
+      "villagers: several sick",
+      "shaft: still open, still hidden, smelling in warm weather"
+    ],
+    "stress": "A chain of cause across distance and days through a hidden connection, where the people harmed never see the start.",
+    "temptation": "A 'poisoned well' status applied to the village by a quest script, instead of water carrying what rots in it to wherever that water goes."
+  },
+  {
+    "id": "cave-12",
+    "domain": "cave",
+    "place": "A dry upper chamber of a limestone cave, far from any stream, where a single stalactite drips steadily onto a knob of flowstone.",
+    "initiator": "player",
+    "lines": [
+      "put the cooking pot under the drip",
+      "sleep until it is full"
+    ],
+    "things": [
+      "player",
+      "iron cooking pot holding about two quarts",
+      "drip from the roof",
+      "flowstone knob",
+      "player's empty waterskin",
+      "player's bedroll laid nearby"
+    ],
+    "outcome": "It works, at the drip's pace. A drop every couple of breaths is about a cupful an hour, so the pot is full after a night's sleep, not before, and a thirsty person gets a mouthful at a time if they cannot wait. The water is cold, clean and hard. The drop striking water in an iron pot rings all night in the quiet chamber, and the splash throws a fine spray, so a bedroll laid within arm's reach is damp along one edge by morning.",
+    "steps": [
+      {
+        "process": "place",
+        "agent": "player",
+        "patient": "pot",
+        "instrument": null,
+        "because": [
+          "patient is watertight",
+          "patient is open topped",
+          "place is dripping"
+        ],
+        "effects": [
+          "moves patient to under the drip",
+          "agent loses use of the pot for cooking meanwhile"
+        ],
+        "numbers": [
+          "whether the pot mouth is wide enough to catch a drip that wanders"
+        ]
+      },
+      {
+        "process": "drip",
+        "agent": "drip",
+        "patient": "pot",
+        "instrument": null,
+        "because": [
+          "agent is steady",
+          "agent is slow",
+          "patient is beneath"
+        ],
+        "effects": [
+          "patient water up",
+          "creates ringing sound",
+          "creates fine splash around the pot",
+          "bedroll dampness up"
+        ],
+        "numbers": [
+          "drops per minute and their size",
+          "hours to fill the pot",
+          "how far splash carries"
+        ]
+      },
+      {
+        "process": "drink",
+        "agent": "player",
+        "patient": "water",
+        "instrument": "pot",
+        "because": [
+          "agent is thirsty",
+          "patient is clean"
+        ],
+        "effects": [
+          "agent thirst down",
+          "consumes patient",
+          "transfers water from pot to waterskin"
+        ],
+        "numbers": [
+          "how much a person needs in a day against what the drip gives in a day"
+        ]
+      }
+    ],
+    "latent": [
+      "whether the drip keeps its rate or slows in dry weather",
+      "whether the water is good, known by taste and by it coming through clean rock"
+    ],
+    "state_after": [
+      "pot: full by morning, a white lime bloom starting inside if used this way for weeks",
+      "waterskin: filled once",
+      "player: watered, poorly slept",
+      "bedroll: damp on the side near the pot",
+      "drip: unchanged"
+    ],
+    "stress": "A very slow steady source, where the only cost is time and the answer to 'is there water' is 'a cup an hour'.",
+    "temptation": "Treating the drip as a water source that fills any container at once, instead of a flow with a rate that a vessel accumulates for as long as it sits there."
+  },
+  {
+    "id": "cave-13",
+    "domain": "cave",
+    "place": "A mine level choked by an old roof fall: a slope of loose blocks and gravel from floor to a dark hole in the roof, with a draught coming through the top of the heap.",
+    "initiator": "player",
+    "lines": [
+      "pull the big stone out from the bottom of the pile",
+      "dig a way through the rubble",
+      "crawl over the top of the heap instead"
+    ],
+    "things": [
+      "player",
+      "rubble heap",
+      "keystone block at the foot",
+      "loose roof hole above the heap",
+      "iron bar",
+      "draught",
+      "gap between heap and roof"
+    ],
+    "outcome": "Levering the big block out of the foot of the heap brings a rush of gravel and two more blocks down into its place; the heap is the same size, it has only moved a pace toward the player, and a stone comes down from the roof hole as well. Digging from the bottom cannot win, because the pile is fed from above. The draught says there is a gap at the top: clearing loose stuff from the crest by hand for an hour opens a flat crawl over the heap under a roof that nobody should trust.",
+    "steps": [
+      {
+        "process": "lever",
+        "agent": "player",
+        "patient": "foot block",
+        "instrument": "iron bar",
+        "because": [
+          "patient is heavy",
+          "patient is loose",
+          "instrument is strong",
+          "patient is load-bearing"
+        ],
+        "effects": [
+          "moves patient to the level floor",
+          "agent tiredness up"
+        ],
+        "numbers": [
+          "weight of block a person can shift with a bar"
+        ]
+      },
+      {
+        "process": "slump",
+        "agent": "rubble heap",
+        "patient": "level floor",
+        "instrument": null,
+        "because": [
+          "agent is loose",
+          "agent is steep",
+          "agent is undercut",
+          "agent is roof-fed"
+        ],
+        "effects": [
+          "moves agent to fill the space cleared",
+          "creates dust",
+          "agent loses nothing in bulk",
+          "roof hole loses a stone",
+          "player gains bruised foot if slow",
+          "player learns digging at the foot is useless"
+        ],
+        "numbers": [
+          "how much runs in for how much is taken out",
+          "odds of being caught by the run",
+          "how much more is waiting in the roof hole"
+        ]
+      },
+      {
+        "process": "clear",
+        "agent": "player",
+        "patient": "crest of the heap",
+        "instrument": "hands",
+        "because": [
+          "patient is loose",
+          "patient is small stuff",
+          "place is draughty"
+        ],
+        "effects": [
+          "creates a flat crawl over the heap",
+          "moves loose stone to the near slope",
+          "agent learns the far side is open",
+          "agent gains exposed under the roof hole"
+        ],
+        "numbers": [
+          "time to open a body-sized gap",
+          "odds of a stone falling from the hole while someone is under it"
+        ]
+      }
+    ],
+    "latent": [
+      "how much loose rock is stacked in the roof hole",
+      "how long the heap is",
+      "whether the level beyond is open, hinted by the draught"
+    ],
+    "state_after": [
+      "rubble heap: same bulk, crept a pace outward, crest lowered",
+      "crawl: open over the top, a body high, under bad roof",
+      "foot block: lying in the level",
+      "player: tired, dusty, knows the far side is open"
+    ],
+    "stress": "A pile that is a slope at rest rather than a stack of separate objects: take from the bottom and the rest moves.",
+    "temptation": "Giving the blockage hit points that digging reduces, instead of loose stuff always settling to its natural slope and running from wherever it is supplied."
+  },
+  {
+    "id": "cave-14",
+    "domain": "cave",
+    "place": "A village draw-well six fathoms to water with two fathoms of water in it, a wooden windlass over it, the water black and unseeable from above.",
+    "initiator": "player",
+    "lines": [
+      "lower the bucket and wind it up full",
+      "the bucket has come off - fish for it with the hook",
+      "try again more slowly"
+    ],
+    "things": [
+      "player",
+      "windlass",
+      "well rope with a worn knot",
+      "oak bucket with iron hoops and bail",
+      "three-pronged iron grapple on a line",
+      "well water",
+      "mud and old lost things on the well bottom"
+    ],
+    "outcome": "The worn knot slips as the full bucket comes off the water, and rope comes up empty. An oak bucket with iron hoops, once full, sinks and lies on the bottom on its side. Fishing blind with the grapple takes patience: most casts bring up nothing, some bring up a rotten rope end or a boot, and dragging fast only stirs mud. After half an hour of slow sweeps a prong catches the bail and the bucket comes up, or it catches a hoop and pulls it off, leaving staves on the bottom. The water is cloudy for the rest of the day either way.",
+    "steps": [
+      {
+        "process": "slip",
+        "agent": "knot",
+        "patient": "bucket",
+        "instrument": null,
+        "because": [
+          "agent is worn",
+          "agent is wet",
+          "patient is full",
+          "patient is heavy"
+        ],
+        "effects": [
+          "patient loses attached",
+          "moves patient to the well bottom",
+          "player learns of it when the rope winds up light"
+        ],
+        "numbers": [
+          "weight of a full bucket against what the knot holds",
+          "whether a wooden bucket floats or sinks once swamped and hooped with iron"
+        ]
+      },
+      {
+        "process": "drag",
+        "agent": "player",
+        "patient": "well bottom",
+        "instrument": "grapple",
+        "because": [
+          "place is unseeable",
+          "instrument is hooked",
+          "patient is muddy",
+          "patient is littered"
+        ],
+        "effects": [
+          "creates stirred mud",
+          "well water gains cloudy",
+          "agent learns by feel when something is caught",
+          "moves old rubbish to the well head"
+        ],
+        "numbers": [
+          "odds per sweep of catching the bucket",
+          "odds of catching something else",
+          "minutes per cast and haul"
+        ]
+      },
+      {
+        "process": "hook",
+        "agent": "grapple",
+        "patient": "bucket",
+        "instrument": null,
+        "because": [
+          "patient is hooped",
+          "patient is bailed",
+          "agent is pronged"
+        ],
+        "effects": [
+          "moves patient to the well head if caught by the bail",
+          "patient loses a hoop if caught by the hoop",
+          "creates loose staves on the bottom if the hoop pulls off"
+        ],
+        "numbers": [
+          "odds the catch is on the bail rather than a hoop",
+          "strength of an old hoop against a full bucket's weight"
+        ]
+      }
+    ],
+    "latent": [
+      "where on the bottom the bucket lies and which way up",
+      "what else is down there",
+      "how sound the bucket's hoops are"
+    ],
+    "state_after": [
+      "bucket: recovered wet and whole, or lost as staves on the bottom",
+      "well water: cloudy until tomorrow",
+      "well head: a rotten rope end and an old boot lying beside it",
+      "rope: needs a new knot or a spliced eye",
+      "player: half an hour older"
+    ],
+    "stress": "Acting on things that cannot be seen, through a tool on a line, where each try gives only feel as feedback.",
+    "temptation": "A 'retrieve bucket' action with a single success roll, instead of an unseen bottom with several things on it, a hook that catches whatever it meets, and parts of a thing that can come away from the rest."
+  },
+  {
+    "id": "cave-15",
+    "domain": "cave",
+    "place": "A lead mine with two levels running side by side through solid rock some fathoms apart, one of them just closed by a fall.",
+    "initiator": "creature",
+    "lines": [],
+    "things": [
+      "a miner trapped beyond the fall",
+      "his hammer",
+      "solid rock between the levels",
+      "the fall",
+      "two rescuers in the neighbouring level",
+      "their lamp",
+      "the trapped miner's failing candle"
+    ],
+    "outcome": "The trapped miner beats his hammer on the wall in threes. Rock carries a knock far better than air carries a shout, so the rescuers in the next level hear it clearly though they never heard him calling. They knock back and he answers, so both sides know someone is alive. But the sound seems to come from the whole wall at once: they can tell he is near, not where, and they argue whether to dig through the fall or drive across from their level. Counts of knocks can pass a number, how many men, and little more.",
+    "steps": [
+      {
+        "process": "shout",
+        "agent": "trapped miner",
+        "patient": "rescuers",
+        "instrument": "voice",
+        "because": [
+          "place is blocked",
+          "instrument is muffled",
+          "patient is beyond rock"
+        ],
+        "effects": [
+          "patient learns nothing",
+          "agent tiredness up",
+          "agent air down"
+        ],
+        "numbers": [
+          "how much a rubble fall deadens a voice"
+        ]
+      },
+      {
+        "process": "knock",
+        "agent": "trapped miner",
+        "patient": "rock wall",
+        "instrument": "hammer",
+        "because": [
+          "patient is solid",
+          "patient is continuous",
+          "instrument is iron",
+          "place is quiet"
+        ],
+        "effects": [
+          "creates ringing through the rock",
+          "rescue party learns someone is alive",
+          "rescue party learns he is near but not where"
+        ],
+        "numbers": [
+          "how far a hammer knock carries through sound rock",
+          "how poorly its direction can be judged"
+        ]
+      },
+      {
+        "process": "answer",
+        "agent": "rescuers",
+        "patient": "trapped miner",
+        "instrument": "pick handle on the wall",
+        "because": [
+          "agent is hearing",
+          "patient is listening"
+        ],
+        "effects": [
+          "patient learns he has been heard",
+          "patient fear down",
+          "agent learns by counted knocks that he is alone"
+        ],
+        "numbers": [
+          "what can be passed by counts of knocks and how long it takes"
+        ]
+      },
+      {
+        "process": "decide",
+        "agent": "rescuers",
+        "patient": "rescue",
+        "instrument": null,
+        "because": [
+          "agent is uncertain",
+          "place is rubble-blocked",
+          "place is hard rock"
+        ],
+        "effects": [
+          "agent gains disagreement",
+          "creates a plan to dig one way or the other"
+        ],
+        "numbers": [
+          "days to clear the fall safely against days to cut through solid rock",
+          "how long the trapped man's air, water and light last"
+        ]
+      }
+    ],
+    "latent": [
+      "exactly where the trapped miner is",
+      "whether he is injured",
+      "how much air the closed level holds",
+      "how long the fall is"
+    ],
+    "state_after": [
+      "trapped miner: alive, heard, in the dark soon, conserving candle",
+      "rescuers: know he lives and is alone, do not know where to dig",
+      "rock wall: chipped where the hammer struck",
+      "fall: untouched as yet"
+    ],
+    "stress": "Information crossing a barrier that stops bodies and voices, arriving stripped of most of its content.",
+    "temptation": "Letting characters 'hear' each other as ordinary speech whenever they are within some distance, instead of each material between them passing or stopping each kind of sound and each signal carrying only what its form can."
+  }
+]

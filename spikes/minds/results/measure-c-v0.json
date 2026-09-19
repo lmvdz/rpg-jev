@@ -1,0 +1,6904 @@
+{
+ "summary": {
+  "batch": "c",
+  "intents": 29,
+  "scenarios": 45,
+  "errors": 0,
+  "tokens": 690641,
+  "usd": 0.029,
+  "said_none_pct": 18,
+  "said_unsure_pct": 9,
+  "alternatives_none_pct": 5,
+  "chooses_none_pct": 0,
+  "agrees_top1_pct": 38,
+  "agrees_top2_pct": 51,
+  "median_shift": 0.11
+ },
+ "rows": [
+  {
+   "id": "hour-01",
+   "does": "stands rigid in the shallows watching for movement, then strikes at a fish -> the shoal of minnows",
+   "said": {
+    "first": "attack",
+    "p": 0.61,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "attack",
+      0.61
+     ],
+     [
+      "wait_watch",
+      0.32
+     ],
+     [
+      "take",
+      0.06
+     ],
+     [
+      "eat_drink",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "go_to",
+     "p": 0.88,
+     "second": "give_up",
+     "none": 0,
+     "spread": [
+      [
+       "go_to",
+       0.88
+      ],
+      [
+       "give_up",
+       0.12
+      ],
+      [
+       "defer",
+       0
+      ],
+      [
+       "store",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "none_of_these",
+     "p": 0.47,
+     "second": "help",
+     "none": 0.47,
+     "spread": [
+      [
+       "none_of_these",
+       0.47
+      ],
+      [
+       "help",
+       0.24
+      ],
+      [
+       "rest",
+       0.23
+      ],
+      [
+       "guard",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.98,
+     "second": "hide",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       0.98
+      ],
+      [
+       "hide",
+       0.01
+      ],
+      [
+       "wait_watch",
+       0.01
+      ],
+      [
+       "defer",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "wait_watch",
+    "p": 0.7,
+    "second": "carry_on",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.7
+     ],
+     [
+      "carry_on",
+      0.27
+     ],
+     [
+      "go_to",
+      0.01
+     ],
+     [
+      "give_up",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "wait_watch",
+    "p": 0.7,
+    "second": "carry_on",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.7
+     ],
+     [
+      "carry_on",
+      0.24
+     ],
+     [
+      "eat_drink",
+      0.03
+     ],
+     [
+      "give_up",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.03,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-02",
+   "does": "washes itself over and over, working at its paws and face -> itself",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.55,
+    "second": "help",
+    "none": 0.55,
+    "spread": [
+     [
+      "none_of_these",
+      0.55
+     ],
+     [
+      "help",
+      0.3
+     ],
+     [
+      "carry_on",
+      0.11
+     ],
+     [
+      "rest",
+      0.04
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "rest",
+     "p": 1,
+     "second": "carry_on",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       1
+      ],
+      [
+       "carry_on",
+       0
+      ],
+      [
+       "call",
+       0
+      ],
+      [
+       "warn_off",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 1,
+     "second": "carry_on",
+     "none": 0,
+     "spread": [
+      [
+       "go_to",
+       1
+      ],
+      [
+       "carry_on",
+       0
+      ],
+      [
+       "call",
+       0
+      ],
+      [
+       "warn_off",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 0.93,
+     "second": "give_up",
+     "none": 0,
+     "spread": [
+      [
+       "go_to",
+       0.93
+      ],
+      [
+       "give_up",
+       0.03
+      ],
+      [
+       "rest",
+       0.02
+      ],
+      [
+       "keep_away",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "rest",
+    "p": 0.51,
+    "second": "carry_on",
+    "none": 0.03,
+    "spread": [
+     [
+      "rest",
+      0.51
+     ],
+     [
+      "carry_on",
+      0.44
+     ],
+     [
+      "none_of_these",
+      0.03
+     ],
+     [
+      "help",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "rest",
+    "p": 0.81,
+    "second": "carry_on",
+    "none": 0.01,
+    "spread": [
+     [
+      "rest",
+      0.81
+     ],
+     [
+      "carry_on",
+      0.17
+     ],
+     [
+      "none_of_these",
+      0.01
+     ],
+     [
+      "let_go",
+      0
+     ]
+    ]
+   },
+   "shift": 0.31,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-03",
+   "does": "bangs the wooden spoon against the pot lid, again and again -> the pot lid",
+   "said": {
+    "first": "attack",
+    "p": 0.86,
+    "second": "call",
+    "none": 0.06,
+    "spread": [
+     [
+      "attack",
+      0.86
+     ],
+     [
+      "call",
+      0.07
+     ],
+     [
+      "none_of_these",
+      0.06
+     ],
+     [
+      "carry_on",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "go_to",
+     "p": 1,
+     "second": "carry_to",
+     "none": 0,
+     "spread": [
+      [
+       "go_to",
+       1
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ],
+      [
+       "rest",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "eat_drink",
+     "p": 0.9,
+     "second": "none_of_these",
+     "none": 0.07,
+     "spread": [
+      [
+       "eat_drink",
+       0.9
+      ],
+      [
+       "none_of_these",
+       0.07
+      ],
+      [
+       "attack",
+       0.01
+      ],
+      [
+       "give_up",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.7,
+     "second": "none_of_these",
+     "none": 0.14,
+     "spread": [
+      [
+       "call",
+       0.7
+      ],
+      [
+       "none_of_these",
+       0.14
+      ],
+      [
+       "give_up",
+       0.1
+      ],
+      [
+       "demand",
+       0.03
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "take",
+    "p": 0.38,
+    "second": "go_to",
+    "none": 0,
+    "spread": [
+     [
+      "take",
+      0.38
+     ],
+     [
+      "go_to",
+      0.32
+     ],
+     [
+      "wait_watch",
+      0.29
+     ],
+     [
+      "carry_on",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "wait_watch",
+    "p": 0.46,
+    "second": "take",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.46
+     ],
+     [
+      "take",
+      0.35
+     ],
+     [
+      "go_to",
+      0.18
+     ],
+     [
+      "carry_on",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.17,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-04",
+   "does": "centers the clay and draws it up into a pot wall between wet hands -> the clay on the wheel",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.89,
+    "second": "take",
+    "none": 0.89,
+    "spread": [
+     [
+      "none_of_these",
+      0.89
+     ],
+     [
+      "take",
+      0.05
+     ],
+     [
+      "carry_on",
+      0.04
+     ],
+     [
+      "help",
+      0.02
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "give_up",
+     "p": 0.71,
+     "second": "none_of_these",
+     "none": 0.17,
+     "spread": [
+      [
+       "give_up",
+       0.71
+      ],
+      [
+       "none_of_these",
+       0.17
+      ],
+      [
+       "help",
+       0.07
+      ],
+      [
+       "take",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.93,
+     "second": "none_of_these",
+     "none": 0.04,
+     "spread": [
+      [
+       "rest",
+       0.93
+      ],
+      [
+       "none_of_these",
+       0.04
+      ],
+      [
+       "wait_watch",
+       0.02
+      ],
+      [
+       "carry_on",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "store",
+     "p": 0.73,
+     "second": "none_of_these",
+     "none": 0.22,
+     "spread": [
+      [
+       "store",
+       0.73
+      ],
+      [
+       "none_of_these",
+       0.22
+      ],
+      [
+       "carry_to",
+       0.03
+      ],
+      [
+       "take",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.98,
+    "second": "rest",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.98
+     ],
+     [
+      "rest",
+      0.01
+     ],
+     [
+      "none_of_these",
+      0.01
+     ],
+     [
+      "store",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.98,
+    "second": "rest",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.98
+     ],
+     [
+      "rest",
+      0.01
+     ],
+     [
+      "none_of_these",
+      0.01
+     ],
+     [
+      "take",
+      0
+     ]
+    ]
+   },
+   "shift": 0,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-05",
+   "does": "works the bellows steadily to keep the coals glowing -> the forge fire",
+   "said": {
+    "first": "help",
+    "p": 0.53,
+    "second": "none_of_these",
+    "none": 0.24,
+    "spread": [
+     [
+      "help",
+      0.53
+     ],
+     [
+      "none_of_these",
+      0.24
+     ],
+     [
+      "carry_on",
+      0.23
+     ],
+     [
+      "deceive",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "store",
+     "p": 0.56,
+     "second": "none_of_these",
+     "none": 0.28,
+     "spread": [
+      [
+       "store",
+       0.56
+      ],
+      [
+       "none_of_these",
+       0.28
+      ],
+      [
+       "wait_watch",
+       0.07
+      ],
+      [
+       "help",
+       0.05
+      ]
+     ]
+    },
+    {
+     "first": "wait_watch",
+     "p": 0.48,
+     "second": "take",
+     "none": 0.22,
+     "spread": [
+      [
+       "wait_watch",
+       0.48
+      ],
+      [
+       "take",
+       0.28
+      ],
+      [
+       "none_of_these",
+       0.22
+      ],
+      [
+       "help",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.47,
+     "second": "none_of_these",
+     "none": 0.18,
+     "spread": [
+      [
+       "rest",
+       0.47
+      ],
+      [
+       "none_of_these",
+       0.18
+      ],
+      [
+       "carry_on",
+       0.13
+      ],
+      [
+       "let_go",
+       0.12
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.73,
+    "second": "help",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.73
+     ],
+     [
+      "help",
+      0.22
+     ],
+     [
+      "rest",
+      0.01
+     ],
+     [
+      "defer",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.7,
+    "second": "help",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.7
+     ],
+     [
+      "help",
+      0.22
+     ],
+     [
+      "wait_watch",
+      0.02
+     ],
+     [
+      "store",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.04,
+   "agrees_top1": false,
+   "agrees_top2": true
+  },
+  {
+   "id": "hour-06",
+   "does": "strains at the rope, stretching its neck toward the clover just out of reach -> the clover patch",
+   "said": {
+    "first": "go_to",
+    "p": 0.95,
+    "second": "eat_drink",
+    "none": 0.02,
+    "spread": [
+     [
+      "go_to",
+      0.95
+     ],
+     [
+      "eat_drink",
+      0.03
+     ],
+     [
+      "none_of_these",
+      0.02
+     ],
+     [
+      "guard",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "eat_drink",
+     "p": 0.52,
+     "second": "give_up",
+     "none": 0,
+     "spread": [
+      [
+       "eat_drink",
+       0.52
+      ],
+      [
+       "give_up",
+       0.42
+      ],
+      [
+       "carry_on",
+       0.06
+      ],
+      [
+       "guard",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "none_of_these",
+     "p": 0.63,
+     "second": "rest",
+     "none": 0.63,
+     "spread": [
+      [
+       "none_of_these",
+       0.63
+      ],
+      [
+       "rest",
+       0.3
+      ],
+      [
+       "go_to",
+       0.04
+      ],
+      [
+       "warn_off",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.99,
+     "second": "eat_drink",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       0.99
+      ],
+      [
+       "eat_drink",
+       0.01
+      ],
+      [
+       "guard",
+       0
+      ],
+      [
+       "carry_to",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.3,
+    "second": "rest",
+    "none": 0,
+    "spread": [
+     [
+      "carry_on",
+      0.3
+     ],
+     [
+      "rest",
+      0.24
+     ],
+     [
+      "eat_drink",
+      0.16
+     ],
+     [
+      "wait_watch",
+      0.14
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.3,
+    "second": "rest",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.3
+     ],
+     [
+      "rest",
+      0.21
+     ],
+     [
+      "eat_drink",
+      0.19
+     ],
+     [
+      "wait_watch",
+      0.14
+     ]
+    ]
+   },
+   "shift": 0.07,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-07",
+   "does": "shells the peas into the basket, pod by pod -> the bowl of peas",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.32,
+    "second": "carry_to",
+    "none": 0.32,
+    "spread": [
+     [
+      "none_of_these",
+      0.32
+     ],
+     [
+      "carry_to",
+      0.3
+     ],
+     [
+      "store",
+      0.26
+     ],
+     [
+      "carry_on",
+      0.07
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "wait_watch",
+     "p": 1,
+     "second": "help",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       1
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ],
+      [
+       "carry_on",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 1,
+     "second": "help",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       1
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ],
+      [
+       "carry_on",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.59,
+     "second": "tell",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.59
+      ],
+      [
+       "tell",
+       0.41
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.88,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.88
+     ],
+     [
+      "wait_watch",
+      0.08
+     ],
+     [
+      "rest",
+      0.03
+     ],
+     [
+      "none_of_these",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.61,
+    "second": "wait_watch",
+    "none": 0.06,
+    "spread": [
+     [
+      "carry_on",
+      0.61
+     ],
+     [
+      "wait_watch",
+      0.23
+     ],
+     [
+      "rest",
+      0.09
+     ],
+     [
+      "none_of_these",
+      0.06
+     ]
+    ]
+   },
+   "shift": 0.27,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-08",
+   "does": "packs mud and sticks into the gap in the dam, tamping it down with its paws -> the gap in the dam",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.46,
+    "second": "help",
+    "none": 0.46,
+    "spread": [
+     [
+      "none_of_these",
+      0.46
+     ],
+     [
+      "help",
+      0.22
+     ],
+     [
+      "carry_to",
+      0.19
+     ],
+     [
+      "store",
+      0.07
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "take",
+     "p": 0.55,
+     "second": "carry_to",
+     "none": 0.07,
+     "spread": [
+      [
+       "take",
+       0.55
+      ],
+      [
+       "carry_to",
+       0.32
+      ],
+      [
+       "none_of_these",
+       0.07
+      ],
+      [
+       "go_to",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 0.59,
+     "second": "give_up",
+     "none": 0,
+     "spread": [
+      [
+       "go_to",
+       0.59
+      ],
+      [
+       "give_up",
+       0.38
+      ],
+      [
+       "guard",
+       0.03
+      ],
+      [
+       "keep_away",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.64,
+     "second": "warn_off",
+     "none": 0.06,
+     "spread": [
+      [
+       "call",
+       0.64
+      ],
+      [
+       "warn_off",
+       0.13
+      ],
+      [
+       "give_up",
+       0.07
+      ],
+      [
+       "none_of_these",
+       0.06
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.92,
+    "second": "carry_to",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.92
+     ],
+     [
+      "carry_to",
+      0.03
+     ],
+     [
+      "go_to",
+      0.03
+     ],
+     [
+      "none_of_these",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.92,
+    "second": "carry_to",
+    "none": 0.02,
+    "spread": [
+     [
+      "carry_on",
+      0.92
+     ],
+     [
+      "carry_to",
+      0.03
+     ],
+     [
+      "none_of_these",
+      0.02
+     ],
+     [
+      "go_to",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.02,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-09",
+   "does": "gnaws on the old bone, lying stretched out in the shade -> the bone",
+   "said": {
+    "first": "eat_drink",
+    "p": 0.89,
+    "second": "rest",
+    "none": 0,
+    "spread": [
+     [
+      "eat_drink",
+      0.89
+     ],
+     [
+      "rest",
+      0.09
+     ],
+     [
+      "attack",
+      0.01
+     ],
+     [
+      "carry_on",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "rest",
+     "p": 1,
+     "second": "attack",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       1
+      ],
+      [
+       "attack",
+       0
+      ],
+      [
+       "give",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "eat_drink",
+     "p": 1,
+     "second": "attack",
+     "none": 0,
+     "spread": [
+      [
+       "eat_drink",
+       1
+      ],
+      [
+       "attack",
+       0
+      ],
+      [
+       "give",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "wait_watch",
+     "p": 0.75,
+     "second": "guard",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       0.75
+      ],
+      [
+       "guard",
+       0.25
+      ],
+      [
+       "attack",
+       0
+      ],
+      [
+       "give",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "rest",
+    "p": 0.99,
+    "second": "eat_drink",
+    "none": 0,
+    "spread": [
+     [
+      "rest",
+      0.99
+     ],
+     [
+      "eat_drink",
+      0.01
+     ],
+     [
+      "none_of_these",
+      0
+     ],
+     [
+      "carry_on",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "rest",
+    "p": 1,
+    "second": "keep_away",
+    "none": 0,
+    "spread": [
+     [
+      "rest",
+      1
+     ],
+     [
+      "keep_away",
+      0
+     ],
+     [
+      "let_go",
+      0
+     ],
+     [
+      "guard",
+      0
+     ]
+    ]
+   },
+   "shift": 0.01,
+   "agrees_top1": false,
+   "agrees_top2": true
+  },
+  {
+   "id": "hour-10",
+   "does": "whittles at a scrap of wood while standing post -> the scrap of wood",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.43,
+    "second": "carry_on",
+    "none": 0.43,
+    "spread": [
+     [
+      "none_of_these",
+      0.43
+     ],
+     [
+      "carry_on",
+      0.42
+     ],
+     [
+      "wait_watch",
+      0.07
+     ],
+     [
+      "guard",
+      0.04
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "none_of_these",
+     "p": 0.41,
+     "second": "go_to",
+     "none": 0.41,
+     "spread": [
+      [
+       "none_of_these",
+       0.41
+      ],
+      [
+       "go_to",
+       0.26
+      ],
+      [
+       "rest",
+       0.2
+      ],
+      [
+       "wait_watch",
+       0.06
+      ]
+     ]
+    },
+    {
+     "first": "wait_watch",
+     "p": 1,
+     "second": "carry_on",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       1
+      ],
+      [
+       "carry_on",
+       0
+      ],
+      [
+       "guard",
+       0
+      ],
+      [
+       "attack",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.92,
+     "second": "wait_watch",
+     "none": 0.02,
+     "spread": [
+      [
+       "rest",
+       0.92
+      ],
+      [
+       "wait_watch",
+       0.05
+      ],
+      [
+       "none_of_these",
+       0.02
+      ],
+      [
+       "guard",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "wait_watch",
+    "p": 0.58,
+    "second": "carry_on",
+    "none": 0.01,
+    "spread": [
+     [
+      "wait_watch",
+      0.58
+     ],
+     [
+      "carry_on",
+      0.25
+     ],
+     [
+      "guard",
+      0.15
+     ],
+     [
+      "none_of_these",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "wait_watch",
+    "p": 0.78,
+    "second": "guard",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.78
+     ],
+     [
+      "guard",
+      0.2
+     ],
+     [
+      "carry_on",
+      0.02
+     ],
+     [
+      "tell",
+      0
+     ]
+    ]
+   },
+   "shift": 0.25,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-11",
+   "does": "hops closer and pecks at the shiny object, turning it over -> the dropped bit of metal",
+   "said": {
+    "first": "go_to",
+    "p": 0.68,
+    "second": "take",
+    "none": 0.14,
+    "spread": [
+     [
+      "go_to",
+      0.68
+     ],
+     [
+      "take",
+      0.18
+     ],
+     [
+      "none_of_these",
+      0.14
+     ],
+     [
+      "help",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "give_up",
+     "p": 0.99,
+     "second": "go_to",
+     "none": 0,
+     "spread": [
+      [
+       "give_up",
+       0.99
+      ],
+      [
+       "go_to",
+       0.01
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "carry_on",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.98,
+     "second": "tell",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.98
+      ],
+      [
+       "tell",
+       0.02
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "take",
+     "p": 0.97,
+     "second": "carry_to",
+     "none": 0,
+     "spread": [
+      [
+       "take",
+       0.97
+      ],
+      [
+       "carry_to",
+       0.03
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "go_to",
+    "p": 0.73,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "go_to",
+      0.73
+     ],
+     [
+      "wait_watch",
+      0.21
+     ],
+     [
+      "take",
+      0.06
+     ],
+     [
+      "carry_to",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "go_to",
+    "p": 0.8,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "go_to",
+      0.8
+     ],
+     [
+      "wait_watch",
+      0.15
+     ],
+     [
+      "take",
+      0.04
+     ],
+     [
+      "none_of_these",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.08,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "hour-12",
+   "does": "scrubs linens against the stone, working through the basket piece by piece -> the basket of linens",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.41,
+    "second": "help",
+    "none": 0.41,
+    "spread": [
+     [
+      "none_of_these",
+      0.41
+     ],
+     [
+      "help",
+      0.38
+     ],
+     [
+      "carry_on",
+      0.18
+     ],
+     [
+      "attack",
+      0.02
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "store",
+     "p": 0.61,
+     "second": "carry_to",
+     "none": 0.16,
+     "spread": [
+      [
+       "store",
+       0.61
+      ],
+      [
+       "carry_to",
+       0.19
+      ],
+      [
+       "none_of_these",
+       0.16
+      ],
+      [
+       "rest",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "tell",
+     "p": 0.62,
+     "second": "call",
+     "none": 0,
+     "spread": [
+      [
+       "tell",
+       0.62
+      ],
+      [
+       "call",
+       0.38
+      ],
+      [
+       "take",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 1,
+     "second": "take",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       1
+      ],
+      [
+       "take",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ],
+      [
+       "lead",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.98,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "carry_on",
+      0.98
+     ],
+     [
+      "wait_watch",
+      0.01
+     ],
+     [
+      "warn_off",
+      0.01
+     ],
+     [
+      "defer",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.93,
+    "second": "none_of_these",
+    "none": 0.04,
+    "spread": [
+     [
+      "carry_on",
+      0.93
+     ],
+     [
+      "none_of_these",
+      0.04
+     ],
+     [
+      "help",
+      0.02
+     ],
+     [
+      "let_go",
+      0
+     ]
+    ]
+   },
+   "shift": 0.06,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-13",
+   "does": "roots through the mud with its snout, turning over the wet ground -> the muddy patch near the trough",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.59,
+    "second": "eat_drink",
+    "none": 0.59,
+    "spread": [
+     [
+      "none_of_these",
+      0.59
+     ],
+     [
+      "eat_drink",
+      0.21
+     ],
+     [
+      "carry_on",
+      0.13
+     ],
+     [
+      "go_to",
+      0.04
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "rest",
+     "p": 0.99,
+     "second": "hide",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       0.99
+      ],
+      [
+       "hide",
+       0.01
+      ],
+      [
+       "accept",
+       0
+      ],
+      [
+       "lead",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 0.39,
+     "second": "give_up",
+     "none": 0,
+     "spread": [
+      [
+       "go_to",
+       0.39
+      ],
+      [
+       "give_up",
+       0.34
+      ],
+      [
+       "rest",
+       0.26
+      ],
+      [
+       "keep_away",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "eat_drink",
+     "p": 0.43,
+     "second": "go_to",
+     "none": 0.14,
+     "spread": [
+      [
+       "eat_drink",
+       0.43
+      ],
+      [
+       "go_to",
+       0.39
+      ],
+      [
+       "none_of_these",
+       0.14
+      ],
+      [
+       "give_up",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.98,
+    "second": "eat_drink",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.98
+     ],
+     [
+      "eat_drink",
+      0.01
+     ],
+     [
+      "none_of_these",
+      0.01
+     ],
+     [
+      "defer",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.81,
+    "second": "eat_drink",
+    "none": 0.07,
+    "spread": [
+     [
+      "carry_on",
+      0.81
+     ],
+     [
+      "eat_drink",
+      0.09
+     ],
+     [
+      "none_of_these",
+      0.07
+     ],
+     [
+      "take",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.17,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-14",
+   "does": "works the needle through the torn net, closing the gap knot by knot -> the torn net",
+   "said": {
+    "first": "help",
+    "p": 0.71,
+    "second": "none_of_these",
+    "none": 0.25,
+    "spread": [
+     [
+      "help",
+      0.71
+     ],
+     [
+      "none_of_these",
+      0.25
+     ],
+     [
+      "carry_on",
+      0.04
+     ],
+     [
+      "keep_away",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "wait_watch",
+     "p": 0.96,
+     "second": "none_of_these",
+     "none": 0.03,
+     "spread": [
+      [
+       "wait_watch",
+       0.96
+      ],
+      [
+       "none_of_these",
+       0.03
+      ],
+      [
+       "give_up",
+       0.01
+      ],
+      [
+       "keep_away",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "warn_off",
+     "p": 0.47,
+     "second": "keep_away",
+     "none": 0.01,
+     "spread": [
+      [
+       "warn_off",
+       0.47
+      ],
+      [
+       "keep_away",
+       0.3
+      ],
+      [
+       "attack",
+       0.16
+      ],
+      [
+       "lead",
+       0.05
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.81,
+     "second": "store",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       0.81
+      ],
+      [
+       "store",
+       0.17
+      ],
+      [
+       "give_up",
+       0.01
+      ],
+      [
+       "keep_away",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.97,
+    "second": "none_of_these",
+    "none": 0.02,
+    "spread": [
+     [
+      "carry_on",
+      0.97
+     ],
+     [
+      "none_of_these",
+      0.02
+     ],
+     [
+      "help",
+      0.01
+     ],
+     [
+      "keep_away",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.88,
+    "second": "help",
+    "none": 0.05,
+    "spread": [
+     [
+      "carry_on",
+      0.88
+     ],
+     [
+      "help",
+      0.07
+     ],
+     [
+      "none_of_these",
+      0.05
+     ],
+     [
+      "keep_away",
+      0
+     ]
+    ]
+   },
+   "shift": 0.09,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "hour-15",
+   "does": "draws shapes in the dirt with a stick, over and over -> the patch of bare dirt",
+   "said": {
+    "first": "none_of_these",
+    "p": 0.77,
+    "second": "carry_on",
+    "none": 0.77,
+    "spread": [
+     [
+      "none_of_these",
+      0.77
+     ],
+     [
+      "carry_on",
+      0.21
+     ],
+     [
+      "rest",
+      0.01
+     ],
+     [
+      "wait_watch",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "wait_watch",
+     "p": 1,
+     "second": "keep_away",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       1
+      ],
+      [
+       "keep_away",
+       0
+      ],
+      [
+       "guard",
+       0
+      ],
+      [
+       "let_go",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "none_of_these",
+     "p": 0.85,
+     "second": "wait_watch",
+     "none": 0.85,
+     "spread": [
+      [
+       "none_of_these",
+       0.85
+      ],
+      [
+       "wait_watch",
+       0.08
+      ],
+      [
+       "rest",
+       0.04
+      ],
+      [
+       "carry_on",
+       0.03
+      ]
+     ]
+    },
+    {
+     "first": "none_of_these",
+     "p": 0.33,
+     "second": "carry_on",
+     "none": 0.33,
+     "spread": [
+      [
+       "none_of_these",
+       0.33
+      ],
+      [
+       "carry_on",
+       0.31
+      ],
+      [
+       "call",
+       0.31
+      ],
+      [
+       "let_go",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "wait_watch",
+    "p": 0.43,
+    "second": "take",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.43
+     ],
+     [
+      "take",
+      0.39
+     ],
+     [
+      "go_to",
+      0.14
+     ],
+     [
+      "carry_on",
+      0.02
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "wait_watch",
+    "p": 0.7,
+    "second": "take",
+    "none": 0.02,
+    "spread": [
+     [
+      "wait_watch",
+      0.7
+     ],
+     [
+      "take",
+      0.1
+     ],
+     [
+      "go_to",
+      0.09
+     ],
+     [
+      "carry_on",
+      0.03
+     ]
+    ]
+   },
+   "shift": 0.34,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "strange-01",
+   "does": "runs in circles and shoves its head into -> the returning owner",
+   "said": {
+    "first": "attack",
+    "p": 0.62,
+    "second": "go_to",
+    "none": 0.02,
+    "spread": [
+     [
+      "attack",
+      0.62
+     ],
+     [
+      "go_to",
+      0.2
+     ],
+     [
+      "court",
+      0.14
+     ],
+     [
+      "none_of_these",
+      0.02
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "wait_watch",
+     "p": 0.29,
+     "second": "warn_off",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       0.29
+      ],
+      [
+       "warn_off",
+       0.27
+      ],
+      [
+       "call",
+       0.21
+      ],
+      [
+       "keep_away",
+       0.17
+      ]
+     ]
+    },
+    {
+     "first": "carry_to",
+     "p": 0.53,
+     "second": "give",
+     "none": 0,
+     "spread": [
+      [
+       "carry_to",
+       0.53
+      ],
+      [
+       "give",
+       0.37
+      ],
+      [
+       "ask",
+       0.06
+      ],
+      [
+       "court",
+       0.03
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.39,
+     "second": "court",
+     "none": 0.05,
+     "spread": [
+      [
+       "rest",
+       0.39
+      ],
+      [
+       "court",
+       0.24
+      ],
+      [
+       "defer",
+       0.1
+      ],
+      [
+       "deceive",
+       0.1
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "go_to",
+    "p": 0.9,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "go_to",
+      0.9
+     ],
+     [
+      "wait_watch",
+      0.08
+     ],
+     [
+      "defer",
+      0.01
+     ],
+     [
+      "court",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "go_to",
+    "p": 0.86,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "go_to",
+      0.86
+     ],
+     [
+      "wait_watch",
+      0.07
+     ],
+     [
+      "court",
+      0.03
+     ],
+     [
+      "defer",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.05,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "strange-02",
+   "does": "sits upright by the bed and keeps watch -> the dying father",
+   "said": {
+    "first": "guard",
+    "p": 0.58,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "guard",
+      0.58
+     ],
+     [
+      "wait_watch",
+      0.42
+     ],
+     [
+      "offer_trade",
+      0
+     ],
+     [
+      "take",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "call",
+     "p": 0.46,
+     "second": "ask",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.46
+      ],
+      [
+       "ask",
+       0.19
+      ],
+      [
+       "help",
+       0.13
+      ],
+      [
+       "lead",
+       0.09
+      ]
+     ]
+    },
+    {
+     "first": "tell",
+     "p": 0.98,
+     "second": "none_of_these",
+     "none": 0.01,
+     "spread": [
+      [
+       "tell",
+       0.98
+      ],
+      [
+       "none_of_these",
+       0.01
+      ],
+      [
+       "help",
+       0.01
+      ],
+      [
+       "give",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "keep_away",
+     "p": 0.21,
+     "second": "give_up",
+     "none": 0.16,
+     "spread": [
+      [
+       "keep_away",
+       0.21
+      ],
+      [
+       "give_up",
+       0.2
+      ],
+      [
+       "none_of_these",
+       0.16
+      ],
+      [
+       "carry_on",
+       0.1
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "guard",
+    "p": 0.84,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "guard",
+      0.84
+     ],
+     [
+      "wait_watch",
+      0.1
+     ],
+     [
+      "rest",
+      0.06
+     ],
+     [
+      "let_go",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "guard",
+    "p": 0.91,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "guard",
+      0.91
+     ],
+     [
+      "wait_watch",
+      0.08
+     ],
+     [
+      "rest",
+      0.01
+     ],
+     [
+      "go_to",
+      0
+     ]
+    ]
+   },
+   "shift": 0.07,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-03",
+   "does": "pours a cup of beer onto the ground before the first stalks are cut -> nothing",
+   "said": {
+    "first": "give",
+    "p": 0.71,
+    "second": "none_of_these",
+    "none": 0.19,
+    "spread": [
+     [
+      "give",
+      0.71
+     ],
+     [
+      "none_of_these",
+      0.19
+     ],
+     [
+      "eat_drink",
+      0.07
+     ],
+     [
+      "defer",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "tell",
+     "p": 1,
+     "second": "carry_on",
+     "none": 0,
+     "spread": [
+      [
+       "tell",
+       1
+      ],
+      [
+       "carry_on",
+       0
+      ],
+      [
+       "defer",
+       0
+      ],
+      [
+       "give",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "defer",
+     "p": 0.57,
+     "second": "lead",
+     "none": 0.01,
+     "spread": [
+      [
+       "defer",
+       0.57
+      ],
+      [
+       "lead",
+       0.3
+      ],
+      [
+       "demand",
+       0.04
+      ],
+      [
+       "give",
+       0.03
+      ]
+     ]
+    },
+    {
+     "first": "none_of_these",
+     "p": 0.43,
+     "second": "give",
+     "none": 0.43,
+     "spread": [
+      [
+       "none_of_these",
+       0.43
+      ],
+      [
+       "give",
+       0.22
+      ],
+      [
+       "eat_drink",
+       0.18
+      ],
+      [
+       "let_go",
+       0.14
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "lead",
+    "p": 0.29,
+    "second": "defer",
+    "none": 0,
+    "spread": [
+     [
+      "lead",
+      0.29
+     ],
+     [
+      "defer",
+      0.29
+     ],
+     [
+      "refuse",
+      0.06
+     ],
+     [
+      "carry_on",
+      0.06
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "defer",
+    "p": 0.26,
+    "second": "lead",
+    "none": 0.01,
+    "spread": [
+     [
+      "defer",
+      0.26
+     ],
+     [
+      "lead",
+      0.24
+     ],
+     [
+      "refuse",
+      0.12
+     ],
+     [
+      "carry_on",
+      0.12
+     ]
+    ]
+   },
+   "shift": 0.16,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "strange-04",
+   "does": "takes the longer path around -> nothing",
+   "said": {
+    "first": "keep_away",
+    "p": 0.88,
+    "second": "go_to",
+    "none": 0,
+    "spread": [
+     [
+      "keep_away",
+      0.88
+     ],
+     [
+      "go_to",
+      0.11
+     ],
+     [
+      "carry_on",
+      0.01
+     ],
+     [
+      "guard",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "carry_on",
+     "p": 0.36,
+     "second": "none_of_these",
+     "none": 0.17,
+     "spread": [
+      [
+       "carry_on",
+       0.36
+      ],
+      [
+       "none_of_these",
+       0.17
+      ],
+      [
+       "tell",
+       0.15
+      ],
+      [
+       "call",
+       0.14
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 0.99,
+     "second": "carry_to",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       0.99
+      ],
+      [
+       "carry_to",
+       0.01
+      ],
+      [
+       "guard",
+       0
+      ],
+      [
+       "hide",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "defer",
+     "p": 0.74,
+     "second": "wait_watch",
+     "none": 0,
+     "spread": [
+      [
+       "defer",
+       0.74
+      ],
+      [
+       "wait_watch",
+       0.26
+      ],
+      [
+       "guard",
+       0
+      ],
+      [
+       "carry_to",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "keep_away",
+    "p": 0.66,
+    "second": "go_to",
+    "none": 0,
+    "spread": [
+     [
+      "keep_away",
+      0.66
+     ],
+     [
+      "go_to",
+      0.14
+     ],
+     [
+      "carry_on",
+      0.1
+     ],
+     [
+      "wait_watch",
+      0.06
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "keep_away",
+    "p": 0.49,
+    "second": "go_to",
+    "none": 0,
+    "spread": [
+     [
+      "keep_away",
+      0.49
+     ],
+     [
+      "go_to",
+      0.38
+     ],
+     [
+      "carry_on",
+      0.11
+     ],
+     [
+      "defer",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.25,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-05",
+   "does": "climbs to the highest ledge and jumps -> the river",
+   "said": {
+    "first": "go_to",
+    "p": 0.59,
+    "second": "none_of_these",
+    "none": 0.37,
+    "spread": [
+     [
+      "go_to",
+      0.59
+     ],
+     [
+      "none_of_these",
+      0.37
+     ],
+     [
+      "court",
+      0.03
+     ],
+     [
+      "keep_away",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "none_of_these",
+     "p": 0.41,
+     "second": "go_to",
+     "none": 0.41,
+     "spread": [
+      [
+       "none_of_these",
+       0.41
+      ],
+      [
+       "go_to",
+       0.19
+      ],
+      [
+       "let_go",
+       0.16
+      ],
+      [
+       "defer",
+       0.11
+      ]
+     ]
+    },
+    {
+     "first": "give_up",
+     "p": 0.84,
+     "second": "refuse",
+     "none": 0,
+     "spread": [
+      [
+       "give_up",
+       0.84
+      ],
+      [
+       "refuse",
+       0.09
+      ],
+      [
+       "tell",
+       0.06
+      ],
+      [
+       "keep_away",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "defer",
+     "p": 0.92,
+     "second": "wait_watch",
+     "none": 0,
+     "spread": [
+      [
+       "defer",
+       0.92
+      ],
+      [
+       "wait_watch",
+       0.08
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "go_to",
+    "p": 0.44,
+    "second": "carry_on",
+    "none": 0.05,
+    "spread": [
+     [
+      "go_to",
+      0.44
+     ],
+     [
+      "carry_on",
+      0.24
+     ],
+     [
+      "court",
+      0.17
+     ],
+     [
+      "none_of_these",
+      0.05
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "go_to",
+    "p": 0.34,
+    "second": "carry_on",
+    "none": 0.1,
+    "spread": [
+     [
+      "go_to",
+      0.34
+     ],
+     [
+      "carry_on",
+      0.26
+     ],
+     [
+      "court",
+      0.18
+     ],
+     [
+      "none_of_these",
+      0.1
+     ]
+    ]
+   },
+   "shift": 0.1,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-06",
+   "does": "crosses his arms and refuses to answer -> his mother",
+   "said": {
+    "first": "refuse",
+    "p": 0.94,
+    "second": "keep_quiet",
+    "none": 0,
+    "spread": [
+     [
+      "refuse",
+      0.94
+     ],
+     [
+      "keep_quiet",
+      0.06
+     ],
+     [
+      "help",
+      0
+     ],
+     [
+      "give_up",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "give_up",
+     "p": 0.65,
+     "second": "keep_away",
+     "none": 0,
+     "spread": [
+      [
+       "give_up",
+       0.65
+      ],
+      [
+       "keep_away",
+       0.3
+      ],
+      [
+       "go_to",
+       0.02
+      ],
+      [
+       "refuse",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "tell",
+     "p": 0.68,
+     "second": "demand",
+     "none": 0.01,
+     "spread": [
+      [
+       "tell",
+       0.68
+      ],
+      [
+       "demand",
+       0.27
+      ],
+      [
+       "call",
+       0.02
+      ],
+      [
+       "none_of_these",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "attack",
+     "p": 0.73,
+     "second": "none_of_these",
+     "none": 0.17,
+     "spread": [
+      [
+       "attack",
+       0.73
+      ],
+      [
+       "none_of_these",
+       0.17
+      ],
+      [
+       "take",
+       0.07
+      ],
+      [
+       "eat_drink",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "demand",
+    "p": 0.91,
+    "second": "call",
+    "none": 0,
+    "spread": [
+     [
+      "demand",
+      0.91
+     ],
+     [
+      "call",
+      0.05
+     ],
+     [
+      "tell",
+      0.01
+     ],
+     [
+      "ask",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "demand",
+    "p": 0.91,
+    "second": "call",
+    "none": 0,
+    "spread": [
+     [
+      "demand",
+      0.91
+     ],
+     [
+      "call",
+      0.04
+     ],
+     [
+      "ask",
+      0.02
+     ],
+     [
+      "tell",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.02,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "strange-07",
+   "does": "picks up a stick and pretends to nudge the spider toward -> his sister",
+   "said": {
+    "first": "deceive",
+    "p": 0.41,
+    "second": "lead",
+    "none": 0.03,
+    "spread": [
+     [
+      "deceive",
+      0.41
+     ],
+     [
+      "lead",
+      0.13
+     ],
+     [
+      "carry_to",
+      0.13
+     ],
+     [
+      "go_to",
+      0.11
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "attack",
+     "p": 1,
+     "second": "eat_drink",
+     "none": 0,
+     "spread": [
+      [
+       "attack",
+       1
+      ],
+      [
+       "eat_drink",
+       0
+      ],
+      [
+       "none_of_these",
+       0
+      ],
+      [
+       "store",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "tell",
+     "p": 0.98,
+     "second": "keep_away",
+     "none": 0,
+     "spread": [
+      [
+       "tell",
+       0.98
+      ],
+      [
+       "keep_away",
+       0.01
+      ],
+      [
+       "help",
+       0.01
+      ],
+      [
+       "none_of_these",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "carry_on",
+     "p": 1,
+     "second": "none_of_these",
+     "none": 0,
+     "spread": [
+      [
+       "carry_on",
+       1
+      ],
+      [
+       "none_of_these",
+       0
+      ],
+      [
+       "let_go",
+       0
+      ],
+      [
+       "eat_drink",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "keep_away",
+    "p": 0.57,
+    "second": "carry_on",
+    "none": 0.03,
+    "spread": [
+     [
+      "keep_away",
+      0.57
+     ],
+     [
+      "carry_on",
+      0.1
+     ],
+     [
+      "go_to",
+      0.08
+     ],
+     [
+      "help",
+      0.07
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "keep_away",
+    "p": 0.46,
+    "second": "carry_on",
+    "none": 0.05,
+    "spread": [
+     [
+      "keep_away",
+      0.46
+     ],
+     [
+      "carry_on",
+      0.11
+     ],
+     [
+      "help",
+      0.09
+     ],
+     [
+      "call",
+      0.08
+     ]
+    ]
+   },
+   "shift": 0.16,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "strange-08",
+   "does": "sits down beside him without saying much -> the neighbor",
+   "said": {
+    "first": "keep_quiet",
+    "p": 0.35,
+    "second": "go_to",
+    "none": 0.04,
+    "spread": [
+     [
+      "keep_quiet",
+      0.35
+     ],
+     [
+      "go_to",
+      0.15
+     ],
+     [
+      "rest",
+      0.13
+     ],
+     [
+      "help",
+      0.13
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "help",
+     "p": 0.98,
+     "second": "store",
+     "none": 0,
+     "spread": [
+      [
+       "help",
+       0.98
+      ],
+      [
+       "store",
+       0.01
+      ],
+      [
+       "offer_trade",
+       0.01
+      ],
+      [
+       "defer",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "give",
+     "p": 0.95,
+     "second": "help",
+     "none": 0,
+     "spread": [
+      [
+       "give",
+       0.95
+      ],
+      [
+       "help",
+       0.03
+      ],
+      [
+       "offer_trade",
+       0.02
+      ],
+      [
+       "store",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "lead",
+     "p": 0.44,
+     "second": "help",
+     "none": 0.01,
+     "spread": [
+      [
+       "lead",
+       0.44
+      ],
+      [
+       "help",
+       0.17
+      ],
+      [
+       "guard",
+       0.13
+      ],
+      [
+       "keep_away",
+       0.1
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "help",
+    "p": 0.82,
+    "second": "go_to",
+    "none": 0,
+    "spread": [
+     [
+      "help",
+      0.82
+     ],
+     [
+      "go_to",
+      0.13
+     ],
+     [
+      "wait_watch",
+      0.02
+     ],
+     [
+      "keep_quiet",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "help",
+    "p": 0.84,
+    "second": "go_to",
+    "none": 0,
+    "spread": [
+     [
+      "help",
+      0.84
+     ],
+     [
+      "go_to",
+      0.08
+     ],
+     [
+      "wait_watch",
+      0.05
+     ],
+     [
+      "give",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.05,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "strange-09",
+   "does": "breaks off a small piece and pretends to consider eating it, then throws it at -> the other boy",
+   "said": {
+    "first": "attack",
+    "p": 0.53,
+    "second": "deceive",
+    "none": 0.04,
+    "spread": [
+     [
+      "attack",
+      0.53
+     ],
+     [
+      "deceive",
+      0.37
+     ],
+     [
+      "warn_off",
+      0.05
+     ],
+     [
+      "none_of_these",
+      0.04
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "eat_drink",
+     "p": 1,
+     "second": "guard",
+     "none": 0,
+     "spread": [
+      [
+       "eat_drink",
+       1
+      ],
+      [
+       "guard",
+       0
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "hide",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "refuse",
+     "p": 1,
+     "second": "guard",
+     "none": 0,
+     "spread": [
+      [
+       "refuse",
+       1
+      ],
+      [
+       "guard",
+       0
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "hide",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "demand",
+     "p": 0.95,
+     "second": "tell",
+     "none": 0.01,
+     "spread": [
+      [
+       "demand",
+       0.95
+      ],
+      [
+       "tell",
+       0.02
+      ],
+      [
+       "ask",
+       0.01
+      ],
+      [
+       "none_of_these",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "eat_drink",
+    "p": 0.56,
+    "second": "demand",
+    "none": 0.01,
+    "spread": [
+     [
+      "eat_drink",
+      0.56
+     ],
+     [
+      "demand",
+      0.14
+     ],
+     [
+      "wait_watch",
+      0.06
+     ],
+     [
+      "go_to",
+      0.04
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "eat_drink",
+    "p": 0.68,
+    "second": "demand",
+    "none": 0.01,
+    "spread": [
+     [
+      "eat_drink",
+      0.68
+     ],
+     [
+      "demand",
+      0.11
+     ],
+     [
+      "wait_watch",
+      0.04
+     ],
+     [
+      "refuse",
+      0.03
+     ]
+    ]
+   },
+   "shift": 0.14,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "strange-10",
+   "does": "presents a young ox, far beyond what the occasion calls for -> the bride and groom",
+   "said": {
+    "first": "give",
+    "p": 0.99,
+    "second": "court",
+    "none": 0,
+    "spread": [
+     [
+      "give",
+      0.99
+     ],
+     [
+      "court",
+      0.01
+     ],
+     [
+      "attack",
+      0
+     ],
+     [
+      "give_up",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "give",
+     "p": 0.99,
+     "second": "defer",
+     "none": 0,
+     "spread": [
+      [
+       "give",
+       0.99
+      ],
+      [
+       "defer",
+       0.01
+      ],
+      [
+       "attack",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "give",
+     "p": 0.86,
+     "second": "keep_quiet",
+     "none": 0,
+     "spread": [
+      [
+       "give",
+       0.86
+      ],
+      [
+       "keep_quiet",
+       0.09
+      ],
+      [
+       "hide",
+       0.03
+      ],
+      [
+       "carry_to",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "let_go",
+     "p": 0.54,
+     "second": "refuse",
+     "none": 0.01,
+     "spread": [
+      [
+       "let_go",
+       0.54
+      ],
+      [
+       "refuse",
+       0.17
+      ],
+      [
+       "give",
+       0.14
+      ],
+      [
+       "tell",
+       0.1
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "give",
+    "p": 0.97,
+    "second": "carry_to",
+    "none": 0,
+    "spread": [
+     [
+      "give",
+      0.97
+     ],
+     [
+      "carry_to",
+      0.01
+     ],
+     [
+      "go_to",
+      0.01
+     ],
+     [
+      "court",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "give",
+    "p": 0.99,
+    "second": "court",
+    "none": 0,
+    "spread": [
+     [
+      "give",
+      0.99
+     ],
+     [
+      "court",
+      0.01
+     ],
+     [
+      "defer",
+      0
+     ],
+     [
+      "carry_to",
+      0
+     ]
+    ]
+   },
+   "shift": 0.02,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-11",
+   "does": "drops one wing and circles -> the hen that wandered close",
+   "said": {
+    "first": "court",
+    "p": 0.99,
+    "second": "go_to",
+    "none": 0,
+    "spread": [
+     [
+      "court",
+      0.99
+     ],
+     [
+      "go_to",
+      0.01
+     ],
+     [
+      "lead",
+      0
+     ],
+     [
+      "keep_quiet",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "call",
+     "p": 0.91,
+     "second": "warn_off",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.91
+      ],
+      [
+       "warn_off",
+       0.07
+      ],
+      [
+       "tell",
+       0.01
+      ],
+      [
+       "let_go",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.48,
+     "second": "deceive",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.48
+      ],
+      [
+       "deceive",
+       0.28
+      ],
+      [
+       "lead",
+       0.23
+      ],
+      [
+       "give",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "warn_off",
+     "p": 0.75,
+     "second": "carry_on",
+     "none": 0.02,
+     "spread": [
+      [
+       "warn_off",
+       0.75
+      ],
+      [
+       "carry_on",
+       0.07
+      ],
+      [
+       "wait_watch",
+       0.06
+      ],
+      [
+       "go_to",
+       0.04
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "court",
+    "p": 0.81,
+    "second": "call",
+    "none": 0,
+    "spread": [
+     [
+      "court",
+      0.81
+     ],
+     [
+      "call",
+      0.1
+     ],
+     [
+      "wait_watch",
+      0.03
+     ],
+     [
+      "lead",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "court",
+    "p": 0.86,
+    "second": "call",
+    "none": 0,
+    "spread": [
+     [
+      "court",
+      0.86
+     ],
+     [
+      "call",
+      0.06
+     ],
+     [
+      "wait_watch",
+      0.03
+     ],
+     [
+      "carry_on",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.05,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-12",
+   "does": "plants its feet and refuses to step onto -> the bridge",
+   "said": {
+    "first": "refuse",
+    "p": 1,
+    "second": "none_of_these",
+    "none": 0,
+    "spread": [
+     [
+      "refuse",
+      1
+     ],
+     [
+      "none_of_these",
+      0
+     ],
+     [
+      "let_go",
+      0
+     ],
+     [
+      "wait_watch",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "keep_away",
+     "p": 0.97,
+     "second": "refuse",
+     "none": 0,
+     "spread": [
+      [
+       "keep_away",
+       0.97
+      ],
+      [
+       "refuse",
+       0.03
+      ],
+      [
+       "none_of_these",
+       0
+      ],
+      [
+       "give",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "defer",
+     "p": 0.36,
+     "second": "go_to",
+     "none": 0.04,
+     "spread": [
+      [
+       "defer",
+       0.36
+      ],
+      [
+       "go_to",
+       0.24
+      ],
+      [
+       "accept",
+       0.2
+      ],
+      [
+       "lead",
+       0.14
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 0.36,
+     "second": "wait_watch",
+     "none": 0.03,
+     "spread": [
+      [
+       "go_to",
+       0.36
+      ],
+      [
+       "wait_watch",
+       0.27
+      ],
+      [
+       "accept",
+       0.18
+      ],
+      [
+       "defer",
+       0.09
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "refuse",
+    "p": 0.66,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "refuse",
+      0.66
+     ],
+     [
+      "wait_watch",
+      0.26
+     ],
+     [
+      "keep_away",
+      0.04
+     ],
+     [
+      "defer",
+      0.03
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "refuse",
+    "p": 0.73,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "refuse",
+      0.73
+     ],
+     [
+      "wait_watch",
+      0.18
+     ],
+     [
+      "carry_on",
+      0.03
+     ],
+     [
+      "keep_away",
+      0.03
+     ]
+    ]
+   },
+   "shift": 0.1,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-13",
+   "does": "paws at the water and watches its own reflection scatter -> the pan of water",
+   "said": {
+    "first": "wait_watch",
+    "p": 0.9,
+    "second": "none_of_these",
+    "none": 0.07,
+    "spread": [
+     [
+      "wait_watch",
+      0.9
+     ],
+     [
+      "none_of_these",
+      0.07
+     ],
+     [
+      "attack",
+      0.01
+     ],
+     [
+      "take",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "wait_watch",
+     "p": 0.99,
+     "second": "carry_on",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       0.99
+      ],
+      [
+       "carry_on",
+       0.01
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "eat_drink",
+     "p": 0.95,
+     "second": "carry_on",
+     "none": 0,
+     "spread": [
+      [
+       "eat_drink",
+       0.95
+      ],
+      [
+       "carry_on",
+       0.05
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "give_up",
+     "p": 1,
+     "second": "carry_to",
+     "none": 0,
+     "spread": [
+      [
+       "give_up",
+       1
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ],
+      [
+       "tell",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.47,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "carry_on",
+      0.47
+     ],
+     [
+      "wait_watch",
+      0.2
+     ],
+     [
+      "eat_drink",
+      0.17
+     ],
+     [
+      "go_to",
+      0.07
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.56,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.56
+     ],
+     [
+      "wait_watch",
+      0.16
+     ],
+     [
+      "eat_drink",
+      0.09
+     ],
+     [
+      "go_to",
+      0.07
+     ]
+    ]
+   },
+   "shift": 0.14,
+   "agrees_top1": false,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-14",
+   "does": "sits by the marker and tells him about the new grandchild -> the grave",
+   "said": {
+    "first": "tell",
+    "p": 1,
+    "second": "court",
+    "none": 0,
+    "spread": [
+     [
+      "tell",
+      1
+     ],
+     [
+      "court",
+      0
+     ],
+     [
+      "deceive",
+      0
+     ],
+     [
+      "guard",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "give",
+     "p": 0.73,
+     "second": "carry_to",
+     "none": 0.01,
+     "spread": [
+      [
+       "give",
+       0.73
+      ],
+      [
+       "carry_to",
+       0.16
+      ],
+      [
+       "keep_quiet",
+       0.05
+      ],
+      [
+       "store",
+       0.04
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 0.98,
+     "second": "defer",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       0.98
+      ],
+      [
+       "defer",
+       0.01
+      ],
+      [
+       "give_up",
+       0.01
+      ],
+      [
+       "court",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "give_up",
+     "p": 0.8,
+     "second": "wait_watch",
+     "none": 0.01,
+     "spread": [
+      [
+       "give_up",
+       0.8
+      ],
+      [
+       "wait_watch",
+       0.09
+      ],
+      [
+       "go_to",
+       0.07
+      ],
+      [
+       "keep_away",
+       0.02
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "tell",
+    "p": 0.84,
+    "second": "give",
+    "none": 0.01,
+    "spread": [
+     [
+      "tell",
+      0.84
+     ],
+     [
+      "give",
+      0.07
+     ],
+     [
+      "carry_on",
+      0.02
+     ],
+     [
+      "guard",
+      0.02
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "tell",
+    "p": 0.86,
+    "second": "give",
+    "none": 0.02,
+    "spread": [
+     [
+      "tell",
+      0.86
+     ],
+     [
+      "give",
+      0.04
+     ],
+     [
+      "go_to",
+      0.02
+     ],
+     [
+      "none_of_these",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.06,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "strange-15",
+   "does": "squeezes behind the hay bales and stays quiet -> nothing",
+   "said": {
+    "first": "hide",
+    "p": 1,
+    "second": "accept",
+    "none": 0,
+    "spread": [
+     [
+      "hide",
+      1
+     ],
+     [
+      "accept",
+      0
+     ],
+     [
+      "give_up",
+      0
+     ],
+     [
+      "lead",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "tell",
+     "p": 0.82,
+     "second": "defer",
+     "none": 0,
+     "spread": [
+      [
+       "tell",
+       0.82
+      ],
+      [
+       "defer",
+       0.1
+      ],
+      [
+       "accept",
+       0.07
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "hide",
+     "p": 0.79,
+     "second": "none_of_these",
+     "none": 0.11,
+     "spread": [
+      [
+       "hide",
+       0.79
+      ],
+      [
+       "none_of_these",
+       0.11
+      ],
+      [
+       "go_to",
+       0.06
+      ],
+      [
+       "give_up",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.96,
+     "second": "tell",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.96
+      ],
+      [
+       "tell",
+       0.03
+      ],
+      [
+       "deceive",
+       0.01
+      ],
+      [
+       "accept",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "hide",
+    "p": 0.66,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "hide",
+      0.66
+     ],
+     [
+      "wait_watch",
+      0.33
+     ],
+     [
+      "deceive",
+      0.01
+     ],
+     [
+      "help",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "hide",
+    "p": 0.77,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "hide",
+      0.77
+     ],
+     [
+      "wait_watch",
+      0.22
+     ],
+     [
+      "deceive",
+      0.01
+     ],
+     [
+      "guard",
+      0
+     ]
+    ]
+   },
+   "shift": 0.11,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-01",
+   "does": "hammers the shoe nail flush -> the horse's hoof",
+   "said": {
+    "first": "help",
+    "p": 0.55,
+    "second": "attack",
+    "none": 0.12,
+    "spread": [
+     [
+      "help",
+      0.55
+     ],
+     [
+      "attack",
+      0.32
+     ],
+     [
+      "none_of_these",
+      0.12
+     ],
+     [
+      "carry_on",
+      0.01
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "rest",
+     "p": 1,
+     "second": "attack",
+     "none": 0,
+     "spread": [
+      [
+       "rest",
+       1
+      ],
+      [
+       "attack",
+       0
+      ],
+      [
+       "go_to",
+       0
+      ],
+      [
+       "keep_quiet",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 1,
+     "second": "attack",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       1
+      ],
+      [
+       "attack",
+       0
+      ],
+      [
+       "keep_quiet",
+       0
+      ],
+      [
+       "go_to",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "wait_watch",
+     "p": 0.48,
+     "second": "none_of_these",
+     "none": 0.38,
+     "spread": [
+      [
+       "wait_watch",
+       0.48
+      ],
+      [
+       "none_of_these",
+       0.38
+      ],
+      [
+       "help",
+       0.11
+      ],
+      [
+       "take",
+       0.02
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.99,
+    "second": "help",
+    "none": 0,
+    "spread": [
+     [
+      "carry_on",
+      0.99
+     ],
+     [
+      "help",
+      0.01
+     ],
+     [
+      "ask",
+      0
+     ],
+     [
+      "give_up",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.97,
+    "second": "help",
+    "none": 0,
+    "spread": [
+     [
+      "carry_on",
+      0.97
+     ],
+     [
+      "help",
+      0.02
+     ],
+     [
+      "defer",
+      0.01
+     ],
+     [
+      "give_up",
+      0
+     ]
+    ]
+   },
+   "shift": 0.02,
+   "agrees_top1": false,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-02",
+   "does": "keeps milking steadily -> the cow",
+   "said": {
+    "first": "carry_on",
+    "p": 0.85,
+    "second": "help",
+    "none": 0.05,
+    "spread": [
+     [
+      "carry_on",
+      0.85
+     ],
+     [
+      "help",
+      0.07
+     ],
+     [
+      "none_of_these",
+      0.05
+     ],
+     [
+      "take",
+      0.02
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "give_up",
+     "p": 0.55,
+     "second": "carry_on",
+     "none": 0.15,
+     "spread": [
+      [
+       "give_up",
+       0.55
+      ],
+      [
+       "carry_on",
+       0.19
+      ],
+      [
+       "none_of_these",
+       0.15
+      ],
+      [
+       "go_to",
+       0.09
+      ]
+     ]
+    },
+    {
+     "first": "help",
+     "p": 0.71,
+     "second": "none_of_these",
+     "none": 0.18,
+     "spread": [
+      [
+       "help",
+       0.71
+      ],
+      [
+       "none_of_these",
+       0.18
+      ],
+      [
+       "take",
+       0.1
+      ],
+      [
+       "lead",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 0.75,
+     "second": "call",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       0.75
+      ],
+      [
+       "call",
+       0.25
+      ],
+      [
+       "offer_trade",
+       0
+      ],
+      [
+       "lead",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.93,
+    "second": "none_of_these",
+    "none": 0.03,
+    "spread": [
+     [
+      "carry_on",
+      0.93
+     ],
+     [
+      "none_of_these",
+      0.03
+     ],
+     [
+      "help",
+      0.01
+     ],
+     [
+      "take",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.86,
+    "second": "none_of_these",
+    "none": 0.07,
+    "spread": [
+     [
+      "carry_on",
+      0.86
+     ],
+     [
+      "none_of_these",
+      0.07
+     ],
+     [
+      "take",
+      0.03
+     ],
+     [
+      "help",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.08,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-03",
+   "does": "calls out and offers her the wilting cabbages cheap -> the stranger",
+   "said": {
+    "first": "offer_trade",
+    "p": 1,
+    "second": "tell",
+    "none": 0,
+    "spread": [
+     [
+      "offer_trade",
+      1
+     ],
+     [
+      "tell",
+      0
+     ],
+     [
+      "take",
+      0
+     ],
+     [
+      "give",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "carry_on",
+     "p": 0.63,
+     "second": "defer",
+     "none": 0.01,
+     "spread": [
+      [
+       "carry_on",
+       0.63
+      ],
+      [
+       "defer",
+       0.24
+      ],
+      [
+       "offer_trade",
+       0.08
+      ],
+      [
+       "help",
+       0.03
+      ]
+     ]
+    },
+    {
+     "first": "carry_on",
+     "p": 0.92,
+     "second": "keep_quiet",
+     "none": 0,
+     "spread": [
+      [
+       "carry_on",
+       0.92
+      ],
+      [
+       "keep_quiet",
+       0.07
+      ],
+      [
+       "wait_watch",
+       0.01
+      ],
+      [
+       "tell",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "lead",
+     "p": 0.8,
+     "second": "keep_away",
+     "none": 0.01,
+     "spread": [
+      [
+       "lead",
+       0.8
+      ],
+      [
+       "keep_away",
+       0.07
+      ],
+      [
+       "tell",
+       0.03
+      ],
+      [
+       "go_to",
+       0.03
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "defer",
+    "p": 0.49,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "defer",
+      0.49
+     ],
+     [
+      "wait_watch",
+      0.15
+     ],
+     [
+      "tell",
+      0.14
+     ],
+     [
+      "offer_trade",
+      0.13
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "defer",
+    "p": 0.55,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "defer",
+      0.55
+     ],
+     [
+      "wait_watch",
+      0.13
+     ],
+     [
+      "offer_trade",
+      0.12
+     ],
+     [
+      "tell",
+      0.08
+     ]
+    ]
+   },
+   "shift": 0.11,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "village-04",
+   "does": "stop and stare -> the stranger",
+   "said": {
+    "first": "wait_watch",
+    "p": 0.99,
+    "second": "give_up",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.99
+     ],
+     [
+      "give_up",
+      0.01
+     ],
+     [
+      "none_of_these",
+      0
+     ],
+     [
+      "eat_drink",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "carry_on",
+     "p": 0.96,
+     "second": "go_to",
+     "none": 0,
+     "spread": [
+      [
+       "carry_on",
+       0.96
+      ],
+      [
+       "go_to",
+       0.04
+      ],
+      [
+       "eat_drink",
+       0
+      ],
+      [
+       "none_of_these",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "hide",
+     "p": 0.9,
+     "second": "keep_away",
+     "none": 0,
+     "spread": [
+      [
+       "hide",
+       0.9
+      ],
+      [
+       "keep_away",
+       0.1
+      ],
+      [
+       "none_of_these",
+       0
+      ],
+      [
+       "eat_drink",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 1,
+     "second": "eat_drink",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       1
+      ],
+      [
+       "eat_drink",
+       0
+      ],
+      [
+       "none_of_these",
+       0
+      ],
+      [
+       "carry_on",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.51,
+    "second": "go_to",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.51
+     ],
+     [
+      "go_to",
+      0.21
+     ],
+     [
+      "keep_away",
+      0.11
+     ],
+     [
+      "carry_to",
+      0.04
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.47,
+    "second": "go_to",
+    "none": 0.03,
+    "spread": [
+     [
+      "carry_on",
+      0.47
+     ],
+     [
+      "go_to",
+      0.41
+     ],
+     [
+      "keep_away",
+      0.04
+     ],
+     [
+      "none_of_these",
+      0.03
+     ]
+    ]
+   },
+   "shift": 0.22,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "village-05",
+   "does": "keeps sitting beside the body -> the body",
+   "said": {
+    "first": "guard",
+    "p": 0.98,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "guard",
+      0.98
+     ],
+     [
+      "wait_watch",
+      0.02
+     ],
+     [
+      "attack",
+      0
+     ],
+     [
+      "give",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "ask",
+     "p": 0.99,
+     "second": "defer",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       0.99
+      ],
+      [
+       "defer",
+       0.01
+      ],
+      [
+       "attack",
+       0
+      ],
+      [
+       "give",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "give_up",
+     "p": 0.58,
+     "second": "keep_away",
+     "none": 0.07,
+     "spread": [
+      [
+       "give_up",
+       0.58
+      ],
+      [
+       "keep_away",
+       0.15
+      ],
+      [
+       "go_to",
+       0.13
+      ],
+      [
+       "rest",
+       0.07
+      ]
+     ]
+    },
+    {
+     "first": "guard",
+     "p": 0.31,
+     "second": "none_of_these",
+     "none": 0.26,
+     "spread": [
+      [
+       "guard",
+       0.31
+      ],
+      [
+       "none_of_these",
+       0.26
+      ],
+      [
+       "carry_on",
+       0.14
+      ],
+      [
+       "help",
+       0.13
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "guard",
+    "p": 0.65,
+    "second": "rest",
+    "none": 0,
+    "spread": [
+     [
+      "guard",
+      0.65
+     ],
+     [
+      "rest",
+      0.15
+     ],
+     [
+      "carry_on",
+      0.1
+     ],
+     [
+      "wait_watch",
+      0.06
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "guard",
+    "p": 0.88,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "guard",
+      0.88
+     ],
+     [
+      "wait_watch",
+      0.05
+     ],
+     [
+      "carry_on",
+      0.03
+     ],
+     [
+      "rest",
+      0.03
+     ]
+    ]
+   },
+   "shift": 0.23,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-06",
+   "does": "finishes his prayer before rising -> nothing",
+   "said": {
+    "first": "carry_on",
+    "p": 0.76,
+    "second": "none_of_these",
+    "none": 0.16,
+    "spread": [
+     [
+      "carry_on",
+      0.76
+     ],
+     [
+      "none_of_these",
+      0.16
+     ],
+     [
+      "give_up",
+      0.02
+     ],
+     [
+      "tell",
+      0.02
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "give_up",
+     "p": 0.93,
+     "second": "none_of_these",
+     "none": 0.04,
+     "spread": [
+      [
+       "give_up",
+       0.93
+      ],
+      [
+       "none_of_these",
+       0.04
+      ],
+      [
+       "let_go",
+       0.02
+      ],
+      [
+       "carry_on",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "give",
+     "p": 0.96,
+     "second": "store",
+     "none": 0,
+     "spread": [
+      [
+       "give",
+       0.96
+      ],
+      [
+       "store",
+       0.04
+      ],
+      [
+       "accept",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "wait_watch",
+     "p": 0.82,
+     "second": "defer",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       0.82
+      ],
+      [
+       "defer",
+       0.18
+      ],
+      [
+       "accept",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.84,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "carry_on",
+      0.84
+     ],
+     [
+      "wait_watch",
+      0.08
+     ],
+     [
+      "tell",
+      0.04
+     ],
+     [
+      "keep_quiet",
+      0.02
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.66,
+    "second": "tell",
+    "none": 0.09,
+    "spread": [
+     [
+      "carry_on",
+      0.66
+     ],
+     [
+      "tell",
+      0.1
+     ],
+     [
+      "none_of_these",
+      0.09
+     ],
+     [
+      "wait_watch",
+      0.05
+     ]
+    ]
+   },
+   "shift": 0.21,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-07",
+   "does": "drops her voice and changes the subject -> the stranger",
+   "said": {
+    "first": "keep_quiet",
+    "p": 0.58,
+    "second": "hide",
+    "none": 0.03,
+    "spread": [
+     [
+      "keep_quiet",
+      0.58
+     ],
+     [
+      "hide",
+      0.2
+     ],
+     [
+      "tell",
+      0.1
+     ],
+     [
+      "none_of_these",
+      0.03
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "carry_on",
+     "p": 1,
+     "second": "help",
+     "none": 0,
+     "spread": [
+      [
+       "carry_on",
+       1
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ],
+      [
+       "ask",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "give_up",
+     "p": 0.71,
+     "second": "carry_on",
+     "none": 0.01,
+     "spread": [
+      [
+       "give_up",
+       0.71
+      ],
+      [
+       "carry_on",
+       0.23
+      ],
+      [
+       "keep_away",
+       0.04
+      ],
+      [
+       "carry_to",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 0.99,
+     "second": "demand",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       0.99
+      ],
+      [
+       "demand",
+       0.01
+      ],
+      [
+       "help",
+       0
+      ],
+      [
+       "give_up",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.53,
+    "second": "keep_quiet",
+    "none": 0,
+    "spread": [
+     [
+      "carry_on",
+      0.53
+     ],
+     [
+      "keep_quiet",
+      0.22
+     ],
+     [
+      "tell",
+      0.14
+     ],
+     [
+      "wait_watch",
+      0.08
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "tell",
+    "p": 0.51,
+    "second": "carry_on",
+    "none": 0.02,
+    "spread": [
+     [
+      "tell",
+      0.51
+     ],
+     [
+      "carry_on",
+      0.36
+     ],
+     [
+      "keep_quiet",
+      0.08
+     ],
+     [
+      "none_of_these",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.4,
+   "agrees_top1": false,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-08",
+   "does": "steps back from the fence and picks up her feed bucket -> nothing",
+   "said": {
+    "first": "take",
+    "p": 0.34,
+    "second": "keep_away",
+    "none": 0.01,
+    "spread": [
+     [
+      "take",
+      0.34
+     ],
+     [
+      "keep_away",
+      0.32
+     ],
+     [
+      "carry_on",
+      0.22
+     ],
+     [
+      "carry_to",
+      0.05
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "carry_on",
+     "p": 0.99,
+     "second": "tell",
+     "none": 0,
+     "spread": [
+      [
+       "carry_on",
+       0.99
+      ],
+      [
+       "tell",
+       0.01
+      ],
+      [
+       "keep_away",
+       0
+      ],
+      [
+       "guard",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "let_go",
+     "p": 0.3,
+     "second": "defer",
+     "none": 0.07,
+     "spread": [
+      [
+       "let_go",
+       0.3
+      ],
+      [
+       "defer",
+       0.22
+      ],
+      [
+       "call",
+       0.18
+      ],
+      [
+       "tell",
+       0.08
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.96,
+     "second": "tell",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.96
+      ],
+      [
+       "tell",
+       0.02
+      ],
+      [
+       "ask",
+       0.02
+      ],
+      [
+       "keep_away",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "hide",
+    "p": 0.32,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "hide",
+      0.32
+     ],
+     [
+      "wait_watch",
+      0.19
+     ],
+     [
+      "court",
+      0.15
+     ],
+     [
+      "give_up",
+      0.12
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "court",
+    "p": 0.5,
+    "second": "hide",
+    "none": 0.01,
+    "spread": [
+     [
+      "court",
+      0.5
+     ],
+     [
+      "hide",
+      0.22
+     ],
+     [
+      "carry_on",
+      0.1
+     ],
+     [
+      "wait_watch",
+      0.07
+     ]
+    ]
+   },
+   "shift": 0.44,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "village-09",
+   "does": "shouts and points at the moved post -> the other farmer",
+   "said": {
+    "first": "demand",
+    "p": 0.79,
+    "second": "warn_off",
+    "none": 0,
+    "spread": [
+     [
+      "demand",
+      0.79
+     ],
+     [
+      "warn_off",
+      0.19
+     ],
+     [
+      "tell",
+      0.02
+     ],
+     [
+      "attack",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "attack",
+     "p": 0.67,
+     "second": "carry_to",
+     "none": 0.01,
+     "spread": [
+      [
+       "attack",
+       0.67
+      ],
+      [
+       "carry_to",
+       0.31
+      ],
+      [
+       "take",
+       0.01
+      ],
+      [
+       "none_of_these",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "carry_to",
+     "p": 0.57,
+     "second": "ask",
+     "none": 0,
+     "spread": [
+      [
+       "carry_to",
+       0.57
+      ],
+      [
+       "ask",
+       0.2
+      ],
+      [
+       "give_up",
+       0.11
+      ],
+      [
+       "go_to",
+       0.1
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 0.92,
+     "second": "tell",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       0.92
+      ],
+      [
+       "tell",
+       0.06
+      ],
+      [
+       "defer",
+       0.01
+      ],
+      [
+       "demand",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "demand",
+    "p": 0.9,
+    "second": "carry_on",
+    "none": 0.01,
+    "spread": [
+     [
+      "demand",
+      0.9
+     ],
+     [
+      "carry_on",
+      0.03
+     ],
+     [
+      "wait_watch",
+      0.03
+     ],
+     [
+      "ask",
+      0.01
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "demand",
+    "p": 0.94,
+    "second": "none_of_these",
+    "none": 0.02,
+    "spread": [
+     [
+      "demand",
+      0.94
+     ],
+     [
+      "none_of_these",
+      0.02
+     ],
+     [
+      "wait_watch",
+      0.01
+     ],
+     [
+      "defer",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.06,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-10",
+   "does": "drives the hoop down carefully, checking the angle after each blow -> the barrel",
+   "said": {
+    "first": "attack",
+    "p": 0.66,
+    "second": "none_of_these",
+    "none": 0.22,
+    "spread": [
+     [
+      "attack",
+      0.66
+     ],
+     [
+      "none_of_these",
+      0.22
+     ],
+     [
+      "help",
+      0.05
+     ],
+     [
+      "carry_to",
+      0.02
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "ask",
+     "p": 1,
+     "second": "let_go",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       1
+      ],
+      [
+       "let_go",
+       0
+      ],
+      [
+       "defer",
+       0
+      ],
+      [
+       "store",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "defer",
+     "p": 0.46,
+     "second": "ask",
+     "none": 0,
+     "spread": [
+      [
+       "defer",
+       0.46
+      ],
+      [
+       "ask",
+       0.27
+      ],
+      [
+       "give_up",
+       0.16
+      ],
+      [
+       "give",
+       0.1
+      ]
+     ]
+    },
+    {
+     "first": "attack",
+     "p": 0.73,
+     "second": "none_of_these",
+     "none": 0.17,
+     "spread": [
+      [
+       "attack",
+       0.73
+      ],
+      [
+       "none_of_these",
+       0.17
+      ],
+      [
+       "carry_on",
+       0.08
+      ],
+      [
+       "help",
+       0.02
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "carry_on",
+    "p": 0.31,
+    "second": "wait_watch",
+    "none": 0.05,
+    "spread": [
+     [
+      "carry_on",
+      0.31
+     ],
+     [
+      "wait_watch",
+      0.28
+     ],
+     [
+      "take",
+      0.17
+     ],
+     [
+      "none_of_these",
+      0.05
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "carry_on",
+    "p": 0.43,
+    "second": "wait_watch",
+    "none": 0.08,
+    "spread": [
+     [
+      "carry_on",
+      0.43
+     ],
+     [
+      "wait_watch",
+      0.17
+     ],
+     [
+      "take",
+      0.11
+     ],
+     [
+      "none_of_these",
+      0.08
+     ]
+    ]
+   },
+   "shift": 0.19,
+   "agrees_top1": false,
+   "agrees_top2": false
+  },
+  {
+   "id": "village-11",
+   "does": "holds out the bowl and asks -> the stranger",
+   "said": {
+    "first": "ask",
+    "p": 1,
+    "second": "carry_to",
+    "none": 0,
+    "spread": [
+     [
+      "ask",
+      1
+     ],
+     [
+      "carry_to",
+      0
+     ],
+     [
+      "refuse",
+      0
+     ],
+     [
+      "rest",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "wait_watch",
+     "p": 0.99,
+     "second": "keep_quiet",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       0.99
+      ],
+      [
+       "keep_quiet",
+       0.01
+      ],
+      [
+       "carry_to",
+       0
+      ],
+      [
+       "refuse",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 0.56,
+     "second": "none_of_these",
+     "none": 0.25,
+     "spread": [
+      [
+       "go_to",
+       0.56
+      ],
+      [
+       "none_of_these",
+       0.25
+      ],
+      [
+       "wait_watch",
+       0.12
+      ],
+      [
+       "carry_to",
+       0.03
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.81,
+     "second": "ask",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.81
+      ],
+      [
+       "ask",
+       0.16
+      ],
+      [
+       "tell",
+       0.03
+      ],
+      [
+       "carry_to",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "ask",
+    "p": 0.56,
+    "second": "wait_watch",
+    "none": 0,
+    "spread": [
+     [
+      "ask",
+      0.56
+     ],
+     [
+      "wait_watch",
+      0.34
+     ],
+     [
+      "carry_on",
+      0.05
+     ],
+     [
+      "call",
+      0.02
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "ask",
+    "p": 0.48,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "ask",
+      0.48
+     ],
+     [
+      "wait_watch",
+      0.37
+     ],
+     [
+      "carry_on",
+      0.08
+     ],
+     [
+      "rest",
+      0.04
+     ]
+    ]
+   },
+   "shift": 0.11,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-12",
+   "does": "steps into the road and asks their business -> the stranger",
+   "said": {
+    "first": "ask",
+    "p": 0.88,
+    "second": "demand",
+    "none": 0,
+    "spread": [
+     [
+      "ask",
+      0.88
+     ],
+     [
+      "demand",
+      0.06
+     ],
+     [
+      "guard",
+      0.03
+     ],
+     [
+      "go_to",
+      0.03
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "let_go",
+     "p": 0.93,
+     "second": "defer",
+     "none": 0,
+     "spread": [
+      [
+       "let_go",
+       0.93
+      ],
+      [
+       "defer",
+       0.03
+      ],
+      [
+       "wait_watch",
+       0.02
+      ],
+      [
+       "accept",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.88,
+     "second": "ask",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.88
+      ],
+      [
+       "ask",
+       0.09
+      ],
+      [
+       "carry_to",
+       0.02
+      ],
+      [
+       "lead",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 1,
+     "second": "court",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       1
+      ],
+      [
+       "court",
+       0
+      ],
+      [
+       "deceive",
+       0
+      ],
+      [
+       "guard",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "wait_watch",
+    "p": 0.55,
+    "second": "ask",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.55
+     ],
+     [
+      "ask",
+      0.28
+     ],
+     [
+      "guard",
+      0.07
+     ],
+     [
+      "tell",
+      0.04
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "wait_watch",
+    "p": 0.63,
+    "second": "ask",
+    "none": 0,
+    "spread": [
+     [
+      "wait_watch",
+      0.63
+     ],
+     [
+      "ask",
+      0.18
+     ],
+     [
+      "guard",
+      0.15
+     ],
+     [
+      "tell",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.15,
+   "agrees_top1": false,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-13",
+   "does": "mutters to himself and stays sitting -> nothing",
+   "said": {
+    "first": "rest",
+    "p": 0.49,
+    "second": "tell",
+    "none": 0.04,
+    "spread": [
+     [
+      "rest",
+      0.49
+     ],
+     [
+      "tell",
+      0.21
+     ],
+     [
+      "keep_quiet",
+      0.14
+     ],
+     [
+      "carry_on",
+      0.08
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "call",
+     "p": 0.71,
+     "second": "tell",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.71
+      ],
+      [
+       "tell",
+       0.29
+      ],
+      [
+       "keep_away",
+       0
+      ],
+      [
+       "guard",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 0.95,
+     "second": "eat_drink",
+     "none": 0.01,
+     "spread": [
+      [
+       "go_to",
+       0.95
+      ],
+      [
+       "eat_drink",
+       0.04
+      ],
+      [
+       "none_of_these",
+       0.01
+      ],
+      [
+       "keep_away",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "ask",
+     "p": 0.99,
+     "second": "offer_trade",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       0.99
+      ],
+      [
+       "offer_trade",
+       0.01
+      ],
+      [
+       "keep_away",
+       0
+      ],
+      [
+       "let_go",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "rest",
+    "p": 0.44,
+    "second": "carry_on",
+    "none": 0.01,
+    "spread": [
+     [
+      "rest",
+      0.44
+     ],
+     [
+      "carry_on",
+      0.33
+     ],
+     [
+      "keep_quiet",
+      0.08
+     ],
+     [
+      "ask",
+      0.06
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "rest",
+    "p": 0.66,
+    "second": "carry_on",
+    "none": 0.02,
+    "spread": [
+     [
+      "rest",
+      0.66
+     ],
+     [
+      "carry_on",
+      0.17
+     ],
+     [
+      "eat_drink",
+      0.1
+     ],
+     [
+      "keep_quiet",
+      0.02
+     ]
+    ]
+   },
+   "shift": 0.32,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-14",
+   "does": "lies still and dozes -> nothing",
+   "said": {
+    "first": "rest",
+    "p": 1,
+    "second": "none_of_these",
+    "none": 0,
+    "spread": [
+     [
+      "rest",
+      1
+     ],
+     [
+      "none_of_these",
+      0
+     ],
+     [
+      "give",
+      0
+     ],
+     [
+      "wait_watch",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "ask",
+     "p": 1,
+     "second": "none_of_these",
+     "none": 0,
+     "spread": [
+      [
+       "ask",
+       1
+      ],
+      [
+       "none_of_these",
+       0
+      ],
+      [
+       "let_go",
+       0
+      ],
+      [
+       "wait_watch",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "wait_watch",
+     "p": 0.58,
+     "second": "none_of_these",
+     "none": 0.21,
+     "spread": [
+      [
+       "wait_watch",
+       0.58
+      ],
+      [
+       "none_of_these",
+       0.21
+      ],
+      [
+       "go_to",
+       0.17
+      ],
+      [
+       "rest",
+       0.02
+      ]
+     ]
+    },
+    {
+     "first": "call",
+     "p": 0.91,
+     "second": "ask",
+     "none": 0,
+     "spread": [
+      [
+       "call",
+       0.91
+      ],
+      [
+       "ask",
+       0.09
+      ],
+      [
+       "none_of_these",
+       0
+      ],
+      [
+       "attack",
+       0
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "rest",
+    "p": 0.84,
+    "second": "wait_watch",
+    "none": 0.01,
+    "spread": [
+     [
+      "rest",
+      0.84
+     ],
+     [
+      "wait_watch",
+      0.06
+     ],
+     [
+      "ask",
+      0.03
+     ],
+     [
+      "keep_quiet",
+      0.02
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "rest",
+    "p": 0.92,
+    "second": "wait_watch",
+    "none": 0.02,
+    "spread": [
+     [
+      "rest",
+      0.92
+     ],
+     [
+      "wait_watch",
+      0.05
+     ],
+     [
+      "none_of_these",
+      0.02
+     ],
+     [
+      "help",
+      0.01
+     ]
+    ]
+   },
+   "shift": 0.1,
+   "agrees_top1": true,
+   "agrees_top2": true
+  },
+  {
+   "id": "village-15",
+   "does": "stays asleep -> nothing",
+   "said": {
+    "first": "rest",
+    "p": 0.59,
+    "second": "carry_on",
+    "none": 0,
+    "spread": [
+     [
+      "rest",
+      0.59
+     ],
+     [
+      "carry_on",
+      0.41
+     ],
+     [
+      "store",
+      0
+     ],
+     [
+      "defer",
+      0
+     ]
+    ]
+   },
+   "alts": [
+    {
+     "first": "wait_watch",
+     "p": 0.99,
+     "second": "go_to",
+     "none": 0,
+     "spread": [
+      [
+       "wait_watch",
+       0.99
+      ],
+      [
+       "go_to",
+       0.01
+      ],
+      [
+       "defer",
+       0
+      ],
+      [
+       "store",
+       0
+      ]
+     ]
+    },
+    {
+     "first": "rest",
+     "p": 0.54,
+     "second": "carry_on",
+     "none": 0.05,
+     "spread": [
+      [
+       "rest",
+       0.54
+      ],
+      [
+       "carry_on",
+       0.38
+      ],
+      [
+       "none_of_these",
+       0.05
+      ],
+      [
+       "hide",
+       0.01
+      ]
+     ]
+    },
+    {
+     "first": "go_to",
+     "p": 0.45,
+     "second": "rest",
+     "none": 0.01,
+     "spread": [
+      [
+       "go_to",
+       0.45
+      ],
+      [
+       "rest",
+       0.28
+      ],
+      [
+       "give_up",
+       0.24
+      ],
+      [
+       "keep_away",
+       0.01
+      ]
+     ]
+    }
+   ],
+   "chooses": {
+    "first": "rest",
+    "p": 0.72,
+    "second": "carry_on",
+    "none": 0,
+    "spread": [
+     [
+      "rest",
+      0.72
+     ],
+     [
+      "carry_on",
+      0.28
+     ],
+     [
+      "none_of_these",
+      0
+     ],
+     [
+      "demand",
+      0
+     ]
+    ]
+   },
+   "chooses_b": {
+    "first": "rest",
+    "p": 0.89,
+    "second": "carry_on",
+    "none": 0,
+    "spread": [
+     [
+      "rest",
+      0.89
+     ],
+     [
+      "carry_on",
+      0.11
+     ],
+     [
+      "none_of_these",
+      0
+     ],
+     [
+      "demand",
+      0
+     ]
+    ]
+   },
+   "shift": 0.17,
+   "agrees_top1": true,
+   "agrees_top2": true
+  }
+ ]
+}

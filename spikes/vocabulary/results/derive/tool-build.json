@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tool-01",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "tool-02",
+    "status": "rule_error",
+    "needs": ["force passed through an intermediary (maul drives wedge drives round)", "a split along the grain that makes pieces (E3)", "place/move of the wedge into a crack", "damage to the instrument, not only edge wear"],
+    "note": "Derives: the wedge bites the round and the change cites `grained`. Does not derive: eight solid blows leave the round at 3.9 of 5, no halves are made, and the maul's mass never reaches the round. RULE ERROR in force.ts `bite`: the blow contest (mass x effort + 0.3 hardness against the patient's toughness and size) never compares the striker's hardness with the target's, and only the patient is damaged, so eight effort-4 blows of a wooden maul take an iron wedge to integrity 2.1 while the maul stays at 5. General rule: a blow's damage is shared between striker and struck by relative hardness and toughness; the softer, less tough side gives first."
+  },
+  {
+    "id": "tool-03",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "tool-04",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts (with mix-03)."
+  },
+  {
+    "id": "tool-05",
+    "status": "rule_error",
+    "needs": ["creature routine rates over unobserved time (principle 4)", "growth (teeth regrow and self-sharpen)", "move: the fall and its direction", "places changing: the dammed stream", "byproducts of cutting (chips)"],
+    "note": "Derives: one bite takes 0.026 of the trunk, and a trunk at integrity 1.5 gives way under its crown. Does not derive: teeth wear like any edge (0.15 a bite) and are blunt after 27 bites with the trunk at 4.6, so no number of nights fells it. RULE ERROR (encoding caveat: I modelled 'cannot hold its own weight' as load with the trunk bearing a second birch thing as its crown) in load.ts `strength`: a sound thing's strength (0.6 toughness + 0.2 hardness + 0.4 size, times integrity/5) is barely its own mass level, so the birch (4.6 against mass 4) falls once 13% is gnawed, and the shared oak (5.0 against mass 5) would fall at the first scar. General rule: strength and weight must be on a scale where a sound standing thing bears itself with a wide margin, e.g. compare the cross-section left against the mass above it."
+  },
+  {
+    "id": "tool-06",
+    "status": "rule_error",
+    "needs": ["composites (head and haft)", "R10 fit and R4 join strength that drifts with use and drying", "a piece detached in proportion, with an amount"],
+    "note": "Derives: a firm blow brings a piece away (a create). RULE ERROR in force.ts `damage`: `shatters = toughness <= 1 && blow > 1` sets integrity to 0 whatever the size, so one effort-3 hammer blow sends a size-5 quarry face 'to pieces'. General rule: a brittle thing loses a share scaled by its bulk like any other damage (a small brittle thing shatters whole, a big one spalls a chunk), and the piece created carries the amount removed. The loosening head is unbuilt (composite, fit, drifting join)."
+  },
+  {
+    "id": "tool-07",
+    "status": "rule_error",
+    "needs": ["shaping: removing material (amount, shavings) as distinct from breaking", "direction of a cut relative to the grain as an input to force", "S15 flaw read by force, not only by load", "small byproducts and a splinter as a wound"],
+    "note": "Derives: a keen knife goes into green wood, citing `grained`. RULE ERROR 1 in force.ts `damage`: force can only subtract integrity and the share formula gives 1.1 of 5 per ordinary knife pass on a size-1 branch, so five whittling passes leave the branch 'in pieces' where a sensible person expects a carved, whole branch; general rule: an edge working soft material removes amount (E4 plus a shaving, E3) and only a blow or an overload lowers integrity. RULE ERROR 2 in force.ts `wear`: loss = 0.06 x (hardness + 0.5 toughness) x effort / tool hardness counts toughness, so green willow (2, 5) dulls steel by 0.108 a pass, keen to useless in under 40 passes, where the scenario says the knife is fine; general rule: an edge wears by the patient's hardness relative to its own (and by misuse such as chopping), not by the patient's toughness. Not derived: across-grain catching and the knot (no direction in ForceAct; every edged contact gets the along-grain +1, including felling a tree; flaw is read only by load)."
+  },
+  {
+    "id": "tool-08",
+    "status": "partly",
+    "needs": ["move into a fit (R10): driving a peg", "aim and grip: `long` handle form and care reaching force (version 2 candidate 'aim')", "a missed blow landing on the actor's body", "deformation (mushroomed, crooked)"],
+    "note": "Derives: six firm blows of a hard rock mar the peg (3.4 of 5) where a wooden mallet leaves it at 5, from mass and hardness alone. Does not derive: the peg being driven at all, more swings than a mallet, glancing blows or the bruised knuckle; care and haste are not read by force."
+  },
+  {
+    "id": "tool-09",
+    "status": "unbuilt",
+    "needs": ["contents (S8) of a crack", "swell on freezing (P22) pushing as pressure to Load", "phase change from place temperature", "freeze-thaw cycles in closed form", "split into pieces (E3)"],
+    "note": "No test. Same missing mechanism as cold-03 in batch-a. Note for when it is built: the present shatter rule would take the whole boulder to integrity 0 in one event, regardless of size."
+  },
+  {
+    "id": "tool-10",
+    "status": "rule_error",
+    "needs": ["partial harm from an edgeless tool (fraying, abrasion)", "a cross-section, not overall size, for what an edge must cross in `cord` and `long` things"],
+    "note": "Derives with edge 0 (the scenario's 'no edge left'): sixty strokes leave the rope whole and the knife unchanged; the fraying does not derive (integrity stays exactly 5). RULE ERROR 1 in force.ts `bite`: cut = tool hardness + 0.6 edge + ... - (patient hardness + 2.5) is a cliff at edge > 0 and never reads the patient's toughness, so a badly blunted edge (0.5) takes 61% of what a keen one (4) takes per stroke; general rule: keenness gates the cut and is compared with toughness (fibrous, tough things need a keen edge), while hardness decides what can be scratched and how the edge wears. RULE ERROR 2 in force.ts `damage` and `wear`: share divides by (1 + size)^3 and the shared rope's size 3 is its length, so a keen steel knife takes 40 strokes to bring the rope to 1.2 and is worn from edge 4 to 0 on the way; general rule: for an edge, bulk is the thickness to be crossed. Caveat: error 1 uses edge 0.5 rather than 0, my reading of 'badly blunted'."
+  },
+  {
+    "id": "build-01",
+    "status": "partly",
+    "needs": ["move (drag) against mass and strength", "span: size against the gap (R3)", "join/bind (X5 beyond coating) and composites sharing a load", "deformation between whole and cracked", "place footing of the far bank"],
+    "note": "Derives: one young trunk (strength 4.6) holds a walker (mass 3) and gives under a laden cart (mass 5). Does not derive: the sag (integrity stays 5), three lashed trunks sharing the load, unlashed logs rolling apart, or any of drag, lay and bind."
+  },
+  {
+    "id": "build-02",
+    "status": "unbuilt",
+    "needs": ["join (tie) with a strength from friction, flexibility and the actor's care and haste", "move (drag) over a place's footing producing jolts", "R4 strength drifting under use", "Load on a join; contents spilling (S8)"],
+    "note": "No test. Nothing in the engine ties, drags or jolts."
+  },
+  {
+    "id": "build-03",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "build-04",
+    "status": "unbuilt",
+    "needs": ["stack/build as a composite", "stability: base against height (R3)", "collapse as X1 on the parts", "a fall producing X2 with momentum from height and mass, with no actor's effort", "reach of debris to things nearby (R1)", "groups (a pile of stones with a count)"],
+    "note": "No test. Force could express a stone meeting the hutch, but only with an actor's effort standing in for a fall, which would be my number and not the engine's."
+  },
+  {
+    "id": "build-05",
+    "status": "partly",
+    "needs": ["R4: a join with a strength that drifts when wet", "swell (P22) in M1", "wind as a load"],
+    "note": "Derives: two days in rain take the rawhide to wetness 4.2; M1 lowers its toughness (5 to 4.3) and raises flexibility, strength falls from 3.6 to 3.0, and it still holds the pole, so nothing gives way yet. Does not derive: the loosened joints and the sway (no join state). Aside, not asserted: the same drift takes the rawhide to contamination 3.2 of 5 in two days at perishability 2, which looks fast."
+  },
+  {
+    "id": "build-06",
+    "status": "partly",
+    "needs": ["creature choices (pick_action) and their routine form", "tension as a load that a break releases (Load, E6)", "the trap's state (set, sprung)", "growth: teeth wear 0.1 a bite with nothing to restore them"],
+    "note": "Derives: teeth (hardness 4, edge 3) bring a thin cord to broken in ten bites and to pieces in twenty, and the fox takes no wound. Does not derive: the sapling springing upright, or why the fox gnaws rather than pulls."
+  },
+  {
+    "id": "build-07",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts."
+  },
+  {
+    "id": "build-08",
+    "status": "unbuilt",
+    "needs": ["prop: a precarious support (R3) with care setting how light a touch trips it", "E10 fuse / unobserved waiting as a rate of something crossing (principle 4, abundance of creatures)", "creature routine movement", "fall as X1 then X2 on a body with momentum from mass and height", "aim: whether it lands on the creature"],
+    "note": "No test. Force can wound a body, but only from an instrument with an actor's effort; a falling rock has none."
+  },
+  {
+    "id": "build-09",
+    "status": "unbuilt",
+    "needs": ["throw (X1) and aim", "shaking passed through a joined structure (R4) to things on it", "yield knocked loose (E3 from a plant's `produces`)", "latent things settled by disturbance (E11) not by search", "groups (a swarm), creature choices, sensing", "B6 fear / flight"],
+    "note": "No test."
+  },
+  {
+    "id": "build-10",
+    "status": "rule_error",
+    "needs": ["accumulation of snow as a place state and as an amount on a thing", "pitch (slope of a support) deciding whether it sheds", "join/prop to make the shelter", "deformation (bowing before breaking)"],
+    "note": "Derives: a bough roof (strength 3.4) takes a light fall of snow (mass level 1). RULE ERROR in load.ts `load`: weight is reduced from each bearing thing's effective mass level and never reads state.amount, so eight units of snow weigh exactly what half a unit does and the roof holds for ever. General rule: weight is mass level scaled by amount (S14) and summed, so an accumulating load crosses the strength threshold as an event. Accumulation itself is unbuilt; the amount was set by hand."
+  }
+]

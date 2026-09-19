@@ -1,0 +1,860 @@
+[
+  {
+    "id": "beast-01",
+    "domain": "beast",
+    "place": "A trapper's camp at the edge of a forest, embers glowing low, a sack of dried meat left near the fire.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["fox", "dried meat", "sack", "campfire embers", "trapper (asleep)"],
+    "outcome": "The fox smells the meat from downwind, waits until the embers die low and the camp goes still, then creeps in and drags the sack off into the brush. Nothing wakes the trapper, and by morning only a torn sack and a scattering of crumbs show anyone was there. If the fire had stayed high, or a dog had been tied nearby, the fox would have kept its distance.",
+    "steps": [
+      {
+        "process": "smell",
+        "agent": "fox",
+        "patient": "dried meat",
+        "instrument": null,
+        "because": ["meat is fragrant", "wind is favorable", "fox is hungry"],
+        "effects": ["fox learns location of meat"],
+        "numbers": ["how far the scent carries, from wind strength"]
+      },
+      {
+        "process": "take",
+        "agent": "fox",
+        "patient": "dried meat",
+        "instrument": "sack",
+        "because": ["sack is unguarded", "camp is quiet", "fox is bold"],
+        "effects": ["transfers dried meat from trapper to fox", "creates torn sack", "fox gains food"],
+        "numbers": ["how much meat taken, from sack size"]
+      }
+    ],
+    "latent": ["whether a dog was tied nearby", "how deeply the trapper sleeps"],
+    "state_after": ["sack: torn, empty", "trapper: unaware", "fox: fed, gone"],
+    "stress": "an animal's own hunger and caution drive an action with nobody typing",
+    "temptation": "a rule that says foxes always steal from camps at night"
+  },
+  {
+    "id": "beast-02",
+    "domain": "beast",
+    "place": "A rocky hillside den at dusk, a lone wolf watching from thirty paces, thin and wary of humans.",
+    "initiator": "player",
+    "lines": ["tame the wolf", "throw it some meat"],
+    "things": ["wolf", "player", "strip of meat", "den"],
+    "outcome": "The wolf will not come near while the player stands close; it circles at a distance and only takes the meat after the player backs away and waits. One offering does not make a tame wolf: it takes repeated, careful feedings over several days before the wolf stops fleeing at the player's approach, and even then it will bolt at any sudden move or unfamiliar smell. A single scrap thrown and left just gets eaten, nothing more.",
+    "steps": [
+      {
+        "process": "throw",
+        "agent": "player",
+        "patient": "strip of meat",
+        "instrument": null,
+        "because": ["meat is edible", "wolf is hungry"],
+        "effects": ["moves strip of meat to ground near wolf"],
+        "numbers": ["how far the throw lands from the wolf"]
+      },
+      {
+        "process": "retreat",
+        "agent": "player",
+        "patient": null,
+        "instrument": null,
+        "because": ["wolf is wary", "distance is calming"],
+        "effects": ["wolf loses fear"],
+        "numbers": ["how much distance is enough"]
+      },
+      {
+        "process": "eat",
+        "agent": "wolf",
+        "patient": "strip of meat",
+        "instrument": null,
+        "because": ["wolf is hungry", "meat is unguarded"],
+        "effects": ["consumes strip of meat", "wolf fear down"],
+        "numbers": ["how much fear drops per feeding"]
+      }
+    ],
+    "latent": ["whether this wolf has been fed by humans before", "how hungry the wolf already is"],
+    "state_after": ["wolf: fed once, still wary, fear lowered slightly", "player: no bond yet"],
+    "stress": "taming is a slow accumulation, not a single successful action",
+    "temptation": "a rule that says feeding a wolf once tames it"
+  },
+  {
+    "id": "beast-03",
+    "domain": "beast",
+    "place": "A narrow dead-end gully in scrubland, walls too steep to climb, a wild boar rooting at the far end.",
+    "initiator": "player",
+    "lines": ["corner the boar", "grab it"],
+    "things": ["boar", "player", "gully walls"],
+    "outcome": "Chasing the boar into the gully works exactly as planned, but a boar with nowhere to run does not give up: it turns and charges instead of cowering. The player gets gored before it barrels past and escapes anyway, so the attempt costs a wound and gains nothing. A cornered animal that cannot flee becomes far more dangerous, not easier to catch.",
+    "steps": [
+      {
+        "process": "chase",
+        "agent": "player",
+        "patient": "boar",
+        "instrument": null,
+        "because": ["boar is fleeing", "gully is narrow"],
+        "effects": ["moves boar to gully end"],
+        "numbers": ["how fast the boar can outrun the player"]
+      },
+      {
+        "process": "corner",
+        "agent": "player",
+        "patient": "boar",
+        "instrument": null,
+        "because": ["gully is steep", "boar is trapped"],
+        "effects": ["boar gains desperation"],
+        "numbers": []
+      },
+      {
+        "process": "attack",
+        "agent": "boar",
+        "patient": "player",
+        "instrument": "tusks",
+        "because": ["boar is cornered", "boar is desperate"],
+        "effects": ["player gains wound", "player loses footing"],
+        "numbers": ["how much damage from tusks"]
+      }
+    ],
+    "latent": ["whether the gully truly has no other exit"],
+    "state_after": ["player: wounded, boar gone", "boar: fled past player, unharmed"],
+    "stress": "fear response flips from flight to fight once escape is blocked",
+    "temptation": "a rule that says a cornered animal always gives up and can be grabbed"
+  },
+  {
+    "id": "beast-04",
+    "domain": "beast",
+    "place": "An open meadow at the treeline where a small herd of deer graze near a line of snares the player set the day before.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["deer herd", "thunder", "snares", "meadow grass"],
+    "outcome": "A crack of thunder sends the whole herd bolting at once in the same direction, the way a startled group moves as one rather than scattering. They run straight through the snare line, snapping two of the three lines and flattening the marked trail the player had been using to find them. Nothing was hunting the deer and nobody typed anything; the storm did it, and the player only discovers the damage when they next check the snares.",
+    "steps": [
+      {
+        "process": "startle",
+        "agent": "thunder",
+        "patient": "deer herd",
+        "instrument": null,
+        "because": ["thunder is loud", "deer are skittish"],
+        "effects": ["deer herd gains fear", "moves deer herd to treeline"],
+        "numbers": ["how far the herd runs"]
+      },
+      {
+        "process": "trample",
+        "agent": "deer herd",
+        "patient": "snares",
+        "instrument": "hooves",
+        "because": ["snares are fragile", "path is narrow"],
+        "effects": ["snares loses function", "creates flattened trail"],
+        "numbers": ["how many snares break"]
+      }
+    ],
+    "latent": ["which direction the herd bolts", "whether any deer is caught in a snare while fleeing"],
+    "state_after": ["snares: two broken, one intact", "deer herd: moved off, still fearful", "meadow: trail flattened"],
+    "stress": "a herd's flight is a single reaction shared by many bodies, not each animal deciding alone",
+    "temptation": "a rule naming these specific snares and this specific storm"
+  },
+  {
+    "id": "beast-05",
+    "domain": "beast",
+    "place": "A clearing at night, a campfire burning low, two wolves' eyes visible at the treeline earlier in the evening.",
+    "initiator": "player",
+    "lines": ["keep the fire going", "sleep"],
+    "things": ["campfire", "firewood", "player", "wolves", "treeline"],
+    "outcome": "While the fire burns bright the wolves keep their distance, pacing the treeline but never closing in. The player falls asleep without feeding it again, and over the next few hours the fire burns down to embers; once it is low enough and dark enough, the wolves' caution fades and they creep close to investigate the camp. Whether they find anything worth taking depends on what was left out, but the light that was keeping them off is gone by the time they arrive.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "campfire",
+        "patient": "firewood",
+        "instrument": null,
+        "because": ["firewood is flammable"],
+        "effects": ["consumes firewood", "creates light"],
+        "numbers": ["how long the wood lasts"]
+      },
+      {
+        "process": "avoid",
+        "agent": "wolves",
+        "patient": "campfire",
+        "instrument": null,
+        "because": ["fire is bright", "wolves are wary"],
+        "effects": ["wolves gains distance"],
+        "numbers": ["how close the wolves come while fire is bright"]
+      },
+      {
+        "process": "dim",
+        "agent": "campfire",
+        "patient": null,
+        "instrument": null,
+        "because": ["firewood is spent", "fire is untended"],
+        "effects": ["campfire light down"],
+        "numbers": ["how many hours until it is low"]
+      },
+      {
+        "process": "approach",
+        "agent": "wolves",
+        "patient": "camp",
+        "instrument": null,
+        "because": ["fire is dim", "camp is quiet"],
+        "effects": ["wolves loses fear", "moves wolves to camp edge"],
+        "numbers": ["how close they come"]
+      }
+    ],
+    "latent": ["whether food or scraps were left where the wolves can reach them"],
+    "state_after": ["campfire: embers only", "wolves: at the camp's edge, cautious but closer", "player: asleep, unaware"],
+    "stress": "a deterrent that only works while it is actively maintained, and fails silently as it fades",
+    "temptation": "a rule that fire always keeps wolves away for the whole night"
+  },
+  {
+    "id": "beast-06",
+    "domain": "beast",
+    "place": "A hedge at the forest edge with a small bird's nest at eye height, three eggs inside, the parent birds foraging nearby.",
+    "initiator": "player",
+    "lines": ["take the eggs"],
+    "things": ["bird nest", "eggs", "parent birds", "hedge", "player", "fox"],
+    "outcome": "Taking the eggs is easy enough, but the parent birds return within moments, see the empty nest and the player still nearby, and dive at the player's head with alarm calls loud enough to carry across the clearing. The player gets away with the eggs, though the broken shell left at the nest carries a scent that a fox picks up on its rounds that evening, drawn in by the smell of yolk on the ground rather than anything left in the nest itself.",
+    "steps": [
+      {
+        "process": "take",
+        "agent": "player",
+        "patient": "eggs",
+        "instrument": null,
+        "because": ["eggs are unguarded", "nest is reachable"],
+        "effects": ["transfers eggs from parent birds to player", "creates empty nest"],
+        "numbers": ["how many eggs are taken"]
+      },
+      {
+        "process": "see",
+        "agent": "parent birds",
+        "patient": "empty nest",
+        "instrument": null,
+        "because": ["nest is visible", "eggs are gone"],
+        "effects": ["parent birds learns eggs are gone"],
+        "numbers": []
+      },
+      {
+        "process": "attack",
+        "agent": "parent birds",
+        "patient": "player",
+        "instrument": "beaks",
+        "because": ["parent birds are defensive", "player is close"],
+        "effects": ["player gains minor wound", "creates alarm calls"],
+        "numbers": ["how many dive attacks land"]
+      },
+      {
+        "process": "smell",
+        "agent": "fox",
+        "patient": "broken eggshell",
+        "instrument": null,
+        "because": ["eggshell is fragrant", "fox is nearby"],
+        "effects": ["fox learns food is near", "moves fox to hedge"],
+        "numbers": ["how many hours until the fox arrives"]
+      }
+    ],
+    "latent": ["whether the parent birds are still nearby when the player takes the eggs", "whether the fox's usual route passes this hedge"],
+    "state_after": ["nest: empty, abandoned", "player: has eggs, minor wound", "hedge: fox nosing through it by evening"],
+    "stress": "one action ripples into two unrelated consequences through two different senses, sight for the birds and smell for the fox",
+    "temptation": "a rule that egg-taking always triggers a fox visit that evening"
+  },
+  {
+    "id": "beast-07",
+    "domain": "beast",
+    "place": "A grassy slope beside a copse, home to a small rabbit warren that has been growing for some seasons.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["rabbit warren", "rabbits", "grass", "slope"],
+    "outcome": "With no predators pressing them and mild weather, the warren keeps producing more rabbits than die off, and the burrow system spreads wider under the slope week by week. The rabbits graze the same patch of grass down to bare earth long before it can regrow, and by the time anyone walks through, the once-green slope is patchy dirt with burrow holes and a warren twice the size it was a season ago. Nobody caused this; it is what an unchecked population does to a place over time.",
+    "steps": [
+      {
+        "process": "breed",
+        "agent": "rabbits",
+        "patient": null,
+        "instrument": null,
+        "because": ["rabbits are thriving", "predators are absent"],
+        "effects": ["rabbits numbers up"],
+        "numbers": ["how many rabbits added per season"]
+      },
+      {
+        "process": "graze",
+        "agent": "rabbits",
+        "patient": "grass",
+        "instrument": null,
+        "because": ["grass is edible", "rabbits are numerous"],
+        "effects": ["grass coverage down"],
+        "numbers": ["how many weeks until grass is bare"]
+      },
+      {
+        "process": "dig",
+        "agent": "rabbits",
+        "patient": "slope",
+        "instrument": "burrows",
+        "because": ["soil is soft", "warren is crowded"],
+        "effects": ["creates burrow holes", "slope gains erosion"],
+        "numbers": ["how much the warren expands"]
+      }
+    ],
+    "latent": ["whether a fox or stoat finds the warren before the grass is gone"],
+    "state_after": ["slope: bare patches, more burrow holes", "warren: larger", "grass: thin, recovering slowly if at all"],
+    "stress": "unobserved time still changes a place, computed by rule with nobody watching",
+    "temptation": "a rule hard-coding this warren's size on a timer"
+  },
+  {
+    "id": "beast-08",
+    "domain": "beast",
+    "place": "A hillside pasture at dusk where a farmer's goat grazes near a line of scrub, a wildcat lying flat in the brush downwind.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["wildcat", "goat", "scrub", "pasture", "wind"],
+    "outcome": "The wildcat has been lying still in the scrub for a while, staying downwind so the goat cannot smell it, inching closer only when the goat's head is down grazing. It gets close enough for a rush, but the goat lifts its head at the wrong moment, spots the movement, and bolts bleating toward the farmhouse before the cat can close the distance. The cat does not chase far into the open; it breaks off and slips back into the scrub, hungry and cautious, to try again another evening.",
+    "steps": [
+      {
+        "process": "wait",
+        "agent": "wildcat",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["wildcat is downwind", "goat is unaware"],
+        "effects": ["wildcat gains position"],
+        "numbers": ["how long it waits before moving"]
+      },
+      {
+        "process": "creep",
+        "agent": "wildcat",
+        "patient": "scrub",
+        "instrument": null,
+        "because": ["scrub is cover", "goat is distracted"],
+        "effects": ["moves wildcat to closer cover"],
+        "numbers": ["how close it gets before being noticed"]
+      },
+      {
+        "process": "notice",
+        "agent": "goat",
+        "patient": "wildcat",
+        "instrument": null,
+        "because": ["wildcat is visible now", "goat is alert"],
+        "effects": ["goat gains fear", "goat learns danger is near"],
+        "numbers": []
+      },
+      {
+        "process": "flee",
+        "agent": "goat",
+        "patient": null,
+        "instrument": null,
+        "because": ["goat is afraid", "farmhouse is safe"],
+        "effects": ["moves goat to farmhouse"],
+        "numbers": ["how fast the goat can outrun the cat in the open"]
+      }
+    ],
+    "latent": ["whether the wind shifts mid-stalk and gives the cat away by scent instead"],
+    "state_after": ["wildcat: back in scrub, still hungry", "goat: safe near farmhouse, spooked"],
+    "stress": "a predator's approach depends on wind and cover and can still fail at the last moment",
+    "temptation": "a rule that a stalking predator always succeeds or always fails on a fixed roll, with no cover or wind involved"
+  },
+  {
+    "id": "beast-09",
+    "domain": "beast",
+    "place": "A hollow log deep in the woods where a bear has cached a half-eaten carcass under leaves and dirt, the bear resting nearby, unseen.",
+    "initiator": "player",
+    "lines": ["steal the bear's food"],
+    "things": ["bear", "carcass", "hollow log", "leaves", "player"],
+    "outcome": "The cache is easy enough to find by the smell, but a bear guarding a food cache does not wander far from it, and it is awake and close by when the player starts digging through the leaves. It charges before the player has anything in hand, and the attempt ends with the player fleeing empty-handed and lucky not to be caught. Cached food is defended food; the smell that leads a player to it usually leads the owner right back too.",
+    "steps": [
+      {
+        "process": "smell",
+        "agent": "player",
+        "patient": "carcass",
+        "instrument": null,
+        "because": ["carcass is fragrant", "cache is shallow"],
+        "effects": ["player learns cache location"],
+        "numbers": ["how easy the scent is to trace"]
+      },
+      {
+        "process": "dig",
+        "agent": "player",
+        "patient": "leaves",
+        "instrument": "hands",
+        "because": ["cache is shallow", "leaves are loose"],
+        "effects": ["creates disturbed leaves"],
+        "numbers": ["how long digging takes"]
+      },
+      {
+        "process": "charge",
+        "agent": "bear",
+        "patient": "player",
+        "instrument": null,
+        "because": ["bear is close", "bear is protective"],
+        "effects": ["player gains fear", "moves player away from cache"],
+        "numbers": ["how close the bear was before charging"]
+      }
+    ],
+    "latent": ["how far the bear had actually gone before returning"],
+    "state_after": ["player: fled, nothing gained, shaken", "cache: undisturbed, bear guarding it more closely now"],
+    "stress": "an animal defends a cache the way it defends a den, not just a meal in front of it",
+    "temptation": "a rule that a bear's cache can only be stolen when the bear is 'away', with no check on how close by is"
+  },
+  {
+    "id": "beast-10",
+    "domain": "beast",
+    "place": "A dead stag lying in a forest clearing where it collapsed from age, at the start of a well-used deer trail.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["dead stag", "crows", "foxes", "wolves", "clearing", "deer trail"],
+    "outcome": "Over the first day, crows find the carcass first and start picking at it, their calls carrying and drawing attention. By the second day a fox or two has worked out where the noise is coming from and joins in once the crows have opened it up, and within a few more days a wolf pack passing through catches the smell and takes over the kill outright, driving off the smaller scavengers. What was a quiet stretch of deer trail becomes, for about a week, a place larger predators pass through often, and any deer or traveller using that trail meets more of them than before.",
+    "steps": [
+      {
+        "process": "decay",
+        "agent": "time",
+        "patient": "dead stag",
+        "instrument": null,
+        "because": ["stag is dead", "meat is perishable"],
+        "effects": ["dead stag gains scent"],
+        "numbers": ["how many hours until scent carries far"]
+      },
+      {
+        "process": "find",
+        "agent": "crows",
+        "patient": "dead stag",
+        "instrument": null,
+        "because": ["scent is strong", "crows are opportunistic"],
+        "effects": ["crows learns carcass location", "consumes dead stag"],
+        "numbers": ["how much the crows eat before others arrive"]
+      },
+      {
+        "process": "find",
+        "agent": "foxes",
+        "patient": "dead stag",
+        "instrument": null,
+        "because": ["crow calls are loud", "carcass is opened"],
+        "effects": ["foxes learns carcass location", "consumes dead stag"],
+        "numbers": ["how many days until foxes arrive"]
+      },
+      {
+        "process": "claim",
+        "agent": "wolves",
+        "patient": "dead stag",
+        "instrument": null,
+        "because": ["scent is far-reaching", "wolves are dominant"],
+        "effects": ["moves wolves to clearing", "transfers dead stag from foxes to wolves"],
+        "numbers": ["how many days until wolves arrive and how long they stay"]
+      }
+    ],
+    "latent": ["whether any predator finds the carcass before it starts to smell", "how long the wolves linger once the carcass is gone"],
+    "state_after": ["dead stag: mostly consumed", "clearing: wolf activity for about a week", "deer trail: avoided by deer while wolves linger"],
+    "stress": "one event unfolds in stages over days, each scavenger's arrival changing what the next one finds",
+    "temptation": "a rule that spawns a fixed sequence of scavengers on a timer regardless of scent or distance"
+  },
+  {
+    "id": "folk-01",
+    "domain": "folk",
+    "place": "A crowded market stall selling bread, late morning, the baker busy weighing flour for another customer.",
+    "initiator": "player",
+    "lines": ["steal the bread"],
+    "things": ["bread", "stall", "baker", "bystander", "player"],
+    "outcome": "The baker's back is turned, but a bystander a few feet away has a clear line of sight and watches the player palm a loaf and walk off. Nobody stops the player on the spot, but the bystander mentions it to the baker a couple of hours later when they happen to cross paths again, by which point the player is long gone and nothing can be recovered. The theft worked; what it cost is that the baker now has a description to go on next time the player is at that stall.",
+    "steps": [
+      {
+        "process": "take",
+        "agent": "player",
+        "patient": "bread",
+        "instrument": null,
+        "because": ["baker is distracted", "bread is reachable"],
+        "effects": ["transfers bread from baker to player"],
+        "numbers": ["how many loaves taken"]
+      },
+      {
+        "process": "see",
+        "agent": "bystander",
+        "patient": "player",
+        "instrument": null,
+        "because": ["bystander is nearby", "light is good"],
+        "effects": ["bystander learns who took the bread"],
+        "numbers": []
+      },
+      {
+        "process": "tell",
+        "agent": "bystander",
+        "patient": "baker",
+        "instrument": null,
+        "because": ["bystander is talkative", "baker is familiar"],
+        "effects": ["baker learns who took the bread"],
+        "numbers": ["how many hours pass before they meet"]
+      }
+    ],
+    "latent": ["whether the bystander even cares enough to mention it", "whether the baker recognises the player by sight later"],
+    "state_after": ["player: has bread, unrecognised for now", "baker: knows a description, suspicious of the player next visit"],
+    "stress": "being unseen by the victim is not the same as being unseen by anyone, and a witness can close that gap later",
+    "temptation": "a rule that theft is only ever caught or uncaught at the moment it happens"
+  },
+  {
+    "id": "folk-02",
+    "domain": "folk",
+    "place": "A town street at night, one shuttered doorway in deep shadow, a night watchman walking his usual round nearby.",
+    "initiator": "player",
+    "lines": ["hide in the doorway", "wait for him to pass"],
+    "things": ["doorway", "watchman", "loose plank", "shadow", "player"],
+    "outcome": "The shadow is deep enough that the watchman's lantern does not reach the player at first, and waiting quietly would likely have worked. But shifting weight onto a loose plank underfoot makes it creak loudly in the quiet street, and the watchman stops and turns his lantern straight at the doorway. Being unseen depends on staying both out of the light and quiet, and this fails on the second count even though the first held.",
+    "steps": [
+      {
+        "process": "hide",
+        "agent": "player",
+        "patient": null,
+        "instrument": "doorway shadow",
+        "because": ["doorway is dark", "street is lit elsewhere"],
+        "effects": ["player gains concealment"],
+        "numbers": ["how dark the shadow is"]
+      },
+      {
+        "process": "creak",
+        "agent": "loose plank",
+        "patient": null,
+        "instrument": null,
+        "because": ["plank is loose", "weight is sudden"],
+        "effects": ["creates noise"],
+        "numbers": ["how far the sound carries"]
+      },
+      {
+        "process": "hear",
+        "agent": "watchman",
+        "patient": "loose plank noise",
+        "instrument": null,
+        "because": ["street is quiet", "noise is close"],
+        "effects": ["watchman learns something moved nearby", "moves watchman to doorway"],
+        "numbers": []
+      }
+    ],
+    "latent": ["whether the plank was loose before the player stepped on it"],
+    "state_after": ["player: spotted, no longer hidden", "watchman: alert, approaching"],
+    "stress": "concealment from light and concealment from sound are separate conditions, and either alone can fail you",
+    "temptation": "a rule that darkness alone makes a hiding player undetectable"
+  },
+  {
+    "id": "folk-03",
+    "domain": "folk",
+    "place": "A market square at midday, a farmer's stall stacked with turnips, the player carrying a spare knife.",
+    "initiator": "player",
+    "lines": ["trade the knife for turnips"],
+    "things": ["knife", "turnips", "farmer", "player", "stall"],
+    "outcome": "The farmer looks the knife over, decides it is worth more than a handful of turnips but less than a sack, and the two settle on a fair sack's worth without much haggling. The exchange goes through cleanly: the player walks off with turnips, the farmer with a knife that is worth having. Nothing about this one goes wrong; it is the plain case a fair trade looks like when both sides want what the other is offering.",
+    "steps": [
+      {
+        "process": "offer",
+        "agent": "player",
+        "patient": "knife",
+        "instrument": null,
+        "because": ["player wants turnips", "farmer sells turnips"],
+        "effects": ["farmer learns player wants to trade"],
+        "numbers": ["what the knife is worth to the farmer"]
+      },
+      {
+        "process": "trade",
+        "agent": "farmer",
+        "patient": "knife",
+        "instrument": null,
+        "because": ["knife is useful", "turnips are affordable"],
+        "effects": ["transfers knife from player to farmer", "transfers turnips from farmer to player"],
+        "numbers": ["how many turnips match the knife's worth"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: has turnips, no knife", "farmer: has knife, fewer turnips"],
+    "stress": "a trade needs both sides to value what they're getting more than what they're giving up, with no lying or force involved",
+    "temptation": "a rule with a fixed exchange rate for knives and turnips"
+  },
+  {
+    "id": "folk-04",
+    "domain": "folk",
+    "place": "A farmhouse at the roadside where the player, visibly tired and hungry, stops to ask directions.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["farmer", "bread and cheese", "player", "farmhouse"],
+    "outcome": "The farmer sees a traveller who looks worn out and, without being asked, brings out bread and cheese and waves off any offer to pay. Nothing is said about owing anything back, and the player eats and moves on. Three days later, passing back through with a cart stuck in the mud outside that same farmhouse, the farmer is the first to come out and expects help hauling it free before offering more than a token hand themselves, the unspoken sense that a kindness once given is a kindness owed.",
+    "steps": [
+      {
+        "process": "see",
+        "agent": "farmer",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player is tired", "farmer is observant"],
+        "effects": ["farmer learns player is in need"],
+        "numbers": []
+      },
+      {
+        "process": "give",
+        "agent": "farmer",
+        "patient": "bread and cheese",
+        "instrument": null,
+        "because": ["farmer is generous", "player is needy"],
+        "effects": ["transfers bread and cheese from farmer to player"],
+        "numbers": ["how much food is given"]
+      },
+      {
+        "process": "expect",
+        "agent": "farmer",
+        "patient": "player",
+        "instrument": null,
+        "because": ["farmer is expectant", "help is needed"],
+        "effects": ["farmer gains expectation of the player"],
+        "numbers": ["how many days since the gift"]
+      }
+    ],
+    "latent": ["whether the player remembers the earlier gift at all"],
+    "state_after": ["player: fed, unaware of any debt", "farmer: expecting reciprocity, mildly put out if refused"],
+    "stress": "a gift given with no terms still creates an obligation that surfaces later, uninvited",
+    "temptation": "a rule that a gift always creates a formal, trackable debt with a fixed repayment"
+  },
+  {
+    "id": "folk-05",
+    "domain": "folk",
+    "place": "A town gate where a guard is inspecting goods, the player carrying a bundle that looks like it could be stolen.",
+    "initiator": "player",
+    "lines": ["tell him I found it"],
+    "things": ["guard", "bundle", "player", "town gate", "goods' true owner"],
+    "outcome": "The guard has no particular reason to doubt a stranger with an unremarkable story, and the lie about finding the bundle gets the player through the gate without trouble. It holds up for a while, but the goods still belong to somebody, and when the real owner spots them later being carried or sold by the player, they recognise their own property and tell the guard themselves. The guard remembers the earlier story does not match, and stops taking the player's word for granted from then on.",
+    "steps": [
+      {
+        "process": "lie",
+        "agent": "player",
+        "patient": "guard",
+        "instrument": null,
+        "because": ["guard is trusting", "story is plausible"],
+        "effects": ["guard learns a false origin for the bundle"],
+        "numbers": ["how convincing the story is"]
+      },
+      {
+        "process": "pass",
+        "agent": "player",
+        "patient": "town gate",
+        "instrument": null,
+        "because": ["guard is convinced"],
+        "effects": ["moves player past town gate"],
+        "numbers": []
+      },
+      {
+        "process": "recognise",
+        "agent": "goods' true owner",
+        "patient": "bundle",
+        "instrument": null,
+        "because": ["owner is familiar with the goods", "bundle is visible"],
+        "effects": ["goods' true owner learns player has the bundle"],
+        "numbers": ["how many days pass before the owner spots it"]
+      },
+      {
+        "process": "tell",
+        "agent": "goods' true owner",
+        "patient": "guard",
+        "instrument": null,
+        "because": ["owner is aggrieved", "guard is reachable"],
+        "effects": ["guard learns the earlier story was false", "guard gains distrust of player"],
+        "numbers": []
+      }
+    ],
+    "latent": ["whether the true owner ever crosses paths with the guard or the player again"],
+    "state_after": ["player: through the gate, but flagged with the guard now", "guard: distrustful of player's word going forward"],
+    "stress": "a lie that works in the moment can still be unwound later by someone the liar never accounted for",
+    "temptation": "a rule that a lie either succeeds permanently or fails immediately, with no later exposure"
+  },
+  {
+    "id": "folk-06",
+    "domain": "folk",
+    "place": "An inn where the player borrows a lantern for a night trip to the mill and back, and leaves town before dawn without returning it.",
+    "initiator": "player",
+    "lines": ["borrow the lantern"],
+    "things": ["lantern", "innkeeper", "player", "fellow traveller", "another town"],
+    "outcome": "The innkeeper lends the lantern in good faith and expects it back the next morning; instead the player leaves town before dawn still carrying it, and the innkeeper is left short a lantern and out whatever it cost. It takes a few days for word to reach the next town over, carried by a traveller who stopped at the same inn and heard the innkeeper complain about it, and by the time the player arrives there the traveller is already wary and slow to offer any trust or goods on credit.",
+    "steps": [
+      {
+        "process": "lend",
+        "agent": "innkeeper",
+        "patient": "lantern",
+        "instrument": null,
+        "because": ["innkeeper is trusting", "player is polite"],
+        "effects": ["transfers lantern from innkeeper to player"],
+        "numbers": []
+      },
+      {
+        "process": "leave",
+        "agent": "player",
+        "patient": "town",
+        "instrument": null,
+        "because": ["player is eager to travel", "lantern is unreturned"],
+        "effects": ["moves player away from town", "innkeeper loses lantern"],
+        "numbers": ["how many days before the debt is noticed"]
+      },
+      {
+        "process": "complain",
+        "agent": "innkeeper",
+        "patient": "fellow traveller",
+        "instrument": null,
+        "because": ["innkeeper is out a lantern", "traveller is present"],
+        "effects": ["fellow traveller learns the player did not repay a debt"],
+        "numbers": []
+      },
+      {
+        "process": "meet",
+        "agent": "fellow traveller",
+        "patient": "player",
+        "instrument": null,
+        "because": ["traveller is wary now", "road is shared"],
+        "effects": ["fellow traveller gains distrust of player"],
+        "numbers": ["how many days and how far the story travels"]
+      }
+    ],
+    "latent": ["whether the player even meant to keep the lantern or just forgot"],
+    "state_after": ["innkeeper: out one lantern, telling the story", "player: unaware their reputation has moved ahead of them", "fellow traveller: guarded around the player"],
+    "stress": "an unpaid debt is not erased by leaving town; it travels through the people who heard about it",
+    "temptation": "a rule that reputation only exists in the town where the debt was made"
+  },
+  {
+    "id": "folk-07",
+    "domain": "folk",
+    "place": "A rutted road outside a village at dusk, an old woman struggling with a cart wheel stuck in a rut, a young traveller passing by.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["old woman", "cart", "young traveller", "rutted road"],
+    "outcome": "The old woman is plainly struggling and the traveller stops without being asked, puts a shoulder to the cart, and gets the wheel free after a few minutes' effort; the two part on good terms and the traveller goes on their way. Nothing about this needed anyone to intervene or type anything: it happens between two people going about their evening, and it is worth noting only because the player happened to be nearby and watched the whole thing happen.",
+    "steps": [
+      {
+        "process": "see",
+        "agent": "young traveller",
+        "patient": "old woman",
+        "instrument": null,
+        "because": ["wheel is stuck", "woman is struggling"],
+        "effects": ["young traveller learns old woman needs help"],
+        "numbers": []
+      },
+      {
+        "process": "help",
+        "agent": "young traveller",
+        "patient": "cart",
+        "instrument": "shoulder",
+        "because": ["traveller is capable", "wheel is heavy"],
+        "effects": ["old woman gains relief", "creates goodwill between them"],
+        "numbers": ["how long the effort takes"]
+      }
+    ],
+    "latent": ["whether the old woman offers anything in thanks", "whether the player is noticed watching"],
+    "state_after": ["old woman: cart freed, grateful", "young traveller: unremarked, moved on", "player: witnessed it, nothing more"],
+    "stress": "helping a stranger is an ordinary background event, not something that requires the player to be involved at all",
+    "temptation": "a rule that NPC-to-NPC kindness only happens when the player triggers or is the target of it"
+  },
+  {
+    "id": "folk-08",
+    "domain": "folk",
+    "place": "A cart stopped at the roadside, a sack sitting on the ground a few feet from it, the cart's owner having stepped behind a hedge out of sight.",
+    "initiator": "player",
+    "lines": ["take the sack, looks abandoned"],
+    "things": ["sack", "cart", "cart owner", "hedge", "player"],
+    "outcome": "The sack looks ownerless enough, no one visibly with it, sitting loose by the roadside, but it belongs to the cart owner, who only stepped away for a moment. The owner comes back around the hedge while the player still has the sack in hand and assumes the worst, since there is no way for them to know the player genuinely believed it was unattended. Handing it straight back and explaining clears up the immediate accusation, but the owner stays wary and mentions it to the next person who asks after the player.",
+    "steps": [
+      {
+        "process": "take",
+        "agent": "player",
+        "patient": "sack",
+        "instrument": null,
+        "because": ["sack is unattended", "owner is out of sight"],
+        "effects": ["transfers sack from cart owner to player"],
+        "numbers": []
+      },
+      {
+        "process": "return",
+        "agent": "cart owner",
+        "patient": "cart",
+        "instrument": null,
+        "because": ["owner is quick", "errand is brief"],
+        "effects": ["cart owner learns sack is missing"],
+        "numbers": ["how many seconds the owner was gone"]
+      },
+      {
+        "process": "accuse",
+        "agent": "cart owner",
+        "patient": "player",
+        "instrument": null,
+        "because": ["sack is in player's hands", "owner is suspicious"],
+        "effects": ["cart owner gains suspicion of player"],
+        "numbers": []
+      },
+      {
+        "process": "give back",
+        "agent": "player",
+        "patient": "sack",
+        "instrument": null,
+        "because": ["player is honest", "owner is present"],
+        "effects": ["transfers sack from player to cart owner"],
+        "numbers": []
+      }
+    ],
+    "latent": ["whether anything else near the cart would have marked the sack as owned"],
+    "state_after": ["sack: back with cart owner", "player: cleared of the immediate accusation but still remembered with suspicion", "cart owner: wary, mentions it to others later"],
+    "stress": "an honest mistake about what counts as unattended still produces the same accusation a real theft would",
+    "temptation": "a rule that ownership is only ever settled by whether the player intended to steal"
+  },
+  {
+    "id": "folk-09",
+    "domain": "folk",
+    "place": "A village inn at evening, the innkeeper behind the bar, a new arrival stepping in who resembles a stranger who cheated the innkeeper out of a season's coin years before.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["innkeeper", "new arrival", "old grudge", "inn"],
+    "outcome": "The innkeeper takes one look at the new arrival, sees something in the face or the walk that recalls a stranger who swindled him out of a season's earnings years back, and refuses to serve him: no room, no food, told flatly to try elsewhere. It is not the same person, most likely, but the grudge does not need certainty to act, only a resemblance strong enough to trigger it. The player, drinking in the corner, only sees a stranger turned away for no reason anyone explains.",
+    "steps": [
+      {
+        "process": "see",
+        "agent": "innkeeper",
+        "patient": "new arrival",
+        "instrument": null,
+        "because": ["arrival is similar-looking", "memory is vivid"],
+        "effects": ["innkeeper learns a false identity for the new arrival"],
+        "numbers": []
+      },
+      {
+        "process": "refuse",
+        "agent": "innkeeper",
+        "patient": "new arrival",
+        "instrument": null,
+        "because": ["innkeeper is resentful", "trust is broken"],
+        "effects": ["new arrival loses lodging", "creates tension in the inn"],
+        "numbers": []
+      }
+    ],
+    "latent": ["whether the new arrival is actually connected to the old grudge at all"],
+    "state_after": ["new arrival: turned away, confused", "innkeeper: satisfied he kept the swindler out, possibly wrong", "player: witnessed an unexplained refusal"],
+    "stress": "a grudge acts on resemblance and memory, not on verified identity, and can misfire onto the wrong person",
+    "temptation": "a rule that a grudge only ever targets the exact person who caused it"
+  },
+  {
+    "id": "folk-10",
+    "domain": "folk",
+    "place": "A market corner at dusk, poorly lit, where the player is standing while, unseen by the player, someone else cuts a purse from a merchant's belt a few stalls away.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["purse", "merchant", "actual thief", "player", "witness", "market corner"],
+    "outcome": "The actual theft happens fast and the thief slips off into the crowd, but the light is bad enough that a witness who glimpses a figure near the merchant afterward cannot make out details, only a shape standing roughly where the player happens to be. When the witness later tells the merchant what they saw, the description fits the player closer than the real thief, who was never clearly seen at all, and the player ends up accused of something they had nothing to do with. Nothing the player did caused this; being in the wrong dim corner at the wrong moment was enough.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "actual thief",
+        "patient": "purse",
+        "instrument": "knife",
+        "because": ["merchant is distracted", "purse strings are weak"],
+        "effects": ["transfers purse from merchant to actual thief"],
+        "numbers": []
+      },
+      {
+        "process": "glimpse",
+        "agent": "witness",
+        "patient": "market corner",
+        "instrument": null,
+        "because": ["light is poor", "witness is late"],
+        "effects": ["witness learns a blurred sighting near the player"],
+        "numbers": ["how much detail the witness could make out"]
+      },
+      {
+        "process": "tell",
+        "agent": "witness",
+        "patient": "merchant",
+        "instrument": null,
+        "because": ["witness is well-meaning", "description is vague"],
+        "effects": ["merchant learns a false description matching the player"],
+        "numbers": []
+      }
+    ],
+    "latent": ["where the real thief actually stood versus where the player stood", "whether anyone else got a clearer look"],
+    "state_after": ["merchant: missing purse, suspicious of the player", "player: unaware they are now suspected", "actual thief: gone, unidentified"],
+    "stress": "poor light degrades a witness's account into something that can point at an innocent bystander instead of the culprit",
+    "temptation": "a rule that a witness's account is always either fully accurate or entirely useless, never degraded by conditions"
+  }
+]

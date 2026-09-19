@@ -1,0 +1,279 @@
+[
+  {
+    "id": "winter-01",
+    "domain": "wet-cold",
+    "place": "A frozen pond at the edge of the homestead, the ice thin near a spring that keeps the water moving underneath.",
+    "initiator": "player",
+    "lines": ["I climb out and run for the house", "I strip off my wet clothes and put on the dry wool by the fire"],
+    "things": ["pond ice", "player", "wet wool coat", "dry wool clothes", "hearth fire", "wool blanket"],
+    "outcome": "The ice gives way and the player goes in to the waist, soaking coat and boots in freezing water. Running home keeps them moving, but the wet wool clings and drags heat out fast; stripping it off for dry wool and the fire lets them warm back up over the next while, shivering hard but recovering. Staying in the wet clothes by the fire instead would have kept sapping warmth even next to the flames, and the shivering would have gotten worse rather than better.",
+    "steps": [
+      {"process": "break", "agent": "ice", "patient": "player", "instrument": null, "because": ["place is thin", "patient is heavy"], "effects": ["patient gains wet", "patient warmth down"], "numbers": ["how much weight the ice can bear before it fails"]},
+      {"process": "run", "agent": "player", "patient": "player", "instrument": null, "because": ["patient is wet", "place is cold"], "effects": ["patient warmth down", "player tiredness up"], "numbers": ["how fast body heat leaves wet skin in moving cold air"]},
+      {"process": "change", "agent": "player", "patient": "player", "instrument": "dry wool clothes", "because": ["instrument is dry", "instrument is insulating"], "effects": ["patient loses wet", "patient gains dry", "moves wet wool coat to peg"], "numbers": ["how long until shivering stops"]},
+      {"process": "warm", "agent": "hearth fire", "patient": "player", "instrument": null, "because": ["agent is hot", "patient is dry"], "effects": ["patient warmth up", "patient loses shivering"], "numbers": ["how long by the fire before warmth returns to normal"]}
+    ],
+    "latent": ["whether the spring keeps a patch of ice thin every winter in the same spot"],
+    "state_after": ["player: dry, warm again, tired", "wet wool coat: soaked, drying by the fire", "pond ice: broken near the spring"],
+    "stress": "wet insulation actively pulls heat out even near a fire, so drying is not optional",
+    "temptation": "a special rule for 'pond ice near the spring is dangerous' instead of a general thinness-of-ice property"
+  },
+  {
+    "id": "winter-02",
+    "domain": "insulation",
+    "place": "The homestead yard during a wet, near-freezing drizzle that turns to sleet by evening.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["player", "linen shirt", "wool coat", "firewood pile", "sleet"],
+    "outcome": "The linen shirt worn under the coat soaks through almost at once in the sleet and clings cold to the skin, doing almost nothing to hold warmth once wet. The wool coat over it helps some, since wool keeps some loft even damp, but the player stays chilled at the chest where the wet linen touches skin. By the time the wood is stacked they are shivering and slow to warm back up.",
+    "steps": [
+      {"process": "soak", "agent": "sleet", "patient": "linen shirt", "instrument": null, "because": ["patient is thin", "agent is wet"], "effects": ["patient gains wet", "player warmth down"], "numbers": ["how quickly linen saturates in sleet of that intensity"]},
+      {"process": "cling", "agent": "linen shirt", "patient": "player", "instrument": null, "because": ["agent is wet", "agent is close"], "effects": ["player warmth down", "player gains chilled chest"], "numbers": ["how much heat a wet layer against skin draws away"]},
+      {"process": "cover", "agent": "player", "patient": "player", "instrument": "wool coat", "because": ["instrument is insulating", "place is cold"], "effects": ["player warmth up", "player gains damp coat"], "numbers": ["how much a damp wool layer slows further heat loss compared to dry"]}
+    ],
+    "latent": ["that the wool coat was already slightly damp from the morning and would have wet through fully given more time"],
+    "state_after": ["linen shirt: soaked, cold against skin", "wool coat: damp but still lofted", "player: chilled at chest, shivering, wood stacked"],
+    "stress": "a fabric's insulating property, not the fabric itself, and how wetness cancels it differently per material",
+    "temptation": "a rule that 'linen is bad, wool is good' instead of wetness interacting with thickness and loft"
+  },
+  {
+    "id": "winter-03",
+    "domain": "draft",
+    "place": "A one-room timber house at night with a stone hearth, one shutter warped and leaving a gap at its edge.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["house", "warped shutter", "hearth fire", "sleeping family", "wind"],
+    "outcome": "The wind rises overnight and finds the gap at the warped shutter, driving a thin stream of freezing air across the room that the fire cannot counter because a fire heats the air, it does not stop a draft. Even banked well, the fire cannot keep the side of the room nearest the gap warm, and whoever sleeps closest wakes stiff and cold while those on the far side stay fine. Nobody notices the cause until morning light shows frost on the inside wall by the shutter.",
+    "steps": [
+      {"process": "blow", "agent": "wind", "patient": "house", "instrument": "warped shutter", "because": ["instrument is gapped", "agent is strong"], "effects": ["place warmth down", "creates draft"], "numbers": ["how much cold air moves through a gap of that size per hour"]},
+      {"process": "cool", "agent": "draft", "patient": "sleeping family", "instrument": null, "because": ["patient is near place", "agent is cold"], "effects": ["patient warmth down", "patient gains stiff"], "numbers": ["how much colder the near side of the room gets than the far side"]},
+      {"process": "frost", "agent": "draft", "patient": "wall", "instrument": null, "because": ["patient is near gap", "agent is cold"], "effects": ["creates frost", "wall gains frost", "family learns cause of the cold"], "numbers": ["how low the surface temperature must fall for frost to form indoors"]}
+    ],
+    "latent": ["that the shutter has been warped since autumn and nobody fixed it"],
+    "state_after": ["warped shutter: still gapped", "wall near shutter: frosted", "family member nearest the gap: cold, stiff", "hearth fire: burned to embers, undiminished effect on the draft"],
+    "stress": "heat and draft are separate things; a fire raises air temperature but does not stop moving air, so a gap can beat a fire",
+    "temptation": "a rule specific to 'the warped shutter causes cold' instead of any gap letting outside air through a barrier"
+  },
+  {
+    "id": "winter-04",
+    "domain": "hypothermia",
+    "place": "A hunting shelter of piled stone and brush, one small fire near the open entrance, no door.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["hunter", "small fire", "firewood pile", "shelter", "wool bedroll"],
+    "outcome": "The fire is not fed and burns down over the night while the hunter sleeps. The wool bedroll holds some warmth, but the open entrance lets cold night air pool in as the fire's heat fades, and by the coldest hour before dawn the hunter is curled tight and shivering in their sleep without waking fully. They wake stiff, slow to think, clumsy with their hands, and sharply hungry, and have burned through a good part of the wood for no lasting effect since nobody woke to add more.",
+    "steps": [
+      {"process": "burn down", "agent": "small fire", "patient": "firewood pile", "instrument": null, "because": ["agent is fed", "instrument is unattended"], "effects": ["consumes firewood pile", "small fire loses flame"], "numbers": ["how long a given pile of wood burns unattended"]},
+      {"process": "cool", "agent": "shelter", "patient": "hunter", "instrument": null, "because": ["place is open", "agent is unheated"], "effects": ["patient warmth down", "patient gains shivering"], "numbers": ["how far body temperature drifts over a full night without a fire"]},
+      {"process": "wake", "agent": "hunter", "patient": "hunter", "instrument": null, "because": ["patient is cold", "patient is stiff"], "effects": ["patient gains slow thinking", "patient gains clumsy hands", "hunter hunger up"], "numbers": ["how long stiffness and slow thinking last after waking cold"]}
+    ],
+    "latent": ["how much wood was actually left unburned that could have been added"],
+    "state_after": ["small fire: out, embers only", "hunter: cold, stiff, slow, hungry, warming up", "firewood pile: mostly consumed"],
+    "stress": "unattended fuel runs out on its own schedule; nobody typing does not mean nothing happens",
+    "temptation": "a rule that 'sleeping by a fire keeps you warm' as a flat fact rather than fuel and time interacting"
+  },
+  {
+    "id": "winter-05",
+    "domain": "frostbite",
+    "place": "The homestead well-yard at dawn, all metal fittings rimed with frost, air well below freezing.",
+    "initiator": "player",
+    "lines": ["I grab the iron bucket handle with my bare hands to haul it up"],
+    "things": ["player", "bare hands", "iron bucket handle", "well rope", "frost"],
+    "outcome": "Bare skin against frost-covered iron loses heat far faster than against wood or rope, since metal carries heat away from the hand quickly, and within a short time the fingers gripping the handle go numb and white at the tips. The player can still work for a while without feeling it, which is itself the danger, and only notices when the fingers no longer bend properly. Warming them slowly indoors brings back stinging and colour; warming them fast against the stove would hurt worse and risk the skin.",
+    "steps": [
+      {"process": "grip", "agent": "player", "patient": "iron bucket handle", "instrument": "bare hands", "because": ["patient is metal", "patient is frosted"], "effects": ["instrument warmth down"], "numbers": ["how fast bare skin loses heat to frosted metal versus wood"]},
+      {"process": "numb", "agent": "cold", "patient": "bare hands", "instrument": null, "because": ["patient is exposed", "agent is cold"], "effects": ["patient gains numb", "patient loses feeling"], "numbers": ["how long before numbness sets in at that temperature"]},
+      {"process": "whiten", "agent": "cold", "patient": "fingertips", "instrument": null, "because": ["patient is extremity", "agent is prolonged"], "effects": ["patient gains frostnip", "patient loses dexterity"], "numbers": ["how far below freezing and how long before tissue is harmed"]},
+      {"process": "rewarm", "agent": "player", "patient": "fingertips", "instrument": "indoor air", "because": ["instrument is gradual", "patient is frostnipped"], "effects": ["patient warmth up", "patient gains stinging", "patient loses numb"], "numbers": ["how long safe slow rewarming takes"]}
+    ],
+    "latent": ["that the fingertips are pale rather than merely cold, meaning early frostbite rather than simple chill"],
+    "state_after": ["bare hands: warmed, stinging, fingertips tender", "iron bucket handle: still frosted", "player: aware to wear gloves next time"],
+    "stress": "metal draws heat from skin much faster than other materials at the same temperature, and numbness hides the injury as it happens",
+    "temptation": "a rule 'touching iron in winter causes frostbite' instead of general heat conduction plus exposure time"
+  },
+  {
+    "id": "winter-06",
+    "domain": "snow-blindness",
+    "place": "An open snowfield above the treeline, cloudless midday sun reflecting off unbroken snow.",
+    "initiator": "player",
+    "lines": ["I walk across the open snow to check the ridge for game"],
+    "things": ["player", "open snowfield", "midday sun", "no eye covering"],
+    "outcome": "The sun reflects off the flat snow into the player's eyes for hours with nothing shading them, and though nothing feels wrong at the time, by evening the eyes feel gritty and start to ache, worsening overnight into real pain and blurred, watery vision. It is not a wound anyone dealt but light and glare doing slow damage that shows up late. Resting the eyes in a dark room over the following day eases it; going back out into bright snow before that would make it worse.",
+    "steps": [
+      {"process": "reflect", "agent": "midday sun", "patient": "player", "instrument": "open snowfield", "because": ["instrument is bright", "instrument is unbroken"], "effects": ["player gains glare exposure"], "numbers": ["how many hours of glare exposure it takes to injure the eyes"]},
+      {"process": "irritate", "agent": "glare", "patient": "player", "instrument": null, "because": ["patient is uncovered", "agent is intense"], "effects": ["patient gains gritty eyes"], "numbers": ["delay between exposure and symptoms starting"]},
+      {"process": "worsen", "agent": "time", "patient": "player", "instrument": null, "because": ["patient is untreated", "patient is exposed"], "effects": ["patient gains eye pain", "patient gains blurred vision"], "numbers": ["how many hours until pain peaks"]},
+      {"process": "rest", "agent": "player", "patient": "player", "instrument": "dark room", "because": ["instrument is dark", "patient is injured"], "effects": ["patient loses eye pain", "patient warmth up"], "numbers": ["how many days of rest the eyes need to recover"]}
+    ],
+    "latent": ["that the ache building through the afternoon was already the injury starting, not just tiredness"],
+    "state_after": ["player: eyes aching, vision blurred, resting indoors", "open snowfield: unchanged"],
+    "stress": "damage from light and glare accumulates with exposure time and shows up only after a delay",
+    "temptation": "a rule 'snow causes blindness' instead of glare exposure over time versus eye protection"
+  },
+  {
+    "id": "winter-07",
+    "domain": "sweat-chill",
+    "place": "The woodpile behind the house, cold and still, no wind.",
+    "initiator": "player",
+    "lines": ["I chop wood for an hour", "I stop to rest against the shed wall"],
+    "things": ["player", "axe", "log pile", "wool coat", "sweat"],
+    "outcome": "An hour of hard chopping in a heavy wool coat works the player hot enough to sweat under the wool, and they open the coat to cool off as they work. The moment they stop and lean against the shed wall to rest, the sweat-damp shirt against skin starts pulling heat away in the still cold air, and within a short while they are shivering harder than before they started, colder than if they had never worked up a sweat at all. Closing the coat and moving again brings the warmth back, but resting still in sweat-damp clothes was the mistake.",
+    "steps": [
+      {"process": "labor", "agent": "player", "patient": "log pile", "instrument": "axe", "because": ["patient is hard", "agent is exerting"], "effects": ["player gains sweat", "player tiredness up", "player warmth up"], "numbers": ["how long hard labor takes to produce a sweat in cold air"]},
+      {"process": "cool", "agent": "still air", "patient": "player", "instrument": "sweat-damp shirt", "because": ["instrument is wet", "patient is still"], "effects": ["player warmth down", "player gains shivering"], "numbers": ["how fast a damp shirt chills a resting body compared to a dry one"]},
+      {"process": "close", "agent": "player", "patient": "player", "instrument": "wool coat", "because": ["instrument is insulating", "patient is chilled"], "effects": ["player warmth up", "player loses shivering"], "numbers": ["how long moving again takes to restore warmth"]}
+    ],
+    "latent": ["that the shirt was wetter under the arms and back than the player realized while still working"],
+    "state_after": ["player: warmed again, tired, shirt still damp under the coat", "log pile: reduced", "axe: put away"],
+    "stress": "exertion and rest reverse the effect of a wet layer: helpful while moving, dangerous once still",
+    "temptation": "a rule 'sweating is good, resting is good' as flat facts instead of wetness plus stillness plus cold air"
+  },
+  {
+    "id": "winter-08",
+    "domain": "fever",
+    "place": "The homestead over three cold, damp days following a soaking in freezing rain.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["player", "damp clothes", "freezing rain", "bed", "days passing"],
+    "outcome": "After a soaking in freezing rain that was shrugged off at the time, the player keeps working in clothes that never fully dry through, and over the following two days a persistent chill that will not shake off turns into aches, then a fever with sweats and shivering by turns. Nothing dramatic happens on any single day; it is the accumulation of unresolved cold and damp that finally overwhelms the body. Rest, warmth and dry bedding over several more days bring the fever down, but pushing through chores sick would have made it worse and slower to pass.",
+    "steps": [
+      {"process": "soak", "agent": "freezing rain", "patient": "player", "instrument": null, "because": ["agent is cold", "agent is prolonged"], "effects": ["player gains wet", "player warmth down"], "numbers": ["how long the rain lasted"]},
+      {"process": "persist", "agent": "damp clothes", "patient": "player", "instrument": null, "because": ["agent is damp", "patient is working"], "effects": ["player gains lingering chill"], "numbers": ["how many days of incomplete drying before illness sets in"]},
+      {"process": "sicken", "agent": "lingering chill", "patient": "player", "instrument": null, "because": ["patient is run down", "agent is accumulated"], "effects": ["player gains fever", "player gains aches", "player tiredness up"], "numbers": ["delay between the soaking and the fever appearing"]},
+      {"process": "recover", "agent": "player", "patient": "player", "instrument": "rest and dry bedding", "because": ["instrument is warm", "instrument is dry"], "effects": ["player loses fever", "player warmth up"], "numbers": ["how many days of rest the fever takes to break"]}
+    ],
+    "latent": ["that the clothes never actually dried through despite looking dry on the outside"],
+    "state_after": ["player: feverish then recovering, in bed", "damp clothes: finally dried and put away", "freezing rain: long since passed"],
+    "stress": "illness here is an accumulation over days, not an event, and shrugging off the original cause does not prevent it",
+    "temptation": "a rule 'getting rained on causes fever' instead of unresolved wet and cold compounding over days of continued exertion"
+  },
+  {
+    "id": "winter-09",
+    "domain": "water-carry",
+    "place": "The well at the edge of the yard, its surface iced over, the bucket rope stiff with frost.",
+    "initiator": "player",
+    "lines": ["I break the ice on the well and haul up a bucket", "I carry it back to the house"],
+    "things": ["player", "well", "ice", "bucket", "rope", "spilled water"],
+    "outcome": "Breaking the surface ice takes real effort, and the rope, stiff with its own frost, is awkward to haul on, so the bucket comes up unevenly and slops water over the rim onto the player's sleeve and glove on the way up. In the cold air that splash freezes onto the wool almost as fast as it lands, turning a small spill into a stiff, ice-crusted cuff that chafes and chills the wrist by the time they reach the house. The water itself makes it back mostly full.",
+    "steps": [
+      {"process": "break", "agent": "player", "patient": "ice", "instrument": "bucket", "because": ["patient is frozen", "instrument is heavy"], "effects": ["patient loses solid", "creates ice fragments"], "numbers": ["how much force breaks ice of that thickness"]},
+      {"process": "haul", "agent": "player", "patient": "bucket", "instrument": "frosted rope", "because": ["instrument is stiff", "patient is full"], "effects": ["player tiredness up", "creates spill", "transfers water from well to bucket"], "numbers": ["how much water is lost hauling unevenly"]},
+      {"process": "freeze", "agent": "cold air", "patient": "wool sleeve", "instrument": null, "because": ["patient is wet", "agent is cold"], "effects": ["patient gains ice crust", "player gains chafed wrist"], "numbers": ["how fast a splash freezes onto fabric in that air"]}
+    ],
+    "latent": ["that the rope's stiffness, not the ice, was what actually caused the spill"],
+    "state_after": ["well: open at the broken patch, will refreeze by morning", "wool sleeve: ice-crusted, chafing", "bucket: mostly full, carried inside"],
+    "stress": "a small, one-time spill becomes a lasting problem once the cold locks it in place as ice",
+    "temptation": "a rule 'wells freeze in winter' instead of the rope's stiffness and the spill's fate in cold air"
+  },
+  {
+    "id": "winter-10",
+    "domain": "ice-fall",
+    "place": "The path between the house and the barn, glazed with a hard sheet of ice under a light dusting of snow that hides it.",
+    "initiator": "player",
+    "lines": ["I carry the feed sack out to the barn"],
+    "things": ["player", "feed sack", "icy path", "hidden ice", "ankle"],
+    "outcome": "The path looks merely snowy but is ice underneath, and the weight of the feed sack thrown off balance is enough to put the player down hard when a foot slides out from under them. They catch themselves badly and the ankle twists under the fall, swelling almost at once and refusing to bear weight properly. For the rest of the day and into the next, carrying, climbing and fast walking are all out of reach, and chores that need two good legs have to wait or be done differently.",
+    "steps": [
+      {"process": "hide", "agent": "snow dusting", "patient": "icy path", "instrument": null, "because": ["agent is light", "patient is glazed"], "effects": ["place gains hidden hazard"], "numbers": ["how much snow it takes to hide ice from sight"]},
+      {"process": "slip", "agent": "player", "patient": "player", "instrument": "icy path", "because": ["instrument is slick", "agent is loaded"], "effects": ["player loses balance", "player gains fall"], "numbers": ["how much off-balance weight increases the chance of a fall"]},
+      {"process": "twist", "agent": "fall", "patient": "ankle", "instrument": null, "because": ["patient is loaded suddenly", "patient is turned"], "effects": ["patient gains swelling", "patient loses weight-bearing"], "numbers": ["how long the ankle needs before it bears weight again"]},
+      {"process": "limit", "agent": "twisted ankle", "patient": "player", "instrument": null, "because": ["agent is painful", "patient cannot bear weight"], "effects": ["player loses carrying", "player loses fast walking"], "numbers": ["how many days the limitation lasts"]}
+    ],
+    "latent": ["that the whole path, not just this one spot, is glazed under the snow"],
+    "state_after": ["player: ankle swollen, limping, resting weight off it", "feed sack: dropped, recovered", "icy path: still hidden under snow elsewhere"],
+    "stress": "a hidden hazard plus an unbalancing load compounds into an injury with effects that outlast the moment",
+    "temptation": "a rule 'the path near the barn is icy' instead of hidden ice plus load plus balance"
+  },
+  {
+    "id": "winter-11",
+    "domain": "chilblains",
+    "place": "The homestead kitchen over several days of hard frost, hands going in and out to the yard repeatedly.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["player", "hands", "cold yard air", "hot hearth", "days passing"],
+    "outcome": "Over several days the player's hands go from bitter cold outdoor air to the direct heat of the hearth and back again many times a day, warming too fast each time rather than gradually. Neither the cold alone nor the heat alone is the problem; it is the repeated swing between them that leaves small blood vessels in the fingers unable to keep up, and by the third or fourth day the fingertips turn red then purplish, swollen and maddeningly itchy, worse in the warm and only somewhat eased in the cold. It is not an injury from any one moment but from the pattern repeated, and it will keep recurring each cold snap.",
+    "steps": [
+      {"process": "chill", "agent": "cold yard air", "patient": "hands", "instrument": null, "because": ["agent is cold", "patient is repeated"], "effects": ["patient warmth down"], "numbers": ["how many trips outside per day"]},
+      {"process": "rewarm", "agent": "hot hearth", "patient": "hands", "instrument": null, "because": ["agent is hot", "patient is chilled"], "effects": ["patient warmth up fast"], "numbers": ["how quickly the hands go from cold to hot each time"]},
+      {"process": "strain", "agent": "repeated cycling", "patient": "small blood vessels", "instrument": null, "because": ["patient is small", "agent is repeated"], "effects": ["patient gains chilblains", "hands gains itching", "hands gains swelling"], "numbers": ["how many days of cycling before chilblains appear"]}
+    ],
+    "latent": ["that it is the repetition and speed of the swing, not the cold or the heat alone, that caused it"],
+    "state_after": ["hands: fingertips reddened, swollen, itching", "player: avoiding sudden reheating near the hearth"],
+    "stress": "harm from a pattern repeated over days rather than any single exposure, and from too-fast reheating rather than cold itself",
+    "temptation": "a rule 'cold hands get chilblains' instead of the cycling speed and repetition doing the damage"
+  },
+  {
+    "id": "winter-12",
+    "domain": "animal-warmth",
+    "place": "The one-room house on the coldest week of winter, a goat brought in from the freezing barn.",
+    "initiator": "player",
+    "lines": ["I bring the goat inside for the night"],
+    "things": ["player", "goat", "house", "barn", "hay", "floor"],
+    "outcome": "Bringing the goat in out of a barn too cold to be safe for it adds a second warm body's worth of heat to the small room, noticeably easing how much wood the fire needs to keep it comfortable. But the goat is not a small cost: it eats through stored hay meant to last, and left loose it fouls the floor and knocks over anything within reach, so the household trades some firewood and comfort for cleanup and diminished feed stores. Over a hard enough winter the trade is still worth it for the animal's survival, but it is not free.",
+    "steps": [
+      {"process": "warm", "agent": "goat", "patient": "house", "instrument": null, "because": ["agent is warm-bodied", "place is small"], "effects": ["place warmth up", "place loses need for wood"], "numbers": ["how much one animal's body heat raises a small room's temperature"]},
+      {"process": "eat", "agent": "goat", "patient": "hay", "instrument": null, "because": ["agent is hungry", "patient is reachable"], "effects": ["consumes hay"], "numbers": ["how much hay a goat eats overnight indoors"]},
+      {"process": "foul", "agent": "goat", "patient": "floor", "instrument": null, "because": ["agent is unconfined", "agent is an animal"], "effects": ["floor gains mess", "creates cleaning work"], "numbers": ["how much mess accumulates overnight"]}
+    ],
+    "latent": ["whether the barn was actually cold enough that night to risk the goat's life by leaving it there"],
+    "state_after": ["goat: warm, fed, indoors", "house: warmer, floor fouled", "hay store: reduced"],
+    "stress": "a benefit shared body heat brings that comes bundled with unavoidable costs, not a clean trade",
+    "temptation": "a rule 'goats warm houses' instead of body heat, consumption and mess as separate general effects of an animal indoors"
+  },
+  {
+    "id": "winter-13",
+    "domain": "child-cold",
+    "place": "The yard and the path to the woodshed, a light snow falling, a child sent to fetch kindling.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["child", "kindling", "woodshed", "falling snow", "player"],
+    "outcome": "The child, smaller and losing heat faster for their size than an adult would, gets absorbed in play in the snow on the way back and loses track of time, staying out far longer than the errand needed. Nobody notices right away because the errand seemed short and simple; by the time the child comes in, shivering hard, clumsy-fingered and unable to explain clearly what took so long, they are already colder than an adult would be after the same time outside, and warming them back up safely takes real care rather than just standing them by the fire at once.",
+    "steps": [
+      {"process": "linger", "agent": "child", "patient": "child", "instrument": null, "because": ["agent is distracted", "place is snowy"], "effects": ["child tiredness up", "child warmth down"], "numbers": ["how much longer than the errand the child actually stayed out"]},
+      {"process": "cool", "agent": "falling snow", "patient": "child", "instrument": null, "because": ["patient is small", "agent is prolonged"], "effects": ["child warmth down fast", "child gains shivering"], "numbers": ["how much faster a small body loses heat than an adult's in the same cold"]},
+      {"process": "notice", "agent": "player", "patient": "child", "instrument": null, "because": ["patient is shivering", "patient is slow to speak"], "effects": ["player learns child is too cold"], "numbers": ["how late the delay in noticing pushed the cold before anyone acted"]},
+      {"process": "rewarm", "agent": "player", "patient": "child", "instrument": "gradual warmth", "because": ["instrument is gentle", "patient is chilled"], "effects": ["child warmth up", "child loses shivering"], "numbers": ["how long safe gradual rewarming of a child takes"]}
+    ],
+    "latent": ["that the child had been sitting still building a snow shape rather than moving, which cooled them faster than walking would have"],
+    "state_after": ["child: warming slowly, shivering easing, tired", "kindling: eventually brought in, less than needed", "player: resolving to set a shorter watch on errands"],
+    "stress": "body size changes the rate of heat loss, and a short errand can silently become a dangerous exposure",
+    "temptation": "a rule 'children get cold faster' as a flat fact instead of size affecting heat loss rate combined with an unwatched delay"
+  },
+  {
+    "id": "winter-14",
+    "domain": "armor-blow",
+    "place": "The barnyard at dusk, a startled ox knocking the player back against the fence rail.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["player", "ox", "thick hide coat", "fence rail"],
+    "outcome": "The ox, spooked by something in the cold dark, swings its weight into the player and knocks them back hard into the fence rail. The thick hide coat the player wears against the cold happens to take most of the force across the ribs and back, spreading and softening the blow enough that nothing breaks, but a solid bruise blooms under the coat by evening and stays sore for days, aching worse in the cold. Without the coat's padding the same blow would likely have cracked a rib rather than just bruised one.",
+    "steps": [
+      {"process": "startle", "agent": "ox", "patient": "ox", "instrument": null, "because": ["agent is spooked", "place is dark"], "effects": ["ox gains fear"], "numbers": ["how likely a startled ox is to bolt or swing"]},
+      {"process": "strike", "agent": "ox", "patient": "player", "instrument": null, "because": ["agent is heavy", "patient is close"], "effects": ["player gains impact"], "numbers": ["how much force the ox's weight delivers"]},
+      {"process": "absorb", "agent": "thick hide coat", "patient": "player", "instrument": null, "because": ["agent is thick", "agent is padded"], "effects": ["player loses fracture risk", "player gains bruise"], "numbers": ["how much force a thick padded layer spreads compared to bare cloth"]},
+      {"process": "ache", "agent": "bruise", "patient": "player", "instrument": null, "because": ["patient is deep", "place is cold"], "effects": ["player gains soreness", "player loses full movement"], "numbers": ["how many days the bruise takes to stop aching in cold weather"]}
+    ],
+    "latent": ["that a rib came close to cracking and only the coat's padding kept it from fully breaking"],
+    "state_after": ["player: bruised ribs, sore, moving carefully", "thick hide coat: dented but intact", "ox: calmed"],
+    "stress": "a padded layer's thickness converts a break into a bruise by spreading force, not by magic protection",
+    "temptation": "a rule 'the hide coat protects against ox kicks' instead of general force-spreading by thickness and padding"
+  },
+  {
+    "id": "winter-15",
+    "domain": "thaw",
+    "place": "The house at night, a trapper coming in from hours checking snares with fingers gone hard and white.",
+    "initiator": "player",
+    "lines": ["I shove my hands right up close to the fire to warm them fast"],
+    "things": ["player", "frostbitten fingers", "open fire", "warm water basin"],
+    "outcome": "The fingers came in already hard, white and numb from hours in the cold, true frostbite rather than simple chill, and shoving them right up to the open flame to warm them as fast as possible feels like the obvious fix. But fast, uneven heat against tissue that is frozen through causes worse damage than slow, even warming would: the skin reddens unevenly, blisters rise where the heat was too close, and the pain when feeling returns is far sharper than it would have been from gentler warming in water kept just pleasantly warm. The fingers end up more damaged for having been rushed.",
+    "steps": [
+      {"process": "freeze", "agent": "hours of cold", "patient": "fingers", "instrument": null, "because": ["patient is extremity", "agent is prolonged"], "effects": ["patient gains frostbite", "patient loses feeling"], "numbers": ["how many hours of that cold it takes to freeze tissue through"]},
+      {"process": "sear", "agent": "open fire", "patient": "frostbitten fingers", "instrument": null, "because": ["agent is hot", "patient is close"], "effects": ["patient gains blisters", "patient gains uneven burn"], "numbers": ["how much closer than safe the fingers were held"]},
+      {"process": "hurt", "agent": "returning feeling", "patient": "fingers", "instrument": null, "because": ["patient is fast-warmed", "patient is frozen"], "effects": ["patient gains sharp pain", "patient loses use of fingers"], "numbers": ["how much worse the pain and damage are from fast versus slow rewarming"]}
+    ],
+    "latent": ["that a basin of warm, not hot, water sitting nearby would have rewarmed the fingers safely"],
+    "state_after": ["frostbitten fingers: blistered, painful, clumsy", "open fire: unchanged", "player: aware too late of the warm water option"],
+    "stress": "the rate and evenness of rewarming matters as much as reaching warmth at all, and fast is not simply better",
+    "temptation": "a rule 'warm frostbite by the fire' instead of general harm from fast, uneven heat applied to frozen tissue"
+  }
+]

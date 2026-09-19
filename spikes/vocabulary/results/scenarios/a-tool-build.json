@@ -1,0 +1,707 @@
+[
+  {
+    "id": "tool-01",
+    "domain": "tool",
+    "place": "Edge of a small wood, a lone oak standing at a clearing's edge, undergrowth around its base.",
+    "initiator": "player",
+    "lines": ["chop down the oak with my knife"],
+    "things": ["oak tree", "belt knife", "player"],
+    "outcome": "A belt knife is far too small and thin-edged to fell a tree of that girth; a sensible person expects only a few shallow nicks in the bark before the edge rolls and the arm tires. After a couple of minutes of hacking the blade is visibly duller and the tree stands untouched but for a scar of pale wood. The knife is now poorly suited even for its usual jobs until it is resharpened.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "oak tree",
+        "instrument": "belt knife",
+        "because": ["oak tree is thick", "belt knife is small", "oak tree is hard"],
+        "effects": ["patient gains scar", "instrument loses edge"],
+        "numbers": ["how many strikes before the edge dulls", "how deep the cut gets"]
+      }
+    ],
+    "latent": ["how thick the trunk actually is under the bark"],
+    "state_after": ["oak tree: scarred, standing", "belt knife: dulled, still in hand"],
+    "stress": "a small tool against a task scaled for a much bigger one",
+    "temptation": "hardcode that knives cannot cut trees, instead of comparing edge and target size"
+  },
+  {
+    "id": "tool-02",
+    "domain": "tool",
+    "place": "A dooryard woodpile beside a cabin, a chopping block sunk in the dirt.",
+    "initiator": "player",
+    "lines": ["split this log for firewood", "use the wedge and the maul"],
+    "things": ["oak round", "iron wedge", "wooden maul", "chopping block", "player"],
+    "outcome": "Standing the round on the block, setting the wedge in a crack at the end, and driving it with the maul is the right method: after several solid blows the wedge bites deep enough that the grain gives and the round splits clean into two halves. A glancing blow or two miss and just scuff the wedge sideways, costing a little more time, but the split still finishes.",
+    "steps": [
+      {
+        "process": "place",
+        "agent": "player",
+        "patient": "iron wedge",
+        "instrument": null,
+        "because": ["oak round is cracked"],
+        "effects": ["moves wedge to log end"],
+        "numbers": []
+      },
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "iron wedge",
+        "instrument": "wooden maul",
+        "because": ["iron wedge is hard", "oak round is splittable along the grain"],
+        "effects": ["moves wedge to log interior", "instrument gains wear"],
+        "numbers": ["how many blows to drive the wedge deep enough"]
+      },
+      {
+        "process": "split",
+        "agent": "iron wedge",
+        "patient": "oak round",
+        "instrument": null,
+        "because": ["oak round is under pressure", "oak round is splittable along the grain"],
+        "effects": ["patient loses wholeness", "creates firewood split"],
+        "numbers": ["how much force clears the grain"]
+      }
+    ],
+    "latent": ["whether the grain runs straight or is knotted, which decides if it splits clean"],
+    "state_after": ["oak round: split into two halves", "iron wedge: driven, slightly nicked", "wooden maul: fine"],
+    "stress": "a multi-step process where each step's success depends on the last",
+    "temptation": "hardcode 'wedge plus maul always splits oak' instead of checking the grain"
+  },
+  {
+    "id": "tool-03",
+    "domain": "tool",
+    "place": "A gravel bar beside a river, scattered with fist-sized stones.",
+    "initiator": "player",
+    "lines": ["knock a sharp flake off this flint with the other rock"],
+    "things": ["flint nodule", "round hammerstone", "player's hand"],
+    "outcome": "Striking the flint's edge at the right angle pops off a thin, razor-sharp flake, useful as a crude cutting edge; a sensible person also expects some strikes to shatter the nodule into blunt chunks instead of clean flakes, and the flakes themselves are sharp enough to cut whoever picks them up carelessly. Here the first strike works and a flake comes free, but reaching for it slices a shallow cut into a finger.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "flint nodule",
+        "instrument": "round hammerstone",
+        "because": ["flint nodule is brittle", "round hammerstone is hard"],
+        "effects": ["patient loses piece", "creates stone flake"],
+        "numbers": ["odds the flake comes off clean versus the nodule shattering"]
+      },
+      {
+        "process": "grab",
+        "agent": "player",
+        "patient": "stone flake",
+        "instrument": "player's hand",
+        "because": ["stone flake is sharp"],
+        "effects": ["patient gains blood", "instrument loses skin"],
+        "numbers": ["how deep the cut is"]
+      }
+    ],
+    "latent": ["whether this particular nodule has a clean grain to flake along"],
+    "state_after": ["flint nodule: chipped, smaller", "stone flake: sharp, loose on the gravel", "player's hand: cut, bleeding lightly"],
+    "stress": "the tool being made is itself dangerous before anyone decides it's a tool",
+    "temptation": "hardcode flint-knapping as a named crafting recipe instead of deriving it from brittle meeting hard"
+  },
+  {
+    "id": "tool-04",
+    "domain": "tool",
+    "place": "A riverside camp, damp air, a knife sheathed at the player's belt overnight.",
+    "initiator": "player",
+    "lines": ["skin the fish with my knife", "put it away wet"],
+    "things": ["trout", "belt knife", "leather sheath", "player"],
+    "outcome": "The knife cuts the fish fine in the moment. But sheathing it wet, without wiping the blade, traps moisture against the steel; overnight the damp does its slow work, and by morning a skin of orange rust has crept along the edge, dulling it and pitting the metal where it sat longest. Nothing shows at the time the knife goes into the sheath.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "player",
+        "patient": "trout",
+        "instrument": "belt knife",
+        "because": ["belt knife is sharp", "trout is soft"],
+        "effects": ["patient loses skin", "instrument gains wetness"],
+        "numbers": ["how many cuts to skin it"]
+      },
+      {
+        "process": "rust",
+        "agent": "time",
+        "patient": "belt knife",
+        "instrument": "leather sheath",
+        "because": ["belt knife is wet", "belt knife is iron", "leather sheath is enclosed"],
+        "effects": ["patient gains rust", "patient loses edge"],
+        "numbers": ["how many hours of damp before rust shows"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["belt knife: rusted along the edge, dulled", "leather sheath: damp inside"],
+    "stress": "a consequence that only shows up long after the action that caused it",
+    "temptation": "hardcode 'knives rust overnight' instead of deriving it from wet plus iron plus enclosure"
+  },
+  {
+    "id": "tool-05",
+    "domain": "tool",
+    "place": "A streamside stand of young willows and one aging birch, no one nearby.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["beaver", "birch tree", "willow shoots", "stream"],
+    "outcome": "A beaver gnaws steadily at the birch's base over several nights, carrying off chips to gnaw again later; a sensible person expects the trunk to narrow into an hourglass shape until, on one of those nights, it can no longer hold its own weight and comes down across the stream. Nobody has to be there for it to happen, and nobody chose the direction it falls.",
+    "steps": [
+      {
+        "process": "gnaw",
+        "agent": "beaver",
+        "patient": "birch tree",
+        "instrument": "beaver's teeth",
+        "because": ["birch tree is wood", "beaver's teeth are sharp"],
+        "effects": ["patient loses wood", "creates wood chips"],
+        "numbers": ["how many nights of gnawing before the trunk gives"]
+      },
+      {
+        "process": "fall",
+        "agent": "birch tree",
+        "patient": "stream",
+        "instrument": null,
+        "because": ["birch tree is unsupported", "birch tree is heavy"],
+        "effects": ["patient gains blockage", "creates fallen trunk"],
+        "numbers": ["which way it falls, how much of the stream it blocks"]
+      }
+    ],
+    "latent": ["whether the birch falls toward the stream or away from it"],
+    "state_after": ["birch tree: felled, lying across the stream", "stream: partly dammed", "beaver: gone to gnaw elsewhere"],
+    "stress": "world time producing a large change with no player and no call for a region nobody is watching",
+    "temptation": "hardcode 'beavers fell trees in N days' instead of deriving it from wood loss reducing structural support"
+  },
+  {
+    "id": "tool-06",
+    "domain": "tool",
+    "place": "A quarry face, loose scree at its foot, a stone hammer left leaning against the rock overnight then used again the next day.",
+    "initiator": "player",
+    "lines": ["break off some stone here", "keep hitting it"],
+    "things": ["quarry face", "stone hammer", "player"],
+    "outcome": "A long session of hammering breaks useful chunks free readily enough. But every blow also jars the wooden handle where it is wedged into the stone head, and the wood is drying in the sun between uses; the fit loosens a little each time without anyone noticing. The next day, on the very first swing, the head flies off the handle entirely and the player is left holding bare wood.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "quarry face",
+        "instrument": "stone hammer",
+        "because": ["quarry face is stone", "stone hammer is heavy"],
+        "effects": ["patient loses piece", "creates stone chunks"],
+        "numbers": ["how many blows to break off a usable chunk"]
+      },
+      {
+        "process": "loosen",
+        "agent": "time",
+        "patient": "stone hammer",
+        "instrument": null,
+        "because": ["stone hammer's handle is wood", "stone hammer's handle is drying"],
+        "effects": ["instrument loses fit"],
+        "numbers": ["how many blows and how much drying before the head is loose"]
+      },
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "quarry face",
+        "instrument": "stone hammer",
+        "because": ["stone hammer's head is loose"],
+        "effects": ["instrument loses head", "creates flying hammer head"],
+        "numbers": ["odds the head comes free on a given swing"]
+      }
+    ],
+    "latent": ["how loose the fit has actually gotten, unseen inside the haft"],
+    "state_after": ["stone hammer: head detached, handle bare", "quarry face: several chunks removed", "player: startled, unhurt"],
+    "stress": "wear accumulating unseen across uses until a routine action fails suddenly",
+    "temptation": "hardcode 'tools break after N uses' instead of deriving wear from repeated stress plus a drying material"
+  },
+  {
+    "id": "tool-07",
+    "domain": "tool",
+    "place": "A campfire clearing, a length of green willow branch and a whittling knife.",
+    "initiator": "player",
+    "lines": ["carve a spoon out of this branch"],
+    "things": ["willow branch", "whittling knife", "player"],
+    "outcome": "Green wood carves easily along the grain, and the bowl of a spoon starts to take shape in a few minutes of steady cutting. Cutting across the grain near a knot catches the blade and the wood splits away in a long crack instead of shaving off cleanly, ruining the spoon's handle; a curl of wood also flicks off and lodges as a splinter under a thumbnail. A sensible person would have to start the handle over from a straighter section.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "player",
+        "patient": "willow branch",
+        "instrument": "whittling knife",
+        "because": ["willow branch is green", "whittling knife is sharp"],
+        "effects": ["patient loses wood", "creates wood shaving"],
+        "numbers": ["how many passes to shape the bowl"]
+      },
+      {
+        "process": "cut",
+        "agent": "player",
+        "patient": "willow branch",
+        "instrument": "whittling knife",
+        "because": ["willow branch is knotted", "willow branch is splittable along the grain"],
+        "effects": ["patient loses wholeness", "creates crack"],
+        "numbers": ["odds the cut catches a knot"]
+      },
+      {
+        "process": "lodge",
+        "agent": "wood shaving",
+        "patient": "player's thumb",
+        "instrument": null,
+        "because": ["wood shaving is sharp-edged"],
+        "effects": ["patient gains splinter"],
+        "numbers": []
+      }
+    ],
+    "latent": ["where the hidden knot inside the branch actually is"],
+    "state_after": ["willow branch: partly carved, cracked handle", "whittling knife: fine", "player's thumb: has a splinter"],
+    "stress": "grain direction deciding success at a scale as small as a splinter",
+    "temptation": "hardcode carving as a single success roll instead of deriving grain, knots and splinters"
+  },
+  {
+    "id": "tool-08",
+    "domain": "tool",
+    "place": "A half-built fence line at the edge of a field, posts driven, no mallet on hand.",
+    "initiator": "player",
+    "lines": ["I don't have a mallet, use a rock to drive this peg in"],
+    "things": ["wooden peg", "fence post", "fist-sized rock", "player"],
+    "outcome": "A rock is a poor substitute for a mallet: heavy and hard enough to drive the peg, but with no handle and an irregular face it is harder to aim, so a sensible person expects it to take more swings and land a few glancing blows that skid off and bruise knuckles or dent the peg's top instead of driving it. The peg does go in by the end, crooked and a little mushroomed at the head.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "wooden peg",
+        "instrument": "fist-sized rock",
+        "because": ["fist-sized rock is heavy", "fist-sized rock is handleless", "wooden peg is softer than stone"],
+        "effects": ["moves peg to post", "patient gains deformation"],
+        "numbers": ["how many swings, how many miss cleanly"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["wooden peg: driven in, crooked, head mushroomed", "fence post: pegged", "player: bruised knuckle"],
+    "stress": "an improvised tool that works but worse, not a binary pass or fail",
+    "temptation": "hardcode 'pegs need a mallet' instead of deriving the result from weight, hardness and grip"
+  },
+  {
+    "id": "tool-09",
+    "domain": "tool",
+    "place": "A quarry ledge in late autumn, a fissured boulder sitting where rain pools in a crack overnight, a cold snap coming.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["fissured boulder", "rainwater", "cold air"],
+    "outcome": "Rain fills a hairline crack in the boulder during the day; overnight the cold snap freezes the water, and ice takes up more room than water did, so the crack is forced wider. A sensible person expects this to take several freezing nights, not one, but by the third morning the boulder has split clean along the widened crack with nobody near it. The pieces sit ready to be worked, if anyone comes looking.",
+    "steps": [
+      {
+        "process": "freeze",
+        "agent": "cold air",
+        "patient": "rainwater",
+        "instrument": null,
+        "because": ["rainwater is inside a crack", "cold air is freezing"],
+        "effects": ["patient gains ice", "patient volume up"],
+        "numbers": ["how many freeze-thaw nights before the crack widens enough"]
+      },
+      {
+        "process": "split",
+        "agent": "rainwater",
+        "patient": "fissured boulder",
+        "instrument": null,
+        "because": ["fissured boulder is cracked", "rainwater is expanded"],
+        "effects": ["patient loses wholeness", "creates stone pieces"],
+        "numbers": ["how wide the crack gets, how many pieces result"]
+      }
+    ],
+    "latent": ["whether the crack was deep enough to split the boulder all the way through"],
+    "state_after": ["fissured boulder: split into two pieces", "rainwater: frozen, then thawed"],
+    "stress": "a purely physical process running over days with no creature or player involved at all",
+    "temptation": "hardcode 'boulders crack in freezing weather' instead of deriving it from water in a crack expanding when it freezes"
+  },
+  {
+    "id": "tool-10",
+    "domain": "tool",
+    "place": "A campsite, a coil of old hemp rope needing to be cut to length, only a badly blunted knife at hand.",
+    "initiator": "player",
+    "lines": ["cut the rope"],
+    "things": ["hemp rope", "blunt knife", "player"],
+    "outcome": "A blade with no edge left cannot part rope fibers cleanly; a sensible person expects sawing back and forth to fray and mash the strands rather than sever them, wasting time and leaving a ragged, weakened end instead of a clean cut. After a long effort a few outer fibers finally give, but the rope is still one piece, just frayed and harder to tie with.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "player",
+        "patient": "hemp rope",
+        "instrument": "blunt knife",
+        "because": ["blunt knife is edgeless", "hemp rope is fibrous"],
+        "effects": ["patient loses fibers"],
+        "numbers": ["how long the sawing takes for how little result"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["hemp rope: frayed at one end, not severed", "blunt knife: unchanged, still blunt"],
+    "stress": "an action that visibly does something but does not achieve its goal",
+    "temptation": "hardcode a yes-or-no check for whether a knife cuts rope, instead of comparing edge condition to material toughness"
+  },
+  {
+    "id": "build-01",
+    "domain": "build",
+    "place": "A shallow stream cutting through a meadow, banks about four strides apart, a stand of straight young trees nearby.",
+    "initiator": "player",
+    "lines": ["build a bridge"],
+    "things": ["stream", "three young trunks", "coil of rope", "player"],
+    "outcome": "'Build a bridge' with no plan given still needs a sensible person to fell trunks long enough to span the banks, drag them across, and lash them together so they do not roll apart; a loose deck of unlashed logs would just spread and dump anyone crossing. Here the player drags three trunks over and lashes them at both ends, which holds a walking load, but the middle sags noticeably underfoot and would not take a laden cart.",
+    "steps": [
+      {
+        "process": "drag",
+        "agent": "player",
+        "patient": "three young trunks",
+        "instrument": null,
+        "because": ["three young trunks are heavy", "stream is narrow"],
+        "effects": ["moves trunks to bank"],
+        "numbers": ["how long the drag takes for trunks this size"]
+      },
+      {
+        "process": "lay",
+        "agent": "player",
+        "patient": "three young trunks",
+        "instrument": null,
+        "because": ["three young trunks are long", "stream is narrow"],
+        "effects": ["creates log span"],
+        "numbers": ["whether the span reaches both banks"]
+      },
+      {
+        "process": "bind",
+        "agent": "player",
+        "patient": "three young trunks",
+        "instrument": "coil of rope",
+        "because": ["three young trunks are round", "coil of rope is strong"],
+        "effects": ["patient gains binding", "consumes rope"],
+        "numbers": ["how much rope the lashing uses, how much load the lashing holds"]
+      }
+    ],
+    "latent": ["whether the far bank is firm enough to anchor the logs or crumbles under weight"],
+    "state_after": ["log span: crossable but sagging in the middle", "coil of rope: mostly used up", "stream: bridged"],
+    "stress": "a vague, overambitious command that a sensible person still has to break into real steps",
+    "temptation": "hardcode a single 'build bridge' verb instead of deriving it from drag, span and bind"
+  },
+  {
+    "id": "build-02",
+    "domain": "build",
+    "place": "A dirt trail, a loaded sled being pulled behind the player over rough, rutted ground.",
+    "initiator": "player",
+    "lines": ["tie the load down with this rope and drag the sled"],
+    "things": ["sled", "sack of grain", "rope", "player"],
+    "outcome": "A rope thrown over the load and knotted quickly, without a real hitch, holds while the ground is smooth; a sensible person expects a poor knot to work loose exactly when it is tested hardest. Partway down the rutted trail a jolt shakes the knot enough that it slips, and the sack of grain rolls off the sled into the mud, spilling some grain before the player notices.",
+    "steps": [
+      {
+        "process": "tie",
+        "agent": "player",
+        "patient": "sack of grain",
+        "instrument": "rope",
+        "because": ["rope is loosely knotted"],
+        "effects": ["patient gains binding"],
+        "numbers": ["how secure the knot is, from how it was tied"]
+      },
+      {
+        "process": "drag",
+        "agent": "player",
+        "patient": "sled",
+        "instrument": null,
+        "because": ["dirt trail is rutted"],
+        "effects": ["moves sled along trail"],
+        "numbers": ["how much jolting the ruts cause"]
+      },
+      {
+        "process": "slip",
+        "agent": "rope",
+        "patient": "sack of grain",
+        "instrument": null,
+        "because": ["rope is loosely knotted", "dirt trail is rutted"],
+        "effects": ["patient loses binding", "creates spilled grain"],
+        "numbers": ["how much grain is lost"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["sack of grain: on the ground, torn open, part spilled", "rope: loose, still attached to sled", "sled: lighter"],
+    "stress": "a knot's quality only shows under the stress that comes later, not when it is tied",
+    "temptation": "hardcode that tying an item just needs rope present, with no check on how well the knot is made"
+  },
+  {
+    "id": "build-03",
+    "domain": "build",
+    "place": "A field with a half-buried boulder blocking a planned furrow, a slender fence rail lying nearby.",
+    "initiator": "player",
+    "lines": ["pry this boulder out with the fence rail"],
+    "things": ["boulder", "fence rail", "small stone for a fulcrum", "player"],
+    "outcome": "A lever can move a boulder this size, but only if the beam is stout enough to take the bending force; a thin fence rail is the wrong scale of tool for a boulder this heavy. Wedged under the rock and heaved on, the rail bows and then snaps clean across partway through the push, and the boulder does not budge.",
+    "steps": [
+      {
+        "process": "pry",
+        "agent": "player",
+        "patient": "boulder",
+        "instrument": "fence rail",
+        "because": ["boulder is heavy", "fence rail is thin"],
+        "effects": ["instrument loses wholeness"],
+        "numbers": ["how much force the rail can take before it fails, versus how much the boulder needs"]
+      }
+    ],
+    "latent": ["exactly how deep the boulder is buried, and so how much force moving it would take"],
+    "state_after": ["fence rail: snapped in two", "boulder: unmoved", "small stone: unused fulcrum"],
+    "stress": "a lever's own strength as the limiting factor, not the effort put into it",
+    "temptation": "hardcode 'levers move heavy things' instead of comparing beam strength to load"
+  },
+  {
+    "id": "build-04",
+    "domain": "build",
+    "place": "A rocky slope being cleared for a garden plot, loose stones piled to one side, a rabbit hutch propped nearby.",
+    "initiator": "player",
+    "lines": ["stack these stones into a wall here"],
+    "things": ["loose stones", "rabbit hutch", "player"],
+    "outcome": "Stacking flat stones without stepping the courses inward keeps the wall going up easily at first, but a sensible person expects a tall, straight-sided stack of ungraded stones to grow unstable past chest height. Here the stack topples once it gets too tall for its base, and the fall is not contained to the wall: two stones bounce wide and crack the side of the rabbit hutch that happened to be sitting close by.",
+    "steps": [
+      {
+        "process": "stack",
+        "agent": "player",
+        "patient": "loose stones",
+        "instrument": null,
+        "because": ["loose stones are irregular"],
+        "effects": ["creates stone wall"],
+        "numbers": ["how tall the stack gets before it is unstable"]
+      },
+      {
+        "process": "collapse",
+        "agent": "stone wall",
+        "patient": "stone wall",
+        "instrument": null,
+        "because": ["stone wall is top-heavy"],
+        "effects": ["patient loses wholeness", "creates loose stones"],
+        "numbers": ["how far the falling stones scatter"]
+      },
+      {
+        "process": "strike",
+        "agent": "loose stones",
+        "patient": "rabbit hutch",
+        "instrument": null,
+        "because": ["rabbit hutch is nearby", "loose stones are scattered"],
+        "effects": ["patient gains damage"],
+        "numbers": ["odds a scattering stone reaches something nearby"]
+      }
+    ],
+    "latent": ["how stable the ground under the wall's base actually is"],
+    "state_after": ["stone wall: collapsed, scattered", "rabbit hutch: cracked on one side", "loose stones: spread across the slope"],
+    "stress": "a collapse whose debris reaches something the player never meant to involve",
+    "temptation": "hardcode that walls fall after a fixed number of stones instead of deriving stability from base width versus height"
+  },
+  {
+    "id": "build-05",
+    "domain": "build",
+    "place": "An open-sided lean-to shelter, its frame lashed together with rawhide cord, left through two days of steady rain with nobody there.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["lean-to frame", "rawhide cord", "rain"],
+    "outcome": "Rawhide cord swells and softens when it stays wet, and the steady rain soaks every lashing on the frame over the two days; a sensible person expects the joints to loosen as the cord loses its grip, though nothing actually gives way yet since nothing has stressed the frame while it is wet. By the time anyone returns, the whole structure sways at a touch, one strong gust away from coming down, though it is still standing.",
+    "steps": [
+      {
+        "process": "soak",
+        "agent": "rain",
+        "patient": "rawhide cord",
+        "instrument": null,
+        "because": ["rawhide cord is absorbent", "rain is steady"],
+        "effects": ["patient gains wetness", "patient loses grip"],
+        "numbers": ["how many hours of rain before the lashings loosen"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["rawhide cord: swollen, loose", "lean-to frame: standing but unsteady"],
+    "stress": "damage that accumulates over unobserved time with nothing failing outright yet",
+    "temptation": "hardcode that shelters need repair every fixed number of days instead of deriving looseness from a wet binding material"
+  },
+  {
+    "id": "build-06",
+    "domain": "build",
+    "place": "A trapline at the edge of the woods, a snare set the day before, staked to the ground with a cord running to a bent sapling.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["snare cord", "bent sapling", "fox", "trapline"],
+    "outcome": "A fox passing in the night finds the cord underfoot before ever touching the loop meant to catch it, and a sensible person expects a hungry animal to gnaw at anything unfamiliar snagging its foot rather than pull free cleanly. It chews through the cord and wanders off unharmed; the sapling springs upright with nothing caught, and the trap has to be reset before it will work again.",
+    "steps": [
+      {
+        "process": "gnaw",
+        "agent": "fox",
+        "patient": "snare cord",
+        "instrument": "fox's teeth",
+        "because": ["snare cord is thin", "fox is caught by the foot"],
+        "effects": ["patient loses wholeness"],
+        "numbers": ["how long it takes to chew through"]
+      },
+      {
+        "process": "spring",
+        "agent": "bent sapling",
+        "patient": "snare cord",
+        "instrument": null,
+        "because": ["bent sapling is under tension", "snare cord is severed"],
+        "effects": ["patient loses tension"],
+        "numbers": []
+      }
+    ],
+    "latent": [],
+    "state_after": ["snare cord: severed", "bent sapling: sprung upright, empty", "fox: gone, unharmed"],
+    "stress": "a trap defeated by the very animal it was set for, with nobody watching",
+    "temptation": "hardcode that traps catch prey after a fixed number of hours instead of letting a caught animal act on the trap itself"
+  },
+  {
+    "id": "build-07",
+    "domain": "build",
+    "place": "A low cliff face beside a dry riverbed, a dead branch jutting out partway up, used as a handhold.",
+    "initiator": "player",
+    "lines": ["climb up using that branch"],
+    "things": ["cliff face", "dead branch", "player"],
+    "outcome": "A dead branch looks like a handhold but rot has hollowed it out inside where nothing shows from the outside; a sensible person's weight on it is exactly the kind of load that finds a hidden weakness. It snaps the moment full weight comes onto it, and the player drops the short distance already climbed, landing hard on the riverbed stones. Nothing is broken, but the fall bruises badly enough that walking is stiff and slow for the rest of the day.",
+    "steps": [
+      {
+        "process": "grip",
+        "agent": "player",
+        "patient": "dead branch",
+        "instrument": null,
+        "because": ["dead branch is solid-looking"],
+        "effects": ["patient gains load"],
+        "numbers": []
+      },
+      {
+        "process": "break",
+        "agent": "player",
+        "patient": "dead branch",
+        "instrument": null,
+        "because": ["dead branch is rotten inside", "dead branch is loaded"],
+        "effects": ["patient loses wholeness"],
+        "numbers": ["odds the rot is enough to fail under this weight"]
+      },
+      {
+        "process": "fall",
+        "agent": "player",
+        "patient": "riverbed stones",
+        "instrument": null,
+        "because": ["player is unsupported", "cliff face is above the riverbed"],
+        "effects": ["patient gains impact", "player health down"],
+        "numbers": ["how far the fall is, how hard the landing"]
+      }
+    ],
+    "latent": ["that the branch is hollow with rot, invisible until it is loaded"],
+    "state_after": ["dead branch: snapped, hanging by a strip of bark", "player: bruised, stiff", "cliff face: partly climbed, handhold gone"],
+    "stress": "a hidden flaw that only a real load reveals, with a consequence lasting past the moment",
+    "temptation": "hardcode that branches are safe handholds instead of deriving hidden rot from exposure and age"
+  },
+  {
+    "id": "build-08",
+    "domain": "build",
+    "place": "A game trail through brush at the woods' edge, a flat rock and a springy sapling nearby.",
+    "initiator": "player",
+    "lines": ["set a deadfall trap here", "prop the rock up with a stick over the trail"],
+    "things": ["flat rock", "trigger stick", "game trail", "player"],
+    "outcome": "Propping a heavy flat rock at a steep angle on a thin trigger stick, balanced so the lightest touch on the trail knocks the stick free, is a workable trap if the prop is set right; a sensible person expects most of the waiting to happen with nothing around to trigger it. Set at dusk, the trap sits untouched through the night and into the next day, until a foraging grouse finally brushes the trigger toward evening and the rock comes down, catching it.",
+    "steps": [
+      {
+        "process": "prop",
+        "agent": "player",
+        "patient": "flat rock",
+        "instrument": "trigger stick",
+        "because": ["flat rock is heavy", "trigger stick is thin"],
+        "effects": ["patient gains tension"],
+        "numbers": ["how precarious the balance is, and so how light a touch trips it"]
+      },
+      {
+        "process": "touch",
+        "agent": "grouse",
+        "patient": "trigger stick",
+        "instrument": "grouse's foot",
+        "because": ["trigger stick crosses the game trail", "game trail is used by grouse"],
+        "effects": ["patient loses support"],
+        "numbers": ["how long before something crosses the trail"]
+      },
+      {
+        "process": "fall",
+        "agent": "flat rock",
+        "patient": "grouse",
+        "instrument": null,
+        "because": ["flat rock is unpropped", "flat rock is heavy"],
+        "effects": ["patient gains crush", "creates catch"],
+        "numbers": ["odds the fall lands on the grouse rather than beside it"]
+      }
+    ],
+    "latent": ["whether anything at all crosses this stretch of trail before the trap is checked"],
+    "state_after": ["flat rock: fallen, resting on the trail", "trigger stick: knocked aside", "grouse: caught, dead"],
+    "stress": "a trap whose whole point is to act on its own after the player has walked away",
+    "temptation": "hardcode that traps catch food after a fixed number of hours instead of deriving the wait from something actually crossing the trail"
+  },
+  {
+    "id": "build-09",
+    "domain": "build",
+    "place": "A clearing with a wild apple tree, fruit hanging out of reach, and a wasp nest tucked in the branches above it that is not visible from the ground.",
+    "initiator": "player",
+    "lines": ["throw a rock up to knock some apples down"],
+    "things": ["apple tree", "fist-sized rock", "hidden wasp nest", "player"],
+    "outcome": "Throwing a rock into a branch to shake fruit loose is a reasonable improvisation and does knock two apples down; a sensible person has no way to know a wasp nest is tucked further up the same tree until the rock's impact rattles those branches too. The nest is jarred hard enough to send wasps pouring out, and the player has to run from the clearing without the apples they just knocked down.",
+    "steps": [
+      {
+        "process": "throw",
+        "agent": "player",
+        "patient": "apple tree",
+        "instrument": "fist-sized rock",
+        "because": ["apple tree's fruit is out of reach", "fist-sized rock is heavy enough to shake a branch"],
+        "effects": ["creates fallen apples"],
+        "numbers": ["how many apples come loose"]
+      },
+      {
+        "process": "shake",
+        "agent": "fist-sized rock",
+        "patient": "hidden wasp nest",
+        "instrument": null,
+        "because": ["hidden wasp nest is near the impact", "apple tree's branches are connected"],
+        "effects": ["patient gains disturbance"],
+        "numbers": []
+      },
+      {
+        "process": "swarm",
+        "agent": "wasps",
+        "patient": "player",
+        "instrument": null,
+        "because": ["hidden wasp nest is disturbed"],
+        "effects": ["player gains stings"],
+        "numbers": ["how many wasps, how many stings before the player is clear"]
+      }
+    ],
+    "latent": ["the wasp nest, unseen from the ground until it is already disturbed"],
+    "state_after": ["fallen apples: on the ground, unclaimed", "hidden wasp nest: agitated, wasps out", "player: fled the clearing, stung"],
+    "stress": "an unrelated hazard triggered as a side effect of an ordinary action",
+    "temptation": "hardcode that wasp nests sting when found instead of letting any disturbance nearby reach a hidden thing"
+  },
+  {
+    "id": "build-10",
+    "domain": "build",
+    "place": "A fallen log at the treeline, branches propped against it to make a lean-to shelter, first light snowfall of the season starting that evening.",
+    "initiator": "player",
+    "lines": ["prop branches against the log for a shelter"],
+    "things": ["fallen log", "leaning branches", "snow", "player"],
+    "outcome": "Leaning a course of branches against the log at a steep angle sheds rain fine and holds its shape the first night; a sensible person expects a light roof like this to take some load before failing, not none. Snow falls steadily for two days while the player is elsewhere in the clearing, building up on the branches faster than it slides off the shallow pitch, and on the second night the accumulated weight finally bows the branches past their limit and the roof caves in.",
+    "steps": [
+      {
+        "process": "prop",
+        "agent": "player",
+        "patient": "leaning branches",
+        "instrument": "fallen log",
+        "because": ["fallen log is a support"],
+        "effects": ["creates lean-to shelter"],
+        "numbers": ["how steep the pitch is"]
+      },
+      {
+        "process": "accumulate",
+        "agent": "snow",
+        "patient": "leaning branches",
+        "instrument": null,
+        "because": ["snow is falling steadily", "leaning branches are shallow-pitched"],
+        "effects": ["patient weight up"],
+        "numbers": ["how much snow piles up over two days"]
+      },
+      {
+        "process": "collapse",
+        "agent": "leaning branches",
+        "patient": "leaning branches",
+        "instrument": null,
+        "because": ["leaning branches are overloaded"],
+        "effects": ["patient loses wholeness", "creates broken branches"],
+        "numbers": ["how much weight the branches could take before failing"]
+      }
+    ],
+    "latent": ["how steep the pitch really is, which decides whether snow slides off or piles up"],
+    "state_after": ["leaning branches: collapsed, some snapped", "fallen log: bare, roofless", "snow: piled where the roof used to be"],
+    "stress": "a structure that is fine under one load, tested slowly to failure by an accumulating one",
+    "temptation": "hardcode that shelters last a fixed number of days instead of deriving collapse from load building up against a strength limit"
+  }
+]

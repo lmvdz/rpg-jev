@@ -1,0 +1,23 @@
+a v0   n=120 full 69 (58%) partial 39 fail 12 (10%)
+a v1   n=120 full 105 (88%) partial 13 fail 2 (2%)
+b v0   n=45 full 18 (40%) partial 23 fail 4 (9%)
+b v1   n=45 full 36 (80%) partial 8 fail 1 (2%)
+c v1   n=45 full 22 (49%) partial 16 fail 7 (16%)
+
+-- still failing under v1 --
+a folk-03 | value / price
+a cold-08 | lightning strike targeting
+b world-07 | electrical strike targeting
+c craft-02 | bent/warped shape; forge-welding join; angled/uneven quenching
+c craft-04 | fermentation distinct from contamination
+c fight-05 | aim-error hit location; distance granularity; wound-to-speed modifier
+c silly-01 | taste
+c silly-04 | skill or proficiency
+c travel-02 | altitude / thin air
+c travel-06 | heading / bearing drift
+
+-- reactions in C --
+  craft-01: S2(wet, trapped) + S15(unworked pocket) under X3 -> S6(phase to gas), Load fail -> E1: pot cracks from steam pressure
+  travel-01: P13 + S2 under X1 with high haste -> E1: resistance (stuck-ness) increases (sinks deeper); under X1 with low haste and R3 support -> E1: resistance de
+  travel-15: S2(wet/green) + S3(burning) under X3 -> E9: heavy smoke at reduced heat: X3's stated rate covers heat flow, not combustion smoke yield from fuel wetne
+total 3

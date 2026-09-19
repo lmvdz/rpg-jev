@@ -1,0 +1,785 @@
+[
+  {
+    "id": "craft-01",
+    "domain": "pottery",
+    "place": "A potter's yard by a clay pit near the stream, with a shaded drying shelf and a wood-fired kiln out back.",
+    "initiator": "player",
+    "lines": ["dig clay from the pit by the stream", "wedge it and throw a pot on the wheel", "load the kiln and fire it"],
+    "things": ["potter", "clay bed", "spade", "potter's wheel", "pot", "kiln", "firewood"],
+    "outcome": "The potter digs and wedges clay, rushing the kneading because market is two days off, and shapes a serviceable-looking pot that dries clean in the shade. Days later, fired in the kiln with the rest of the batch, the pot cracks audibly partway through firing as trapped moisture inside an unworked air pocket turns to steam faster than it can escape. The rest of the batch survives untouched; this one pot is a loss, and the potter can only guess afterward which lump of clay held the flaw.",
+    "steps": [
+      {
+        "process": "dig",
+        "agent": "potter",
+        "patient": "clay bed",
+        "instrument": "spade",
+        "because": ["place is clay-bearing", "agent is experienced"],
+        "effects": ["creates raw clay", "agent effort up"],
+        "numbers": ["how much clay is dug, how long digging takes"]
+      },
+      {
+        "process": "wedge",
+        "agent": "potter",
+        "patient": "raw clay",
+        "instrument": null,
+        "because": ["patient is lumpy", "agent is hurried"],
+        "effects": ["patient gains pliable", "patient loses lumps"],
+        "numbers": ["how thorough the wedging is, whether any air stays trapped"]
+      },
+      {
+        "process": "shape",
+        "agent": "potter",
+        "patient": "wedged clay",
+        "instrument": "potter's wheel",
+        "because": ["patient is pliable", "instrument is spinning"],
+        "effects": ["creates pot", "consumes wedged clay"],
+        "numbers": ["how thin the walls end up, how long shaping takes"]
+      },
+      {
+        "process": "dry",
+        "agent": "world",
+        "patient": "pot",
+        "instrument": null,
+        "because": ["place is shaded", "patient is damp"],
+        "effects": ["patient loses moisture", "patient gains leather-hard"],
+        "numbers": ["how many days it takes to dry evenly"]
+      },
+      {
+        "process": "fire",
+        "agent": "potter",
+        "patient": "pot",
+        "instrument": "kiln",
+        "because": ["instrument is hot", "patient is flawed"],
+        "effects": ["patient gains cracked", "consumes firewood", "patient value down"],
+        "numbers": ["how hot the kiln gets, how long before the crack appears, how much of the batch is lost"]
+      }
+    ],
+    "latent": ["whether a pocket of trapped air survived the wedging, unnoticed until the heat found it"],
+    "state_after": ["pot: cracked through one wall, unsellable, still cooling in the kiln", "potter: aware the wedging was rushed, wary on the next batch"],
+    "stress": "a flaw introduced early and invisible stays latent through every later step until heat forces it out",
+    "temptation": "a rule that says pots crack in kilns, instead of deriving it from a property any wet inclusion in any fired material would share: trapped moisture, heat, and expansion"
+  },
+  {
+    "id": "craft-02",
+    "domain": "smithing",
+    "place": "A smithy at the edge of the village, forge glowing, the smith stepping out and leaving an apprentice to mind the hammering.",
+    "initiator": "player",
+    "lines": ["hammer the iron bar on the anvil", "quench the blade in the water trough"],
+    "things": ["apprentice", "smith", "iron bar", "forge", "hammer", "anvil", "water trough", "blade"],
+    "outcome": "Left to mind the anvil, the apprentice keeps hammering after the iron bar has cooled past its glow, and it cracks under a blow instead of drawing out. The smith cuts away the cracked end and forge-welds the bar whole again, at the cost of iron and charcoal and half the afternoon. Back at the trough, the apprentice quenches too fast and at an angle, and the blade comes out warped; the smith straightens it cold, which leaves it usable but quietly weaker than a blade forged clean the first time.",
+    "steps": [
+      {
+        "process": "heat",
+        "agent": "apprentice",
+        "patient": "iron bar",
+        "instrument": "forge",
+        "because": ["instrument is hot", "patient is metal"],
+        "effects": ["patient gains hot", "consumes charcoal"],
+        "numbers": ["how hot the iron gets, how long heating takes"]
+      },
+      {
+        "process": "hammer",
+        "agent": "apprentice",
+        "patient": "iron bar",
+        "instrument": "hammer",
+        "because": ["patient is cold", "agent is distracted"],
+        "effects": ["patient gains cracked", "patient loses shape"],
+        "numbers": ["how far the iron had cooled before striking, how hard the blow lands"]
+      },
+      {
+        "process": "reforge",
+        "agent": "smith",
+        "patient": "iron bar",
+        "instrument": "forge",
+        "because": ["patient is cracked", "agent is skilled"],
+        "effects": ["patient loses cracked", "consumes cracked end", "consumes charcoal"],
+        "numbers": ["how much iron is lost cutting away the cracked end, how long re-welding takes"]
+      },
+      {
+        "process": "quench",
+        "agent": "apprentice",
+        "patient": "blade",
+        "instrument": "water trough",
+        "because": ["patient is hot", "agent is careless"],
+        "effects": ["patient gains warped", "patient loses straightness"],
+        "numbers": ["how much the blade warps"]
+      },
+      {
+        "process": "straighten",
+        "agent": "smith",
+        "patient": "blade",
+        "instrument": "hammer",
+        "because": ["patient is warped", "patient is cold"],
+        "effects": ["patient loses warped", "patient gains weakened"],
+        "numbers": ["how much bending is needed, how much strength is lost cold-straightening it"]
+      }
+    ],
+    "latent": ["how much invisible stress cold-straightening leaves in the metal, not found until the blade is struck hard"],
+    "state_after": ["blade: straightened but weakened where it was bent cold", "iron bar: shorter than the stock it started as", "apprentice: reminded to watch the color of the iron, not the clock"],
+    "stress": "two independent honest mistakes in one work session compound: wrong heat when struck, then wrong cooling when quenched",
+    "temptation": "a special rule for 'iron cracks when hammered cold' and another for 'blades warp in water', instead of one property for working temperature and one for differential cooling that any worked metal would share"
+  },
+  {
+    "id": "craft-03",
+    "domain": "tanning",
+    "place": "The tanning yard behind the settlement, hides pegged out or piled, a hot spell settling over the village.",
+    "initiator": "player",
+    "lines": ["scrape the hide clean", "set it aside to salt later"],
+    "things": ["tanner", "deer hide", "flint scraper", "salt", "flies"],
+    "outcome": "The tanner scrapes a hide clean of fat and flesh, then sets it aside meaning to salt it that evening, but the evening's work runs long and it waits two warm days instead. In that time, with no salt and no smoke to stop it, the hide slips its hair and turns, ruining what would otherwise have been a season's worth of good leather. The tanner only learns how far gone it is when they finally come back for it.",
+    "steps": [
+      {
+        "process": "scrape",
+        "agent": "tanner",
+        "patient": "hide",
+        "instrument": "flint scraper",
+        "because": ["patient is fatty", "instrument is sharp"],
+        "effects": ["patient loses fat", "patient loses flesh"],
+        "numbers": ["how long scraping takes, how clean it comes"]
+      },
+      {
+        "process": "wait",
+        "agent": "world",
+        "patient": "hide",
+        "instrument": null,
+        "because": ["place is warm", "patient is unsalted"],
+        "effects": ["patient gains damp", "patient freshness down"],
+        "numbers": ["how many days pass before salting, how warm the weather is"]
+      },
+      {
+        "process": "rot",
+        "agent": "world",
+        "patient": "hide",
+        "instrument": null,
+        "because": ["patient is warm", "patient is moist"],
+        "effects": ["patient gains rotten", "patient loses hair", "creates smell"],
+        "numbers": ["how many days of warmth before the hide turns, how much of it is ruined"]
+      },
+      {
+        "process": "discard",
+        "agent": "tanner",
+        "patient": "hide",
+        "instrument": null,
+        "because": ["patient is rotten", "patient is ruined"],
+        "effects": ["consumes hide", "agent stock down"],
+        "numbers": ["how much of the season's hides are lost with it"]
+      }
+    ],
+    "latent": ["nobody checks the hide each day, so how far the rot has gone is only found when the tanner comes back for it"],
+    "state_after": ["hide: rotten, hair slipping, fit only for the midden", "tanner: down one hide for the season's leather"],
+    "stress": "a process left half-finished fails on its own timeline, not the player's",
+    "temptation": "a rule that hides rot after exactly so many days, instead of deriving spoilage from warmth, moisture and the absence of salt or smoke, the same properties that would spoil meat or fish"
+  },
+  {
+    "id": "craft-04",
+    "domain": "brewing",
+    "place": "The brewhouse, a mash tun kept near the hearth for warmth, midsummer.",
+    "initiator": "player",
+    "lines": ["mash the grain and set the wort by the hearth to ferment"],
+    "things": ["brewer", "malted grain", "hot water", "wort", "wild yeast", "hearth", "barrel"],
+    "outcome": "The brewer mashes malted grain into a sweet wort and sets it by the hearth where it's warm enough to ferment quickly. The same warmth that wakes the yeast also favors the souring bacteria that live on the air and the barrel staves, and over several warm days they outrun the yeast. By the time the brewer tastes it, the batch has turned sour rather than fermented clean, fit for vinegar rather than drinking.",
+    "steps": [
+      {
+        "process": "mash",
+        "agent": "brewer",
+        "patient": "malted grain",
+        "instrument": "hot water",
+        "because": ["patient is starchy", "instrument is hot"],
+        "effects": ["creates wort", "consumes malted grain"],
+        "numbers": ["how much wort comes from how much grain, how long mashing takes"]
+      },
+      {
+        "process": "ferment",
+        "agent": "world",
+        "patient": "wort",
+        "instrument": null,
+        "because": ["place is warm", "patient is sugary"],
+        "effects": ["patient gains fermenting", "creates alcohol"],
+        "numbers": ["how warm the hearth-side is, how fast fermentation runs"]
+      },
+      {
+        "process": "sour",
+        "agent": "world",
+        "patient": "wort",
+        "instrument": null,
+        "because": ["patient is warm", "patient is exposed"],
+        "effects": ["patient gains sour", "patient loses drinkable"],
+        "numbers": ["how many days of warmth before souring bacteria outrun the yeast, how much of the batch turns"]
+      },
+      {
+        "process": "taste",
+        "agent": "brewer",
+        "patient": "ale",
+        "instrument": null,
+        "because": ["patient is sour"],
+        "effects": ["brewer learns the batch has turned", "creates vinegar"],
+        "numbers": ["how much of the batch can still be used as vinegar rather than poured out"]
+      }
+    ],
+    "latent": ["whether the wort was kept too near the hearth is only known once it's tasted"],
+    "state_after": ["barrel: full of sour wort, fit for vinegar not drinking", "brewer: setting the next batch further from the fire"],
+    "stress": "the same warmth that helps yeast work also helps the bacteria that ruin it; there is no safe setting, only a balance",
+    "temptation": "a rule naming 'ale' and 'vinegar' as two fixed recipes, instead of one souring process that any sugary, warm, exposed liquid can undergo"
+  },
+  {
+    "id": "craft-05",
+    "domain": "baking",
+    "place": "The village oven, a cold morning before market day.",
+    "initiator": "player",
+    "lines": ["mix the dough and set it to rise by the oven", "stoke the oven hotter, we're behind"],
+    "things": ["baker", "flour", "water", "yeast starter", "dough", "oven", "firewood", "loaves"],
+    "outcome": "The baker mixes dough and sets it to rise, but the cold morning keeps the yeast sluggish and it rises slower than usual. Behind schedule for market, the baker stokes the oven hotter to make up the time, and the loaves come out with a burnt crust while the underrisen center stays dense and half-raw. Fixing the slow rise by pushing the oven only trades one honest problem for a worse one.",
+    "steps": [
+      {
+        "process": "mix",
+        "agent": "baker",
+        "patient": "flour and water",
+        "instrument": "yeast starter",
+        "because": ["patient is dry", "instrument is alive"],
+        "effects": ["creates dough", "consumes flour"],
+        "numbers": ["how much flour and water go in, how long mixing takes"]
+      },
+      {
+        "process": "rise",
+        "agent": "world",
+        "patient": "dough",
+        "instrument": null,
+        "because": ["place is cold", "instrument is sluggish"],
+        "effects": ["patient volume up"],
+        "numbers": ["how long the dough takes to rise in the cold, how much less it rises than usual"]
+      },
+      {
+        "process": "stoke",
+        "agent": "baker",
+        "patient": "oven",
+        "instrument": "firewood",
+        "because": ["agent is behind", "patient is cool"],
+        "effects": ["patient temperature up", "consumes firewood"],
+        "numbers": ["how much hotter the oven is stoked, how much extra wood it takes"]
+      },
+      {
+        "process": "bake",
+        "agent": "baker",
+        "patient": "dough",
+        "instrument": "oven",
+        "because": ["instrument is hot", "patient is underrisen"],
+        "effects": ["patient gains burnt", "patient gains undercooked", "creates bread"],
+        "numbers": ["how long baking takes, how much of the loaf is spoiled by burnt crust versus raw dough"]
+      }
+    ],
+    "latent": ["how much the cold slowed the dough is only apparent once it comes out of the oven"],
+    "state_after": ["loaves: burnt crust, dense raw crumb inside, edible but poor", "baker: short of good loaves for market"],
+    "stress": "fixing one problem by pushing a different lever creates a second, worse problem",
+    "temptation": "a rule tying bread quality to a clock, instead of deriving rise from temperature and time, and baking from heat, moisture and time together"
+  },
+  {
+    "id": "craft-06",
+    "domain": "textiles",
+    "place": "A cottage in winter, a spindle by the fire and a loom set up against the wall.",
+    "initiator": "player",
+    "lines": ["weave the wool on the loom"],
+    "things": ["child apprentice", "wool", "drop spindle", "thread", "loom", "weaver", "warp"],
+    "outcome": "Over the winter a child apprentice spins wool into thread by the fire, the twist uneven and thin in patches from an unsteady hand. The weaver dresses the loom with it and weaves cloth for days without trouble, until the warp reaches the thin patch and it snaps under the tension of the beat. The weaver has to pick out the break, re-tie the thread, and carry on, leaving a flaw in the cloth where the weakness finally showed.",
+    "steps": [
+      {
+        "process": "spin",
+        "agent": "child apprentice",
+        "patient": "wool",
+        "instrument": "drop spindle",
+        "because": ["agent is unpracticed", "patient is loose"],
+        "effects": ["creates thread", "consumes wool"],
+        "numbers": ["how even the twist is, how thin the thin spots run"]
+      },
+      {
+        "process": "warp",
+        "agent": "weaver",
+        "patient": "thread",
+        "instrument": "loom",
+        "because": ["patient is long", "instrument is strung"],
+        "effects": ["creates warp", "consumes thread"],
+        "numbers": ["how many threads go into the warp, how long dressing the loom takes"]
+      },
+      {
+        "process": "weave",
+        "agent": "weaver",
+        "patient": "warp",
+        "instrument": "shuttle",
+        "because": ["patient is taut", "instrument is weighted"],
+        "effects": ["creates cloth", "consumes warp"],
+        "numbers": ["how much cloth is woven before the flaw is reached"]
+      },
+      {
+        "process": "snap",
+        "agent": "warp",
+        "patient": "thin thread",
+        "instrument": null,
+        "because": ["patient is thin", "agent is taut"],
+        "effects": ["patient loses intact", "weaver learns the thread was weak here"],
+        "numbers": ["how much weaving time is lost re-tying the broken thread, how visible the flaw is in the finished cloth"]
+      }
+    ],
+    "latent": ["which thread in the warp was the thin one is not known until it gives way"],
+    "state_after": ["cloth: a re-tied flaw partway across, weaker there than the rest", "child apprentice: still learning an even twist"],
+    "stress": "a small unevenness from an early, unrelated process only becomes a problem much later, under a load the first process never saw",
+    "temptation": "a special case for 'children spin badly', instead of deriving thread strength from the evenness of the twist and cloth flaws from tension meeting a weak point in the material"
+  },
+  {
+    "id": "craft-07",
+    "domain": "building",
+    "place": "A timber-framed house raised at the edge of the settlement in late spring, built from timber felled that same season.",
+    "initiator": "player",
+    "lines": ["fell an oak for timber", "raise the frame and peg the joints"],
+    "things": ["carpenter", "oak tree", "green timber", "wooden pegs", "house frame", "lintel"],
+    "outcome": "In a hurry to close the house up before winter, the carpenter fells an oak, hews it, and raises the frame while the timber is still green, pegging the joints tight. Over the following months the timber dries and shrinks across the grain as any green wood does, and the once-tight joints work loose; the lintel starts to sag under its own weight. Nobody touches the frame in that time; the wood does it to itself.",
+    "steps": [
+      {
+        "process": "fell",
+        "agent": "carpenter",
+        "patient": "oak tree",
+        "instrument": "axe",
+        "because": ["place is wooded", "instrument is sharp"],
+        "effects": ["creates timber", "consumes standing tree"],
+        "numbers": ["how much timber one tree yields, how long felling and hewing takes"]
+      },
+      {
+        "process": "raise",
+        "agent": "carpenter",
+        "patient": "green timber",
+        "instrument": "wooden pegs",
+        "because": ["patient is green", "agent is hurried"],
+        "effects": ["creates house frame", "consumes green timber"],
+        "numbers": ["how tightly the joints are cut, how long raising the frame takes"]
+      },
+      {
+        "process": "dry",
+        "agent": "world",
+        "patient": "house frame",
+        "instrument": null,
+        "because": ["patient is green", "place is open"],
+        "effects": ["patient loses moisture", "patient width down"],
+        "numbers": ["how many months seasoning takes, how much the timber shrinks across the grain"]
+      },
+      {
+        "process": "loosen",
+        "agent": "house frame",
+        "patient": "lintel joint",
+        "instrument": null,
+        "because": ["agent is shrunk", "patient is tight"],
+        "effects": ["patient gains loose", "patient gains crooked"],
+        "numbers": ["how much give appears in the joint, how far the lintel sags"]
+      }
+    ],
+    "latent": ["how much the frame will move only shows once a season has passed"],
+    "state_after": ["frame: joints loosened, lintel sagging slightly, still standing", "carpenter: planning to re-wedge the joints before the first snow"],
+    "stress": "building with unseasoned material trades a fast start for a debt paid later, by the material itself, with nobody touching it",
+    "temptation": "a rule that houses need repair after one year, instead of deriving shrinkage from moisture loss in wood over time, the same process that dries anything green"
+  },
+  {
+    "id": "craft-08",
+    "domain": "daub",
+    "place": "A wattle panel freshly built onto a house wall, daubed during a hot, dry week.",
+    "initiator": "player",
+    "lines": ["mix mud and straw and daub the wattle panel"],
+    "things": ["dauber", "clay-rich mud", "straw", "wattle panel", "daub mix"],
+    "outcome": "In a hurry, the dauber mixes mud with less straw than usual and daubs it thickly onto the wattle panel. The hot week dries the coat fast, and with too little straw to bind it as it shrinks, the daub cracks and falls away in patches within days. The dauber mixes a second batch with more straw and recoats the bare wattle, this time measuring rather than guessing.",
+    "steps": [
+      {
+        "process": "mix",
+        "agent": "dauber",
+        "patient": "mud",
+        "instrument": "straw",
+        "because": ["patient is sticky", "instrument is fibrous"],
+        "effects": ["creates daub mix", "consumes straw"],
+        "numbers": ["how much straw goes in for how much mud, how long mixing takes"]
+      },
+      {
+        "process": "daub",
+        "agent": "dauber",
+        "patient": "wattle panel",
+        "instrument": "daub mix",
+        "because": ["patient is woven", "instrument is workable"],
+        "effects": ["patient gains coated", "consumes daub mix"],
+        "numbers": ["how thick the coat goes on, how long applying it takes"]
+      },
+      {
+        "process": "dry",
+        "agent": "world",
+        "patient": "daub coat",
+        "instrument": null,
+        "because": ["place is hot", "patient is thin"],
+        "effects": ["patient loses moisture", "patient gains cracked"],
+        "numbers": ["how many days of heat it takes to dry, how wide the cracks open, how much of the coat falls away"]
+      },
+      {
+        "process": "recoat",
+        "agent": "dauber",
+        "patient": "wattle panel",
+        "instrument": "daub mix",
+        "because": ["patient is bare", "agent is careful"],
+        "effects": ["patient gains coated", "consumes daub mix"],
+        "numbers": ["how much extra mud and straw the second coat costs"]
+      }
+    ],
+    "latent": ["how much straw is really needed is only found by how the first coat cracks"],
+    "state_after": ["wall: patched with a second, better-mixed coat over the cracked first one", "dauber: now measuring the straw instead of guessing"],
+    "stress": "too little binder in a material that must shrink as it dries fails from the inside, not from any outside force",
+    "temptation": "a rule that walls need redaubing every so often, instead of deriving cracking from a mix's binder content meeting a fast drying rate, the same balance that undermixed mortar would show"
+  },
+  {
+    "id": "craft-09",
+    "domain": "thatching",
+    "place": "A cottage roof, rethatched thin and fast before the rains, on a poor year for reed.",
+    "initiator": "player",
+    "lines": ["thatch the roof with what reed we have this year"],
+    "things": ["thatcher", "reed bundles", "roof timbers", "rafter", "roof", "snow"],
+    "outcome": "Short on reed, the thatcher lays a thinner coat than usual to get the roof covered before the autumn rains. All winter the rain slowly seeps through the thin patches, and the rafter beneath, kept damp for months, quietly rots without anyone seeing it. The rot only shows itself when a heavy snowfall's weight is more than the weakened rafter can bear, and it gives way, opening a hole in the roof from a shortcut taken in a different season entirely.",
+    "steps": [
+      {
+        "process": "thatch",
+        "agent": "thatcher",
+        "patient": "roof",
+        "instrument": "reed bundles",
+        "because": ["patient is bare", "instrument is scarce"],
+        "effects": ["patient gains thatched", "consumes reed"],
+        "numbers": ["how thick the thatch goes on compared to a full year's coat, how long thatching takes"]
+      },
+      {
+        "process": "seep",
+        "agent": "rain",
+        "patient": "thatch",
+        "instrument": null,
+        "because": ["patient is thin", "agent is persistent"],
+        "effects": ["patient loses waterproof", "creates damp patch"],
+        "numbers": ["how many weeks of rain before water reaches the timber beneath"]
+      },
+      {
+        "process": "rot",
+        "agent": "world",
+        "patient": "rafter",
+        "instrument": null,
+        "because": ["patient is damp", "patient is wood"],
+        "effects": ["patient gains rotten", "patient strength down"],
+        "numbers": ["how many months of damp before the rafter weakens, how much strength it loses"]
+      },
+      {
+        "process": "sag",
+        "agent": "snow",
+        "patient": "rafter",
+        "instrument": null,
+        "because": ["patient is weak", "agent is heavy"],
+        "effects": ["patient loses shape", "creates hole"],
+        "numbers": ["how much weight the rafter can no longer bear, how large the hole in the roof ends up"]
+      }
+    ],
+    "latent": ["the rot inside the rafter is not seen until the roof itself gives visible sign of it"],
+    "state_after": ["roof: sagging with a hole where the rafter gave way", "thatcher: due to rethatch properly and the carpenter to replace the rafter"],
+    "stress": "a shortcut taken in one season pays out as structural failure in a different season, through wood and water, not through the thatch itself",
+    "temptation": "a rule that thin roofs leak after one winter, instead of deriving leaking from thatch depth, rot from wood meeting sustained damp, and collapse from load meeting weakened wood"
+  },
+  {
+    "id": "craft-10",
+    "domain": "fire",
+    "place": "A row of close-built thatched houses next to the smithy, a dry, windy afternoon after weeks with no rain.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["smith", "forge", "bellows", "wind", "thatched roof", "row of houses", "villagers", "well", "buckets"],
+    "outcome": "The forge's bellows send sparks up on an ordinary afternoon, and the wind carries one onto a neighboring roof gone tinder-dry after a rainless spell. Because the houses stand close together and the thatch everywhere is just as dry, the fire jumps from roof to roof faster than anyone expects before the villagers can organize. A bucket chain from the well finally beats it back, but not before two roofs burn through and the rest of the row is scorched.",
+    "steps": [
+      {
+        "process": "spark",
+        "agent": "forge",
+        "patient": "air",
+        "instrument": "bellows",
+        "because": ["agent is hot", "instrument is pumping"],
+        "effects": ["creates sparks"],
+        "numbers": ["how far the sparks travel on the wind"]
+      },
+      {
+        "process": "catch",
+        "agent": "wind",
+        "patient": "thatched roof",
+        "instrument": "spark",
+        "because": ["patient is dry", "instrument is hot"],
+        "effects": ["patient gains burning"],
+        "numbers": ["how dry the thatch is after the rainless spell, how likely a spark catches"]
+      },
+      {
+        "process": "spread",
+        "agent": "fire",
+        "patient": "row of houses",
+        "instrument": "wind",
+        "because": ["patient is close", "patient is thatched"],
+        "effects": ["patient gains burning", "creates smoke", "villagers learn the row is on fire"],
+        "numbers": ["how many roofs catch before it's stopped, how fast the wind pushes it along the row"]
+      },
+      {
+        "process": "fight",
+        "agent": "villagers",
+        "patient": "fire",
+        "instrument": "buckets",
+        "because": ["instrument is full", "agent is many"],
+        "effects": ["patient loses burning", "consumes well water"],
+        "numbers": ["how many buckets it takes, how much of the row burns before it's out"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["row of houses: two roofs burned through, rest scorched but standing", "well: drawn low from the bucket chain", "villagers: exhausted, watching for a second flare-up overnight"],
+    "stress": "a hazard nobody built into any one thing only becomes a disaster when dry weather, closeness of houses, and a working forge meet at once",
+    "temptation": "a rule that thatched rows near forges burn down, instead of deriving ignition from dryness meeting heat, and spread from flammable material meeting wind and closeness"
+  },
+  {
+    "id": "craft-11",
+    "domain": "animals",
+    "place": "The animal pen behind the granary, a fence rail gone soft with rot, harvest just stored for winter.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["goat", "fence rail", "pen", "granary", "grain sacks", "villager"],
+    "outcome": "A goat leaning against a fence rail that has quietly rotted under an old coat of whitewash finds it gives way, and pushes through the gap into the granary. It eats and tramples part of the grain sacked for winter before a villager notices the gap and pens it back up. Nobody meant for the rail to fail, but the rot was there all along, waiting for enough weight to find it.",
+    "steps": [
+      {
+        "process": "lean",
+        "agent": "goat",
+        "patient": "fence rail",
+        "instrument": null,
+        "because": ["patient is rotten", "agent is heavy"],
+        "effects": ["patient strength down", "patient gains cracked"],
+        "numbers": ["how much weight the rail can take before it gives"]
+      },
+      {
+        "process": "push",
+        "agent": "goat",
+        "patient": "fence rail",
+        "instrument": null,
+        "because": ["patient is cracked", "agent is persistent"],
+        "effects": ["patient loses intact", "creates gap"],
+        "numbers": ["how wide the gap ends up"]
+      },
+      {
+        "process": "eat",
+        "agent": "goat",
+        "patient": "grain sacks",
+        "instrument": null,
+        "because": ["patient is open", "agent is hungry"],
+        "effects": ["consumes grain", "patient gains spilled"],
+        "numbers": ["how much grain is eaten versus trampled and spoiled"]
+      },
+      {
+        "process": "find",
+        "agent": "villager",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["patient is loose", "agent is alert"],
+        "effects": ["villager learns grain is short", "moves goat to pen"],
+        "numbers": ["how much of the winter's grain is now missing"]
+      }
+    ],
+    "latent": ["the fence rail's rot was hidden under a coat of old whitewash"],
+    "state_after": ["grain sacks: torn open, part eaten, part spilled on the ground", "fence: gapped, needs a new rail before anything else gets back in", "goat: closed back in the pen"],
+    "stress": "a maintenance failure nobody was watching turns into a resource loss nobody intended",
+    "temptation": "a rule that goats eat grain if a fence is broken, instead of deriving the breach from a rail's strength meeting an animal's weight, and the eating from any hungry animal meeting reachable food"
+  },
+  {
+    "id": "craft-12",
+    "domain": "storage",
+    "place": "The grain bin in the undercroft, filled in a rushed harvest ahead of early rain.",
+    "initiator": "player",
+    "lines": ["harvest the field quickly before the rain and sack the grain"],
+    "things": ["farmer", "standing grain", "sickle", "sacks", "storage bin", "mold"],
+    "outcome": "Racing the weather, the farmer brings in the grain and sacks it while it's still a little damp, sealing the bin before it has properly dried. Packed close and shut in, the damp grain generates its own heat over the following weeks, and mold takes hold at the center of the bin with no outside cause at all. Nobody learns how much is spoiled until the bin is opened partway through winter, when good grain on top gives way to a caked, ruined mass beneath.",
+    "steps": [
+      {
+        "process": "harvest",
+        "agent": "farmer",
+        "patient": "standing grain",
+        "instrument": "sickle",
+        "because": ["place is ripe", "agent is hurried"],
+        "effects": ["creates harvested grain", "consumes standing grain"],
+        "numbers": ["how much is brought in before the rain, how damp it still is"]
+      },
+      {
+        "process": "sack",
+        "agent": "farmer",
+        "patient": "harvested grain",
+        "instrument": "sacks",
+        "because": ["patient is damp", "agent is hurried"],
+        "effects": ["patient gains sacked", "patient gains sealed"],
+        "numbers": ["how much moisture is left in the grain when it's sacked"]
+      },
+      {
+        "process": "heat",
+        "agent": "harvested grain",
+        "patient": "harvested grain",
+        "instrument": null,
+        "because": ["agent is damp", "agent is packed"],
+        "effects": ["agent gains warm", "creates mold"],
+        "numbers": ["how many weeks of sealed damp it takes before the grain heats itself, how much of the bin is affected"]
+      },
+      {
+        "process": "open",
+        "agent": "farmer",
+        "patient": "storage bin",
+        "instrument": null,
+        "because": ["place is winter", "agent is needy"],
+        "effects": ["farmer learns part of the bin has spoiled", "consumes moldy grain"],
+        "numbers": ["how much of the stored grain is still good come the opening"]
+      }
+    ],
+    "latent": ["whether the grain went in damp enough to spoil itself is not known until the bin is opened months later"],
+    "state_after": ["grain bin: good grain on top, a moldy, caked mass at the damp center", "farmer: short for the rest of winter, rationing what's left"],
+    "stress": "grain, packed close and sealed, generates its own heat from the same dampness that would rot an open hide, with no outside cause at all",
+    "temptation": "a rule that grain spoils after a fixed number of months in storage, instead of deriving self-heating from moisture and density, the same property that would spoil hay or compost"
+  },
+  {
+    "id": "craft-13",
+    "domain": "well",
+    "place": "The village well, its rope replaced once already this year after fraying.",
+    "initiator": "player",
+    "lines": ["draw a bucket of water from the well"],
+    "things": ["well", "rope", "bucket", "windlass", "villager"],
+    "outcome": "A villager hauls up a full bucket the way they have hundreds of times this year, on a rope that was spliced once already after fraying against the well's stone lip. The spliced spot was never the true weak point; a different stretch, worn thin from the same rubbing over months, finally parts under the weight and drops the bucket down the shaft. Fishing it back out with a hook and pole takes a while, and the villager learns the rope needs full replacing, not another splice.",
+    "steps": [
+      {
+        "process": "haul",
+        "agent": "villager",
+        "patient": "bucket",
+        "instrument": "rope",
+        "because": ["patient is full", "instrument is thin"],
+        "effects": ["moves bucket to surface", "instrument strands down"],
+        "numbers": ["how many times the rope has been hauled this year, how thin the worn spot has gotten"]
+      },
+      {
+        "process": "fray",
+        "agent": "rope",
+        "patient": "rope",
+        "instrument": null,
+        "because": ["agent is exposed", "agent is fibrous"],
+        "effects": ["agent loses fibers", "agent gains weak spot"],
+        "numbers": ["how many hauls it takes to wear through a given number of strands"]
+      },
+      {
+        "process": "snap",
+        "agent": "rope",
+        "patient": "bucket",
+        "instrument": null,
+        "because": ["agent is worn", "patient is heavy"],
+        "effects": ["agent loses intact", "moves bucket to well bottom"],
+        "numbers": ["how far the bucket falls, how likely it is to be fished back out"]
+      },
+      {
+        "process": "fish",
+        "agent": "villager",
+        "patient": "bucket",
+        "instrument": "hook and pole",
+        "because": ["patient is submerged", "agent is equipped"],
+        "effects": ["moves bucket to surface", "villager learns a new rope is needed"],
+        "numbers": ["how long fishing it out takes, how many tries it takes"]
+      }
+    ],
+    "latent": ["exactly where along its length the rope was worn thinnest is not known until it parts there"],
+    "state_after": ["rope: parted, both ends still tied off, needs full replacement not another splice", "bucket: recovered, dented", "well: out of service until a new rope is spun and fitted"],
+    "stress": "a mend that restores use does not restore strength; the weak point keeps being the weak point",
+    "temptation": "a rule that ropes snap after being spliced once, instead of deriving failure from cumulative wear at a point of friction, the same wear that dulls a blade's edge or thins a hinge"
+  },
+  {
+    "id": "craft-14",
+    "domain": "sickness",
+    "place": "A one-room cottage in a cold, wet week, several people and a goat sharing the yard and a single water source.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["household", "fever", "shared cup", "goat", "neighbor"],
+    "outcome": "A run-down member of the household catches a fever in the cold, damp week, and it passes to the rest through the unwashed cup they all drink from, one or two falling sick a day apart. Too weak to keep up the chores, the household misses several milkings, and the goat goes uncomfortable and short of relief until a neighbor, still well, steps in to milk it for them. The sickness costs the household in an animal's discomfort as much as in their own fever, simply because the household and the goat both depend on the same hands.",
+    "steps": [
+      {
+        "process": "sicken",
+        "agent": "fever",
+        "patient": "household member",
+        "instrument": null,
+        "because": ["patient is weak", "place is damp"],
+        "effects": ["patient gains feverish", "patient strength down"],
+        "numbers": ["how many days before the fever breaks or worsens"]
+      },
+      {
+        "process": "spread",
+        "agent": "fever",
+        "patient": "rest of household",
+        "instrument": "shared cup",
+        "because": ["instrument is unwashed", "patient is close"],
+        "effects": ["patient gains feverish", "household learns the sickness is spreading"],
+        "numbers": ["how many of the household fall sick, how many days apart"]
+      },
+      {
+        "process": "neglect",
+        "agent": "household",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["agent is weak", "patient is needy"],
+        "effects": ["patient gains uncomfortable", "patient loses milk"],
+        "numbers": ["how many milkings are missed, how much milk is lost"]
+      },
+      {
+        "process": "help",
+        "agent": "neighbor",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["patient is untended", "agent is well"],
+        "effects": ["patient loses discomfort", "neighbor gains obligation", "transfers care from household to neighbor"],
+        "numbers": ["how many days the neighbor covers the milking"]
+      }
+    ],
+    "latent": ["who in the household will catch it next is not known until they do"],
+    "state_after": ["household: two still feverish, one recovering", "goat: milked again, thanks to the neighbor", "neighbor: owed a favor, by nobody's ledger but memory"],
+    "stress": "sickness moves through a household by the same closeness and sharing that makes a household work at all, and its cost shows up sideways, in an animal, not in the sick",
+    "temptation": "a rule naming which specific person catches a cold from which other specific person, instead of deriving spread from closeness, contact and a weakened state that would carry any sickness"
+  },
+  {
+    "id": "craft-15",
+    "domain": "market",
+    "place": "The rutted road into the market square, a cart loaded with a season's fired pots, its axle original to the cart and years old.",
+    "initiator": "player",
+    "lines": ["load the pots on the cart and drive to market"],
+    "things": ["potter", "cart", "axle", "pots", "road", "market square"],
+    "outcome": "The potter loads a season's worth of fired pots onto the cart and sets off down the rutted road to market, on an axle that has carried loads without complaint for years. Worn thinner than anyone thought to check, the axle finally cracks when the cart hits a deep rut, and the cart tips hard enough to spill the load. Several pots smash outright on the road; the rest scatter but survive, and the potter is left short for market and needing the axle mended before the next trip.",
+    "steps": [
+      {
+        "process": "load",
+        "agent": "potter",
+        "patient": "pots",
+        "instrument": "cart",
+        "because": ["patient is sound", "instrument is roomy"],
+        "effects": ["moves pots to cart", "instrument weight up"],
+        "numbers": ["how many pots the cart carries, how heavy the load is"]
+      },
+      {
+        "process": "drive",
+        "agent": "potter",
+        "patient": "cart",
+        "instrument": "axle",
+        "because": ["place is rutted", "instrument is old"],
+        "effects": ["instrument strength down"],
+        "numbers": ["how many years the axle has carried loads, how rough the road is"]
+      },
+      {
+        "process": "crack",
+        "agent": "axle",
+        "patient": "cart",
+        "instrument": null,
+        "because": ["agent is worn", "patient is jolted"],
+        "effects": ["agent loses intact", "patient loses balance"],
+        "numbers": ["how sudden the break is, how far the cart tips"]
+      },
+      {
+        "process": "spill",
+        "agent": "cart",
+        "patient": "pots",
+        "instrument": null,
+        "because": ["patient is loose", "agent is tilted"],
+        "effects": ["patient gains broken", "creates shards"],
+        "numbers": ["how many pots survive the fall, how many are smashed outright"]
+      }
+    ],
+    "latent": ["how worn the axle had become was never checked before this trip"],
+    "state_after": ["cart: tipped, axle broken, blocking half the road", "pots: several smashed, the rest scattered but whole", "potter: short for market, needing the axle mended before the next trip"],
+    "stress": "a part that has quietly done its job for years fails on an ordinary day, under an ordinary load, at the worst possible moment",
+    "temptation": "a rule that carts break down on the way to market, instead of deriving failure from years of accumulated wear meeting one more load on rough ground, the same wear that would fail a rope, a hinge or a handle"
+  }
+]

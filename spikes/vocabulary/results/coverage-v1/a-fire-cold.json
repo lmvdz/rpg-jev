@@ -1,0 +1,138 @@
+[
+  {
+    "id": "fire-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["P6", "S1", "R1"], "effects": ["E1:S3", "E9"] },
+      { "process": "X3", "uses": ["P6", "S2", "place:wind_strength", "R7", "place:slope"], "effects": ["E1:S3", "E9"] },
+      { "process": "X3", "uses": ["P6", "R7", "place:wind_strength", "R1"], "effects": ["E1:S3", "E2"] },
+      { "process": "X4", "uses": ["S3", "R6", "P9"], "effects": ["E1:S3", "E13"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "fire-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["P9", "S1", "S2", "R1"], "effects": ["E1:S2", "E1:S1"] },
+      { "process": "X3", "uses": ["S1", "R1", "P7"], "effects": ["E1:S1", "E1:S2"] },
+      { "process": "X3", "uses": ["S1", "S2", "P9"], "effects": ["E1:S4", "E1:P5(M1)", "E9"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "fire-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["P7", "P8", "S1"], "effects": ["E1:S1"] },
+      { "process": "X2", "uses": ["P3(M2)", "P4"], "effects": ["E1:S4"] },
+      { "process": "X3", "uses": ["S1", "P8"], "effects": ["E1:S1", "E1:P3(M2)", "E1:S15(M2)"] },
+      { "process": "Load", "uses": ["S15", "P3", "P4"], "effects": ["E1:S4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "fire-10",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X3", "uses": ["P6", "S1"], "effects": ["E1:S3", "E3", "E9"] },
+      { "process": "X7", "uses": ["R6", "place:enclosure"], "effects": ["E9", "E13"] },
+      { "process": "X6", "uses": ["B1"], "effects": ["E2:B4"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "state", "what": "enclosed hazard buildup", "why": "smoke is defined as a fading E9 signal, not an accumulating quantity that itself harms through X6 breathe; giving it a P17-bearing material row to make it harm is a stretch beyond E9's stated design" }
+    ],
+    "lost": "the worsening-over-time harm from trapped smoke, since E9 is a signal that fades by X7 rather than a quantity that accumulates in a sealed place and harms by route",
+    "named_rule": null
+  },
+  {
+    "id": "cold-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["S3", "place:wind_strength", "P1"], "effects": ["E1:S3", "E9"] },
+      { "process": "X8", "uses": ["R8", "R1", "place:light"], "effects": ["E2:B7"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "cold-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["S1", "S6", "P8"], "effects": ["E1:S6", "E1:P22"] },
+      { "process": "Load", "uses": ["P22", "P3", "P4", "S15"], "effects": ["E1:S4", "E6"] },
+      { "process": "X3", "uses": ["S1", "S6"], "effects": ["E1:S6", "E4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "cold-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["place:weather", "S14"], "effects": ["E13", "E3"] },
+      { "process": "E13", "uses": ["S14", "R8"], "effects": ["E13", "E6"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "cold-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5", "uses": ["P5", "P10"], "effects": ["E3", "E4"] },
+      { "process": "X4", "uses": ["P10", "R6"], "effects": ["E1:S2"] },
+      { "process": "Load", "uses": ["R4", "place:wind_strength"], "effects": ["E6", "E1:R5"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "cold-08",
+    "verdict": "fail",
+    "steps": [
+      { "process": "?", "uses": ["P2", "R1"], "effects": ["E2", "E9"] },
+      { "process": "X2", "uses": ["S1", "P4"], "effects": ["E1:S4", "E3"] },
+      { "process": "X7", "uses": ["S1", "P6"], "effects": ["E9"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "process", "what": "lightning strike targeting", "why": "section 8 names electricity, including what lightning strikes and does, as asked for and not granted; the outcome turns on the tallest, most-grounded object being struck, which no process or property (P7 is heat conductivity only) models" }
+    ],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "cold-10",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["P1", "P14", "place:footing"], "effects": ["E1"] },
+      { "process": "X2", "uses": ["P13"], "effects": ["E1"] },
+      { "process": "X1", "uses": ["P13"], "effects": ["E1", "E2"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "suction / viscous grip", "why": "freeing a boot from saturated mud is a pressure-differential suction effect on a submerged object, distinct from surface stickiness; no property for viscosity or suction exists, so P13, a tar-like coating property, must be stretched to cover it" }
+    ],
+    "lost": "the resistive suction of waterlogged mud is stretched into surface stickiness (P13) rather than a true pressure/suction mechanism, still unaddressed in version 1",
+    "named_rule": null
+  }
+]

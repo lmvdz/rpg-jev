@@ -1,0 +1,95 @@
+[
+  {
+    "id": "beast-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["R1"], "effects": ["E5"] },
+      { "process": "X6", "uses": ["P20", "B1"], "effects": ["E4", "E2"] },
+      { "process": "X7", "uses": ["B6"], "effects": ["E2"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "beast-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["body.speed", "R1"], "effects": ["E5"] },
+      { "process": "X1", "uses": ["R6"], "effects": ["E2"] },
+      { "process": "pick_action", "uses": ["B6", "R6"], "effects": ["E5"] },
+      { "process": "X2", "uses": ["P3", "form:pointed", "body.strength"], "effects": ["E2:B3"] }
+    ],
+    "reactions": ["R6(escape blocked) under pick_action -> flee dropped, attack offered; B6 shifts from fear toward anger"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "beast-04",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X7", "uses": ["place.ambient_sound"], "effects": ["E13", "E9"] },
+      { "process": "X8", "uses": ["group", "B7"], "effects": ["E2", "E5"] },
+      { "process": "X2", "uses": ["P1", "group.count", "R4"], "effects": ["E1:S4", "E3"] }
+    ],
+    "reactions": [],
+    "missing": [ { "kind": "other", "what": "storm/thunder as a source", "why": "place states give wind strength and ambient sound, but nothing establishes a storm or a thunderclap as a thing that can push ambient sound to a startling spike; it has to be assumed weather is already a place-state process, which the vocabulary never spells out" } ],
+    "lost": "the trigger itself, a thunderclap, has no stated mechanism for producing a loud sudden signal; only its consequences (sensing the sound, the group startling as one, trampling the snares) are solidly grounded",
+    "named_rule": null
+  },
+  {
+    "id": "beast-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["group.count", "B1"], "effects": ["E1"] },
+      { "process": "X6", "uses": ["P20", "place.abundance"], "effects": ["E4", "E1"] },
+      { "process": "X7", "uses": ["place.slope", "place.footing"], "effects": ["E13"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "beast-10",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["P15", "S9"], "effects": ["E1:S9", "E9"] },
+      { "process": "X8", "uses": ["P19", "R1"], "effects": ["E11", "E5"] },
+      { "process": "X6", "uses": ["group.count"], "effects": ["E4"] },
+      { "process": "X8", "uses": ["P19", "R1", "group.count"], "effects": ["E11", "E5"] },
+      { "process": "X1/E7", "uses": ["B6", "R9"], "effects": ["E7", "E5"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "folk-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X8", "uses": ["R8", "place.cover"], "effects": ["E1"] },
+      { "process": "X2", "uses": ["P1", "R4", "S15"], "effects": ["E9"] },
+      { "process": "X8", "uses": ["place.ambient_sound", "R1"], "effects": ["E11", "E5"] }
+    ],
+    "reactions": ["R4(loose join) + S15(flaw) under X2(sudden weight, haste) -> E9: creak sound emitted"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "folk-03",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X9", "uses": [], "effects": ["E8"] },
+      { "process": "X9", "uses": ["P20"], "effects": ["E7", "E12"] }
+    ],
+    "reactions": [],
+    "missing": [ { "kind": "property", "what": "value / price", "why": "section 8 keeps this deliberately out of code; X9 resolves only a binary accept_offer over what a thing serves the taker (P20), never a shared worth scale, so there is no way to derive the specific settled quantity, 'a fair sack's worth', without either hardcoding an exchange rate or an unstated haggling loop over candidate amounts" } ],
+    "lost": "",
+    "named_rule": "a fixed knife-to-turnips exchange rate, since nothing else fixes the settled quantity"
+  }
+]

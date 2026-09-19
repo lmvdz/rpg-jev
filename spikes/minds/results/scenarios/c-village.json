@@ -1,0 +1,401 @@
+[
+  {
+    "id": "village-01",
+    "domain": "village",
+    "who": "a stocky blacksmith fitting a new shoe to a cart-horse",
+    "place": "the open-fronted smithy at the village crossroads, the forge still hot from the morning's work.",
+    "present": ["the farmer who owns the horse, holding its head", "a heap of old shoes and nails on the anvil bench", "a stray dog sniffing at the forge ash", "a stranger walking past on the road"],
+    "factors": [
+      { "kind": "a job half done", "fact": "The old shoe is already off and the hoof trimmed, so stopping now would waste the trimming." },
+      { "kind": "what someone else needs", "fact": "The farmer says he must reach the mill before the miller closes the sluice at dusk." },
+      { "kind": "the animal's mood", "fact": "The horse has started shifting its weight and pulling its foot back." },
+      { "kind": "what it can still do", "fact": "The blacksmith's forearm is aching from an earlier job and the light is starting to fail." },
+      { "kind": "custom", "fact": "Village custom holds that a smith who starts a shoeing finishes it before taking on other work." },
+      { "kind": "what it fears", "fact": "A half-nailed shoe left loose can lame the horse on the road." }
+    ],
+    "does": { "verb": "hammers the shoe nail flush", "toward": "the horse's hoof", "how": "quickly, before it can shift again" },
+    "could_also": [
+      { "verb": "stops to rest his arm", "toward": "nothing" },
+      { "verb": "asks the farmer to hold the leg tighter", "toward": "the farmer" },
+      { "verb": "checks the fit again before nailing", "toward": "the horse's hoof" }
+    ],
+    "would_not": [
+      { "verb": "sends the farmer away unshod", "toward": "the farmer", "why": "the shoe is already half-fitted, and turning him away now would waste the trimming and break the custom of finishing a job once started." },
+      { "verb": "lets the horse rest before finishing", "toward": "the horse", "why": "the horse is growing more restless by the minute, not less, so waiting would only make the last nails harder to set." }
+    ],
+    "then": "He finishes the last two nails, clinches them over, and lets the horse's hoof down; the farmer pays him in a twist of tobacco and leads the horse off toward the mill road.",
+    "why": "The job is nearly finished and the farmer is pressed for time, both pulling toward finishing fast; only the horse's growing restlessness argues for stopping, and since stopping now would strand a half-shod animal, the blacksmith works quickly rather than pausing.",
+    "turns_on": "whether the horse stays still long enough to take the last nails"
+  },
+  {
+    "id": "village-02",
+    "domain": "village",
+    "who": "a girl of about twelve milking a cow",
+    "place": "a low byre at the edge of a farmyard, mid-morning, the cow tied to a post.",
+    "present": ["the cow", "a three-legged milking stool", "a wooden pail half full", "a barn cat waiting nearby", "a stranger passing along the lane outside"],
+    "factors": [
+      { "kind": "a need", "fact": "The household needs the milk today for cheese-making before it turns." },
+      { "kind": "the animal's mood", "fact": "The cow is swishing her tail and stamping because flies are bad this morning." },
+      { "kind": "what it has learned", "fact": "The girl has been kicked by this cow before when she rushed." },
+      { "kind": "what it is owed", "fact": "Her mother told her she may keep back a cupful for the cat if the pail is full by noon." },
+      { "kind": "time of day", "fact": "The sun is already high, and milk taken too late loses the morning's freshness." }
+    ],
+    "does": { "verb": "keeps milking steadily", "toward": "the cow", "how": "unhurried, murmuring to calm her" },
+    "could_also": [
+      { "verb": "stops and starts over from the other side", "toward": "the cow" },
+      { "verb": "ties the cow's tail back", "toward": "the cow" },
+      { "verb": "calls for help holding the cow still", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "rushes to finish faster", "toward": "the cow", "why": "rushing is exactly what got her kicked before, and a kicked-over pail wastes more milk than a slow one saves." },
+      { "verb": "gives up and leaves the pail half full", "toward": "nothing", "why": "the household needs the full pail for cheese today, and a half pail is no use for that." }
+    ],
+    "then": "She finishes the pail, strains off a cupful for the cat, and carries the rest up to the house before the flies get worse.",
+    "why": "The need for a full pail today and the memory of being kicked pull against each other, but going slow satisfies both: it keeps the cow calm without costing so much time that the milk misses its use. Rushing would risk a repeat of the kick.",
+    "turns_on": "how badly the flies are bothering the cow"
+  },
+  {
+    "id": "village-03",
+    "domain": "village",
+    "who": "a woman minding a stall of turnips, onions and cabbages",
+    "place": "the packed market square on a fair day, stalls shoulder to shoulder, past midday.",
+    "present": ["a customer weighing two turnips in her hands", "a neighbouring stall selling eggs", "a basket of unsold cabbages going soft", "a stranger stopping to look over the stall"],
+    "factors": [
+      { "kind": "what it is owed", "fact": "She owes the toll-collector his fee out of today's takings before the square closes." },
+      { "kind": "what will spoil", "fact": "The cabbages are starting to wilt in the afternoon heat and will fetch less tomorrow." },
+      { "kind": "a stranger's arrival", "fact": "A face she does not know has stopped in front of the stall, and new faces are rare enough here to be worth a look." },
+      { "kind": "rank", "fact": "She is only a tenant stallholder and cannot lower prices below what the landholder sets without asking first." },
+      { "kind": "custom", "fact": "It is the custom here to greet a stranger before a known face, since a stranger might be a buyer passing through." }
+    ],
+    "does": { "verb": "calls out and offers her the wilting cabbages cheap", "toward": "the stranger", "how": "brightly, sizing her up as a possible buyer" },
+    "could_also": [
+      { "verb": "keeps weighing the known customer's turnips first", "toward": "the customer" },
+      { "verb": "ignores the newcomer until asked", "toward": "nothing" },
+      { "verb": "waves the stranger toward the egg stall instead", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "refuses to speak to the stranger", "toward": "the stranger", "why": "a stranger might buy the cabbages before they spoil, and turning away a possible sale over nothing but unfamiliarity would be foolish." },
+      { "verb": "drops her price below the landholder's floor", "toward": "the stranger", "why": "she is a tenant and has no standing to undercut the set price on her own say-so." }
+    ],
+    "then": "If the stranger stops to look at the cabbages, she talks the price down as far as she is allowed and hopes to clear the basket before the toll is due; if the stranger walks on, she turns back to the customer already at her elbow.",
+    "why": "The wilting cabbages need a buyer today and the stranger is a fresh chance at one, so she calls out rather than waiting to be approached. The custom of greeting strangers first, and the small hope of an easy sale, outweigh simply finishing with the customer she already has.",
+    "turns_on": "whether the stranger actually stops at the stall or just glances and walks on"
+  },
+  {
+    "id": "village-04",
+    "domain": "village",
+    "who": "three children chasing a rolling hoop down the lane",
+    "place": "a dirt lane between two houses, late afternoon, chickens scattering out of the way.",
+    "present": ["a hoop and a stick", "a dozing dog they nearly ran over", "two mothers talking in a doorway nearby", "a stranger walking up the lane toward them"],
+    "factors": [
+      { "kind": "a game's rule", "fact": "Whoever lets the hoop fall over has to fetch it and start again." },
+      { "kind": "what it fears", "fact": "They have been told before not to run into people on the lane." },
+      { "kind": "curiosity", "fact": "None of them recognises the person now coming toward them." },
+      { "kind": "a bond", "fact": "The smallest child is younger and slower, and the other two usually wait for her." },
+      { "kind": "what just happened", "fact": "The hoop has just started to wobble and is about to fall." }
+    ],
+    "does": { "verb": "stop and stare", "toward": "the stranger", "how": "openly, forgetting the hoop" },
+    "could_also": [
+      { "verb": "keep chasing the hoop without looking up", "toward": "the hoop" },
+      { "verb": "duck behind the doorway with their mothers", "toward": "nothing" },
+      { "verb": "ask the stranger who they are", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "run straight into the stranger chasing the hoop", "toward": "the stranger", "why": "they have been warned before about running into people, and a stranger is exactly the kind of person that warning was meant for." },
+      { "verb": "keep playing as if no one is there", "toward": "nothing", "why": "none of them has seen this face before, and that alone is enough to break their attention off the game." }
+    ],
+    "then": "They let the hoop topple and roll to a stop against the wall while they watch the stranger pass, then go back to arguing over whose turn it is to fetch it.",
+    "why": "The rule of the game and the fear of running into someone both matter less, for a moment, than plain curiosity about an unfamiliar face; a stranger is rare enough on this lane to be worth stopping for. Once the newcomer has passed, the ordinary rules of the game take over again.",
+    "turns_on": "whether the person coming up the lane is a face they know"
+  },
+  {
+    "id": "village-05",
+    "domain": "village",
+    "who": "an old woman sitting up with a body laid out in the front room",
+    "place": "a small house with the door left ajar, evening, a single candle burning by the bed.",
+    "present": ["the body under a plain cloth", "two neighbours sitting quietly along the wall", "a jug of watered ale passed between them", "a stranger pausing outside the open door"],
+    "factors": [
+      { "kind": "custom", "fact": "It is the custom here to sit up with the dead through the night before burial." },
+      { "kind": "a bond", "fact": "She was close kin to the one who died and is expected to sit closest." },
+      { "kind": "grief", "fact": "She has not slept since the death and her eyes keep closing." },
+      { "kind": "what is owed", "fact": "The neighbours came out of duty and expect to be relieved before dawn." },
+      { "kind": "what it can still do", "fact": "Her back aches badly from sitting so long on the hard bench." }
+    ],
+    "does": { "verb": "keeps sitting beside the body", "toward": "the body", "how": "silent, fighting sleep" },
+    "could_also": [
+      { "verb": "asks a neighbour to take her place a while", "toward": "a neighbour" },
+      { "verb": "steps outside for air", "toward": "nothing" },
+      { "verb": "lights a second candle as the first gutters", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "leaves the body unwatched to sleep", "toward": "nothing", "why": "custom holds that the dead are not left alone before burial, and as the closest kin present she is the one expected to keep that watch." },
+      { "verb": "turns the stranger at the door away rudely", "toward": "the stranger", "why": "a wake is not the place to make an enemy of anyone, kin or stranger, and turning someone away harshly would be remembered." }
+    ],
+    "then": "She nods to the stranger at the door without rising, and one of the neighbours quietly explains what house this is and why the door stands open; the old woman goes on sitting until the sky begins to grey.",
+    "why": "Custom and her bond to the dead both demand she keep the watch, against the plain fact that her body wants sleep; the custom wins because leaving now, this early, would be noticed and held against her. The stranger at the door changes nothing about the watch itself, only draws a quiet word from a neighbour.",
+    "turns_on": "how many hours remain until dawn"
+  },
+  {
+    "id": "village-06",
+    "domain": "village",
+    "who": "an old man kneeling at a roadside shrine of stacked stones",
+    "place": "a bend in the road just outside the village where travellers leave small offerings, early morning mist still on the ground.",
+    "present": ["a heap of old offerings, coins, a ribbon, a dried flower", "his walking stick set against the stones", "a stranger approaching along the same road"],
+    "factors": [
+      { "kind": "custom", "fact": "He stops at this shrine every morning on his way to the fields, as his father did before him." },
+      { "kind": "what he is owed", "fact": "He believes the shrine kept his son safe on a hard winter crossing years back and owes it a daily word." },
+      { "kind": "what it can still do", "fact": "His knees are stiff and kneeling takes him longer than it used to." },
+      { "kind": "time pressed", "fact": "The fields will not wait long and the dew is already burning off." }
+    ],
+    "does": { "verb": "finishes his prayer before rising", "toward": "nothing", "how": "unhurried, murmuring low" },
+    "could_also": [
+      { "verb": "cuts the prayer short today", "toward": "nothing" },
+      { "verb": "leaves a coin on the stones", "toward": "nothing" },
+      { "verb": "waits for the stranger to pass before rising", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "skips the shrine entirely to save time", "toward": "nothing", "why": "the daily word is owed for the son's safe crossing years ago, and skipping it would feel like breaking a debt, not merely a habit." },
+      { "verb": "stops mid-prayer to greet the stranger", "toward": "the stranger", "why": "he has never broken off a prayer for a passer-by before and sees no reason a stranger on the road should be different." }
+    ],
+    "then": "He finishes, touches the top stone once, and gets up slowly using his stick, giving the stranger no more than a nod before going on to the fields.",
+    "why": "The debt he feels toward the shrine outweighs the pull of the waiting fields, so he finishes the prayer at its own pace rather than cutting it short; his stiff knees only slow the rising, they do not shorten the prayer itself. The stranger passing by does not enter into it at all.",
+    "turns_on": "how much the fields still need him this morning"
+  },
+  {
+    "id": "village-07",
+    "domain": "village",
+    "who": "two women drawing water and talking at the village well",
+    "place": "the stone well at the centre of the village, mid-morning, a queue of a few more waiting behind them.",
+    "present": ["a wooden bucket and rope", "two more women waiting their turn", "a stranger crossing the square nearby"],
+    "factors": [
+      { "kind": "what someone just did", "fact": "One of them has just heard that a neighbour's daughter has been seen twice with a man from another village." },
+      { "kind": "custom", "fact": "Talk like this is normally shared only among those who already know the family." },
+      { "kind": "who is listening", "fact": "A face neither of them knows has just come close enough to overhear." },
+      { "kind": "what is owed", "fact": "Those waiting behind them expect their turn at the bucket before long." }
+    ],
+    "does": { "verb": "drops her voice and changes the subject", "toward": "the stranger", "how": "quickly, glancing sideways" },
+    "could_also": [
+      { "verb": "keeps talking at the same volume", "toward": "nothing" },
+      { "verb": "finishes filling her bucket and leaves", "toward": "nothing" },
+      { "verb": "asks the stranger outright who they are", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "repeats the gossip loudly in front of the stranger", "toward": "the stranger", "why": "the custom is to keep such talk among those who already know the family, and an unknown face is exactly the wrong ear for it." },
+      { "verb": "ignores the queue and keeps gossiping at length", "toward": "nothing", "why": "others are waiting on the bucket, and holding it too long over talk would be noticed and complained of." }
+    ],
+    "then": "She lowers her voice to finish the story in a few quick words, fills her bucket, and lets the next woman in line step up while the stranger passes on out of earshot.",
+    "why": "The pull to finish an interesting piece of talk works against the custom of keeping it private, and the stranger's sudden nearness tips the balance toward caution; she was going to have to yield the bucket soon regardless. Once the stranger is out of earshot the talk could start again, but for now it is cut short.",
+    "turns_on": "whether the stranger is close enough to overhear"
+  },
+  {
+    "id": "village-08",
+    "domain": "village",
+    "who": "a young man and a young woman talking across a fence at the edge of a yard",
+    "place": "the low fence between two family plots, early evening, chores mostly done for the day.",
+    "present": ["a bucket of feed she was carrying", "chickens pecking nearby", "her father visible working in the yard behind her", "a stranger coming along the footpath beside the fence"],
+    "factors": [
+      { "kind": "a bond", "fact": "The two have been finding reasons to talk at this fence for several weeks." },
+      { "kind": "what is owed", "fact": "Her father has not yet been asked and does not know how far things have gone." },
+      { "kind": "custom", "fact": "It is thought improper here for a courting pair to be seen too easily by outsiders before it is declared." },
+      { "kind": "who is watching", "fact": "A stranger has just come into view on the path, close enough to notice them." },
+      { "kind": "what it fears", "fact": "She fears her father hearing of this before the young man has spoken to him properly." }
+    ],
+    "does": { "verb": "steps back from the fence and picks up her feed bucket", "toward": "nothing", "how": "quickly, as if just passing" },
+    "could_also": [
+      { "verb": "keeps talking as if nothing changed", "toward": "the young man" },
+      { "verb": "waves the stranger past with a greeting", "toward": "the stranger" },
+      { "verb": "calls out to her father to cover the moment", "toward": "her father" }
+    ],
+    "would_not": [
+      { "verb": "keeps leaning on the fence talking openly", "toward": "the young man", "why": "the custom against being seen too easily by outsiders is exactly what a passing stranger threatens, and being caught mid-conversation would be the wrong kind of notice." },
+      { "verb": "runs off without a word", "toward": "nothing", "why": "vanishing outright would draw more attention from her father working nearby than simply moving off with her bucket would." }
+    ],
+    "then": "She busies herself scattering feed to the chickens as the stranger passes, and the young man finds a reason to walk toward the far gate; they will find another moment later when fewer eyes are about.",
+    "why": "The wish to keep talking pulls against the custom of not being seen too easily, and the stranger's sudden approach tips it, since an unfamiliar witness might mention it to someone before the young man has spoken to her father. Stepping back with the bucket lets her look occupied rather than caught.",
+    "turns_on": "whether her father looks up and notices the stranger too"
+  },
+  {
+    "id": "village-09",
+    "domain": "village",
+    "who": "two neighbouring farmers arguing over a fence line between their fields",
+    "place": "the strip of ground between two ploughed fields, late morning, a half-moved fence post lying in the dirt.",
+    "present": ["the disputed fence post", "a dog barking at the raised voices", "a third neighbour who has stopped to watch"],
+    "factors": [
+      { "kind": "what someone just did", "fact": "One of them moved the fence post two days ago, claiming the old line was wrong." },
+      { "kind": "what is owed", "fact": "Both believe the strip of ground has been theirs to plough since their fathers' time." },
+      { "kind": "rank", "fact": "Neither farmer holds more standing in the village than the other, so neither will simply yield." },
+      { "kind": "what it fears", "fact": "A fight here would be seen by the watching neighbour and talked about for weeks." },
+      { "kind": "custom", "fact": "Boundary disputes are supposed to go before the village elders, not be settled by hand." }
+    ],
+    "does": { "verb": "shouts and points at the moved post", "toward": "the other farmer", "how": "angrily but keeping his hands to himself" },
+    "could_also": [
+      { "verb": "shoves the post back to where it was", "toward": "the fence post" },
+      { "verb": "walks off to fetch the elders", "toward": "nothing" },
+      { "verb": "appeals to the watching neighbour to judge", "toward": "the watching neighbour" }
+    ],
+    "would_not": [
+      { "verb": "strikes the other farmer", "toward": "the other farmer", "why": "a blow struck here would be seen by the watching neighbour and remembered against him long after the boundary itself is settled." },
+      { "verb": "backs down and accepts the moved line", "toward": "the other farmer", "why": "he believes the ground has been his family's to plough for a generation, and giving it up without a fight would cost him more than the argument does." }
+    ],
+    "then": "The shouting draws no blows but no agreement either; the watching neighbour suggests taking it to the elders, and both farmers stalk off in opposite directions still convinced they are right.",
+    "why": "The claim of long use pulls each man toward standing firm, while the fear of being seen brawling pulls toward restraint, and since neither has more standing than the other to force the issue alone, shouting without striking is what is left. Custom offers a way out through the elders, but pride keeps either from suggesting it first.",
+    "turns_on": "whether the watching neighbour is willing to be a witness before the elders"
+  },
+  {
+    "id": "village-10",
+    "domain": "village",
+    "who": "a cooper's boy learning to fit a hoop around a barrel",
+    "place": "the open yard behind the cooper's workshop, staves and half-finished barrels stacked around, mid-afternoon.",
+    "present": ["the cooper watching over his shoulder", "a half-hooped barrel standing between them", "a pile of iron hoops", "a mallet"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "The boy has done this only a handful of times and his hands are not yet sure of the angle." },
+      { "kind": "what someone just did", "fact": "The cooper has just shown him the same fit once, slowly, and is now watching to see if it was learned." },
+      { "kind": "what is owed", "fact": "A barrel is due to a customer tomorrow and cannot be spoiled in the learning." },
+      { "kind": "what it fears", "fact": "The boy is afraid of driving the hoop crooked in front of the cooper." }
+    ],
+    "does": { "verb": "drives the hoop down carefully, checking the angle after each blow", "toward": "the barrel", "how": "slow, unsure" },
+    "could_also": [
+      { "verb": "asks the cooper to show the fit once more", "toward": "the cooper" },
+      { "verb": "hands the mallet back and asks him to finish it", "toward": "the cooper" },
+      { "verb": "drives it in one fast run the way he was shown", "toward": "the barrel" }
+    ],
+    "would_not": [
+      { "verb": "drives the hoop down fast without checking", "toward": "the barrel", "why": "the barrel is owed to a customer tomorrow, and a crooked hoop driven fast would ruin it, costing more than a slow careful job." },
+      { "verb": "gives up and lets the cooper finish it", "toward": "the cooper", "why": "he has only just been shown the fit, and giving up before trying would teach him nothing and waste the lesson." }
+    ],
+    "then": "He gets the hoop seated close enough that the cooper only has to tap it true with two blows of his own, and nods him on to the next one before the barrel is due.",
+    "why": "His unsure hands pull him toward going slowly, while the barrel's deadline pulls toward speed, and slow wins because a ruined barrel costs the shop more than a few extra minutes would. The cooper watching also weighs on him, since a fumble now would be seen right away.",
+    "turns_on": "how closely the cooper is watching this particular hoop"
+  },
+  {
+    "id": "village-11",
+    "domain": "village",
+    "who": "a thin man sitting against the churchyard wall with a wooden bowl",
+    "place": "the shaded side of the churchyard wall facing the road, midday, few people passing at this hour.",
+    "present": ["his empty bowl", "a walking stick beside him", "a stranger approaching along the road", "the church door standing shut"],
+    "factors": [
+      { "kind": "a need", "fact": "He has had nothing to eat since the day before." },
+      { "kind": "what it can still do", "fact": "An old injury to his leg keeps him from working the fields or walking far to beg elsewhere." },
+      { "kind": "what it is owed", "fact": "The village is used to him and gives little now, since he is a familiar sight rather than a new one." },
+      { "kind": "who is passing", "fact": "A stranger is coming up the road who has never seen him before and does not yet know to expect nothing." }
+    ],
+    "does": { "verb": "holds out the bowl and asks", "toward": "the stranger", "how": "quietly, without much hope" },
+    "could_also": [
+      { "verb": "stays silent and just watches the stranger pass", "toward": "the stranger" },
+      { "verb": "shifts to a more visible spot on the wall", "toward": "nothing" },
+      { "verb": "calls after the stranger once they have passed", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "gets up and follows the stranger down the road", "toward": "the stranger", "why": "his leg will not carry him far, and chasing after someone who has already declined would cost more strength than it is likely to earn." },
+      { "verb": "stays silent and asks for nothing", "toward": "nothing", "why": "he has eaten nothing since yesterday, and a stranger who does not yet know him is worth the small effort of asking." }
+    ],
+    "then": "If the stranger drops something in the bowl he thanks them and settles back against the wall; if not, he goes back to watching the road for the next person who might pass.",
+    "why": "Hunger pushes him to ask, and his bad leg rules out anything more active than asking from where he sits; a stranger is worth the attempt precisely because the villagers already know not to give. The familiar sight of him among neighbours contrasts with the small chance a new face offers.",
+    "turns_on": "whether the stranger has ever passed this way before"
+  },
+  {
+    "id": "village-12",
+    "domain": "village",
+    "who": "a watchman standing at the village gate with a long staff",
+    "place": "the timber gate at the village's edge where the road enters, afternoon, the gate standing open.",
+    "present": ["the open gate", "a bell rope for raising alarm", "cart tracks in the dried mud", "a stranger approaching the gate on foot"],
+    "factors": [
+      { "kind": "duty", "fact": "He is charged with noting who comes and goes and asking their business if he does not know them." },
+      { "kind": "what he knows", "fact": "He knows every villager and most of the regular traders by sight." },
+      { "kind": "who is arriving", "fact": "The person approaching now is not a face he recognises." },
+      { "kind": "what it fears", "fact": "There has been talk lately of strangers scouting villages before a robbery." },
+      { "kind": "custom", "fact": "It is usual to greet a stranger civilly first and only press further if the answer is evasive." }
+    ],
+    "does": { "verb": "steps into the road and asks their business", "toward": "the stranger", "how": "civil but watchful" },
+    "could_also": [
+      { "verb": "lets the stranger pass with only a nod", "toward": "the stranger" },
+      { "verb": "calls a second man over before approaching", "toward": "nothing" },
+      { "verb": "rings the bell to warn the village", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "ignores the stranger entirely and lets them walk in unremarked", "toward": "the stranger", "why": "his duty is to note who comes and goes, and an unrecognised face at the gate is exactly the case that duty is for." },
+      { "verb": "rings the alarm bell before even speaking to them", "toward": "nothing", "why": "custom calls for a civil greeting first, and raising the alarm over an unknown face alone, before any evasive answer, would be a false alarm most days." }
+    ],
+    "then": "The stranger gives a plain answer about where they are headed, and the watchman waves them through, marking the arrival in his own memory in case anyone asks later.",
+    "why": "His duty to question unknown arrivals and the recent talk of scouting thieves both push him to stop the stranger, while custom keeps the stop civil rather than hostile until there is real cause. Recognising the face would have let the stranger through without a word.",
+    "turns_on": "whether the stranger's answer sounds evasive"
+  },
+  {
+    "id": "village-13",
+    "domain": "village",
+    "who": "a man sitting propped against the tavern wall, clearly drunk, in the middle of the day",
+    "place": "the low bench outside the village tavern, full noon, the door open behind him.",
+    "present": ["an empty tankard tipped on its side", "the tavern keeper glancing out now and then", "two men walking past who know him", "a stranger passing on the road"],
+    "factors": [
+      { "kind": "what he has lost", "fact": "He lost work on the harvest crew two days ago and has been drinking since." },
+      { "kind": "what it can still do", "fact": "He is too unsteady to stand without holding the wall." },
+      { "kind": "custom", "fact": "The village mostly leaves him be at this hour, since making a scene of it only shames him further." },
+      { "kind": "what he is owed", "fact": "He owes the tavern keeper for today's drink and has no coin left to pay it." }
+    ],
+    "does": { "verb": "mutters to himself and stays sitting", "toward": "nothing", "how": "slurred, unsteady" },
+    "could_also": [
+      { "verb": "calls out something incoherent to the passersby", "toward": "the men walking past" },
+      { "verb": "tries to stand and get to the well for water", "toward": "nothing" },
+      { "verb": "asks the tavern keeper for one more on credit", "toward": "the tavern keeper" }
+    ],
+    "would_not": [
+      { "verb": "gets up and follows anyone down the road", "toward": "nothing", "why": "he cannot stand steadily enough to walk, let alone follow someone, and trying would likely end in a fall." },
+      { "verb": "picks a fight with the men who know him", "toward": "the men walking past", "why": "they already know his trouble and leave him be, and there is nothing in their passing to provoke him." }
+    ],
+    "then": "He slumps further against the wall and eventually dozes off in the sun, and the tavern keeper will likely turn him out before evening trade picks up.",
+    "why": "Losing his work pushes him to drink away the noon hour, and being too unsteady to stand rules out anything but sitting; the village's custom of leaving him alone means no one presses him to move. The stranger passing barely registers with him at all.",
+    "turns_on": "whether the tavern keeper decides he has had enough for the day"
+  },
+  {
+    "id": "village-14",
+    "domain": "village",
+    "who": "a woman lying ill in a back room, seen through a half-open door from the lane",
+    "place": "a small house set back from the lane, its door left ajar for air, mid-afternoon.",
+    "present": ["a cup of water by the bed", "her husband working in the yard outside, glancing in now and then", "a younger child sitting quietly by the bed", "a stranger passing along the lane outside"],
+    "factors": [
+      { "kind": "a need", "fact": "A fever has kept her in bed for three days now." },
+      { "kind": "what it can still do", "fact": "She is too weak to sit up for long without help." },
+      { "kind": "a bond", "fact": "The child at her side will not leave her, though there is little the child can do." },
+      { "kind": "what is owed", "fact": "Chores she would normally do are falling to her husband and going undone otherwise." }
+    ],
+    "does": { "verb": "lies still and dozes", "toward": "nothing", "how": "fitful, restless with fever" },
+    "could_also": [
+      { "verb": "asks the child for water", "toward": "the child" },
+      { "verb": "tries to sit up when she hears a voice outside", "toward": "nothing" },
+      { "verb": "calls weakly for her husband", "toward": "her husband" }
+    ],
+    "would_not": [
+      { "verb": "gets up to do the chores herself", "toward": "nothing", "why": "she is too weak to sit up for long, let alone do a day's chores, and trying would likely set her back further." },
+      { "verb": "sends the child away to fetch the stranger for help", "toward": "the child", "why": "the stranger passing is unknown to the household, and there is no reason yet to think they would know anything of use for a fever." }
+    ],
+    "then": "She drifts in and out of a light sleep through the afternoon while her husband works within earshot of the door, and the stranger passes by without ever knowing anyone inside was ill.",
+    "why": "The fever leaves her no strength for anything but lying still, and the bond with the child keeps the child close despite being unable to help. The undone chores weigh on the household but not on her directly, since she is in no state to do them regardless of how much they are owed.",
+    "turns_on": "whether the fever breaks by evening"
+  },
+  {
+    "id": "village-15",
+    "domain": "village",
+    "who": "a dog lying stretched out asleep in the middle of the road",
+    "place": "the sunniest patch of the village's main track, early afternoon, dust still settling from a cart that passed earlier.",
+    "present": ["the warm dust of the road", "a cart's wheel ruts nearby", "a hen pecking a few feet away", "a stranger approaching on foot along the road"],
+    "factors": [
+      { "kind": "a need", "fact": "The dog is old and the warm dust here eases its stiff joints better than the shade does." },
+      { "kind": "what it can still do", "fact": "Its hearing is not what it was, and it does not wake easily anymore." },
+      { "kind": "what it fears", "fact": "Nothing nearby has given it reason to be wary; carts and feet have passed it all morning without trouble." },
+      { "kind": "custom", "fact": "People in the village are used to stepping around it rather than moving it." }
+    ],
+    "does": { "verb": "stays asleep", "toward": "nothing", "how": "unmoving, undisturbed" },
+    "could_also": [
+      { "verb": "lifts its head at the sound of footsteps", "toward": "the stranger" },
+      { "verb": "shifts position without fully waking", "toward": "nothing" },
+      { "verb": "gets up and moves to a shadier patch", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "gets up and barks at the approaching stranger", "toward": "the stranger", "why": "nothing about the footsteps is different from the carts and feet that have passed it undisturbed all morning, so there is nothing here to rouse it to alarm." },
+      { "verb": "stays lying directly in the stranger's path, forcing them to step over it", "toward": "the stranger", "why": "even asleep it has learned from long habit to lie where feet naturally go around, not where they must cross." }
+    ],
+    "then": "The stranger steps around it without breaking stride, as everyone here already knows to do, and the dog sleeps on undisturbed in the warm dust.",
+    "why": "The warmth eases its old joints more than anything else pulls at it, and its dulled hearing means an ordinary footstep does not register as anything worth waking for. Only something sudden or too close would turn its stillness into alarm.",
+    "turns_on": "how close the footsteps come before the dog notices them"
+  }
+]
