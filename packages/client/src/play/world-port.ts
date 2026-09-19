@@ -71,6 +71,17 @@ export function perform(
     level: SHOWN_LEVEL,
     now: at.now,
   };
-  const notes = link.show(shown, outcome.changes, outcome.after);
-  return notes.length > 0 ? notes.join(" ") : "Nothing seems to change.";
+  return told(link.show(shown, outcome.changes, outcome.after));
+}
+
+/** How many different things the HUD says of one act. Time passing touches everything at once. */
+const SAID_AT_MOST = 3;
+
+/** The world's notes as one line: each said once, the first few, and how many more there were. */
+export function told(notes: readonly string[]): string {
+  const different = [...new Set(notes)];
+  if (different.length === 0) return "Nothing seems to change.";
+  const more = different.length - SAID_AT_MOST;
+  const said = different.slice(0, SAID_AT_MOST).join("; ");
+  return more > 0 ? `${said}; and ${more} more` : said;
 }

@@ -79,7 +79,8 @@ const OFFERS: Readonly<Record<string, (scene: Scene) => Intent[]>> = {
     const { target } = scene;
     if (!target) return [];
     const answers = { ...ORDINARY, process: "X2", patient: target.id, instrument: BARE_HANDS };
-    const solid = (operand: Operand) => !flows(operand);
+    // What flows cannot be swung, and nobody picks up what burns to hit with.
+    const solid = (operand: Operand) => !(flows(operand) || heats(operand));
     return [{ label: `strike ${target.name}`, answers }, ...onto("X2", "strike", scene, solid)];
   },
   X3: (scene) => onto("X3", "heat", scene, heats),

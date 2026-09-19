@@ -87,7 +87,6 @@ describe("the menu's intents", () => {
   it("are built from roles and what can be seen: fire heats, a liquid soaks and coats, a solid strikes", () => {
     expect(intents.map((intent) => intent.label)).toEqual([
       "strike a branch",
-      "strike a branch with a fire",
       "heat a branch with a fire",
       "soak a branch with a oil",
       "coat a branch with a oil",
@@ -96,7 +95,7 @@ describe("the menu's intents", () => {
       "look around for stone",
       "look around for flint",
     ]);
-    const heat = intents[2]?.answers;
+    const heat = intents[1]?.answers;
     expect(heat).toMatchObject({ process: "X3", patient: "t1" });
     expect(request.things[heat?.instrument ?? ""]).toBe("fire");
     expect(intents[0]?.answers.instrument).toBe(BARE_HANDS);

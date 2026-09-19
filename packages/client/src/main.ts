@@ -18,6 +18,7 @@ import { GlyphBatch } from "./glyph/batch.ts";
 import { glyphOfChar } from "./glyph/font.ts";
 import { INK, PALETTE_HEX } from "./palette.ts";
 import type { ActRequest } from "./play/act-request.ts";
+import { matterPort } from "./play/matter-port.ts";
 import { type MountedPlay, mountPlay } from "./play/pointer.ts";
 import { StatusDisplay } from "./play/status.ts";
 import { WorldLink } from "./play/world-link.ts";
@@ -149,7 +150,8 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   if (things) living = new LivingThings(things, grid, objects, births);
   const shots = new OneShots();
   // The world behind the client, once one is attached (`play/world-port.ts`).
-  const world: App["world"] = { port: null };
+  // A grown world's things are put into a world of matter; a painted world has none behind it.
+  const world: App["world"] = { port: things ? matterPort(things, 1) : null };
   // Where the world's changes arrive. Until a world is attached nothing is known of any
   // element but what its things already carry, so nothing can be created.
   const link = new WorldLink({
@@ -482,7 +484,8 @@ loadWorld(query).then((loaded) => {
     __births: app.births.log,
     __shots: app.shots,
     __link: app.link,
-    // A world is attached from outside until the engine can be imported here.
+    __world: app.world,
+    // Another world can be attached from a script, for a test or a stand-in.
     __attachWorld: (port: WorldPort) => {
       app.world.port = port;
     },

@@ -67,7 +67,8 @@ function scene() {
 describe("what the world's states show as", () => {
   it("is a rule per state, laid over what showed before", () => {
     expect(shownOf(seen({}, 2.6))).toEqual({ burning: 3 });
-    expect(shownOf(seen({}), { burning: 4, growth: 3 })).toEqual({ burning: 0, growth: 3 });
+    // What has gone out is not a fire at nought: it has no burning to show at all.
+    expect(shownOf(seen({}), { burning: 4, growth: 3 })).toEqual({ growth: 3 });
     // A guttering coat of oil burns low, but it burns: it never shows as out.
     expect(shownOf(seen({}, 0.4)).burning).toBe(1);
     expect(shownOf(seen({}, 99)).burning).toBe(5);
@@ -77,7 +78,6 @@ describe("what the world's states show as", () => {
     expect(shownOf(seen({ temperature: 2, surfaceAbove: 3 })).temperature).toBe(5);
     expect(shownOf(seen({ temperature: 2, surfaceAbove: 0 })).temperature).toBe(2);
     expect(shownOf(seen({ wetness: 9, integrity: -2, amount: 2.6 }))).toEqual({
-      burning: 0,
       wetness: 5,
       integrity: 0,
       amount: 3,
@@ -119,7 +119,7 @@ describe("a resolved act, shown", () => {
       "The log cracks.",
       "Nothing else happens.",
     ]);
-    expect(things[0]?.states).toEqual({ growth: 5, burning: 0, integrity: 3, temperature: 4 });
+    expect(things[0]?.states).toEqual({ growth: 5, integrity: 3, temperature: 4 });
     expect(describeThing(living.thing(0) as ThingView)).toBe("a log: dormant, hot, cracked");
   });
 
@@ -160,7 +160,7 @@ describe("a resolved act, shown", () => {
       th3: seen({}, 0, "unheard of"),
     });
     const ash = living.thing(living.indexOf("th2"));
-    expect(ash).toMatchObject({ name: "ash", element: "ash", states: { amount: 2, burning: 0 } });
+    expect(ash).toMatchObject({ name: "ash", element: "ash", states: { amount: 2 } });
     expect(Math.abs((ash?.x ?? 99) - 3) + Math.abs((ash?.z ?? 99) - 3)).toBe(1);
     expect(living.indexOf("th3")).toBe(-1);
     expect(freeTileNear(grid, living, grid.index(3, 3))).not.toBe(grid.index(3, 3));

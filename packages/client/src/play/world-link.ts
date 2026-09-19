@@ -115,7 +115,9 @@ const SHOWN: readonly ((seen: Seen, out: VisibleStates) => void)[] = [
 export function shownOf(seen: Seen, before: VisibleStates = {}): VisibleStates {
   const out = { ...before };
   for (const rule of SHOWN) rule(seen, out);
-  return out;
+  // What does not burn has no such state to show: a thing is not a fire that happens to be out.
+  const { burning, ...rest } = out;
+  return burning ? { ...rest, burning } : rest;
 }
 
 /** What shows of an act, by the world's name for its process: the vocabulary id, and what comes off the patient. */

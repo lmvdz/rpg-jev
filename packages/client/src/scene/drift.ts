@@ -33,8 +33,9 @@ export class Drift {
   }
 
   #nudge(states: ThingView["states"]): boolean {
-    if (states.burning !== undefined) {
-      states.burning = states.burning <= 2 ? 5 : states.burning - 1;
+    // Only what burns is fed: a thing that could burn and does not is left alone.
+    if ((states.burning ?? 0) > 0) {
+      states.burning = (states.burning ?? 0) <= 2 ? 5 : (states.burning ?? 0) - 1;
       return true;
     }
     if (states.growth === undefined) return false;

@@ -60,6 +60,14 @@ function floating(className: string): HTMLDivElement {
   return made;
 }
 
+/** Reaching for what is beside the hero is a blow with bare hands, when there is a world to take it. */
+function reachFor(host: PlayHost, request: ActRequest, index: number): void {
+  const offered = intentsFor(request, host.world()?.compiled ?? []);
+  const blow = offered.find((intent) => intent.answers.process === "X2");
+  if (blow) host.intend(request, blow.answers, index);
+  else host.reach(index);
+}
+
 /** A box to type an act into, where the menu was. Enter sends it, Escape or clicking away drops it. */
 function lineBox(menu: HTMLDivElement, close: () => void, send: (line: string) => void): void {
   const box = document.createElement("input");
@@ -108,7 +116,7 @@ export function mountPlay(host: PlayHost): MountedPlay {
     if (path) walker.follow(path);
     else if (!quietly) host.say("there is no way there");
     // Already beside it and it cannot be stood on: the hero has reached for it.
-    if (path?.length === 0) host.reach(index);
+    if (path?.length === 0) reachFor(host, requestFor("", report(index)), index);
   };
 
   const requestFor = (line: string, at: TileReport): ActRequest =>
