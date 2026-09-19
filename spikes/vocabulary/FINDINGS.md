@@ -160,6 +160,33 @@ Two tests went the other way and are recorded as open, because the invariant is 
 
 Batch C is still unopened. It is now the held-out test of the engine as it stands.
 
+### Batch C through the frozen engine: the number that was owed
+
+Rules frozen at `8e309bdcc284` (a hash of `packages/core/src/matter/*.ts`; git `701600d`), unchanged from launch to the last report. Batch C had never been run through the engine, and its author had read it only through checker verdicts (`c-*.test.ts`, `rows-c-*.ts`, `results/derive/c-*.json`).
+
+| | Derived | Not derived | Of which rule errors |
+| --- | --- | --- | --- |
+| Travel and survival | 26 | 11 | 2 |
+| Fights and nonsense | 17 | 10 | 3 |
+| A settlement's crafts | 37 | 31 | 15 |
+| **Batch C, never seen** | **80 (61%)** | **52** | **20** |
+
+By scenario: 1 of 45 derives whole, 24 in part, 13 hit a rule error (7 high confidence, 6 medium), 7 are wholly unbuilt. No scenario contradicted an invariant.
+
+**The honest reading.** Batch A before any fixing was 60%. Batch B against a frozen engine was 63%. Batch C against a frozen engine, after twenty rule fixes and four invariants, is 61%. **The engine derives about three outcomes in five of a domain it has not seen, and nothing done so far has moved that.** The invariants raised batch B from 63% to 72%, and that was real, but it was batch B. What they bought shows elsewhere: no scenario in batch C contradicted an invariant, none of the 20 rule errors is a conservation failure, a cut-dependence or a bad input, and the exploit scenarios that batch B broke stay closed. The invariants made the engine *sound*; they did not make it *complete*. Coverage is a function of how many mechanisms exist, and crafts (54%) needs more of them than travel (70%).
+
+**Two of the twenty rule errors were in code one day old**, written for the renderer: `extent` multiplies the stock of everything, which is right for a density such as stones and wrong for a single thing (a rumoured cache is likelier found in a big mine than in one chamber, and a long search turns up two and a half of them); and a long rope is stronger than a short one, because load takes only `long` things across their thin dimension while force already treats a cord as having no thickness. Both are the same fault, and it is the next invariant:
+
+- **One concept, one function.** A form means the same to every rule that reads it (a cord is thin to a cut and to a load; a sheet likewise). Whatever comes into being is born by one path (a found thing ignored its element's moisture, because search built its own state). A level is the same size of step everywhere it is used (mass adds as doublings in load, so thirty pots outweigh a boulder; drying is linear in bulk levels, so an oak timber dries in three days).
+- **Conservation, extended.** What force removes should become a thing (a spade stroke consumes a share of a clay bank and creates nothing; scraping a hide takes the hide and leaves the fat on it). The minutes a fire gives should come out of its fuel (two eight-hour firings leave the woodpile untouched). What a hot thing loses, the thing that cooled it gains (a quench trough never warms).
+- **Surface against bulk, a third time.** A source is weighted by its whole heat capacity at its surface temperature, so an oven fifteen minutes in the flame bakes like one fired for hours. Cooking and kindling sit at the same threshold, so a loaf is either raw or alight. Soaked thatch keeps a flammability of 1.3 and burns through an hour of rain: wetness should be read against saturation, and a wet surface has to dry before it lights.
+
+**Bodies are the largest missing piece, from three independent runners.** A body has no row, so a cudgel wounds a bear as it wounds a man and a paw does what a hand axe does; no temperature, wetness, mass or strength, so nothing of cold, wet or tired can happen to it; armour worn does nothing, because a blow at a body always meets one constant for flesh; a failed load does nothing to what it held, so a man in a pit trap is unhurt; nothing can be bound onto a body; hunger does not drift. A body should be a thing with needs, not a separate kind of record.
+
+**What derived that nobody had tested:** a hide shield holds the first thrust and parts on the second; a cuirass as a thing takes one axe swing and parts on the third; a lick of a cold edge does nothing and a lick of a scorching blade burns without cutting; eating dirt feeds nothing and sickens mildly hours later; an unsalted hide rots in two warm days and a salted one keeps; grain binned dry keeps and grain in a damp undercroft moulds in six weeks; sea water sickens where fresh does not and boiling does not help; pots smash on a hard fall and survive a gentle one, the same whichever is called the striker.
+
+**What there is no held-out batch for now.** A, B and C have all been shown to the engine's author. Any further claim about generalisation needs a batch D, written fresh, before the next round of fixes and not after.
+
 The salt one matters most. Version 1 says salt, smoke, dryness and strong drink slow contamination, and **no property of salt says so**: the vocabulary states the effect and gives the engine nothing to read. It wants a property (what it does to living contamination), which would also be why smoke and strong drink work. That is a version 2 candidate the paper pass missed, and it was only visible from the row.
 
 **What this says about method.** Seven rule errors in the first forty assertions, none of them visible on paper, and all of them fixed by a more general rule rather than a case. Expressibility is cheap and necessary; derivability is where the design is actually tested, and the scenarios are a test suite that already exists for it: 190 scenarios have not been run yet.

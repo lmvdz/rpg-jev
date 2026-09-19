@@ -50,6 +50,19 @@ interface Resists {
 /** What living flesh is like, as levels: soft, and tougher than it is hard. */
 const FLESH: Resists = { hardness: 1, toughness: 2, size: 2, thickness: 1 };
 
+/** What this body is like to a blow: its own row if it has one, else a person. */
+function fleshOf(world: MatterWorld, element: string | undefined): Resists {
+  const p = world.elements[element ?? ""]?.props;
+  if (!p) return FLESH;
+  const size = p.size ?? FLESH.size;
+  return {
+    hardness: p.hardness ?? FLESH.hardness,
+    toughness: p.toughness ?? FLESH.toughness,
+    size,
+    thickness: Math.max(1, size - 1),
+  };
+}
+
 export interface Reaction {
   id: string;
   /** Minimum effective levels of the instrument. */
@@ -130,7 +143,8 @@ function woundBody(world: MatterWorld, act: ForceAct, instrument: Thing): Change
   const seconds = act.seconds ?? 0.3;
   const tool = effective(world, instrument);
   const edge = instrument.state.edge;
-  const into = driven(Math.max(cut(tool, edge, manner, FLESH), blow(tool, manner, FLESH)), manner);
+  const flesh = fleshOf(world, body.element);
+  const into = driven(Math.max(cut(tool, edge, manner, flesh), blow(tool, manner, flesh)), manner);
   const depth = clamp(into * 0.8);
   const temperature = surfaceTemperature(instrument);
   const exposure = Math.max(0, temperature - 3) * seconds;
@@ -308,6 +322,7 @@ function strikeThing(world: MatterWorld, act: ForceAct, instrument: Thing): Chan
       kind: "signal",
       place: patient.place,
       channel: "sound",
+      source: patient.id,
       strength: clamp(1 + manner.effort * 0.5 + Math.min(tool.hardness, p.hardness) * 0.4),
       because: ["X2", "E9"],
       note: "the blow sounds",
@@ -324,6 +339,7 @@ function strikeThing(world: MatterWorld, act: ForceAct, instrument: Thing): Chan
       kind: "signal",
       place: patient.place,
       channel: "light",
+      source: patient.id,
       strength: 1,
       because: spark.because,
       note: spark.note,
