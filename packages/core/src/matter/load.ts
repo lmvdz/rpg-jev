@@ -4,6 +4,7 @@
  * a hidden flaw are all the same rule. What fails becomes force on itself.
  */
 import { effective } from "./effective.ts";
+import { bearing, levelOf, quantity, thin } from "./scale.ts";
 import type { Change, MatterWorld, Thing } from "./types.ts";
 
 export interface LoadAct {
@@ -21,20 +22,28 @@ export interface LoadAct {
 export function strength(world: MatterWorld, support: Thing): number {
   const p = effective(world, support);
   const sound = support.state.integrity / 5;
-  // A long thing bears across its thin dimension: a pole is not as strong as it is long.
-  const long = world.elements[support.element]?.forms.includes("long") ?? false;
-  const section = long ? Math.max(0, p.size - 2) : p.size;
-  const raw = (p.hardness * 0.5 + p.toughness * 0.3 + section * 0.7 + 0.5) * sound;
+  const forms = world.elements[support.element]?.forms ?? [];
+  // A cord or a sheet bears in tension, by its toughness and nothing else: not by its length.
+  // Everything else bears by hardness and by the section a load has to cross (scale.ts).
+  // Only what is thin and gives bears in tension: a sheet of ice is a slab, not a cloth.
+  const raw =
+    thin(forms) && p.flexibility >= 3
+      ? (p.toughness * 0.9 + 0.5) * sound
+      : (p.hardness * 0.5 +
+          p.toughness * 0.3 +
+          (thin(forms) ? p.size : bearing(forms, p.size)) * 0.7 +
+          0.5) *
+        sound;
   return Math.max(0, raw - support.state.flaw - support.state.corrosion * 0.5);
 }
 
-/** Levels are steps of doubling, so weights add as powers of two and amount counts. */
+/** Weights add as quantities and are read back as a level, so amount counts (scale.ts). */
 export function weight(world: MatterWorld, ids: readonly string[]): number {
   const total = ids.reduce((sum, id) => {
     const thing = world.things[id];
-    return thing ? sum + 2 ** effective(world, thing).mass * thing.state.amount : sum;
+    return thing ? sum + quantity(effective(world, thing).mass) * thing.state.amount : sum;
   }, 0);
-  return total > 0 ? Math.log2(total) : 0;
+  return levelOf(total);
 }
 
 export function load(world: MatterWorld, act: LoadAct): Change[] {

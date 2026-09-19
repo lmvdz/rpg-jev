@@ -17,6 +17,7 @@ export { blaze, type HeatAct, ignitionPoint, surfaceTemperature } from "./heat.t
 export { type LoadAct, strength, weight } from "./load.ts";
 export { alight, POOL, placeOf, worldOf } from "./pool.ts";
 export { type Act, type Outcome, PROCESSES, play, resolve } from "./resolve.ts";
+export { bearing, born, levelOf, quantity, section, thin } from "./scale.ts";
 export { emits, type Heard, perceive, sensed } from "./sense.ts";
 export type { CoatAct, SoakAct } from "./soak.ts";
 export * from "./types.ts";

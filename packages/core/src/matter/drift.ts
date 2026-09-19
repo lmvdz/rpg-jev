@@ -75,7 +75,8 @@ const DRIFTS: readonly Drift[] = [
     const film = Math.max(0, s.wetness - inside);
     const filmLeft = Math.max(0, film - exposed * 0.0015 * minutes);
     const open = 0.1 + p.porosity * 0.4;
-    const bulk = 1 + p.mass * 0.4 + p.absorbency * 0.2 + p.size * 0.3;
+    // Bulk counts by powers: a timber takes weeks where a pot takes days.
+    const bulk = 1.5 ** (p.mass + p.size - 1) + p.absorbency * 0.2;
     const heldLeft = Math.max(0, s.wetness - film - (exposed * open * 0.0045 * minutes) / bulk);
     return {
       set: { wetness: Math.max(floor, heldLeft + filmLeft) },

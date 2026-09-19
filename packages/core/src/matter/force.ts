@@ -14,16 +14,8 @@
  */
 import { effective } from "./effective.ts";
 import { surfaceTemperature } from "./heat.ts";
-import type {
-  Change,
-  EffectRow,
-  Form,
-  Manner,
-  MatterWorld,
-  Properties,
-  Thing,
-  Wound,
-} from "./types.ts";
+import { section } from "./scale.ts";
+import type { Change, EffectRow, Manner, MatterWorld, Properties, Thing, Wound } from "./types.ts";
 import { clamp, ORDINARY } from "./types.ts";
 
 export interface ForceAct {
@@ -104,13 +96,6 @@ export const REACTIONS: readonly Reaction[] = [
 function flows(world: MatterWorld, thing: Thing): boolean {
   const forms = world.elements[thing.element]?.forms ?? [];
   return forms.includes("liquid") || forms.includes("gas");
-}
-
-/** A sheet or a cord is crossed at once; a plank or a pole is thinner than it is long. */
-function thickness(forms: readonly Form[], size: number): number {
-  if (forms.includes("sheet") || forms.includes("cord")) return 0;
-  if (forms.includes("long") || forms.includes("flat")) return Math.max(0, size - 2);
-  return size;
 }
 
 /** Keenness against toughness. Nothing cuts what is as hard as itself. */
@@ -203,16 +188,31 @@ interface Struck {
 /** A cut severs what is thin, scars what is thick, and only shaves when it works the surface. */
 function cutting({ patient, tool, resists, act }: Struck, into: number): Change[] {
   const reach = 1 + tool.size * 0.5;
-  if (act.aim === "surface")
+  if (act.aim === "surface") {
+    // What comes off is still there: shavings, spoil, scrapings. The thing is the less for it.
+    const taken = Math.min(patient.state.amount * 0.5, into * 0.02 * reach);
+    if (taken <= 0) return [];
     return [
+      {
+        kind: "create",
+        thing: {
+          id: `${patient.id}.spoil`,
+          element: patient.element,
+          place: patient.place,
+          state: { ...patient.state, integrity: 5, amount: taken, coating: null, burning: null },
+        },
+        because: ["X2", "S5", "P4", "S14", "E3"],
+        note: "what comes off it lies beside it",
+      },
       {
         kind: "consume",
         thing: patient.id,
-        amount: Math.min(patient.state.amount * 0.5, into * 0.02 * reach),
-        because: ["X2", "S5", "P4", "S14"],
-        note: "shavings come away",
+        amount: taken,
+        because: ["X2", "S14", "E4"],
+        note: "and the thing is the less for it",
       },
     ];
+  }
   const share = (into * reach) / (1 + resists.thickness) ** 3;
   return [
     {
@@ -312,7 +312,7 @@ function strikeThing(world: MatterWorld, act: ForceAct, instrument: Thing): Chan
   const tool = effective(world, instrument);
   const p = effective(world, patient);
   const forms = world.elements[patient.element]?.forms ?? [];
-  const resists: Resists = { ...p, thickness: thickness(forms, p.size) };
+  const resists: Resists = { ...p, thickness: section(forms, p.size) };
   const grain = act.aim === "along" && forms.includes("grained") ? 1 : 0;
   const cutInto = driven(cut(tool, instrument.state.edge, manner, resists) + grain, manner);
   const blowInto = driven(blow(tool, manner, resists), manner);

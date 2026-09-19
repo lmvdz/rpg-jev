@@ -5,8 +5,9 @@
  * place; the odds, the time and the draw are code.
  */
 import { effective } from "./effective.ts";
+import { born } from "./scale.ts";
 import type { Change, MatterWorld } from "./types.ts";
-import { clamp, FRESH } from "./types.ts";
+import { clamp } from "./types.ts";
 
 export interface IngestAct {
   process: "ingest";
@@ -71,15 +72,17 @@ export function searchYield(world: MatterWorld, act: SearchAct): number {
   const level = Math.floor(clamp(place?.abundance[act.element] ?? 0));
   // A bigger place holds more and takes longer to go over.
   const extent = Math.max(1, place?.extent ?? 1);
-  const stock = (STOCK[level] ?? 0) * extent;
+  // A density fills a bigger place with more. A rare thing is a couple in the whole place,
+  // however big: more ground only makes them harder to come on.
+  const rare = level <= 1;
+  const stock = (STOCK[level] ?? 0) * (rare ? 1 : extent);
+  const rate = (PER_MINUTE[level] ?? 0) / (rare ? extent : 1);
   if (stock <= 0 || act.minutes <= 0) return 0;
   const patch = 30 * extent;
   // What all the minutes so far should have turned up, as one curve: ground gone over gives
   // less, and the stock runs down as it is found. An act's yield is a stretch of that curve.
   const upTo = (minutes: number) =>
-    stock *
-    (1 -
-      Math.exp((-(PER_MINUTE[level] ?? 0) * patch * Math.log((patch + minutes) / patch)) / stock));
+    stock * (1 - Math.exp((-rate * patch * Math.log((patch + minutes) / patch)) / stock));
   const expected = upTo(before.minutes + act.minutes) - upTo(before.minutes);
   return Math.max(0, Math.min(stock - before.found, expected));
 }
@@ -107,12 +110,11 @@ export function search(world: MatterWorld, act: SearchAct): Change[] {
     settle,
     {
       kind: "create",
-      thing: {
-        id: `${act.element}.${world.next}`,
-        element: act.element,
-        place: act.place,
-        state: { ...FRESH, amount: found },
-      },
+      thing: born(
+        world,
+        { id: `${act.element}.${world.next}`, element: act.element, place: act.place },
+        { amount: found },
+      ),
       because: ["X8", "E11", "E3"],
       note: "what was latent is now there",
     },

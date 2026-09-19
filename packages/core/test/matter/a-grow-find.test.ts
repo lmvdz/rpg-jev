@@ -84,7 +84,7 @@ describe("grow", () => {
     expect(thrice.changes.some((c) => c.note === "the liquid runs off it")).toBe(true);
   });
 
-  it.fails("RULE ERROR: grow-02: a waterlogged clay bed is bone dry in a day and a half, exactly as fast as a shirt on a line (drift dries everything at one rate: it reads temperature and wind, never mass, size, absorbency or porosity)", () => {
+  it("fixed rule: grow-02: a waterlogged clay bed is bone dry in a day and a half, exactly as fast as a shirt on a line (drift dries everything at one rate: it reads temperature and wind, never mass, size, absorbency or porosity)", () => {
     const soaked = play(bed(), [water, water, water]).world;
     const later = resolve(soaked, drift(2 * DAY)).world;
     expect(later.things.bed?.state.wetness).toBeGreaterThan(2);

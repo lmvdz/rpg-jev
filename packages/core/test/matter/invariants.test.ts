@@ -15,6 +15,7 @@ import {
   type Act,
   type MatterWorld,
   play,
+  quantity,
   resolve,
   searchYield,
   type Thing,
@@ -173,7 +174,7 @@ describe("1. nothing is made from nothing", () => {
       ids.reduce((sum, id) => {
         const t = w.things[id];
         const mass = ELEMENTS.find((e) => e.id === t?.element)?.props.mass ?? 0;
-        return t ? sum + t.state.temperature * 2 ** mass * t.state.amount : sum;
+        return t ? sum + t.state.temperature * quantity(mass) * t.state.amount : sum;
       }, 0);
     const w = world([
       thing("hot", "stone", "hearth", { temperature: 5 }),

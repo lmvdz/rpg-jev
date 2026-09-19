@@ -10,6 +10,7 @@
  * Only what is burning or glowing can light a thing; hot water cannot.
  */
 import { effective, isLiquid } from "./effective.ts";
+import { quantity } from "./scale.ts";
 import type { Burning, Change, MatterWorld, Properties, Thing, ThingState } from "./types.ts";
 import { clamp } from "./types.ts";
 
@@ -53,7 +54,7 @@ export function ignitionPoint(flammability: number): number {
 /** How much heat a thing holds per level: levels of mass are doublings, and amount counts. */
 export function capacity(p: Properties, thing: Thing, giving = false): number {
   // What burns gives far more than the heat it holds, but still by its size.
-  return 2 ** p.mass * thing.state.amount * (giving && thing.state.burning ? 20 : 1);
+  return quantity(p.mass) * thing.state.amount * (giving && thing.state.burning ? 20 : 1);
 }
 
 function toward(from: number, to: number, rate: number, minutes: number): number {
@@ -136,16 +137,36 @@ function shock({ target, p, source, liquid }: Meeting): Change[] {
   return [];
 }
 
-/** What the source gives up, so that the two together hold no more heat than before. */
-function drawn(source: Thing, held: number, given: number): Change[] {
-  if (source.state.burning || given <= 0) return [];
+/**
+ * What the source gives up or takes in, so that the two together hold no more heat than
+ * before: a hot stone cools in the pot, and a quench trough warms. What burns does not cool;
+ * the minutes it gives come out of its fuel.
+ */
+function drawn(source: Thing, held: number, given: number, minutes: number): Change[] {
+  const fire = source.state.burning;
+  if (fire) {
+    const fuel = fire.fuel - minutes;
+    const spent = fuel <= 1e-9;
+    const coatGone = spent && fire.of === "coating" ? { coating: null } : {};
+    return [
+      {
+        kind: "state",
+        thing: source.id,
+        set: { burning: spent ? null : { ...fire, fuel }, ...coatGone },
+        because: ["S3", "S14", "X3"],
+        note: spent ? "it burns out" : "it burns down",
+        ...(spent ? {} : { quiet: true as const }),
+      },
+    ];
+  }
+  if (given === 0) return [];
   return [
     {
       kind: "state",
       thing: source.id,
       set: { temperature: clamp(source.state.temperature - given / held) },
       because: ["X3", "P1", "S14", "S1"],
-      note: "it cools as it gives up its heat",
+      note: given > 0 ? "it cools as it gives up its heat" : "it warms as it takes the heat",
     },
   ];
 }
@@ -179,7 +200,7 @@ export function heat(world: MatterWorld, act: HeatAct): Change[] {
   const surface = toward(
     was + target.state.surfaceAbove,
     reach,
-    (1 + p.flammability * 1.5) * contact * power,
+    (1 + p.flammability * 1.5) * contact,
     minutes,
   );
   // A liquid wets rather than dries, and nothing dries below what its place keeps in it.
@@ -205,7 +226,7 @@ export function heat(world: MatterWorld, act: HeatAct): Change[] {
       because: ["X3", "P7", "P1", "S14", "S1", "S2"],
       note: temperature > was ? "it heats" : "it cools",
     },
-    ...drawn(source, held, holds * (temperature - was)),
+    ...drawn(source, held, holds * (temperature - was), minutes),
     ...ignition(world, meeting, next, surface),
     ...shock(meeting),
   ];

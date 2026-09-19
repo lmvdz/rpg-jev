@@ -134,7 +134,13 @@ export const ELEMENTS: Element[] = [
     forms: ["liquid"],
     props: { mass: 2, cleansing: 4 },
   },
-  { id: "fire", name: "fire", kind: "thing", forms: [], props: { size: 2 } },
+  {
+    id: "fire",
+    name: "fire",
+    kind: "thing",
+    forms: [], // A stand-in for a hearth, so it has a hearth's bulk: heat is given by how much there is.
+    props: { mass: 3, size: 2 },
+  },
   {
     id: "oak",
     name: "oak",
