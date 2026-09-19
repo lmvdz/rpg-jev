@@ -9,8 +9,10 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { type Asked, buildRequest, type Json, LiveJudge, noulFallback } from "@rpg-jev/jev";
 import { DRIFT_DERIVED } from "../core/src/matter/graph/drift-rules.ts";
+import { FORCE_DERIVED } from "../core/src/matter/graph/force-rules.ts";
 import { HEAT_DERIVED } from "../core/src/matter/graph/heat-rules.ts";
-import { type Allowed, validate, validateDerived } from "../core/src/matter/graph/validate.ts";
+import { COAT_DERIVED, LOAD_DERIVED, SOAK_DERIVED } from "../core/src/matter/graph/soak-rules.ts";
+import { type Allowed, validate, validateDerived, validateFactor } from "../core/src/matter/graph/validate.ts";
 
 const ROOT = "H:/rpg-jev.worktrees/sandbox-matter/spikes/graph";
 const round = process.argv[2] ?? "round-1";
@@ -56,13 +58,24 @@ async function ratify(id: string, says: string) {
 }
 
 const out: Record<string, unknown> = { round, threshold: THRESHOLD, processes: {} };
-const grown: Record<string, { rules: unknown[]; derived: Record<string, unknown> }> = {};
-for (const [process, base, parties, act] of [["drift", DRIFT_DERIVED, [], []], ["heat", HEAT_DERIVED, ["src", "tgt"], ["minutes", "contact"]]] as const) {
+const grown: Record<string, { rules: unknown[]; derived: Record<string, unknown>; factors: Record<string, unknown[]> }> = {};
+const FORCE_ACT = ["effort", "care", "haste", "seconds", "surface", "along"];
+const PROCESSES = [
+  ["drift", DRIFT_DERIVED, ["self"], []],
+  ["heat", HEAT_DERIVED, ["src", "tgt"], ["minutes", "contact"]],
+  ["strike", FORCE_DERIVED, ["tool", "tgt"], FORCE_ACT],
+  ["wound", FORCE_DERIVED, ["tool", "tgt", "arm"], FORCE_ACT],
+  ["soak", SOAK_DERIVED, ["liq", "tgt"], ["amount"]],
+  ["coat", COAT_DERIVED, ["sub", "tgt"], ["amount", "care", "haste"]],
+  ["load", LOAD_DERIVED, ["sup"], ["borne"]],
+] as const;
+for (const [process, base, parties, act] of PROCESSES) {
   const given = proposal[process] ?? { derived: {}, rules: [] };
   const clash = Object.keys(given.derived ?? {}).filter((k) => k in base);
   const derived = { ...base, ...(given.derived ?? {}) };
   const allowed: Allowed = { parties: [...parties], act: [...act], derived };
-  const derivedProblems = [...clash.map((k) => `d.${k}: redefines a base quantity`), ...Object.entries(given.derived ?? {}).flatMap(([k, e]) => validateDerived(k, e, allowed))];
+  const factorProblems = Object.entries(given.factors ?? {}).flatMap(([k, es]) => (Array.isArray(es) ? es : [es]).flatMap((e) => validateFactor(k, e, allowed, base)));
+  const derivedProblems = [...clash.map((k) => `d.${k}: redefines a base quantity`), ...Object.entries(given.derived ?? {}).flatMap(([k, e]) => validateDerived(k, e, allowed)), ...factorProblems];
   const rules = [];
   for (const rule of given.rules ?? []) {
     const problems = validate(rule, allowed);
@@ -72,7 +85,17 @@ for (const [process, base, parties, act] of [["drift", DRIFT_DERIVED, [], []], [
   }
   (out.processes as Record<string, unknown>)[process] = { derivedProblems, rules };
   const kept = new Set(rules.filter((r) => r.accepted).map((r) => r.id));
-  grown[process] = { rules: (given.rules ?? []).filter((r: { id: string }) => kept.has(r.id)), derived: derivedProblems.length === 0 ? (given.derived ?? {}) : {} };
+  // A factor is ratified by what it says, like a rule: `says` rides beside it in `factorSays`.
+  const factored: Record<string, unknown[]> = {};
+  for (const [name, es] of Object.entries(derivedProblems.length === 0 ? (given.factors ?? {}) : {})) {
+    const says = given.factorSays?.[name];
+    const judged = typeof says === "string" ? await ratify(`factor-${process}-${name}`, says) : null;
+    const ok = (judged?.mean ?? 0) >= THRESHOLD;
+    rules.push({ id: `factor on d.${name}`, says: says ?? "(says nothing)", problems: [], judged, accepted: ok });
+    console.log(process, `factor on d.${name}`, JSON.stringify(judged));
+    if (ok) factored[name] = Array.isArray(es) ? es : [es];
+  }
+  grown[process] = { rules: (given.rules ?? []).filter((r: { id: string }) => kept.has(r.id)), derived: derivedProblems.length === 0 ? (given.derived ?? {}) : {}, factors: factored };
 }
 const controls = [];
 for (const [i, [says, truth]] of CONTROLS.entries()) {
