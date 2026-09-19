@@ -126,7 +126,7 @@ describe("careless-02: asleep in wet clothes", () => {
     );
   });
 
-  it.fails("careless-02: the sleeper wakes colder than they lay down (nothing lets a cold place or wet clothing reach a body: time over a body only bleeds it and brings on a sickness already taken in)", () => {
+  it("careless-02: the sleeper wakes colder than they lay down (nothing lets a cold place or wet clothing reach a body: time over a body only bleeds it and brings on a sickness already taken in)", () => {
     const morning = resolve(forded, hours(8)).world;
     expect(morning.bodies.player?.needs.warmth ?? 0).toBeGreaterThan(1);
   });

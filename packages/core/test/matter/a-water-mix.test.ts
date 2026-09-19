@@ -104,7 +104,7 @@ describe("water", () => {
     expect(p?.hardness).toBeLessThan(0.5);
   });
 
-  it.fails("water-07: and it is ruined as food (nothing ties wetness to integrity or to what a thing serves: a sodden loaf is whole and feeds as well as a fresh one)", () => {
+  it("water-07: and it is ruined as food (nothing ties wetness to integrity or to what a thing serves: a sodden loaf is whole and feeds as well as a fresh one)", () => {
     const fed = (w: MatterWorld) =>
       resolve(w, { process: "ingest", body: "player", thing: "loaf" }).world.bodies.player?.needs
         .hunger ?? 0;

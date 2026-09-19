@@ -123,7 +123,7 @@ describe("food", () => {
       expect(resolve(clean, drink).world.bodies.player?.sickness).toBe(0);
     });
 
-    it.fails("the sickness takes more out of the player than the drink put in (a sickness costs health only: it never draws a need back up, and there is no thirst among the needs)", () => {
+    it("the sickness takes more out of the player than the drink put in (a sickness costs health only: it never draws a need back up, and there is no thirst among the needs)", () => {
       const evening = play(pond, [drink, wait(480)]).world;
       expect(needSum(evening, "player")).toBeGreaterThan(needSum(pond, "player"));
     });

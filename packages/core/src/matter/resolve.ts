@@ -8,6 +8,7 @@ import { type IngestAct, ingest, type SearchAct, search } from "./body.ts";
 import { type DriftAct, drift } from "./drift.ts";
 import { type ForceAct, force } from "./force.ts";
 import { type HeatAct, heat } from "./heat.ts";
+import { type MoveAct, move } from "./living.ts";
 import { type LoadAct, load } from "./load.ts";
 import { perceive } from "./sense.ts";
 import { type CoatAct, coat, type SoakAct, soak } from "./soak.ts";
@@ -21,7 +22,8 @@ export type Act =
   | IngestAct
   | SearchAct
   | DriftAct
-  | LoadAct;
+  | LoadAct
+  | MoveAct;
 
 type Process<K extends Act["process"]> = (
   world: MatterWorld,
@@ -37,6 +39,7 @@ export const PROCESSES: { [K in Act["process"]]: Process<K> } = {
   search,
   drift,
   load,
+  move,
 };
 
 /** What each number an act may carry is allowed to be. Anything else is brought into range. */

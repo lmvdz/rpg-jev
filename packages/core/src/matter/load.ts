@@ -41,7 +41,9 @@ export function strength(world: MatterWorld, support: Thing): number {
 export function weight(world: MatterWorld, ids: readonly string[]): number {
   const total = ids.reduce((sum, id) => {
     const thing = world.things[id];
-    return thing ? sum + quantity(effective(world, thing).mass) * thing.state.amount : sum;
+    if (thing) return sum + quantity(effective(world, thing).mass) * thing.state.amount;
+    const body = world.bodies[id];
+    return body ? sum + quantity(world.elements[body.element ?? ""]?.props.mass ?? 3) : sum;
   }, 0);
   return levelOf(total);
 }
@@ -70,5 +72,21 @@ export function load(world: MatterWorld, act: LoadAct): Change[] {
       because: ["X2", "E9"],
       note: "a crack as it goes",
     },
+    // What it held comes down with it, and a body that falls is hurt by its own weight.
+    ...act.bearing.flatMap((id): Change[] => {
+      const body = world.bodies[id];
+      if (!body) return [];
+      const heavy = world.elements[body.element ?? ""]?.props.mass ?? 3;
+      const depth = Math.min(5, heavy * 0.5);
+      return [
+        {
+          kind: "wound",
+          body: id,
+          wound: { depth, bleeding: depth * 0.3, burned: 0 },
+          because: ["R3", "X1", "X2", "P1", "B3"],
+          note: "it falls, and is hurt",
+        },
+      ];
+    }),
   ];
 }

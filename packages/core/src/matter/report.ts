@@ -38,6 +38,12 @@ function thingChange(before: Thing, after: Thing, because: readonly string[]): C
   ];
 }
 
+/** What the hours did to a body, in the words of whoever stands there. */
+function bodyNote(onset: boolean, cold: number): string {
+  if (onset) return "the sickness comes on";
+  return cold >= 1 ? "the cold gets in" : "time tells on the body";
+}
+
 function bodyChanges(before: Body, after: Body): Change[] {
   const changes: Change[] = [];
   after.wounds.forEach((w, index) => {
@@ -52,19 +58,28 @@ function bodyChanges(before: Body, after: Body): Change[] {
         note: w.bleeding > 0 ? "the bleeding slows" : "the bleeding stops",
       });
   });
-  const { health, sickensIn } = after;
-  if (health !== before.health || sickensIn !== before.sickensIn)
+  const { health, sickensIn, needs, wetness } = after;
+  const moved =
+    health !== before.health ||
+    sickensIn !== before.sickensIn ||
+    wetness !== before.wetness ||
+    !same(needs, before.needs);
+  if (moved) {
+    const cold = (needs.warmth ?? 0) - (before.needs.warmth ?? 0);
+    const onset = before.sickensIn > 0 && sickensIn === 0;
+    const told = onset || cold >= 1 || before.health - health >= 0.1;
     changes.push({
       kind: "body",
       body: after.id,
-      set: { health, sickensIn },
-      because: ["B2", "B3", "B4", "X7"],
-      note:
-        before.sickensIn > 0 && sickensIn === 0
-          ? "the sickness comes on"
-          : "time tells on the body",
-      ...(Math.abs(health - before.health) < 0.1 && sickensIn > 0 ? { quiet: true as const } : {}),
+      set:
+        wetness === undefined
+          ? { health, sickensIn, needs }
+          : { health, sickensIn, needs, wetness },
+      because: ["B1", "B2", "B3", "B4", "X7"],
+      note: bodyNote(onset, cold),
+      ...(told ? {} : { quiet: true as const }),
     });
+  }
   return changes;
 }
 

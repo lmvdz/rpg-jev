@@ -14,6 +14,7 @@ export type { DriftAct } from "./drift.ts";
 export { baseline, effective, isLiquid, MODIFIERS, meltingPoint } from "./effective.ts";
 export { type ForceAct, REACTIONS, type Reaction } from "./force.ts";
 export { blaze, type HeatAct, ignitionPoint, surfaceTemperature } from "./heat.ts";
+export { able, type MoveAct, type Option, optionsFor, routine, weathered } from "./living.ts";
 export { type LoadAct, strength, weight } from "./load.ts";
 export { alight, POOL, placeOf, worldOf } from "./pool.ts";
 export { type Act, type Outcome, PROCESSES, play, resolve } from "./resolve.ts";

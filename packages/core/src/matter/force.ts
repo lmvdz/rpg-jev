@@ -42,6 +42,34 @@ interface Resists {
 /** What living flesh is like, as levels: soft, and tougher than it is hard. */
 const FLESH: Resists = { hardness: 1, toughness: 2, size: 2, thickness: 1 };
 
+interface Armour {
+  id: string;
+  resists: Resists;
+}
+
+/** The hardest, toughest thing a body wears: what a blow has to get through. */
+function wornBy(world: MatterWorld, wears: readonly string[] | undefined): Armour | null {
+  let best: Armour | null = null;
+  let score = -1;
+  for (const id of wears ?? []) {
+    const worn = world.things[id];
+    if (!worn || worn.state.integrity <= 1) continue;
+    const p = effective(world, worn);
+    const forms = world.elements[worn.element]?.forms ?? [];
+    if (p.hardness + p.toughness <= score) continue;
+    score = p.hardness + p.toughness;
+    best = { id, resists: { ...p, thickness: section(forms, p.size) } };
+  }
+  return best;
+}
+
+function meetsArmour(tool: Properties, edge: number, manner: Manner, armour: Armour): number {
+  return driven(
+    Math.max(cut(tool, edge, manner, armour.resists), blow(tool, manner, armour.resists)),
+    manner,
+  );
+}
+
 /** What this body is like to a blow: its own row if it has one, else a person. */
 function fleshOf(world: MatterWorld, element: string | undefined): Resists {
   const p = world.elements[element ?? ""]?.props;
@@ -129,7 +157,11 @@ function woundBody(world: MatterWorld, act: ForceAct, instrument: Thing): Change
   const tool = effective(world, instrument);
   const edge = instrument.state.edge;
   const flesh = fleshOf(world, body.element);
-  const into = driven(Math.max(cut(tool, edge, manner, flesh), blow(tool, manner, flesh)), manner);
+  const bare = driven(Math.max(cut(tool, edge, manner, flesh), blow(tool, manner, flesh)), manner);
+  const armour = wornBy(world, body.wears);
+  const turned = armour !== null && meetsArmour(tool, edge, manner, armour) <= 0;
+  // What is worn meets the blow first. Turned, only the shock of it reaches the body.
+  const into = turned ? Math.max(0, blow(tool, manner, flesh)) * 0.3 : bare;
   const depth = clamp(into * 0.8);
   const temperature = surfaceTemperature(instrument);
   const exposure = Math.max(0, temperature - 3) * seconds;
@@ -140,7 +172,8 @@ function woundBody(world: MatterWorld, act: ForceAct, instrument: Thing): Change
   const changes: Change[] = [];
   // A burn with no cut is a wound of its own, unless the heat went into closing one.
   if (depth > 0 || (burned > 0 && !(sealing && open))) {
-    const wound: Wound = { depth, bleeding: edge > 0 ? depth : depth * 0.3, burned };
+    const bleeding = edge > 0 && !turned ? depth : depth * 0.3;
+    const wound: Wound = { depth, bleeding, burned };
     changes.push({
       kind: "wound",
       body: body.id,
@@ -351,7 +384,13 @@ export function force(world: MatterWorld, act: ForceAct): Change[] {
   const instrument = world.things[act.instrument];
   if (!instrument)
     return [{ kind: "nothing", because: [], note: "there is nothing there to strike with" }];
-  const changes = [...woundBody(world, act, instrument), ...strikeThing(world, act, instrument)];
+  const worn = wornBy(world, world.bodies[act.patient]?.wears);
+  const onArmour = worn ? strikeThing(world, { ...act, patient: worn.id }, instrument) : [];
+  const changes = [
+    ...woundBody(world, act, instrument),
+    ...onArmour,
+    ...strikeThing(world, act, instrument),
+  ];
   if (changes.length > 0) return changes;
   return [{ kind: "nothing", because: ["X2"], note: "nothing comes of it" }];
 }
