@@ -27,6 +27,16 @@ Spikes M0 and S0 come first. Do not start the village, the author thread or rend
 - `pnpm check`: lint, typecheck and tests. Run it before calling work done.
 - `pnpm format`: apply Biome fixes.
 
+## Git hygiene: sync, commit and push
+
+- Start each task by checking the branch, worktree status and configured remotes, then fetching the source remote. Bring the task branch up to date with its upstream and intended integration base before building on it. Do not assume `main` is the active integration branch; do not publish to Delta's `local` backlink.
+- Finish every task with its changes verified, committed in logical groups and pushed to the intended source branch. CAP means **Commit and Push**, not just commit. This is part of completing the task, not an optional follow-up.
+- Use one concern per commit, dependencies first. Separate unrelated fixes, features, refactors and documentation; stage explicit paths or hunks instead of blindly staging everything. Use `<emoji> type(scope): subject`, with a lowercase imperative subject and no trailing period (for example, `🐛 fix(inn): recognize turn-around commands`). Do not add generated-by or AI co-author footers.
+- Run `pnpm check` on the final combined changes before publishing. Fetch again before pushing; if the base moved, integrate safely and rerun verification. Verify afterward that the intended remote branch contains the commits and that the task worktree is clean. Report the branch, commit IDs, checks and any remaining divergence.
+- Never achieve a clean tree by discarding, overwriting or blindly committing someone else's work. Preserve unrelated edits, unfinished experiments, ignored local records and unpublished commits in other worktrees. Never commit secrets, bypass a failing gate, force-push or rewrite shared history just to satisfy this rule.
+- If conflicts, failing checks, permissions, unclear ownership or an unavailable remote prevent completion, stop and report exactly what is uncommitted, unpushed or out of date and why. Do not claim the task is done. An explicit request to leave work uncommitted or unpushed takes precedence.
+- Respect workflow ownership: sandboxed SDLC stages return patches to the runner, which owns commits and pushes. Subagents whose parent owns integration return their changes to that parent. Publishing a task branch does not authorize merging its PR or deleting branches or worktrees.
+
 ## Conventions
 
 - TypeScript strict, erasable syntax only (no enums, namespaces or parameter properties), `.ts` extensions in relative imports.
