@@ -928,3 +928,35 @@ the physical-depth goal.
 The linked Claude Doc and other active feature branches must receive the same
 decision before this is treated as synchronized across sessions. Publishing this
 branch does not synchronize the Claude Doc or merge another branch.
+
+## 22. Shared world contract
+
+**Accepted direction; module contracts and acceptance plan are a draft, not
+implemented completion.** Extend compositional causality to embodied agents,
+without replacing the physical substrate or relaxing its C0–C8 gates.
+[`docs/shared-world-contract.md`](docs/shared-world-contract.md) defines the
+shared boundaries for world identity, composition, bodies, perception, knowledge,
+intentions, action execution, time/persistence and player-facing evidence.
+
+An NPC is a persistent participant in the same world as the player. Its initial
+body, biological attributes, relationships and history must be seeded coherently,
+not independently rolled into contradictory facts. Its intentions use its own
+observations and memories, not unrestricted world truth. Actions are attempts;
+shared mechanisms determine outcomes and debit resources. Names cannot select
+physical or behavioral outcomes, while actual identity relationships remain facts.
+
+Keep realized truth, subjective uncertainty, evolving physical risk and sampled
+choices distinct. Save/load, offscreen catch-up and refinement preserve committed
+state and causes. Code owns arithmetic, time, effect validation and resource
+settlement; existing admitted Jev judgments retain their role. This adds no new
+question family, utility policy or animal-behavior implementation and does not
+silently replace M2's mind, schedule or combat contracts.
+
+The first cross-module proving fixture is one persistent wolf interacting with
+a player and a finite-fuel assembly. It tests coherent construction, knowledge
+isolation, bodily costs, commitment/interruption, common action resolution and
+replay, not a scripted wolf/fire-sword encounter. W0–W8 in the dedicated spec
+remain open and supplement the physical acceptance gates.
+
+The repository specification is updated; the external Claude Doc remains
+unsynchronized. This design work does not authorize bypassing milestone order.
