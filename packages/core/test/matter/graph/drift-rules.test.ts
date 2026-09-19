@@ -82,8 +82,9 @@ const close = (a: unknown, b: unknown): boolean => {
   return a === b;
 };
 
-describe("the nine rules of drift, as data", () => {
-  it("are nine, in the order the functions ran in, and survive JSON unchanged", () => {
+describe("the ten phase-ordered rules of drift, as data", () => {
+  it("match the revised function-reference order and survive JSON unchanged", () => {
+    expect(RULES.length).toBe(10);
     expect(RULES.length).toBe(DRIFTS.length);
     expect(RULES).toEqual(DRIFT_RULES);
   });

@@ -1,12 +1,12 @@
 /**
  * X7, drift: what time does. Every rate reads its conditions (principle 3), and each is in
  * closed form over the minutes that passed, so a gap nobody watched is simulated by this
- * same code (SPEC.md rule 10). What time does to a thing is nine rows of data
+ * same code (SPEC.md rule 10). What time does to a thing is ten base rows of data
  * (graph/drift-rules.ts) carried out by one kernel (graph/kernel.ts); no rule is a function.
  */
 import { apply } from "./apply.ts";
 import { faded } from "./deeds.ts";
-import { DRIFT_DERIVED, DRIFT_RULES } from "./graph/drift-rules.ts";
+import { DRIFT_AFTER, DRIFT_BEFORE, DRIFT_DERIVED, DRIFT_DURING } from "./graph/drift-rules.ts";
 import { grownFor } from "./graph/grown.ts";
 import { envOf, Kernel, partyOf, ready } from "./graph/kernel.ts";
 import { weathered } from "./living.ts";
@@ -22,7 +22,12 @@ export interface DriftAct {
 /** The rows, made ready once (graph/kernel.ts). */
 const GROWN = grownFor("drift");
 const KERNEL = Kernel.with(DRIFT_DERIVED, GROWN);
-const RULES = [...DRIFT_RULES, ...GROWN.rules].map((rule) => ready(KERNEL, rule));
+// `was` remains the true interval-start snapshot through every phase. Existing admitted
+// weather rows sample extinction at the endpoint; extension writes remain sequential,
+// not globally deferred. Fuel settlement follows, then the next step rebuilds properties.
+const RULES = [...DRIFT_BEFORE, ...DRIFT_DURING, ...GROWN.rules, ...DRIFT_AFTER].map((rule) =>
+  ready(KERNEL, rule),
+);
 
 function driftThing(world: MatterWorld, thing: Thing, minutes: number): Change[] {
   const env = envOf(world, { self: partyOf(world, thing) }, minutes);

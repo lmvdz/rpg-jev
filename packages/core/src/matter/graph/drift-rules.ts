@@ -1,12 +1,12 @@
 /**
- * X7, what time does to a thing, as data. These nine rules were nine functions in `drift.ts`;
- * here they are rows, and a test holds each row equal to the function it replaced over
+ * X7, what time does to a thing, as data. Ten rows separate initial suppression, interval
+ * evolution and boundary settlement. A test holds each row equal to its function reference over
  * thousands of seeded things (test/matter/graph/drift-rules.test.ts). The little helpers below
  * only spare the braces: what they return is plain data and survives JSON, which the same test
  * checks.
  */
 import type { Cond, Expr } from "./expr.ts";
-import type { Rule } from "./rules.ts";
+import type { Effect, Rule } from "./rules.ts";
 
 const op = (name: "add" | "mul" | "sub" | "div" | "min" | "max" | "pow" | "clamp") => {
   return (...of: Expr[]): Expr => ({ op: name, of });
@@ -27,6 +27,13 @@ const salty: Cond = { ref: "coat.is.granular", equals: true };
 
 /** The derived quantities: nodes that several rules read, each said once. */
 export const DRIFT_DERIVED: Readonly<Record<string, Expr>> = {
+  // Integrate the fueled interval before settling burnout, then the ambient remainder.
+  burningMinutes: when(
+    { all: [{ has: "s.burning" }, gt("place.air", 0), gt("p.flammability", 0)] },
+    max(0, min("t", "s.burning.fuel")),
+    0,
+  ),
+  temperatureRate: div(mul(0.02, add(1, mul("p.conductivity", 0.2))), add(1, mul("p.mass", 0.3))),
   // What the air of the place holds, above an ordinary day.
   air: max(0, sub("place.moisture", 2)),
   // The water a thing can hold inside: what it drinks, and what is its own.
@@ -61,11 +68,42 @@ export const DRIFT_DERIVED: Readonly<Record<string, Expr>> = {
   ),
 };
 
-export const DRIFT_RULES: readonly Rule[] = [
+/** Account from the true interval-start fuel even if an extension extinguished the flame. */
+const fuelEffects = (over: Expr): readonly Effect[] => [
+  { kind: "set", q: "x.fuelLeft", to: "was.burning.fuel" },
   {
-    id: "burning",
-    says: "What burns uses up its fuel, and goes out with no air or when too wet to burn",
+    kind: "accrue",
+    q: "x.fuelLeft",
+    rate: -1,
+    over,
+    lo: 0,
+    eps: 1e-9,
+    spends: true,
+    atLo: [
+      {
+        kind: "put",
+        q: "s.coating",
+        value: null,
+        when: { ref: "was.burning.of", equals: "coating" },
+      },
+      { kind: "put", q: "s.burning", value: null },
+    ],
+  },
+  // A boundary extinction must not be undone by restoring a positive remainder.
+  { kind: "set", q: "s.burning.fuel", to: "x.fuelLeft", when: { has: "s.burning" } },
+];
+
+/** Already-due exhaustion and initial suppression happen before any interval evolution. */
+export const DRIFT_BEFORE: readonly Rule[] = [
+  {
+    id: "burning-start",
+    says: "Already exhausted fuel is gone; no air or no combustibility suppresses a remaining flame immediately",
     first: [
+      {
+        when: { all: [{ has: "s.burning" }, lte("s.burning.fuel", 0)] },
+        effects: fuelEffects(0),
+        because: ["S3", "X7"],
+      },
       {
         when: {
           all: [{ has: "s.burning" }, { any: [lte("place.air", 0), lte("p.flammability", 0)] }],
@@ -76,28 +114,38 @@ export const DRIFT_RULES: readonly Rule[] = [
         ],
         because: ["S3", "R6", "S2", "X7"],
       },
+    ],
+  },
+];
+
+/** Base fuel-exhaustion settlement follows both base and extension interval rows. */
+export const DRIFT_DURING: readonly Rule[] = [
+  {
+    id: "temperature",
+    says: "Temperature approaches flame heat only during the active fuel interval, then the place temperature",
+    first: [
       {
-        when: { has: "s.burning" },
         effects: [
           {
-            kind: "accrue",
-            q: "s.burning.fuel",
-            rate: -1,
+            kind: "approach",
+            q: "s.temperature",
+            toward: 5,
+            rate: "d.temperatureRate",
+            over: "d.burningMinutes",
             lo: 0,
-            eps: 1e-9,
-            spends: true,
-            atLo: [
-              {
-                kind: "put",
-                q: "s.coating",
-                value: null,
-                when: { ref: "s.burning.of", equals: "coating" },
-              },
-              { kind: "put", q: "s.burning", value: null },
-            ],
+            hi: 5,
+          },
+          {
+            kind: "approach",
+            q: "s.temperature",
+            toward: "place.temperature",
+            rate: "d.temperatureRate",
+            over: sub("t", "d.burningMinutes"),
+            lo: 0,
+            hi: 5,
           },
         ],
-        because: ["S3", "X7"],
+        because: ["S1", "P7", "X7"],
       },
     ],
   },
@@ -109,25 +157,6 @@ export const DRIFT_RULES: readonly Rule[] = [
         when: gt("s.surfaceAbove", 0),
         effects: [{ kind: "approach", q: "s.surfaceAbove", toward: 0, rate: 1 }],
         because: ["S1", "X7"],
-      },
-    ],
-  },
-  {
-    id: "temperature",
-    says: "Temperature settles toward the place, faster for a conductor and slower for a mass; what burns is kept hot",
-    first: [
-      {
-        effects: [
-          {
-            kind: "approach",
-            q: "s.temperature",
-            toward: when({ has: "s.burning" }, 5, "place.temperature"),
-            rate: div(mul(0.02, add(1, mul("p.conductivity", 0.2))), add(1, mul("p.mass", 0.3))),
-            lo: 0,
-            hi: 5,
-          },
-        ],
-        because: ["S1", "P7", "X7"],
       },
     ],
   },
@@ -260,3 +289,28 @@ export const DRIFT_RULES: readonly Rule[] = [
     ],
   },
 ];
+
+/** Fuel exhaustion is an end event, after every base and extension interval row. */
+export const DRIFT_AFTER: readonly Rule[] = [
+  {
+    id: "burning-end",
+    says: "The active interval spends its starting fuel even if the flame is extinguished at the boundary",
+    first: [
+      {
+        when: {
+          all: [
+            { has: "was.burning" },
+            gt("was.burning.fuel", 0),
+            gt("place.air", 0),
+            gt("p.flammability", 0),
+          ],
+        },
+        effects: fuelEffects("t"),
+        because: ["S3", "X7"],
+      },
+    ],
+  },
+];
+
+/** Flattened reference order; the caller inserts extension rows before boundary settlement. */
+export const DRIFT_RULES: readonly Rule[] = [...DRIFT_BEFORE, ...DRIFT_DURING, ...DRIFT_AFTER];

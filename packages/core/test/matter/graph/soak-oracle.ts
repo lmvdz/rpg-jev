@@ -1,7 +1,8 @@
 /**
- * Soak and coat as it was when it was functions, kept word for word as the oracle for the rows that
- * replaced it (soak-rules.test.ts). Nothing in the engine reads this. When a rule is changed on
- * purpose, change the row and this together, or retire both.
+ * Function-form reference for soak and coat (soak-rules.test.ts).
+ * C0 intentionally revises two historical contracts: soak requires a positive supplied dose,
+ * and dousing uses only its aqueous fraction. Other formulas are unchanged.
+ * Nothing in the engine reads this; independent C0 regressions test the revised behavior.
  */
 import {
   baseline,
@@ -37,7 +38,7 @@ const holds = (absorbency: number) => 1 + absorbency * 0.8;
 
 function douse(target: Thing, amount: number): Change[] {
   const burning = target.state.burning;
-  if (!burning) return [];
+  if (!burning || amount <= 0) return [];
   const out = amount * 20 >= burning.fuel;
   return [
     {
@@ -94,6 +95,10 @@ export function soakOracle(world: MatterWorld, act: SoakActWas): Change[] {
     return [{ kind: "nothing", because: ["S6"], note: "there is nothing there to wet it with" }];
   const p = effective(world, target);
   const used = Math.min(act.amount, liquid.state.amount);
+  // C0 correction: no supplied dose admits no soak transformations.
+  if (!(used > 0))
+    return [{ kind: "nothing", because: ["S6"], note: "there is nothing there to wet it with" }];
+  const water = used * clamp(1 - effective(world, liquid).oiliness / 5, 0, 1);
   const own = world.elements[target.element]?.moist ?? 0;
   const mixed = (mine: number, theirs: number) =>
     (mine * target.state.amount + theirs * used) / (target.state.amount + used || 1);
@@ -112,7 +117,7 @@ export function soakOracle(world: MatterWorld, act: SoakActWas): Change[] {
       because: ["X4", "P9", "S2", "S9", "S13"],
       note: wetness > target.state.wetness ? "it takes up the liquid" : "the liquid runs off it",
     },
-    ...douse(target, used),
+    ...douse(target, water),
     ...wash(world, liquid, target),
     {
       kind: "consume",

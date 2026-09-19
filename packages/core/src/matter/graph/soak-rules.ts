@@ -38,6 +38,8 @@ const mixed = (state: string): Expr => {
 
 export const SOAK_DERIVED: Readonly<Record<string, Expr>> = {
   used: min("act.amount", "liq.was.amount"),
+  // The same aqueous fraction used by effective wetness: oily liquid does not quench.
+  water: mul("d.used", clamp(sub(1, div("liq.p.oiliness", 5)), 0, 1)),
   // How wet a thing can get: a film on anything, more the more it drinks, and what is its own.
   cap: add(1, mul("tgt.p.absorbency", 0.8), "tgt.row.moist"),
   wetness: clamp(min("d.cap", add("tgt.was.wetness", mul("d.used", 5))), 0, 5),
@@ -52,13 +54,18 @@ export const SOAK_DERIVED: Readonly<Record<string, Expr>> = {
 /** Only what runs can wet anything: a liquid that is not frozen, or a solid past its melting. */
 export const SOAK_WETS: { when: Cond; otherwise: Said } = {
   when: {
-    any: [
-      { all: [is("liq.row.is.liquid"), gt("liq.was.temperature", 0.25)] },
+    all: [
+      gt("d.used", 0),
       {
-        all: [
-          { ref: "liq.row.is.liquid", equals: false },
-          gt("liq.row.p.meltsAt", 0),
-          gte("liq.was.temperature", melts("liq")),
+        any: [
+          { all: [is("liq.row.is.liquid"), gt("liq.was.temperature", 0.25)] },
+          {
+            all: [
+              { ref: "liq.row.is.liquid", equals: false },
+              gt("liq.row.p.meltsAt", 0),
+              gte("liq.was.temperature", melts("liq")),
+            ],
+          },
         ],
       },
     ],
@@ -106,11 +113,17 @@ export const SOAK_RULES: readonly Rule[] = [
   },
   {
     id: "douse",
-    says: "Enough of a liquid puts out what burns and cools it; too little hisses and it burns on; either way it steams",
+    says: "Enough aqueous liquid puts out what burns and cools it; too little hisses and it burns on; nonaqueous liquid does neither",
     about: "tgt",
     first: [
       {
-        when: { all: [{ has: "tgt.was.burning" }, gte(mul("d.used", 20), "tgt.was.burning.fuel")] },
+        when: {
+          all: [
+            { has: "tgt.was.burning" },
+            gt("d.water", 0),
+            gte(mul("d.water", 20), "tgt.was.burning.fuel"),
+          ],
+        },
         effects: [
           { kind: "put", q: "tgt.s.burning", value: null },
           { kind: "set", q: "tgt.s.temperature", to: min("tgt.was.temperature", 3), lo: 0, hi: 5 },
@@ -120,7 +133,7 @@ export const SOAK_RULES: readonly Rule[] = [
         note: "the water puts it out",
       },
       {
-        when: { has: "tgt.was.burning" },
+        when: { all: [{ has: "tgt.was.burning" }, gt("d.water", 0)] },
         effects: [steam],
         because: ["X4", "S3", "S14"],
         note: "there is not enough water: it hisses and burns on",

@@ -122,6 +122,9 @@ export function heatOracle(world: MatterWorld, act: HeatAct): Change[] {
   const target = world.things[act.target];
   if (!(source && target) || source.id === target.id)
     return [{ kind: "nothing", because: [], note: "there is nothing there to heat" }];
+  // C0 correction: zero exposure cannot admit threshold or generated effects either.
+  if (!(act.minutes > 0 && (act.contact ?? 1) > 0))
+    return [{ kind: "nothing", because: ["X3"], note: "there is no heat exposure" }];
   const p = effective(world, target);
   const contact = act.contact ?? 1;
   const liquid = isLiquid(world, source) || isLiquid(world, target);
@@ -177,3 +180,6 @@ export function heatOracle(world: MatterWorld, act: HeatAct): Change[] {
     ...shock(meeting),
   ];
 }
+// C0 contract amendment: the whole process requires positive time and contact.
+// The seeded equivalence suite retains its comparisons; c0-exposure.test.ts supplies
+// independent no-op and positive-control evidence rather than preserving zero-exposure effects.

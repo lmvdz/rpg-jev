@@ -101,7 +101,7 @@ describe("checking a row without running it", () => {
     const stopped = [...DRIFT_RULES, ...HEAT_RULES]
       .filter((r) => validate(r, r.about ? HEAT : DRIFT).length > 0)
       .map((r) => r.id);
-    expect(stopped.sort()).toEqual(["burning", "draw", "ignite", "wetness"]);
+    expect(stopped.sort()).toEqual(["burning-end", "burning-start", "draw", "ignite", "wetness"]);
   });
 
   it("lets a sound proposal through", () => {

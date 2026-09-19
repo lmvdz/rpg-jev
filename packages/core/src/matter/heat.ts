@@ -95,6 +95,9 @@ function heatBy(rules: readonly Ready[], world: MatterWorld, act: HeatAct): Chan
   const target = world.things[act.target];
   if (!(source && target) || source.id === target.id)
     return [{ kind: "nothing", because: [], note: "there is nothing there to heat" }];
+  // Exposure admits the whole process, including generated rows and threshold effects.
+  if (!(act.minutes > 0 && (act.contact ?? 1) > 0))
+    return [{ kind: "nothing", because: ["X3"], note: "there is no heat exposure" }];
   const parties = { tgt: partyOf(world, target), src: partyOf(world, source) };
   const env = envOf(world, parties, act.minutes, {
     minutes: act.minutes,

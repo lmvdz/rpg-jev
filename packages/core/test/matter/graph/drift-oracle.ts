@@ -1,7 +1,9 @@
 /**
- * The nine rules of drift as they were when they were functions, kept word for word as the
- * oracle for the rows that replaced them (drift-rules.test.ts). Nothing in the engine reads
- * this. When a rule is changed on purpose, change the row and this together, or retire both.
+ * Function-form reference for the drift rows (drift-rules.test.ts).
+ * C0 intentionally revises the historical contract: initial suppression, all interval rows,
+ * then fuel settlement. Splitting the old burning function makes ten rows. Thermal
+ * integration covers only the active fuel interval, then cools for the remainder.
+ * All other rules retain their historical formulas. Nothing in the engine reads this.
  */
 import type {
   MatterWorld,
@@ -28,30 +30,33 @@ export type Drift = (
 const NONE = { set: {}, because: [] as string[] };
 
 export const DRIFTS: readonly Drift[] = [
-  // Burning uses up its fuel. It goes out where there is no air and when what burns is too
-  // wet to burn, and then what has not burned is still there: only spent fuel is gone.
-  ({ p, place, minutes }, s) => {
+  // Already-due exhaustion is distinct from suppressing a flame with remaining fuel.
+  ({ p, place }, s) => {
     if (!s.burning) return NONE;
+    if (s.burning.fuel <= 0) {
+      const coatGone = s.burning.of === "coating" ? { coating: null } : {};
+      return { set: { burning: null, ...coatGone }, because: ["S3", "X7"], spent: true };
+    }
     const out = (place?.air ?? 5) <= 0 || p.flammability <= 0;
     if (out) return { set: { burning: null, surfaceAbove: 0 }, because: ["S3", "R6", "S2", "X7"] };
-    const fuel = s.burning.fuel - minutes;
-    if (fuel > 1e-9) return { set: { burning: { ...s.burning, fuel } }, because: ["S3", "X7"] };
-    const coatGone = s.burning.of === "coating" ? { coating: null } : {};
-    return { set: { burning: null, ...coatGone }, because: ["S3", "X7"], spent: true };
+    return NONE;
+  },
+  // C0 correction: heat during the fueled interval, before settling exhaustion.
+  ({ p, place, minutes }, s) => {
+    const active = s.burning && (place?.air ?? 5) > 0 && p.flammability > 0;
+    const burningMinutes = active ? Math.max(0, Math.min(minutes, s.burning?.fuel ?? 0)) : 0;
+    const rate = (0.02 * (1 + p.conductivity * 0.2)) / (1 + p.mass * 0.3);
+    const heated = s.temperature + (5 - s.temperature) * (1 - Math.exp(-rate * burningMinutes));
+    const toward = place?.temperature ?? 2;
+    const temperature = clamp(
+      heated + (toward - heated) * (1 - Math.exp(-rate * (minutes - burningMinutes))),
+    );
+    return { set: { temperature }, because: ["S1", "P7", "X7"] };
   },
   // A surface that ran ahead of the bulk falls back to it within minutes.
   ({ minutes }, s) => {
     if (s.surfaceAbove <= 0) return NONE;
     return { set: { surfaceAbove: s.surfaceAbove * Math.exp(-minutes) }, because: ["S1", "X7"] };
-  },
-  // Temperature settles toward the place; a thing whose coat burns is heated by it.
-  ({ p, place, minutes }, s) => {
-    const toward = s.burning ? 5 : (place?.temperature ?? 2);
-    const rate = (0.02 * (1 + p.conductivity * 0.2)) / (1 + p.mass * 0.3);
-    const temperature = clamp(
-      s.temperature + (toward - s.temperature) * (1 - Math.exp(-rate * minutes)),
-    );
-    return { set: { temperature }, because: ["S1", "P7", "X7"] };
   },
   // Wetness moves toward what the air holds. In rain a thing wets again as far as it can
   // drink. Drying goes in two speeds: a film on the surface is gone within the hour, and
@@ -135,5 +140,17 @@ export const DRIFTS: readonly Drift[] = [
     const clings = Math.max(0, (c.stickiness ?? 0) + (c.perishability ?? 0) * 0.5 - loose) / 5;
     const bond = clamp(s.coating.bond + (p.absorbency / 5) * clings * 0.03 * minutes);
     return { set: { coating: { ...s.coating, bond } }, because: ["S7", "P9", "P13", "P12", "X7"] };
+  },
+  // Settlement uses start fuel, not a flame that an endpoint weather row may have removed.
+  ({ thing, p, place, minutes }, s) => {
+    const burning = thing.state.burning;
+    if (!burning || burning.fuel <= 0 || (place?.air ?? 5) <= 0 || p.flammability <= 0) return NONE;
+    const fuel = burning.fuel - minutes;
+    if (fuel > 1e-9) {
+      const set = s.burning ? { burning: { ...s.burning, fuel } } : {};
+      return { set, because: ["S3", "X7"] };
+    }
+    const coatGone = burning.of === "coating" ? { coating: null } : {};
+    return { set: { burning: null, ...coatGone }, because: ["S3", "X7"], spent: true };
   },
 ];
