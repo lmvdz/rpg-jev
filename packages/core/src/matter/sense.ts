@@ -31,6 +31,10 @@ export function emits(world: MatterWorld, thing: Thing): Partial<Record<Channel,
     out.light = clamp(2 + burns * 0.6);
     out.smoke = clamp(1 + burns * 0.7);
   } else if (thing.state.temperature + thing.state.surfaceAbove >= 4.5) out.light = 1.5;
+  // By daylight a thing is simply seen: more easily the bigger it is, and not at all in the dark.
+  const light = world.places[thing.place]?.light ?? 3;
+  const size = world.elements[thing.element]?.props.size ?? 0;
+  if (light > 0) out.sight = clamp((light / 5) * (2.5 + size * 0.5));
   const base = world.elements[thing.element]?.props.scent ?? 0;
   if (base > 0 || thing.state.contamination > 0) {
     const scent = effective(world, thing).scent;
@@ -45,14 +49,29 @@ const SENSE: Record<Channel, "sight" | "hearing" | "smell"> = {
   smoke: "sight",
   sound: "hearing",
   scent: "smell",
+  sight: "sight",
 };
 /** How fast each channel thins with distance, and how much cover takes from it. */
-const FALL: Record<Channel, number> = { light: 0.5, smoke: 0.5, sound: 0.7, scent: 0.8 };
-const HIDES: Record<Channel, number> = { light: 0.5, smoke: 0.4, sound: 0.2, scent: 0.1 };
+const FALL: Record<Channel, number> = {
+  light: 0.5,
+  smoke: 0.5,
+  sound: 0.7,
+  scent: 0.8,
+  sight: 0.5,
+};
+const HIDES: Record<Channel, number> = {
+  light: 0.5,
+  smoke: 0.4,
+  sound: 0.2,
+  scent: 0.1,
+  sight: 0.6,
+};
 
 /** What a signal competes with in this place, on its own channel. */
 function drowned(channel: Channel, place: Place | undefined): number {
   const light = place?.light ?? 3;
+  // What is seen by daylight competes with nothing: the light is what shows it.
+  if (channel === "sight") return 0;
   if (channel === "light") return light * 0.6;
   // Smoke is seen against the sky: it needs some light, and is lost in the dark.
   if (channel === "smoke") return (5 - light) * 0.4 + (place?.wind ?? 0) * 0.2;
@@ -79,11 +98,37 @@ function threshold(world: MatterWorld, body: Body, channel: Channel): number {
   return 2.5 - acuity * 0.5 + dulled;
 }
 
-function reaches(world: MatterWorld, body: Body, from: Thing, channel: Channel, strength: number) {
+/** How far above this body's threshold a signal from that thing arrives. At or below 0: unnoticed. */
+export function reaches(
+  world: MatterWorld,
+  body: Body,
+  from: Thing,
+  channel: Channel,
+  strength: number,
+): number {
   const place = world.places[body.place];
   const far = FALL[channel] * Math.log2(1 + distance(body.where, from.where) / 4);
   const hidden = (place?.cover ?? 0) * HIDES[channel];
   return strength - far - hidden - drowned(channel, place) - threshold(world, body, channel);
+}
+
+/** How many things a body can hold in mind at once. */
+const ATTENDS = 16;
+
+/**
+ * A body attends to a handful of things, not to every tree in the wood: what gives something
+ * off before what is merely there, what would feed it when it is hungry, then the strongest.
+ */
+function attended(world: MatterWorld, body: Body, aware: Record<string, Percept>) {
+  const entries = Object.entries(aware);
+  if (entries.length <= ATTENDS) return aware;
+  const hungry = (body.needs.hunger ?? 0) >= 2;
+  const weight = ([id, p]: [string, Percept]) => {
+    const feeds = (world.elements[world.things[id]?.element ?? ""]?.serves?.hunger ?? 0) > 0;
+    return p.strength + (p.channel === "sight" ? 0 : 2) + (hungry && feeds ? 3 : 0);
+  };
+  const kept = entries.sort((a, b) => weight(b) - weight(a) || a[0].localeCompare(b[0]));
+  return Object.fromEntries(kept.slice(0, ATTENDS));
 }
 
 /** What every body is aware of now: the strongest way each source reaches it, if any does. */
@@ -108,7 +153,7 @@ export function sensed(
       if (strength <= 0 || strength <= (aware[s.thing.id]?.strength ?? 0)) continue;
       aware[s.thing.id] = { channel: s.channel, strength: clamp(strength) };
     }
-    out.set(body.id, aware);
+    out.set(body.id, attended(world, body, aware));
   }
   return out;
 }
@@ -118,6 +163,7 @@ const NOTICED: Record<Channel, string> = {
   smoke: "sees smoke",
   sound: "hears it",
   scent: "catches a scent",
+  sight: "sees it",
 };
 
 /** The changes that bring every body's awareness up to date after an act. */
