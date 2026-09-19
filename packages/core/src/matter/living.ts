@@ -4,14 +4,12 @@
  * less than a dry one, which the modifier rules already say) and slower still by a fire.
  * Hunger and tiredness come with the hours. What a body has suffered lowers what it can do.
  *
- * Then the first creature. What it may choose among is built by code from what it notices and
- * what it needs, always with nothing among the options (SPEC.md rule 4); the judge chooses
- * when someone is watching, and `routine` chooses when nobody is (rule 10).
+ * Then what a body does with itself: it goes somewhere, and it takes hold of things or sets
+ * them down. What it may choose to do is `intents.ts`.
  */
 import { effective } from "./effective.ts";
 import { blaze } from "./heat.ts";
-import type { Act } from "./resolve.ts";
-import type { Body, BodyRow, Change, MatterWorld, Thing } from "./types.ts";
+import type { Body, BodyRow, Change, MatterWorld } from "./types.ts";
 import { clamp } from "./types.ts";
 
 const ORDINARY_BODY: BodyRow = { strength: 2, speed: 2, sight: 2, hearing: 2, smell: 2 };
@@ -77,96 +75,78 @@ export function able(world: MatterWorld, body: Body): BodyRow {
 export interface MoveAct {
   process: "move";
   body: string;
-  /** A thing to go toward, or to go away from. */
+  /** A thing or a body to go toward, or to go away from; or a spot to make for. */
   toward?: string;
   away?: string;
+  to?: readonly [number, number];
   minutes: number;
 }
 
 /** Tiles a minute, for each level of speed. A body covers ground by what it can still do. */
 const PACE = 4;
 
+function aimOf(world: MatterWorld, act: MoveAct): readonly [number, number] | null {
+  if (act.to) return act.to;
+  const id = act.toward ?? act.away ?? "";
+  const target = world.things[id] ?? world.bodies[id];
+  return target ? (target.where ?? [0, 0]) : null;
+}
+
 export function move(world: MatterWorld, act: MoveAct): Change[] {
   const body = world.bodies[act.body];
-  const target = world.things[act.toward ?? act.away ?? ""];
-  if (!(body && target)) return [{ kind: "nothing", because: [], note: "there is nowhere to go" }];
+  const to = aimOf(world, act);
+  if (!(body && to)) return [{ kind: "nothing", because: [], note: "there is nowhere to go" }];
   const from = body.where ?? [0, 0];
-  const to = target.where ?? [0, 0];
   const gap = Math.hypot(to[0] - from[0], to[1] - from[1]);
   const stride = able(world, body).speed * PACE * act.minutes;
   // Toward, it stops beside the thing; away, it keeps going.
-  const go = act.toward ? Math.min(stride, Math.max(0, gap - 1)) : -stride;
+  const go = act.away ? -stride : Math.min(stride, Math.max(0, gap - 1));
   const [dx, dz] = gap > 0 ? [(to[0] - from[0]) / gap, (to[1] - from[1]) / gap] : [1, 0];
   const where: [number, number] = [from[0] + dx * go, from[1] + dz * go];
+  const carried: Change[] = (body.holds ?? []).map((thing) => ({
+    kind: "carried",
+    thing,
+    where,
+    because: ["X1"],
+    note: "what it holds goes with it",
+    quiet: true,
+  }));
   return [
     {
       kind: "body",
       body: body.id,
       set: { where },
       because: ["X1", "B1"],
-      note: act.toward ? "it goes toward it" : "it makes off",
+      note: act.away ? "it makes off" : "it goes toward it",
     },
+    ...carried,
   ];
 }
 
-export interface Option {
-  id: string;
-  description: string;
-  act?: Act;
+export interface TakeAct {
+  process: "take";
+  body: string;
+  thing: string;
+  /** Set it down where it stands. */
+  drop?: true;
 }
 
-const feeds = (world: MatterWorld, thing: Thing) =>
-  (world.elements[thing.element]?.serves?.hunger ?? 0) > 0;
+/** What one body can take hold of: within reach, and no heavier than it is strong. */
+export function canTake(world: MatterWorld, body: Body, thingId: string): boolean {
+  const thing = world.things[thingId];
+  if (!thing || thing.place !== body.place || apart(body.where, thing.where) > 1.5) return false;
+  return effective(world, thing).mass <= able(world, body).strength + 1;
+}
 
-/**
- * A PLACEHOLDER, and the shape to replace: two cases (what burns may be fled, what feeds may be
- * approached) is a list of situations, and every new factor would be another branch. The
- * design that scales is in docs/sandbox-direction.md, "Minds": intents as rows with
- * preconditions over bonds, deeds, feelings and needs, ranked by salience.
- *
- * What this body could do now, built from what it is aware of. It cannot be offered what it
- * has not noticed, and it is always offered nothing.
- */
-export function optionsFor(world: MatterWorld, body: Body): Option[] {
-  const options: Option[] = [];
-  for (const id of Object.keys(body.aware ?? {}).sort()) {
-    const thing = world.things[id];
-    if (!thing) continue;
-    if (thing.state.burning)
-      options.push({
-        id: `flee:${id}`,
-        description: "get away from the fire",
-        act: { process: "move", body: body.id, away: id, minutes: 1 },
-      });
-    if (!feeds(world, thing)) continue;
-    const near = apart(body.where, thing.where) <= 1.5;
-    options.push(
-      near
-        ? {
-            id: `eat:${id}`,
-            description: "eat what is here",
-            act: { process: "ingest", body: body.id, thing: id, amount: 1 },
-          }
-        : {
-            id: `approach:${id}`,
-            description: "go toward what smells of food",
-            act: { process: "move", body: body.id, toward: id, minutes: 1 },
-          },
-    );
+export function take(world: MatterWorld, act: TakeAct): Change[] {
+  const body = world.bodies[act.body];
+  const holds = body?.holds ?? [];
+  if (body && act.drop && holds.includes(act.thing)) {
+    const set = { holds: holds.filter((id) => id !== act.thing) };
+    return [{ kind: "body", body: body.id, set, because: ["X1"], note: "it sets it down" }];
   }
-  options.push({ id: "rest", description: "stay and rest" });
-  options.push({ id: "none", description: "none of these" });
-  return options;
-}
-
-/** What it does when nobody is watching: its needs decide, in code, among the same options. */
-export function routine(world: MatterWorld, body: Body): Option {
-  const options = optionsFor(world, body);
-  const nothing: Option = { id: "none", description: "none of these" };
-  const first = (prefix: string) => options.find((o) => o.id.startsWith(prefix));
-  const strongest = Math.max(0, ...Object.values(body.aware ?? {}).map((p) => p.strength));
-  if ((body.needs.hunger ?? 0) >= 3) return first("eat:") ?? first("approach:") ?? nothing;
-  if ((body.needs.rest ?? 0) >= 3) return first("rest") ?? nothing;
-  if (strongest >= 2) return first("flee:") ?? nothing;
-  return nothing;
+  if (!body || act.drop || holds.includes(act.thing) || !canTake(world, body, act.thing))
+    return [{ kind: "nothing", because: ["X1", "P1"], note: "it cannot take hold of that" }];
+  const set = { holds: [...holds, act.thing] };
+  return [{ kind: "body", body: body.id, set, because: ["X1", "P1"], note: "it takes hold of it" }];
 }

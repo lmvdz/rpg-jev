@@ -51,6 +51,12 @@ const APPLIERS: { [K in Change["kind"]]: Applier<K> } = {
     const { [c.thing]: _gone, ...things } = world.things;
     return { ...world, things };
   },
+  // What is held goes where its holder goes.
+  carried: (world, c) => {
+    const thing = world.things[c.thing];
+    if (!thing) return world;
+    return { ...world, things: { ...world.things, [c.thing]: { ...thing, where: c.where } } };
+  },
   // A signal is heard or not by whoever is sensing; it leaves no state of its own here.
   signal: (world) => world,
   // Sensing writes what a body is aware of, and nothing else.

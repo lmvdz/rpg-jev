@@ -4,6 +4,7 @@
  * same code (SPEC.md rule 10). A kind of drift is a row in `DRIFTS`.
  */
 import { apply } from "./apply.ts";
+import { faded } from "./deeds.ts";
 import { effective } from "./effective.ts";
 import { weathered } from "./living.ts";
 import { report } from "./report.ts";
@@ -227,7 +228,12 @@ function driftBody(world: MatterWorld, body: Body, minutes: number): Change[] {
   changes.push({
     kind: "body",
     body: body.id,
-    set: { ...lived, health, sickensIn },
+    set: {
+      ...lived,
+      health,
+      sickensIn,
+      ...(body.feels ? { feels: faded(body.feels, minutes) } : {}),
+    },
     because: ["B2", "B3", "B4", "X7"],
     note: due ? "the sickness comes on" : "time passes over the body",
   });

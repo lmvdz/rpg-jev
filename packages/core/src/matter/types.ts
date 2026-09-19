@@ -225,6 +225,43 @@ export interface Body {
   sickensIn: number;
   /** How much living contamination this eater shrugs off, 0 to 5. A carrion eater's is high. */
   tolerates?: number;
+  /** The place it keeps: a den, a nest, a house. What it has there is its own to stand over. */
+  home?: { place: string; where?: readonly [number, number] };
+  /** The things it has hold of, by id. They go where it goes. */
+  holds?: string[];
+  /** B6: what it feels toward others, by their id. Written only by deeds, and faded by time. */
+  feels?: Record<string, Feeling>;
+  /** Its standing among those it is bonded with, 0 to 5. It means nothing to a stranger. */
+  rank?: number;
+  /** What it was already at, if anything: an intent id. Going on with it is a choice. */
+  doing?: string;
+}
+
+/** B6: levels 0 to 5, toward one other. */
+export interface Feeling {
+  fear: number;
+  anger: number;
+  trust: number;
+}
+
+export const BOND_KINDS = ["young", "mate", "kin", "pack", "keeper"] as const;
+
+/**
+ * A bond runs one way: `from` holds `to` dear, by `weight` 0 to 5. A ward's needs reach its
+ * keeper by that weight, and what is done to the ward is felt by it. The kind is a word for
+ * the judge; no rule reads it.
+ */
+export interface Bond {
+  from: string;
+  to: string;
+  kind: (typeof BOND_KINDS)[number];
+  weight: number;
+}
+
+/** What is done here: over what, who goes first. A row of a place, never a branch. */
+export interface Custom {
+  over: "food" | "place" | "word";
+  first: "rank";
 }
 
 /** What a search has settled about a kind of thing in a place (E11). */
@@ -253,6 +290,9 @@ export interface Place {
    * one. A whole clearing held as one place is many: going over some of it leaves the rest.
    */
   extent?: number;
+  /** The ground: how many ways out there are, 0 cornered to 5 open country. Absent is open. */
+  exits?: number;
+  customs?: readonly Custom[];
 }
 
 export interface MatterWorld {
@@ -260,6 +300,8 @@ export interface MatterWorld {
   things: Record<string, Thing>;
   bodies: Record<string, Body>;
   places: Record<string, Place>;
+  /** Who holds whom dear. Absent is nobody. */
+  bonds?: readonly Bond[];
   /** A counter for the ids of things that come into being; never the present count of things. */
   next: number;
 }
@@ -284,6 +326,7 @@ export type Change = (
   | { kind: "treat"; body: string; index: number; set: Partial<Wound> }
   | { kind: "create"; thing: Thing }
   | { kind: "consume"; thing: string; amount: number }
+  | { kind: "carried"; thing: string; where: readonly [number, number] }
   | { kind: "signal"; place: string; channel: Channel; strength: number; source?: string }
   | { kind: "percept"; body: string; aware: Record<string, Percept> }
   | { kind: "settle"; place: string; element: string; minutes: number; found: number }

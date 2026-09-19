@@ -20,6 +20,8 @@ import { clamp, ORDINARY } from "./types.ts";
 
 export interface ForceAct {
   process: "force";
+  /** The body that does it, if one does: what makes the act a deed (deeds.ts). */
+  by?: string;
   instrument: string;
   /** A thing id or a body id. */
   patient: string;
