@@ -9,6 +9,7 @@
  */
 import type { Camera } from "../camera.ts";
 import type { GlyphLook } from "../glyph/batch.ts";
+import type { PackedMotions } from "../glyph/pose.ts";
 import { findPath } from "../scene/path.ts";
 import { type Blocked, NOTHING_BLOCKS } from "../scene/steps.ts";
 import type { Walker } from "../scene/walker.ts";
@@ -27,7 +28,9 @@ export interface PlayHost {
   walker: Walker;
   living: LivingThings | null;
   /** How glyphs are drawn (the frame's atmosphere) and what stands on a tile: picking tests the glyphs themselves. */
-  glyphs: { glyphTilt: number; glyphPixel: number };
+  glyphs: { glyphTilt: number; glyphPixel: number; outline?: boolean };
+  motions: PackedMotions;
+  slotAt(tileIndex: number): number;
   glyphAt(tileIndex: number): GlyphLook | null;
   playing(): boolean;
   /** Says something on the HUD's note line. */
@@ -44,7 +47,7 @@ export interface PlayHost {
 
 export interface MountedPlay {
   /** Call once a frame. Returns the tile to light up as [x0, z0, x1, z1], or null. */
-  track(): readonly [number, number, number, number] | null;
+  track(time: number): readonly [number, number, number, number] | null;
 }
 
 interface MenuRow {
@@ -92,6 +95,8 @@ export function mountPlay(host: PlayHost): MountedPlay {
   const { canvas, camera, grid, walker, living } = host;
   const blocked: Blocked = living ? living.blocks : NOTHING_BLOCKS;
   const view = glyphViewOf(camera, host.glyphs);
+  view.motions = host.motions;
+  view.slotAt = host.slotAt;
   const tooltip = floating("tooltip");
   const menu = floating("menu");
   const mouse = { x: 0, y: 0, left: 0, top: 0, over: false };
@@ -230,7 +235,8 @@ export function mountPlay(host: PlayHost): MountedPlay {
   };
 
   return {
-    track() {
+    track(time) {
+      view.time = time;
       frames++;
       const playing = host.playing();
       hover = playing && mouse.over ? pickInPlay(grid, view, mouse.x, mouse.y, host.glyphAt) : -1;

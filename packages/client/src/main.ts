@@ -415,13 +415,15 @@ function frame(app: App, editor: MountedEditor, now: number): void {
   } else {
     vec3.set(goal, walker.x, walker.y, walker.z);
   }
-  const pointed = app.play?.track() ?? null;
-  renderer.setCursor(app.editing ? session.cursor() : pointed);
   liven(app, now, dt);
   setFog(app);
   camera.settings.yaw += (app.yawGoal - camera.settings.yaw) * Math.min(dt * 10, 1);
   app.chunks.pump(goal[0], goal[2]);
   camera.update(goal, dt, renderer.resize());
+  // Picking and drawing read the same camera, clock and packed motion slots.
+  renderer.motions.pack(now / 1000);
+  const pointed = app.play?.track(now / 1000) ?? null;
+  renderer.setCursor(app.editing ? session.cursor() : pointed);
   renderer.draw(camera, batch, now / 1000);
 
   if (app.changedAt > 0 && began - app.changedAt > DRAFT_AFTER_MS && !session.busy) {
@@ -454,6 +456,8 @@ loadWorld(query).then((loaded) => {
     walker: app.walker,
     living: app.living,
     glyphs: app.renderer.atmosphere,
+    motions: app.renderer.motions,
+    slotAt: (tile) => app.objects.slotAt(tile),
     glyphAt: (tile) => app.objects.at(tile),
     playing: () => !app.editing,
     say: (text) => {

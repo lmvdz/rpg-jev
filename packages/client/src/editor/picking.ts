@@ -15,6 +15,9 @@ const inverse = mat4.create();
 const near = vec3.create();
 const far = vec3.create();
 const corners = new Float32Array(4);
+const span: [number, number] = [0, 1];
+const edgesX: [number, number] = [0, 0];
+const edgesZ: [number, number] = [0, 0];
 
 function tileTop(grid: TileGrid, x: number, z: number): number {
   cornerHeights(grid, x, z, corners);
@@ -32,10 +35,14 @@ function clipAxis(origin: number, step: number, size: number, span: [number, num
 }
 
 /** How far along the ray the next tile edge on one axis is, and how far apart edges are. */
-function edgeSteps(at: number, tile: number, step: number, t: number): [number, number] {
-  if (Math.abs(step) < 1e-9) return [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY];
+function edgeSteps(at: number, tile: number, step: number, t: number, out: [number, number]): void {
+  if (Math.abs(step) < 1e-9) {
+    out[0] = out[1] = Number.POSITIVE_INFINITY;
+    return;
+  }
   const edge = step > 0 ? tile + 1 : tile;
-  return [t + (edge - at) / step, Math.abs(1 / step)];
+  out[0] = t + (edge - at) / step;
+  out[1] = Math.abs(1 / step);
 }
 
 /**
@@ -64,15 +71,20 @@ export function walkRay(
   const dy = far[1] - near[1];
   const dz = far[2] - near[2];
 
-  const span: [number, number] = [0, 1];
+  span[0] = 0;
+  span[1] = 1;
   if (!clipAxis(near[0], dx, grid.width, span)) return -1;
   if (!clipAxis(near[2], dz, grid.depth, span)) return -1;
 
   let t = span[0] + 1e-7;
   let x = Math.min(Math.max(Math.floor(near[0] + dx * t), 0), grid.width - 1);
   let z = Math.min(Math.max(Math.floor(near[2] + dz * t), 0), grid.depth - 1);
-  let [nextX, everyX] = edgeSteps(near[0] + dx * t, x, dx, t);
-  let [nextZ, everyZ] = edgeSteps(near[2] + dz * t, z, dz, t);
+  edgeSteps(near[0] + dx * t, x, dx, t, edgesX);
+  edgeSteps(near[2] + dz * t, z, dz, t, edgesZ);
+  let nextX = edgesX[0];
+  let nextZ = edgesZ[0];
+  const everyX = edgesX[1];
+  const everyZ = edgesZ[1];
 
   for (let steps = grid.width + grid.depth + 2; steps > 0 && grid.contains(x, z); steps--) {
     visit?.(x, z);
