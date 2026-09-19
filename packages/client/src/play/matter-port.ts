@@ -12,6 +12,8 @@
  */
 import { matter } from "@rpg-jev/core";
 import { Rng } from "@rpg-jev/core/rng";
+import { INK } from "../palette.ts";
+import type { BodyView } from "../view/body.ts";
 import { checkLook } from "../view/look-birth.ts";
 import type { ThingView } from "../view/things.ts";
 import type { Answers } from "./act-request.ts";
@@ -30,7 +32,7 @@ const FILLS_TILE = 4;
 
 /** The engine's state for a thing as the client first shows it: fresh, then what can be seen. */
 function stateOf(thing: ThingView, element: matter.Element): matter.ThingState {
-  const { temperature, amount, wetness, integrity } = thing.states;
+  const { temperature, amount, wetness, integrity, contamination, corrosion } = thing.states;
   return {
     ...matter.FRESH,
     // What is fresh is not bone dry: whether it rots or burns depends on it.
@@ -38,6 +40,8 @@ function stateOf(thing: ThingView, element: matter.Element): matter.ThingState {
     ...(temperature === undefined ? {} : { temperature }),
     ...(amount === undefined ? {} : { amount }),
     ...(integrity === undefined ? {} : { integrity }),
+    ...(contamination === undefined ? {} : { contamination }),
+    ...(corrosion === undefined ? {} : { corrosion }),
   };
 }
 
@@ -47,8 +51,11 @@ function worldFrom(things: readonly ThingView[], tiles: number): matter.MatterWo
   const world = matter.worldOf(matter.POOL, [place]);
   for (const thing of things) {
     const element = world.elements[thing.element];
-    // A thing of no element in the pool (a creature, until bodies have rows) is not the world's yet.
-    if (!element) continue;
+    if (!element) {
+      // The pool has no creatures yet: one on the map brings a row made from what it is like.
+      if (thing.kind === "creature") embody(world, thing);
+      continue;
+    }
     const state = stateOf(thing, element);
     // Positions are the client's: sensing needs to know how far off a thing is.
     const where = [thing.x, thing.z] as const;
@@ -57,16 +64,37 @@ function worldFrom(things: readonly ThingView[], tiles: number): matter.MatterWo
     world.things[thing.id] = (thing.states.burning ?? 0) > 0 ? matter.alight(world, made) : made;
   }
   world.things[HANDS] = { id: HANDS, element: "hand", place: PLACE, state: { ...matter.FRESH } };
-  world.bodies[ACTOR] = {
-    id: ACTOR,
-    place: PLACE,
-    needs: {},
-    health: 5,
-    wounds: [],
-    sickness: 0,
-    sickensIn: 0,
-  };
+  world.bodies[ACTOR] = { ...WHOLE, id: ACTOR, needs: { hunger: 1, rest: 1, warmth: 0 } };
   return world;
+}
+
+/** A body as it is whole and well. */
+const WHOLE = { place: PLACE, health: 5, wounds: [], sickness: 0, sickensIn: 0 };
+
+/**
+ * A creature on the map becomes a body of the world, so that it notices and
+ * acts. Its row is a stand-in made from the thing's own kind, forms and
+ * baseline levels, naming nothing: the small are quick and keen-nosed, the
+ * heavy are strong. Born rows will replace it.
+ */
+function embody(world: matter.MatterWorld, thing: ThingView): void {
+  const mass = Math.min(Math.max(Math.round(thing.baseline?.mass ?? 2), 0), 5);
+  world.elements[thing.element] ??= {
+    id: thing.element,
+    name: thing.name,
+    kind: "creature",
+    forms: [],
+    props: { mass, size: mass, hardness: thing.baseline?.hardness ?? 1 },
+    body: { strength: mass, speed: 5 - mass, sight: 2, hearing: 3, smell: 5 - mass },
+  };
+  world.bodies[thing.id] = {
+    ...WHOLE,
+    id: thing.id,
+    element: thing.element,
+    where: [thing.x, thing.z],
+    // Hungry enough to go looking: a creature at rest on a full belly shows nothing.
+    needs: { hunger: 3, rest: 0 },
+  };
 }
 
 /** The ids of the things a change is about. What happened to them is read off the world, not the change. */
@@ -113,6 +141,73 @@ function elementView(element: matter.Element): ElementView {
   };
 }
 
+/** How a need is shown: the word for having it met, and the bar's colour. One row per need, as data. */
+const NEED_ROWS: Readonly<Record<string, { label: string; ink: number }>> = {
+  hunger: { label: "fed", ink: INK.sand },
+  rest: { label: "rested", ink: INK.leaf },
+  warmth: { label: "warm", ink: INK.lamp },
+};
+
+/** Writes a body's health and needs into the rows the status display shows, in place: a need is a want, so a full bar is none of it. */
+function statusOf(body: matter.Body, view: BodyView): void {
+  const levels: [string, string, number, number][] = [
+    ["health", "health", body.health / 5, INK.ember],
+    ...Object.entries(body.needs)
+      .filter(([need]) => need in NEED_ROWS)
+      .map(([need, want]): [string, string, number, number] => {
+        const row = NEED_ROWS[need] ?? { label: need, ink: INK.bone };
+        return [need, row.label, 1 - (want ?? 0) / 5, row.ink];
+      }),
+    ...(body.wetness === undefined
+      ? []
+      : [["wetness", "dry", 1 - body.wetness / 5, INK.water] as [string, string, number, number]]),
+  ];
+  for (const [id, label, level, ink] of levels) {
+    const meter = view.meters.find((known) => known.id === id);
+    if (meter) meter.level = level;
+    else view.meters.push({ id, label, level, ink });
+  }
+}
+
+type Tile = readonly [number, number];
+const tileOf = (where: Tile): Tile => [Math.round(where[0]), Math.round(where[1])];
+
+interface Turn {
+  world: matter.MatterWorld;
+  changes: matter.Change[];
+  moved: Record<string, Tile>;
+}
+
+/**
+ * Every other body takes its turn after the hero's act: what it does is
+ * chosen by its needs from the closed options the world built from what it
+ * has noticed (`matter.routine`, no judge), and resolved by the engine. Where
+ * a body can stand is the map's to say, so a move onto a tile it cannot stand
+ * on is put back: positions are the client's until the world knows the ground.
+ */
+function othersAct(world: matter.MatterWorld, canStand: (tile: Tile) => boolean): Turn {
+  const turn: Turn = { world, changes: [], moved: {} };
+  for (const id of Object.keys(world.bodies)) {
+    const body = turn.world.bodies[id];
+    if (!body || id === ACTOR) continue;
+    const chosen = matter.routine(turn.world, body);
+    if (!chosen.act) continue;
+    const outcome = matter.resolve(turn.world, chosen.act);
+    turn.world = outcome.world;
+    turn.changes.push(...outcome.changes);
+    const went = outcome.world.bodies[id]?.where;
+    if (!(went && body.where)) continue;
+    const [from, to] = [tileOf(body.where), tileOf(went)];
+    if (from[0] === to[0] && from[1] === to[1]) continue;
+    if (canStand(to)) turn.moved[id] = to;
+    else {
+      const stays = { ...outcome.world.bodies[id], where: body.where } as matter.Body;
+      turn.world = { ...turn.world, bodies: { ...turn.world.bodies, [id]: stays } };
+    }
+  }
+  return turn;
+}
+
 export interface MatterPort extends WorldPort {
   /** The world as it stands. Replaced whole by each resolved act. */
   readonly world: matter.MatterWorld;
@@ -120,11 +215,22 @@ export interface MatterPort extends WorldPort {
   readonly draws: { process: string; draw: number }[];
 }
 
-/** `tiles` is how much ground the things are scattered over: the one place's extent follows from it. */
-export function matterPort(things: readonly ThingView[], tiles: number, seed: number): MatterPort {
-  const rng = Rng.fromSeed(seed);
-  let world = worldFrom(things, tiles);
+export interface MatterPortOptions {
+  /** How much ground the things are scattered over: the one place's extent follows from it. */
+  tiles: number;
+  seed: number;
+  /** Whether a body can stand on a tile: the map's to say. Absent, anywhere. */
+  canStand?(tile: Tile): boolean;
+}
+
+export function matterPort(things: readonly ThingView[], options: MatterPortOptions): MatterPort {
+  const rng = Rng.fromSeed(options.seed);
+  const canStand = options.canStand ?? (() => true);
+  let world = worldFrom(things, options.tiles);
   const draws: MatterPort["draws"] = [];
+  const status: BodyView = { meters: [], counts: [] };
+  const hero = world.bodies[ACTOR];
+  if (hero) statusOf(hero, status);
 
   const seenOf = (id: string): Seen | null => {
     const thing = world.things[id];
@@ -161,10 +267,15 @@ export function matterPort(things: readonly ThingView[], tiles: number, seed: nu
       if (!act) return null;
       draws.push({ process: act.process, draw });
       const outcome = matter.resolve(world, act);
-      world = outcome.world;
+      const others = othersAct(outcome.world, canStand);
+      world = others.world;
+      const changes = [...outcome.changes, ...others.changes];
       const after: Record<string, Seen | null> = {};
-      for (const id of outcome.changes.flatMap(touchedBy).filter(drawn)) after[id] = seenOf(id);
-      return { process: act.process, changes: outcome.changes, after: after satisfies After };
+      for (const id of changes.flatMap(touchedBy).filter(drawn)) after[id] = seenOf(id);
+      const body = world.bodies[ACTOR];
+      if (body) statusOf(body, status);
+      return { process: act.process, changes, after: after satisfies After, moved: others.moved };
     },
+    body: () => status,
   };
 }

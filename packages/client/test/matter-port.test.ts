@@ -32,15 +32,17 @@ const made = (element: string, x: number, z: number, states = {}): ThingView => 
   states,
 });
 
-function scene() {
+function scene(canStand = true, more: ThingView[] = []) {
+  const stands = ([x, z]: readonly [number, number]) => canStand && grid.contains(x, z);
   const things = [
+    ...more,
     made("branch", 5, 4),
     // A fire is a pile of branches alight: fuel burning, and no element of its own.
     { ...made("branch", 3, 4, { burning: 4, amount: 5 }), name: "a fire" },
     made("oil", 4, 3),
-    made("rat", 4, 5),
+    { ...made("rat", 4, 6), kind: "creature", baseline: { mass: 1, hardness: 1 } },
   ];
-  const port = matterPort(things, 96 * 96, 7);
+  const port = matterPort(things, { tiles: 96 * 96, seed: 7, canStand: (tile) => stands(tile) });
   const births = new Births(askPriors, 1);
   const objects = new ObjectLayer(grid, new GlyphBatch(8));
   const living = new LivingThings(things, grid, objects, births);
@@ -204,10 +206,69 @@ describe("the clearing as a world of matter", () => {
     expect(port.world.places.clearing?.light).toBe(5);
     expect(noticed([])).toBe("");
   });
+});
+
+describe("the bodies of that world", () => {
+  it("shows the hero's body as rows, and a long wait leaves him hungrier and more tired", () => {
+    const { port, request } = scene();
+    const view = port.body?.();
+    expect(view?.meters.map((meter) => meter.label)).toEqual(["health", "fed", "rested", "warm"]);
+    const fed = () => view?.meters.find((meter) => meter.id === "hunger")?.level ?? 0;
+    const before = fed();
+    const asked = request(6, 6);
+    const wait = intentsFor(asked, port.compiled).find((i) => i.answers.process === "X7");
+    port.act({ ...(wait?.answers as Answers), duration: "until it is done" }, asked.things);
+    expect(port.body?.()).toBe(view);
+    expect(fed()).toBeLessThan(before);
+    for (const meter of view?.meters ?? []) {
+      expect(meter.level).toBeGreaterThanOrEqual(0);
+      expect(meter.level).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("gives a creature on the map a body that acts by its needs, and draws it where it went", () => {
+    const { port, request, link, living } = scene();
+    const rat = port.world.bodies["rat@4,6"];
+    expect(rat).toMatchObject({ element: "rat", where: [4, 6] });
+    expect(port.world.elements.rat).toMatchObject({ kind: "creature", body: { speed: 4 } });
+    const asked = request(6, 6);
+    const wait = intentsFor(asked, port.compiled).find((i) => i.answers.process === "X7");
+    for (let turn = 0; turn < 3; turn++) perform(port, link, asked, wait?.answers as Answers, at);
+    const where = port.world.bodies["rat@4,6"]?.where ?? [4, 6];
+    const drawnAt = living.thing(living.indexOf("rat@4,6"));
+    expect([drawnAt?.x, drawnAt?.z]).toEqual([Math.round(where[0]), Math.round(where[1])]);
+  });
+
+  it("sends a hungry creature to food it can smell, a tile at a time, and the map follows it", () => {
+    // Fresh berries give off nothing a nose can find; these have gone off, and smell.
+    const ripe = made("berries", 8, 6, { contamination: 4 });
+    const { port, request, link, living } = scene(true, [ripe]);
+    const asked = request(6, 6);
+    const wait = intentsFor(asked, port.compiled).find((i) => i.answers.process === "X7");
+    const away = () => {
+      const rat = living.thing(living.indexOf("rat@4,6"));
+      return Math.abs((rat?.x ?? 0) - 8) + Math.abs((rat?.z ?? 0) - 6);
+    };
+    const began = away();
+    for (let turn = 0; turn < 4; turn++) perform(port, link, asked, wait?.answers as Answers, at);
+    expect(away()).toBeLessThan(began);
+  });
+
+  it("puts a creature back when the map says it cannot stand where it went", () => {
+    const { port, request } = scene(false, [made("berries", 8, 6, { contamination: 4 })]);
+    const asked = request(6, 6);
+    const wait = intentsFor(asked, port.compiled).find((i) => i.answers.process === "X7");
+    for (let turn = 0; turn < 3; turn++) {
+      const outcome = port.act(wait?.answers as Answers, asked.things);
+      expect(outcome?.moved).toEqual({});
+    }
+    const where = port.world.bodies["rat@4,6"]?.where ?? [0, 0];
+    expect([Math.round(where[0]), Math.round(where[1])]).toEqual([4, 6]);
+  });
 
   it("comes to nothing for what the engine cannot do yet: a thing with no row, and moving", () => {
     const { port, request } = scene();
-    const rat = request(4, 5);
+    const rat = request(4, 6);
     const strike = intentsFor(rat, port.compiled)[0]?.answers as Answers;
     expect(port.act(strike, rat.things)).toBeNull();
     expect(port.act({ ...strike, process: "X1" }, rat.things)).toBeNull();

@@ -101,6 +101,25 @@ export class LivingThings {
     return index;
   }
 
+  /** Whether a thing could be put on a tile: on the map, with nothing standing there. */
+  free(x: number, z: number): boolean {
+    return this.#grid.contains(x, z) && !this.#byTile.has(this.#grid.index(x, z));
+  }
+
+  /** A thing went to another tile. Nothing happens if it cannot be there: one thing to a tile. */
+  move(index: number, x: number, z: number): boolean {
+    const thing = this.thing(index);
+    if (!(thing && this.free(x, z))) return false;
+    const from = this.#grid.index(thing.x, thing.z);
+    this.#objects.set(from, null);
+    this.#byTile.delete(from);
+    thing.x = x;
+    thing.z = z;
+    this.#byTile.set(this.#grid.index(x, z), index);
+    this.redraw([index]);
+    return true;
+  }
+
   /** A thing is no more. Its place in the list is kept and left empty, so other things' indices hold. */
   remove(index: number): void {
     const thing = this.thing(index);

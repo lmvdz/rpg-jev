@@ -28,6 +28,7 @@ import { Drift } from "./scene/drift.ts";
 import { scorchAround, standInGround } from "./scene/ground.ts";
 import { Walker } from "./scene/walker.ts";
 import { ChunkManager } from "./terrain/chunks.ts";
+import { kindAt } from "./terrain/kinds.ts";
 import { askPriors, delayed } from "./view/birth.ts";
 import { Births } from "./view/births.ts";
 import { EFFECTS } from "./view/effect-rows.ts";
@@ -151,8 +152,13 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   const shots = new OneShots();
   // The world behind the client, once one is attached (`play/world-port.ts`).
   // A grown world's things are put into a world of matter; a painted world has none behind it.
+  // Where a creature can stand is the map's to say: on it, dry, and nothing standing there already.
+  const canStand = ([x, z]: readonly [number, number]) =>
+    grid.contains(x, z) && !kindAt(grid.kindAt(x, z)).liquid && (living?.free(x, z) ?? true);
   const tiles = grid.width * grid.depth;
-  const world: App["world"] = { port: things ? matterPort(things, tiles, 1) : null };
+  const world: App["world"] = {
+    port: things ? matterPort(things, { tiles, seed: 1, canStand }) : null,
+  };
   // Where the world's changes arrive. Until a world is attached nothing is known of any
   // element but what its things already carry, so nothing can be created.
   const link = new WorldLink({
@@ -397,8 +403,11 @@ function frame(app: App, editor: MountedEditor, now: number): void {
 
   walker.update(dt, camera.settings.yaw);
   batch.move(0, walker.x, walker.y, walker.z);
-  app.body.update(dt, walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5);
-  app.status?.update(app.body.view);
+  // The hero's body is the world's when there is one; the stand-in tires and hungers otherwise.
+  const lived = app.world.port?.body?.();
+  const moving = walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5;
+  if (!lived) app.body.update(dt, moving);
+  app.status?.update(lived ?? app.body.view);
   if (app.editing) {
     rover.update(dt, camera.settings.yaw, camera.settings.distance);
     vec3.set(goal, rover.x, rover.y, rover.z);

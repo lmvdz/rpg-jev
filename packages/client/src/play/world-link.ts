@@ -190,7 +190,12 @@ export class WorldLink {
    * Shows an act and what it left behind. Returns the notes, in order, for the
    * HUD: they are the world's words and are only ever set as text.
    */
-  show(act: ShownAct, changes: readonly WorldChange[], after: After = {}): string[] {
+  show(
+    act: ShownAct,
+    changes: readonly WorldChange[],
+    after: After = {},
+    moved: Readonly<Record<string, readonly [number, number]>> = {},
+  ): string[] {
     const patient = this.#host.living.thingAt(act.tile);
     const left = patient ? after[patient.id] : undefined;
     // It broke if this act took it from more than broken to broken, or to nothing.
@@ -198,6 +203,9 @@ export class WorldLink {
     const broke = left === null || (was > BROKEN && (left?.state.integrity ?? was) <= BROKEN);
     this.#play(act, patient, broke);
     for (const [id, seen] of Object.entries(after)) this.#sync(id, seen, act.tile);
+    // What went somewhere by its own choice is drawn where it is now.
+    const { living } = this.#host;
+    for (const [id, [x, z]] of Object.entries(moved)) living.move(living.indexOf(id), x, z);
     const noticed = changes.filter((change) => !change.quiet);
     for (const change of noticed) {
       if (change.kind === "signal") this.#signal(change, act);

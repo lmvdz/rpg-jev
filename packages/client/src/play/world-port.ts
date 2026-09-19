@@ -7,6 +7,7 @@
  * business. Only code writes world state (rule 1): the client hands over
  * answers chosen from closed sets and draws what comes back.
  */
+import type { BodyView } from "../view/body.ts";
 import { type ActRequest, type Answers, REACH } from "./act-request.ts";
 import { answersFit } from "./intents.ts";
 import type { After, ElementView, WorldChange, WorldLink } from "./world-link.ts";
@@ -20,6 +21,11 @@ export interface Outcome {
    * it is no more. The world applied the changes; the client only draws this.
    */
   after: After;
+  /**
+   * Bodies that went somewhere in the turn, by id, and the tile each is on
+   * now: creatures act by their own needs after the actor has.
+   */
+  moved?: Readonly<Record<string, readonly [number, number]>>;
 }
 
 /**
@@ -59,6 +65,12 @@ export interface WorldPort {
   ): Outcome | null;
   /** What the actor is aware of now, strongest first: sensed by the world at the end of every act. */
   aware?(): Aware[];
+  /**
+   * The actor's body as rows for the status display: health and each need,
+   * with the words and colours as data. The same object every time, changed
+   * in place after an act, so asking every frame allocates nothing.
+   */
+  body?(): BodyView;
 }
 
 export interface Performing {
@@ -113,7 +125,7 @@ export function perform(
     level: SHOWN_LEVEL,
     now: at.now,
   };
-  return told(link.show(shown, outcome.changes, outcome.after));
+  return told(link.show(shown, outcome.changes, outcome.after, outcome.moved));
 }
 
 /** How many different things the HUD says of one act. Time passing touches everything at once. */
