@@ -239,10 +239,9 @@ describe("the bodies of that world", () => {
     expect([drawnAt?.x, drawnAt?.z]).toEqual([Math.round(where[0]), Math.round(where[1])]);
   });
 
-  it("sends a hungry creature to food it can smell, a tile at a time, and the map follows it", () => {
-    // Fresh berries give off nothing a nose can find; these have gone off, and smell.
-    const ripe = made("berries", 8, 6, { contamination: 4 });
-    const { port, request, link, living } = scene(true, [ripe]);
+  it("sends a hungry creature to food it can see or smell, a tile at a time, and the map follows it", () => {
+    // Fresh berries: by daylight they are simply seen, and a keen nose finds them too.
+    const { port, request, link, living } = scene(true, [made("berries", 8, 6)]);
     const asked = request(6, 6);
     const wait = intentsFor(asked, port.compiled).find((i) => i.answers.process === "X7");
     const away = () => {
@@ -250,8 +249,16 @@ describe("the bodies of that world", () => {
       return Math.abs((rat?.x ?? 0) - 8) + Math.abs((rat?.z ?? 0) - 6);
     };
     const began = away();
-    for (let turn = 0; turn < 4; turn++) perform(port, link, asked, wait?.answers as Answers, at);
+    const noon = { ...at, standing: { where: [4, 4] as const, hour: 12 } };
+    for (let turn = 0; turn < 4; turn++) perform(port, link, asked, wait?.answers as Answers, noon);
     expect(away()).toBeLessThan(began);
+    // The hands went with the hero, and are nobody else's to see at their feet.
+    expect(port.world.things.hands?.where).toEqual([4, 4]);
+    const seen = [
+      { source: "a", name: "an oak", channel: "sight", strength: 5 },
+      { source: "b", name: "a fire", channel: "smoke", strength: 2 },
+    ];
+    expect(noticed(seen)).toBe("you notice smoke from a fire, an oak");
   });
 
   it("puts a creature back when the map says it cannot stand where it went", () => {

@@ -118,8 +118,12 @@ function stood(world: matter.MatterWorld, standing: Standing): matter.MatterWorl
   const hero = world.bodies[ACTOR];
   const place = world.places[PLACE];
   if (!(hero && place)) return world;
+  // The hands go where the hero goes: with no place of their own they would be at everyone's feet.
+  const hands = world.things[HANDS];
+  const things = hands ? { ...world.things, [HANDS]: { ...hands, where: standing.where } } : null;
   return {
     ...world,
+    ...(things ? { things } : {}),
     bodies: { ...world.bodies, [ACTOR]: { ...hero, where: standing.where } },
     places: { ...world.places, [PLACE]: { ...place, light: lightAt(standing.hour) } },
   };

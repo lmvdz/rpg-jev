@@ -80,19 +80,28 @@ export interface Performing {
   standing?: Standing;
 }
 
+/** How a channel is said. What is merely seen is just named: by daylight that is most of what is near. */
 const CHANNEL_WORDS: Readonly<Record<string, string>> = {
-  light: "the light of",
-  smoke: "smoke from",
-  sound: "the sound of",
-  scent: "the smell of",
+  light: "the light of ",
+  smoke: "smoke from ",
+  sound: "the sound of ",
+  scent: "the smell of ",
+  sight: "",
 };
 const NOTICED_AT_MOST = 3;
 
-/** What the actor notices, as a line for the HUD, or nothing. Names in it are generated text. */
+/**
+ * What the actor notices, as a line for the HUD, or nothing. What gives
+ * something off is said before what is merely there to be seen, then the
+ * strongest, as the world itself ranks what a body attends to. Names in it are
+ * generated text.
+ */
 export function noticed(aware: readonly Aware[]): string {
-  const said = aware
+  const gives = (one: Aware) => (one.channel === "sight" ? 0 : 1);
+  const ranked = [...aware].sort((a, b) => gives(b) - gives(a) || b.strength - a.strength);
+  const said = ranked
     .slice(0, NOTICED_AT_MOST)
-    .map((one) => `${CHANNEL_WORDS[one.channel] ?? one.channel} ${one.name}`);
+    .map((one) => `${CHANNEL_WORDS[one.channel] ?? `${one.channel} of `}${one.name}`);
   return said.length > 0 ? `you notice ${said.join(", ")}` : "";
 }
 
