@@ -2,6 +2,13 @@
 
 2026-09-18. A proposal, not yet the spec. It says what changes if the game is a sandbox with no set story, in which elements evolve and generate new elements through interaction. Nothing here is built. If accepted, it replaces the inn as the first slice and rewrites sections 1, 4, 14 and 16 of `SPEC.md`.
 
+**Later decision:** the physical-depth goal is now specified in SPEC section 21
+and `docs/compositional-causality.md`; it does not adopt the entire no-story pivot.
+Those contracts take precedence over this draft's flat-item model and unrestricted
+runtime reaction growth. Material parts, contacts, accounted transformations,
+persistent uncertainty and explicit mechanics versions are required. The older
+status statements below are history, not a current branch implementation report.
+
 ## The premise
 
 There is no plot, no quest and no author writing an arc. There is a world of elements: materials, things, places, creatures, people, and later the social things people make (debts, rumors, roles, customs). Elements change each other, and when an interaction produces something the world does not have yet, that thing is made, described, and added to the world for good. Story is what the log looks like afterwards.
@@ -33,8 +40,8 @@ Nothing is generated before somebody reaches for it. The world is lazy at three 
 | Latent | Decided when | By | Then |
 | --- | --- | --- | --- |
 | A fact: is there a loose stone on this tile | Someone looks for one | Jev scores how common the thing is in this place, from the local slice; code turns the level, the effort and a logged draw into found or not, and into minutes spent | Written on the tile. A patch searched and found bare stays bare until something changes it |
-| A description: how hard is this stone, does pitch burn | The property is first needed | Proposed, then ratified by Jev one hop at a time | A row in the element pool, for every world |
-| A reaction: what does heat do to a bleeding wound | Two properties first meet with no entry in the table | Proposed as a template over existing effect kinds, then ratified by Jev in one hop | A row in the reaction pool, and code from then on |
+| A description: how hard is this stone, does pitch burn | The property is first needed | Proposed within admitted bounded choices, then ratified through the applicable gate | An immutable definition; each instance/world retains the version it adopted |
+| A reaction: what does heat do to a bleeding wound | An interaction exposes a missing template or mechanism | Existing-template content uses its admission gate; a new law/formula is offline mechanics work | A versioned definition or mechanics update, applied prospectively with explicit migration |
 
 Jev judges meaning: how common, whether it burns, whether heat closes a wound. Odds, effort, durations and amounts are arithmetic, so they are code (rule 3). Identical slices hit the cache, so "how common are stones in a quarry" is asked about once.
 
@@ -60,7 +67,20 @@ What running batch A through the rules says the parse has to read, beyond those 
 
 **Worked: "pick up stone".** Process `take`, target the kind stone, effort at hand. No stone instance is in scope, so the fact is latent. The slice says grassland; Jev scores stones as rare; code rolls low odds for a glance and the player finds nothing, in a few seconds. "Looks around until finding a stone" parses to a thorough search: better odds, many minutes, and hunger and daylight spent. In a quarry the first glance is enough.
 
-**Worked: the burning sword.** "Pour the oil on the sword" is `coat`: the sword instance gains a coating of oil. "Put the sword in the fireplace" brings fire to a flammable coating, so the coating burns; code works out how long from how much oil there is and sets a fuse. While it burns the sword is also hot and bright and lights what it touches. It is the same sword. Cutting flesh with it: sharp meets soft and makes a bleeding wound; hot meets flesh and makes a burn. Both happen with no rule written, because each property does its own work. Whether the heat also seals the wound is a synergy, a reaction between hot and bleeding, and the vocabulary pass gave the honest answer: a slicing blade touches too briefly, so it sears the edges, lights cloth and the wound still bleeds; a hot blade held on a wound seals it and burns. Contact time is an input, and a reaction is a threshold on an exposure, not a yes or no. If the table lacks the reaction, the first player to press hot iron to a wound gets only the burn; the proposer offers a template, Jev ratifies "does searing heat held on a wound stop the bleeding?", and everyone after gets cautery.
+**Worked: the burning sword, extended by section 21.** Pouring oil adds finite
+material to a surface. Heating it can ignite that material when the admitted
+conditions hold; consumption supplies heat and products. A combustible substrate
+can also burn, while metal can remain intact but hot. Heat reaches a grip through
+contacts between parts, and wrapping changes those contacts and has its own state.
+Fuel exhaustion does not erase residual heat or create free residue.
+
+Cutting and heat exposure can both affect a wound through admitted mechanisms.
+A brief slicing contact and sustained contact need not have the same outcome;
+there is no free-standing "fire sword cauterizes" roll. If the world lacks the
+mechanism, code applies only supported effects and logs a gap. A proposal does
+not make every existing world's laws change when it finishes: new mechanics need
+the offline gate and explicit version adoption. These are target semantics, not
+a claim that the full parts/body path is already built.
 
 The nearest prior art is the chemistry engine of Breath of the Wild: a few elements, a few material states, three rules, and play that multiplies. The difference here is that the tables fill themselves in, ratified.
 
@@ -78,11 +98,11 @@ The nearest prior art is the chemistry engine of Breath of the Wild: a few eleme
 ## How a new element is born
 
 1. Two or more elements meet under a process. Code computes the result from properties and bookkeeping (nothing is made from nothing: what the result serves is bounded by what went in, plus labour. Rule 3).
-2. **Select before generating.** Code ranks the existing elements nearest to the computed result and Jev picks one, or none. Most interactions end here, with no generative call.
+2. **Select before generating, without resetting physics.** Code filters existing definitions for compatibility with the already-computed composition, quantities, energy, remaining fuel and damage, then ranks compatible candidates. Jev picks one or none. Selection supplies a compatible definition/presentation, never a fresh baseline that overwrites the physical result. Most interactions need no generative call.
 3. None is a hole. The interaction resolves at once with the generic result code already has (a charred lump, a slurry, a broken thing), so rule 2 holds: no action waits on a generative model.
-4. In the background a generative model proposes the missing element as a row over the closed vocabulary. Code checks the schema, the bookkeeping, and that it is not a near-duplicate of an existing row. Jev ratifies it one property at a time, one hop each ("does pitch burn?"). Its name and look are rendering.
-5. The element joins the pool, shared across saves. Processes that take world time (smelting, brewing, growth, rot) are where the wait hides: by the time the pot has boiled, the thing in it exists.
-6. The pool is measured as in section 20: an element nothing ever touches again is culled.
+4. In the background a generative model proposes the missing element description or assembly over admitted templates. Numeric parameters use code-built bounded choices. Code checks the schema, bookkeeping and duplicates; applicable semantic ratification is one property at a time. Until its families are admitted this path is human-gated. Its name and look are rendering. A new formula or change to a physical law is offline mechanics work, not an element birth.
+5. An admitted definition joins a versioned content library. Existing instances and saves retain their definition and mechanics versions; a new law is adopted through an explicit migration, not applied retroactively when a proposal finishes. Generation never blocks the action or replaces its already committed generic result without a validated, logged refinement.
+6. The pool is measured as in section 20: unused candidates may be culled from discovery, but referenced definitions remain available for history and replay.
 
 This is section 20's content loop, no longer tooling. The improvement loop is the game.
 
@@ -212,6 +232,13 @@ Measured the same way, with the engine frozen at `f64796b` and fresh seeds nothi
 **What was to be built, in order (now done).** Bonds and homes as structures, with a ward's needs reaching its keeper. Deeds from percepts, moving feelings by predicate. Intents as rows, with preconditions and salience, replacing `optionsFor`. The slice builder, replacing the hand-written words of the probes. The routine as a score over the same options, with the agreement test against the judge. Properties first, each time.
 
 ## The graph: rules as data, not code
+
+**Admission boundary:** the expression graph below is a restricted mechanics
+language, even when serialized as data. Under SPEC section 21, generated formulas
+and factors are offline, reviewed mechanics changes. Runtime generation can fill
+admitted templates and code-calibrated choices; structural validity and a semantic
+judge alone do not authorize new numerical laws. The experiments and measurements
+below are retained as evidence, not an exemption from that boundary.
 
 **The problem** (2026-09-18). Every gap found so far became a module someone wrote: diet cost a file, a function and five fixes; the salience weights are guesses at what Jev would choose, corrected against Jev by hand; held-out derivability of the physics stayed at 60%, 63%, 61% while twenty hand fixes bought nothing. The tables in the engine (`DRIFTS`, `MODIFIERS`, `DEEDS`, `INTENT_ROWS`) are tables of functions, so nothing can write a row but a programmer. Closed kinds and open rows was the design; too much was put on the code side of that line.
 
