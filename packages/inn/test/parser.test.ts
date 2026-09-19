@@ -64,7 +64,13 @@ describe("the deterministic matcher", () => {
   it("scopes what can be acted on to what is actually there", () => {
     const scope = scopeOf(inKitchen());
     expect(scope.people.map((p) => p.id)).toEqual(["odo"]);
-    expect(scope.things.map((t) => t.id).sort()).toEqual(["brass_key", "coat", "iron_key", "pot"]);
+    expect(scope.things.map((t) => t.id).sort()).toEqual([
+      "brass_key",
+      "coat",
+      "iron_key",
+      "onion",
+      "pot",
+    ]);
     // The markers exist but stay out of scope until the coat has been searched.
     expect(scope.things.some((t) => t.id === "markers")).toBe(false);
   });
@@ -80,7 +86,10 @@ describe("the deterministic matcher", () => {
     const all = match("take everything", world);
     expect(all.kind).toBe("action");
     if (all.kind !== "action" || all.action.verb !== "take") return;
-    expect(all.action.item.split(",").sort()).toEqual(["brass_key", "iron_key"]);
+    expect(all.action.item.split(",").sort()).toEqual(["brass_key", "iron_key", "onion"]);
+    expect(match("take onion", world)).toMatchObject({
+      action: { verb: "take", item: "onion" },
+    });
   });
 });
 
@@ -104,7 +113,11 @@ describe("any verb on anything", () => {
     });
     // Bread and ale both serve: the game asks which, naming them.
     expect(match("eat", world).kind).toBe("clarify");
-    expect(match("eat", inKitchen())).toMatchObject({
+    // In kitchen, pot and onion both serve hunger, so it clarifies as well.
+    expect(match("eat", inKitchen()).kind).toBe("clarify");
+    const onlyPot = inKitchen();
+    delete onlyPot.items.onion;
+    expect(match("eat", onlyPot)).toMatchObject({
       action: { verb: "attempt", how: "eat", target: { id: "pot" } },
     });
     expect(match("sit down", world)).toMatchObject({

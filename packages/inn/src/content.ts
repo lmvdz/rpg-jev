@@ -554,6 +554,15 @@ const ITEMS: World["items"] = {
   },
   // Things that are for something. Nothing below is in the plot; all of it can be
   // eaten, sat on, climbed or kicked, and the outcome follows from the numbers.
+  onion: {
+    id: "onion",
+    name: "an onion",
+    aliases: ["onion", "onions", "yellow onion"],
+    at: { room: "kitchen" },
+    takeable: true,
+    serves: { hunger: 1 },
+    consumable: true,
+  },
   pot: {
     id: "pot",
     name: "the stew pot",
