@@ -11,6 +11,7 @@
  * source when the one who noticed is a person. Deterministic: no draw. Sensing changes
  * nothing but what bodies are aware of.
  */
+import { feeds } from "./diet.ts";
 import { effective } from "./effective.ts";
 import { blaze } from "./heat.ts";
 import type { Body, Change, Channel, MatterWorld, Percept, Place, Thing } from "./types.ts";
@@ -102,7 +103,7 @@ function threshold(world: MatterWorld, body: Body, channel: Channel): number {
 export function reaches(
   world: MatterWorld,
   body: Body,
-  from: Thing,
+  from: { where?: readonly [number, number] | undefined },
   channel: Channel,
   strength: number,
 ): number {
@@ -124,11 +125,46 @@ function attended(world: MatterWorld, body: Body, aware: Record<string, Percept>
   if (entries.length <= ATTENDS) return aware;
   const hungry = (body.needs.hunger ?? 0) >= 2;
   const weight = ([id, p]: [string, Percept]) => {
-    const feeds = (world.elements[world.things[id]?.element ?? ""]?.serves?.hunger ?? 0) > 0;
-    return p.strength + (p.channel === "sight" ? 0 : 2) + (hungry && feeds ? 3 : 0);
+    const fed = (feeds(world, body, world.things[id]?.element ?? "").hunger ?? 0) > 0;
+    // What lives draws the eye before what only stands there.
+    const lives = id in world.bodies ? 3 : 0;
+    return p.strength + (p.channel === "sight" ? 0 : 2) + (hungry && fed ? 3 : 0) + lives;
   };
   const kept = entries.sort((a, b) => weight(b) - weight(a) || a[0].localeCompare(b[0]));
   return Object.fromEntries(kept.slice(0, ATTENDS));
+}
+
+/** A body is seen by daylight by its size, and smelled by its row, as any thing is. */
+function bodyEmits(world: MatterWorld, body: Body): Partial<Record<Channel, number>> {
+  const out: Partial<Record<Channel, number>> = {};
+  const row = world.elements[body.element ?? ""]?.props;
+  const light = world.places[body.place]?.light ?? 3;
+  if (light > 0) out.sight = clamp((light / 5) * (2.5 + (row?.size ?? 3) * 0.5));
+  if ((row?.scent ?? 0) > 0) out.scent = clamp(row?.scent ?? 0);
+  return out;
+}
+
+interface Source {
+  id: string;
+  place: string;
+  where?: readonly [number, number] | undefined;
+  channel: Channel;
+  strength: number;
+}
+
+function sourcesOf(world: MatterWorld, events: readonly Heard[]): Source[] {
+  const sources: Source[] = [];
+  const add = (from: Thing | Body, given: Partial<Record<Channel, number>>) => {
+    for (const [channel, strength] of Object.entries(given) as [Channel, number][])
+      sources.push({ id: from.id, place: from.place, where: from.where, channel, strength });
+  };
+  for (const thing of Object.values(world.things)) add(thing, emits(world, thing));
+  for (const body of Object.values(world.bodies)) add(body, bodyEmits(world, body));
+  for (const e of events) {
+    const from = world.things[e.source] ?? world.bodies[e.source];
+    if (from) add(from, { [e.channel]: e.strength });
+  }
+  return sources;
 }
 
 /** What every body is aware of now: the strongest way each source reaches it, if any does. */
@@ -136,22 +172,15 @@ export function sensed(
   world: MatterWorld,
   events: readonly Heard[] = [],
 ): Map<string, Record<string, Percept>> {
-  const sources: { thing: Thing; channel: Channel; strength: number }[] = [];
-  for (const thing of Object.values(world.things))
-    for (const [channel, strength] of Object.entries(emits(world, thing)) as [Channel, number][])
-      sources.push({ thing, channel, strength });
-  for (const e of events) {
-    const thing = world.things[e.source];
-    if (thing) sources.push({ thing, channel: e.channel, strength: e.strength });
-  }
+  const sources = sourcesOf(world, events);
   const out = new Map<string, Record<string, Percept>>();
   for (const body of Object.values(world.bodies)) {
     const aware: Record<string, Percept> = {};
     for (const s of sources) {
-      if (s.thing.place !== body.place) continue;
-      const strength = reaches(world, body, s.thing, s.channel, s.strength);
-      if (strength <= 0 || strength <= (aware[s.thing.id]?.strength ?? 0)) continue;
-      aware[s.thing.id] = { channel: s.channel, strength: clamp(strength) };
+      if (s.place !== body.place || s.id === body.id) continue;
+      const strength = reaches(world, body, s, s.channel, s.strength);
+      if (strength <= 0 || strength <= (aware[s.id]?.strength ?? 0)) continue;
+      aware[s.id] = { channel: s.channel, strength: clamp(strength) };
     }
     out.set(body.id, attended(world, body, aware));
   }

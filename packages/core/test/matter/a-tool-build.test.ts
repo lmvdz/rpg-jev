@@ -148,7 +148,8 @@ describe("tool-07: carving a spoon from green willow", () => {
     expect(after.things.branch?.state.integrity).toBeGreaterThan(1);
   });
 
-  it.fails("RULE ERROR: thirty passes through green wood take a steel knife from keen to dull (wear counts toughness, so soft tough work dulls steel as fast as oak)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("fixed rule: what was wrong was: thirty passes through green wood take a steel knife from keen to dull", () => {
     const { world: after } = play(branch(), times(30, pass));
     expect(after.things.knife?.state.edge).toBeGreaterThan(3.5);
   });

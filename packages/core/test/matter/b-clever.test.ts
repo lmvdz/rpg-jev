@@ -446,7 +446,8 @@ describe("clever-10: water in a crack on a freezing night", () => {
     expect(morning.things.rock?.state.integrity).toBeGreaterThan(1);
   });
 
-  it.fails("RULE ERROR: clever-10 step 2: the water poured into the crack is still in it, frozen, in the morning; the engine has dried the rock to 0 (drift's film drying reads warmth above mild and nothing below it, so a film dries off at freezing as fast as on a mild day)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("fixed rule: what was wrong was: clever-10 step 2: the water poured into the crack is still in it, frozen, in the morning; the engine has dried the rock to 0", () => {
     expect(morning.things.rock?.state.wetness).toBeGreaterThan(0);
   });
 
@@ -455,7 +456,8 @@ describe("clever-10: water in a crack on a freezing night", () => {
     expect(jug ? isLiquid(morning, jug) : true).toBe(false);
   });
 
-  it.fails("clever-10 step 3: by morning the crack is wider (nothing reads P22 swell; there is no push for Load to check)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("clever-10 step 3: by morning the crack is wider", () => {
     const rock = morning.things.rock;
     const worse = (rock?.state.flaw ?? 0) > 1 || (rock?.state.integrity ?? 5) < 5;
     expect(worse).toBe(true);

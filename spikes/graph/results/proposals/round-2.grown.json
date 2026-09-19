@@ -1,0 +1,1334 @@
+{
+ "drift": {
+  "rules": [
+   {
+    "id": "holds-its-heat",
+    "says": "A great mass of something holds its warmth or its cold long after a little of the same stuff has come to the temperature of the place, and a wind hurries both along",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "lacks": "s.burning"
+        },
+        {
+         "any": [
+          {
+           "a": "s.amount",
+           "is": ">",
+           "b": 1
+          },
+          {
+           "a": "place.wind",
+           "is": ">",
+           "b": 1
+          }
+         ]
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "set",
+        "q": "s.temperature",
+        "to": {
+         "op": "add",
+         "of": [
+          "place.temperature",
+          {
+           "op": "mul",
+           "of": [
+            {
+             "op": "sub",
+             "of": [
+              "was.temperature",
+              "place.temperature"
+             ]
+            },
+            {
+             "op": "exp",
+             "of": [
+              {
+               "op": "mul",
+               "of": [
+                -1,
+                "d.cools",
+                "t"
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "lo": 0,
+        "hi": 5
+       }
+      ],
+      "because": [
+       "S1",
+       "S14",
+       "P1",
+       "R7",
+       "X7"
+      ],
+      "note": "there is a great deal of it, and it is slow to change"
+     }
+    ]
+   },
+   {
+    "id": "heap-heats",
+    "says": "A big damp heap of loose stuff that is going mouldy warms itself from within, the more so the bigger the heap and the further gone it is",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "lacks": "s.burning"
+        },
+        {
+         "ref": "row.is.granular",
+         "equals": true
+        },
+        {
+         "a": "p.perishability",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "d.selfHeat",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "place.air",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "s.temperature",
+         "is": "<",
+         "b": 4.5
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "set",
+        "q": "s.temperature",
+        "to": {
+         "op": "add",
+         "of": [
+          "s.temperature",
+          {
+           "op": "mul",
+           "of": [
+            "d.selfHeat",
+            {
+             "op": "sub",
+             "of": [
+              1,
+              {
+               "op": "exp",
+               "of": [
+                {
+                 "op": "mul",
+                 "of": [
+                  -1,
+                  "d.cools",
+                  "t"
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "lo": 0,
+        "hi": 5
+       }
+      ],
+      "because": [
+       "S9",
+       "S14",
+       "S1",
+       "S2",
+       "X7"
+      ],
+      "note": "the heap is warm inside"
+     }
+    ]
+   },
+   {
+    "id": "frost-wedge",
+    "says": "Water that freezes inside a crack or in the pores of something brittle swells and forces it wider, a little more with every freeze",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "a": "was.temperature",
+         "is": ">",
+         "b": 0.25
+        },
+        {
+         "a": "s.temperature",
+         "is": "<=",
+         "b": 0.25
+        },
+        {
+         "a": "s.wetness",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "wetWith.p.swell",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "ref": "row.is.liquid",
+         "equals": false
+        },
+        {
+         "a": "p.toughness",
+         "is": "<=",
+         "b": 2
+        },
+        {
+         "any": [
+          {
+           "a": "s.flaw",
+           "is": ">",
+           "b": 0
+          },
+          {
+           "a": "s.integrity",
+           "is": "<",
+           "b": 5
+          },
+          {
+           "a": "p.porosity",
+           "is": ">",
+           "b": 0
+          }
+         ]
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "set",
+        "q": "s.flaw",
+        "to": {
+         "op": "add",
+         "of": [
+          "s.flaw",
+          {
+           "op": "mul",
+           "of": [
+            0.1,
+            "wetWith.p.swell",
+            {
+             "op": "min",
+             "of": [
+              1,
+              "s.wetness"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "lo": 0,
+        "hi": 5
+       }
+      ],
+      "because": [
+       "P22",
+       "S1",
+       "S2",
+       "S15",
+       "P4",
+       "X7"
+      ],
+      "note": "the water in it has frozen and forced it wider"
+     }
+    ]
+   },
+   {
+    "id": "gust",
+    "says": "A strong wind blows out a small flame, though it only fans a big fire",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "has": "s.burning"
+        },
+        {
+         "a": "place.wind",
+         "is": ">=",
+         "b": 4
+        },
+        {
+         "any": [
+          {
+           "all": [
+            {
+             "a": "p.size",
+             "is": "<=",
+             "b": 1
+            },
+            {
+             "a": "p.mass",
+             "is": "<=",
+             "b": 1
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "ref": "s.burning.of",
+             "equals": "coating"
+            },
+            {
+             "a": "s.coating.amount",
+             "is": "<=",
+             "b": 1
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "put",
+        "q": "s.burning",
+        "value": null
+       },
+       {
+        "kind": "set",
+        "q": "s.surfaceAbove",
+        "to": 0
+       }
+      ],
+      "because": [
+       "S3",
+       "R7",
+       "P2",
+       "X7"
+      ],
+      "note": "the wind blows it out"
+     }
+    ]
+   },
+   {
+    "id": "downpour",
+    "says": "Heavy rain puts out a fire in the open once what is burning is soaked as far as it can drink",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "has": "s.burning"
+        },
+        {
+         "ref": "s.burning.of",
+         "equals": "self"
+        },
+        {
+         "a": "place.moisture",
+         "is": ">=",
+         "b": 5
+        },
+        {
+         "a": "s.wetness",
+         "is": ">=",
+         "b": {
+          "op": "sub",
+          "of": [
+           "d.fill",
+           0.1
+          ]
+         }
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "put",
+        "q": "s.burning",
+        "value": null
+       },
+       {
+        "kind": "set",
+        "q": "s.surfaceAbove",
+        "to": 0
+       }
+      ],
+      "because": [
+       "S3",
+       "S2",
+       "X4",
+       "X7"
+      ],
+      "note": "the rain puts it out"
+     }
+    ]
+   }
+  ],
+  "derived": {
+   "settles": {
+    "op": "div",
+    "of": [
+     {
+      "op": "mul",
+      "of": [
+       0.02,
+       {
+        "op": "add",
+        "of": [
+         1,
+         {
+          "op": "mul",
+          "of": [
+           "p.conductivity",
+           0.2
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "op": "add",
+      "of": [
+       1,
+       {
+        "op": "mul",
+        "of": [
+         "p.mass",
+         0.3
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "heaped": {
+    "op": "pow",
+    "of": [
+     {
+      "op": "max",
+      "of": [
+       1,
+       "s.amount"
+      ]
+     },
+     -0.25
+    ]
+   },
+   "windy": {
+    "op": "add",
+    "of": [
+     1,
+     {
+      "op": "mul",
+      "of": [
+       0.3,
+       {
+        "op": "max",
+        "of": [
+         0,
+         {
+          "op": "sub",
+          "of": [
+           "place.wind",
+           1
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "cools": {
+    "op": "mul",
+    "of": [
+     "d.settles",
+     "d.heaped",
+     "d.windy"
+    ]
+   },
+   "selfHeat": {
+    "op": "mul",
+    "of": [
+     1.5,
+     {
+      "op": "clamp",
+      "of": [
+       {
+        "op": "div",
+        "of": [
+         {
+          "op": "sub",
+          "of": [
+           "s.contamination",
+           1
+          ]
+         },
+         3
+        ]
+       },
+       0,
+       1
+      ]
+     },
+     {
+      "op": "clamp",
+      "of": [
+       {
+        "op": "div",
+        "of": [
+         {
+          "op": "ln",
+          "of": [
+           {
+            "op": "max",
+            "of": [
+             1,
+             "s.amount"
+            ]
+           }
+          ]
+         },
+         4.6
+        ]
+       },
+       0,
+       1
+      ]
+     },
+     "d.damp"
+    ]
+   },
+   "fill": {
+    "op": "add",
+    "of": [
+     1,
+     {
+      "op": "mul",
+      "of": [
+       "p.absorbency",
+       0.8
+      ]
+     },
+     "row.moist"
+    ]
+   }
+  },
+  "factors": {
+   "exposed": [
+    {
+     "if": {
+      "a": "s.temperature",
+      "is": "<=",
+      "b": 0.25
+     },
+     "then": 0.02,
+     "else": {
+      "op": "clamp",
+      "of": [
+       {
+        "op": "div",
+        "of": [
+         "s.temperature",
+         2
+        ]
+       },
+       0.1,
+       1
+      ]
+     }
+    },
+    {
+     "op": "pow",
+     "of": [
+      {
+       "op": "clamp",
+       "of": [
+        {
+         "op": "div",
+         "of": [
+          "place.air",
+          5
+         ]
+        },
+        0,
+        1
+       ]
+      },
+      2
+     ]
+    },
+    "d.heaped"
+   ]
+  }
+ },
+ "heat": {
+  "rules": [
+   {
+    "id": "flaw-in-fire",
+    "says": "Strong heat finds the hidden flaw in something brittle: heated scorching hot, a flawed thing cracks where a sound one comes through whole",
+    "about": "tgt",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "a": "tgt.was.flaw",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "tgt.p.toughness",
+         "is": "<=",
+         "b": 1.5
+        },
+        {
+         "a": "tgt.p.meltsAt",
+         "is": "<=",
+         "b": 0
+        },
+        {
+         "ref": "tgt.row.is.liquid",
+         "equals": false
+        },
+        {
+         "a": "tgt.was.temperature",
+         "is": "<",
+         "b": 4
+        },
+        {
+         "a": "tgt.s.temperature",
+         "is": ">=",
+         "b": 4
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "set",
+        "q": "tgt.s.integrity",
+        "to": {
+         "op": "min",
+         "of": [
+          "tgt.s.integrity",
+          {
+           "op": "max",
+           "of": [
+            1,
+            {
+             "op": "sub",
+             "of": [
+              4,
+              "tgt.was.flaw"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "lo": 0,
+        "hi": 5
+       }
+      ],
+      "because": [
+       "S15",
+       "P4",
+       "S1",
+       "S4",
+       "X3"
+      ],
+      "note": "the heat finds the flaw in it, and it cracks"
+     }
+    ]
+   }
+  ],
+  "derived": {
+   "fanned": {
+    "if": {
+     "has": "src.was.burning"
+    },
+    "then": {
+     "op": "max",
+     "of": [
+      0,
+      {
+       "op": "sub",
+       "of": [
+        "tgt.place.wind",
+        1
+       ]
+      }
+     ]
+    },
+    "else": 0
+   }
+  },
+  "factors": {
+   "surfaceRate": [
+    {
+     "op": "add",
+     "of": [
+      1,
+      {
+       "op": "mul",
+       "of": [
+        0.3,
+        "d.fanned"
+       ]
+      }
+     ]
+    }
+   ],
+   "reach": [
+    {
+     "if": {
+      "any": [
+       {
+        "a": "d.fanned",
+        "is": "<=",
+        "b": 0
+       },
+       {
+        "a": {
+         "op": "add",
+         "of": [
+          "d.around",
+          {
+           "op": "mul",
+           "of": [
+            {
+             "op": "sub",
+             "of": [
+              "d.srcSurface",
+              "d.around"
+             ]
+            },
+            "act.contact"
+           ]
+          }
+         ]
+        },
+        "is": "<=",
+        "b": 0.01
+       }
+      ]
+     },
+     "then": 1,
+     "else": {
+      "op": "div",
+      "of": [
+       {
+        "op": "add",
+        "of": [
+         "d.around",
+         {
+          "op": "mul",
+          "of": [
+           {
+            "op": "sub",
+            "of": [
+             "d.srcSurface",
+             "d.around"
+            ]
+           },
+           {
+            "op": "min",
+            "of": [
+             1,
+             {
+              "op": "mul",
+              "of": [
+               "act.contact",
+               {
+                "op": "add",
+                "of": [
+                 1,
+                 {
+                  "op": "mul",
+                  "of": [
+                   0.4,
+                   "d.fanned"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "op": "add",
+        "of": [
+         "d.around",
+         {
+          "op": "mul",
+          "of": [
+           {
+            "op": "sub",
+            "of": [
+             "d.srcSurface",
+             "d.around"
+            ]
+           },
+           "act.contact"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "strike": {
+  "rules": [
+   {
+    "id": "whet",
+    "says": "Rubbing an edge or a point with care on something rough and about as hard as itself sharpens it, up to the keenness its own hardness can hold",
+    "about": "tgt",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "a": "act.surface",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "tool.was.edge",
+         "is": "<=",
+         "b": 0
+        },
+        {
+         "a": "tool.p.friction",
+         "is": ">=",
+         "b": 4
+        },
+        {
+         "a": "tool.p.hardness",
+         "is": ">=",
+         "b": 3
+        },
+        {
+         "a": "tool.p.hardness",
+         "is": ">=",
+         "b": {
+          "op": "sub",
+          "of": [
+           "tgt.p.hardness",
+           1
+          ]
+         }
+        },
+        {
+         "any": [
+          {
+           "ref": "tgt.row.is.edged",
+           "equals": true
+          },
+          {
+           "ref": "tgt.row.is.pointed",
+           "equals": true
+          }
+         ]
+        },
+        {
+         "a": "tgt.was.edge",
+         "is": "<",
+         "b": "d.keenest"
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "set",
+        "q": "tgt.s.edge",
+        "to": {
+         "op": "add",
+         "of": [
+          "tgt.was.edge",
+          {
+           "op": "mul",
+           "of": [
+            {
+             "op": "sub",
+             "of": [
+              "d.keenest",
+              "tgt.was.edge"
+             ]
+            },
+            {
+             "op": "add",
+             "of": [
+              0.15,
+              {
+               "op": "mul",
+               "of": [
+                0.05,
+                "act.care"
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "lo": 0,
+        "hi": 5
+       }
+      ],
+      "because": [
+       "S5",
+       "P3",
+       "P14",
+       "X2"
+      ],
+      "note": "the stone brings up its edge"
+     }
+    ]
+   },
+   {
+    "id": "loose-comes-away",
+    "says": "What is loose and granular needs no edge to work it: a hand or a tool driven into it brings some away, more for the effort and the size of what digs",
+    "about": "tgt",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "ref": "tgt.row.is.granular",
+         "equals": true
+        },
+        {
+         "a": "tgt.p.toughness",
+         "is": "<=",
+         "b": 1
+        },
+        {
+         "a": "tgt.now.p.hardness",
+         "is": "<=",
+         "b": 2
+        },
+        {
+         "a": "act.effort",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "any": [
+          {
+           "a": "act.surface",
+           "is": "<=",
+           "b": 0
+          },
+          {
+           "a": "d.cutInto",
+           "is": "<=",
+           "b": 0
+          },
+          {
+           "a": "d.cutInto",
+           "is": "<",
+           "b": "d.blowInto"
+          }
+         ]
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "split",
+        "from": "tgt",
+        "suffix": "heap",
+        "amount": {
+         "op": "min",
+         "of": [
+          {
+           "op": "mul",
+           "of": [
+            "tgt.was.amount",
+            0.5
+           ]
+          },
+          {
+           "op": "mul",
+           "of": [
+            0.002,
+            "act.effort",
+            {
+             "op": "pow",
+             "of": [
+              {
+               "op": "add",
+               "of": [
+                1,
+                "tool.p.size"
+               ]
+              },
+              2
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "state": {
+         "integrity": 5,
+         "coating": {
+          "value": null
+         },
+         "burning": {
+          "value": null
+         }
+        },
+        "because": [
+         "X2",
+         "granular",
+         "P4",
+         "S14",
+         "E3"
+        ],
+        "note": "what is dug out lies beside it",
+        "less": {
+         "because": [
+          "X2",
+          "S14",
+          "E4"
+         ],
+         "note": "and there is a hole where it was"
+        }
+       }
+      ],
+      "because": []
+     }
+    ]
+   }
+  ],
+  "derived": {
+   "keenest": {
+    "op": "min",
+    "of": [
+     4.5,
+     {
+      "op": "add",
+      "of": [
+       "tgt.p.hardness",
+       0.5
+      ]
+     }
+    ]
+   }
+  },
+  "factors": {
+   "wear": [
+    {
+     "if": {
+      "a": "d.grain",
+      "is": ">",
+      "b": 0
+     },
+     "then": 0.2,
+     "else": 1
+    }
+   ],
+   "cutShare": [
+    {
+     "if": {
+      "all": [
+       {
+        "ref": "tool.row.is.pointed",
+        "equals": true
+       },
+       {
+        "ref": "tool.row.is.edged",
+        "equals": false
+       }
+      ]
+     },
+     "then": 0.15,
+     "else": 1
+    }
+   ]
+  }
+ },
+ "wound": {
+  "rules": [],
+  "derived": {},
+  "factors": {}
+ },
+ "soak": {
+  "rules": [
+   {
+    "id": "poison-passes",
+    "says": "Something poisonous poured into a liquid or soaked into a thing leaves its poison there, thinned by how much it is spread through",
+    "about": "tgt",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "a": "liq.row.p.noxiousness",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "d.used",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "tgt.row.p.noxiousness",
+         "is": "<",
+         "b": "liq.row.p.noxiousness"
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "set",
+        "q": "tgt.s.taint",
+        "to": {
+         "op": "add",
+         "of": [
+          "tgt.s.taint",
+          {
+           "op": "div",
+           "of": [
+            {
+             "op": "mul",
+             "of": [
+              "liq.row.p.noxiousness",
+              "d.used"
+             ]
+            },
+            {
+             "op": "add",
+             "of": [
+              "tgt.was.amount",
+              "d.used"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        "lo": 0,
+        "hi": 5
+       }
+      ],
+      "because": [
+       "P17",
+       "S13",
+       "S14",
+       "X4"
+      ],
+      "note": "the poison goes into it"
+     }
+    ]
+   }
+  ],
+  "derived": {},
+  "factors": {}
+ },
+ "coat": {
+  "rules": [],
+  "derived": {},
+  "factors": {}
+ },
+ "load": {
+  "rules": [
+   {
+    "id": "rot-gives-way",
+    "says": "What is rotten bears less than the same thing sound: far gone in rot, it gives way under a load it would once have held",
+    "about": "sup",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "a": "d.rotted",
+         "is": ">",
+         "b": 0
+        },
+        {
+         "a": "act.borne",
+         "is": "<=",
+         "b": "d.strength"
+        },
+        {
+         "a": "act.borne",
+         "is": ">",
+         "b": {
+          "op": "mul",
+          "of": [
+           "d.strength",
+           {
+            "op": "sub",
+            "of": [
+             1,
+             {
+              "op": "mul",
+              "of": [
+               0.7,
+               "d.rotted"
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "set",
+        "q": "sup.s.integrity",
+        "to": {
+         "op": "min",
+         "of": [
+          "sup.was.integrity",
+          1
+         ]
+        },
+        "lo": 0,
+        "hi": 5
+       },
+       {
+        "kind": "emit",
+        "from": "sup",
+        "channel": "sound",
+        "strength": 3,
+        "because": [
+         "X2",
+         "E9"
+        ],
+        "note": "a soft crack as it goes"
+       }
+      ],
+      "because": [
+       "R3",
+       "S9",
+       "P15",
+       "S4"
+      ],
+      "note": "rotten, it gives way under the load"
+     }
+    ]
+   },
+   {
+    "id": "creak",
+    "says": "A support loaded close to all it can bear creaks or groans under the load, though it holds",
+    "about": "sup",
+    "first": [
+     {
+      "when": {
+       "all": [
+        {
+         "a": "act.borne",
+         "is": "<=",
+         "b": "d.strength"
+        },
+        {
+         "a": "act.borne",
+         "is": ">=",
+         "b": {
+          "op": "mul",
+          "of": [
+           "d.strength",
+           0.7
+          ]
+         }
+        },
+        {
+         "a": "sup.p.hardness",
+         "is": ">=",
+         "b": 2
+        },
+        {
+         "a": "sup.s.integrity",
+         "is": ">",
+         "b": 1
+        }
+       ]
+      },
+      "effects": [
+       {
+        "kind": "emit",
+        "from": "sup",
+        "channel": "sound",
+        "strength": 2,
+        "because": [
+         "R3",
+         "E9"
+        ],
+        "note": "it creaks under the load"
+       }
+      ],
+      "because": []
+     }
+    ]
+   }
+  ],
+  "derived": {
+   "rotted": {
+    "if": {
+     "a": "sup.p.perishability",
+     "is": ">",
+     "b": 0
+    },
+    "then": {
+     "op": "clamp",
+     "of": [
+      {
+       "op": "div",
+       "of": [
+        {
+         "op": "sub",
+         "of": [
+          "sup.was.contamination",
+          1.5
+         ]
+        },
+        3
+       ]
+      },
+      0,
+      1
+     ]
+    },
+    "else": 0
+   }
+  },
+  "factors": {}
+ }
+}

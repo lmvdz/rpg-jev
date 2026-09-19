@@ -61,7 +61,8 @@ describe("world-01: a clearing goes into winter", () => {
     expect(after?.state.temperature).toBeLessThan(1);
   });
 
-  it.fails("RULE ERROR: world-01: after one frosty night a pond is as cold as a cupful left beside it, frozen through (the temperature rates in drift.ts and heat.ts read the element's mass and never the instance's amount, so how much there is holds no heat)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("fixed rule: what was wrong was: world-01: after one frosty night a pond is as cold as a cupful left beside it, frozen through", () => {
     const night = resolve(clearing, hours(10)).world.things;
     const pond = night.pond?.state.temperature ?? 0;
     const cup = night.cup?.state.temperature ?? 0;
@@ -158,7 +159,8 @@ describe("world-04: a fence in a rainy autumn", () => {
     expect(leansOn(fence, "kept")?.state.integrity).toBe(5);
   });
 
-  it.fails("world-04: the rotten rail gives way when the goat leans on it (strength in load.ts reads wetness, rust and flaw and never S9: rot does not weaken what it grows in)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("world-04: the rotten rail gives way when the goat leans on it", () => {
     expect(leansOn(autumn, "low")?.state.integrity).toBeLessThan(3);
   });
 });
@@ -260,7 +262,8 @@ describe("world-07: a grass fire", () => {
     expect(poured(1)?.state.burning).toBeTruthy();
   });
 
-  it.fails("RULE ERROR: world-07: a tree alight in a two-hour downpour is soaked through and burns on to the end of its fuel (in drift.ts burning reads only air and the wetting rate wets what is burning; rain should arrive as a soak, at a rate, that douses as `douse` does)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("fixed rule: what was wrong was: world-07: a tree alight in a two-hour downpour is soaked through and burns on to the end of its fuel", () => {
     const after = resolve(field, hours(2)).world.things.soaked;
     expect(after?.state.burning).toBeNull();
   });
@@ -358,7 +361,8 @@ describe("odd-04: a bone point for a needle", () => {
       Array.from({ length: n }, () => stitch(instrument)),
     ).world;
 
-  it.fails("odd-04: grinding the sliver on the whetstone brings it to a point (nothing in force raises S5: whetting is absent, whichever of the two is called the instrument)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("odd-04: grinding the sliver on the whetstone brings it to a point", () => {
     const ground = play(camp, [
       { process: "force", instrument: "whet", patient: "sliver", aim: "surface" },
       { process: "force", instrument: "sliver", patient: "whet", aim: "surface" },
@@ -381,7 +385,8 @@ describe("odd-04: a bone point for a needle", () => {
     expect(steel).toBeGreaterThan(bone);
   });
 
-  it.fails("RULE ERROR: odd-04: seven needle holes take a leather pack from whole to in pieces (`cutting` in force.ts charges a sheet the full depth of the cut, 0.75 of its 5 a stitch, whatever made it; the share should go by how much of the patient the cut crosses, and a point crosses almost none of it)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("fixed rule: what was wrong was: odd-04: seven needle holes take a leather pack from whole to in pieces", () => {
     expect(stitches("point", 30).things.pack?.state.integrity).toBeGreaterThan(3);
   });
 });
@@ -496,7 +501,8 @@ describe("a long drift is the same answer in one act or many", () => {
           expect(Math.abs((x?.[key] ?? 0) - (y?.[key] ?? 9)), `${id} ${key}`).toBeLessThan(0.25);
         expect(x?.set).toBe(y?.set);
       }
-  });
+    // Three long drifts: about a second alone, and several when every other file runs beside it.
+  }, 30_000);
 
   // Not from a scenario: the two places where cutting time finer than the hour changes the answer.
   it("fixed rule: drift: a bleeding wound costs half as much blood again in one act as it does watched minute by minute (driftBody charges the whole step at the bleeding it began with; the loss should be the closed-form sum under the clotting line)", () => {

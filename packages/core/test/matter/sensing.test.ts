@@ -203,7 +203,8 @@ describe("the invariants of sensing", () => {
       const w = some(Rng.fromSeed(seed));
       for (const [, percepts] of sensed(w))
         for (const [source, p] of Object.entries(percepts)) {
-          expect(source in w.things, `seed ${seed}: ${source}`).toBe(true);
+          // A source is a thing or a body: a body is seen as any thing is.
+          expect(source in w.things || source in w.bodies, `seed ${seed}: ${source}`).toBe(true);
           expect(source, `seed ${seed}: a cold stone emits nothing`).not.toBe("stone");
           expect(p.strength).toBeGreaterThan(0);
         }

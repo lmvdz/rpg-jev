@@ -58,9 +58,10 @@ function bodyChanges(before: Body, after: Body): Change[] {
         note: w.bleeding > 0 ? "the bleeding slows" : "the bleeding stops",
       });
   });
-  const { health, sickensIn, needs, wetness } = after;
+  const { health, sickensIn, needs, wetness, feels } = after;
   const moved =
     health !== before.health ||
+    !same(feels, before.feels) ||
     sickensIn !== before.sickensIn ||
     wetness !== before.wetness ||
     !same(needs, before.needs);
@@ -71,10 +72,13 @@ function bodyChanges(before: Body, after: Body): Change[] {
     changes.push({
       kind: "body",
       body: after.id,
-      set:
-        wetness === undefined
-          ? { health, sickensIn, needs }
-          : { health, sickensIn, needs, wetness },
+      set: {
+        health,
+        sickensIn,
+        needs,
+        ...(wetness === undefined ? {} : { wetness }),
+        ...(feels === undefined ? {} : { feels }),
+      },
       because: ["B1", "B2", "B3", "B4", "X7"],
       note: bodyNote(onset, cold),
       ...(told ? {} : { quiet: true as const }),

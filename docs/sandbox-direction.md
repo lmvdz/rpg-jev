@@ -2,6 +2,13 @@
 
 2026-09-18. A proposal, not yet the spec. It says what changes if the game is a sandbox with no set story, in which elements evolve and generate new elements through interaction. Nothing here is built. If accepted, it replaces the inn as the first slice and rewrites sections 1, 4, 14 and 16 of `SPEC.md`.
 
+**Later decision:** the physical-depth goal is now specified in SPEC section 21
+and `docs/compositional-causality.md`; it does not adopt the entire no-story pivot.
+Those contracts take precedence over this draft's flat-item model and unrestricted
+runtime reaction growth. Material parts, contacts, accounted transformations,
+persistent uncertainty and explicit mechanics versions are required. The older
+status statements below are history, not a current branch implementation report.
+
 ## The premise
 
 There is no plot, no quest and no author writing an arc. There is a world of elements: materials, things, places, creatures, people, and later the social things people make (debts, rumors, roles, customs). Elements change each other, and when an interaction produces something the world does not have yet, that thing is made, described, and added to the world for good. Story is what the log looks like afterwards.
@@ -33,8 +40,8 @@ Nothing is generated before somebody reaches for it. The world is lazy at three 
 | Latent | Decided when | By | Then |
 | --- | --- | --- | --- |
 | A fact: is there a loose stone on this tile | Someone looks for one | Jev scores how common the thing is in this place, from the local slice; code turns the level, the effort and a logged draw into found or not, and into minutes spent | Written on the tile. A patch searched and found bare stays bare until something changes it |
-| A description: how hard is this stone, does pitch burn | The property is first needed | Proposed, then ratified by Jev one hop at a time | A row in the element pool, for every world |
-| A reaction: what does heat do to a bleeding wound | Two properties first meet with no entry in the table | Proposed as a template over existing effect kinds, then ratified by Jev in one hop | A row in the reaction pool, and code from then on |
+| A description: how hard is this stone, does pitch burn | The property is first needed | Proposed within admitted bounded choices, then ratified through the applicable gate | An immutable definition; each instance/world retains the version it adopted |
+| A reaction: what does heat do to a bleeding wound | An interaction exposes a missing template or mechanism | Existing-template content uses its admission gate; a new law/formula is offline mechanics work | A versioned definition or mechanics update, applied prospectively with explicit migration |
 
 Jev judges meaning: how common, whether it burns, whether heat closes a wound. Odds, effort, durations and amounts are arithmetic, so they are code (rule 3). Identical slices hit the cache, so "how common are stones in a quarry" is asked about once.
 
@@ -60,7 +67,20 @@ What running batch A through the rules says the parse has to read, beyond those 
 
 **Worked: "pick up stone".** Process `take`, target the kind stone, effort at hand. No stone instance is in scope, so the fact is latent. The slice says grassland; Jev scores stones as rare; code rolls low odds for a glance and the player finds nothing, in a few seconds. "Looks around until finding a stone" parses to a thorough search: better odds, many minutes, and hunger and daylight spent. In a quarry the first glance is enough.
 
-**Worked: the burning sword.** "Pour the oil on the sword" is `coat`: the sword instance gains a coating of oil. "Put the sword in the fireplace" brings fire to a flammable coating, so the coating burns; code works out how long from how much oil there is and sets a fuse. While it burns the sword is also hot and bright and lights what it touches. It is the same sword. Cutting flesh with it: sharp meets soft and makes a bleeding wound; hot meets flesh and makes a burn. Both happen with no rule written, because each property does its own work. Whether the heat also seals the wound is a synergy, a reaction between hot and bleeding, and the vocabulary pass gave the honest answer: a slicing blade touches too briefly, so it sears the edges, lights cloth and the wound still bleeds; a hot blade held on a wound seals it and burns. Contact time is an input, and a reaction is a threshold on an exposure, not a yes or no. If the table lacks the reaction, the first player to press hot iron to a wound gets only the burn; the proposer offers a template, Jev ratifies "does searing heat held on a wound stop the bleeding?", and everyone after gets cautery.
+**Worked: the burning sword, extended by section 21.** Pouring oil adds finite
+material to a surface. Heating it can ignite that material when the admitted
+conditions hold; consumption supplies heat and products. A combustible substrate
+can also burn, while metal can remain intact but hot. Heat reaches a grip through
+contacts between parts, and wrapping changes those contacts and has its own state.
+Fuel exhaustion does not erase residual heat or create free residue.
+
+Cutting and heat exposure can both affect a wound through admitted mechanisms.
+A brief slicing contact and sustained contact need not have the same outcome;
+there is no free-standing "fire sword cauterizes" roll. If the world lacks the
+mechanism, code applies only supported effects and logs a gap. A proposal does
+not make every existing world's laws change when it finishes: new mechanics need
+the offline gate and explicit version adoption. These are target semantics, not
+a claim that the full parts/body path is already built.
 
 The nearest prior art is the chemistry engine of Breath of the Wild: a few elements, a few material states, three rules, and play that multiplies. The difference here is that the tables fill themselves in, ratified.
 
@@ -78,11 +98,11 @@ The nearest prior art is the chemistry engine of Breath of the Wild: a few eleme
 ## How a new element is born
 
 1. Two or more elements meet under a process. Code computes the result from properties and bookkeeping (nothing is made from nothing: what the result serves is bounded by what went in, plus labour. Rule 3).
-2. **Select before generating.** Code ranks the existing elements nearest to the computed result and Jev picks one, or none. Most interactions end here, with no generative call.
+2. **Select before generating, without resetting physics.** Code filters existing definitions for compatibility with the already-computed composition, quantities, energy, remaining fuel and damage, then ranks compatible candidates. Jev picks one or none. Selection supplies a compatible definition/presentation, never a fresh baseline that overwrites the physical result. Most interactions need no generative call.
 3. None is a hole. The interaction resolves at once with the generic result code already has (a charred lump, a slurry, a broken thing), so rule 2 holds: no action waits on a generative model.
-4. In the background a generative model proposes the missing element as a row over the closed vocabulary. Code checks the schema, the bookkeeping, and that it is not a near-duplicate of an existing row. Jev ratifies it one property at a time, one hop each ("does pitch burn?"). Its name and look are rendering.
-5. The element joins the pool, shared across saves. Processes that take world time (smelting, brewing, growth, rot) are where the wait hides: by the time the pot has boiled, the thing in it exists.
-6. The pool is measured as in section 20: an element nothing ever touches again is culled.
+4. In the background a generative model proposes the missing element description or assembly over admitted templates. Numeric parameters use code-built bounded choices. Code checks the schema, bookkeeping and duplicates; applicable semantic ratification is one property at a time. Until its families are admitted this path is human-gated. Its name and look are rendering. A new formula or change to a physical law is offline mechanics work, not an element birth.
+5. An admitted definition joins a versioned content library. Existing instances and saves retain their definition and mechanics versions; a new law is adopted through an explicit migration, not applied retroactively when a proposal finishes. Generation never blocks the action or replaces its already committed generic result without a validated, logged refinement.
+6. The pool is measured as in section 20: unused candidates may be culled from discovery, but referenced definitions remain available for history and replay.
 
 This is section 20's content loop, no longer tooling. The improvement loop is the game.
 
@@ -177,9 +197,99 @@ Sex is not a factor. What matters is on the row and in the state: whether it bea
 
 **Scaling in number is a different question and already has its answer** (SPEC section 11): events and not ticks, a judge call only where someone is watching, the routine everywhere else, and a group acting as one.
 
+**Derived and measured** (`spikes/minds/INTENTS.md`, 2026-09-19). The intent list was derived from 120 scenarios written with no list given, and measured with Jev: 34 intents say every act in 90 held-out scenarios (none of these: 0%), a control proves the judge does say none when it should, and Jev's own choice is among the writer's plausible acts two times in three. The list guessed above from one wolf was missing a third of it, and the table of factor kinds was missing its largest entry: custom and rank. `work_on` is the intent that joins minds to matter.
+
 **How to know it covers "so many other factors".** The way the vocabulary was tested. Write held-out scenarios of what a creature or a person does and why, with no vocabulary given; derive the smallest set of factor kinds and intents that says them; test on a batch its author has not read. Expect it not to close, as the vocabulary did not: a domain of behaviour (parenthood, rank in a pack, territory, trade) is a feature, admitted when held-out coverage says so. The table above is version 0 and came from one example.
 
-**What to build, in order.** Bonds and homes as structures, with a ward's needs reaching its keeper. Deeds from percepts, moving feelings by predicate. Intents as rows, with preconditions and salience, replacing `optionsFor`. The slice builder, replacing the hand-written words of the probes. The routine as a score over the same options, with the agreement test against the judge. Properties first, each time.
+**Built and measured** (2026-09-18, `packages/core/src/matter/{bonds,deeds,intents,slice,names}.ts`, properties in `test/matter/minds.test.ts`). The five steps are done, each written properties first.
+
+- *Structures.* Bonds with a weight (a ward's needs reach its keeper, never more than the ward's own need), a home, the ground as ways out, custom and rank as rows of a place, and witnesses derived from sensing. A body is now noticed as any thing is.
+- *Deeds.* A deed is derived from an act and its changes, and moves feelings in who suffered it, in who is bound to them by the weight of the bond, and a little in who saw. Feelings fade by half-lives in closed form. A kind of deed is a row.
+- *Intents as rows.* All 34 measured intents have a row. 23 can be offered from the structures that exist, and 7 of those become an act the rules resolve (go to, keep away, take, eat, carry to, attack, give); the other 16 can be chosen and do nothing in the world yet. The remaining 11 each name the structure they wait on: speech and claims, offers made between bodies, claims of ownership, purposes for a thing, seasons and pairing, a group with a task. A handful is offered, with none always last.
+- *One slice builder.* `sliceFor` compiles what the judge reads from the structures, in words, with no digit in it.
+- *The routine* is the first of the same offers.
+
+A mother with hungry young goes to a kill, carries it home, sets it down, and the young eat and come to trust her. No rule says mother: the same rows under other names are offered the same, and a test ratchets that no engine file names a creature.
+
+**The routine against the judge** (`spikes/minds/results/routine-*.json`). Scenes come from a seeded generator over engine structures only. Code builds the slice and the handful. Jev chooses among the handful, shuffled so their order says nothing.
+
+| Set | Role | Scenes measured | Routine is Jev's first choice | Routine in Jev's first two | Chance | Jev says none of the handful | Paraphrase shift |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| A, first rules | derived from | 46 of 60 | 41% | 72% | 22% / 43% | 4% | 0.10 |
+| A, after four general rules | derived from | 55 of 60 | 55% | 75% | 22% / 44% | 0% | 0.09 |
+| B, engine frozen at `151151a` | **held out** | 50 of 60 | **64%** | **78%** | 23% / 46% | 2% | 0.09 |
+
+The baseline from the intent measure is a human writer: Jev's first choice is one of the writer's plausible acts 62 to 68% of the time, and one of its first two is, 80 to 84%. Held out, the routine is at 64% and 78%. It matches the writer on first choice and is just under on the first two. Scenes left out had only one offer. About 540,000 input tokens, $0.02.
+
+Four general rules came from set A and were written as properties before the code: what is at hand counts for more than what can be had later (food a few steps off before lying down), what feeds it and lies right here is worth something even fed, a keeper may stay over its young with nothing menacing, and a need that nothing in sight would meet offers going to look. Set B was read only as a summary.
+
+**What the measure says is missing.** Asked over all 34 intents with no targets, the intent Jev wants is among what code offered in 46% of held-out scenes, or 72% when going toward food counts as the first step of eating it. The rest is mostly three things. *What feeds whom* is not a structure: a hungry bear beside a wolf wants to attack, and the generator had to be told that a hind is not fed by meat. *Helping* is offered only to the hurt. *Guarding* is wanted in more situations than a menace or a helpless ward. Diet was the next structure, and is now built.
+
+**Diet** (2026-09-18, `diet.ts`, properties in `test/matter/diet.test.ts`). A food's row says what fare it is, from a closed set (flesh, leaf, fruit, seed). An eater's row says how well each fare feeds it, 0 to 5. One function, `feeds`, says what this eater gets from that food, and everything that asks whether something is food asks it: eating, what is offered, what is attended to, what the judge is told, and what counts as having provided for someone. A food of no fare feeds anyone and an eater whose row says nothing eats anything, so nothing built before diet changed. What a thing is worth is how urgent the need is by how well the thing would meet it, so a hungry wolf passes berries for meat. Prey is food that is still alive: `preyTo` says a body is quarry when it would feed the eater, is not of its own kind nor bound to it, and is not much the stronger. Within a rush quarry is struck at, and from beyond it is gone toward. What would make a meal of a body is a menace to it before it has done anything. The slice says "would feed it" and "would make a meal of it".
+
+Measured the same way, with the engine frozen at `f64796b` and fresh seeds nothing was fitted to: the routine is Jev's first choice in 60% of 52 scenes and among its first two in 81% (chance 22% and 43%). The intent Jev wants is among what code offered in 54%, or 85% when going toward food counts as the first step of eating it, against 46% and 72% before diet, and `attack` is no longer among what is wanted and not offered. The scenes are not the same scenes as before: the generator now draws the food without regard to who is there, and adds a hare. Still open: a killed body leaves nothing behind (a body is not yet a thing), nothing grazes (grass has no fare, because a player whose row says nothing would be fed by it), and young are not nursed.
+
+**What was to be built, in order (now done).** Bonds and homes as structures, with a ward's needs reaching its keeper. Deeds from percepts, moving feelings by predicate. Intents as rows, with preconditions and salience, replacing `optionsFor`. The slice builder, replacing the hand-written words of the probes. The routine as a score over the same options, with the agreement test against the judge. Properties first, each time.
+
+## The graph: rules as data, not code
+
+**Admission boundary:** the expression graph below is a restricted mechanics
+language, even when serialized as data. Under SPEC section 21, generated formulas
+and factors are offline, reviewed mechanics changes. Runtime generation can fill
+admitted templates and code-calibrated choices; structural validity and a semantic
+judge alone do not authorize new numerical laws. The experiments and measurements
+below are retained as evidence, not an exemption from that boundary.
+
+**The problem** (2026-09-18). Every gap found so far became a module someone wrote: diet cost a file, a function and five fixes; the salience weights are guesses at what Jev would choose, corrected against Jev by hand; held-out derivability of the physics stayed at 60%, 63%, 61% while twenty hand fixes bought nothing. The tables in the engine (`DRIFTS`, `MODIFIERS`, `DEEDS`, `INTENT_ROWS`) are tables of functions, so nothing can write a row but a programmer. Closed kinds and open rows was the design; too much was put on the code side of that line.
+
+**The aim.** A graph at the level of kinds, not of things: nodes are quantities and conditions in the closed vocabulary, edges are influences (under these conditions, this process moves that quantity), and elements and creatures attach to it by their levels. It can be preloaded, walked with a seed to make permutations for Jev and for tests, searched for gaps mechanically, and grown by proposing edges that Jev ratifies and the invariants gate. A small kernel carries the edges out and is the only code.
+
+**What the first answer was missing.** (1) A loop that adds an edge per gap automates the overfitting already done by hand: the score has to be held-out coverage per edge, the smallest graph that covers. (2) State-to-state edges say that something happens and not how much; an edge has to be an influence on a quantity, with conjunctions of conditions, so that soundness (conservation, the same answer however time is cut, levels staying levels) belongs to the kind of edge and not to a test run afterwards. (3) One-step walks do not make behaviour; chaining needs a search over the same edges. (4) The same family of model writes, proposes and ratifies; the outside views are existing commonsense knowledge bases mapped onto the vocabulary, and the player, whose every "none" is the only signal from outside. (5) Gap detection finds missing edges and never missing nodes. (6) A growing graph breaks replay unless it is append-only and versioned, and every log pins its version.
+
+**The schema test** (`packages/core/src/matter/graph`, tests in `test/matter/graph`). Before spending anything on generation: can rules the engine already trusts be said as pure data? The oracle is the engine itself.
+
+- *The form.* `expr.ts`: a quantity is a path (`p.mass`, `s.wetness`, `place.air`, `coat.p.solubility`) or a named derived node (`d.damp`) over others; arithmetic is eight operators and a conditional, closed, total and pure. `rules.ts`: a rule is ordered alternatives, each a conjunction of conditions and a list of effects of four kinds: `approach` (toward a target at a rate, in closed form, so the cut of the minutes cannot matter), `accrue` (at a rate between bounds, so a level stays a level, with an event at the lower bound), `set` and `put`. No row holds a function, and the rows are sent through JSON before they are run.
+- *Drift is now nine rows.* The nine functions of `drift.ts` are said in `drift-rules.ts` with seventeen derived nodes. The functions are kept word for word on the test side as the oracle. Every row equals its function over 27,000 seeded things in every state (3,000 each, half of them steered to a narrow gate where a rule would otherwise rarely fire); corrupting one constant or one condition in the data fails the test; and the engine runs drift from the rows with the whole suite unchanged: 761 passed and the same 148 expected fails.
+- *What did not fit.* Drying is one state that is secretly two quantities, a film and what is held, each leaving at its own speed. The structured kinds do not cover that, and the row says it only as a raw closed form with the minutes in it, which gives up what `approach` and `accrue` guarantee. The fix is in the vocabulary (two states), not in the schema.
+- *What it costs.* Reading a row afresh each time is about 40 times slower than the function. Made ready once as closures (`compile.ts`, held equal to the plain reading by the same test) the rules alone are about 14 times slower (8.4 against 0.6 microseconds a thing a step), and a whole drift step about 2.8 times, because working out effective properties dominates either way.
+- *Chaining.* `plan.ts`: a goal is a row (`near`, `holds`), the steps are the engine's own primitive acts, and the model of what a step does is `resolve` itself. A breadth-first search finds go, take, go, set down for food beside the young from a kill thirty tiles off: the sequence `carrying` in `intents.ts` spells out by hand. Asked for a branch beside a stone, it carried the stone to the branch in three steps, which nobody wrote and the goal allowed; beside an oak it took the branch, in four.
+
+**Heat, built** (2026-09-19, `graph/kernel.ts`, `graph/heat-rules.ts`). One kernel now runs rules for one party or two. An act has parties (`src.`, `tgt.`), each with its properties, its state now, its state as it was when the act began (`was.`), a scratch pad one rule leaves for the next (`x.`), and properties worked out again against the state as it is now (`now.p.`). An effect may run over its own minutes and lay a small record down whole, and an alternative may say one of two things by a condition. No `exp` was needed: an `approach` on a scratch quantity covers it. `heat()` is four rows (warm, draw, ignite, shock) and is kept as it was, word for word, as the oracle: over 6,000 seeded meetings the rows leave both things in the same state and say the same things in the same order, each of the ten outcomes coming up more than forty times, and corrupting a constant or a threshold fails the test. Still owed: conservation between the two is arithmetic inside the rows and not a kind of effect that conserves by construction.
+
+**A row nobody here wrote** (`graph/grown.ts`, `graph/validate.ts`, `spikes/graph`). The engine has a slot for rows proposed by a model, run after the base rules of their process, with the base rules and their oracles untouched. A proposed row is untrusted, and passes three gates. *Checked as data*, without running it: it names only quantities that exist, writes only states and scratch, bounds every level it moves, and may not make matter, fire or a coat. (The checker found five level writes of my own without both bounds.) *Ratified by Jev*: is what the row says true of the everyday world, asked in two wordings, beside eight control claims, four true and four false; Jev got all eight right on both runs (true at 0.73 and above, false at 0.10 and below). *No regression*: every test the engine passed still passes, the invariants among them.
+
+**The generation experiment** (2026-09-19). A generator that had not written the engine was given the schema (`spikes/graph/SCHEMA.md`), the base rows, the vocabulary and batch A's 62 failing outcomes, and was barred from batch D. It proposed four rules and declined 59 of the 62. All four passed the checker. Jev ratified three (rot weakens what it grows in, 0.82; dried fast too close to strong heat what drank water cracks, 0.78; what drinks water and stays damp goes musty, 0.61) and refused one (held scorching hot too long, what can melt takes a hidden flaw, 0.49): a true claim, and a specialist's, which is the limit of a ratifier whose knowledge is common sense. Batch D was encoded by three runners against the engine frozen at `b14670c`, rows written first and nothing tuned, and scored on the same tests before and after the three rules went in.
+
+| | Before | After the three grown rules |
+| --- | --- | --- |
+| Tests that passed before | 854 | 854 still pass: no regression |
+| Batch A outcomes derived (the batch the generator saw) | 129 of 191 | **131 of 191** |
+| Batches B and C | 104 of 141, 83 of 132 | unchanged |
+| **Batch D, held out** | **69 of 151 (46%)** | **69 of 151 (46%)** |
+
+**What that says.** The machinery works end to end: a model wrote rules as data, a checker and a judge filtered them, they went into a running engine without breaking anything, and two outcomes the engine could not produce now derive. And it bought nothing on unseen scenarios. The reason is on the page. The generator declined 59 of 62 failures, and not one for want of a rule: 26 need a process that is not yet rows (force, load, search, ingest, soak), 12 need a kind of effect the kernel lacks (emit a signal, change a place, create a thing), 9 need a state or property that does not exist, 7 need to change a base rule, which a later rule cannot do, and 5 are sayable in full except that the checker forbids the write. Batch D fails the same way: nothing flows, nothing floats, a body has no parts and makes no heat and no sound, a place is uniform and never changes, signals die within a few tiles. Batch D is also the hardest batch yet (46% against 60, 63 and 61), being rivers, winter bodies and noticing. **What binds is reach, not authorship.** Who writes the rules does not matter while most of what goes wrong lies outside the two processes that are rows, or outside the vocabulary altogether.
+
+**What the generator could not say, and should be able to.** A rule that runs after the base rules cannot slow or gate a base rate (dryness stopping rot, wind speeding a flame). Plain water has no row to read (`wetWith` is null), so nothing can read water's own properties. There is no `ln`. Bounds clamp the value that was already there as well as the change. A level inside a coat cannot be written at all. Each is a finding about the schema, and none about the idea.
+
+**What follows.** The order of work is now set by reach. The processes on rows first, since 26 of 59 declined failures and most rule errors live there. Then the kinds of effect (emit, create, consume, change a place), so a row can do what only code can do today. Then the missing states, which is the vocabulary growing, by the same held-out test that admitted what is in it. The generation loop is ready and should be run again after each, on fresh held-out scenarios: it is the measure of whether reach grew.
+
+**Reach, grown** (2026-09-19). Following what round one said, in that order. *Processes onto rows:* force, soak, coat and load joined drift and heat (`graph/force-rules.ts`, `graph/soak-rules.ts`), each held equal to the function it replaced, kept word for word as its oracle, over 12,000 and 6,000 seeded cases with every outcome coming up more than forty times. Six of nine processes are rows; eating, searching, moving and taking are still code, because they write to a body's needs or to a place, which no kind of effect does yet. *Kinds of effect:* `emit` (something is given off), `split` (a piece comes away, and its amount is taken from the parent, so nothing is made from nothing by construction), `use`, `copy`, `wound` and `seal`; five operators (`abs floor exp ln at`); a body as a party. *What a grown row may do:* every process on rows has a slot for rules, derived quantities and **factors**: a named quantity of the base rows multiplied by further expressions, which is how a grown row slows, speeds or stops what a base rule does without the base rule being edited. The checker lets a proposal put a fire out (never light one), move a coat's bond or coverage, use a thing up, give something off and split a piece off. Choosing the armour and summing what a support bears stay code: they say who the parties are.
+
+Mutation checks found the tests' own blind spot twice: a corrupted threshold escaped because no seeded value fell between the old number and the new. Amounts, times and heats are now drawn from ranges as well as from lists.
+
+**The generation loop, round two.** A new sealed batch, E (45 scenarios: caves, the shore, a farm), was written by an agent that read only the scenario schema, and encoded by three runners against the engine frozen at `1c333d7`: **86 of 207 outcomes derive (42%)**. The generator saw all 228 failures of batches A to D and proposed 12 rules and 6 factors over five processes, declining 203 failures in 11 groups. All 18 were valid as data. Jev ratified 16 (controls 8 of 8) and refused two true claims: one a specialist's (hot water lifts a coat that softens with heat, 0.28), one a compound (whatever burns gives off light and smoke, and the damper the fuel the more it smokes, 0.53). The third gate then rejected one that Jev had passed at 0.78: *something poisonous soaked into a thing leaves its poison there*. Seawater is harmful to drink, so shellfish kept overnight in clean seawater took on its harm and sickened whoever ate them. True as it is said, and wrong where nobody had listed. It was caught only by a sealed scenario, and its rejection is kept as data (`results/proposals/round-2.gate.json`).
+
+| | Before round two | With 15 rows of round two in |
+| --- | --- | --- |
+| Tests that passed before | 950 | 950 still pass: no regression |
+| Batches A to D (the generator saw their failures) | 387 of 615 (63%) | **404 of 615 (66%)** |
+| **Batch E, sealed** | **86 of 207 (42%)** | **87 of 207 (42%)** |
+
+**What that says.** Wider reach bought a great deal where the generator could see (seventeen outcomes, six of them rule errors that had stood for batches, among them an axe blunt after fourteen strokes and a pond that froze like a cupful) and almost nothing where it could not: one outcome in 207, and one row that had to be thrown out. Two readings, and both hold. The rows are *fitted*: a model shown 228 failures writes rules for those failures, however general their wording, and the sealed batch says so. And reach still binds: batch E fails, in its encoders' own counts, because nothing is in, under, tied to or resting on anything (sixteen outcomes across caves and shore), because a body's effort, warmth and death are not modelled, because places never change and nothing flows, and because damage does not accumulate and things have no parts. None of those is a rule about drift, heat, force, soaking or load. The vocabulary's missing relations and states are the ceiling, exactly as the first vocabulary test said they would be, and no quantity of generated rows beneath that ceiling moves a sealed batch.
+
+**What the loop is good for, as measured.** It is safe (three gates, no regression in two rounds, and the one bad row caught), cheap (about a tenth of a cent of Jev for a round), and it fixes what is pointed at. It does not generalise on its own. It is a way to repair a known failure without writing code, not a way to make the world cover what nobody has thought of.
+
+**What the generator found in the engine itself.** Drift dropped whatever a drift row made (fixed). The load oracle was not isolated from grown rows (fixed). Many base rates are said inline and so cannot be factored: they should be named quantities. A factor multiplies a whole quantity and cannot reach a term inside it. A rule is about one party, so an act that changes both takes two rules. A coat can be loosened and never lessened. Conditions have no `not`.
 
 ## Admitting a feature
 

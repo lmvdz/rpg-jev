@@ -1,0 +1,675 @@
+{
+  "drift": {
+    "derived": {
+      "eaten": {
+        "op": "clamp",
+        "of": [
+          {
+            "op": "div",
+            "of": [
+              {
+                "op": "sub",
+                "of": [
+                  {
+                    "op": "div",
+                    "of": [
+                      {
+                        "op": "add",
+                        "of": [
+                          "was.contamination",
+                          "s.contamination"
+                        ]
+                      },
+                      2
+                    ]
+                  },
+                  3
+                ]
+              },
+              2
+            ]
+          },
+          0,
+          1
+        ]
+      }
+    },
+    "rules": [
+      {
+        "id": "mildew",
+        "says": "What drinks water and is left damp where there is air goes musty, even when little about it feeds rot; without something perishable in it, it goes no further than musty",
+        "first": [
+          {
+            "when": {
+              "all": [
+                {
+                  "a": "p.absorbency",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "ref": "row.is.liquid",
+                  "equals": false
+                },
+                {
+                  "a": "place.air",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "a": "s.temperature",
+                  "is": "<",
+                  "b": 4.5
+                },
+                {
+                  "a": "s.contamination",
+                  "is": "<",
+                  "b": 2
+                }
+              ]
+            },
+            "effects": [
+              {
+                "kind": "accrue",
+                "q": "s.contamination",
+                "rate": {
+                  "op": "mul",
+                  "of": [
+                    {
+                      "op": "div",
+                      "of": [
+                        "p.absorbency",
+                        5
+                      ]
+                    },
+                    "d.warmth",
+                    "d.damp",
+                    "d.kept",
+                    0.0003
+                  ]
+                },
+                "lo": 0,
+                "hi": 2
+              }
+            ],
+            "because": [
+              "S9",
+              "P9",
+              "S2",
+              "R6",
+              "X7"
+            ],
+            "note": "left damp, it goes musty"
+          }
+        ]
+      },
+      {
+        "id": "rot-weakens",
+        "says": "Rot eats what it grows in: once living contamination is far gone in something perishable, the thing softens and falls apart, faster the more perishable, warm and damp it is, and not at all while it is dry or frozen",
+        "first": [
+          {
+            "when": {
+              "all": [
+                {
+                  "a": "p.perishability",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "ref": "row.is.liquid",
+                  "equals": false
+                },
+                {
+                  "a": "d.eaten",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "a": "s.temperature",
+                  "is": "<",
+                  "b": 4.5
+                }
+              ]
+            },
+            "effects": [
+              {
+                "kind": "accrue",
+                "q": "s.integrity",
+                "rate": {
+                  "op": "mul",
+                  "of": [
+                    -0.0002,
+                    "d.eaten",
+                    "d.rots",
+                    "d.warmth",
+                    "d.damp"
+                  ]
+                },
+                "lo": 0,
+                "hi": 5
+              }
+            ],
+            "because": [
+              "S9",
+              "P15",
+              "S4",
+              "M4",
+              "X7"
+            ],
+            "note": "the rot in it is eating it away"
+          }
+        ]
+      }
+    ]
+  },
+  "heat": {
+    "derived": {
+      "crossing": {
+        "if": {
+          "a": "tgt.was.temperature",
+          "is": ">=",
+          "b": 4.9
+        },
+        "then": 0,
+        "else": {
+          "if": {
+            "a": "tgt.s.temperature",
+            "is": "<",
+            "b": 4.9
+          },
+          "then": "d.minutes",
+          "else": {
+            "op": "div",
+            "of": [
+              {
+                "op": "mul",
+                "of": [
+                  1000,
+                  {
+                    "op": "sub",
+                    "of": [
+                      {
+                        "op": "pow",
+                        "of": [
+                          {
+                            "op": "div",
+                            "of": [
+                              {
+                                "op": "sub",
+                                "of": [
+                                  "d.to",
+                                  "tgt.was.temperature"
+                                ]
+                              },
+                              {
+                                "op": "sub",
+                                "of": [
+                                  "d.to",
+                                  4.9
+                                ]
+                              }
+                            ]
+                          },
+                          0.001
+                        ]
+                      },
+                      1
+                    ]
+                  }
+                ]
+              },
+              "d.rate"
+            ]
+          }
+        }
+      },
+      "overheatedFor": {
+        "op": "clamp",
+        "of": [
+          {
+            "op": "sub",
+            "of": [
+              "d.minutes",
+              "d.crossing"
+            ]
+          },
+          0,
+          "d.minutes"
+        ]
+      },
+      "drivenOut": {
+        "op": "max",
+        "of": [
+          0,
+          {
+            "op": "sub",
+            "of": [
+              "tgt.was.wetness",
+              {
+                "op": "max",
+                "of": [
+                  "tgt.s.wetness",
+                  1
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tooClose": {
+        "op": "max",
+        "of": [
+          0,
+          {
+            "op": "sub",
+            "of": [
+              "d.reach",
+              3.5
+            ]
+          }
+        ]
+      }
+    },
+    "rules": [
+      {
+        "id": "overheated",
+        "says": "Held scorching hot for too long, a solid that can melt takes a hidden flaw, by the minutes it spends that hot",
+        "about": "tgt",
+        "first": [
+          {
+            "when": {
+              "all": [
+                {
+                  "a": "tgt.p.meltsAt",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "a": "tgt.s.temperature",
+                  "is": ">=",
+                  "b": 4.9
+                },
+                {
+                  "a": "tgt.s.temperature",
+                  "is": "<",
+                  "b": {
+                    "op": "sub",
+                    "of": [
+                      6.5,
+                      {
+                        "op": "mul",
+                        "of": [
+                          "tgt.p.meltsAt",
+                          0.6
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "a": "d.overheatedFor",
+                  "is": ">",
+                  "b": 0
+                }
+              ]
+            },
+            "effects": [
+              {
+                "kind": "accrue",
+                "q": "tgt.s.flaw",
+                "rate": 0.01,
+                "over": "d.overheatedFor",
+                "lo": 0,
+                "hi": 5
+              }
+            ],
+            "because": [
+              "M2",
+              "S15",
+              "S1",
+              "P8",
+              "X3"
+            ],
+            "note": "it has been too hot for too long"
+          }
+        ]
+      },
+      {
+        "id": "parched",
+        "says": "What has drunk water and is dried fast, too close to strong heat, comes out stiff and cracked, by how much water was driven out of it and how close it lay; dried gently at a distance it does not",
+        "about": "tgt",
+        "first": [
+          {
+            "when": {
+              "all": [
+                {
+                  "a": "d.drivenOut",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "a": "d.tooClose",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "a": "tgt.p.absorbency",
+                  "is": ">",
+                  "b": 0
+                },
+                {
+                  "ref": "tgt.was.set",
+                  "equals": false
+                },
+                {
+                  "ref": "tgt.row.is.liquid",
+                  "equals": false
+                },
+                {
+                  "a": "tgt.wetWith.p.oiliness",
+                  "is": "<",
+                  "b": 3
+                }
+              ]
+            },
+            "effects": [
+              {
+                "kind": "set",
+                "q": "tgt.s.integrity",
+                "to": {
+                  "op": "sub",
+                  "of": [
+                    "tgt.s.integrity",
+                    {
+                      "op": "mul",
+                      "of": [
+                        0.2,
+                        "d.drivenOut",
+                        "d.tooClose",
+                        {
+                          "op": "div",
+                          "of": [
+                            "tgt.p.absorbency",
+                            5
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "lo": {
+                  "op": "min",
+                  "of": [
+                    3,
+                    "tgt.s.integrity"
+                  ]
+                },
+                "hi": 5
+              }
+            ],
+            "because": [
+              "M1",
+              "S2",
+              "S4",
+              "P9",
+              "X3"
+            ],
+            "note": "dried too fast and too hot, it stiffens and cracks"
+          }
+        ]
+      }
+    ]
+  },
+  "addresses": {
+    "mildew": [
+      "batch-a.test.ts: cold-01: and the wet cloth turns musty in a day or two (cloth's row has no perishability, and nothing else says damp fibre moulds)"
+    ],
+    "rot-weakens": [
+      "grow-01"
+    ],
+    "overheated": [
+      "a-fire-cold.test.ts: fire-04: held too long in the forge it takes a hidden flaw (M2's 'held too hot: S15' is in the vocabulary and not in heat)"
+    ],
+    "parched": [
+      "batch-a.test.ts: fire-03: left too close, the leather stiffens and cracks (M1's dried-fast-and-hot is not a rule yet)"
+    ]
+  },
+  "declined": [
+    {
+      "failure": "beast-05",
+      "needs": "a state: burning is on or off, with no level of flame or light to sink with the fuel; and an effect kind (E9, emit a signal) that drift rows do not have"
+    },
+    {
+      "failure": "beast-06",
+      "needs": "a state (S8 contents) and another process on rows: breaking open is force, and scent reaching a nose is sense"
+    },
+    {
+      "failure": "beast-10",
+      "needs": "another process on rows (ingest) and a property of the eater (a body row); a base rule error, not a missing drift or heat rule"
+    },
+    {
+      "failure": "folk-02 (the sound plank breaks)",
+      "needs": "another process on rows (load): span and support; a base rule error"
+    },
+    {
+      "failure": "folk-02 (a loose board creaks)",
+      "needs": "a relation with a state (R4, the looseness of a join) and an effect kind (E9, a sound); load, not drift or heat"
+    },
+    {
+      "failure": "folk-10",
+      "needs": "another process on rows (force); a base rule error in how size resists a cut"
+    },
+    {
+      "failure": "fire-02",
+      "needs": "a change to a base rule, or write access I do not have: wind would have to raise heat's base surface rate before the base ignite rule runs, or a later rule would have to put s.burning; proposed rules run after ignite and may not write burning"
+    },
+    {
+      "failure": "fire-04 (the hammer moves hot iron)",
+      "needs": "a state (deformation: bent, straightened) and another process on rows (force)"
+    },
+    {
+      "failure": "fire-05",
+      "needs": "a change to a base rule: the surface rate in heat's warm rule and the wetness counted against a coat of fur in ignite; a later rule cannot light anything because it may not write s.burning"
+    },
+    {
+      "failure": "fire-06",
+      "needs": "a process or effect kind: a spark is a signal, not a hot thing that lands on a surface; force would have to create a short-lived heat source"
+    },
+    {
+      "failure": "fire-10",
+      "needs": "a state of the place (air, smoke: effect kind E13) and another process on rows (ingest by breathing); rules may write only s. and x."
+    },
+    {
+      "failure": "cold-02",
+      "needs": "write access to s.burning, which only the engine has; the rule itself (a flow stronger than the flame snuffs it, reading place.wind against fuel and flammability) is otherwise sayable in drift's schema. Also a state for the size of a flame"
+    },
+    {
+      "failure": "cold-05",
+      "needs": "another process on rows (load); a base rule error"
+    },
+    {
+      "failure": "food-02 (dried right through, the jerky is safe and keeps)",
+      "needs": "a change to a base rule: base rot runs at full rate while the strips are still drying, and a rule that runs after it cannot lower it except by subtracting the same amount, which would be changing the base rule by stealth"
+    },
+    {
+      "failure": "food-02 (the batch left damp ends worse)",
+      "needs": "the same change to the base rot rate; both batches reach the ceiling before dryness can matter"
+    },
+    {
+      "failure": "food-07",
+      "needs": "a state on a body (a carried dose), a process (produce) and an effect kind (E3 create)"
+    },
+    {
+      "failure": "food-09",
+      "needs": "a modifier in effective.ts (M4's second half: contamination lending potency), plus S8 contents, pressure and Load; a drift rule could only raise s.taint, which would be eaten as poison, not drink"
+    },
+    {
+      "failure": "food-10",
+      "needs": "another process on rows (ingest) reading toughness"
+    },
+    {
+      "failure": "body-01",
+      "needs": "another process on rows (join) onto a body, with a strength"
+    },
+    {
+      "failure": "body-02",
+      "needs": "a change to a base rule (the surface rate in heat's warm rule), write access to s.burning, and a process that smears a burning coat onto what it touches (s.coating is engine-only)"
+    },
+    {
+      "failure": "body-05",
+      "needs": "a kind of contamination (ferment against rot) or a modifier in effective.ts; ingest, not drift or heat"
+    },
+    {
+      "failure": "body-08",
+      "needs": "a state on a wound (S9 on B3): rules write only a thing's s., never a body"
+    },
+    {
+      "failure": "body-10",
+      "needs": "an effect kind (E9 emit a signal) and another process on rows (sense)"
+    },
+    {
+      "failure": "grow-01",
+      "needs": "an effect kind (E4 consume): the test wants the thing gone, and rules may not write s.amount. The proposed rot-weakens does the half that is in reach: the rotten thing falls to pieces over weeks. Germination needs S12 growth"
+    },
+    {
+      "failure": "grow-02",
+      "needs": "a state of the place (standing water, E13) and S12 growth (roots to drown); soak, not drift"
+    },
+    {
+      "failure": "find-03 (an hour's careful search yields exactly one)",
+      "needs": "another process on rows (search); a base rule error in body.ts"
+    },
+    {
+      "failure": "find-03 (low and mottled is easier to pass over)",
+      "needs": "another process on rows (search and sense) reading size, cover, light and acuity"
+    },
+    {
+      "failure": "find-05",
+      "needs": "another process on rows (search) settling latent facts not sought (E11)"
+    },
+    {
+      "failure": "find-07 (worth less the more often the player says wait)",
+      "needs": "another process on rows (search); a base rule error in how time is cut"
+    },
+    {
+      "failure": "find-07 (a baited hook)",
+      "needs": "another process on rows (search) taking an instrument and a manner"
+    },
+    {
+      "failure": "find-08",
+      "needs": "a routine rate for a creature's needs and a write to what a place holds (E13); drift rows see one thing, never a body or a place"
+    },
+    {
+      "failure": "tool-02",
+      "needs": "another process on rows (force) with two instruments, and an effect kind (E3 create the halves)"
+    },
+    {
+      "failure": "tool-05 (the gnawing gets there in the end)",
+      "needs": "a state (S12 growth, to regrow teeth) and force"
+    },
+    {
+      "failure": "tool-05 (a trunk gnawed under a third through comes down)",
+      "needs": "another process on rows (load); a base rule error in strength"
+    },
+    {
+      "failure": "tool-06",
+      "needs": "a composite with a relation that has a state (R4 strength, R10 fit); drift rows see one thing and no joins"
+    },
+    {
+      "failure": "tool-07 (thirty steady passes leave the branch in pieces)",
+      "needs": "another process on rows (force) and an effect that removes material without breaking (carving); a base rule error"
+    },
+    {
+      "failure": "tool-07 (green wood takes a steel knife from keen to dull)",
+      "needs": "another process on rows (force: wear); a base rule error"
+    },
+    {
+      "failure": "tool-07 (a hidden knot catches the blade)",
+      "needs": "another process on rows (force) with a direction against the grain, reading S15"
+    },
+    {
+      "failure": "tool-08 (the peg goes in)",
+      "needs": "another process (move into a fit, R10)"
+    },
+    {
+      "failure": "tool-08 (a glancing blow bruises a knuckle)",
+      "needs": "another process on rows (force) reading aim, grip and care"
+    },
+    {
+      "failure": "tool-10",
+      "needs": "a state between whole and cut (fraying) and force"
+    },
+    {
+      "failure": "build-01",
+      "needs": "a state (deformation: a step between whole and cracked) and load"
+    },
+    {
+      "failure": "build-05",
+      "needs": "a relation with a state (R4 join strength that drifts when wet); drift rows see one thing and no joins"
+    },
+    {
+      "failure": "build-06",
+      "needs": "tension as a load the engine holds, and a release (E5 move)"
+    },
+    {
+      "failure": "build-10",
+      "needs": "another process on rows (load) reading amount; marked RECALIBRATE, a magnitude not a rule"
+    },
+    {
+      "failure": "water-03",
+      "needs": "write access to s.amount (E4 consume), which only the engine has; the rule itself (open liquid lessens by warmth, wind and dry air) is otherwise sayable in drift's schema"
+    },
+    {
+      "failure": "water-04",
+      "needs": "a recalibration of the base wetness rule's bulk term; marked RECALIBRATE, and a later rule cannot slow what the base rule already dried"
+    },
+    {
+      "failure": "mix-01 (the tar hardens and is no longer gummy)",
+      "needs": "a state on a coat (its temperature or set) and a modifier in effective.ts (M2 and M6 reaching a coat's stickiness); s.coating is engine-only"
+    },
+    {
+      "failure": "mix-01 (the rope turns stiff)",
+      "needs": "a modifier in effective.ts: M6 lending a set coat's hardness and taking flexibility; rules cannot write properties"
+    },
+    {
+      "failure": "mix-02 (the oil quiets the squeal)",
+      "needs": "a modifier in effective.ts (M6 lending friction) and E9 sound"
+    },
+    {
+      "failure": "mix-02 (more than the joint can hold runs off)",
+      "needs": "write access to s.coating.amount and an effect kind (E3 create the run-off)"
+    },
+    {
+      "failure": "mix-08",
+      "needs": "write access to s.coating.bond: the rule (heat near a coat's melts-at loosens its bond) is sayable as a heat row with coat.p.meltsAt and tgt.x.surface, but s.coating is engine-only, and the lifting itself is soak"
+    },
+    {
+      "failure": "mix-09",
+      "needs": "another process on rows (soak) and write access to s.coating (E3: the liquid's substance left as a coat)"
+    },
+    {
+      "failure": "fire-08",
+      "needs": "a gas substance made by soak on a fire that meets a body: an effect kind (E3) and a body as a party to heat; rules write only a thing's s."
+    },
+    {
+      "failure": "fire-09",
+      "needs": "a state (smouldering: burning starved of air that chars instead of going out) and a change to the base burning rule, which puts the fire out before any later rule runs; relighting needs s.burning"
+    },
+    {
+      "failure": "cold-03",
+      "needs": "a state (S8 contents, with pressure) and Load reading P22 swell. A row for soaked brittle things cracking in frost is sayable, but the scenario is water held as contents, not as wetness, so it would not reach it; and wetWith.p.swell reads 0 when the wet is plain water (s.wetWith null)"
+    },
+    {
+      "failure": "mix-10",
+      "needs": "a property or a mixture state: nothing on the brine row says salt is dissolved in it (it differs from water only by lacking swell), so wetWith.p. gives a rule nothing honest to read. A salt coat on wet iron is sayable, but that is not this scenario"
+    },
+    {
+      "failure": "build-03",
+      "needs": "a relation (R3: a long rigid thing across a support as a lever) in load or move"
+    },
+    {
+      "failure": "find-06",
+      "needs": "an effect kind (E13 change a place state): what a place holds and what has been searched of it live on the place, and drift rows see one thing and write only its s."
+    }
+  ]
+}

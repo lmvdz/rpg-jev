@@ -1,0 +1,401 @@
+[
+  {
+    "id": "torn-01",
+    "domain": "torn",
+    "who": "A grown son who works away from home and has come back for the harvest.",
+    "place": "A two-room farmhouse at dusk, the roof leaking after a week of rain, harvest wheat still standing wet in the field.",
+    "present": ["his aging father, who says nothing but favors his bad hip", "his younger brother's family, whose barn roof caved in yesterday", "a hired hand waiting for orders", "the wheat still lying in the field"],
+    "factors": [
+      { "kind": "a debt of care", "fact": "The father raised him alone after the mother died and has never once asked him for anything." },
+      { "kind": "an urgent need", "fact": "The brother's family has no dry place to sleep tonight with the barn roof down." },
+      { "kind": "time", "fact": "The wheat will rot if it is not brought in before the next rain, likely tomorrow night." },
+      { "kind": "what he can still do", "fact": "He has one day of daylight and one hired hand to help him." },
+      { "kind": "an old promise", "fact": "He told his brother last spring that he would always come first if trouble hit." },
+      { "kind": "what it costs", "fact": "The father has said, more than once, that a man who worries over other men's roofs neglects his own kin." }
+    ],
+    "does": { "verb": "goes to help", "toward": "his brother's family", "how": "quietly" },
+    "could_also": [
+      { "verb": "stays to bring in the wheat", "toward": "the field" },
+      { "verb": "splits the day between both", "toward": "his father and his brother" },
+      { "verb": "sends the hired hand to the brother instead", "toward": "the hired hand" }
+    ],
+    "would_not": [
+      { "verb": "tells his father to manage alone", "toward": "his father", "why": "He owes the man too much to say it to his face." },
+      { "verb": "ignores the brother's roof entirely", "toward": "his brother's family", "why": "The promise from last spring is not the sort he breaks." }
+    ],
+    "then": "He walks the hired hand through the wheat first, telling him what must be cut by evening, then takes what tools he can carry to his brother's yard by midday. He does not tell his father which one he chose.",
+    "why": "The wheat can wait one more day if the weather holds, but a family sleeping under a broken roof cannot. The promise from last spring settles it, though the father's old complaint about neglecting his own kin will not be answered.",
+    "turns_on": "whether the weather will hold long enough for the wheat to wait"
+  },
+  {
+    "id": "torn-02",
+    "domain": "torn",
+    "who": "A hen with a late brood of six chicks, all still too young to fly.",
+    "place": "A low bank beside a creek that has been rising all afternoon after rain in the hills.",
+    "present": ["the six chicks, spread along the bank", "a weak seventh chick that trails behind and cannot keep up", "a stand of higher ground a short run away", "a dog barking somewhere across the field"],
+    "factors": [
+      { "kind": "a threat", "fact": "The water is rising fast enough that the low bank will be under water within minutes." },
+      { "kind": "what she can still do", "fact": "She can only shepherd the chicks that keep pace with her." },
+      { "kind": "a bond", "fact": "The weak chick is hers as much as the others, and she has fussed over it since it hatched." },
+      { "kind": "a need", "fact": "The higher ground is close enough that the five fast chicks can still be driven there in time." },
+      { "kind": "what it fears", "fact": "Hens do not carry chicks; she can only call and peck them forward." },
+      { "kind": "time", "fact": "Waiting for the slow chick to catch up costs the whole brood the minutes they need." }
+    ],
+    "does": { "verb": "drives the five toward higher ground", "toward": "the five faster chicks", "how": "hurriedly" },
+    "could_also": [
+      { "verb": "circles back for the slow chick", "toward": "the weak chick" },
+      { "verb": "stands calling from the bank", "toward": "the weak chick" }
+    ],
+    "would_not": [
+      { "verb": "abandons all six and flees alone", "toward": "nothing", "why": "The pull to the brood does not leave her even when she cannot save all of it." },
+      { "verb": "waits on the bank until the water reaches her", "toward": "the weak chick", "why": "Waiting there drowns five chicks along with one." }
+    ],
+    "then": "She gets the five up the bank as the water reaches the low ground. She calls back toward the weak chick until it is out of sight, then does not return.",
+    "why": "She cannot carry the slow chick and cannot wait without losing the rest. The five that can keep pace are the ones her driving can still save; the seventh is already past what her calling can do.",
+    "turns_on": "whether the weak chick can be driven fast enough to keep up"
+  },
+  {
+    "id": "torn-03",
+    "domain": "torn",
+    "who": "A bridge-toll keeper who has held the same post for many years.",
+    "place": "A narrow toll bridge on a cold night, the river running high and loud below.",
+    "present": ["a travel-worn stranger carrying a limp, feverish child", "the toll box, nearly empty this late in the season", "the bridge owner's standing order nailed to the post: no crossing without payment", "no one else on the road at this hour"],
+    "factors": [
+      { "kind": "rank", "fact": "The keeper answers to a bridge owner who checks the toll box and dismisses keepers who let people cross free." },
+      { "kind": "a need", "fact": "The child is fevered and the nearest healer is a house across the bridge, not behind." },
+      { "kind": "what he is owed", "fact": "The keeper's own wages depend on the toll box balancing at the season's end." },
+      { "kind": "what he fears", "fact": "He has seen a child die of fever before and knows how fast it can go." },
+      { "kind": "knowledge", "fact": "He knows a back path around the toll gate that the owner does not watch closely." },
+      { "kind": "custom", "fact": "Keepers before him have been let go for smaller mercies than this." }
+    ],
+    "does": { "verb": "waves them across", "toward": "the stranger and the child", "how": "without collecting toll" },
+    "could_also": [
+      { "verb": "points them to the back path", "toward": "the stranger" },
+      { "verb": "pays the toll from his own pocket", "toward": "the toll box" }
+    ],
+    "would_not": [
+      { "verb": "turns them away for lack of payment", "toward": "the stranger and the child", "why": "The fever will not wait for the stranger to find coin." },
+      { "verb": "reports the crossing honestly in the toll ledger", "toward": "the bridge owner", "why": "An honest entry invites the exact question he cannot afford to answer." }
+    ],
+    "then": "He lets them through and marks the ledger as if no one crossed that night. He lies awake wondering if the owner will notice the missing entry at the season's count.",
+    "why": "A child's fever outweighs a night's toll, and the healer is only reachable by crossing. The risk to his own post is real, but not one he can weigh evenly against a dying child in front of him.",
+    "turns_on": "whether the bridge owner checks the ledger closely enough to notice"
+  },
+  {
+    "id": "torn-04",
+    "domain": "torn",
+    "who": "A night watchman guarding a merchant's grain store.",
+    "place": "A locked grain store at the end of a hungry winter, the town's own stores long empty.",
+    "present": ["sacks of grain stacked to the roof", "his own family at home, who have eaten little in two days", "the merchant who pays his wage and trusts him with the only key", "a hungry stray dog scratching at the door"],
+    "factors": [
+      { "kind": "a need", "fact": "His children have had nothing but broth for two days." },
+      { "kind": "what he is owed", "fact": "The merchant pays him precisely to see that no grain leaves this store without a ledger entry." },
+      { "kind": "what it costs", "fact": "Being caught taking grain means losing the post and the wage his family depends on entirely." },
+      { "kind": "rank", "fact": "He holds the only key and no one would know if a small amount went missing." },
+      { "kind": "custom", "fact": "A watchman who steals from the store he guards is, by long custom, never trusted with a key again anywhere in the district." }
+    ],
+    "does": { "verb": "stands watch without taking any", "toward": "the grain", "how": "grimly" },
+    "could_also": [
+      { "verb": "takes a small handful for his children", "toward": "the grain" },
+      { "verb": "asks the merchant directly for an advance", "toward": "the merchant" }
+    ],
+    "would_not": [
+      { "verb": "lets the stray dog break in and take the blame", "toward": "the stray dog", "why": "It would not feed his children and would still be a theft he arranged." },
+      { "verb": "takes a full sack", "toward": "the grain", "why": "That much is missed by morning and ends the post for certain." }
+    ],
+    "then": "He finishes the watch with the grain untouched and walks home at dawn to ask the merchant, in daylight, for an advance against next month's wage.",
+    "why": "The wage from this post feeds his family for months; a night's theft feeds them for a day and risks all of it. The hunger is real, but asking outright costs him less than taking outright.",
+    "turns_on": "whether the merchant would grant an advance if asked plainly"
+  },
+  {
+    "id": "torn-05",
+    "domain": "torn",
+    "who": "A ground-nesting bird with a clutch of nearly-fledged young.",
+    "place": "A hedgerow at the edge of a field in early evening, a fox working its way along the same hedge.",
+    "present": ["the four young, crouched low in the nest and not yet able to fly far", "a fox moving closer along the hedge line, testing the ground for prey", "open field with no cover on either side", "the bird's own exposed position a few feet from the nest"],
+    "factors": [
+      { "kind": "a threat", "fact": "The fox is close enough to reach the nest within a minute if nothing distracts it." },
+      { "kind": "what it fears", "fact": "A fox that catches an adult bird kills it outright; there is no bargaining with it." },
+      { "kind": "a bond", "fact": "The young are close to fledging and have survived this far only because she has not left them exposed before." },
+      { "kind": "what it can still do", "fact": "Dragging a wing and calling loudly can pull a fox's attention away from a nest toward open ground." },
+      { "kind": "instinct", "fact": "The trick only works if the fox has not already fixed on the nest's scent." }
+    ],
+    "does": { "verb": "drags a wing and draws off", "toward": "the fox", "how": "noisily, away from the nest" },
+    "could_also": [
+      { "verb": "freezes low and silent over the nest", "toward": "the young" },
+      { "verb": "flies off and abandons the nest", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "attacks the fox directly", "toward": "the fox", "why": "A bird her size cannot fight a fox and win." },
+      { "verb": "stays sitting on the nest and hopes it passes", "toward": "the young", "why": "A fox that finds the nest occupied kills the sitting bird along with the young." }
+    ],
+    "then": "She flutters into the open field calling and trailing a wing, drawing the fox thirty yards off before breaking away and flying clear. She circles back to the nest once the fox has moved on.",
+    "why": "Fighting the fox outright is not a fight she can win, and freezing risks the fox finding the nest by scent regardless. Drawing it off costs her a real risk to herself but gives the young their only real chance.",
+    "turns_on": "whether the fox has already caught the nest's scent"
+  },
+  {
+    "id": "torn-06",
+    "domain": "torn",
+    "who": "A young field hand who saw a friend break a tool while using it without permission.",
+    "place": "A farmyard at midday, the farm owner holding the broken plow blade and asking who is responsible.",
+    "present": ["the farm owner, angry over the cost of the blade", "the friend, standing silent and pale nearby", "two other hands who did not see what happened", "the broken blade itself, showing signs of being forced past its limit"],
+    "factors": [
+      { "kind": "knowledge", "fact": "He saw exactly how it happened and knows his friend is at fault." },
+      { "kind": "a bond", "fact": "The friend has covered for him before and has a sick mother depending on this wage." },
+      { "kind": "what it costs", "fact": "The owner has fired hands outright for breaking tools through carelessness." },
+      { "kind": "what is owed", "fact": "The owner has been fair to him personally and has never once accused him unjustly." },
+      { "kind": "risk", "fact": "Claiming the blade broke on its own is a story the owner might not believe if pressed." }
+    ],
+    "does": { "verb": "says", "toward": "the owner", "how": "that the blade simply gave out from wear" },
+    "could_also": [
+      { "verb": "tells the owner plainly what happened", "toward": "the owner" },
+      { "verb": "says nothing and lets the silence sit", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "blames one of the other two hands", "toward": "the other hands", "why": "That would trade one innocent person's trouble for another's." },
+      { "verb": "admits to breaking it himself", "toward": "the owner", "why": "A lie that shifts blame onto himself still is not the truth the owner is owed." }
+    ],
+    "then": "The owner grumbles about worn tools and sends them back to work. Afterward the friend thanks him quietly and neither of them mentions it again.",
+    "why": "The friend's mother and wage weigh more than the owner's fairness in this one moment, even though the lie sits badly with him. It turns on whether the owner presses hard enough to catch the story falling apart.",
+    "turns_on": "whether the owner presses the story hard enough to catch it"
+  },
+  {
+    "id": "torn-07",
+    "domain": "torn",
+    "who": "A gate guard under orders to turn away all refugees from a town under quarantine.",
+    "place": "A town gate at dusk, a line of turned-away travelers already camped outside in the cold.",
+    "present": ["a pregnant woman near her time, refused entry along with the rest", "the captain of the guard, who checks the gate log each night", "the quarantine order, posted and signed by the town council", "other guards at the gate watching how he handles it"],
+    "factors": [
+      { "kind": "rank", "fact": "The captain has flogged a guard before for letting anyone through against the order." },
+      { "kind": "a need", "fact": "The woman is close enough to labor that she may not survive it in the open cold." },
+      { "kind": "what he fears", "fact": "The quarantine exists because a fever has already killed several in the town, and one exception could open the gate to more." },
+      { "kind": "what he is owed", "fact": "The town itself is not his; he took this post for pay, not out of loyalty to it." },
+      { "kind": "what it can still do", "fact": "There is a midwife's house just inside the wall, close enough to reach quickly." }
+    ],
+    "does": { "verb": "lets through, quietly and alone", "toward": "the pregnant woman", "how": "" },
+    "could_also": [
+      { "verb": "turns her away with the rest", "toward": "the pregnant woman" },
+      { "verb": "sends for the midwife to come out to her instead", "toward": "the midwife" }
+    ],
+    "would_not": [
+      { "verb": "lets the whole line through", "toward": "the travelers", "why": "That would risk exactly the spread the order exists to stop." },
+      { "verb": "reports the exception to the captain openly", "toward": "the captain", "why": "An open report invites a flogging and does nothing further for the woman." }
+    ],
+    "then": "He waves her through alone in the dark, walks her to the midwife's door, then returns to his post and says nothing of it in the log.",
+    "why": "One woman close to labor is not the general risk the order was written against, and the fever's danger comes from crowds, not from a single quiet exception. The pay that bought his loyalty to the post does not stretch to watching her labor in the cold.",
+    "turns_on": "whether one quiet exception draws the same risk as opening the gate outright"
+  },
+  {
+    "id": "torn-08",
+    "domain": "torn",
+    "who": "A working sheepdog raised from a pup by one shepherd who has since grown too old and ill to work the hills.",
+    "place": "A hill farm in late autumn, the old shepherd now bedridden and a younger hired shepherd taking the flock out each day.",
+    "present": ["the old shepherd, calling weakly from the cottage window", "the younger shepherd, whistling from the gate for the dog to come work", "the flock, already moving toward the far pasture", "the old shepherd's worn crook, left leaning by the door"],
+    "factors": [
+      { "kind": "a bond", "fact": "The old shepherd raised the dog from a pup and trained every command it knows." },
+      { "kind": "instinct", "fact": "A working dog is bred to answer the whistle that calls it to the flock." },
+      { "kind": "what it can still do", "fact": "The flock needs moving today whether or not the old shepherd can walk out to do it." },
+      { "kind": "what is owed", "fact": "The younger shepherd feeds it, works it, and is, in practice, the one it now serves each day." },
+      { "kind": "a need", "fact": "The old shepherd, weak as he is, still needs the dog to lie by him through the long afternoons." }
+    ],
+    "does": { "verb": "goes to work with", "toward": "the younger shepherd", "how": "at the whistle" },
+    "could_also": [
+      { "verb": "stays by the old shepherd's bed", "toward": "the old shepherd" },
+      { "verb": "runs between the two all day", "toward": "the old shepherd and the younger shepherd" }
+    ],
+    "would_not": [
+      { "verb": "ignores the whistle entirely", "toward": "the younger shepherd", "why": "The training to answer that whistle runs deeper than any single day's choosing." },
+      { "verb": "refuses to leave the cottage even briefly", "toward": "the old shepherd", "why": "The flock still needs working and idle sheep are its own danger." }
+    ],
+    "then": "It runs to the gate at the whistle and works the flock all morning, then trots back to the cottage on its own once the sheep are settled and lies by the old shepherd's bed through the afternoon.",
+    "why": "The whistle and the day's work are what the dog knows how to answer without thinking, and the flock's needs do not wait. The old bond still pulls it back once the working part of the day is done.",
+    "turns_on": "whether the flock's work is finished before the day is out"
+  },
+  {
+    "id": "torn-09",
+    "domain": "torn",
+    "who": "A lean stray dog that has been living under a collapsed shed since her litter was born.",
+    "place": "A market alley at dusk, cold rain starting, the shed with the puppies a few streets away.",
+    "present": ["a stranger crouched by a doorway with meat scraps and a blanket", "the four puppies, out of sight under the shed", "other stray dogs competing for scraps nearby", "the rain picking up"],
+    "factors": [
+      { "kind": "a need", "fact": "She has not eaten a full meal in two days and is thin enough that her milk is drying up." },
+      { "kind": "a bond", "fact": "The four puppies are blind and cannot yet move to follow her." },
+      { "kind": "an offer", "fact": "The stranger's hand is open and still, the way a hand is when it means no harm." },
+      { "kind": "a threat", "fact": "The rain is turning cold enough to kill puppies that get wet and cannot dry off." },
+      { "kind": "what she can still do", "fact": "She can carry one piece of meat back in her mouth but not the warmth of a fire." },
+      { "kind": "distance", "fact": "The shed is close enough to reach before the rain gets much worse." }
+    ],
+    "does": { "verb": "takes the food and carries it back", "toward": "her puppies", "how": "quickly" },
+    "could_also": [
+      { "verb": "stays and lets the stranger pet her", "toward": "the stranger" },
+      { "verb": "eats the food on the spot", "toward": "the food" }
+    ],
+    "would_not": [
+      { "verb": "follows the stranger home", "toward": "the stranger", "why": "The puppies cannot come with her and cannot be left overnight." },
+      { "verb": "ignores the offered food", "toward": "the stranger", "why": "Her hunger and the milk it costs the litter are past ignoring." }
+    ],
+    "then": "She snatches the meat and trots back toward the shed with it in her mouth, checking behind her once. The stranger does not follow.",
+    "why": "The offer is real but it does not reach the puppies, and the milk they need depends on her eating something tonight. Carrying food back costs her the fire and the safety the stranger offered, but leaves the litter no worse than it already is.",
+    "turns_on": "whether the shed is close enough to reach before the rain worsens"
+  },
+  {
+    "id": "torn-10",
+    "domain": "torn",
+    "who": "A tenant farmhand who has been asked by his landlord to report which neighbor has been poaching rabbits from the estate woods.",
+    "place": "The landlord's yard at midday, the estate steward waiting with a ledger.",
+    "present": ["the steward waiting for an answer", "the neighbor's family, who the farmhand knows to be starving since the neighbor's ox died", "a coil of snare wire found near the trees, evidence he could hand over", "his own family's tenancy, which depends on staying in the landlord's favor"],
+    "factors": [
+      { "kind": "rank", "fact": "The steward has power to evict any tenant who is seen protecting a poacher." },
+      { "kind": "a bond", "fact": "The neighbor has lent him tools and helped bring in his harvest for ten years." },
+      { "kind": "a need", "fact": "Naming no one keeps the neighbor's family fed through the winter." },
+      { "kind": "what he is owed", "fact": "The landlord has never once cheated him and expects the same in return." },
+      { "kind": "what it costs", "fact": "Naming the neighbor ends the friendship for good; naming no one risks his own family's tenancy if the truth comes out later." },
+      { "kind": "knowledge", "fact": "He knows exactly who set the snares and could say so with certainty." }
+    ],
+    "does": { "verb": "says nothing useful", "toward": "the steward", "how": "evasively" },
+    "could_also": [
+      { "verb": "names the neighbor", "toward": "the steward" },
+      { "verb": "lies and names someone else", "toward": "the steward" }
+    ],
+    "would_not": [
+      { "verb": "hands over the snare wire", "toward": "the steward", "why": "It would be the same as naming the man who lent it to him." },
+      { "verb": "tells the neighbor to stop outright", "toward": "the neighbor", "why": "Warning him risks word getting back that he knew and hid it." }
+    ],
+    "then": "He tells the steward he saw nothing worth reporting and hands back the coil of wire as something he found and does not recognize. He avoids the neighbor's house for a week afterward.",
+    "why": "Naming the neighbor buys nothing but guilt and a broken friendship over ten years of help; staying silent risks his own tenancy if the truth surfaces later. Neither choice is bearable, so he gives the steward as little as he can without lying outright.",
+    "turns_on": "whether the steward already suspects who it is"
+  },
+  {
+    "id": "torn-11",
+    "domain": "torn",
+    "who": "A young laborer who has been saving coin toward buying his own small plot of land.",
+    "place": "A tavern on payday evening, a dice game going on in the corner.",
+    "present": ["a group of other laborers already deep in a winning streak at dice", "the small pouch of saved coin, more than he has ever carried at once", "the landholder's asking price, still just out of reach", "his own tired reflection in the tavern's one clouded mirror"],
+    "factors": [
+      { "kind": "a need", "fact": "The land price will only be reachable after two more years of saving as things stand." },
+      { "kind": "an offer", "fact": "The dice game is running hot tonight and the others are goading him to sit in." },
+      { "kind": "what it costs", "fact": "He has lost at dice before and knows exactly how it ends most nights." },
+      { "kind": "what he fears", "fact": "The thought of two more years of the same work sits heavier on him than usual tonight." },
+      { "kind": "knowledge", "fact": "He knows, sober and clear-eyed, that the odds do not favor him." }
+    ],
+    "does": { "verb": "sits down and bets", "toward": "the dice game", "how": "against his own better judgment" },
+    "could_also": [
+      { "verb": "walks home with the coin untouched", "toward": "nothing" },
+      { "verb": "bets only a small, safe portion", "toward": "the dice game" }
+    ],
+    "would_not": [
+      { "verb": "bets the coin and tells himself it is a sure thing", "toward": "the dice game", "why": "He already knows better than that and does not fool himself about it." },
+      { "verb": "lends the coin to a friend instead", "toward": "a friend", "why": "The pull tonight is toward the game, not toward generosity." }
+    ],
+    "then": "He loses most of the pouch within the hour and walks home with far less than he sat down with, muttering to himself the whole way about the two years he has just added back on.",
+    "why": "Two more years of the same grinding work feels unbearable tonight in a way it usually does not, and the game offers a shortcut he knows is false even as he takes it. He does it anyway, and knows exactly what it costs before he sits down.",
+    "turns_on": "how unbearable two more years of saving feels tonight specifically"
+  },
+  {
+    "id": "torn-12",
+    "domain": "torn",
+    "who": "A blacksmith's apprentice, the older of two brothers left on their own since their parents died.",
+    "place": "A small forge at the back of a rented room, the younger brother sick in bed nearby.",
+    "present": ["the younger brother, fevered and coughing badly", "the forge's cracked bellows, needed to finish a paying commission due tomorrow", "the last of their savings, just enough for medicine or a replacement bellows part, not both", "the customer who commissioned the work and expects it on time"],
+    "factors": [
+      { "kind": "a need", "fact": "The younger brother's fever has worsened since yesterday and the apothecary's tonic could break it." },
+      { "kind": "what it can still do", "fact": "Without a working bellows, the commission cannot be finished and the customer will not pay at all." },
+      { "kind": "risk", "fact": "Losing this customer's payment means no money at all next week, tonic or not." },
+      { "kind": "a bond", "fact": "The younger brother is the only family the apprentice has left." },
+      { "kind": "time", "fact": "The commission is due tomorrow and the part cannot be fetched and fitted same-day as buying tonic." }
+    ],
+    "does": { "verb": "spends the savings on", "toward": "the tonic", "how": "without hesitating long" },
+    "could_also": [
+      { "verb": "buys the bellows part instead", "toward": "the forge" },
+      { "verb": "tries to borrow against next week's pay", "toward": "the customer" }
+    ],
+    "would_not": [
+      { "verb": "lets the fever run its course untreated", "toward": "the younger brother", "why": "The fever is bad enough now that waiting risks more than the money does." },
+      { "verb": "sells the forge's remaining good tools for both", "toward": "the forge", "why": "That would cost him the means to earn anything at all afterward." }
+    ],
+    "then": "He buys the tonic and sits up with his brother through the night. In the morning he goes to the customer and asks, plainly, for a few more days to finish the work.",
+    "why": "A brother's fever getting worse tonight outweighs a commission that can still be finished late, even if late risks the customer's goodwill. The tonic cannot wait; the bellows, awkwardly, still can.",
+    "turns_on": "whether the customer will accept the work finished a few days late"
+  },
+  {
+    "id": "torn-13",
+    "domain": "torn",
+    "who": "A village healer who keeps a small store of fever-bark tea.",
+    "place": "A one-room clinic at night during a fever going through the village.",
+    "present": ["a farmer's young daughter, burning hot and barely conscious", "an old widow who nursed half the village through the last fever and is now sick herself", "the widow's grown son, waiting outside", "the last of the fever-bark, enough for one full dose"],
+    "factors": [
+      { "kind": "a need", "fact": "The child's fever is higher and her body is smaller, so the bark could break it fastest in her." },
+      { "kind": "what is owed", "fact": "The widow spent thirty years nursing this village without asking payment." },
+      { "kind": "what it can still do", "fact": "There is enough bark for one full dose, or two weak half-doses that might not break either fever." },
+      { "kind": "rank", "fact": "The healer has no standing to be told who lives, only to use what she has as best she can." },
+      { "kind": "risk", "fact": "Splitting the dose could mean neither of them recovers." },
+      { "kind": "age", "fact": "The widow is old and has weathered fevers before; the child has not." }
+    ],
+    "does": { "verb": "gives the full dose to", "toward": "the child", "how": "without saying so aloud" },
+    "could_also": [
+      { "verb": "splits the dose between both", "toward": "the child and the widow" },
+      { "verb": "gives the full dose to the widow", "toward": "the widow" }
+    ],
+    "would_not": [
+      { "verb": "tells the widow's son there is nothing left", "toward": "the widow's son", "why": "There is a dose, and lying about it would only be to avoid the harder truth." },
+      { "verb": "waits for someone else to decide", "toward": "nothing", "why": "The fever will not wait for a decision made by committee." }
+    ],
+    "then": "She brews the whole dose for the child and sits with her until the fever breaks toward morning. She goes to the widow's son afterward and tells him plainly there was only enough for one.",
+    "why": "A split dose risks losing both; a whole dose gives one of them a real chance. The child's smaller body and higher fever make the odds better spent there, whatever is owed to the widow for years of care.",
+    "turns_on": "whether splitting the dose could still break both fevers"
+  },
+  {
+    "id": "torn-14",
+    "domain": "torn",
+    "who": "An old nanny goat at the back of a small herd being driven down a mountain path ahead of an early snowstorm.",
+    "place": "A narrow ridge trail an hour before dark, snow already starting.",
+    "present": ["the rest of the herd, moving quickly ahead down the trail", "a lame kid that fell behind and can barely put weight on one leg", "the herder driving from the rear", "wolves that have been shadowing the herd for two days"],
+    "factors": [
+      { "kind": "a bond", "fact": "The lame kid was born to another goat that died last spring, and this nanny has minded it since." },
+      { "kind": "a threat", "fact": "Wolves following the herd take stragglers first when the light goes." },
+      { "kind": "what it can still do", "fact": "Staying back with the kid means falling behind the safety of the herd's numbers." },
+      { "kind": "time", "fact": "Dark and the storm are close enough that the herd cannot afford to slow down." },
+      { "kind": "rank", "fact": "The herder's own choice is to keep pace with the healthy animals and leave slow ones to catch up as they can." },
+      { "kind": "instinct", "fact": "A lone animal on the trail after dark is far more likely to be taken than one in the group." }
+    ],
+    "does": { "verb": "stays back with", "toward": "the lame kid", "how": "reluctantly slow" },
+    "could_also": [
+      { "verb": "pushes ahead with the herd", "toward": "the herd" },
+      { "verb": "nudges the kid forward relentlessly", "toward": "the lame kid" }
+    ],
+    "would_not": [
+      { "verb": "abandons the kid at the first sign of wolves", "toward": "the lame kid", "why": "The bond from raising it holds even against the risk." },
+      { "verb": "charges the wolves", "toward": "the wolves", "why": "A goat facing down wolves alone does not save either of them." }
+    ],
+    "then": "She stays a length behind the herd, matching the kid's slow pace and glancing back at the tree line. The gap to the herd widens as the light fails.",
+    "why": "The bond to the kid she has raised outweighs the safety of the group, at least for now, though every minute behind the herd raises the risk from the wolves. It turns on how much longer the trail is before the herd would notice and slow for them.",
+    "turns_on": "how far behind the safety of the herd's numbers they fall"
+  },
+  {
+    "id": "torn-15",
+    "domain": "torn",
+    "who": "A traveling cloth merchant who has just been offered a large, fast sale by a new buyer passing through.",
+    "place": "A market stall on the last day of a trading fair, wagons already being loaded to leave.",
+    "present": ["the new buyer, offering to take the whole remaining stock now at a good price", "an old trading partner from a smaller town, arriving late and expecting the stock set aside as promised months ago", "the merchant's own family waiting on the season's earnings", "the fair closing within the hour"],
+    "factors": [
+      { "kind": "a promise", "fact": "The merchant promised the smaller-town partner first pick of the stock back in spring, in writing." },
+      { "kind": "an offer", "fact": "The new buyer's price is better than the smaller-town partner has ever paid." },
+      { "kind": "what is owed", "fact": "The smaller-town partner has bought from the merchant every year for a decade and never once been late on payment." },
+      { "kind": "time", "fact": "The new buyer is leaving within the hour and will not wait or return." },
+      { "kind": "a need", "fact": "The season's earnings decide whether the merchant's family eats well or poorly through winter." },
+      { "kind": "reputation", "fact": "Word of a broken promise travels fast among the small-town traders the merchant depends on." }
+    ],
+    "does": { "verb": "honors the promise and sells to", "toward": "the smaller-town partner", "how": "at the agreed price" },
+    "could_also": [
+      { "verb": "sells the whole stock to the new buyer", "toward": "the new buyer" },
+      { "verb": "splits the stock between both buyers", "toward": "the new buyer and the smaller-town partner" }
+    ],
+    "would_not": [
+      { "verb": "tells the smaller-town partner the stock is already gone", "toward": "the smaller-town partner", "why": "It would be a lie the partner could easily uncover before the fair closes." },
+      { "verb": "delays deciding until the new buyer leaves", "toward": "nothing", "why": "The new buyer's offer expires with the hour, forcing an answer either way." }
+    ],
+    "then": "The merchant sells the promised portion to the smaller-town partner at the old price, then offers what remains to the new buyer, who takes it but grumbles at the smaller amount.",
+    "why": "The written promise and a decade of steady business outweigh a one-time higher price, especially with reputation among small traders at stake. It turns on whether enough stock remains after honoring the promise to still profit from the new offer.",
+    "turns_on": "whether enough stock remains to satisfy both buyers"
+  }
+]

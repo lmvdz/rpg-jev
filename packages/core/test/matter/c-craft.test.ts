@@ -122,7 +122,8 @@ describe("craft-01: a pot with a hidden flaw", () => {
     expect(a && b ? effective(kiln, b) : 1).toEqual(a && b ? effective(kiln, a) : 2);
   });
 
-  it.fails("craft-01 fire: the pot with the pocket in it cracks in the kiln (heat never reads S15 or water held inside: only a plunge into a liquid cracks anything, so a flaw is found by a load or a blow and never by fire)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("craft-01 fire: the pot with the pocket in it cracks in the kiln", () => {
     expect(fired.things.flawed?.state.integrity ?? 5).toBeLessThan(5);
   });
 
@@ -621,7 +622,8 @@ describe("craft-10: a spark on dry thatch", () => {
     ).toBeNull();
   });
 
-  it.fails("craft-10 spread: the wind carries the fire to a roof it would not reach in still air (a heat act reads contact and never the place's wind: at the same distance the roof lights or does not, the same in a gale as in a calm; and nothing lifts a spark or carries it)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("craft-10 spread: the wind carries the fire to a roof it would not reach in still air", () => {
     const reach = (at: string) =>
       play(row(at, 0.05), [heat("spark", "first", 0.5), heat("first", "next", 5, 0.3)]).world.things
         .next?.state.burning ?? null;
@@ -719,7 +721,8 @@ describe("craft-12: grain binned damp", () => {
     );
   });
 
-  it.fails("craft-12 heat: packed close, the mouldering grain warms itself (nothing makes heat but burning: S9 in bulk gives none, so the heap stays at the temperature of the undercroft)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("craft-12 heat: packed close, the mouldering grain warms itself", () => {
     const opened = resolve(store("cellar"), days(42)).world;
     expect(opened.things.damp?.state.temperature ?? 0).toBeGreaterThan(1.5);
   });

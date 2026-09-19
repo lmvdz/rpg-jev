@@ -1,0 +1,422 @@
+[
+  {
+    "id": "hour-01",
+    "domain": "hour",
+    "who": "A heron standing in the shallows of a slow river.",
+    "place": "A shallow bend of a river at first light, where the current slows over gravel and small fish gather.",
+    "present": ["a shoal of minnows in the shallows", "a moorhen paddling near the reed bank", "a fallen branch trailing in the water", "a dog barking somewhere far upstream"],
+    "factors": [
+      { "kind": "hunger", "fact": "It has not caught a fish since the evening before." },
+      { "kind": "water clarity", "fact": "The water is calm and clear enough to see fish moving below the surface." },
+      { "kind": "cold", "fact": "Standing this long in cold water is beginning to stiffen its legs." },
+      { "kind": "exposure", "fact": "This stretch of open water lets it see anything approaching from any side." },
+      { "kind": "distraction", "fact": "The barking dog is far upstream and not coming closer." },
+      { "kind": "competition", "fact": "The moorhen feeds on different things and is not competing for the same fish." }
+    ],
+    "does": { "verb": "stands rigid in the shallows watching for movement, then strikes at a fish", "toward": "the shoal of minnows", "how": "patient, sudden" },
+    "could_also": [
+      { "verb": "wades to a fresh patch of shallows", "toward": "a stretch of gravel further along" },
+      { "verb": "preens its wing feathers", "toward": "itself" },
+      { "verb": "stands on one leg with its head tucked in", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "abandons the spot to investigate the barking", "toward": "the sound upstream", "why": "the barking is distant and gives it no reason to leave good hunting water" },
+      { "verb": "threatens the moorhen off the water", "toward": "the moorhen", "why": "the moorhen is no threat to its fishing and chasing it would waste the stillness that lets it catch fish" }
+    ],
+    "then": "It stays in the same stretch for most of the hour, striking twice more and missing once, before finally swallowing a small fish and settling back into stillness.",
+    "why": "Hunger keeps it working the water rather than resting, and the clear calm water makes this spot worth the stiffening cold in its legs. Nothing else on the bank is worth breaking its stillness for.",
+    "turns_on": "whether the water stays clear enough to see fish moving"
+  },
+  {
+    "id": "hour-02",
+    "domain": "hour",
+    "who": "A farm cat sprawled on a sunlit stone step.",
+    "place": "A farmyard step in the early afternoon, the stone warmed through by direct sun and the yard otherwise quiet.",
+    "present": ["a hen pecking near the step", "a water trough in the yard", "an open barn door", "a fly circling near its ear"],
+    "factors": [
+      { "kind": "warmth", "fact": "The stone under it has been warming in direct sun for an hour." },
+      { "kind": "hunger", "fact": "It caught and ate a mouse that morning and is not hungry." },
+      { "kind": "irritation", "fact": "A fly keeps landing near its ear." },
+      { "kind": "cleanliness", "fact": "Its fur picked up dust from rolling in the yard earlier." },
+      { "kind": "safety", "fact": "Nothing has ever bothered it on this step." },
+      { "kind": "habit", "fact": "It always grooms itself after eating, sun or no sun." }
+    ],
+    "does": { "verb": "washes itself over and over, working at its paws and face", "toward": "itself", "how": "unhurried" },
+    "could_also": [
+      { "verb": "stays sprawled and dozes in the sun", "toward": "nothing" },
+      { "verb": "stalks the hen for sport", "toward": "the hen" },
+      { "verb": "moves to a shadier spot near the barn door", "toward": "the barn door" }
+    ],
+    "would_not": [
+      { "verb": "leaves the step to escape the fly", "toward": "the fly", "why": "the warm stone is worth more to it than the small bother of one fly, so it just flicks an ear" },
+      { "verb": "hunts the hen in earnest", "toward": "the hen", "why": "it is not hungry and the hen has never been worth the effort" }
+    ],
+    "then": "It finishes washing, tucks its paws under itself, and stays curled on the warm stone until the sun moves off the step.",
+    "why": "Being fed removes any pull toward hunting the hen, and the dust in its fur gives it something to do while it soaks up the warmth. The fly is a nuisance but not enough to give up the sun.",
+    "turns_on": "whether the sun keeps falling on that step"
+  },
+  {
+    "id": "hour-03",
+    "domain": "hour",
+    "who": "A toddler sitting on a swept dirt floor.",
+    "place": "The packed-earth floor just inside a cottage doorway, mid-morning, with a parent working a few steps away.",
+    "present": ["a parent kneading dough at a table", "a wooden spoon on the floor", "a cooking pot with a loose lid", "a dog asleep in the doorway"],
+    "factors": [
+      { "kind": "curiosity", "fact": "The pot lid rattles in a way nothing else nearby does." },
+      { "kind": "reach", "fact": "The pot is within arm's length without needing to stand." },
+      { "kind": "attention", "fact": "The parent is watching from the corner of an eye while kneading." },
+      { "kind": "comfort", "fact": "It has already eaten and is not fussing." },
+      { "kind": "habit", "fact": "It has been scolded before for touching the hot side of the pot, though this side is cool." },
+      { "kind": "tiredness", "fact": "It has not napped yet and its attention does not hold long." }
+    ],
+    "does": { "verb": "bangs the wooden spoon against the pot lid, again and again", "toward": "the pot lid", "how": "delighted" },
+    "could_also": [
+      { "verb": "crawls over to the sleeping dog", "toward": "the dog" },
+      { "verb": "chews on the wooden spoon instead", "toward": "the spoon" },
+      { "verb": "drops the spoon and starts wailing for no clear reason", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "climbs toward the hot side of the hearth", "toward": "the hearth", "why": "the pot and spoon are close and noisy enough that the hearth, farther off, holds no pull right now" },
+      { "verb": "sits still and watches the parent work", "toward": "the parent", "why": "the rattling lid is more interesting than watching kneading it has seen many times before" }
+    ],
+    "then": "It keeps banging until the noise stops amusing it, then drops the spoon and crawls toward the dog instead, losing interest in the pot entirely.",
+    "why": "The lid's rattle and the spoon's reach make this the easiest and most interesting thing within its grasp, and the parent's half-attention is not enough to stop it before it starts. Its short attention span means it will move on soon regardless.",
+    "turns_on": "how long the banging keeps making an interesting noise"
+  },
+  {
+    "id": "hour-04",
+    "domain": "hour",
+    "who": "A potter seated at a hand-turned wheel.",
+    "place": "A workshop shed at midmorning, a lump of wet clay centered on the wheel and the light steady through the open door.",
+    "present": ["a bucket of water for wetting hands", "a shelf of pots drying from the day before", "a wire tool for cutting the pot free", "a cat asleep in the doorway"],
+    "factors": [
+      { "kind": "material state", "fact": "The clay is at exactly the right wetness to shape." },
+      { "kind": "time pressure", "fact": "Clay left on the wheel too long without working it begins to dry and crack." },
+      { "kind": "skill", "fact": "It has thrown this size of pot hundreds of times and its hands know the shape." },
+      { "kind": "fatigue", "fact": "Its hands are starting to ache from an hour already at the wheel." },
+      { "kind": "order", "fact": "It has three more pots to shape before the clay set aside for today runs out." },
+      { "kind": "quiet", "fact": "Nothing in the shed is asking for its attention." }
+    ],
+    "does": { "verb": "centers the clay and draws it up into a pot wall between wet hands", "toward": "the clay on the wheel", "how": "steady, practised" },
+    "could_also": [
+      { "verb": "stops to trim a dried pot from yesterday instead", "toward": "a pot on the shelf" },
+      { "verb": "wets its hands and rests them a moment before continuing", "toward": "nothing" },
+      { "verb": "cuts the finished pot free with the wire and sets it aside", "toward": "the pot" }
+    ],
+    "would_not": [
+      { "verb": "leaves the clay mid-shape to pet the cat", "toward": "the cat", "why": "the clay would dry unevenly if left half-shaped, and the cat has no need of attention right now" },
+      { "verb": "abandons the wheel because its hands ache", "toward": "nothing", "why": "the ache is minor next to the clay allotted for today, which will dry out and go to waste if not used" }
+    ],
+    "then": "It finishes the pot, cuts it free, and reaches for the next lump of clay, working through what remains of today's allotment before the light changes.",
+    "why": "The clay's wetness will not last, and long practice makes the shaping automatic even with tired hands, so it keeps working through the remaining pots rather than stopping. Nothing else in the shed competes for its attention.",
+    "turns_on": "how much workable clay is left before it dries out"
+  },
+  {
+    "id": "hour-05",
+    "domain": "hour",
+    "who": "A blacksmith's apprentice working the bellows at a forge.",
+    "place": "A smithy at midday, the fire banked low between jobs and the smith away at the front counter.",
+    "present": ["the smith at the counter out front", "a half-finished hinge on the anvil", "a bucket of quench water", "a pile of unsorted scrap iron"],
+    "factors": [
+      { "kind": "instruction", "fact": "It was told to keep the fire alive until the smith returns." },
+      { "kind": "fire state", "fact": "The coals are dimming and need steady air to stay hot enough to work iron." },
+      { "kind": "boredom", "fact": "Pumping the bellows with nothing else to do gets tedious fast." },
+      { "kind": "skill", "fact": "It has not yet been trusted to shape the hinge itself." },
+      { "kind": "consequence", "fact": "A cold forge means starting the fire from scratch later, which wastes fuel and time." },
+      { "kind": "idle option", "fact": "The scrap pile could be sorted while waiting, without needing the smith's say-so." }
+    ],
+    "does": { "verb": "works the bellows steadily to keep the coals glowing", "toward": "the forge fire", "how": "steady, unhurried" },
+    "could_also": [
+      { "verb": "sorts the scrap iron into piles by size while waiting", "toward": "the scrap pile" },
+      { "verb": "turns the half-finished hinge over to look at the work so far", "toward": "the hinge" },
+      { "verb": "lets the fire dim a little to save its arms, then pumps it back up", "toward": "the forge fire" }
+    ],
+    "would_not": [
+      { "verb": "starts shaping the hinge itself", "toward": "the hinge", "why": "it has not been trusted with that step and doing it without the smith would go against what it was told" },
+      { "verb": "wanders off to the counter out of boredom", "toward": "the smith", "why": "leaving the bellows unattended would let the fire drop, which is exactly what it was told to prevent" }
+    ],
+    "then": "It keeps the fire at a steady glow until the smith comes back, at which point it stops pumping and waits to be told what comes next.",
+    "why": "Boredom pulls toward doing almost anything else, but the instruction to keep the fire alive and the cost of a cold forge outweigh that, so it keeps pumping rather than sorting scrap or touching the unfinished hinge.",
+    "turns_on": "whether the fire is allowed to be left banked"
+  },
+  {
+    "id": "hour-06",
+    "domain": "hour",
+    "who": "A goat tethered by a rope to a post in a yard.",
+    "place": "A patch of grazed-down grass beside a shed at midafternoon, with better grass growing just beyond the rope's reach.",
+    "present": ["a patch of untouched clover past the tether's reach", "a wooden shed wall", "a chicken pecking nearby", "a bucket of water within reach"],
+    "factors": [
+      { "kind": "hunger", "fact": "The grass within reach of the tether is already cropped short." },
+      { "kind": "reach", "fact": "The rope is tied at a length that stops just short of the clover patch." },
+      { "kind": "habit", "fact": "It has strained at this same rope every day and never gotten free." },
+      { "kind": "comfort", "fact": "There is water within reach and shade from the shed wall." },
+      { "kind": "restlessness", "fact": "It has been standing in roughly the same spot for over an hour." },
+      { "kind": "low stakes", "fact": "Nothing is chasing it and there is no reason to hurry." }
+    ],
+    "does": { "verb": "strains at the rope, stretching its neck toward the clover just out of reach", "toward": "the clover patch", "how": "persistent" },
+    "could_also": [
+      { "verb": "gives up and grazes what little grass remains within reach", "toward": "the cropped grass" },
+      { "verb": "rubs its side against the shed wall", "toward": "the shed wall" },
+      { "verb": "lies down in the shade to chew its cud", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "chases off the chicken", "toward": "the chicken", "why": "the chicken is no threat and is not competing for the grass it wants" },
+      { "verb": "stops pulling and stands idle without eating", "toward": "nothing", "why": "hunger for the better grass keeps pulling at it even though the rope never gives" }
+    ],
+    "then": "It strains a while longer, gets nowhere, and eventually settles for grazing the short grass within reach before lying down in the shade.",
+    "why": "The short grass no longer satisfies its hunger and the clover is visibly better, so it keeps testing the rope's reach even though habit says it will not give. Comfort from the water and shade is enough that it does not stay agitated for long.",
+    "turns_on": "whether the rope's reach ever changes"
+  },
+  {
+    "id": "hour-07",
+    "domain": "hour",
+    "who": "An old woman sitting on a stool in her doorway.",
+    "place": "The threshold of a small house in the early afternoon, a bowl of unshelled peas in her lap and the street quiet.",
+    "present": ["a bowl of peas in her lap", "a basket for the shelled peas", "a neighbor's cat crossing the street", "a bench across the way where people sometimes stop to talk"],
+    "factors": [
+      { "kind": "task owed", "fact": "The peas need shelling before the evening meal." },
+      { "kind": "eyesight", "fact": "Her eyes tire if she works close up too long without pausing." },
+      { "kind": "habit", "fact": "Shelling peas in the doorway is how she spends most afternoons." },
+      { "kind": "company", "fact": "She likes seeing who passes, though no one has stopped to talk today." },
+      { "kind": "comfort", "fact": "Sitting in the doorway keeps her out of the sun but able to see the street." },
+      { "kind": "pace", "fact": "There is no set time the peas must be finished by, only before supper." }
+    ],
+    "does": { "verb": "shells the peas into the basket, pod by pod", "toward": "the bowl of peas", "how": "unhurried" },
+    "could_also": [
+      { "verb": "pauses to watch the cat cross the street", "toward": "the neighbor's cat" },
+      { "verb": "sets the bowl down and rests her eyes a moment", "toward": "nothing" },
+      { "verb": "calls out a greeting if someone passes close enough", "toward": "the street" }
+    ],
+    "would_not": [
+      { "verb": "leaves the peas unshelled to go sit on the bench across the way", "toward": "the bench", "why": "no one is there to talk to right now, so there is nothing pulling her away from the task she can do at her own door" },
+      { "verb": "rushes through the peas without pausing", "toward": "the bowl of peas", "why": "there is no deadline pressing yet, so there is no reason to strain her eyes hurrying" }
+    ],
+    "then": "She works through the bowl at her own pace, pausing now and then to watch the street, and finishes with time to spare before the evening meal.",
+    "why": "The task is owed but not urgent, and the doorway lets her do it while still keeping half an eye on the street out of habit. Nothing passing today is interesting enough to stop for.",
+    "turns_on": "whether someone she knows passes close enough to talk to"
+  },
+  {
+    "id": "hour-08",
+    "domain": "hour",
+    "who": "A beaver working at the edge of its dam.",
+    "place": "A pond behind a timber dam at dusk, with a thin trickle of water escaping through a gap in the sticks.",
+    "present": ["a gap in the dam where water is trickling through", "a stand of young willow on the bank", "a lodge of piled sticks and mud out in the pond", "a heron standing at the far side of the pond"],
+    "factors": [
+      { "kind": "leak", "fact": "Water is trickling steadily through a gap low in the dam." },
+      { "kind": "material", "fact": "There is mud and loose sticks nearby it can pack into the gap." },
+      { "kind": "season", "fact": "It is autumn and the dam needs to hold before the water rises with winter rain." },
+      { "kind": "light", "fact": "Dusk is the time it is normally most active." },
+      { "kind": "distance", "fact": "The heron on the far bank is well outside the range it treats as close." },
+      { "kind": "routine", "fact": "Packing the dam is work it repeats most evenings regardless of how small the leak is." }
+    ],
+    "does": { "verb": "packs mud and sticks into the gap in the dam, tamping it down with its paws", "toward": "the gap in the dam", "how": "steady, methodical" },
+    "could_also": [
+      { "verb": "fells a nearby willow branch to add to the dam", "toward": "the stand of young willow" },
+      { "verb": "swims out to check the lodge instead", "toward": "the lodge" },
+      { "verb": "slaps its tail on the water and dives, just out of habit", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "abandons the leak to watch the heron", "toward": "the heron", "why": "the heron is far off and has never been a bother, so it is not worth breaking off the work" },
+      { "verb": "leaves the gap unpatched until morning", "toward": "nothing", "why": "a small leak left overnight tends to widen, and dusk is exactly when it does this work" }
+    ],
+    "then": "It keeps packing the gap until the trickle stops, then swims a slow circuit of the dam checking for any other weak spots before returning to the lodge.",
+    "why": "The leak is small now but the coming season makes a solid dam worth the evening's work, and dusk is when it is naturally active anyway. The heron is too far off to change anything about how it spends the hour.",
+    "turns_on": "how wide the leak in the dam is"
+  },
+  {
+    "id": "hour-09",
+    "domain": "hour",
+    "who": "A shepherd's dog lying in the shade beside a farmhouse.",
+    "place": "The shaded side of a farmhouse in the heat of the afternoon, with the flock resting in a distant field and no work asked of it.",
+    "present": ["the flock resting in a distant field", "a gnawed bone near its front paws", "the farmhouse wall", "a chicken pecking near the doorstep"],
+    "factors": [
+      { "kind": "duty", "fact": "It has not been called to work the flock since morning." },
+      { "kind": "habit", "fact": "It has a half-gnawed bone from the day before within reach." },
+      { "kind": "heat", "fact": "The afternoon is hot enough that moving much is unpleasant." },
+      { "kind": "distance", "fact": "The flock is far enough off that no bleat from it demands attention." },
+      { "kind": "restfulness", "fact": "It worked hard herding that morning and is still tired from it." },
+      { "kind": "low interest", "fact": "The chicken near the doorstep has never been worth chasing." }
+    ],
+    "does": { "verb": "gnaws on the old bone, lying stretched out in the shade", "toward": "the bone", "how": "lazy" },
+    "could_also": [
+      { "verb": "stays flat out and sleeps through the heat", "toward": "nothing" },
+      { "verb": "gets up to lap water from a bowl by the door", "toward": "nothing" },
+      { "verb": "lifts its head to check the flock, then settles back down", "toward": "the flock" }
+    ],
+    "would_not": [
+      { "verb": "gets up to herd the resting flock", "toward": "the flock", "why": "nothing is asking it to work and the flock is calm and far off" },
+      { "verb": "chases the chicken", "toward": "the chicken", "why": "the chicken has never interested it and chasing it in this heat is not worth the effort" }
+    ],
+    "then": "It gnaws at the bone until it tires of it, then stretches out flat in the shade and dozes through the hottest part of the afternoon.",
+    "why": "Being off duty and tired from the morning's work means nothing is pulling it toward the flock, and the heat makes lying still more appealing than moving for the chicken or anything else. The bone gives it something to do without effort.",
+    "turns_on": "whether the flock's distant sounds change"
+  },
+  {
+    "id": "hour-10",
+    "domain": "hour",
+    "who": "A sentry standing post at a quiet gate.",
+    "place": "A town gate at midafternoon, the road empty in both directions and the shift not due to change for hours.",
+    "present": ["an empty road running both ways from the gate", "a second sentry dozing against the gatepost", "a stray dog trotting past outside the wall", "a knife and a piece of wood in its own pocket"],
+    "factors": [
+      { "kind": "duty", "fact": "It is required to stand watch at the gate until relieved." },
+      { "kind": "boredom", "fact": "Nothing has passed the gate worth noting in over an hour." },
+      { "kind": "habit", "fact": "It carries a knife and a scrap of wood for exactly hours like this." },
+      { "kind": "discretion", "fact": "Whittling does not stop it from watching the road out of the corner of its eye." },
+      { "kind": "fatigue", "fact": "Standing still that long makes its legs restless." },
+      { "kind": "comparison", "fact": "The other sentry is dozing against the post, which is not allowed but not its business." }
+    ],
+    "does": { "verb": "whittles at a scrap of wood while standing post", "toward": "the scrap of wood", "how": "idle" },
+    "could_also": [
+      { "verb": "paces a short line in front of the gate to work the stiffness out of its legs", "toward": "nothing" },
+      { "verb": "watches the stray dog trot past out of simple boredom", "toward": "the stray dog" },
+      { "verb": "leans against the gatepost and does nothing at all", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "wakes the dozing sentry to make it stand properly", "toward": "the second sentry", "why": "policing another sentry is not its job and the road has given no reason to need two alert watchers" },
+      { "verb": "walks off down the road to relieve the boredom", "toward": "the empty road", "why": "leaving the post is against its duty even when nothing at all is happening" }
+    ],
+    "then": "It keeps whittling in short spells, glancing up at the road between cuts, until the shift finally changes.",
+    "why": "Duty keeps it at the post despite the boredom, and the whittling gives its hands something to do without taking its eyes fully off the road. There is nothing on the road worth abandoning the habit for.",
+    "turns_on": "how much longer until the shift changes"
+  },
+  {
+    "id": "hour-11",
+    "domain": "hour",
+    "who": "A crow investigating something shiny on a footpath.",
+    "place": "A dirt footpath at the edge of a market square in the late morning, a bit of dropped metal glinting in the dirt.",
+    "present": ["a dropped bit of metal glinting in the dirt", "a stall selling bread nearby", "two other crows perched on a fence", "a dog tied outside the bread stall"],
+    "factors": [
+      { "kind": "curiosity", "fact": "The glinting object is something it has not seen on this path before." },
+      { "kind": "food value", "fact": "The object does not smell or look like anything edible." },
+      { "kind": "competition", "fact": "The other crows on the fence have not noticed it yet." },
+      { "kind": "caution", "fact": "The tied dog is close enough to reach the object if it gets too bold." },
+      { "kind": "opportunity", "fact": "The bread stall sometimes drops scraps worth more than a shiny trinket." },
+      { "kind": "habit", "fact": "It checks new things on this path most mornings out of habit." }
+    ],
+    "does": { "verb": "hops closer and pecks at the shiny object, turning it over", "toward": "the dropped bit of metal", "how": "cautious" },
+    "could_also": [
+      { "verb": "abandons the object and flies to check the bread stall for scraps instead", "toward": "the bread stall" },
+      { "verb": "calls to the other crows about the find", "toward": "the other crows" },
+      { "verb": "snatches the object and flies off with it", "toward": "the dropped bit of metal" }
+    ],
+    "would_not": [
+      { "verb": "walks straight up within the dog's reach", "toward": "the tied dog", "why": "the dog can reach that close and the shiny object is not worth the risk of getting that near" },
+      { "verb": "ignores the object entirely", "toward": "nothing", "why": "something new on a path it checks every morning is exactly the kind of thing it always investigates first" }
+    ],
+    "then": "It pecks and turns the object a few more times, finds nothing edible in it, and leaves it for the bread stall instead, drawn off by the smell of scraps.",
+    "why": "Curiosity about something new outweighs the small risk from the dog as long as it keeps its distance, but once it finds the object has no food value, the bread stall's real chance of scraps wins out. The other crows have not noticed yet, so there is no competition to rush for.",
+    "turns_on": "whether the object turns out to be edible"
+  },
+  {
+    "id": "hour-12",
+    "domain": "hour",
+    "who": "A washerwoman scrubbing linens at a riverside washing stone.",
+    "place": "A flat stone at the river's edge in the morning, a basket of dirty linens beside her and clean stretches of bank for drying.",
+    "present": ["a basket of unwashed linens", "a stretch of grass for laying wash out to dry", "another washerwoman further along the bank", "a child playing nearby unsupervised"],
+    "factors": [
+      { "kind": "task owed", "fact": "The basket of linens must be clean and dry before evening." },
+      { "kind": "weather", "fact": "The morning is clear, which will not last all day." },
+      { "kind": "soreness", "fact": "Her hands and back already ache from an hour of scrubbing." },
+      { "kind": "pace", "fact": "Working steadily now means less rushing later if weather turns." },
+      { "kind": "distraction", "fact": "The child playing nearby is not hers to mind." },
+      { "kind": "company", "fact": "The other washerwoman further along is someone she usually talks with." }
+    ],
+    "does": { "verb": "scrubs linens against the stone, working through the basket piece by piece", "toward": "the basket of linens", "how": "steady" },
+    "could_also": [
+      { "verb": "stops to lay a washed piece out on the grass to dry", "toward": "the grass" },
+      { "verb": "calls something over to the other washerwoman while she works", "toward": "the other washerwoman" },
+      { "verb": "rests her hands in the water a moment before continuing", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "stops scrubbing to watch the unsupervised child", "toward": "the child", "why": "the child is not hers to mind and is in no danger she can see, so it is not worth losing the clear morning" },
+      { "verb": "leaves the basket half done to talk at length with the other washerwoman", "toward": "the other washerwoman", "why": "the weather will not stay clear all day, so finishing the wash comes before a long chat" }
+    ],
+    "then": "She works through the basket steadily, laying each piece out to dry as she finishes it, and clears the last of the linens before the clouds start building.",
+    "why": "The clear weather will not hold, so getting the wash done and drying now outweighs resting her sore hands or lingering over conversation. The child and the other washerwoman are both minor pulls next to the weather window.",
+    "turns_on": "how long the clear weather holds"
+  },
+  {
+    "id": "hour-13",
+    "domain": "hour",
+    "who": "A pig rooting in a muddy corner of its pen.",
+    "place": "A fenced pen behind a farmhouse at midday, one corner kept wet and churned by a leaking trough.",
+    "present": ["a wet muddy patch near the trough", "a dry patch of straw for bedding", "a trough of feed already emptied", "a chicken pecking just outside the fence"],
+    "factors": [
+      { "kind": "hunger", "fact": "The feed trough was emptied earlier and nothing more is coming until evening." },
+      { "kind": "heat", "fact": "The midday sun makes the mud patch the coolest spot in the pen." },
+      { "kind": "habit", "fact": "Rooting in wet ground is what it does whenever there is nothing to eat." },
+      { "kind": "comfort", "fact": "The mud also keeps flies off its skin." },
+      { "kind": "low stakes", "fact": "There is nothing new in the mud, just the usual smells and roots." },
+      { "kind": "boundary", "fact": "The fence keeps it well away from the chicken and the yard beyond." }
+    ],
+    "does": { "verb": "roots through the mud with its snout, turning over the wet ground", "toward": "the muddy patch near the trough", "how": "unhurried" },
+    "could_also": [
+      { "verb": "lies down flat in the mud to cool off", "toward": "the muddy patch" },
+      { "verb": "wanders to the dry straw to lie down instead", "toward": "the dry patch of straw" },
+      { "verb": "noses at the empty trough on the chance something was missed", "toward": "the trough" }
+    ],
+    "would_not": [
+      { "verb": "tries to reach the chicken through the fence", "toward": "the chicken", "why": "the fence is between them and the chicken has never been food or bother to it" },
+      { "verb": "stays still in the sun instead of the mud", "toward": "nothing", "why": "the mud is both cooler and keeps the flies off, so there is no reason to sit in the open heat" }
+    ],
+    "then": "It keeps working the mud patch through the hottest part of the day, occasionally lying flat in it, until the trough is refilled toward evening.",
+    "why": "With no more feed until evening, rooting in the cool mud satisfies both the itch to dig and the need to escape the heat and flies. Nothing in the pen offers a better way to pass the hour.",
+    "turns_on": "how hot the midday sun gets"
+  },
+  {
+    "id": "hour-14",
+    "domain": "hour",
+    "who": "A fisherman mending a torn net on a jetty.",
+    "place": "A wooden jetty in the late afternoon, the boat pulled up beside it and the light starting to lower.",
+    "present": ["the boat pulled up against the jetty", "a torn section of net spread across his lap", "a bone needle and a spool of twine", "a gull waiting nearby for scraps"],
+    "factors": [
+      { "kind": "task owed", "fact": "The net has a tear that will lose the next catch if not mended." },
+      { "kind": "light", "fact": "The afternoon light is starting to lower and mending needs to be seen clearly." },
+      { "kind": "skill", "fact": "He has mended nets since he was a boy and can do it without much thought." },
+      { "kind": "tomorrow", "fact": "The boat goes out again at dawn whether the net is ready or not." },
+      { "kind": "fatigue", "fact": "His fingers are stiff from a full morning already out on the water." },
+      { "kind": "distraction", "fact": "The gull waiting nearby is after scraps he does not have." }
+    ],
+    "does": { "verb": "works the needle through the torn net, closing the gap knot by knot", "toward": "the torn net", "how": "careful, practised" },
+    "could_also": [
+      { "verb": "stops to check how much light is left before deciding whether to keep going", "toward": "nothing" },
+      { "verb": "shoos the gull off out of habit", "toward": "the gull" },
+      { "verb": "sets the net aside to rest his stiff fingers a moment", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "leaves the tear for the morning", "toward": "nothing", "why": "the boat goes out at dawn regardless, and a torn net at sea loses fish and time he cannot spare" },
+      { "verb": "feeds the gull to quiet it", "toward": "the gull", "why": "he has no scraps to give and feeding it would only bring more gulls around the mending" }
+    ],
+    "then": "He keeps mending until the tear is fully closed, finishing just as the light gets too dim to see the small knots clearly.",
+    "why": "The net must be ready before the boat goes out at dawn, and the lowering light gives him a real deadline within the hour, so he pushes through his tired fingers rather than setting the work aside. The gull is a minor bother, not a reason to stop.",
+    "turns_on": "how much daylight is left to see the knots by"
+  },
+  {
+    "id": "hour-15",
+    "domain": "hour",
+    "who": "A child sitting on a step with nothing to do.",
+    "place": "The front step of a house in the late afternoon, sent outside while the adults finish a task inside.",
+    "present": ["a patch of bare dirt at the foot of the step", "a stick lying nearby", "the sound of adults talking inside", "a cart passing on the road beyond the fence"],
+    "factors": [
+      { "kind": "instruction", "fact": "It was told to stay on the step and out from underfoot." },
+      { "kind": "boredom", "fact": "Nothing on the step itself is interesting to look at." },
+      { "kind": "reach", "fact": "A stick lying just off the step is within easy reach." },
+      { "kind": "restlessness", "fact": "It has been sitting still for a while and wants to move." },
+      { "kind": "curiosity", "fact": "The cart passing on the road is more interesting than the step." },
+      { "kind": "boundary", "fact": "The fence marks how far it is allowed to wander without asking." }
+    ],
+    "does": { "verb": "draws shapes in the dirt with a stick, over and over", "toward": "the patch of bare dirt", "how": "idle" },
+    "could_also": [
+      { "verb": "watches the cart until it passes out of sight", "toward": "the cart passing on the road" },
+      { "verb": "fidgets and kicks its heels against the step", "toward": "nothing" },
+      { "verb": "hums a tune to itself while drawing", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "climbs over the fence to follow the cart", "toward": "the fence", "why": "it was told to stay on the step, and the cart is not interesting enough to risk the trouble of being caught past the fence" },
+      { "verb": "goes inside to interrupt the adults", "toward": "the adults talking inside", "why": "it was sent outside specifically to stay out from underfoot" }
+    ],
+    "then": "It keeps drawing in the dirt, glancing up now and then at the road, until it is finally called back inside.",
+    "why": "The instruction to stay on the step rules out following the cart or going back inside, and the stick within reach gives it something to do with its restlessness. Boredom keeps pulling its attention toward anything passing, but nothing is worth breaking the boundary for.",
+    "turns_on": "whether anything more interesting than the stick passes by"
+  }
+]

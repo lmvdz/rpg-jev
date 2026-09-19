@@ -5,10 +5,11 @@
  */
 import { apply } from "./apply.ts";
 import { type IngestAct, ingest, type SearchAct, search } from "./body.ts";
+import { felt } from "./deeds.ts";
 import { type DriftAct, drift } from "./drift.ts";
 import { type ForceAct, force } from "./force.ts";
 import { type HeatAct, heat } from "./heat.ts";
-import { type MoveAct, move } from "./living.ts";
+import { type MoveAct, move, type TakeAct, take } from "./living.ts";
 import { type LoadAct, load } from "./load.ts";
 import { perceive } from "./sense.ts";
 import { type CoatAct, coat, type SoakAct, soak } from "./soak.ts";
@@ -23,7 +24,8 @@ export type Act =
   | SearchAct
   | DriftAct
   | LoadAct
-  | MoveAct;
+  | MoveAct
+  | TakeAct;
 
 type Process<K extends Act["process"]> = (
   world: MatterWorld,
@@ -40,6 +42,7 @@ export const PROCESSES: { [K in Act["process"]]: Process<K> } = {
   drift,
   load,
   move,
+  take,
 };
 
 /** What each number an act may carry is allowed to be. Anything else is brought into range. */
@@ -78,7 +81,10 @@ export function resolve(world: MatterWorld, act: Act): Outcome {
   const after = apply(world, changes);
   // Whatever the act did, some of it reaches someone (sense.ts).
   const noticed = perceive(after, changes);
-  return { world: apply(after, noticed), changes: [...changes, ...noticed] };
+  const seen = apply(after, noticed);
+  // And what was done is taken as a deed by whoever took it in (deeds.ts).
+  const taken = felt(seen, act, changes);
+  return { world: apply(seen, taken), changes: [...changes, ...noticed, ...taken] };
 }
 
 /** Several acts in order, each on the world the last one left. */

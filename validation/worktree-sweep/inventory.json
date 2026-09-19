@@ -1,0 +1,2445 @@
+{
+  "head": "47d59debd1dadfa518ec480d40aa39ee6a2cec99",
+  "branch": "poc",
+  "upstreamBehind": 8,
+  "refs": {
+    "origin/poc": "48348aa59b17ab5e91c827c8aba15d2d964e9fdb",
+    "origin/renderer/client": "9a37a94cd2dc0ec6420231ef97b1266f2d8bf317",
+    "origin/sandbox/matter": "b94fe5c8f5377fda5e697406f1e445ab2faed78f",
+    "origin/design/compositional-causality": "8af0b5b5aec9cd598d987a5c0221c8451cc08c14",
+    "origin/spike/s0": "cf24468d1eec9dadab351c055c312a110271ea30"
+  },
+  "scope": "All tracked modifications and non-ignored untracked files before adding sweep records; ignored dependency directories excluded",
+  "counts": {
+    "published-in-origin-history": 43,
+    "preserved-document-variant": 4,
+    "published-at-same-path": 128,
+    "published-at-another-path": 14
+  },
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "blob": "f8fa7d5dceff02f8cf1dd36583a56cabd8d39999",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "SPEC.md",
+      "blob": "7e3ec0a87e29348beb8533115cce7bab91a2a755",
+      "classification": "preserved-document-variant",
+      "matches": [],
+      "archive": "validation/worktree-sweep/SPEC.poc-working.md"
+    },
+    {
+      "path": "docs/branch-validation-map.md",
+      "blob": "f89aa55a22ca4162521722da54690a041393b46a",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "docs/branch-validation-map.md"
+        }
+      ]
+    },
+    {
+      "path": "docs/c0-exposure.md",
+      "blob": "42e25390c199ceb779274727f73754fc348cebbb",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "docs/c0-exposure.md"
+        }
+      ]
+    },
+    {
+      "path": "docs/compositional-causality.md",
+      "blob": "4272424041f48147af0139989773b955792b4420",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "docs/compositional-causality.md"
+        }
+      ]
+    },
+    {
+      "path": "docs/held-out-clearing-report.md",
+      "blob": "82e55f2abdacef9b1851f5a0fac7512fa597adc4",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "docs/held-out-clearing-report.md"
+        }
+      ]
+    },
+    {
+      "path": "docs/sandbox-direction.md",
+      "blob": "d9153d2081b22144b8acef1c733c475c5efef940",
+      "classification": "preserved-document-variant",
+      "matches": [],
+      "archive": "validation/worktree-sweep/sandbox-direction.poc-working.md"
+    },
+    {
+      "path": "package.json",
+      "blob": "938612dcf3e63a3ee9c0122c3861005ddb4d7b21",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "package.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/index.html",
+      "blob": "3a1279e1bc929b7b0aa85750788418501a473363",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/index.html"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/package.json",
+      "blob": "f2d42594581fe402918925c7ca294904a49e539a",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/package.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/camera.ts",
+      "blob": "962ef6bde11cd1a5241203d73741bef24794f362",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/camera.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/editor/edits.ts",
+      "blob": "78523b25eac3aca9bd28ebb2e6748c1f72f182bc",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/editor/edits.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/editor/mount.ts",
+      "blob": "92d73c1d160ff3e66e17d6f433c0665b639e17c6",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/editor/mount.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/editor/panel.ts",
+      "blob": "5df9ea7aa0a7116e6007f20b4a8f546145351340",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/editor/panel.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/editor/picking.ts",
+      "blob": "eda83160904b9d7fd366536d7a0af347435ac63d",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/editor/rover.ts",
+      "blob": "4af2446da596677bc48dcadf5bd10a108ba30785",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/editor/rover.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/editor/session.ts",
+      "blob": "8070586d3c081c1ea6e609c714f06eee562e3c29",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/editor/session.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/editor/tools.ts",
+      "blob": "5c243392a5afb32ca998149b6f224d0dbd91f912",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/editor/tools.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/gl/effect-pass.ts",
+      "blob": "62be9c66d62c7348152bd098b1981e5f563a482c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/gl/effect-pass.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/gl/frame.ts",
+      "blob": "3e67c544907ca8133f96b9088617a49781335f61",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/gl/frame.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/gl/frustum.ts",
+      "blob": "365de15655fad6e58f9a7f85e67458bc6ab3107c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/gl/frustum.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/gl/glyph-pass.ts",
+      "blob": "ddc3c44daeea7244639c6d3f0c08611fc781164d",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/gl/glyph-pass.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/gl/program.ts",
+      "blob": "a058c25a82bb598792ab2d099026011c03373ede",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/gl/program.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/gl/renderer.ts",
+      "blob": "624a19fa71182c89d60968ecd0d3736cd3adbe51",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/gl/shaders.ts",
+      "blob": "020cc1b97a7b9e99ec717d972cbbe983b0b4ccd1",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/gl/terrain-pass.ts",
+      "blob": "424815969d1ef4752f0fcad30261fc8cb8e30295",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/gl/timer.ts",
+      "blob": "548589452bfe6c0197ccfb5a5bcaebb689683fb7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/gl/timer.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/glyph/batch.ts",
+      "blob": "99500cbbd9951d1d683c32bf00a98898975ce35c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/glyph/batch.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/glyph/font.ts",
+      "blob": "5b5a58548d8b6354674c8a7e3883f4a75eae7d52",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/main.ts",
+      "blob": "de27b84486e6849d1da63e28cb1af496f8318cf5",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/palette.ts",
+      "blob": "3891f667ee406a6553cb89225d591efcc1c9ba94",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/palette.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/play/act-request.ts",
+      "blob": "5488b5d20d38fbce845cf18233dae5a430bd68df",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/play/pointer.ts",
+      "blob": "7c59cb6c36a060747534c5494fe5005bdcc6fc3b",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/play/status.ts",
+      "blob": "bb631436c0ad03d73fbd427910e59cbbc7667964",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/play/status.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/scene/body.ts",
+      "blob": "30dd9b028aabb188da09546a4186b615636fbd2e",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/scene/body.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/scene/clearing.ts",
+      "blob": "50ef757193abe9d62f00c41bb9cde2f60aabebec",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/scene/demo.ts",
+      "blob": "b6bc68de186632e4445c8f9a286a8530337a787e",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/scene/demo.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/scene/drift.ts",
+      "blob": "e4595fb073cfe2051083ba4e14d94c68ad775c49",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/scene/path.ts",
+      "blob": "26bb753912e6efe054ee0e3bf4ff5f4f192332ff",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/scene/path.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/scene/steps.ts",
+      "blob": "3e09ca1692554aad056725c2489a529fa6d3c59b",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/scene/steps.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/scene/walker.ts",
+      "blob": "6b5192f7dc17ec9f471f017d6a4a7a99852a4531",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/scene/walker.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/terrain/chunks.ts",
+      "blob": "603db97e6cc4c0a5958286b74d47ec8d64101ed5",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/terrain/chunks.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/terrain/grid.ts",
+      "blob": "be68c4b5e775a76d6ac0e4f633c6096b086249fa",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/terrain/grid.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/terrain/kinds.ts",
+      "blob": "23f6edbbef4a2bc678a3faeef109ad12d0cd4e44",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/terrain/kinds.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/terrain/tessellate.ts",
+      "blob": "3b3d2805723e44692a4d09bb55b1da241bfa6bb7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/terrain/tessellate.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/terrain/textures.ts",
+      "blob": "51e8f457ddb5b4758f7b7ef4f117cfd99f8be702",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/terrain/textures.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/terrain/worker.ts",
+      "blob": "6caf18ea329400ae43dcc7612534ff3d466cfe52",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/terrain/worker.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/view/body.ts",
+      "blob": "560916f860a0ba92c48158581868a12a40eee4cb",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/view/body.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/view/describe.ts",
+      "blob": "b533240545a7a4946767699e1f5c87fd48bff0e8",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/view/effect-birth.ts",
+      "blob": "5dcc872127c8e77c2648c61d8acd1029de48cad8",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/view/effect-rows.ts",
+      "blob": "0047236d373b8cad4d3e2749529b5c5b78c4b500",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/view/effects.ts",
+      "blob": "699726ee20b7d6988de2a3aac11f819f5667aaf4",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/view/lights.ts",
+      "blob": "85010c63671cf657cd1fadf95eb34a0171c5b803",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/view/lights.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/view/living.ts",
+      "blob": "f83b24e41b54eb009a12eb9f3506154a46cf12af",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/view/motions.ts",
+      "blob": "d04a20b442468d8b88920309ce0d530ad67f0558",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/view/motions.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/view/sky.ts",
+      "blob": "55e21ec00806ca7261f6564a490d61841da2f7d3",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/view/sky.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/view/things.ts",
+      "blob": "b0c098c9fef68d96047055e9b607cb91270a0918",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/src/world/format.ts",
+      "blob": "66b61d93dea6406d69cc1d52c899ac7b30ab9386",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/world/format.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/world/objects.ts",
+      "blob": "643aa920789f71792cd37ed75ff99569c36adaff",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/world/objects.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/src/world/storage.ts",
+      "blob": "e6186fa79911900d7690d6d3fc0f9006529c974c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/src/world/storage.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/test/editor.test.ts",
+      "blob": "57395275b7aa6cae5d831b1480e5090d27b187c4",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/test/editor.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/test/effect-birth.test.ts",
+      "blob": "1f55b0fc728cc3ae688e104d5c3e7ab3cc17b7d4",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/test/effect-birth.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/test/effects.test.ts",
+      "blob": "c6c84cfa63d8062eb8ae2f2a4f8790b3c6a5d6d7",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/test/glyphs.test.ts",
+      "blob": "e57816aa01306e0dc7ac452e6829fd2b9bc24f78",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/test/glyphs.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/test/grown.test.ts",
+      "blob": "de89501b73512b35eb9141c181a313f7220914a8",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/test/play.test.ts",
+      "blob": "3fc5cd9a43fcbc737644f79aa74427de3f034227",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/client/test/scene.test.ts",
+      "blob": "abc9f17dcd501404951b1e8dfadfbe4bc8c9cbd4",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/test/scene.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/test/tessellate.test.ts",
+      "blob": "9cdca6da02c86031f8152f87a4fa034b5e310a4f",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/test/tessellate.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/test/view.test.ts",
+      "blob": "2d0d7332db05bf0bbef541562ac1f76f803480f5",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/test/view.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/tsconfig.json",
+      "blob": "d4c949fa492cf69a48d89f0f1e7d8088a0588696",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/tsconfig.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/client/vite.config.ts",
+      "blob": "5b625a3f08223872a66a5da2c7a472a9d7522704",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/client/vite.config.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/package.json",
+      "blob": "2535ccf218e0e6a49431e602434c174f783e2e88",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/package.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/src/index.ts",
+      "blob": "f5e213c0d95557b94a53b8366578b0ceb34519fb",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/src/index.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/src/index.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/src/index.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/src/matter/apply.ts",
+      "blob": "c56b8582aba4bac86903e9dc8ab72502754bdb31",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/body.ts",
+      "blob": "19539e5a74834ccc9a41261cdf21fed33eb31096",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/compile.ts",
+      "blob": "6c8024dde08307c9b7ec182ae33b084c1dab6fd0",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/src/matter/compile.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/src/matter/compile.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/src/matter/compile.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/src/matter/drift.ts",
+      "blob": "6ff007335683cfefbbc8f32dfa59ef76f8920cbd",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/effective.ts",
+      "blob": "bd9fbe278401cc5cd3625a2e7fc9ca43f197ebe7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/src/matter/effective.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/src/matter/effective.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/src/matter/effective.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/src/matter/force.ts",
+      "blob": "8c113b9d3ee2543c9da91006367b95f25745ac99",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/heat.ts",
+      "blob": "989f7f933273bfbbc673472fe692b4be7bef0ac1",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/index.ts",
+      "blob": "b59126ee69cab9912819bcef33f69ce1f8e3e666",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/load.ts",
+      "blob": "62362df309ec2d901ab4f5fd59e551da38795319",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/pool.ts",
+      "blob": "253a105aa9af90ae256c6cd3c77a884dc62e35a9",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/resolve.ts",
+      "blob": "56ede29d937ea1a49d53a3063ac2b00d3d945d62",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/soak.ts",
+      "blob": "f5b47693b5805b76ae98ff676188271af8ee0af5",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/src/matter/types.ts",
+      "blob": "0f8d9c6ce49e19ab97334da518b7dfe8e248da8c",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/a-beast-folk.test.ts",
+      "blob": "d79a01d4f81284b9deeb5ad2046185475b3791fe",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/a-beast-folk.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/a-fire-cold.test.ts",
+      "blob": "15da6f605ca45714ccc7dc770540a36e5658fc29",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/a-fire-cold.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/a-food-body.test.ts",
+      "blob": "9149c187fb48eb07abdcba2fa7ad3b2b13e22376",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/a-grow-find.test.ts",
+      "blob": "9a99f9b0280dccf6bd901db319f1b55a09a2f20d",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/a-tool-build.test.ts",
+      "blob": "94e6810cf6bb9b36c38f415f70f9880127a5c6f8",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/a-water-mix.test.ts",
+      "blob": "c9e2b7b7847a32e2c9bddcec92b9fbcb55ef9c16",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/b-careless.test.ts",
+      "blob": "4d2f9459ce5e3baefc2a5a2fce8056bbd177ceb6",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/b-clever.test.ts",
+      "blob": "41c5c4394d1b41f341552f8cc90d7a35ac206cca",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/b-world-odd.test.ts",
+      "blob": "c5bfafd1484a6800245454baa7634c8781200edb",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/b-world-odd.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/batch-a.test.ts",
+      "blob": "b03eaec680674019427eeb7613edfe3c4ba5e363",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/compile.test.ts",
+      "blob": "65a733636bfd7920a61d31b5066b9ea9501add7a",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/elements.ts",
+      "blob": "5b8e15d1d29dbee810e4e9b5e8a9ca5452a0ec3b",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/examples.test.ts",
+      "blob": "eeb0120caa4ad2bc2ffb2f1f627599c018fdf8b6",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/examples.test.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/examples.test.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/examples.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/held-out-clearing.test.ts",
+      "blob": "baf5966af2782f0560349c742b5f01dd738309f6",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/poc-held-out/held-out-clearing.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/held-out-fixture.ts",
+      "blob": "7d0713e5d639e9be03a7abb11b6fa714f18e0397",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/held-out-fixture.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/poc-held-out/held-out-fixture.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/sandbox-held-out-928755f-20260720/held-out-fixture.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/invariants.test.ts",
+      "blob": "5dfbe1efabe0f09e2dd86dd4db10498d52827c29",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "packages/core/test/matter/rows-b-careless.ts",
+      "blob": "ae161b0ecd4f979a79fd9ce512f9e217164aeab1",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-b-careless.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-b-careless.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-b-careless.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-b-clever.ts",
+      "blob": "4707e89bcc75b94f8681126c6caf9603127d72b5",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-b-clever.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-b-clever.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-b-clever.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-b-world-odd.ts",
+      "blob": "c5ee4b16b2a97aac1351b37ecacee6d955468acd",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-b-world-odd.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-b-world-odd.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-b-world-odd.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-beast-folk.ts",
+      "blob": "745216f53407070b051538c797c04e8bb26e9bc8",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-beast-folk.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-beast-folk.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-beast-folk.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-fire-cold.ts",
+      "blob": "7afdd905af78007b40fe319952c1f57524793016",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-fire-cold.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-fire-cold.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-fire-cold.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-food-body.ts",
+      "blob": "9e1b1dc311283ceb90c24eb6d1d2cb7aa98cf7f7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-food-body.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-food-body.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-food-body.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-grow-find.ts",
+      "blob": "ac3faf141f3f992c7b1068ba3cb6b991ccdeac0f",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-grow-find.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-grow-find.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-grow-find.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-tool-build.ts",
+      "blob": "0d419c038db4d8b8972a0827a80499d334df9e7c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-tool-build.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-tool-build.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-tool-build.ts"
+        }
+      ]
+    },
+    {
+      "path": "packages/core/test/matter/rows-water-mix.ts",
+      "blob": "cf364f98edcb343fcf8f86f4ce1bbaedfed1912d",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "packages/core/test/matter/rows-water-mix.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "packages/core/test/matter/rows-water-mix.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/rows-water-mix.ts"
+        }
+      ]
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "67d47e7378f1d730d4bb3f7a659b16ae064d4fcc",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "pnpm-lock.yaml"
+        }
+      ]
+    },
+    {
+      "path": "spikes/composition/README.md",
+      "blob": "09a1e333d3d87a405af9362ece0dc451d043f2b4",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/composition/README.md"
+        }
+      ]
+    },
+    {
+      "path": "spikes/composition/model.ts",
+      "blob": "cd2ac2f51d0872ee5564467fd84f1ba679544ec6",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/composition/model.ts"
+        }
+      ]
+    },
+    {
+      "path": "spikes/composition/test/composition.test.ts",
+      "blob": "8f8f8e3078e91180063abeb215893ba507b61931",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/composition/test/composition.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "spikes/composition/tsconfig.json",
+      "blob": "b79539bd8b0576ffb2b0d9f35190ad178cada8de",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/composition/tsconfig.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/FINDINGS.md",
+      "blob": "bace7c7d2b7cdafe13ebda1c30b56d8d16660b37",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/FINDINGS.md"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/FINDINGS.md"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/FINDINGS.md"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/results/live-results.json",
+      "blob": "c6a1dbb56f6b84974b7d87beaa1a94a8957eac6b",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/results/live-results.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/results/live-results.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/results/live-results.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/results/scripts/capture.ts",
+      "blob": "6968e7115f09aa668b06133077e70aa276e4fde7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/results/scripts/capture.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/results/scripts/capture.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/results/scripts/capture.ts"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/results/scripts/live.ts",
+      "blob": "5b02aef9530748bd240222f8a77a86f736788d5b",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/results/scripts/live.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/results/scripts/live.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/results/scripts/live.ts"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/results/scripts/probe-type.ts",
+      "blob": "8b2a5a76c1edf545a4b3afeccc4a67bcf2b1aef5",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/results/scripts/probe-type.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/results/scripts/probe-type.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/results/scripts/probe-type.ts"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/results/scripts/recover.ts",
+      "blob": "8704234596fedfd6d4990c9a575a37ccbf8cbacb",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/results/scripts/recover.ts"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/results/scripts/recover.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/results/scripts/recover.ts"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/results/scripts/signals.mjs",
+      "blob": "9284dcc7f76c972789232ac411703d1e218d337e",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/results/scripts/signals.mjs"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/results/scripts/signals.mjs"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/results/scripts/signals.mjs"
+        }
+      ]
+    },
+    {
+      "path": "spikes/probe-sketch/results/signals.json",
+      "blob": "b5e85d1b1c4c8823a7e8381aa5613b78eb6f2919",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/probe-sketch/results/signals.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/probe-sketch/results/signals.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/probe-sketch/results/signals.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/FINDINGS.md",
+      "blob": "7b3db50fa1c4cf398ceb44c8b6fa715baf72592c",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "spikes/vocabulary/README.md",
+      "blob": "9e1ac763673e04b650e2fa3e270d21c3bb37950e",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/README.md"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/README.md"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/README.md"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/VOCABULARY.md",
+      "blob": "f2ec4d5b8676f7b7402b62c398709d5d05cc3638",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/VOCABULARY.md"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/VOCABULARY.md"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/VOCABULARY.md"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/CHECKER-v1.md",
+      "blob": "de6f2e64564d0f71c0084867eb1b5820c3770ed4",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/CHECKER-v1.md"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/CHECKER-v1.md"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/CHECKER-v1.md"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/CHECKER.md",
+      "blob": "ddcb596b7ed44a1b350bb7961fc730ece10a8dbf",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/CHECKER.md"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/CHECKER.md"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/CHECKER.md"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/DERIVER.md",
+      "blob": "23948d9f2b28c683ad0d0300f9c6171cb9a9a4fe",
+      "classification": "published-in-origin-history",
+      "matches": []
+    },
+    {
+      "path": "spikes/vocabulary/results/VOCABULARY-v0.md",
+      "blob": "1be9b319894d79a3cedc6aa68dbbc1143aea7aae",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/VOCABULARY-v0.md"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/VOCABULARY-v0.md"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/VOCABULARY-v0.md"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/counts-a.txt",
+      "blob": "b07374a2ad20c53f047506a4cd457f74b7da5417",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/counts-a.txt"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/counts-a.txt"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/counts-a.txt"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/a-beast-folk.json",
+      "blob": "bd20754ed850bd4384672cdb45b03117017689f7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/a-beast-folk.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/a-beast-folk.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/a-beast-folk.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/a-fire-cold.json",
+      "blob": "6bb6313ff4e277e679e1c5ed8d93253107b71026",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/a-fire-cold.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/a-fire-cold.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/a-fire-cold.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/a-food-body.json",
+      "blob": "cd0c5216b5c0454109cbfa0d02720ba5bc125d22",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/a-food-body.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/a-food-body.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/a-food-body.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/a-grow-find.json",
+      "blob": "3b2443c35a72fb1f97d5bdb0239ed6019aa0a045",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/a-grow-find.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/a-grow-find.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/a-grow-find.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/a-tool-build.json",
+      "blob": "c42f1dc8bd5c8d45189518ee8208e3254e0e6995",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/a-tool-build.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/a-tool-build.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/a-tool-build.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/a-water-mix.json",
+      "blob": "0190caa3eadc1e6017e3d5469b26b5298f22e83f",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/a-water-mix.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/a-water-mix.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/a-water-mix.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/b-careless.json",
+      "blob": "da689b52b4e73c290f04d781b911349b5d632702",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/b-careless.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/b-careless.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/b-careless.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/b-clever.json",
+      "blob": "31dc8bfe4e81d94fabf9ed46c7a2f2b55d15fc95",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/b-clever.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/b-clever.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/b-clever.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/b-world-odd.json",
+      "blob": "cc1ccd9b97072b9ab9da4aee30ab30792183535c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/b-world-odd.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/b-world-odd.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/b-world-odd.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/c-craft.json",
+      "blob": "9dc51283f0cbf685e09ddc94d0fc6d2cc44540a6",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/c-craft.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/c-craft.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/c-craft.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/c-fight-silly.json",
+      "blob": "3bb64559a0b3f5cda3bddba59d126f09b55026a7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/c-fight-silly.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/c-fight-silly.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/c-fight-silly.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/coverage-v1/c-travel.json",
+      "blob": "cb1478b1851b4a283187646d358031d19f5143c2",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/coverage-v1/c-travel.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/coverage-v1/c-travel.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/coverage-v1/c-travel.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/b-careless.json",
+      "blob": "dc5b79222a1b7268c26050825e0b6987982732ab",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/b-careless.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/b-careless.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/b-careless.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/b-clever.json",
+      "blob": "fc043f97afd50b8b2b215622c363992c9f3e6bf8",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/b-clever.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/b-clever.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/b-clever.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/b-world-odd.json",
+      "blob": "e84b58d641c499f46008eb66e83a1e360f95ccc2",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/b-world-odd.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/b-world-odd.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/b-world-odd.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/beast-folk.json",
+      "blob": "d3253c83b2fd4dd07b4ff365dba7688abfd35280",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/beast-folk.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/beast-folk.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/beast-folk.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/fire-cold.json",
+      "blob": "8e5827b95bd4b972f4590b4cd5807e72e86b31f2",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/fire-cold.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/fire-cold.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/fire-cold.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/food-body.json",
+      "blob": "8d0f1f394701dc23f278b052c187c6cc8ee7b35e",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/food-body.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/food-body.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/food-body.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/grow-find.json",
+      "blob": "10db9acd17a191bea849c14dd874202ddd9a9fe5",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/grow-find.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/grow-find.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/grow-find.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/tool-build.json",
+      "blob": "9d3edc0e99aa6be271b104ab5ad391d1f3731171",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/tool-build.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/tool-build.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/tool-build.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/derive/water-mix.json",
+      "blob": "719dab93b2c54b4c709c2f224cc6cd2649710d3c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/derive/water-mix.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/derive/water-mix.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/derive/water-mix.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/a-beast-folk.json",
+      "blob": "4bae11b47f31fd08920a6f978efc07f766437e55",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/a-beast-folk.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/a-beast-folk.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/a-beast-folk.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/a-fire-cold.json",
+      "blob": "23c85410e6e1c0441c2a0b116e03aef2d7f72cb3",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/a-fire-cold.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/a-fire-cold.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/a-fire-cold.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/a-food-body.json",
+      "blob": "8c1d2c677acac755ca26f39ae255d914ef143136",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/a-food-body.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/a-food-body.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/a-food-body.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/a-grow-find.json",
+      "blob": "33e40f92885be201ce05eba36b91c1baa83c6299",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/a-grow-find.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/a-grow-find.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/a-grow-find.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/a-tool-build.json",
+      "blob": "2f4dd3af6c58d8fbba572cf0d86d3535c8d10a08",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/a-tool-build.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/a-tool-build.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/a-tool-build.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/a-water-mix.json",
+      "blob": "1e10278352b4695c18a217407f093b1a9be63f0e",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/a-water-mix.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/a-water-mix.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/a-water-mix.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/b-careless.json",
+      "blob": "aa99dc9c10abcb9ac336557247f9f0ce36b5baf8",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/b-careless.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/b-careless.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/b-careless.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/b-clever.json",
+      "blob": "f4cf7d5aa46be3883cc47fa6da18e45e6e1f4261",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/b-clever.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/b-clever.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/b-clever.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/b-world-odd.json",
+      "blob": "0a044ac66cf18d395186c9cc7e82a84322fb44f9",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/b-world-odd.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/b-world-odd.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/b-world-odd.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/c-craft.json",
+      "blob": "b62f6c8f737b1450876d468d627e3e3e9048270c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/c-craft.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/c-craft.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/c-craft.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/c-fight-silly.json",
+      "blob": "340c52ab388ccbc96ce7dd0b917f934a9de4e227",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/c-fight-silly.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/c-fight-silly.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/c-fight-silly.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scenarios/c-travel.json",
+      "blob": "174b287248940706001e462723e154014cfff6d0",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scenarios/c-travel.json"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scenarios/c-travel.json"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scenarios/c-travel.json"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scripts/count.mjs",
+      "blob": "638bb5c7263d49ea97794caa39a486bde3896755",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scripts/count.mjs"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scripts/count.mjs"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scripts/count.mjs"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/scripts/tally.mjs",
+      "blob": "843f77ed0d54a423475daddd18b947a71c66345c",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/scripts/tally.mjs"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/scripts/tally.mjs"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/scripts/tally.mjs"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/tally-v0.txt",
+      "blob": "e9a8e67e77c88ace0299b74b431749ddff769130",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/tally-v0.txt"
+        },
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/tally.txt"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/tally-v0.txt"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/tally.txt"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/tally-v0.txt"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/tally.txt"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/tally.txt",
+      "blob": "e9a8e67e77c88ace0299b74b431749ddff769130",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/tally-v0.txt"
+        },
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/tally.txt"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/tally-v0.txt"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/tally.txt"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/tally-v0.txt"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/tally.txt"
+        }
+      ]
+    },
+    {
+      "path": "spikes/vocabulary/results/v1-summary.txt",
+      "blob": "a3b3e8ac0205657b4af67d808ef6f7e465571e74",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/renderer/client",
+          "path": "spikes/vocabulary/results/v1-summary.txt"
+        },
+        {
+          "ref": "origin/sandbox/matter",
+          "path": "spikes/vocabulary/results/v1-summary.txt"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "spikes/vocabulary/results/v1-summary.txt"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/README.md",
+      "blob": "d86a6f50fedd2a2a489425078bcf6322cd3b3969",
+      "classification": "preserved-document-variant",
+      "matches": [],
+      "archive": "validation/worktree-sweep/c0-delivery/README.md"
+    },
+    {
+      "path": "validation/c0-work/manifest.json",
+      "blob": "dd67bf348035e8013ece26c58c28c6a44bc836b2",
+      "classification": "preserved-document-variant",
+      "matches": [],
+      "archive": "validation/worktree-sweep/c0-delivery/manifest.json"
+    },
+    {
+      "path": "validation/c0-work/packages/core/src/matter/drift.ts",
+      "blob": "e901cd6da038b4d062cd736c4ae7eee63f9e7df6",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/src/matter/drift.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/src/matter/graph/drift-rules.ts",
+      "blob": "5402b6d1b0ea72a69df9de495364d96e1f944360",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/src/matter/graph/drift-rules.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/src/matter/graph/soak-rules.ts",
+      "blob": "31e792a9aec10206c7cd28d861b5b1f43e295106",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/src/matter/graph/soak-rules.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/src/matter/heat.ts",
+      "blob": "e8b01762ee04f67930dd3b9a95119089d5ed4e2a",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/src/matter/heat.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/c0-drift-phases.test.ts",
+      "blob": "0809df30496af423f8202c846971c24d0b86d419",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/c0-drift-phases.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/c0-exposure.test.ts",
+      "blob": "3d6c0ae0d10d0b2be84a899038c7cb96a5fa42e6",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/c0-exposure.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/graph/drift-oracle.ts",
+      "blob": "d87603cec9a0d745cd93a5f7c5284b377e32afa6",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/graph/drift-oracle.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/graph/drift-rules.test.ts",
+      "blob": "f3a29c687a08561e3cee046f04892c1d380d2191",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/graph/drift-rules.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/graph/heat-oracle.ts",
+      "blob": "ea4728f25656f907c0cc80d25b3f27c9da9fad1a",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/graph/heat-oracle.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/graph/soak-oracle.ts",
+      "blob": "884c3e4f6b0ff50c021d1f087016a613282d8ac7",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/graph/soak-oracle.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/graph/validate.test.ts",
+      "blob": "a0a1debff4be8c84922b940a3d31114569fbbf04",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/graph/validate.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/held-out-clearing.test.ts",
+      "blob": "2d87880c5c314b4f3c13407f712c078b018870a7",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/held-out-clearing.test.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/sandbox-held-out-928755f-20260720/held-out-clearing.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/c0-work/packages/core/test/matter/held-out-fixture.ts",
+      "blob": "7d0713e5d639e9be03a7abb11b6fa714f18e0397",
+      "classification": "published-at-another-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/held-out-fixture.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/poc-held-out/held-out-fixture.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/sandbox-held-out-928755f-20260720/held-out-fixture.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/poc-held-out/README.md",
+      "blob": "530442da065ac3fb696848b40689e31d0d93846a",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/poc-held-out/README.md"
+        }
+      ]
+    },
+    {
+      "path": "validation/sandbox-held-out-928755f-20260720/REPORT.md",
+      "blob": "5a6c356f9cf2b4316d382d0e7d778263aa6cf392",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/sandbox-held-out-928755f-20260720/REPORT.md"
+        }
+      ]
+    },
+    {
+      "path": "validation/sandbox-held-out-928755f-20260720/held-out-clearing.test.ts",
+      "blob": "2d87880c5c314b4f3c13407f712c078b018870a7",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/held-out-clearing.test.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/sandbox-held-out-928755f-20260720/held-out-clearing.test.ts"
+        }
+      ]
+    },
+    {
+      "path": "validation/sandbox-held-out-928755f-20260720/held-out-fixture.ts",
+      "blob": "7d0713e5d639e9be03a7abb11b6fa714f18e0397",
+      "classification": "published-at-same-path",
+      "matches": [
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "packages/core/test/matter/held-out-fixture.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/poc-held-out/held-out-fixture.ts"
+        },
+        {
+          "ref": "origin/design/compositional-causality",
+          "path": "validation/sandbox-held-out-928755f-20260720/held-out-fixture.ts"
+        }
+      ]
+    }
+  ]
+}

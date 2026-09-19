@@ -4,6 +4,7 @@
  * fact: how common the thing is here is a level the judge scored once for this kind of
  * place; the odds, the time and the draw are code.
  */
+import { feeds } from "./diet.ts";
 import { effective } from "./effective.ts";
 import { born } from "./scale.ts";
 import type { Change, MatterWorld } from "./types.ts";
@@ -33,7 +34,8 @@ export function ingest(world: MatterWorld, act: IngestAct): Change[] {
     return [{ kind: "nothing", because: [], note: "there is nothing there to eat" }];
   const p = effective(world, thing);
   const eaten = Math.min(act.amount ?? 1, thing.state.amount);
-  const serves = world.elements[thing.element]?.serves ?? {};
+  // What it gets from it is by what it is to this eater (diet.ts).
+  const serves = feeds(world, body, thing.element);
   const needs = { ...body.needs };
   for (const [need, gives] of Object.entries(serves) as [keyof typeof needs, number][])
     needs[need] = clamp((needs[need] ?? 0) - gives * eaten);

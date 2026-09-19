@@ -1,0 +1,532 @@
+[
+  {
+    "id": "young-01",
+    "domain": "young",
+    "who": "a red fox mother with a litter of kits at a den mouth",
+    "place": "a hedgerow den at dusk in early summer, the light almost gone",
+    "present": ["four kits at the den mouth", "one kit that has wandered ten yards into open pasture", "a hawk-shaped shadow that crossed overhead twice in the last hour"],
+    "factors": [
+      { "kind": "a need", "fact": "She has not eaten since the previous night and is weak with hunger." },
+      { "kind": "a threat", "fact": "A hawk crossed low over the field twice in the last hour." },
+      { "kind": "a bond", "fact": "The straying kit is the smallest and slowest of the litter." },
+      { "kind": "what she can still do", "fact": "She can reach the straying kit in a few seconds at a run." },
+      { "kind": "where she is at home", "fact": "The den is close enough that a short dash leaves the other kits unwatched only briefly." },
+      { "kind": "what it fears", "fact": "Kits that stray from cover rarely survive a hawk's stoop." }
+    ],
+    "does": { "verb": "runs out and herds", "toward": "the straying kit", "how": "urgently" },
+    "could_also": [
+      { "verb": "barks a warning from the den", "toward": "the straying kit" },
+      { "verb": "waits at the den mouth", "toward": "the litter" },
+      { "verb": "goes hunting first", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "abandons the kit", "toward": "the straying kit", "why": "one kit lost now costs more than the risk of a short dash to fetch it" },
+      { "verb": "moves the whole litter", "toward": "the litter", "why": "there is no time to move four kits before the hawk returns" }
+    ],
+    "then": "She grips the kit by the scruff and carries it back to the den, then noses the others deeper into the earth before finally going off to hunt.",
+    "why": "The hawk's passes make open ground dangerous right now, and this kit is both closest to danger and least able to save itself, so recovering it outweighs the hunger that would send her hunting immediately.",
+    "turns_on": "whether the hawk is still circling nearby"
+  },
+  {
+    "id": "young-02",
+    "domain": "young",
+    "who": "a mother alone in a one-room house with her infant son",
+    "place": "a cold house past midnight, the nearest healer a two-hour walk away",
+    "present": ["the infant, feverish and limp", "a banked fire burning low", "a jug of water"],
+    "factors": [
+      { "kind": "a need", "fact": "The infant's fever has climbed since sundown and his breathing rattles." },
+      { "kind": "what she is owed", "fact": "No one is expected to come check on her before morning." },
+      { "kind": "what she knows", "fact": "She has cooled a fever before with wet cloths and it worked." },
+      { "kind": "what she fears", "fact": "The road to the healer crosses open country with no one to help if she stumbles carrying him." },
+      { "kind": "what she can still do", "fact": "She still has clean water and cloth in the house." },
+      { "kind": "a bond", "fact": "He is her only child." }
+    ],
+    "does": { "verb": "stays and sponges him with cool water", "toward": "the infant", "how": "steadily" },
+    "could_also": [
+      { "verb": "wraps him and sets out for the healer", "toward": "the infant" },
+      { "verb": "sends for a neighbor", "toward": "nothing" },
+      { "verb": "waits for morning", "toward": "the infant" }
+    ],
+    "would_not": [
+      { "verb": "leaves him to fetch help alone", "toward": "the infant", "why": "an infant this feverish cannot be left unwatched even briefly" },
+      { "verb": "does nothing until dawn", "toward": "the infant", "why": "the fever is worsening, not holding steady, so waiting risks losing him" }
+    ],
+    "then": "She keeps sponging him through the night; toward dawn the fever breaks and his breathing eases, and only then does she send a neighbor's boy running for the healer to be sure.",
+    "why": "The night road is a real danger to attempt alone with a limp child, and she has a remedy that has worked before, so she tries it first rather than risking both of them on a dark walk.",
+    "turns_on": "whether the fever breaks before dawn or keeps climbing"
+  },
+  {
+    "id": "young-03",
+    "domain": "young",
+    "who": "a hen with a brood of chicks in a farmyard",
+    "place": "an open farmyard at midday with thin cover",
+    "present": ["eight chicks scattered across open ground", "a hawk circling high overhead", "a low woodpile ten feet away"],
+    "factors": [
+      { "kind": "a threat", "fact": "The hawk is circling high and has not yet folded its wings to dive." },
+      { "kind": "custom", "fact": "Hens give a sharp alarm note the moment a hawk stoops, not before." },
+      { "kind": "what it can still do", "fact": "She can reach the woodpile faster than she can gather every scattered chick." },
+      { "kind": "a need", "fact": "The chicks are too young to recognize the danger without her cue." },
+      { "kind": "rank", "fact": "She is the only adult bird in the yard." }
+    ],
+    "does": { "verb": "watches and stays still", "toward": "the hawk", "how": "tense" },
+    "could_also": [
+      { "verb": "gives the alarm call", "toward": "the chicks" },
+      { "verb": "herds chicks toward the woodpile", "toward": "the chicks" },
+      { "verb": "scatters into the open herself", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "sounds the alarm now", "toward": "the chicks", "why": "a false alarm this early would scatter the brood for nothing and teach them to ignore her call" },
+      { "verb": "abandons the yard", "toward": "the chicks", "why": "leaving now would strand every chick with no warning at all if the hawk does dive" }
+    ],
+    "then": "The hawk drifts off toward the treeline without diving, and she resumes scratching the ground, clucking the chicks back around her.",
+    "why": "A circling hawk is not yet a stooping hawk, and false alarms cost her the chicks' trust in the real one, so she waits for the fold of the wings before committing to a call that will scatter them.",
+    "turns_on": "whether the hawk folds its wings to dive"
+  },
+  {
+    "id": "young-04",
+    "domain": "young",
+    "who": "a wolf pup whose mother was killed by a rival pack two days ago",
+    "place": "the pack's rendezvous site in late autumn, prey scarce",
+    "present": ["three adult wolves that are not the pup's parents", "the pup's two litter-mates, thin and calling", "a half-eaten carcass from the last hunt"],
+    "factors": [
+      { "kind": "a bond", "fact": "None of the surviving adults is this pup's parent." },
+      { "kind": "a need", "fact": "Prey has been scarce all week and the last kill barely fed the adults." },
+      { "kind": "custom", "fact": "This pack has raised orphaned litters before when food allowed." },
+      { "kind": "what it can still do", "fact": "The carcass has enough left for the adults or for the pups, not comfortably both." },
+      { "kind": "rank", "fact": "The pup is too young to hunt or travel with the pack." },
+      { "kind": "what it fears", "fact": "A pup left behind at the rendezvous site alone will not survive the week." }
+    ],
+    "does": { "verb": "lets it feed at the carcass", "toward": "the orphaned pup", "how": "grudgingly" },
+    "could_also": [
+      { "verb": "drives it off from the carcass", "toward": "the orphaned pup" },
+      { "verb": "carries it along on the next hunt", "toward": "the orphaned pup" },
+      { "verb": "ignores it entirely", "toward": "the orphaned pup" }
+    ],
+    "would_not": [
+      { "verb": "kills the pup", "toward": "the orphaned pup", "why": "the pack has never done this to an orphaned pup even when lean, and its litter-mates are watching" },
+      { "verb": "feeds it before its own litter-mates", "toward": "the orphaned pup", "why": "the pup is one of three at the carcass and no one of them is owed to eat first" }
+    ],
+    "then": "The orphan feeds alongside the litter-mates, thinner than the rest but fed, and stays close to the rendezvous site through the following weeks while the adults hunt.",
+    "why": "Prey is scarce but not gone, and the pack's habit of raising orphaned litters when food allows outweighs the small cost of one more mouth at a carcass that already has enough.",
+    "turns_on": "whether the carcass has enough left over for a fourth mouth"
+  },
+  {
+    "id": "young-05",
+    "domain": "young",
+    "who": "two mature rams from the same flock in the autumn rut",
+    "place": "a hillside pasture with the flock's ewes grazing nearby",
+    "present": ["a ewe in season", "the rest of the flock grazing at a distance", "the shepherd's dog resting near the gate"],
+    "factors": [
+      { "kind": "what just happened", "fact": "The larger ram already drove this same rival off two days earlier." },
+      { "kind": "what it can still do", "fact": "The smaller ram is limping slightly from an old injury." },
+      { "kind": "a need", "fact": "The ewe will only be in season for another day or so." },
+      { "kind": "rank", "fact": "The larger ram has held this flock's ewes for three seasons running." }
+    ],
+    "does": { "verb": "backs away from", "toward": "the larger ram", "how": "stiff-legged" },
+    "could_also": [
+      { "verb": "charges the larger ram", "toward": "the larger ram" },
+      { "verb": "circles for an opening", "toward": "the ewe" },
+      { "verb": "waits at a distance", "toward": "the ewe" }
+    ],
+    "would_not": [
+      { "verb": "presses the challenge", "toward": "the larger ram", "why": "he already lost this contest two days ago and his leg has not improved since" },
+      { "verb": "gives up the flock entirely", "toward": "nothing", "why": "backing off from one ewe does not mean abandoning the whole flock for the season" }
+    ],
+    "then": "He retreats to the edge of the pasture and grazes alone while the larger ram stays with the ewe, though he will test the larger ram again once his leg is sound.",
+    "why": "He lost the same contest days ago against the same rival and his injury has only made him weaker since, so pressing the fight now would cost him more than the one missed chance is worth.",
+    "turns_on": "whether his leg has healed since the last contest"
+  },
+  {
+    "id": "young-06",
+    "domain": "young",
+    "who": "a father teaching his young son to split kindling",
+    "place": "a woodshed behind the house on a cold morning",
+    "present": ["a hatchet", "a stack of unsplit wood", "the boy's cut hand"],
+    "factors": [
+      { "kind": "what just happened", "fact": "The boy has just cut the side of his hand on the hatchet's edge." },
+      { "kind": "what it can still do", "fact": "The cut is shallow and has already stopped bleeding heavily." },
+      { "kind": "a bond", "fact": "This is the boy's first time handling the hatchet alone." },
+      { "kind": "what it knows", "fact": "A shallow cut like this needs only cleaning and a wrap, not a healer." },
+      { "kind": "custom", "fact": "In this house a child who is hurt learning a tool is expected to keep going once tended, not be excused from it." }
+    ],
+    "does": { "verb": "cleans and wraps", "toward": "the boy's hand", "how": "calmly" },
+    "could_also": [
+      { "verb": "takes the hatchet away for good", "toward": "the boy" },
+      { "verb": "sends him inside to his mother", "toward": "the boy" },
+      { "verb": "scolds him for carelessness", "toward": "the boy" }
+    ],
+    "would_not": [
+      { "verb": "ignores the cut and keeps drilling him", "toward": "the boy", "why": "an unwashed cut left untreated can fester even if it looks minor now" },
+      { "verb": "forbids him from ever touching the hatchet again", "toward": "the boy", "why": "one shallow cut on a first try is not reason enough to undo the lesson entirely" }
+    ],
+    "then": "He wraps the hand, has the boy watch him split the next few logs, then hands the hatchet back once the boy's grip steadies.",
+    "why": "The cut is minor and the boy needs to learn this tool sometime, so tending the hand and continuing the lesson serves him better than either ignoring the injury or ending the lesson over it.",
+    "turns_on": "how deep the cut turns out to be"
+  },
+  {
+    "id": "young-07",
+    "domain": "young",
+    "who": "a stray cat nursing a litter of four kittens",
+    "place": "a gap beneath a barn floor in a hard winter, several days since her last meal",
+    "present": ["four kittens, eyes barely open", "a rat hole at the far end of the barn", "the barn owner's boots heard outside"],
+    "factors": [
+      { "kind": "a need", "fact": "She has not caught anything in three days and her milk is thinning." },
+      { "kind": "a bond", "fact": "The kittens cannot yet move or feed themselves." },
+      { "kind": "what she fears", "fact": "Leaving the nest means the kittens are unguarded and cold without her body heat." },
+      { "kind": "what she can still do", "fact": "There is a rat hole close enough to reach in a short trip." },
+      { "kind": "what it knows", "fact": "The barn owner sometimes leaves scraps near the door but has also chased her off before." }
+    ],
+    "does": { "verb": "leaves briefly to hunt", "toward": "the rat hole", "how": "quickly" },
+    "could_also": [
+      { "verb": "stays with the kittens and goes without", "toward": "the kittens" },
+      { "verb": "moves the litter to a new spot", "toward": "the kittens" },
+      { "verb": "goes toward the barn owner for scraps", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "abandons the nest for the night", "toward": "the kittens", "why": "the kittens would chill badly without her within an hour in this cold" },
+      { "verb": "approaches the barn owner directly", "toward": "nothing", "why": "he has chased her off before and she cannot risk being driven away from the litter" }
+    ],
+    "then": "She is back at the rat hole and returns within minutes, and though the catch is small it is enough to keep her milk going another day.",
+    "why": "Her milk is failing and the kittens cannot survive on nothing, so a short, close hunt is worth the brief risk of leaving them, while a longer trip toward the barn owner's unreliable scraps is not.",
+    "turns_on": "how close the nearest thing to catch is"
+  },
+  {
+    "id": "young-08",
+    "domain": "young",
+    "who": "a pigeon whose mate was struck by a hawk this morning",
+    "place": "a ledge on a barn roof overlooking a farmyard",
+    "present": ["the injured mate, wing held wrong, on the ground below", "a nest with no eggs yet", "the hawk perched at a distance in a bare tree"],
+    "factors": [
+      { "kind": "what just happened", "fact": "The mate was struck minutes ago and cannot fly back up to the ledge." },
+      { "kind": "a threat", "fact": "The hawk that struck it is still perched nearby, watching." },
+      { "kind": "a bond", "fact": "This pair has nested together for two seasons." },
+      { "kind": "what it can still do", "fact": "Pigeons on the ground cannot defend against a hawk the way they can in the air." }
+    ],
+    "does": { "verb": "drops down and stays close to", "toward": "the injured mate", "how": "anxious" },
+    "could_also": [
+      { "verb": "stays on the ledge calling", "toward": "the injured mate" },
+      { "verb": "flies at the hawk", "toward": "the hawk" },
+      { "verb": "leaves to find a new mate", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "attacks the hawk directly", "toward": "the hawk", "why": "a pigeon has no way to drive off a hawk and would likely be struck as well" },
+      { "verb": "abandons the mate on the ground", "toward": "the injured mate", "why": "two seasons paired together outweighs the risk of standing nearby while the hawk is still just watching" }
+    ],
+    "then": "It stays beside the injured mate until the hawk eventually loses interest and flies off, then both make their way back to the ledge on foot and wing over the next hour.",
+    "why": "The hawk is watching but not yet stooping again, and the bond from two seasons together makes staying close worth more than the small risk, while attacking the hawk outright would help no one.",
+    "turns_on": "whether the hawk is still watching or has moved on"
+  },
+  {
+    "id": "young-09",
+    "domain": "young",
+    "who": "a dairy cow whose calf is being weaned",
+    "place": "a farmyard with the calf penned separately for the first time",
+    "present": ["the calf in an adjoining pen", "a fence between them", "the farmer nearby with a bucket"],
+    "factors": [
+      { "kind": "a bond", "fact": "The calf has nursed from her every day since birth two months ago." },
+      { "kind": "custom", "fact": "The farmer weans calves at this age every year without trouble." },
+      { "kind": "what she can still do", "fact": "The fence is solid and she cannot reach the calf through it." },
+      { "kind": "a need", "fact": "The calf is old enough to take feed from a bucket now." }
+    ],
+    "does": { "verb": "paces and calls at the fence", "toward": "the calf", "how": "restless" },
+    "could_also": [
+      { "verb": "tries to break through the fence", "toward": "the calf" },
+      { "verb": "settles and grazes", "toward": "nothing" },
+      { "verb": "ignores the calf entirely", "toward": "the calf" }
+    ],
+    "would_not": [
+      { "verb": "breaks through the fence", "toward": "the calf", "why": "the fence holds and repeated charges would only injure her for no gain" },
+      { "verb": "stops calling immediately", "toward": "the calf", "why": "two months of daily nursing does not end the moment a fence goes up between them" }
+    ],
+    "then": "She calls and paces at the fence for the first day, then gradually settles as the calf takes to the bucket and the distance becomes routine.",
+    "why": "The bond from two months of nursing does not vanish just because a fence appears, but the fence holds and the calf is genuinely ready for the bucket, so distress rather than escape is what follows.",
+    "turns_on": "how many days since the pen went up"
+  },
+  {
+    "id": "young-10",
+    "domain": "young",
+    "who": "a yearling bear cub whose mother has wandered out of sight while foraging",
+    "place": "a berry slope in late summer, the mother's scent trail nearby but the cub cannot see her",
+    "present": ["a patch of ripe berries", "a fallen log with grubs under the bark", "the mother's scent trail leading away"],
+    "factors": [
+      { "kind": "a need", "fact": "The cub is hungry and the berries here are ripe and close." },
+      { "kind": "what it fears", "fact": "This is the first time it has been out of sight of its mother." },
+      { "kind": "what it can still do", "fact": "It knows how to follow a scent trail, though it has never done so alone." },
+      { "kind": "a bond", "fact": "It has never fed itself for more than a few minutes without her nearby." }
+    ],
+    "does": { "verb": "feeds on the berries", "toward": "the berry patch", "how": "quick and watchful" },
+    "could_also": [
+      { "verb": "follows her scent trail", "toward": "the mother" },
+      { "verb": "calls out and waits", "toward": "nothing" },
+      { "verb": "investigates the log for grubs", "toward": "the fallen log" }
+    ],
+    "would_not": [
+      { "verb": "wanders further from the trail", "toward": "nothing", "why": "straying further would make it much harder to find her scent again" },
+      { "verb": "panics and runs blindly", "toward": "nothing", "why": "running without a direction only increases the chance of getting properly lost" }
+    ],
+    "then": "It eats quickly, glancing up often, and when a twig snaps nearby it abandons the berries and trots off along her scent trail until it finds her a few minutes later.",
+    "why": "The hunger and the easy food in front of it are real, but never having been alone this long makes it stay close enough to the scent trail that a sudden sound sends it straight back to searching for her.",
+    "turns_on": "whether a sound startles it while it is feeding"
+  },
+  {
+    "id": "young-11",
+    "domain": "young",
+    "who": "a mother with a toddler and a newborn",
+    "place": "a farmyard with an open well, midmorning",
+    "present": ["the newborn, crying and needing to be fed", "the toddler, wandering toward the well's low wall", "the well itself, uncovered"],
+    "factors": [
+      { "kind": "a need", "fact": "The newborn has been crying to be fed for several minutes." },
+      { "kind": "a threat", "fact": "The toddler is now within a few steps of the well's edge." },
+      { "kind": "what it can still do", "fact": "She cannot carry both children to safety in one motion." },
+      { "kind": "what just happened", "fact": "The toddler has climbed onto the well's low wall before and been pulled down for it." }
+    ],
+    "does": { "verb": "drops the newborn onto bedding and runs to", "toward": "the toddler", "how": "urgent" },
+    "could_also": [
+      { "verb": "calls sharply to the toddler", "toward": "the toddler" },
+      { "verb": "finishes settling the newborn first", "toward": "the newborn" },
+      { "verb": "covers the well later", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "finishes feeding the newborn first", "toward": "the newborn", "why": "the newborn crying is uncomfortable but not in danger, while the well is a fall away from something far worse" },
+      { "verb": "only shouts from a distance", "toward": "the toddler", "why": "the toddler has climbed the wall before and a shout alone did not stop it that time" }
+    ],
+    "then": "She scoops the toddler off the wall, sets them both down away from the well, and only then goes back to settle and feed the crying newborn.",
+    "why": "A crying newborn is safe where it lies, but a toddler beside an open well is one misstep from drowning, so the well outweighs the crying every time this choice comes up.",
+    "turns_on": "how close the toddler already is to the well's edge"
+  },
+  {
+    "id": "young-12",
+    "domain": "young",
+    "who": "an elephant calf whose mother died of illness two days ago",
+    "place": "open grassland where the herd is moving toward new water",
+    "present": ["the herd's matriarch and several other females", "the calf's own aunt, who has a calf of similar age", "the herd's slow travel pace"],
+    "factors": [
+      { "kind": "a bond", "fact": "The calf's aunt already has a calf of her own to nurse." },
+      { "kind": "what it can still do", "fact": "The orphan can still keep pace with the herd's slow travel for now." },
+      { "kind": "custom", "fact": "This herd has adopted orphaned calves before when one female had milk to spare." },
+      { "kind": "a need", "fact": "The orphan cannot yet feed itself on grass alone at this age." },
+      { "kind": "rank", "fact": "The matriarch decides where and how fast the herd moves." }
+    ],
+    "does": { "verb": "lets it walk alongside and nurse", "toward": "the orphan calf", "how": "tolerant" },
+    "could_also": [
+      { "verb": "drives it away from her own calf", "toward": "the orphan calf" },
+      { "verb": "leaves it behind with the herd", "toward": "the orphan calf" },
+      { "verb": "the matriarch slows the herd for it", "toward": "the orphan calf" }
+    ],
+    "would_not": [
+      { "verb": "drives it away entirely", "toward": "the orphan calf", "why": "the herd has taken in orphans before and this aunt has milk enough to share for now" },
+      { "verb": "lets it fall behind unaided", "toward": "the orphan calf", "why": "a calf this age left alone on open grassland will not survive predators or thirst" }
+    ],
+    "then": "The orphan nurses alongside its cousin and keeps pace with the herd for now, though it will need the aunt's tolerance to hold for months before it can feed itself.",
+    "why": "The aunt has milk enough to spare and the herd's custom favors taking in an orphan it can still keep up with, so tolerance costs less now than the calf's death would cost later.",
+    "turns_on": "whether the aunt's own milk holds out for two"
+  },
+  {
+    "id": "young-13",
+    "domain": "young",
+    "who": "a male sparrow courting a hen that is already paired",
+    "place": "a hedge nesting site in early spring",
+    "present": ["the paired hen", "her mate, currently away foraging", "a half-built nest in the hedge"],
+    "factors": [
+      { "kind": "what just happened", "fact": "Her mate left to forage only moments ago and has not returned." },
+      { "kind": "custom", "fact": "A paired hen this early in nest-building rarely accepts another male." },
+      { "kind": "rank", "fact": "This male has already been driven off by her mate once this season." },
+      { "kind": "a need", "fact": "It is still early enough in spring that unpaired hens can still be found elsewhere." }
+    ],
+    "does": { "verb": "courts", "toward": "the paired hen", "how": "briefly" },
+    "could_also": [
+      { "verb": "waits nearby for the mate to leave again", "toward": "the paired hen" },
+      { "verb": "moves on to look elsewhere", "toward": "nothing" },
+      { "verb": "challenges the returning mate", "toward": "the mate" }
+    ],
+    "would_not": [
+      { "verb": "stays to fight the mate for her", "toward": "the mate", "why": "he has already lost that fight once this season and the mate is due back any moment" },
+      { "verb": "pursues her aggressively", "toward": "the paired hen", "why": "a hen already committed to a nest this early is very unlikely to leave it for him" }
+    ],
+    "then": "He gives up within a minute when the mate's call sounds nearby, and flies off to try his luck with an unpaired hen two hedges over.",
+    "why": "The hen is unlikely to leave a nest she has already started, and he has already lost the fight for her once, so a brief attempt and a quick retreat cost him less than staying to be driven off again.",
+    "turns_on": "whether the mate returns before he gives up"
+  },
+  {
+    "id": "young-14",
+    "domain": "young",
+    "who": "a herding dog guarding a pen of young goats",
+    "place": "a pen at the edge of pasture at night, two jackals circling",
+    "present": ["a dozen young goats in the pen", "two jackals circling just outside the fence", "the shepherd asleep in a hut some distance off"],
+    "factors": [
+      { "kind": "a threat", "fact": "There are two jackals, and the dog has only ever driven off one at a time before." },
+      { "kind": "what it can still do", "fact": "The pen fence is intact and the jackals have not yet found a gap." },
+      { "kind": "a bond", "fact": "The dog has guarded this pen every night for three years." },
+      { "kind": "what it fears", "fact": "Leaving the pen to chase one jackal would let the other approach unguarded." }
+    ],
+    "does": { "verb": "barks and stands over", "toward": "the goat pen", "how": "fierce but stationary" },
+    "could_also": [
+      { "verb": "chases off the nearer jackal", "toward": "the nearer jackal" },
+      { "verb": "runs for the shepherd", "toward": "nothing" },
+      { "verb": "retreats into the pen itself", "toward": "the goat pen" }
+    ],
+    "would_not": [
+      { "verb": "chases one jackal into the dark", "toward": "the nearer jackal", "why": "leaving the fence line would let the second jackal in while it is occupied with the first" },
+      { "verb": "abandons the pen to fetch the shepherd", "toward": "nothing", "why": "the fence is still holding and leaving now would hand the jackals an unguarded pen" }
+    ],
+    "then": "It holds its ground barking until the noise and its refusal to break position discourage both jackals, which drift off before dawn without breaching the fence.",
+    "why": "Two jackals is more than it has handled alone before, but the fence is still whole, and chasing either one away from the line would open the pen to the other, so holding position outweighs pursuit.",
+    "turns_on": "whether the fence has an actual gap they can use"
+  },
+  {
+    "id": "young-15",
+    "domain": "young",
+    "who": "a woman whose husband went out fishing and has not returned",
+    "place": "a fishing village cottage, three days since the boat should have come back",
+    "present": ["their young child, asking where their father is", "neighbors who have stopped mentioning it", "the boat's usual mooring, empty"],
+    "factors": [
+      { "kind": "what she knows", "fact": "Boats caught in the same storm three days ago have washed up empty before, with no survivors found after this long." },
+      { "kind": "a bond", "fact": "They have been married since before the child was born." },
+      { "kind": "a need", "fact": "The child still needs to be fed, dressed and told something." },
+      { "kind": "what it is owed", "fact": "The village expects mourning to begin once hope is clearly gone, not before." }
+    ],
+    "does": { "verb": "keeps watching the water and waiting", "toward": "the mooring", "how": "quietly" },
+    "could_also": [
+      { "verb": "tells the child he is not coming back", "toward": "the child" },
+      { "verb": "asks neighbors to search further out", "toward": "nothing" },
+      { "verb": "begins mourning openly", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "begins mourning outright on day three", "toward": "nothing", "why": "three days is within the range boats have returned late before, so it is too soon by the village's own reckoning" },
+      { "verb": "tells the child nothing at all", "toward": "the child", "why": "the child is already asking and needs some honest answer, not silence" }
+    ],
+    "then": "She tells the child only that the sea has kept him longer than usual, and keeps the fire lit and food ready in case the boat comes in after dark.",
+    "why": "Three days is grim but not yet past the point where boats from that storm have returned, so the village's own custom and her own hope both say to keep watching a little longer before mourning begins.",
+    "turns_on": "how many days since the boat was due back"
+  },
+  {
+    "id": "young-16",
+    "domain": "young",
+    "who": "a wild rabbit with a litter of kits in a shallow burrow",
+    "place": "a warren entrance at dawn, a fox's scent fresh nearby",
+    "present": ["five healthy kits", "one kit, weak and barely moving, that has soiled the nest", "fresh fox scent at the warren's mouth"],
+    "factors": [
+      { "kind": "a threat", "fact": "A fox has scented near this warren entrance within the last hour." },
+      { "kind": "what it knows", "fact": "A weak, soiled kit draws predators to the whole nest faster than a clean one." },
+      { "kind": "a bond", "fact": "The other five kits are healthy and likely to survive if the nest is not found." },
+      { "kind": "what it can still do", "fact": "She cannot clean or save the weak kit fast enough to remove the scent it has already left." }
+    ],
+    "does": { "verb": "removes and leaves", "toward": "the weak kit", "how": "quick" },
+    "could_also": [
+      { "verb": "cleans the nest and kit thoroughly", "toward": "the weak kit" },
+      { "verb": "moves the whole litter", "toward": "the litter" },
+      { "verb": "stays and does nothing", "toward": "the litter" }
+    ],
+    "would_not": [
+      { "verb": "stays to nurse the weak kit through it", "toward": "the weak kit", "why": "the scent it is already leaving is the more urgent danger to the five healthy kits, and nursing will not stop that" },
+      { "verb": "moves the whole litter now", "toward": "the litter", "why": "moving five kits at dawn with a fox already close by is more dangerous than removing the one already failing" }
+    ],
+    "then": "She carries the weak kit out and leaves it some distance from the warren, then returns to groom the remaining nest thoroughly before settling back over the five that remain.",
+    "why": "The weak kit's scent is already a danger to five healthy siblings, and there is no time to both save it and remove that danger, so the five outweigh the one that was least likely to survive regardless.",
+    "turns_on": "how strong the fox's scent is at the warren mouth"
+  },
+  {
+    "id": "young-17",
+    "domain": "young",
+    "who": "a shepherd and his young daughter, delivering a ewe's first lamb",
+    "place": "a lambing shed at night in early spring",
+    "present": ["the straining ewe", "a lamb with a leg bent back inside her", "a lantern giving poor light"],
+    "factors": [
+      { "kind": "what it knows", "fact": "The father has felt a leg bent back like this before and knows it can be turned by hand." },
+      { "kind": "a need", "fact": "The ewe is tiring and cannot push much longer without help." },
+      { "kind": "a bond", "fact": "This is the daughter's first time helping with a difficult birth." },
+      { "kind": "what it can still do", "fact": "The daughter's hands are smaller and can reach further inside than his." }
+    ],
+    "does": { "verb": "guides his daughter's hand to turn", "toward": "the lamb", "how": "careful" },
+    "could_also": [
+      { "verb": "tries to reach in himself", "toward": "the lamb" },
+      { "verb": "sends for a neighbor with more experience", "toward": "nothing" },
+      { "verb": "lets the ewe labor on unaided", "toward": "the ewe" }
+    ],
+    "would_not": [
+      { "verb": "lets the ewe labor on unaided", "toward": "the ewe", "why": "she is already tiring and a bent leg like this will not correct itself" },
+      { "verb": "sends for help and waits", "toward": "nothing", "why": "the nearest help is too far away and the ewe does not have that much time left" }
+    ],
+    "then": "Guided by his voice, the daughter reaches in and turns the leg straight, and the lamb slides free minutes later, wet and breathing, while the ewe rests.",
+    "why": "He has felt this kind of trouble before and knows it can be fixed by hand, and his daughter's smaller hands can do it more easily than his own, so teaching her in the moment serves the ewe better than either waiting or doing it himself.",
+    "turns_on": "whether the leg can be reached and turned in time"
+  },
+  {
+    "id": "young-18",
+    "domain": "young",
+    "who": "a stray dog nursing a litter of puppies in a cold alley",
+    "place": "a sheltered alcove behind a shop in winter",
+    "present": ["five puppies, a few days old", "a person crouching nearby with food and a warm bag", "the alcove's thin shelter from the wind"],
+    "factors": [
+      { "kind": "a need", "fact": "She has not eaten today and the food being offered is close and real." },
+      { "kind": "what it fears", "fact": "The person's hands are reaching toward one of the puppies, not just setting food down." },
+      { "kind": "what it knows", "fact": "People in this alley have thrown things at her before, though this one has not." },
+      { "kind": "a bond", "fact": "The puppies are only a few days old and cannot survive being separated from her yet." }
+    ],
+    "does": { "verb": "growls and stands over", "toward": "the puppies", "how": "wary" },
+    "could_also": [
+      { "verb": "takes the food while watching the person", "toward": "the person" },
+      { "verb": "retreats deeper into the alcove with the puppies", "toward": "the puppies" },
+      { "verb": "snaps at the reaching hand", "toward": "the person" }
+    ],
+    "would_not": [
+      { "verb": "lets the puppy be picked up without protest", "toward": "the puppies", "why": "a puppy this young separated from her would not survive the cold or the lack of milk" },
+      { "verb": "abandons the food to attack outright", "toward": "the person", "why": "the person has not actually hurt her and biting would risk being driven off from her own shelter" }
+    ],
+    "then": "She stands her ground until the person withdraws the reaching hand, then eats the food once left alone, keeping the puppies pulled close against her side.",
+    "why": "The food is worth taking but not at the cost of a puppy being taken, and past experience with people in this alley makes her wary rather than trusting, even toward one who has not yet hurt her.",
+    "turns_on": "whether the hand actually closes on a puppy"
+  },
+  {
+    "id": "young-19",
+    "domain": "young",
+    "who": "a young stallion challenging the herd's older stallion for its mares",
+    "place": "an open range at the start of the breeding season",
+    "present": ["a band of mares grazing", "the older stallion, scarred from past fights", "a stretch of open ground between them"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "The young stallion is heavier and faster than the older one this season." },
+      { "kind": "what just happened", "fact": "The older stallion won every challenge against younger males the previous two seasons." },
+      { "kind": "rank", "fact": "The older stallion has held this band of mares for four years." },
+      { "kind": "a need", "fact": "The young stallion has no mares of his own and the breeding season will not wait." }
+    ],
+    "does": { "verb": "challenges", "toward": "the older stallion", "how": "aggressive" },
+    "could_also": [
+      { "verb": "waits and grows another season", "toward": "nothing" },
+      { "verb": "tries to steal a mare without a direct fight", "toward": "the mares" },
+      { "verb": "backs down at the first display", "toward": "the older stallion" }
+    ],
+    "would_not": [
+      { "verb": "backs down without testing him", "toward": "the older stallion", "why": "this season he is genuinely bigger and faster than the older stallion, unlike the seasons he lost before" },
+      { "verb": "waits another season", "toward": "nothing", "why": "waiting costs him this breeding season entirely for an advantage he already has now" }
+    ],
+    "then": "The two fight hard for several minutes; the young stallion's extra speed wins out, and the older stallion withdraws, leaving the band to the challenger.",
+    "why": "Past losses no longer reflect the two horses' current condition, and the young stallion's real physical edge this season outweighs the older stallion's years of holding the band, so the challenge is worth the risk now.",
+    "turns_on": "which stallion is actually stronger this season"
+  },
+  {
+    "id": "young-20",
+    "domain": "young",
+    "who": "a mother sitting beside her infant, who died two days ago",
+    "place": "a small house in summer heat, three days since the child died",
+    "present": ["other family members, waiting outside the room", "the infant's body, kept in the coolest corner", "the summer heat building through the day"],
+    "factors": [
+      { "kind": "what it knows", "fact": "In this heat, a body kept unburied this long draws sickness and cannot be preserved much longer." },
+      { "kind": "a bond", "fact": "This was her first child, born after several years of trying." },
+      { "kind": "what it is owed", "fact": "Custom allows a short private time before burial, but not an open-ended one." },
+      { "kind": "what others expect", "fact": "The family waiting outside has already asked once, gently, when she will allow the burial." }
+    ],
+    "does": { "verb": "sits and holds", "toward": "the infant", "how": "silent" },
+    "could_also": [
+      { "verb": "allows the family to proceed with burial", "toward": "the infant" },
+      { "verb": "refuses to let anyone near", "toward": "the family" },
+      { "verb": "asks for one more night first", "toward": "the family" }
+    ],
+    "would_not": [
+      { "verb": "refuses burial indefinitely", "toward": "the family", "why": "the heat and the body's condition make delay past a day or two genuinely harmful, not just against custom" },
+      { "verb": "hands the child over without any private time at all", "toward": "the infant", "why": "custom and her own grief both allow some private time before burial, which she has not yet had" }
+    ],
+    "then": "She holds the child through the morning, then asks for the burial to proceed that same afternoon, before the heat worsens further.",
+    "why": "The heat makes further delay genuinely harmful and custom itself only grants a short private time rather than an open one, so grief yields to those two pressures together rather than to either alone.",
+    "turns_on": "how much the heat has already affected the body"
+  }
+]

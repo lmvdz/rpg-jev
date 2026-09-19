@@ -1,0 +1,525 @@
+[
+  {
+    "id": "provoke-01",
+    "domain": "provoke",
+    "who": "a lone wolf still crouched over a fresh kill",
+    "place": "a frost-stiff meadow at dawn, half a mile from the treeline, where sound carries far",
+    "present": ["a fresh deer carcass, mostly eaten", "a stranger on foot, walking closer without seeing the wolf yet", "a pair of ravens waiting nearby"],
+    "factors": [
+      { "kind": "a need", "fact": "The wolf has not eaten in three days and this carcass is most of what is left of it." },
+      { "kind": "a threat's size", "fact": "The approaching figure is upright, on two legs, far larger than the wolf alone." },
+      { "kind": "what it can still do", "fact": "The wolf's hind leg is stiff from an old injury and running is painful." },
+      { "kind": "distance", "fact": "The stranger has not yet noticed the wolf or the kill." },
+      { "kind": "escape", "fact": "The treeline is close enough to reach before the stranger could catch up." },
+      { "kind": "custom", "fact": "Wolves in this range have learned that upright figures rarely chase far." }
+    ],
+    "does": { "verb": "freezes and watches", "toward": "the stranger", "how": "still, low" },
+    "could_also": [
+      { "verb": "growls a warning and stands over", "toward": "the carcass" },
+      { "verb": "grabs a mouthful and slinks off", "toward": "nothing" },
+      { "verb": "flees for the treeline", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "charges", "toward": "the stranger", "why": "the meal isn't worth a fight it can't win on a bad leg" },
+      { "verb": "keeps eating and ignores", "toward": "the stranger", "why": "an approaching upright figure this close can't be ignored" }
+    ],
+    "then": "It waits until the stranger is within thirty paces, then bolts for the trees, leaving most of the kill behind for the ravens.",
+    "why": "Hunger argues for holding the kill, but the stiff leg means it cannot win a fight or an outright chase if seen too close; leaving early while the gap is still wide costs less than waiting for the choice to be forced.",
+    "turns_on": "whether the stranger keeps closing the distance"
+  },
+  {
+    "id": "provoke-02",
+    "domain": "provoke",
+    "who": "a farm's guard dog, chained near the yard gate",
+    "place": "a farmyard at night, a latecomer at the gate, the family asleep in the house",
+    "present": ["a wooden gate with a metal latch", "a stranger standing just outside it", "a lit window in the farmhouse, distant", "the dog's chain, staked to a post"],
+    "factors": [
+      { "kind": "territory", "fact": "The yard inside the gate is the dog's whole world; it has never once let a stranger cross the fence." },
+      { "kind": "what someone just did", "fact": "The stranger has just rattled the latch, testing whether it's locked." },
+      { "kind": "reach", "fact": "The chain lets the dog reach the gate itself but no farther." },
+      { "kind": "a bond", "fact": "The dog knows the household's voices and has never heard this one before." },
+      { "kind": "time of night", "fact": "It is well past midnight, when the household is used to full silence, not barking." },
+      { "kind": "risk to itself", "fact": "Nothing in the yard has ever hurt the dog badly enough to make it wary of a fight." }
+    ],
+    "does": { "verb": "lunges to the end of its chain, barking", "toward": "the stranger", "how": "loud, teeth bared" },
+    "could_also": [
+      { "verb": "stands stiff-legged and growls low", "toward": "the stranger" },
+      { "verb": "barks toward", "toward": "the farmhouse window" }
+    ],
+    "would_not": [
+      { "verb": "stays quiet and watches", "toward": "the stranger", "why": "a stranger touching the latch at night is exactly what it exists to announce" },
+      { "verb": "slips its chain and gives chase", "toward": "the stranger", "why": "the chain holds and it has never tested it hard enough to know otherwise" }
+    ],
+    "then": "The barking wakes a light in the farmhouse; the stranger lets go of the latch and backs off into the dark before anyone comes out.",
+    "why": "The rattled latch is exactly the kind of act the dog exists to punish, and raising the house costs it nothing while its own reach ends at the chain; noise, not a bite it cannot deliver, is the only option within its power.",
+    "turns_on": "whether the stranger reaches for the latch"
+  },
+  {
+    "id": "provoke-03",
+    "domain": "provoke",
+    "who": "a middle-aged tenant farmer, quick to take offense",
+    "place": "a village tavern on market night, crowded enough that words carry",
+    "present": ["a second farmer who owes him for a torn fence", "a room full of other patrons", "a barkeep wiping down the counter"],
+    "factors": [
+      { "kind": "an insult", "fact": "The other farmer just called him a thief in front of the room, over a debt that isn't settled." },
+      { "kind": "witnesses", "fact": "Half the tavern turned to listen when the words landed." },
+      { "kind": "what is owed", "fact": "He is in fact owed money for the fence, so the insult stings worse for being aimed the wrong way." },
+      { "kind": "custom", "fact": "In this village, an insult left unanswered in public is remembered for years." },
+      { "kind": "what he fears", "fact": "The other farmer is younger and has hit men before over less." },
+      { "kind": "what he can still do", "fact": "He can demand the debt be settled aloud, which shifts the room's judgment without a blow." }
+    ],
+    "does": { "verb": "demands the debt back, loudly", "toward": "the other farmer", "how": "loud, controlled" },
+    "could_also": [
+      { "verb": "shoves", "toward": "the other farmer" },
+      { "verb": "turns and walks out", "toward": "nothing" },
+      { "verb": "insults back", "toward": "the other farmer" }
+    ],
+    "would_not": [
+      { "verb": "throws the first punch", "toward": "the other farmer", "why": "he'd lose that fight and knows it" },
+      { "verb": "laughs it off and buys a round", "toward": "the other farmer", "why": "letting it pass in front of this room costs him standing he can't spare" }
+    ],
+    "then": "The room's murmurs turn against the younger farmer once the debt is named; he mutters an apology and pays a portion before the night is out.",
+    "why": "Public standing and the unpaid debt both point toward answering in words the room will judge, since a swing he'd lose settles nothing and silence would be remembered longer than the insult itself.",
+    "turns_on": "whether other men in the tavern are watching"
+  },
+  {
+    "id": "provoke-04",
+    "domain": "provoke",
+    "who": "a cart-driver hauling goods to market",
+    "place": "a narrow forest road at dusk, no one else in sight for a mile either way",
+    "present": ["a stranger blocking the road with a drawn knife", "a cart loaded with sacks of grain", "a mule hitched to the cart"],
+    "factors": [
+      { "kind": "a threat", "fact": "The stranger has a knife out and is asking for the coin purse, not the grain." },
+      { "kind": "what is owed", "fact": "The coin is this month's rent, already promised to the landholder." },
+      { "kind": "what he can still do", "fact": "He is unarmed except for a cart-whip within reach." },
+      { "kind": "a need", "fact": "Losing the coin means missing rent, but losing his life means missing everything." },
+      { "kind": "distance", "fact": "Help is a mile off in either direction, too far to matter now." },
+      { "kind": "what someone just did", "fact": "The stranger has not yet touched him, only shown the blade." }
+    ],
+    "does": { "verb": "hands over", "toward": "the stranger", "how": "slow, hands visible" },
+    "could_also": [
+      { "verb": "throws the purse and drives off", "toward": "the stranger" },
+      { "verb": "tries to bargain, offering grain instead", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "reaches for the whip", "toward": "the stranger", "why": "a whip against a knife at arm's length is a losing trade for a purse of coin" },
+      { "verb": "refuses outright", "toward": "the stranger", "why": "the coin isn't worth what a drawn knife is willing to cost him" }
+    ],
+    "then": "He hands the purse over and is let go; he arrives home short on rent and has to ask the landholder for a week's grace.",
+    "why": "The knife already drawn and no help within reach make the choice arithmetic, not pride: the coin can be earned again, the life spent tonight cannot, so it goes over the moment the blade stays out.",
+    "turns_on": "how sharp the knife looks"
+  },
+  {
+    "id": "provoke-05",
+    "domain": "provoke",
+    "who": "a mother bear foraging with two cubs at her side",
+    "place": "a berry slope in late summer, wind blowing from the hiker toward her, cubs feeding a short way off",
+    "present": ["two cubs, feeding on berries a few strides away", "a hiker who has just crested the rise", "a patch of dense brush between her and the hiker"],
+    "factors": [
+      { "kind": "a bond", "fact": "The cubs are close enough that the hiker's path will pass between her and them." },
+      { "kind": "distance", "fact": "The hiker is forty paces off and hasn't seen the cubs yet." },
+      { "kind": "a threat's size", "fact": "An upright human is not something she'd challenge over food alone." },
+      { "kind": "what she fears", "fact": "Nothing in her life has taught her that this distance is safe with cubs this small." },
+      { "kind": "what she can still do", "fact": "She could call the cubs to her and retreat into the brush before being seen at all." }
+    ],
+    "does": { "verb": "huffs and stands", "toward": "the hiker", "how": "upright, briefly" },
+    "could_also": [
+      { "verb": "charges a few steps and stops", "toward": "the hiker" },
+      { "verb": "gathers the cubs and retreats", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "presses a real charge home", "toward": "the hiker", "why": "a human this far off isn't yet worth the risk of a real fight" },
+      { "verb": "ignores him and keeps foraging", "toward": "nothing", "why": "the path he's on runs too close to the cubs to ignore" }
+    ],
+    "then": "The huff and bluff stop the hiker in his tracks; he backs away slowly, and she herds the cubs off into the brush the moment his back is turned enough.",
+    "why": "The cubs' closeness argues for driving the danger off now, but the human isn't yet close enough to justify a real charge, so a bluff that costs nothing but noise does the job the situation actually calls for.",
+    "turns_on": "how far the cubs have wandered from her"
+  },
+  {
+    "id": "provoke-06",
+    "domain": "provoke",
+    "who": "an old farm dog that sleeps by the henhouse",
+    "place": "a henhouse yard at night, a hole freshly dug under the wire fence",
+    "present": ["a fox, halfway through a gap under the fence, a dead hen already in its jaws", "a coop full of remaining hens, panicking", "the farmhouse, dark and asleep"],
+    "factors": [
+      { "kind": "territory", "fact": "The henhouse is the one thing the dog has guarded every night of its life." },
+      { "kind": "what someone just did", "fact": "The fox has already killed one hen and is halfway out with it." },
+      { "kind": "what it can still do", "fact": "The dog is old and slower than it once was, but the fox is half in, half out of the gap and slowed by the load in its jaws." },
+      { "kind": "an opening", "fact": "If it catches the fox before it clears the gap, the fox can't run." },
+      { "kind": "loss already taken", "fact": "One hen is already dead; the rest can still be saved." }
+    ],
+    "does": { "verb": "lunges for", "toward": "the fox", "how": "fast, low" },
+    "could_also": [
+      { "verb": "barks to scare it off without catching it", "toward": "the fox" },
+      { "verb": "stands guard over the remaining hens instead", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "chases it once it's clear of the fence", "toward": "the fox", "why": "a fox running free in the open is faster than an old dog now" },
+      { "verb": "ignores it and lets it finish taking the hen", "toward": "nothing", "why": "the fence and the flock are the one thing it's never once let go unguarded" }
+    ],
+    "then": "The fox drops the dead hen and squeezes back through the gap just ahead of the dog's jaws, and the remaining hens settle once the dog stands over the hole the rest of the night.",
+    "why": "The half-cleared gap is the only moment the fox is catchable at all, so the dog spends what speed it has left right then rather than after, when the fox would already be gone.",
+    "turns_on": "whether the fox is inside the pen or fleeing"
+  },
+  {
+    "id": "provoke-07",
+    "domain": "provoke",
+    "who": "a local blacksmith, well known and well liked in the village",
+    "place": "the same village tavern, later on market night, now thinner of witnesses",
+    "present": ["a traveling stranger who has been drinking heavily and mocking the local accent all evening", "a handful of remaining patrons, mostly not paying attention anymore", "the tavern door, shut against the cold"],
+    "factors": [
+      { "kind": "an insult", "fact": "The stranger has just mocked him by name-calling in front of the few patrons left." },
+      { "kind": "what he's had", "fact": "He himself has had enough drink that his temper is shorter than usual." },
+      { "kind": "witnesses", "fact": "Almost no one left is paying attention; there's little standing to be won or lost either way." },
+      { "kind": "what he can still do", "fact": "He is by far the stronger man and knows it." },
+      { "kind": "custom", "fact": "Striking a stranger over drunk words in an empty room earns no one's respect, win or lose." }
+    ],
+    "does": { "verb": "ignores and turns back to his drink", "toward": "nothing", "how": "flat" },
+    "could_also": [
+      { "verb": "tells him to leave", "toward": "the stranger" },
+      { "verb": "grabs him by the collar", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "strikes him outright", "toward": "the stranger", "why": "with no one watching there's nothing to win by it and everything to answer for after" },
+      { "verb": "laughs along and buys him another drink", "toward": "the stranger", "why": "the insult was real enough that ignoring is the best he'll manage, not befriending" }
+    ],
+    "then": "The stranger tires of getting no reaction and stumbles out into the night alone a short while later.",
+    "why": "An empty room strips the insult of the audience that would have made an answer worth the risk, and his own drink-shortened temper is exactly the reason to not trust himself to stop at a shove.",
+    "turns_on": "how many drinks he's had"
+  },
+  {
+    "id": "provoke-08",
+    "domain": "provoke",
+    "who": "a raccoon that has been rooting through a shed",
+    "place": "the inside corner of a toolshed, the door swung nearly shut by the person who found it",
+    "present": ["a person holding a rake, blocking most of the doorway", "shelves of tools and jars, nowhere else to climb", "a narrow gap still open beside the person's leg"],
+    "factors": [
+      { "kind": "escape", "fact": "There is one narrow gap left beside the person's leg, not yet blocked." },
+      { "kind": "a threat", "fact": "The rake is being held up, not swung yet." },
+      { "kind": "what it can still do", "fact": "It is a good climber but the shelves lead nowhere but higher into the corner." },
+      { "kind": "fear", "fact": "It has never fought anything larger than a dog and lost worse than it won." },
+      { "kind": "time", "fact": "The gap beside the leg is closing as the person shifts to block it fully." }
+    ],
+    "does": { "verb": "bolts for the gap", "toward": "nothing", "how": "low, fast" },
+    "could_also": [
+      { "verb": "hisses and bares teeth, holding ground", "toward": "the person" },
+      { "verb": "climbs the shelving to get higher", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "attacks the person outright", "toward": "the person", "why": "nothing it's fought before was this much bigger and won it anything" },
+      { "verb": "stays still and waits", "toward": "nothing", "why": "the one way out is closing and waiting loses it" }
+    ],
+    "then": "It squeezes past the leg before the gap shuts and is gone into the dark yard before the person can turn around.",
+    "why": "With an exit still open even by inches, running through it costs far less than a fight against something many times its size, and every moment spent deciding closes the gap further.",
+    "turns_on": "whether the gap behind it is still open"
+  },
+  {
+    "id": "provoke-09",
+    "domain": "provoke",
+    "who": "the henyard's longtime rooster",
+    "place": "a chicken yard at first light, a second, younger rooster newly added to the flock the day before",
+    "present": ["a young rooster brought in yesterday from another farm", "the hens, feeding, indifferent for now", "a low fence separating this yard from the road"],
+    "factors": [
+      { "kind": "rank", "fact": "He has held this yard uncontested for two years and every hen in it." },
+      { "kind": "what someone just did", "fact": "The new rooster crowed first this morning, before he did." },
+      { "kind": "what it can still do", "fact": "He is heavier and has never lost a yard fight." },
+      { "kind": "a bond", "fact": "The hens have not yet shown any preference between the two." },
+      { "kind": "custom", "fact": "In this yard, whichever rooster crows first each morning has, in practice, always been the one left standing by evening." }
+    ],
+    "does": { "verb": "squares up and charges", "toward": "the new rooster", "how": "head down, spurs first" },
+    "could_also": [
+      { "verb": "crows louder over him", "toward": "the new rooster" },
+      { "verb": "struts a wide circle around him first", "toward": "the new rooster" }
+    ],
+    "would_not": [
+      { "verb": "backs away and cedes the yard", "toward": "nothing", "why": "he has never once lost this yard and nothing about this morning suggests he's weaker now" },
+      { "verb": "attacks a hen instead", "toward": "nothing", "why": "the challenge came from the other rooster, not from any hen" }
+    ],
+    "then": "The two roosters spur and flap for a short, loud minute until the younger one breaks and runs for the fence; the yard is his again by full light.",
+    "why": "Being crowed over first is, by this yard's own history, the opening move of a challenge for the flock, and his unbroken record of winning here means backing down now would cost him standing he has no reason yet to think he's lost.",
+    "turns_on": "which one crowed first this morning"
+  },
+  {
+    "id": "provoke-10",
+    "domain": "provoke",
+    "who": "a young shepherd's boy running an errand to town",
+    "place": "a river ford at midday, the water loud enough to cover raised voices",
+    "present": ["two strangers waiting at the ford, blocking the crossing", "a small purse of coin", "a sealed letter tucked in his shirt, meant for the town reeve"],
+    "factors": [
+      { "kind": "a threat", "fact": "Two strangers are demanding whatever he's carrying, and he is alone against both." },
+      { "kind": "what is owed", "fact": "The coin is his, spendable and replaceable." },
+      { "kind": "what he's entrusted with", "fact": "The letter isn't his and losing it would fail the person who trusted him with it." },
+      { "kind": "what he can still do", "fact": "He's fast on foot and knows a shallower crossing upstream they don't." },
+      { "kind": "a threat's size", "fact": "Both strangers are grown men; he's a boy who can't win a fight against either." }
+    ],
+    "does": { "verb": "hands over", "toward": "the coin purse", "how": "quick, without argument" },
+    "could_also": [
+      { "verb": "begs to keep the letter", "toward": "the strangers" },
+      { "verb": "tries to bolt for the upstream crossing", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "hands over the letter as well without a fight", "toward": "the strangers", "why": "the coin is replaceable but failing the errand he was trusted with is not" },
+      { "verb": "fights to keep either", "toward": "the strangers", "why": "two grown men against one boy is a fight he loses before it starts" }
+    ],
+    "then": "He gives up the coin at once, and when they grab for the letter too he twists free and bolts upstream, reaching the shallower crossing and the town road before either man catches him.",
+    "why": "The coin is worth handing over the instant two men against one boy make resistance pointless, but the letter carries a trust that isn't his to trade away, so the same logic that surrenders the purse is what makes him run rather than surrender the rest.",
+    "turns_on": "whether the men are watching the letter or the purse"
+  },
+  {
+    "id": "provoke-11",
+    "domain": "provoke",
+    "who": "an aging stag, still holding a stretch of oak wood",
+    "place": "the rutting season, an oak wood at dusk, distant roars closing in",
+    "present": ["a younger, larger stag, roaring back, approaching", "a small group of hinds, quiet, watching from cover", "open ground between the two rivals"],
+    "factors": [
+      { "kind": "rank", "fact": "He has held these hinds for three seasons running." },
+      { "kind": "what he can still do", "fact": "He is lighter than last season and one antler is chipped from an old fight." },
+      { "kind": "a threat's size", "fact": "The younger stag is heavier and roars louder and longer than he can match." },
+      { "kind": "a bond", "fact": "The hinds are still watching him, not yet drifting toward the newcomer." },
+      { "kind": "custom", "fact": "In this wood, a stag that doesn't answer a roar loses the hinds without even a fight." }
+    ],
+    "does": { "verb": "roars back and paces", "toward": "the younger stag", "how": "stiff, display" },
+    "could_also": [
+      { "verb": "locks antlers and pushes", "toward": "the younger stag" },
+      { "verb": "turns and leads the hinds off", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "charges immediately without display", "toward": "the younger stag", "why": "a straight charge against a heavier animal wastes the one advantage a display might still buy him" },
+      { "verb": "ignores the roar and keeps grazing", "toward": "nothing", "why": "an unanswered roar loses the hinds before any fight even happens" }
+    ],
+    "then": "The display goes on longer than either wants; when the younger stag finally closes to lock antlers, the older one gives ground after a short push and lets the hinds go rather than risk the chipped antler snapping.",
+    "why": "His weakened frame argues for avoiding a real clash he's likely to lose, but the custom that an unanswered roar loses the herd outright means he has to at least display before he can afford to yield; the retreat comes only once the real cost of the antler is on the line.",
+    "turns_on": "how much weight the older stag has lost this rut"
+  },
+  {
+    "id": "provoke-12",
+    "domain": "provoke",
+    "who": "a solitary traveler passing through on foot",
+    "place": "a narrow lane between two stone walls at dusk, the only through-route to the next village",
+    "present": ["three young strangers blocking the lane ahead, arms crossed", "a low wall too high to easily climb with a pack on", "a side gap in the wall a short way back, barely noticed"],
+    "factors": [
+      { "kind": "a threat", "fact": "Three strangers stand shoulder to shoulder across the lane, clearly meaning to bar the way." },
+      { "kind": "a threat's size", "fact": "He is alone and unarmed beyond a walking staff." },
+      { "kind": "an opening", "fact": "He remembers passing a gap in the wall a short way back that they haven't blocked." },
+      { "kind": "what is owed", "fact": "They haven't demanded anything yet, only stood in his path." },
+      { "kind": "pride", "fact": "Turning back in full view of them costs him something, but less than a beating would." }
+    ],
+    "does": { "verb": "turns back toward", "toward": "the gap in the wall", "how": "unhurried" },
+    "could_also": [
+      { "verb": "stops and asks what they want", "toward": "the strangers" },
+      { "verb": "tries to push straight through", "toward": "the strangers" }
+    ],
+    "would_not": [
+      { "verb": "pushes through the three of them", "toward": "the strangers", "why": "three against one with no weapon is a fight settled before it starts" },
+      { "verb": "stands his ground and waits them out", "toward": "the strangers", "why": "waiting doesn't change the numbers and only gives them time to decide to close in" }
+    ],
+    "then": "He doubles back to the gap and skirts around through a field, adding an hour to his walk but reaching the village well after they've lost interest in waiting.",
+    "why": "Being outnumbered three to one with no demand yet made means there's nothing to defend by staying, and the remembered gap turns a beating into merely a longer walk, which is the cheaper price by far.",
+    "turns_on": "whether the gap in the wall is still unblocked"
+  },
+  {
+    "id": "provoke-13",
+    "domain": "provoke",
+    "who": "a household cat, sunning itself on a low wall",
+    "place": "a village yard in early afternoon, the neighbor's dog off its rope for once",
+    "present": ["a neighbor's dog, loose and trotting over, curious rather than hostile yet", "a low wall the cat is sitting on", "a gap in the fence nearby, and another route along the wall itself"],
+    "factors": [
+      { "kind": "territory", "fact": "The wall is the cat's usual sunning spot, claimed for years." },
+      { "kind": "a threat's size", "fact": "The dog is much bigger and has chased it before, though never quite caught it." },
+      { "kind": "escape", "fact": "The wall runs to a gap the dog can't fit through, close behind the cat." },
+      { "kind": "what it can still do", "fact": "On the wall, the cat has height and the dog cannot easily reach it." }
+    ],
+    "does": { "verb": "arches and hisses, holding its spot", "toward": "the dog", "how": "loud, ready" },
+    "could_also": [
+      { "verb": "bolts along the wall to the gap", "toward": "nothing" },
+      { "verb": "swats when the dog gets close enough", "toward": "the dog" }
+    ],
+    "would_not": [
+      { "verb": "jumps down to confront it on open ground", "toward": "the dog", "why": "height is the only advantage it has and giving it up would hand the dog every other one" },
+      { "verb": "ignores the dog entirely", "toward": "nothing", "why": "a dog that's chased it before closing this fast can't safely be ignored" }
+    ],
+    "then": "The dog barks and paws at the wall's base for a minute, then loses interest and wanders off once the cat doesn't come down.",
+    "why": "Height on the wall neutralizes the size gap that makes the dog dangerous on open ground, so holding that ground and hissing costs nothing while jumping down would trade a safe position for a race it might not win.",
+    "turns_on": "whether the fence gap is behind the cat or in front of it"
+  },
+  {
+    "id": "provoke-14",
+    "domain": "provoke",
+    "who": "a middle-aged tanner, well settled in his trade",
+    "place": "the market square, years after a debt dispute that once cost him his father's land",
+    "present": ["the man who years ago swindled him out of his father's land, now old and using a cane", "a crowd of market-day shoppers", "the tanner's own stall, unattended for the moment"],
+    "factors": [
+      { "kind": "what is owed", "fact": "That man's false witness cost his family the land outright, years ago." },
+      { "kind": "time passed", "fact": "It has been so long that most of the town has forgotten the dispute entirely." },
+      { "kind": "what he can still do", "fact": "The old man is frail now and couldn't defend himself against so much as a shove." },
+      { "kind": "custom", "fact": "Striking a frail old man in the square, whatever the old debt, would make him the one the town judges harshly now." },
+      { "kind": "what he's built since", "fact": "He has a settled trade and a name in this town that the old grudge could still cost him." }
+    ],
+    "does": { "verb": "watches him pass without approaching", "toward": "the old man", "how": "still, silent" },
+    "could_also": [
+      { "verb": "confronts him with words, in private later", "toward": "the old man" },
+      { "verb": "tells the story to a younger listener nearby", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "strikes him in the square", "toward": "the old man", "why": "beating a frail old man now would cost him the standing he's spent years rebuilding" },
+      { "verb": "forgives it outright and greets him", "toward": "the old man", "why": "the debt was real and years haven't actually settled it, whatever the town's forgotten" }
+    ],
+    "then": "He lets the old man pass, but that evening he finally tells his own grown son the full story of the land, so the debt at least isn't forgotten entirely even if it goes unanswered.",
+    "why": "The years have shifted what answering the old wrong would cost: the old man is too frail to make it a fair reckoning and the town has moved on, so keeping the account alive in the telling costs him nothing while striking now would cost him everything he's built since.",
+    "turns_on": "whether anyone else remembers what he did"
+  },
+  {
+    "id": "provoke-15",
+    "domain": "provoke",
+    "who": "a viper coiled in a sunny patch of rocks",
+    "place": "a dry hillside path in midsummer, midday heat, footsteps approaching",
+    "present": ["a person's boot, coming down within a foot of the coil", "loose scree on either side of the path", "the shadow of a passing bird overhead"],
+    "factors": [
+      { "kind": "a threat", "fact": "The boot is about to land close enough to be felt as a real strike, not just a passing vibration." },
+      { "kind": "what it can still do", "fact": "It has just fed and is sluggish, slower to strike or flee than usual." },
+      { "kind": "escape", "fact": "The scree to either side offers no fast retreat for a heavy-bodied snake right now." },
+      { "kind": "custom", "fact": "A rattle or hiss has, every time before, been enough to make heavy footsteps stop or swerve." }
+    ],
+    "does": { "verb": "rattles and coils tighter", "toward": "the boot", "how": "loud, sudden" },
+    "could_also": [
+      { "verb": "strikes at the boot", "toward": "the boot" },
+      { "verb": "tries to slide off into the scree", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "strikes without warning first", "toward": "the boot", "why": "every close call before this one has been settled by the warning alone, at no cost" },
+      { "verb": "stays still and silent", "toward": "the boot", "why": "silence risks the boot landing on it outright, which a warning has always prevented before" }
+    ],
+    "then": "The boot jerks back the instant the rattle sounds, and the walker gives the rocks a wide berth the rest of the way past.",
+    "why": "Being sluggish after feeding means neither a strike nor a full retreat is the safe first move, so the warning that has always worked before is worth trying again, saving the strike itself for if the boot doesn't stop.",
+    "turns_on": "how close the boot lands to the coil"
+  },
+  {
+    "id": "provoke-16",
+    "domain": "provoke",
+    "who": "a shepherd tending a flock on common pasture",
+    "place": "a hillside pasture at midday, a low stone wall marking the customary grazing line",
+    "present": ["a stranger who has let his own goats stray onto the shepherd's side of the wall", "the flock of sheep, unsettled by the goats", "the shepherd's dog, alert but not yet moving"],
+    "factors": [
+      { "kind": "custom", "fact": "The wall has marked whose animals graze where for as long as anyone in the valley remembers." },
+      { "kind": "what someone just did", "fact": "The stranger laughed it off when told his goats had crossed, instead of moving them." },
+      { "kind": "what is at stake", "fact": "The goats are already cropping grass the shepherd's flock needs to last the season." },
+      { "kind": "a threat's size", "fact": "The stranger is a grown man like himself, no bigger or smaller, and alone." },
+      { "kind": "what he can still do", "fact": "The dog can move goats as easily as sheep if given the command." }
+    ],
+    "does": { "verb": "orders the dog to drive back", "toward": "the stranger's goats", "how": "firm, no threat of violence" },
+    "could_also": [
+      { "verb": "argues loudly over the wall", "toward": "the stranger" },
+      { "verb": "reports it to the village elder later", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "strikes the stranger", "toward": "the stranger", "why": "a shoving match over grass isn't worth what it would cost him with the elders after" },
+      { "verb": "lets the goats keep grazing", "toward": "nothing", "why": "the grass they're eating is his flock's for the season and the wall says so" }
+    ],
+    "then": "The dog pushes the goats back over the wall within a few minutes; the stranger grumbles but doesn't cross again that day, and the shepherd mentions the laughing-off to the village elder that evening anyway.",
+    "why": "The wall and the season's grass both argue for acting now rather than losing more to grazing, but the stranger's dismissiveness is answered with the dog and a later word to the elder rather than a fight neither the custom nor the stakes actually calls for.",
+    "turns_on": "whether the stranger is alone or has friends waiting"
+  },
+  {
+    "id": "provoke-17",
+    "domain": "provoke",
+    "who": "a plow ox, usually placid, startled at midday",
+    "place": "a field at the edge of the woods, a sudden noise from the treeline",
+    "present": ["a dog from a neighboring farm, barking and nipping at its heels", "the plow, still yoked behind it", "open field ahead, a fence at the far end"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "It's yoked to a heavy plow that slows every step it takes." },
+      { "kind": "a threat", "fact": "The dog is small compared to the ox but fast and persistent at the heels." },
+      { "kind": "custom", "fact": "It has never once turned to fight anything in its life; every startle has ended in bolting." },
+      { "kind": "room to run", "fact": "The field ahead is open all the way to the fence, plenty of room to bolt even dragging the plow." }
+    ],
+    "does": { "verb": "bolts", "toward": "nothing", "how": "dragging the plow" },
+    "could_also": [
+      { "verb": "kicks out at", "toward": "the dog" },
+      { "verb": "stops dead and lowers its head", "toward": "the dog" }
+    ],
+    "would_not": [
+      { "verb": "turns and charges", "toward": "the dog", "why": "nothing in its life has ever taught it to fight rather than run" },
+      { "verb": "stands perfectly still", "toward": "nothing", "why": "a nipping dog this persistent won't be waited out by standing still" }
+    ],
+    "then": "It drags the plow in a ragged furrow most of the way to the fence before the farmhand catches up and calls the dog off.",
+    "why": "An animal with a lifetime of fleeing rather than fighting keeps doing what has always worked, and the open field gives it somewhere to run even yoked, so bolting costs a ruined furrow rather than a fight it has no instinct for.",
+    "turns_on": "how much room there is to bolt"
+  },
+  {
+    "id": "provoke-18",
+    "domain": "provoke",
+    "who": "a longtime smallholder, protective of his boundary",
+    "place": "the fence line between two farms, the day after a stranger bought the neighboring plot",
+    "present": ["a stranger, the new owner of the neighboring land, moving a fence post a stride into the smallholder's field", "an old, weathered post the smallholder's father set decades ago", "a spade left leaning against the fence"],
+    "factors": [
+      { "kind": "custom", "fact": "The old post was set by his father and has marked the line unquestioned for decades." },
+      { "kind": "what someone just did", "fact": "The stranger has already pulled up the old post and is setting a new one further into the field." },
+      { "kind": "what is owed", "fact": "A stride of land doesn't sound like much, but strips like it add up over a farm's whole edge." },
+      { "kind": "a threat's size", "fact": "The stranger is alone, unarmed, and visibly surprised to be confronted." },
+      { "kind": "what he can still do", "fact": "He could settle this by fetching the old land records instead of his fists." }
+    ],
+    "does": { "verb": "shoves back", "toward": "the stranger", "how": "hard, once" },
+    "could_also": [
+      { "verb": "demands he put the old post back first", "toward": "the stranger" },
+      { "verb": "goes to fetch the land records", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "lets the new post stand and says nothing", "toward": "nothing", "why": "his father's line moving a stride today becomes a field lost within a few seasons if unanswered" },
+      { "verb": "beats him badly over one post", "toward": "the stranger", "why": "one shove makes the point; more than that turns a boundary dispute into a crime he'd answer for" }
+    ],
+    "then": "The shove knocks the stranger back a step; words follow, and by evening both have agreed to walk the old line together with the record book rather than move any more posts alone.",
+    "why": "His father's post being pulled up outright is a direct act, not just a rumor, which justifies an immediate physical answer, but the shove stops at one because the stranger's confusion and the existence of records make a reasoned settlement possible right after.",
+    "turns_on": "whose father set that fence post"
+  },
+  {
+    "id": "provoke-19",
+    "domain": "provoke",
+    "who": "a lone, young wolf pushed out of its birth pack, ranging alone",
+    "place": "the edge of a village's grazing common at dusk, several loose farm dogs gathering",
+    "present": ["four farm dogs, barking from a loose, uneven distance", "a flock of sheep penned safely behind a fence", "open ground back toward the forest edge"],
+    "factors": [
+      { "kind": "numbers", "fact": "Four dogs are barking, but only two have actually closed the distance; the other two hang well back." },
+      { "kind": "a threat's size", "fact": "Any two of them together could hurt it badly if they mean it." },
+      { "kind": "what it can still do", "fact": "It is faster over open ground than any farm dog gathered here." },
+      { "kind": "escape", "fact": "The forest edge is close enough to reach well before the boldest dog could catch it." },
+      { "kind": "what is at stake", "fact": "The sheep are fenced and out of easy reach anyway, so there's nothing here worth a real fight." }
+    ],
+    "does": { "verb": "flees", "toward": "nothing", "how": "fast, no hesitation" },
+    "could_also": [
+      { "verb": "snaps at the boldest dog before running", "toward": "one of the farm dogs" },
+      { "verb": "stands and bluffs briefly", "toward": "the dogs" }
+    ],
+    "would_not": [
+      { "verb": "fights the two closest dogs", "toward": "the farm dogs", "why": "even two together is a real risk of injury for no gain, with the sheep already out of reach" },
+      { "verb": "keeps its distance but stays in the open all night", "toward": "nothing", "why": "barking dogs that might commit to a real chase aren't worth waiting out in the open" }
+    ],
+    "then": "It outruns the two dogs bold enough to give chase and is back in the trees within a minute, the other two never having left the yard at all.",
+    "why": "With the sheep already fenced off there's nothing here to fight for, and even though only two dogs are truly committed, that's still enough risk that its speed toward the forest is worth more than testing them.",
+    "turns_on": "how many dogs are actually committed to the chase, versus just barking"
+  },
+  {
+    "id": "provoke-20",
+    "domain": "provoke",
+    "who": "a young man who has just won a rough wrestling match at a village fair",
+    "place": "a fairground ring, a crowd still gathered, the loser down on the ground",
+    "present": ["the beaten opponent, down and not getting up quickly", "a crowd of fairgoers, some cheering, some already losing interest", "the opponent's own father, watching anxiously from the crowd"],
+    "factors": [
+      { "kind": "custom", "fact": "The match ends the moment one man is down and stays down; nothing more is owed after that by the rules of the fair." },
+      { "kind": "what someone just did", "fact": "The loser fought hard and clean the whole match, nothing underhand." },
+      { "kind": "a bond", "fact": "He can see the loser's father watching, clearly anxious for his son." },
+      { "kind": "pride", "fact": "The crowd would cheer just as loud for a harder finishing blow as for a gracious one." },
+      { "kind": "what is owed", "fact": "He owes the loser nothing more than the win itself; further harm would be his own choice, not the match's due." }
+    ],
+    "does": { "verb": "offers a hand up to", "toward": "the beaten opponent", "how": "open, unhurried" },
+    "could_also": [
+      { "verb": "raises his own arms to the crowd first", "toward": "the crowd" },
+      { "verb": "says something quiet to him alone", "toward": "the beaten opponent" }
+    ],
+    "would_not": [
+      { "verb": "presses the advantage further", "toward": "the beaten opponent", "why": "the match ended the moment he was down; anything more is a cruelty he wasn't owed" },
+      { "verb": "ignores him and walks off to the crowd", "toward": "the crowd", "why": "a clean, hard-fought match earns better than being ignored once it's over" }
+    ],
+    "then": "He pulls the loser to his feet in front of the crowd, and the father's anxious look eases into a nod as his son walks off under his own power.",
+    "why": "The match's own rule says the win is already settled the moment the opponent went down, so anything past that is the winner's own character showing, and a clean fight from an honorable opponent argues for grace rather than a showier finish the crowd might have cheered just as loud.",
+    "turns_on": "whether the loser still has family watching"
+  }
+]

@@ -1,0 +1,612 @@
+[
+  {
+    "id": "trade-01",
+    "domain": "trade",
+    "who": "A herder who has walked two days to market with one thin goat to trade.",
+    "place": "A market square at midday, stalls crowded before the roads turn to mud with the coming rains.",
+    "present": [
+      "a tool-seller minding a stall of hoes, axes and worn knives",
+      "other buyers moving between the stalls",
+      "a scale hanging unused at the tool-seller's stall"
+    ],
+    "factors": [
+      { "kind": "a need", "fact": "The herder needs a new axe head before the winter wood-cutting starts." },
+      { "kind": "what it has to offer", "fact": "The goat is thin from the walk and worth less than a fat one." },
+      { "kind": "a rival offer", "fact": "Another herder nearby is also trying to trade a goat, driving the price down." },
+      { "kind": "what it can still do", "fact": "The herder can walk on to the next town's market if this one dissatisfies, at the cost of another day." },
+      { "kind": "custom", "fact": "At this market, a goat is customarily worth one good axe and a bit more, not two." }
+    ],
+    "does": { "verb": "offers the goat for the axe and a small extra", "toward": "the tool-seller", "how": "plainly, without pretending the goat is better than it is" },
+    "could_also": [
+      { "verb": "holds out for a second tool besides the axe", "toward": "the tool-seller" },
+      { "verb": "walks on to try the next stall", "toward": "nothing" },
+      { "verb": "offers less than the goat is worth, testing the seller", "toward": "the tool-seller" }
+    ],
+    "would_not": [
+      { "verb": "gives the goat away outright", "toward": "the tool-seller", "why": "it needs the axe too badly to give away what it can trade" },
+      { "verb": "threatens the tool-seller into a low price", "toward": "the tool-seller", "why": "a market stall has enough people nearby that threats would cost it more than they'd gain" }
+    ],
+    "then": "The tool-seller looks the goat over, names a price close to what the herder offered, and they settle after a short back and forth. The herder leaves with the axe and walks home before dark.",
+    "why": "The herder's need for the axe is real but not desperate enough to overpay, and it knows the customary rate well enough to open near it rather than low. The rival goat nearby keeps it from holding out too long, since the tool-seller has another seller to turn to.",
+    "turns_on": "whether the other side's need matches what it can spare"
+  },
+  {
+    "id": "trade-02",
+    "domain": "trade",
+    "who": "A woman buying rope and nails for a roof repair before the rains.",
+    "place": "A crowded market lane in late afternoon, stalls closing soon.",
+    "present": [
+      "a stall-keeper selling coiled rope and boxes of nails",
+      "a line of other customers waiting behind her",
+      "a roof half-stripped of thatch waiting at her home"
+    ],
+    "factors": [
+      { "kind": "a need", "fact": "The roof must be closed before the rain starts, likely within two days." },
+      { "kind": "a limit", "fact": "She carries only a fixed sum of coin and no more." },
+      { "kind": "what it just did", "fact": "The stall-keeper raised the price the moment he saw how few coins she had left." },
+      { "kind": "what it can still do", "fact": "There is one more stall two lanes over that sells the same rope, if she has time to reach it before closing." },
+      { "kind": "pride", "fact": "She dislikes being seen paying more just because she looked hurried." }
+    ],
+    "does": { "verb": "counters with a lower price and turns to leave", "toward": "the stall-keeper", "how": "unhurried, as if willing to walk" },
+    "could_also": [
+      { "verb": "pays the raised price rather than risk missing the other stall closing", "toward": "the stall-keeper" },
+      { "verb": "asks for less rope for the same coin instead", "toward": "the stall-keeper" },
+      { "verb": "buys only the nails here and the rope elsewhere", "toward": "the stall-keeper" }
+    ],
+    "would_not": [
+      { "verb": "argues loudly to shame the stall-keeper", "toward": "the stall-keeper", "why": "a scene would cost her the line of customers' goodwill and waste the little time she has left" },
+      { "verb": "buys at the raised price without a word", "toward": "the stall-keeper", "why": "her pride and her fixed coin both push against simply paying what was asked out of spite" }
+    ],
+    "then": "The stall-keeper, seeing her actually start to walk, calls her back at nearer her price. She buys quickly and heads for home before the light goes.",
+    "why": "Her coin is fixed and the raised price would leave her short for nails too, but walking risks the other stall closing before she gets there. She judges the bluff is worth the risk because a stall-keeper who overcharges the hurried usually backs down once they stop looking hurried.",
+    "turns_on": "the walking-away price it set for itself before starting"
+  },
+  {
+    "id": "trade-03",
+    "domain": "trade",
+    "who": "A widower who keeps a small orchard on the edge of a village.",
+    "place": "His gate at dusk, after a neighbor's cart has just left a basket there.",
+    "present": [
+      "a basket of preserved fruit left by a neighboring household",
+      "the orchard behind him, bare for the season",
+      "a path leading to the neighbor's house down the lane"
+    ],
+    "factors": [
+      { "kind": "what it is owed", "fact": "The neighbor has never asked him for anything before this gift." },
+      { "kind": "a bond", "fact": "The neighbor's household helped him bring in the harvest two autumns ago, unasked." },
+      { "kind": "what it knows", "fact": "He has heard, secondhand, that the neighbor's roof needs mending before winter and their coin is short." },
+      { "kind": "custom", "fact": "In this village, an unasked gift is understood to be paid back in kind or in labor, not in coin." },
+      { "kind": "what it can still do", "fact": "He has little coin himself but has time and tools enough to help mend a roof." }
+    ],
+    "does": { "verb": "carries tools to the neighbor's house to help with the roof", "toward": "the neighboring household", "how": "without being asked" },
+    "could_also": [
+      { "verb": "sends back an equal basket of his own preserves", "toward": "the neighboring household" },
+      { "verb": "waits to be asked before offering anything", "toward": "nothing" },
+      { "verb": "offers coin toward the roof instead of labor", "toward": "the neighboring household" }
+    ],
+    "would_not": [
+      { "verb": "accepts the basket and does nothing in return", "toward": "the neighboring household", "why": "custom and the bond both mark the gift as an obligation he cannot simply pocket" },
+      { "verb": "refuses the basket outright", "toward": "the neighboring household", "why": "refusing an unasked gift from a bonded neighbor would read as an insult, not caution" }
+    ],
+    "then": "He shows up at the neighbor's door the next morning with tools in hand before anything is said aloud about the roof. The neighbor is embarrassed but accepts the help, and the debt between the two households evens out.",
+    "why": "The bond from the harvest and the custom of repaying an unasked gift both point the same way, and he has the means to repay in the coin that matters here: labor, not money. He guesses the roof is the real need behind the gift rather than waiting to be told outright.",
+    "turns_on": "whether refusing the gift would insult the giver"
+  },
+  {
+    "id": "trade-04",
+    "domain": "trade",
+    "who": "A farmer with grain stores from a good harvest last year.",
+    "place": "The farmer's granary door, the week before planting begins.",
+    "present": [
+      "a neighboring farmer standing with an empty seed sack",
+      "the granary's remaining store of seed grain",
+      "the fields outside, still unplanted"
+    ],
+    "factors": [
+      { "kind": "a need", "fact": "The neighboring farmer's own seed store was ruined by damp over the winter." },
+      { "kind": "what it can still do", "fact": "The lender's own planting needs only two-thirds of what remains in the granary." },
+      { "kind": "what it knows", "fact": "This same neighbor repaid a small loan of tools in full two years back." },
+      { "kind": "risk", "fact": "If the season is bad, the neighbor may not be able to repay before the next harvest." },
+      { "kind": "custom", "fact": "Seed loans here are customarily repaid with a small measure more at harvest, not sooner." }
+    ],
+    "does": { "verb": "lends a measure of seed grain", "toward": "the neighboring farmer", "how": "on the harvest-repayment custom" },
+    "could_also": [
+      { "verb": "lends less than asked, keeping a margin back", "toward": "the neighboring farmer" },
+      { "verb": "sells the seed grain instead of lending it", "toward": "the neighboring farmer" },
+      { "verb": "asks another neighbor to share the loan between them", "toward": "the neighboring farmer" }
+    ],
+    "would_not": [
+      { "verb": "refuses outright and lets the field go unplanted", "toward": "the neighboring farmer", "why": "the lender has grain to spare and a known-reliable neighbor asking, so refusing costs goodwill for no real gain" },
+      { "verb": "lends the full store, leaving none for its own planting", "toward": "the neighboring farmer", "why": "it still has its own fields to plant and cannot risk its own season for a neighbor's" }
+    ],
+    "then": "The neighbor carries the seed sack home to plant within the week. Both fields go in on time, and the debt is marked to be settled at harvest.",
+    "why": "The neighbor's past record of repaying makes the risk of this season's bad luck worth taking, and the lender has enough grain to spare without endangering its own planting. Custom already sets the terms, so there is nothing to haggle over beyond the amount.",
+    "turns_on": "whether the borrower has ever repaid before"
+  },
+  {
+    "id": "trade-05",
+    "domain": "trade",
+    "who": "A moneylender who runs a small stall of scales and ledgers at the market.",
+    "place": "The moneylender's stall on a market morning, the day a debt falls due.",
+    "present": [
+      "a debtor who owes for a loan taken out before winter",
+      "the debtor's cart, empty of the goods it usually carries to sell",
+      "a line of other people waiting to be seen at the stall"
+    ],
+    "factors": [
+      { "kind": "what it is owed", "fact": "The debt was due today, by the terms set when it was lent." },
+      { "kind": "what it can still do", "fact": "The moneylender itself owes a larger sum to someone else, due at the week's end." },
+      { "kind": "what it knows", "fact": "The debtor's cart is empty because its goods were lost to a wagon accident on the road." },
+      { "kind": "custom", "fact": "Calling in a debt in front of a line of people marks the debtor's name in the market." },
+      { "kind": "a bond", "fact": "The debtor is a stranger to the moneylender, with no history between them beyond this one loan." }
+    ],
+    "does": { "verb": "demands the debt be paid now, in front of the line", "toward": "the debtor", "how": "firmly" },
+    "could_also": [
+      { "verb": "demands part payment now and the rest later", "toward": "the debtor" },
+      { "verb": "takes goods from the debtor's cart in place of coin", "toward": "the debtor" },
+      { "verb": "pulls the debtor aside to discuss it quietly instead", "toward": "the debtor" }
+    ],
+    "would_not": [
+      { "verb": "forgives the debt on the spot", "toward": "the debtor", "why": "the moneylender has its own debt due and no bond with this stranger to justify the loss" },
+      { "verb": "ignores the missed payment and says nothing", "toward": "the debtor", "why": "its own debt due at the week's end makes silence too costly to afford" }
+    ],
+    "then": "The debtor, unable to pay, offers to work off part of the sum, and the moneylender takes what little the cart still holds against the rest. Word of the public demand spreads through the market by evening.",
+    "why": "The moneylender's own debt due at the week's end leaves no room to wait, even knowing the debtor's bad luck was not its fault. Without any bond to the debtor, pity alone is not enough to outweigh its own need for the money.",
+    "turns_on": "whether the creditor itself is short and needs the debt back now"
+  },
+  {
+    "id": "trade-06",
+    "domain": "trade",
+    "who": "An old boatwright who has lent tools and coin to fishing households for years.",
+    "place": "The boatwright's yard at the season's end, when debts are usually settled.",
+    "present": [
+      "a fisherman who borrowed coin to repair a boat two years running",
+      "the fisherman's family waiting by the dock",
+      "a half-mended boat still on the boatwright's rack"
+    ],
+    "factors": [
+      { "kind": "a bond", "fact": "The fisherman's father worked beside the boatwright for twenty years before he died." },
+      { "kind": "what it is owed", "fact": "The fisherman still owes for the boat repair, unpaid two seasons running." },
+      { "kind": "what it just did", "fact": "This season's catch was ruined by a storm that took two other boats in the same village." },
+      { "kind": "what it can still do", "fact": "The boatwright is old and has no children to leave the debt-ledger to." },
+      { "kind": "custom", "fact": "A debt forgiven here is spoken of as a gift, not a loss, and is remembered as such." }
+    ],
+    "does": { "verb": "forgives the debt", "toward": "the fisherman", "how": "quietly, without making a show of it" },
+    "could_also": [
+      { "verb": "extends the debt another season instead of forgiving it", "toward": "the fisherman" },
+      { "verb": "forgives half and lets the rest stand", "toward": "the fisherman" },
+      { "verb": "asks for labor in the yard instead of coin", "toward": "the fisherman" }
+    ],
+    "would_not": [
+      { "verb": "calls in the debt in full despite the storm", "toward": "the fisherman", "why": "the bond to the fisherman's father and the storm's bad luck both weigh against demanding payment now" },
+      { "verb": "forgives the debt loudly in front of the dock", "toward": "the fisherman", "why": "custom treats forgiveness as a private gift, not a public display" }
+    ],
+    "then": "The fisherman tries to argue against it, but the boatwright waves it off and marks the ledger closed. The fisherman's family brings fish to the boatwright's door through the winter, unasked, in its place.",
+    "why": "The bond to the fisherman's late father outweighs a debt the boatwright, old and without heirs, does not truly need repaid, and the storm makes the timing especially hard on the fisherman. Forgiving it quietly fits how such a thing is done here, rather than making it a spectacle.",
+    "turns_on": "the length of the bond between creditor and debtor"
+  },
+  {
+    "id": "trade-07",
+    "domain": "trade",
+    "who": "A carter who agreed weeks ago to deliver a load of tools to a distant village by a set day.",
+    "place": "A crossroads in a downpour, a day before the delivery is due.",
+    "present": [
+      "the cart, loaded with tools under a soaked cover",
+      "a second, shorter road leading to a nearer village with a market today",
+      "the horse pulling the cart, tired from the mud"
+    ],
+    "factors": [
+      { "kind": "what it promised", "fact": "It gave its word to deliver by tomorrow, and the village is depending on the tools for a planned building start." },
+      { "kind": "a cost", "fact": "Taking the long muddy road risks the cart axle, already cracked once this season." },
+      { "kind": "a rival opportunity", "fact": "The nearer village's market today would let it sell some of the load for quick coin instead." },
+      { "kind": "what it can still do", "fact": "It has spare rope to lash the axle if it fails partway." },
+      { "kind": "reputation", "fact": "This carter is trying to build a name for deliveries that arrive when promised." }
+    ],
+    "does": { "verb": "carries on down the long road toward the promised village", "toward": "the tools' buyer", "how": "carefully, favoring the axle" },
+    "could_also": [
+      { "verb": "stops at the nearer village to sell part of the load first", "toward": "the nearer village's market" },
+      { "verb": "waits out the rain before continuing", "toward": "nothing" },
+      { "verb": "sends word ahead that the delivery may be late", "toward": "the tools' buyer" }
+    ],
+    "would_not": [
+      { "verb": "turns back and abandons the delivery for the easier market", "toward": "the nearer village's market", "why": "its word and its growing reputation for reliability outweigh a quicker but smaller profit" },
+      { "verb": "pushes the horse to exhaustion to save time", "toward": "the tools' buyer", "why": "losing the horse would cost far more than arriving a few hours late" }
+    ],
+    "then": "The axle groans but holds, lashed with the spare rope, and the cart reaches the village late in the night but before the day is out. The tools' buyer marks the carter as one whose word can be trusted.",
+    "why": "The promise and the reputation it is building both matter more to the carter than the quick coin at the nearer market, especially with a delivery this important to the buyer. It manages the real risk to the axle rather than ignoring it, since a broken cart would cost the promise anyway.",
+    "turns_on": "how much of its own goods the promise will cost to keep"
+  },
+  {
+    "id": "trade-08",
+    "domain": "trade",
+    "who": "A trader who agreed to sell a season's wool to one buyer at a set price before the shearing was done.",
+    "place": "The trader's storeroom, wool freshly sheared and baled, the week the agreed buyer is due.",
+    "present": [
+      "the baled wool stacked and ready",
+      "a second buyer who has just arrived offering a notably higher price",
+      "a messenger sent ahead by the first buyer to confirm the agreed date"
+    ],
+    "factors": [
+      { "kind": "what it promised", "fact": "It gave its word weeks ago to sell the whole season's wool to the first buyer at the agreed price." },
+      { "kind": "a rival offer", "fact": "The second buyer is offering well above that price, today only." },
+      { "kind": "reputation", "fact": "The first buyer has bought this trader's wool for several seasons running." },
+      { "kind": "a need", "fact": "The trader has debts of its own coming due that the higher price would clear outright." }
+    ],
+    "does": { "verb": "sells the wool to the second buyer", "toward": "the second buyer", "how": "quickly, before the first buyer's messenger returns" },
+    "could_also": [
+      { "verb": "sells half to each buyer", "toward": "both buyers" },
+      { "verb": "holds to the first buyer's price and turns the second away", "toward": "the second buyer" },
+      { "verb": "asks the second buyer to wait until the debt to the first is settled another way", "toward": "the second buyer" }
+    ],
+    "would_not": [
+      { "verb": "sells to the second buyer but tells the first buyer nothing", "toward": "the first buyer", "why": "the messenger already on the way makes hiding it pointless, and word would reach the first buyer regardless" },
+      { "verb": "turns the second buyer's offer down without a second thought", "toward": "the second buyer", "why": "the debt pressing on the trader is real enough to make the promise genuinely costly to keep, not an easy choice" }
+    ],
+    "then": "The trader sells to the second buyer and sends word to the first that the wool is gone, offering an apology and a smaller cut of next season's in its place. The first buyer does not return the following year.",
+    "why": "The debt coming due weighs heavier in the moment than the years of repeat business with the first buyer, even though the trader knows the broken promise will cost it that buyer for good. The size of the second offer is what tips a choice that would otherwise have gone the other way.",
+    "turns_on": "how much better the new offer is than the one promised"
+  },
+  {
+    "id": "trade-09",
+    "domain": "trade",
+    "who": "A horse trader selling a mare with an old strain in one leg that only shows under hard work.",
+    "place": "A market paddock, a buyer looking the mare over before the sale.",
+    "present": [
+      "a buyer inspecting the mare's legs and teeth",
+      "the mare, standing calm since she has not been worked hard today",
+      "other horses tied nearby for sale"
+    ],
+    "factors": [
+      { "kind": "what it knows", "fact": "The trader knows the mare strains under sustained hard work, though she looks and moves sound at rest." },
+      { "kind": "what it is owed", "fact": "The trader needs this sale to cover a debt due at the week's end." },
+      { "kind": "whether it will be seen again", "fact": "The buyer is from a distant village and unlikely to trade at this market again." },
+      { "kind": "custom", "fact": "A horse sold here is customarily sold as seen at the sale, with no promise beyond that." },
+      { "kind": "risk", "fact": "If the strain shows soon after sale, word could still travel back through other traders." }
+    ],
+    "does": { "verb": "tells the buyer the mare is sound", "toward": "the buyer", "how": "without mentioning the strain" },
+    "could_also": [
+      { "verb": "mentions the mare has 'seen some work' without saying more", "toward": "the buyer" },
+      { "verb": "lowers the price without explaining why", "toward": "the buyer" },
+      { "verb": "sells a different, genuinely sound horse instead", "toward": "the buyer" }
+    ],
+    "would_not": [
+      { "verb": "tells the buyer plainly about the strain", "toward": "the buyer", "why": "the debt due and the buyer's distance both push against volunteering a fact that would cost the sale" },
+      { "verb": "refuses to sell the mare at all", "toward": "the buyer", "why": "the trader needs this sale too much to simply withdraw the horse from the market" }
+    ],
+    "then": "The buyer pays and leads the mare away toward the distant village. Whether the strain is discovered and traced back is left for later, but the trader has its coin today.",
+    "why": "The debt due at the week's end and the buyer's distance both make the lie seem safe enough to risk, since custom already limits what a seller owes a buyer after the sale. The chance that word travels back through other traders is the only real check on the lie, and the trader judges it small enough to chance.",
+    "turns_on": "whether the buyer is a stranger who will never be seen again"
+  },
+  {
+    "id": "trade-10",
+    "domain": "trade",
+    "who": "A miller who grinds grain for a fee taken as a share of the flour.",
+    "place": "The mill's scale room, a farmer's sacks of grain waiting to be weighed out as flour.",
+    "present": [
+      "a farmer waiting to collect the milled flour",
+      "the mill's scale, adjustable at the miller's hand",
+      "a stack of sacks already weighed for other customers that morning"
+    ],
+    "factors": [
+      { "kind": "a need", "fact": "The miller's own household is short on flour for the winter." },
+      { "kind": "what it can still do", "fact": "The miller can shave a small amount off the weight without the scale's difference being visible." },
+      { "kind": "risk", "fact": "This farmer has weighed flour here before and knows roughly what a sack should weigh." },
+      { "kind": "custom", "fact": "A miller caught cheating the scale in this village loses every customer at once, not just the one cheated." }
+    ],
+    "does": { "verb": "weighs the flour out honestly", "toward": "the farmer", "how": "openly, letting the farmer watch the scale" },
+    "could_also": [
+      { "verb": "shaves a small amount off the weight quietly", "toward": "the farmer" },
+      { "verb": "asks the farmer to look away while weighing, then does not cheat anyway", "toward": "the farmer" },
+      { "verb": "takes a slightly larger fee instead of shorting the weight", "toward": "the farmer" }
+    ],
+    "would_not": [
+      { "verb": "shorts the weight while the farmer is watching the scale directly", "toward": "the farmer", "why": "the farmer's familiarity with a fair weight makes getting caught in the act too likely to risk" },
+      { "verb": "shorts every sack that passes through that day regardless of who is watching", "toward": "the farmer", "why": "custom's whole-village consequence for a caught miller makes a blanket cheat far too costly to risk" }
+    ],
+    "then": "The farmer collects a fair weight of flour and leaves satisfied. The miller's own flour shortfall stays a problem for another day.",
+    "why": "The farmer's familiarity with a fair weight and the all-or-nothing custom around a caught cheat both make honesty the safer choice here, even with the miller's own need for flour. The risk of losing every customer at once outweighs the small gain from shorting one sack.",
+    "turns_on": "whether anyone at the scale would notice"
+  },
+  {
+    "id": "trade-11",
+    "domain": "trade",
+    "who": "A day-laborer who has gone three days without a paid job and nothing to eat since yesterday.",
+    "place": "A market stall selling bread, late in the day when the baker is distracted with a large order.",
+    "present": [
+      "a baker occupied wrapping a large order for another customer",
+      "loaves of bread stacked at the front of the stall",
+      "other market-goers passing without looking at the stall"
+    ],
+    "factors": [
+      { "kind": "a need", "fact": "It has not eaten in over a day and has no coin left at all." },
+      { "kind": "what it can still do", "fact": "The baker is turned away, occupied with the large order, for a clear moment." },
+      { "kind": "risk", "fact": "Being caught stealing at this market means being barred from it, its only source of odd work." },
+      { "kind": "custom", "fact": "A hungry stranger who asks plainly is sometimes given a heel of bread here, though not always." }
+    ],
+    "does": { "verb": "takes a loaf from the edge of the stack", "toward": "the baker's stall", "how": "quickly, while unwatched" },
+    "could_also": [
+      { "verb": "asks the baker outright for a heel of bread", "toward": "the baker" },
+      { "verb": "waits and watches for scraps thrown out later", "toward": "nothing" },
+      { "verb": "tries to trade some small task for bread instead", "toward": "the baker" }
+    ],
+    "would_not": [
+      { "verb": "takes several loaves instead of one", "toward": "the baker's stall", "why": "the need is for enough to eat now, not to carry away more than it can use or hide" },
+      { "verb": "confronts the baker and demands bread outright", "toward": "the baker", "why": "open demand would draw attention and risk being barred from the market it depends on" }
+    ],
+    "then": "It slips away into the crowd before the baker turns back around, and eats the loaf out of sight down a side lane. The theft goes unnoticed, at least for today.",
+    "why": "Its hunger has grown urgent enough to outweigh the real risk of being barred from the market, especially with the baker distracted and the moment unlikely to come again soon. Asking outright is a real option but not a sure one, and it cannot count on being given enough.",
+    "turns_on": "how many days it has gone without eating"
+  },
+  {
+    "id": "trade-12",
+    "domain": "trade",
+    "who": "A well-fed trader with a full purse, minding a stall of dyed cloth.",
+    "place": "The same market, a neighboring stall's unattended coin-box while its owner steps away.",
+    "present": [
+      "a neighboring stall selling spun thread, briefly left unattended",
+      "a small coin-box sitting open on the thread-seller's counter",
+      "the trader's own stall of cloth, doing steady business nearby"
+    ],
+    "factors": [
+      { "kind": "a need", "fact": "The trader has no real need for more coin; its own trade is doing well today." },
+      { "kind": "what it can still do", "fact": "The thread-seller's stall is unattended and the coin-box is in easy reach." },
+      { "kind": "custom", "fact": "Stall-keepers here trust each other's stalls to be left alone for short absences." },
+      { "kind": "risk", "fact": "If caught, every stall-keeper at this market would refuse to deal with the trader again." }
+    ],
+    "does": { "verb": "leaves the coin-box alone", "toward": "the thread-seller's stall", "how": "without touching it" },
+    "could_also": [
+      { "verb": "watches the thread-seller's stall until its owner returns", "toward": "the thread-seller's stall" },
+      { "verb": "takes a coin or two from the box", "toward": "the thread-seller's stall" },
+      { "verb": "moves the coin-box out of easy sight for the owner's safety", "toward": "the thread-seller's stall" }
+    ],
+    "would_not": [
+      { "verb": "empties the coin-box entirely", "toward": "the thread-seller's stall", "why": "it has no real need driving it, only the ease of the opportunity, which is not enough to risk the whole market turning on it" },
+      { "verb": "reports the unattended box to a market warden", "toward": "a market warden", "why": "nothing here calls for involving a warden over a stall briefly left alone by custom" }
+    ],
+    "then": "The thread-seller returns a few minutes later to find the box untouched and nods a thanks in passing. The trader goes back to its own stall, its cloth trade unaffected.",
+    "why": "Without any real need pushing it, the ease of the opportunity alone is not enough to outweigh the certain cost of losing every other stall-keeper's trust if caught. The custom of mutual trust between stalls also makes betraying it feel like theft from the whole market, not just one box.",
+    "turns_on": "how easy the extra is to take without being missed"
+  },
+  {
+    "id": "trade-13",
+    "domain": "trade",
+    "who": "A stable-hand who tends a merchant's horses in exchange for a share of feed and a corner to sleep in.",
+    "place": "The merchant's stable at night, a locked chest of harness fittings sitting unattended.",
+    "present": [
+      "a locked chest of brass harness fittings, easy to sell to a passing trader",
+      "the merchant's dog, usually loose in the yard but shut in for the night",
+      "a small window that shows whether anyone is crossing the yard"
+    ],
+    "factors": [
+      { "kind": "what it can still do", "fact": "It knows where the chest key is kept and could open it without waking anyone." },
+      { "kind": "risk", "fact": "The dog is shut in tonight, which it has not been on other nights." },
+      { "kind": "what it believes", "fact": "It believes, from the dark yard and quiet house, that no one is watching right now." },
+      { "kind": "a bond", "fact": "The merchant has been fair with it, feeding it well and never docking its share without cause." }
+    ],
+    "does": { "verb": "leaves the chest untouched and returns to its corner", "toward": "the locked chest", "how": "without opening it" },
+    "could_also": [
+      { "verb": "opens the chest and takes a fitting or two", "toward": "the locked chest" },
+      { "verb": "checks the yard once more before deciding", "toward": "nothing" },
+      { "verb": "moves the chest somewhere less exposed, meaning nothing by it", "toward": "the locked chest" }
+    ],
+    "would_not": [
+      { "verb": "takes the whole chest to sell elsewhere", "toward": "the locked chest", "why": "the bond with the merchant and the unusual dog arrangement both give it pause, not just the belief it is unwatched" },
+      { "verb": "wakes the merchant to ask about the dog", "toward": "nothing", "why": "nothing here calls for raising an alarm over the dog simply being shut in for the night" }
+    ],
+    "then": "It settles back into its corner of the stable, uneasy about the dog being shut in but taking nothing. In the morning it says nothing of the chest at all.",
+    "why": "Believing itself unwatched makes the theft possible, but the bond with a merchant who has treated it fairly outweighs the opportunity, and the dog's unusual confinement makes it wary that something about tonight is different. It chooses to let the strange feeling of the night pass rather than test it.",
+    "turns_on": "whether it believes itself watched at that moment"
+  },
+  {
+    "id": "trade-14",
+    "domain": "trade",
+    "who": "A stall-keeper who saw another trader shortchange a customer on weight, days ago.",
+    "place": "Outside the market warden's post, the morning after the same short-weighing trader shorted the stall-keeper's own cousin.",
+    "present": [
+      "the market warden, who can fine or ban a cheating trader",
+      "the cheating trader's stall, open for business as usual across the square",
+      "the stall-keeper's cousin, still owed the difference in weight"
+    ],
+    "factors": [
+      { "kind": "what it just did", "fact": "The cheating trader shorted the stall-keeper's own cousin yesterday, on top of the stranger seen shorted days before." },
+      { "kind": "what it is owed", "fact": "Informing could see the cousin's difference in weight repaid by order of the warden." },
+      { "kind": "risk", "fact": "The cheating trader has friends among the other stall-keepers who might turn on the informer." },
+      { "kind": "custom", "fact": "A trader reported to the warden and found guilty is banned from the market for a full season." },
+      { "kind": "a bond", "fact": "The cousin is close kin, owed more loyalty than any stranger who was shorted before." }
+    ],
+    "does": { "verb": "reports the cheating trader to the market warden", "toward": "the market warden", "how": "plainly, naming what was seen both times" },
+    "could_also": [
+      { "verb": "confronts the cheating trader directly instead", "toward": "the cheating trader" },
+      { "verb": "tells the cousin to demand the difference back itself", "toward": "the cousin" },
+      { "verb": "says nothing and warns others quietly to watch that stall", "toward": "other stall-keepers" }
+    ],
+    "would_not": [
+      { "verb": "says nothing at all, since the first shorting was only a stranger", "toward": "nothing", "why": "the second shorting, of its own cousin, changes what the stall-keeper is willing to let pass" },
+      { "verb": "attacks the cheating trader's stall in anger", "toward": "the cheating trader", "why": "the warden's authority is the customary route here, and violence would cost the informer standing it has not lost" }
+    ],
+    "then": "The warden opens an inquiry, and the cheating trader is fined and made to repay the cousin, though a season's ban is threatened if it happens again. Some of the cheating trader's friends grow cold toward the stall-keeper afterward.",
+    "why": "The bond to the cousin, wronged directly this time, outweighs the risk of the cheating trader's friends turning on the stall-keeper, especially with custom offering a clear route to have the wrong repaid. Reporting rather than confronting keeps the stall-keeper within the customary way such things are settled here.",
+    "turns_on": "what reward or protection informing would buy"
+  },
+  {
+    "id": "trade-15",
+    "domain": "trade",
+    "who": "A toll-keeper who collects a fee from every cart crossing the bridge into town.",
+    "place": "The bridge tollbooth at dusk, a cart loaded with goods that would normally draw a heavy toll.",
+    "present": [
+      "a carter offering coin beyond the posted toll to pass unlogged",
+      "the toll ledger, open on the booth counter",
+      "another toll-keeper, further off at the bridge's far end, out of easy earshot"
+    ],
+    "factors": [
+      { "kind": "what it is owed", "fact": "The posted toll on a load this size is fixed and would be missed if unpaid and unlogged." },
+      { "kind": "a need", "fact": "The bribe offered is more than a week's wage for the toll-keeper." },
+      { "kind": "risk", "fact": "The ledger is checked against the bridge's counted traffic once a month by a town official." },
+      { "kind": "custom", "fact": "A toll-keeper caught taking a bribe is not just dismissed but barred from any post in town again." }
+    ],
+    "does": { "verb": "refuses the bribe and logs the cart at the full toll", "toward": "the carter", "how": "firmly, pointing to the ledger" },
+    "could_also": [
+      { "verb": "takes the bribe and lets the cart pass unlogged", "toward": "the carter" },
+      { "verb": "takes a smaller bribe and logs a lighter load than the true one", "toward": "the carter" },
+      { "verb": "waves the other toll-keeper over before deciding", "toward": "the other toll-keeper" }
+    ],
+    "would_not": [
+      { "verb": "takes the bribe openly in view of the other toll-keeper", "toward": "the carter", "why": "even taking the bribe at all would call for hiding it from a witness, not doing it in plain sight" },
+      { "verb": "reports the carter for merely offering a bribe", "toward": "the carter", "why": "an offered bribe alone is common enough here that reporting it outright would be an overreaction to a routine risk" }
+    ],
+    "then": "The carter, seeing no easy opening, pays the full posted toll and crosses. The toll-keeper logs it as normal and says nothing more of the offer.",
+    "why": "The monthly check against counted traffic makes a bribe too likely to be caught eventually, and the all-or-nothing custom around being caught outweighs a single week's extra wage. Refusing plainly and pointing to the ledger closes the offer without turning it into a bigger confrontation than it needs to be.",
+    "turns_on": "how much the bribe offered is worth against the risk of being caught taking it"
+  },
+  {
+    "id": "trade-16",
+    "domain": "trade",
+    "who": "A cloth merchant new to a town, setting up a stall for the first time.",
+    "place": "The town's market square on the merchant's first morning trading there.",
+    "present": [
+      "a cluster of townsfolk who have heard a rumor the merchant sold rotten grain in the last town",
+      "a local trader who already knows the rumor is false, having dealt with the merchant honestly before",
+      "the merchant's stall of cloth, untouched by any customer yet"
+    ],
+    "factors": [
+      { "kind": "what it knows", "fact": "The rumor about rotten grain concerns a different merchant entirely, one it has never met." },
+      { "kind": "risk", "fact": "If the rumor is not addressed, no one in this market may buy from it at all today." },
+      { "kind": "a bond", "fact": "The local trader who knows the truth has not yet spoken up on the merchant's behalf." },
+      { "kind": "custom", "fact": "In this town, a new trader's name is often tested before any deal is made, whatever it says for itself." }
+    ],
+    "does": { "verb": "asks the local trader to vouch for it", "toward": "the local trader", "how": "openly, in front of the gathered townsfolk" },
+    "could_also": [
+      { "verb": "waits quietly for the rumor to be forgotten on its own", "toward": "nothing" },
+      { "verb": "loudly denies the rumor itself, unprompted", "toward": "the townsfolk" },
+      { "verb": "packs up and tries a different market instead", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "ignores the rumor and starts selling as if nothing were wrong", "toward": "the townsfolk", "why": "custom here means the rumor will be tested regardless, so ignoring it wastes the chance to answer it directly" },
+      { "verb": "accuses the townsfolk of spreading lies", "toward": "the townsfolk", "why": "the rumor is an honest mistake about a different merchant, not malice, so anger would only confirm suspicion" }
+    ],
+    "then": "The local trader confirms the merchant is not the one from the rumor, and a few townsfolk approach the stall cautiously. Trade is slow but not lost entirely, and by afternoon the rumor has mostly faded.",
+    "why": "With a witness on hand who already knows the truth, using that bond is a faster fix than waiting out the rumor or trying to argue it away alone. Custom's habit of testing a stranger's name means the rumor would be tested one way or another, so the merchant chooses the fastest honest answer available.",
+    "turns_on": "what the rumor said about the stranger before it arrived"
+  },
+  {
+    "id": "trade-17",
+    "domain": "trade",
+    "who": "A farmer with a wide field of grain ripe for cutting and a storm building on the horizon.",
+    "place": "The edge of the ripe field, two days before the storm is expected to break.",
+    "present": [
+      "a group of day-laborers gathered near the village well, looking for work",
+      "the ripening field, more than the farmer's own household can cut alone",
+      "a neighboring farmer also eyeing the same laborers for a smaller field"
+    ],
+    "factors": [
+      { "kind": "a need", "fact": "The field cannot be cut by the household alone before the storm arrives." },
+      { "kind": "a limit", "fact": "The farmer has coin enough to hire several hands, but not at the neighboring farmer's higher offer." },
+      { "kind": "what it can still do", "fact": "Some of the laborers have cut for this farmer in past seasons and know the field." },
+      { "kind": "risk", "fact": "If the field is not cut in time, the whole crop could be flattened and ruined." }
+    ],
+    "does": { "verb": "hires the laborers who worked the field before", "toward": "the group of day-laborers", "how": "at its usual wage, quickly" },
+    "could_also": [
+      { "verb": "matches the neighboring farmer's higher offer to be sure of enough hands", "toward": "the group of day-laborers" },
+      { "verb": "hires whoever is available regardless of past experience", "toward": "the group of day-laborers" },
+      { "verb": "asks the household alone to work through the night instead", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "waits until the day before the storm to hire anyone", "toward": "the group of day-laborers", "why": "the risk to the whole crop is too great to leave hiring until there is no time left to react" },
+      { "verb": "underpays the laborers below the usual wage, counting on the storm's urgency to force their hand", "toward": "the group of day-laborers", "why": "cheating the laborers on wage now would cost their return in future seasons, which the farmer depends on" }
+    ],
+    "then": "The familiar laborers agree readily, knowing the field and the farmer's usual fair wage, and cutting begins the next morning. The crop is in before the storm breaks.",
+    "why": "The urgency of the coming storm makes speed matter more than saving a little coin, but the farmer's limited coin and its wish to keep the same laborers coming back season after season both point to hiring the known hands at the usual wage rather than bidding against its neighbor. Familiarity with the field also means the work goes faster than it would with strangers.",
+    "turns_on": "whether the work will be done in time for the harvest without help"
+  },
+  {
+    "id": "trade-18",
+    "domain": "trade",
+    "who": "A day-laborer known around the village well for steady, careful work.",
+    "place": "The village well at dawn, where a farmer known for underpaying past hands is offering a day's work.",
+    "present": [
+      "the farmer offering the job, known for shorting wages at day's end",
+      "two other laborers already gathered, undecided",
+      "the well itself, the usual place work is offered and taken"
+    ],
+    "factors": [
+      { "kind": "what it knows", "fact": "This farmer paid the last laborer it hired less than the wage agreed at day's end." },
+      { "kind": "a need", "fact": "The laborer has gone two days without paid work and could use the coin." },
+      { "kind": "risk", "fact": "Taking the job risks a full day's labor for less than promised, with little way to force fair payment after the fact." },
+      { "kind": "custom", "fact": "A laborer who is shorted has no real recourse beyond warning others, since there is no ledger or warden for day-labor." }
+    ],
+    "does": { "verb": "refuses the offer", "toward": "the farmer", "how": "plainly, without explaining why" },
+    "could_also": [
+      { "verb": "takes the job but demands half the wage paid up front", "toward": "the farmer" },
+      { "verb": "takes the job anyway, needing the coin regardless", "toward": "the farmer" },
+      { "verb": "warns the other two laborers before deciding for itself", "toward": "the other laborers" }
+    ],
+    "would_not": [
+      { "verb": "takes the job without any precaution, despite knowing the farmer's history", "toward": "the farmer", "why": "its own knowledge of being shorted before makes taking the job with no protection a needless risk" },
+      { "verb": "confronts the farmer publicly over the past shorting before any new deal is offered", "toward": "the farmer", "why": "nothing here calls for raising the old grievance now instead of simply declining today's offer" }
+    ],
+    "then": "The laborer walks off toward another part of the village to look for other work, while the two others weigh the same offer. Its need for coin remains unmet for the day.",
+    "why": "Knowing this farmer's history of shorting wages outweighs the pull of two days without pay, since there is no customary way to force fair payment afterward if it is shorted again. Refusing outright, without demanding a workaround like half pay up front, is simpler than trying to negotiate protections the farmer is unlikely to honor anyway.",
+    "turns_on": "how the hirer treated the last person it hired"
+  },
+  {
+    "id": "trade-19",
+    "domain": "trade",
+    "who": "An old smith who still keeps the anvil his own teacher once worked.",
+    "place": "The smith's forge, a wealthy traveler offering a striking price for the old anvil.",
+    "present": [
+      "a traveler offering far more than the anvil is worth in trade goods alone",
+      "a newer, perfectly serviceable anvil already in use at the forge",
+      "an apprentice watching the exchange from the forge's doorway"
+    ],
+    "factors": [
+      { "kind": "what the thing means", "fact": "The anvil belonged to the smith who first taught this one the trade, now long dead." },
+      { "kind": "what it is offered", "fact": "The traveler's offer is well above what any anvil, however fine, would normally fetch." },
+      { "kind": "a need", "fact": "The smith has no pressing need for the coin or goods offered." },
+      { "kind": "what it can still do", "fact": "The newer anvil already does everything the old one could, so nothing practical is lost by keeping it unused." }
+    ],
+    "does": { "verb": "refuses to sell the anvil", "toward": "the traveler", "how": "firmly but without offense" },
+    "could_also": [
+      { "verb": "offers to sell the newer anvil instead", "toward": "the traveler" },
+      { "verb": "names an even higher price, expecting to be refused in turn", "toward": "the traveler" },
+      { "verb": "explains why the anvil is not for sale before refusing", "toward": "the traveler" }
+    ],
+    "would_not": [
+      { "verb": "sells the anvil for the high price despite everything it means", "toward": "the traveler", "why": "nothing about the offer touches the reason the anvil is kept, since the smith has no real need for the money" },
+      { "verb": "grows angry at the traveler for asking", "toward": "the traveler", "why": "the traveler has no way of knowing what the anvil means, so anger at a fair offer would be misplaced" }
+    ],
+    "then": "The traveler, surprised but not offended, moves on to ask about other goods at the forge instead. The apprentice asks about the old anvil afterward, and the smith tells the story behind it.",
+    "why": "What the anvil means, tied to the teacher who is gone, outweighs an offer that would matter to the smith if it needed the coin, which it does not. Because the newer anvil covers every practical need already, there is no cost to keeping the old one beyond the money left on the table, which the smith does not miss.",
+    "turns_on": "what the thing being sold means beyond its price"
+  },
+  {
+    "id": "trade-20",
+    "domain": "trade",
+    "who": "A grain-trader with coin saved from a good season, asked for a loan by a stranger passing through.",
+    "place": "The grain-trader's storeroom, a stranger explaining a need for coin to reach a sick relative in another town.",
+    "present": [
+      "the stranger, carrying nothing of value to offer as security",
+      "the grain-trader's saved coin, more than enough to spare the sum asked",
+      "a hired hand nearby who overhears the request and looks doubtful"
+    ],
+    "factors": [
+      { "kind": "risk", "fact": "The stranger has nothing to offer as collateral and no way to be found again if the loan is not repaid." },
+      { "kind": "what it can still do", "fact": "The grain-trader can afford to lose this sum entirely without harming its own trade." },
+      { "kind": "what it knows", "fact": "The stranger's story cannot be checked before deciding, one way or the other." },
+      { "kind": "a bond", "fact": "There is no history at all between the grain-trader and this stranger." },
+      { "kind": "custom", "fact": "Lending to a stranger with no security is unusual here and would be talked about either way." }
+    ],
+    "does": { "verb": "lends the stranger the coin asked", "toward": "the stranger", "how": "without demanding security" },
+    "could_also": [
+      { "verb": "lends a smaller sum than asked", "toward": "the stranger" },
+      { "verb": "refuses the loan outright", "toward": "the stranger" },
+      { "verb": "offers the coin as a gift instead of a loan, expecting nothing back", "toward": "the stranger" }
+    ],
+    "would_not": [
+      { "verb": "demands the stranger leave some possession as security anyway", "toward": "the stranger", "why": "the stranger has already said it has nothing of value to leave, so demanding it again would only humiliate without changing anything" },
+      { "verb": "lends the full sum it would need for its own trade", "toward": "the stranger", "why": "however sympathetic the story, the grain-trader would not risk its own livelihood on an unverifiable stranger" }
+    ],
+    "then": "The stranger thanks the grain-trader and continues on toward the sick relative's town. Whether the loan is ever repaid remains unknown, and the hired hand mutters about the risk taken.",
+    "why": "Because the grain-trader can afford to lose this particular sum without any real harm to its own trade, the unverifiable story and the total lack of bond or security matter less than they would for a larger sum. It lends what it can afford to lose rather than what the stranger asked for out of full trust, though here the two happen to be the same amount.",
+    "turns_on": "whether it can afford to lose the amount if it is never repaid"
+  }
+]

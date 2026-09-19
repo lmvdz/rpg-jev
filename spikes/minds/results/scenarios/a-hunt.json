@@ -1,0 +1,544 @@
+[
+  {
+    "id": "hunt-01",
+    "domain": "hunt",
+    "who": "a lean grey wolf, ribs showing, hunting alone from its pack",
+    "place": "the edge of a frozen meadow at first light, where the wind carries her scent away from the herd",
+    "present": ["a small herd of deer grazing", "a young fawn lagging at the back", "an older buck watching the treeline"],
+    "factors": [
+      { "kind": "a need", "fact": "she has not eaten in four days and her milk is drying for pups back at the den" },
+      { "kind": "what it can still do", "fact": "her hind leg was gored by an elk last winter and does not bear a long sprint" },
+      { "kind": "what it fears", "fact": "a single wolf that fails a chase in the open loses the herd's trust of the ground for weeks" },
+      { "kind": "the ground", "fact": "the wind is blowing from the herd toward her, hiding her scent" },
+      { "kind": "custom", "fact": "wolves that hunt herds alone favor the straggler at the back over the wary buck" }
+    ],
+    "does": { "verb": "stalks low toward", "toward": "the young fawn lagging at the back", "how": "slow, downwind" },
+    "could_also": [
+      { "verb": "circles wide to test the buck's alertness", "toward": "the older buck" },
+      { "verb": "gives up and turns back to the den", "toward": "nothing" },
+      { "verb": "waits at the treeline for the herd to move closer", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "charges straight at the herd", "toward": "the herd", "why": "a straight charge over open ground plays to her bad leg and the herd's speed, not her stealth" },
+      { "verb": "attacks the older buck", "toward": "the older buck", "why": "a buck that size could break her already weak leg for good" }
+    ],
+    "then": "she closes half the distance before a jay calls and the herd startles; she flattens in the frost grass rather than force a hopeless sprint",
+    "why": "hunger presses her to act now, but the bad leg means only a short, hidden approach has any chance, so she picks the weakest animal and closes the distance in secret rather than testing the strongest or waiting empty-handed",
+    "turns_on": "whether the wind keeps hiding her scent"
+  },
+  {
+    "id": "hunt-02",
+    "domain": "hunt",
+    "who": "a grey heron standing motionless in shallow water",
+    "place": "a reed-fringed pond at dawn, cold enough that its own breath would show if it breathed hard",
+    "present": ["a school of small fish moving through the shallows", "an otter hunting further along the bank", "a fisherman setting nets upstream"],
+    "factors": [
+      { "kind": "a need", "fact": "it ate nothing yesterday and the cold burns through its reserves fast" },
+      { "kind": "what it can still do", "fact": "standing still in cold water for over an hour begins to stiffen its legs" },
+      { "kind": "a rival", "fact": "the otter working the same bank will scatter any fish that come this way if it gets closer" },
+      { "kind": "the ground", "fact": "the reeds break its outline from the fish's side but not from the otter's" },
+      { "kind": "timing", "fact": "the fish only pass this close to the bank for a short window after sunrise" }
+    ],
+    "does": { "verb": "stands rigid, waiting to strike", "toward": "the school of small fish", "how": "motionless" },
+    "could_also": [
+      { "verb": "stalks closer along the bank", "toward": "the school of small fish" },
+      { "verb": "moves off to a different stretch of bank", "toward": "nothing" },
+      { "verb": "gives up the spot to the otter", "toward": "the otter" }
+    ],
+    "would_not": [
+      { "verb": "chases the fish through open water", "toward": "the school of small fish", "why": "a heron that swims after fish loses more than it catches" },
+      { "verb": "confronts the otter", "toward": "the otter", "why": "it cannot win a fight it does not need to have" }
+    ],
+    "then": "a fish drifts within range and it strikes in a single motion, swallowing it before the otter's ripples reach the shallows",
+    "why": "hunger argues for striking now, but only patient stillness keeps the fish unaware, so it waits rather than stalking closer and risking the otter's attention or giving up the good stretch of bank",
+    "turns_on": "whether the otter drifts closer before the fish do"
+  },
+  {
+    "id": "hunt-03",
+    "domain": "hunt",
+    "who": "a gamekeeper checking his usual round",
+    "place": "a pheasant wood at dusk, the light nearly gone, where snares are illegal on this estate",
+    "present": ["a poacher crouched by a wire snare", "a brace of pheasants in the poacher's sack", "the keeper's dog on a lead"],
+    "factors": [
+      { "kind": "what he is owed", "fact": "he is paid to protect the birds and answers to the landowner for losses" },
+      { "kind": "what he just saw", "fact": "the poacher has already killed two birds this evening" },
+      { "kind": "a debt", "fact": "the poacher is a neighbor's son who fed the keeper's family through a hard winter years ago" },
+      { "kind": "the law", "fact": "he can detain the man but only the police can charge him" },
+      { "kind": "risk", "fact": "the poacher is known to carry a knife for skinning" },
+      { "kind": "his dog", "fact": "the dog is straining to give away their position" }
+    ],
+    "does": { "verb": "orders him to drop the sack and give his name", "toward": "the poacher", "how": "firm, not violent" },
+    "could_also": [
+      { "verb": "lets the dog off to corner him", "toward": "the poacher" },
+      { "verb": "quietly retreats to fetch the police", "toward": "nothing" },
+      { "verb": "confiscates the sack and lets him go with a warning", "toward": "the poacher" }
+    ],
+    "would_not": [
+      { "verb": "tackles him outright", "toward": "the poacher", "why": "a knife in a scuffle is a risk not worth two pheasants" },
+      { "verb": "shoots at him", "toward": "the poacher", "why": "the law and his own conscience both forbid it for poaching alone" },
+      { "verb": "pretends not to see him", "toward": "the poacher", "why": "letting it pass would cost him his job if the losses are noticed" }
+    ],
+    "then": "the poacher freezes, then drops the sack and gives a false name; the keeper lets him walk rather than force a fight neither wants",
+    "why": "the old debt argues for mercy and the knife argues for caution, so he confronts him without force rather than setting the dog loose or looking away",
+    "turns_on": "whether the poacher reaches for the knife"
+  },
+  {
+    "id": "hunt-04",
+    "domain": "hunt",
+    "who": "a young opossum caught in the open by a dog",
+    "place": "the edge of a farmyard at night, too far from cover to reach the fence",
+    "present": ["a barking farm dog", "a chicken coop nearby", "the farmhouse light coming on"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "it is too small and slow to outrun the dog in the open" },
+      { "kind": "instinct", "fact": "the shock of being seized triggers a stiffening reflex it cannot control past a point" },
+      { "kind": "the dog's habit", "fact": "this dog loses interest in things that stop moving and smelling alive" },
+      { "kind": "what it fears", "fact": "further struggle only draws harder bites" },
+      { "kind": "the light", "fact": "the farmhouse light coming on may bring a person to call the dog off" }
+    ],
+    "does": { "verb": "goes limp and plays dead", "toward": "the dog", "how": "collapsing, tongue out" },
+    "could_also": [
+      { "verb": "hisses and bares its teeth", "toward": "the dog" },
+      { "verb": "bolts for the coop", "toward": "the chicken coop" },
+      { "verb": "tries to bite its way free", "toward": "the dog" }
+    ],
+    "would_not": [
+      { "verb": "keeps struggling in the dog's jaws", "toward": "the dog", "why": "struggle only invites a killing bite from a dog that likes chasing things that move" },
+      { "verb": "climbs the nearest fence", "toward": "nothing", "why": "it is already caught, too late to run" }
+    ],
+    "then": "the dog shakes it once, sniffs, then loses interest and trots off toward the coop; it lies still for a long while before stirring",
+    "why": "it is too slow to flee and too small to fight, so going limp is the one response left that can end the attack, since the dog's own habit rewards stillness over struggle",
+    "turns_on": "whether the dog keeps sniffing at it after it goes still"
+  },
+  {
+    "id": "hunt-05",
+    "domain": "hunt",
+    "who": "a red fox that has just brought down a rabbit",
+    "place": "a forest clearing near a stream, in early autumn when food is starting to matter for winter",
+    "present": ["the freshly killed rabbit", "a black bear approaching the smell of blood", "a raven already circling"],
+    "factors": [
+      { "kind": "a need", "fact": "the fox has kits waiting to be fed and this is the first kill in two days" },
+      { "kind": "size", "fact": "the bear outweighs the fox many times over and could kill it without trying" },
+      { "kind": "what it can still do", "fact": "the fox can carry the rabbit off quickly if it moves now" },
+      { "kind": "the ground", "fact": "there is a den entrance close enough to reach before the bear does" },
+      { "kind": "timing", "fact": "the bear has not yet noticed the fox, only the smell" }
+    ],
+    "does": { "verb": "snatches the kill and flees toward the den", "toward": "the rabbit", "how": "fast, low" },
+    "could_also": [
+      { "verb": "drags the kill partway then abandons it", "toward": "the rabbit" },
+      { "verb": "circles and barks to distract the bear", "toward": "the bear" },
+      { "verb": "hides and waits for the bear to leave", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "stands over the kill to defend it", "toward": "the rabbit", "why": "defending a rabbit against a bear costs a life for nothing" },
+      { "verb": "approaches the bear", "toward": "the bear", "why": "there is no reason to go near what could kill it in one blow" }
+    ],
+    "then": "the fox reaches the den mouth just as the bear reaches the clearing, and eats the rabbit underground while the bear noses the bloodied grass above",
+    "why": "hunger says keep the kill, but the bear's size makes any contest fatal, so speed and the near den let it keep the food without a fight it cannot win",
+    "turns_on": "whether the den is close enough to reach before the bear arrives"
+  },
+  {
+    "id": "hunt-06",
+    "domain": "hunt",
+    "who": "a solitary jackal that found a half-eaten carcass",
+    "place": "open savanna at midday, the carcass already three days old and picked over",
+    "present": ["the remains of a wildebeest", "a pride of lions resting nearby but not on the kill", "vultures circling overhead"],
+    "factors": [
+      { "kind": "a need", "fact": "it has not fed well in days and this meat, old as it is, is real food" },
+      { "kind": "risk", "fact": "the lions are resting, not guarding, but could charge if it comes too close to them" },
+      { "kind": "distance", "fact": "the carcass lies just within the lions' waking distance, not safely outside it" },
+      { "kind": "competition", "fact": "the vultures overhead will drop the moment it leaves an opening" },
+      { "kind": "what it just saw", "fact": "one lion lifted its head at the jackal's approach and is watching" }
+    ],
+    "does": { "verb": "edges toward the carcass in short bursts, watching the lions", "toward": "the carcass", "how": "wary, stopping often" },
+    "could_also": [
+      { "verb": "waits at a safe distance for the lions to leave", "toward": "nothing" },
+      { "verb": "gives up and moves on to search elsewhere", "toward": "nothing" },
+      { "verb": "rushes in fast to grab a scrap and run", "toward": "the carcass" }
+    ],
+    "would_not": [
+      { "verb": "walks straight up to the carcass", "toward": "the carcass", "why": "a straight approach with a lion already watching invites a charge" },
+      { "verb": "challenges the vultures for position", "toward": "the vultures", "why": "there is nothing to gain from a fight with birds when the real danger is the lions" }
+    ],
+    "then": "the watching lion loses interest and lowers its head again; the jackal reaches the carcass and tears off what it can before a second lion stirs and it bolts with a mouthful",
+    "why": "hunger draws it toward the meat but the watching lion means only a slow, ready-to-flee approach is safe, so it edges in rather than walking up openly or giving up on food it badly needs",
+    "turns_on": "whether the watching lion keeps its head up"
+  },
+  {
+    "id": "hunt-07",
+    "domain": "hunt",
+    "who": "a grey squirrel checking one of its buried caches",
+    "place": "a wooded yard behind a house, in late autumn with the first hard frost coming",
+    "present": ["a disturbed patch of dug earth", "another squirrel nearby, healthy and unbothered", "a dog somewhere in the yard, currently inside"],
+    "factors": [
+      { "kind": "a loss", "fact": "this cache, one of its largest, has been dug up and emptied" },
+      { "kind": "what it knows", "fact": "it remembers digging several more caches nearby that it has not checked yet" },
+      { "kind": "a rival", "fact": "the other squirrel nearby is a known thief that has robbed it before" },
+      { "kind": "a need", "fact": "winter is close and every cache lost matters more now than in summer" },
+      { "kind": "time", "fact": "daylight is limited and checking every cache takes time it may not have before the dog is let out" }
+    ],
+    "does": { "verb": "moves on to check its other caches", "toward": "nothing", "how": "quick, businesslike" },
+    "could_also": [
+      { "verb": "chases off the nearby squirrel", "toward": "the other squirrel" },
+      { "verb": "digs more randomly nearby hoping to find scraps", "toward": "nothing" },
+      { "verb": "abandons caching here and looks for a new stash site", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "sits by the empty hole grieving the loss", "toward": "nothing", "why": "there is no food to be had by staying, and time is short before frost and the dog" },
+      { "verb": "fights the other squirrel over the empty hole", "toward": "the other squirrel", "why": "there is nothing left to defend and no proof it was that squirrel" }
+    ],
+    "then": "it finds two more caches intact further along the fence line and eats its fill, letting the empty one go",
+    "why": "the loss stings but cannot be undone, and it knows other caches remain, so moving on to check them makes better use of the short daylight than dwelling on the theft or chasing a rival it cannot prove guilty",
+    "turns_on": "whether it remembers where the other caches are"
+  },
+  {
+    "id": "hunt-08",
+    "domain": "hunt",
+    "who": "a male fox that holds a territory along a hedgerow",
+    "place": "the boundary of his range at dusk, marked with scent posts he renews each week",
+    "present": ["a strange young fox testing the boundary", "the scent marks along the hedge", "a rabbit warren just inside the boundary"],
+    "factors": [
+      { "kind": "rank", "fact": "he has held this ground for two winters and driven off challengers before" },
+      { "kind": "what it can still do", "fact": "the intruder is young and smaller, not yet full grown" },
+      { "kind": "a need", "fact": "the warren inside this boundary is the main reason the territory is worth keeping" },
+      { "kind": "custom", "fact": "a scent mark alone usually turns back a young fox without a fight" },
+      { "kind": "risk", "fact": "even a small fight risks an injury that would cost him hunting for weeks" }
+    ],
+    "does": { "verb": "marks the boundary heavily and stands his ground, watching", "toward": "the strange young fox", "how": "stiff-legged, deliberate" },
+    "could_also": [
+      { "verb": "chases the intruder off with a short rush", "toward": "the strange young fox" },
+      { "verb": "attacks outright", "toward": "the strange young fox" },
+      { "verb": "ignores it and continues his rounds", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "attacks outright without warning", "toward": "the strange young fox", "why": "a fight is not worth the injury risk when a display usually settles it" },
+      { "verb": "abandons the boundary and retreats", "toward": "nothing", "why": "giving up the warren without contest would cost him the territory for nothing" }
+    ],
+    "then": "the young fox reads the display, sniffs the fresh marks, and turns back the way it came without a fight",
+    "why": "his rank and the value of the warren argue for holding ground, but the intruder's youth means a display should be enough, so he stands and marks rather than escalating to a fight he does not need or ignoring the challenge",
+    "turns_on": "whether the intruder is young enough to be turned back by display alone"
+  },
+  {
+    "id": "hunt-09",
+    "domain": "hunt",
+    "who": "a mountain lion that has gone hungry through a lean summer",
+    "place": "a hillside sheep pasture at dusk, close to the farmhouse lights",
+    "present": ["a flock of sheep bunched near the fence", "a livestock guardian dog moving among them", "a shepherd's lantern approaching from the house"],
+    "factors": [
+      { "kind": "a need", "fact": "it has not made a kill in over a week and its ribs show" },
+      { "kind": "risk", "fact": "the guardian dog is large enough to fight off a lion, not just bark" },
+      { "kind": "the ground", "fact": "the sheep are close to the fence and the house, with little cover for a stalk" },
+      { "kind": "what it just saw", "fact": "the shepherd's lantern is moving toward the pasture" },
+      { "kind": "what it can still do", "fact": "there is a weaker, isolated ram at the pasture's far edge, away from the dog" }
+    ],
+    "does": { "verb": "circles wide toward the isolated ram at the far edge", "toward": "the isolated ram", "how": "low, unseen" },
+    "could_also": [
+      { "verb": "gives up and retreats to the treeline", "toward": "nothing" },
+      { "verb": "tests the flock near the dog", "toward": "the flock" },
+      { "verb": "waits in cover for full dark", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "charges the main flock near the dog", "toward": "the flock", "why": "the guardian dog would fight rather than flee, and a lion cannot afford that injury" },
+      { "verb": "approaches the lantern light", "toward": "nothing", "why": "there is nothing to gain and much to lose near a person with a light" }
+    ],
+    "then": "the lantern light swings closer before the lion is in range, and it abandons the stalk, melting back into the treeline hungry",
+    "why": "hunger pushes it toward the flock but the dog makes a direct approach costly, so it aims for the one animal apart from the dog rather than testing the guarded group or the lit house",
+    "turns_on": "whether the shepherd's lantern reaches the pasture before the stalk is finished"
+  },
+  {
+    "id": "hunt-10",
+    "domain": "hunt",
+    "who": "a farm dog that sleeps by the chicken coop",
+    "place": "the farmyard at night, quiet except for the wind",
+    "present": ["a raccoon working at the coop latch", "the sleeping chickens inside", "the farmhouse, dark and asleep"],
+    "factors": [
+      { "kind": "what it just heard", "fact": "the latch has been rattling for several minutes" },
+      { "kind": "a bond", "fact": "the chickens are its charge, and it has driven off raccoons before" },
+      { "kind": "what it can still do", "fact": "it is old now and slower than it once was in a real chase" },
+      { "kind": "risk", "fact": "a cornered raccoon can bite badly, and the vet is expensive" },
+      { "kind": "custom", "fact": "barking alone has scared this raccoon off on past nights" }
+    ],
+    "does": { "verb": "barks loudly and charges toward", "toward": "the raccoon", "how": "fast, noisy" },
+    "could_also": [
+      { "verb": "sniffs the latch and waits without engaging", "toward": "nothing" },
+      { "verb": "corners it against the coop", "toward": "the raccoon" },
+      { "verb": "wakes the house by barking at the door", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "attacks it in close quarters", "toward": "the raccoon", "why": "a cornered bite could badly hurt an old dog for a fight noise alone usually wins" },
+      { "verb": "ignores the latch and goes back to sleep", "toward": "nothing", "why": "its whole role is to protect the coop, and the noise is too clear a threat to ignore" }
+    ],
+    "then": "the raccoon bolts over the fence at the noise and the dog stops at the fence line, satisfied, then returns to its post by the coop",
+    "why": "its bond to the coop demands a response and past nights show noise alone works, so a loud charge that stops short of a fight protects the chickens without risking a bite its old body can't easily heal from",
+    "turns_on": "whether the raccoon bolts at the noise or stands its ground"
+  },
+  {
+    "id": "hunt-11",
+    "domain": "hunt",
+    "who": "a bow hunter who wounded a deer at last light",
+    "place": "a forested ridge as the sun sets, blood trail growing harder to see",
+    "present": ["a faint blood trail on the leaves", "the wounded deer somewhere ahead, out of sight", "a coyote's fresh tracks crossing the trail"],
+    "factors": [
+      { "kind": "what he is owed", "fact": "he believes a hunter owes a clean end to any animal he wounds, not a slow death" },
+      { "kind": "the light", "fact": "full dark is less than twenty minutes away and the trail is hard to follow without it" },
+      { "kind": "what he can still do", "fact": "he knows this ridge well enough to find his way back in the dark if he must" },
+      { "kind": "risk", "fact": "the coyote tracks mean something else may reach the deer first if he waits for morning" },
+      { "kind": "his family", "fact": "his wife expects him back before dark and will worry" }
+    ],
+    "does": { "verb": "keeps following the blood trail", "toward": "the wounded deer", "how": "quick, close to the ground" },
+    "could_also": [
+      { "verb": "marks the spot and returns at first light", "toward": "nothing" },
+      { "verb": "calls his wife to say he will be late", "toward": "nothing" },
+      { "verb": "gives up the trail and heads home", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "abandons the trail entirely", "toward": "nothing", "why": "leaving a wounded animal to a slow death or a scavenger goes against what he believes he owes it" },
+      { "verb": "pushes on carelessly once dark falls fully", "toward": "the wounded deer", "why": "losing his own way on unfamiliar ground at night is a worse outcome than losing the trail" }
+    ],
+    "then": "he finds the deer collapsed just before full dark and ends it quickly, then marks his way back with a torch, later than his wife expected",
+    "why": "the duty he feels to the deer and the coyote's tracks argue for pressing on now rather than waiting for morning, and his knowledge of the ridge means the risk of dark is one he can manage, so he keeps going rather than marking the spot or turning back",
+    "turns_on": "how much daylight is left to follow the trail"
+  },
+  {
+    "id": "hunt-12",
+    "domain": "hunt",
+    "who": "a cheetah in the middle of a hunt for a gazelle",
+    "place": "open grassland at midday, the ground shimmering with heat",
+    "present": ["the gazelle it is chasing, now well ahead", "two other gazelles that scattered a different way", "vultures already circling from an old kill nearby"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "a chase this hot can only be sustained for a few hundred meters before its body overheats dangerously" },
+      { "kind": "a need", "fact": "it has cubs hidden in the grass waiting to be fed" },
+      { "kind": "what it just saw", "fact": "the gazelle has already opened too much distance to close" },
+      { "kind": "risk", "fact": "pushing past its limit in this heat could kill it outright, not just tire it" },
+      { "kind": "timing", "fact": "the cubs cannot wait indefinitely, but they are safe for now" }
+    ],
+    "does": { "verb": "breaks off the chase and slows to a walk", "toward": "the gazelle", "how": "abrupt" },
+    "could_also": [
+      { "verb": "pushes on past the safe limit", "toward": "the gazelle" },
+      { "verb": "turns to chase one of the scattered gazelles instead", "toward": "the scattered gazelles" },
+      { "verb": "rests in shade before trying again", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "keeps sprinting after the lead gazelle", "toward": "the gazelle", "why": "continuing past its heat limit risks collapse or death for a chase already lost" },
+      { "verb": "returns straight to the cubs empty-handed without resting", "toward": "nothing", "why": "arriving overheated and exhausted helps the cubs less than recovering first" }
+    ],
+    "then": "it walks to a patch of shade, breathing hard, and rests before making its way back to the cubs to try again later in the cooler evening",
+    "why": "the gazelle is already out of reach and the heat makes pressing on dangerous to its own life, so breaking off and recovering serves the cubs better in the long run than a doomed sprint or an immediate second chase it has no strength for",
+    "turns_on": "how much lead the gazelle has already opened"
+  },
+  {
+    "id": "hunt-13",
+    "domain": "hunt",
+    "who": "a young rabbit grazing at the edge of a field",
+    "place": "an open pasture at midmorning, a hawk's shadow just crossing the grass",
+    "present": ["a hawk circling overhead", "a hedge line thirty feet away", "several other rabbits scattered further off"],
+    "factors": [
+      { "kind": "what it just saw", "fact": "a shadow passed overhead a moment ago, and its stillness so far has kept it unnoticed" },
+      { "kind": "what it can still do", "fact": "the hedge is close enough to reach in a hard sprint, but the open ground between offers no cover" },
+      { "kind": "instinct", "fact": "movement is what draws a hawk's eye more than shape" },
+      { "kind": "the ground", "fact": "the grass here is short and offers little to hide it if it freezes" },
+      { "kind": "others", "fact": "another rabbit already bolted and the hawk's attention shifted toward the movement" }
+    ],
+    "does": { "verb": "freezes flat against the ground", "toward": "nothing", "how": "rigid, ears down" },
+    "could_also": [
+      { "verb": "bolts for the hedge immediately", "toward": "the hedge line" },
+      { "verb": "watches the hawk while inching backward", "toward": "nothing" },
+      { "verb": "follows the other rabbits' bolt", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "keeps grazing as if nothing happened", "toward": "nothing", "why": "continuing to move is exactly what draws a hunting hawk's eye" },
+      { "verb": "bolts across the open ground toward the hedge", "toward": "the hedge line", "why": "movement in the open is more dangerous than staying still once a hawk is already circling this close" }
+    ],
+    "then": "the hawk's attention stays on the rabbit that bolted, and after a long stillness it wheels away toward the far trees; the young rabbit slowly resumes grazing",
+    "why": "the hawk hunts by catching movement, and the short grass gives no cover to run to unseen, so staying frozen costs less than a sprint across open ground that would only draw its eye, especially with another rabbit's movement already pulling its attention",
+    "turns_on": "whether another rabbit's bolt is enough to hold the hawk's attention"
+  },
+  {
+    "id": "hunt-14",
+    "domain": "hunt",
+    "who": "an aging male lion holding a pride",
+    "place": "the pride's territory at the edge of a waterhole, in the dry season when prey is scarce",
+    "present": ["a younger, larger male lion approaching from the treeline", "the pride's lionesses watching from a distance", "cubs hidden in tall grass nearby"],
+    "factors": [
+      { "kind": "rank", "fact": "he has held this pride for three years and fought off two challengers before" },
+      { "kind": "what it can still do", "fact": "his last fight left a leg injury that has not fully healed" },
+      { "kind": "a bond", "fact": "the cubs in the grass are his, and a new male would kill them if he takes the pride" },
+      { "kind": "size", "fact": "the challenger is younger, bigger, and unscarred" },
+      { "kind": "his lionesses", "fact": "the pride will follow whichever male proves strongest, not out of loyalty to him" }
+    ],
+    "does": { "verb": "roars and stands his ground at the challenger's approach", "toward": "the younger male lion", "how": "loud, bristling" },
+    "could_also": [
+      { "verb": "retreats without a fight", "toward": "nothing" },
+      { "verb": "tests the challenger with a short mock charge first", "toward": "the younger male lion" },
+      { "verb": "tries to lead the cubs away quietly", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "ignores the challenger and continues resting", "toward": "nothing", "why": "ignoring a direct approach at the waterhole invites an unopposed takeover and the cubs' deaths" },
+      { "verb": "attacks immediately at full force with the bad leg", "toward": "the younger male lion", "why": "an all-out fight on an injured leg against a bigger, healthier male is close to a guaranteed loss" }
+    ],
+    "then": "the roar and the stand cause the challenger to hesitate rather than close immediately, but the two begin circling, tension unresolved, as the lionesses watch to see who breaks first",
+    "why": "the cubs' lives argue against retreat despite his bad leg, but the injury against a bigger foe argues against an immediate all-out attack, so a loud stand first tests whether display alone can hold the challenger off before any fight begins",
+    "turns_on": "whether the injured leg holds under a real fight"
+  },
+  {
+    "id": "hunt-15",
+    "domain": "hunt",
+    "who": "a pair of crows feeding on a roadkill rabbit",
+    "place": "the shoulder of a quiet country road at dawn",
+    "present": ["the roadkill rabbit", "a red-tailed hawk landing nearby", "an approaching car in the distance"],
+    "factors": [
+      { "kind": "a need", "fact": "the crows have a nest of chicks to feed and this carcass is easy food" },
+      { "kind": "size", "fact": "the hawk is far stronger and could kill either crow if it chose to fight" },
+      { "kind": "numbers", "fact": "there are two crows against one hawk, which sometimes matters and sometimes doesn't" },
+      { "kind": "what it just saw", "fact": "the hawk has not yet moved toward the carcass, only landed nearby" },
+      { "kind": "risk", "fact": "the approaching car will pass close to the carcass within a minute" }
+    ],
+    "does": { "verb": "hops back and calls loudly, watching the hawk", "toward": "the hawk", "how": "wary, vocal" },
+    "could_also": [
+      { "verb": "mobs the hawk together to drive it off", "toward": "the hawk" },
+      { "verb": "grabs a scrap and flies off before the hawk moves", "toward": "the roadkill rabbit" },
+      { "verb": "abandons the carcass outright", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "keeps feeding as if the hawk were not there", "toward": "the roadkill rabbit", "why": "ignoring a hawk this close risks losing more than the meal" },
+      { "verb": "attacks the hawk directly, one on one", "toward": "the hawk", "why": "a lone crow against a hawk of that size loses badly" }
+    ],
+    "then": "the second crow joins the calling, and their combined noise and nearness convinces the hawk the meal isn't worth a fight; it lifts off before the car passes, and the crows return to feeding",
+    "why": "the hawk hasn't committed to the carcass yet and two crows calling together sometimes turns off a hawk that a lone crow's noise would not, so mobbing at a wary distance risks less than either feeding on or challenging it outright",
+    "turns_on": "whether the second crow joins the mobbing call"
+  },
+  {
+    "id": "hunt-16",
+    "domain": "hunt",
+    "who": "a lynx moving through deep snow at dusk",
+    "place": "a snowbound forest in midwinter, where a crust has formed on top of the snow",
+    "present": ["a snowshoe hare feeding at a thicket's edge", "the frozen crust that cracks underfoot", "a second hare further off, unaware"],
+    "factors": [
+      { "kind": "a need", "fact": "food has been scarce all winter and this hare would feed it for days" },
+      { "kind": "the ground", "fact": "the snow crust cracks loudly under weight, betraying any approach that isn't careful" },
+      { "kind": "what it can still do", "fact": "its wide paws let it move more quietly across the crust than most animals, but not silently" },
+      { "kind": "wind", "fact": "the wind is blowing from the hare toward the lynx, carrying no scent warning" },
+      { "kind": "distance", "fact": "it is still too far for a reliable pounce and must close more ground first" }
+    ],
+    "does": { "verb": "creeps forward placing each paw with care", "toward": "the snowshoe hare", "how": "slow, testing the crust" },
+    "could_also": [
+      { "verb": "waits motionless for the hare to move closer", "toward": "nothing" },
+      { "verb": "targets the second, farther hare instead", "toward": "the second hare" },
+      { "verb": "gives up and moves to hunt elsewhere", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "rushes forward at normal pace", "toward": "the snowshoe hare", "why": "normal movement across the crust would crack loudly enough to warn the hare well before it's in range" },
+      { "verb": "pounces from its current distance", "toward": "the snowshoe hare", "why": "the distance is too great for a pounce to succeed" }
+    ],
+    "then": "it closes the gap without cracking the crust loud enough to alarm the hare, and springs the final distance, catching it before it can bolt",
+    "why": "the wind hides its scent but the crust threatens to give away sound, so careful, deliberate steps let hunger be answered without the noise that a normal approach or a premature pounce would risk",
+    "turns_on": "whether the snow crust cracks loudly enough to be heard"
+  },
+  {
+    "id": "hunt-17",
+    "domain": "hunt",
+    "who": "a wolf returning to a kill it cached under leaves the night before",
+    "place": "a ravine deep in the forest, two days after the pack made a large kill",
+    "present": ["the buried remains, now uncovered", "a group of ravens flying off as it arrives", "fresh coyote tracks in the disturbed leaves"],
+    "factors": [
+      { "kind": "a loss", "fact": "most of the meat is gone, dragged off or eaten where it lay" },
+      { "kind": "a need", "fact": "the pack is due to return here tonight expecting food" },
+      { "kind": "what it knows", "fact": "there is a second, smaller cache nearby that hasn't been checked" },
+      { "kind": "what it just saw", "fact": "the ravens scattering suggest whatever robbed it may still be close" },
+      { "kind": "time", "fact": "there isn't enough daylight left to hunt fresh before the pack arrives" }
+    ],
+    "does": { "verb": "checks the second cache instead", "toward": "nothing", "how": "quick, alert" },
+    "could_also": [
+      { "verb": "searches the area for the culprit", "toward": "nothing" },
+      { "verb": "howls to summon the pack early", "toward": "nothing" },
+      { "verb": "eats what scraps remain at the ruined cache", "toward": "the buried remains" }
+    ],
+    "would_not": [
+      { "verb": "chases after the fleeing ravens", "toward": "nothing", "why": "ravens are not worth chasing and rarely the ones that emptied a cache this thoroughly" },
+      { "verb": "waits at the ruined cache doing nothing", "toward": "nothing", "why": "there's no food left here and the pack will need something before nightfall" }
+    ],
+    "then": "the second cache is intact, and it drags what remains back toward the den site before the pack returns, the ruined cache left to the coyotes",
+    "why": "the first cache is a loss it cannot undo and there's no time to hunt fresh before the pack arrives hungry, so falling back on the known second cache serves the pack better than searching for the thief or lingering over scraps",
+    "turns_on": "whether the second cache was also found by scavengers"
+  },
+  {
+    "id": "hunt-18",
+    "domain": "hunt",
+    "who": "a subsistence hunter low on food for the season",
+    "place": "a clearing in early spring, his family's stores nearly empty",
+    "present": ["a doe he has tracked for an hour", "two fawns bedded nearby, still small", "his empty game bag"],
+    "factors": [
+      { "kind": "a need", "fact": "his family has three days of food left and no other game has crossed his path" },
+      { "kind": "what he just saw", "fact": "the fawns bedded nearby mean this doe is nursing, and killing her leaves them to starve" },
+      { "kind": "custom", "fact": "he was raised to never take a nursing mother when the young can't yet fend for themselves" },
+      { "kind": "what he can still do", "fact": "there is still time before dark to try elsewhere, though nothing else has shown itself" },
+      { "kind": "his family", "fact": "he pictures explaining an empty bag to hungry children tonight" }
+    ],
+    "does": { "verb": "lowers his rifle and lets her go", "toward": "the doe", "how": "quiet, without a shot" },
+    "could_also": [
+      { "verb": "takes the shot anyway", "toward": "the doe" },
+      { "verb": "tracks a different direction hoping for other game", "toward": "nothing" },
+      { "verb": "waits nearby hoping a fawn wanders off alone", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "shoots the doe without noticing the fawns", "toward": "the doe", "why": "he did notice them, and shooting anyway would be a choice, not an accident" },
+      { "verb": "kills a fawn instead as an easier target", "toward": "the fawns", "why": "a fawn feeds his family even less and the custom against it runs just as deep" }
+    ],
+    "then": "he backs away without firing and pushes on to another ridge before dark, returning home that night with nothing, though not without hope for tomorrow",
+    "why": "the family's hunger argues to take the shot, but the custom against killing a nursing mother and the certain death it would mean for the fawns weighs heavier, so he lets her go and tries elsewhere rather than take an easy kill he'd regret",
+    "turns_on": "whether the fawns are old enough to survive without her"
+  },
+  {
+    "id": "hunt-19",
+    "domain": "hunt",
+    "who": "a pod of orcas hunting near an ice floe",
+    "place": "the edge of pack ice in early summer, cold water beneath a small floe",
+    "present": ["a seal resting on the floe", "two other seals resting on a larger floe further off", "a research boat idling at a distance"],
+    "factors": [
+      { "kind": "a need", "fact": "the pod has calves that need feeding and this is the first good hunting chance in days" },
+      { "kind": "the ground", "fact": "the floe holding this seal is small enough that a coordinated wave could wash it off" },
+      { "kind": "numbers", "fact": "there are enough orcas in the pod to make and ride a wave together" },
+      { "kind": "what it just saw", "fact": "the research boat's engine noise might spook the seal before they're ready" },
+      { "kind": "risk", "fact": "an ice floe this thin near open cracks could break unpredictably under the wave" }
+    ],
+    "does": { "verb": "coordinates with the pod to swim in unison and wash the seal off", "toward": "the seal", "how": "synchronized" },
+    "could_also": [
+      { "verb": "targets the seals on the larger floe instead", "toward": "the seals on the larger floe" },
+      { "verb": "waits for the boat to move off first", "toward": "nothing" },
+      { "verb": "abandons the hunt for open water instead", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "attacks the small floe alone without the pod", "toward": "the seal", "why": "one orca cannot generate a wave strong enough to wash the seal off alone" },
+      { "verb": "charges the larger floe with multiple seals", "toward": "the seals on the larger floe", "why": "a bigger floe takes a much larger wave and is less certain to work" }
+    ],
+    "then": "the pod's synchronized pass sends a wave over the floe, tipping the seal into the water where the orcas close in before it can climb back out",
+    "why": "the calves' hunger argues for acting on the surer, smaller target now rather than the harder floe or waiting out the boat, and only the pod working together can generate a wave strong enough, so it coordinates rather than acting alone or waiting",
+    "turns_on": "whether the floe is small enough for the wave to work"
+  },
+  {
+    "id": "hunt-20",
+    "domain": "hunt",
+    "who": "a falconer flying his trained hawk at a rabbit",
+    "place": "a hedge-lined field beside a busy road, in late afternoon",
+    "present": ["the hawk closing on a fleeing rabbit", "the road with cars passing steadily", "the falconer's lure swinging in his hand"],
+    "factors": [
+      { "kind": "a bond", "fact": "he raised this hawk from a chick and it is worth more to him than any rabbit" },
+      { "kind": "risk", "fact": "the rabbit is running toward the road and the hawk is closing on the same line" },
+      { "kind": "what it can still do", "fact": "the hawk is trained to come to the lure or whistle even mid-chase, most days" },
+      { "kind": "what he just saw", "fact": "a car is approaching the stretch of road the chase is heading toward" },
+      { "kind": "a need", "fact": "the hawk needs to catch food regularly to stay motivated to hunt for him at all" }
+    ],
+    "does": { "verb": "whistles and swings the lure to call the hawk off", "toward": "the hawk", "how": "urgent" },
+    "could_also": [
+      { "verb": "lets the chase continue and hopes it ends before the road", "toward": "nothing" },
+      { "verb": "runs toward the road himself waving his arms", "toward": "nothing" },
+      { "verb": "calls out to warn the approaching driver", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "lets the hawk chase all the way to the roadside", "toward": "nothing", "why": "the risk to the hawk's life outweighs any rabbit, bond or hunger aside" },
+      { "verb": "runs into the road himself to intervene", "toward": "nothing", "why": "putting himself in the car's path helps neither him nor the hawk" }
+    ],
+    "then": "the hawk breaks off just short of the hedge bordering the road and returns to the lure, the rabbit vanishing into a burrow unharmed",
+    "why": "his bond to the hawk outweighs the value of any single catch, and the car on the road turns a normal chase into real danger, so calling it off now matters more than letting the hunt finish or endangering himself in the road",
+    "turns_on": "whether the hawk breaks off before reaching the road"
+  }
+]

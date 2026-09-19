@@ -13,8 +13,9 @@ import {
   type Body,
   type Element,
   FRESH,
+  INTENT_ROWS,
   type MatterWorld,
-  optionsFor,
+  offers,
   POOL,
   placeOf,
   resolve,
@@ -252,24 +253,22 @@ describe("the first creature", () => {
 
   it("is offered only what code can build from what it notices and needs, and always nothing", () => {
     const w = resolve(scene(4, [20, 0]), { process: "drift", minutes: 0 }).world;
-    const options = optionsFor(w, w.bodies.wolf as Body);
+    const options = offers(w, w.bodies.wolf as Body);
     const ids = options.map((o) => o.id);
     expect(ids).toContain("none");
-    expect(ids).toContain("approach:kill");
-    expect(ids).toContain("flee:hearth");
-    expect(
-      ids.every((id) => id === "none" || id === "rest" || /^(approach|flee|eat):/.test(id)),
-    ).toBe(true);
+    expect(ids).toContain("go_to:kill");
+    expect(ids).toContain("keep_away:hearth");
+    expect(ids.every((id) => id === "none" || (id.split(":")[0] ?? "") in INTENT_ROWS)).toBe(true);
     // It cannot be offered what it has not noticed.
-    const blind = optionsFor(scene(4, null), scene(4, null).bodies.wolf as Body).map((o) => o.id);
-    expect(blind).not.toContain("approach:kill");
+    const blind = offers(scene(4, null), scene(4, null).bodies.wolf as Body).map((o) => o.id);
+    expect(blind).not.toContain("go_to:kill");
   });
 
   it("follows its needs when nobody is watching: hungry it goes to the meat, fed it does not", () => {
     const hungry = resolve(scene(4, null), { process: "drift", minutes: 0 }).world;
     const fed = resolve(scene(0, null), { process: "drift", minutes: 0 }).world;
-    expect(routine(hungry, hungry.bodies.wolf as Body).id).toBe("approach:kill");
-    expect(routine(fed, fed.bodies.wolf as Body).id).not.toBe("approach:kill");
+    expect(routine(hungry, hungry.bodies.wolf as Body).id).toBe("go_to:kill");
+    expect(routine(fed, fed.bodies.wolf as Body).id).not.toBe("go_to:kill");
   });
 
   it("moves when it acts on a choice, by its speed, and eats when it gets there", () => {

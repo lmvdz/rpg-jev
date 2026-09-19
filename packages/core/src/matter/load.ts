@@ -3,9 +3,22 @@
  * read off effective levels, so a soaked plank, a rusted chain, a cracked beam and one with
  * a hidden flaw are all the same rule. What fails becomes force on itself.
  */
-import { effective } from "./effective.ts";
-import { bearing, levelOf, quantity, thin } from "./scale.ts";
-import type { Change, MatterWorld, Thing } from "./types.ts";
+import { baseline, effective } from "./effective.ts";
+import { type Grown, grownFor } from "./graph/grown.ts";
+import {
+  changesOf,
+  type Env,
+  envOf,
+  Kernel,
+  type Party,
+  partyOf,
+  type Ready,
+  ready,
+} from "./graph/kernel.ts";
+import { FALL_RULES, LOAD_DERIVED, LOAD_RULES } from "./graph/soak-rules.ts";
+import { levelOf, quantity } from "./scale.ts";
+import type { Body, Change, MatterWorld, Thing } from "./types.ts";
+import { FRESH } from "./types.ts";
 
 export interface LoadAct {
   process: "load";
@@ -14,27 +27,30 @@ export interface LoadAct {
   bearing: string[];
 }
 
+const GROWN = grownFor("load");
+const KERNEL = Kernel.with(LOAD_DERIVED, GROWN);
+const STRENGTH = KERNEL.num("d.strength");
+
+const run = (rules: readonly Ready[], env: Env): Change[] =>
+  rules.flatMap((rule) => {
+    const ran = rule(env);
+    return ran ? changesOf(env, ran) : [];
+  });
+
 /**
- * What it can bear, on the same scale as mass. A steady load is borne by hardness and by how
- * much material there is; toughness counts for less here than it does against a blow. A
- * sound thing bears itself with room to spare.
+ * What it can bear, on the same scale as mass. It is said once, as data (graph/soak-rules.ts,
+ * `strength`), and this reads it off: a steady load is borne by hardness and by how much
+ * material there is, less for what is cracked, flawed or rusted.
  */
 export function strength(world: MatterWorld, support: Thing): number {
-  const p = effective(world, support);
-  const sound = support.state.integrity / 5;
-  const forms = world.elements[support.element]?.forms ?? [];
-  // A cord or a sheet bears in tension, by its toughness and nothing else: not by its length.
-  // Everything else bears by hardness and by the section a load has to cross (scale.ts).
-  // Only what is thin and gives bears in tension: a sheet of ice is a slab, not a cloth.
-  const raw =
-    thin(forms) && p.flexibility >= 3
-      ? (p.toughness * 0.9 + 0.5) * sound
-      : (p.hardness * 0.5 +
-          p.toughness * 0.3 +
-          (thin(forms) ? p.size : bearing(forms, p.size)) * 0.7 +
-          0.5) *
-        sound;
-  return Math.max(0, raw - support.state.flaw - support.state.corrosion * 0.5);
+  return STRENGTH(envOf(world, { sup: partyOf(world, support) }, 0, { borne: 0 }));
+}
+
+/** The same, from the base rows and whatever has grown beside them. */
+export function strengthFrom(grown: Grown) {
+  const read = Kernel.with(LOAD_DERIVED, grown).num("d.strength");
+  return (world: MatterWorld, support: Thing): number =>
+    read(envOf(world, { sup: partyOf(world, support) }, 0, { borne: 0 }));
 }
 
 /** Weights add as quantities and are read back as a level, so amount counts (scale.ts). */
@@ -48,45 +64,41 @@ export function weight(world: MatterWorld, ids: readonly string[]): number {
   return levelOf(total);
 }
 
-export function load(world: MatterWorld, act: LoadAct): Change[] {
-  const support = world.things[act.support];
-  if (!support)
-    return [{ kind: "nothing", because: [], note: "there is nothing there to bear it" }];
-  const borne = weight(world, act.bearing);
-  if (borne <= strength(world, support))
-    return [{ kind: "nothing", because: ["R3", "P4", "P1"], note: "it holds" }];
-  return [
-    {
-      kind: "state",
-      thing: support.id,
-      set: { integrity: Math.min(support.state.integrity, 1) },
-      because: ["R3", "P4", "P1", "S4", "S15", "S10", "M1"],
-      note: "it gives way under the load",
-    },
-    {
-      kind: "signal",
-      place: support.place,
-      channel: "sound",
-      source: support.id,
-      strength: 4,
-      because: ["X2", "E9"],
-      note: "a crack as it goes",
-    },
-    // What it held comes down with it, and a body that falls is hurt by its own weight.
-    ...act.bearing.flatMap((id): Change[] => {
-      const body = world.bodies[id];
-      if (!body) return [];
-      const heavy = world.elements[body.element ?? ""]?.props.mass ?? 3;
-      const depth = Math.min(5, heavy * 0.5);
-      return [
-        {
-          kind: "wound",
-          body: id,
-          wound: { depth, bleeding: depth * 0.3, burned: 0 },
-          because: ["R3", "X1", "X2", "P1", "B3"],
-          note: "it falls, and is hurt",
-        },
-      ];
-    }),
-  ];
+/** A body as a party to a fall: how heavy it is, by its own row if it has one. */
+function faller(world: MatterWorld, body: Body): Party {
+  const thing: Thing = {
+    id: body.id,
+    element: body.element ?? "",
+    place: body.place,
+    state: FRESH,
+  };
+  const mass = world.elements[body.element ?? ""]?.props.mass ?? 3;
+  const p = baseline(undefined);
+  return { thing, p, place: world.places[body.place], s: FRESH, was: FRESH, x: {}, b: { mass } };
 }
+
+/** Load, from the base rows and whatever has grown beside them. */
+export function loadFrom(grown: Grown) {
+  const kernel = Kernel.with(LOAD_DERIVED, grown);
+  const BEARS = [...LOAD_RULES, ...grown.rules].map((rule) => ready(kernel, rule));
+  const FALLS = FALL_RULES.map((rule) => ready(kernel, rule));
+
+  /** Load is rows of data: the support bears or gives way, and each body it bore falls. */
+  function load(world: MatterWorld, act: LoadAct): Change[] {
+    const support = world.things[act.support];
+    if (!support)
+      return [{ kind: "nothing", because: [], note: "there is nothing there to bear it" }];
+    const numbers = { borne: weight(world, act.bearing) };
+    const changes = run(BEARS, envOf(world, { sup: partyOf(world, support) }, 0, numbers));
+    for (const id of act.bearing) {
+      const body = world.bodies[id];
+      if (!body) continue;
+      const parties = { who: faller(world, body), sup: partyOf(world, support) };
+      changes.push(...run(FALLS, envOf(world, parties, 0, numbers)));
+    }
+    return changes;
+  }
+  return load;
+}
+
+export const load = loadFrom(GROWN);

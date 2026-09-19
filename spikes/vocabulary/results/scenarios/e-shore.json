@@ -1,0 +1,1696 @@
+[
+  {
+    "id": "shore-01",
+    "domain": "shore",
+    "place": "A shelving shingle beach in a bay, at the time of the month when the tides are climbing toward springs, with an offshore breeze in the evenings.",
+    "initiator": "world",
+    "lines": [],
+    "things": [
+      "a twelve-foot clinker rowing boat",
+      "oars laid inside it",
+      "the last tide line of wrack",
+      "the rising spring tide",
+      "offshore evening breeze",
+      "the ebb",
+      "the boat's painter, coiled in the bow and tied to nothing",
+      "the fisherman asleep in his cottage"
+    ],
+    "outcome": "The fisherman hauled the boat a boat's length above yesterday's wrack line and left the painter coiled, as he has all week. Tonight's tide is a hand higher than last night's and the one after higher still; on the second night the water reaches the stern, lifts it, and works the boat round and afloat at the top of the tide. The offshore breeze and the ebb take her out of the bay with the oars in her. By morning there is a keel mark that ends at the new wrack line and a boat that may fetch up miles down the coast, or on rocks, or nowhere.",
+    "steps": [
+      {
+        "process": "rise",
+        "agent": "tide",
+        "patient": "beach",
+        "instrument": null,
+        "because": [
+          "agent is nearing springs",
+          "patient is shelving"
+        ],
+        "effects": [
+          "agent high-water mark up each tide",
+          "creates a new wrack line higher up the beach",
+          "patient dry width down"
+        ],
+        "numbers": [
+          "height gained from one tide to the next through the fortnight",
+          "how far up a shelving beach a hand of height reaches",
+          "hour of high water each night"
+        ]
+      },
+      {
+        "process": "float",
+        "agent": "tide",
+        "patient": "boat",
+        "instrument": null,
+        "because": [
+          "patient is buoyant",
+          "patient is untied",
+          "patient is tide-reachable",
+          "patient is light"
+        ],
+        "effects": [
+          "patient loses grounded",
+          "patient gains afloat",
+          "creates a keel mark ending at the water's edge"
+        ],
+        "numbers": [
+          "depth of water needed to lift the stern then the whole boat",
+          "how long around high water she stays afloat"
+        ]
+      },
+      {
+        "process": "drift",
+        "agent": "breeze and ebb",
+        "patient": "boat",
+        "instrument": null,
+        "because": [
+          "agent is offshore",
+          "patient is unmanned",
+          "patient is high sided"
+        ],
+        "effects": [
+          "moves patient to open water beyond the bay",
+          "transfers oars from fisherman to the sea",
+          "fisherman learns of the loss at first light"
+        ],
+        "numbers": [
+          "drift speed and direction from wind and tide together",
+          "hours until anyone looks",
+          "odds of her coming ashore whole somewhere"
+        ]
+      }
+    ],
+    "latent": [
+      "that tides are rising night on night this week",
+      "where the boat ends up",
+      "whether anyone down the coast finds and keeps her"
+    ],
+    "state_after": [
+      "boat: gone from the beach, adrift or stranded elsewhere",
+      "oars: with the boat",
+      "painter: still coiled in her bow",
+      "beach: a keel furrow ending at the new wrack line",
+      "fisherman: without a boat, knows exactly what he failed to do"
+    ],
+    "stress": "A slow cycle in the world crossing a threshold set by where someone left a thing, with nobody present.",
+    "temptation": "A rule 'boats left on beaches may vanish overnight', instead of a water level that changes on its own calendar and any floatable untied thing going where wind and water take it."
+  },
+  {
+    "id": "shore-02",
+    "domain": "shore",
+    "place": "A wide sandy estuary flat at low water on a cool morning, the cockle beds marked by faint pimples and keyholes in the wet sand.",
+    "initiator": "player",
+    "lines": [
+      "rake the wet sand for cockles and fill the basket",
+      "cook them straight away and eat them",
+      "leave the rest in a bucket of clean seawater overnight"
+    ],
+    "things": [
+      "player",
+      "short-toothed iron rake",
+      "withy basket",
+      "cockles",
+      "wet sand",
+      "wooden bucket",
+      "clean seawater",
+      "cooking pot",
+      "handful of wet wrack to cover the basket"
+    ],
+    "outcome": "An hour's raking where the signs are thick fills the basket; a few paces off the bed gives almost nothing. Cooked at once they open well and taste sweet but every mouthful grinds with sand. The ones left overnight in a bucket of clean seawater spit out their grit and are good eating next day. Any left in the bucket a second day in still water foul it and die, and a dead one cooked among the rest can make a person very ill; the ones that do not open in the pot, or gape before it, are the ones to throw out.",
+    "steps": [
+      {
+        "process": "rake",
+        "agent": "player",
+        "patient": "cockle bed",
+        "instrument": "rake",
+        "because": [
+          "patient is shallow buried",
+          "place is uncovered",
+          "instrument is toothed",
+          "patient is plentiful here"
+        ],
+        "effects": [
+          "transfers cockles from sand to basket",
+          "patient cockles down",
+          "agent tiredness up",
+          "agent learns the bed's edge by where the rake comes up empty"
+        ],
+        "numbers": [
+          "cockles per hour on the bed against off it",
+          "hours of low water left to work in"
+        ]
+      },
+      {
+        "process": "boil",
+        "agent": "player",
+        "patient": "fresh cockles",
+        "instrument": "pot",
+        "because": [
+          "patient is alive",
+          "patient is gritty inside"
+        ],
+        "effects": [
+          "patient gains cooked",
+          "patient gains opened",
+          "agent hunger down",
+          "agent learns they are full of sand"
+        ],
+        "numbers": [
+          "minutes to open",
+          "how much meat a basket gives once shelled"
+        ]
+      },
+      {
+        "process": "purge",
+        "agent": "cockles",
+        "patient": "cockles",
+        "instrument": "bucket of seawater",
+        "because": [
+          "agent is alive",
+          "instrument is clean",
+          "instrument is salt",
+          "place is cool"
+        ],
+        "effects": [
+          "agent loses grit",
+          "creates sand in the bottom of the bucket",
+          "instrument freshness down"
+        ],
+        "numbers": [
+          "hours to clear",
+          "how many cockles a bucket of still water can keep alive and for how long"
+        ]
+      },
+      {
+        "process": "die",
+        "agent": "stale water",
+        "patient": "cockles left too long",
+        "instrument": null,
+        "because": [
+          "agent is used up",
+          "patient is crowded",
+          "place is warming"
+        ],
+        "effects": [
+          "patient gains dead",
+          "patient gains gaping",
+          "patient gains poisonous",
+          "eater gains sickness hours after the meal"
+        ],
+        "numbers": [
+          "hours before the first deaths in unchanged water",
+          "odds of illness from one bad shell",
+          "hours from eating to sickness"
+        ]
+      }
+    ],
+    "latent": [
+      "where the bed lies under the sand",
+      "which shells in the bucket are dead, found by tapping and by which stay shut in the pot",
+      "whether the estuary water is clean"
+    ],
+    "state_after": [
+      "basket: emptied",
+      "first meal: eaten, gritty",
+      "bucket: cockles clean by morning, sand settled at the bottom",
+      "bed: a raked patch the next tide will smooth over",
+      "anything left a second day: dead and dangerous"
+    ],
+    "stress": "Food that is alive, that improves if kept the right way for a night and turns harmful if kept a little longer.",
+    "temptation": "A recipe 'cockles plus bucket plus time yields clean cockles', instead of living creatures that clear themselves in good water, use that water up, and spoil fast once dead."
+  },
+  {
+    "id": "shore-03",
+    "domain": "shore",
+    "place": "A cliffed coast where a cove can be reached at low water by walking round the foot of a headland over weed-covered rocks, with no path down the cliffs.",
+    "initiator": "player",
+    "lines": [
+      "walk round the point to the far cove",
+      "search the cove",
+      "go back the way I came"
+    ],
+    "things": [
+      "player",
+      "headland",
+      "weed-covered rock ledges at its foot",
+      "flooding tide",
+      "swell",
+      "the far cove",
+      "soft shale cliffs",
+      "a strip of dry shingle at the back of the cove",
+      "driftwood in the cove"
+    ],
+    "outcome": "The walk round takes a quarter hour at low water. The player spends two hours in the cove; by then the flood has been running for three and the ledges at the point are under waist-deep surging water that would knock a person off their feet onto rock. The way back is shut and will stay shut for six or seven hours. The cliffs are rotten and unclimbable. The back of the cove stays dry on this tide, so it is a cold, hungry, frightening wait into the dark rather than a drowning, but on a spring tide with a swell that strip goes under too.",
+    "steps": [
+      {
+        "process": "walk",
+        "agent": "player",
+        "patient": "ledges",
+        "instrument": null,
+        "because": [
+          "patient is uncovered",
+          "patient is slippery",
+          "agent is sure-footed enough"
+        ],
+        "effects": [
+          "moves agent to the far cove",
+          "agent learns the ledges are the only way"
+        ],
+        "numbers": [
+          "minutes to round the point",
+          "state of the tide at that hour"
+        ]
+      },
+      {
+        "process": "flood",
+        "agent": "tide",
+        "patient": "ledges",
+        "instrument": "swell",
+        "because": [
+          "patient is low",
+          "agent is rising",
+          "instrument is surging"
+        ],
+        "effects": [
+          "patient gains submerged",
+          "patient gains impassable",
+          "player gains cut off",
+          "player learns it only on going to look"
+        ],
+        "numbers": [
+          "hours after low water at which the ledges cover",
+          "depth and surge a person can wade against on rock",
+          "hours until they uncover again"
+        ]
+      },
+      {
+        "process": "try",
+        "agent": "player",
+        "patient": "cliff",
+        "instrument": "hands",
+        "because": [
+          "patient is crumbling",
+          "patient is steep"
+        ],
+        "effects": [
+          "patient loses handholds as they pull out",
+          "agent gains grazed hands",
+          "agent learns the cliff will not go"
+        ],
+        "numbers": [
+          "height reached before it must be abandoned",
+          "odds of a fall"
+        ]
+      },
+      {
+        "process": "wait",
+        "agent": "player",
+        "patient": "player",
+        "instrument": null,
+        "because": [
+          "place is exposed",
+          "place is night-cold",
+          "agent is without food"
+        ],
+        "effects": [
+          "agent warmth down",
+          "agent hunger up",
+          "agent fear up",
+          "agent learns where this tide's high-water mark is"
+        ],
+        "numbers": [
+          "hours until the ledges clear",
+          "whether that falls in daylight",
+          "how close the water comes to the back of the cove on this tide"
+        ]
+      }
+    ],
+    "latent": [
+      "the hour of low water today",
+      "whether the back of the cove stays dry at the top of this tide",
+      "whether the cove has fresh water"
+    ],
+    "state_after": [
+      "player: in the cove, cut off until the next low water, chilled",
+      "ledges: under water",
+      "cove: narrowed to a strip of shingle at high water",
+      "driftwood: there for a fire if the player has the means"
+    ],
+    "stress": "A route that exists only for part of each day, with the closing unannounced and the cost of misjudging it measured in hours.",
+    "temptation": "A door-like 'tide gate' that the game opens and shuts on the path object, instead of a water level everywhere on the shore and ground of differing heights that it covers in turn."
+  },
+  {
+    "id": "shore-04",
+    "domain": "shore",
+    "place": "A beach camp with a driftwood fire, a two-gallon iron pot and the whole sea to draw from.",
+    "initiator": "player",
+    "lines": [
+      "fill the pot with seawater and boil it until only salt is left",
+      "keep feeding the fire",
+      "scrape out the salt"
+    ],
+    "things": [
+      "player",
+      "iron pot",
+      "seawater",
+      "driftwood fire",
+      "a great deal of driftwood",
+      "wooden spoon",
+      "grey salt crust",
+      "cloth to drain it"
+    ],
+    "outcome": "Two gallons of seawater hold about half a pound of salt, and getting it means boiling away all two gallons: three or four hours of hard fire and an armful of wood every quarter hour. It works, but the yield looks pitiful for the labour. Boiled right down to dryness the salt is grey, damp-drawing and bitter from the last liquor; taken off while still a wet slush and drained in a cloth, it is whiter and sweeter but there is less of it. The pot is left with a hard scale burnt to its bottom and will rust by morning if not scoured and greased.",
+    "steps": [
+      {
+        "process": "boil",
+        "agent": "fire",
+        "patient": "seawater",
+        "instrument": "pot",
+        "because": [
+          "patient is salty",
+          "patient is mostly water",
+          "agent is hot",
+          "instrument is iron"
+        ],
+        "effects": [
+          "patient volume down",
+          "creates steam",
+          "consumes driftwood",
+          "patient saltiness up as it shrinks"
+        ],
+        "numbers": [
+          "hours to boil off two gallons on an open fire",
+          "wood burned per hour",
+          "salt held in a gallon of sea"
+        ]
+      },
+      {
+        "process": "crystallise",
+        "agent": "brine",
+        "patient": "pot",
+        "instrument": null,
+        "because": [
+          "agent is saturated",
+          "agent is still boiling"
+        ],
+        "effects": [
+          "creates salt crust",
+          "creates bitter liquor in the last of the water",
+          "patient gains scale baked on its bottom"
+        ],
+        "numbers": [
+          "point at which salt begins to drop out",
+          "share of bitterness in the last tenth of the liquid"
+        ]
+      },
+      {
+        "process": "scrape",
+        "agent": "player",
+        "patient": "salt",
+        "instrument": "spoon and cloth",
+        "because": [
+          "patient is wet",
+          "patient is crusted"
+        ],
+        "effects": [
+          "transfers salt from pot to cloth",
+          "patient gains bitter if boiled dry",
+          "patient gains cleaner if drained early",
+          "agent learns how little there is"
+        ],
+        "numbers": [
+          "weight of salt won",
+          "weight lost by draining off the bitter liquor",
+          "how much meat or fish that much salt would cure"
+        ]
+      },
+      {
+        "process": "rust",
+        "agent": "salt damp",
+        "patient": "pot",
+        "instrument": null,
+        "because": [
+          "patient is iron",
+          "patient is salt-scaled",
+          "place is damp"
+        ],
+        "effects": [
+          "patient gains rust bloom overnight",
+          "patient condition down"
+        ],
+        "numbers": [
+          "hours before rust shows on salted iron"
+        ]
+      }
+    ],
+    "latent": [
+      "how much salt a pot of sea really holds, which most people overestimate",
+      "whether there is enough driftwood within carrying distance for a second boiling"
+    ],
+    "state_after": [
+      "pot: empty, scaled, starting to rust",
+      "salt: a few handfuls, grey and bitter or white and less",
+      "driftwood: the beach nearby picked clean",
+      "player: half a day spent, smoky, knows the rate"
+    ],
+    "stress": "A dissolved thing got back by removing what it is dissolved in, at a cost in fuel and time far out of scale with the yield.",
+    "temptation": "A craft recipe 'seawater plus fire yields salt' with a fixed output, instead of water leaving as steam at a rate set by the fire and whatever was dissolved being left behind in its true small proportion."
+  },
+  {
+    "id": "shore-05",
+    "domain": "shore",
+    "place": "A fishing strand on a bright breezy morning, boats drawn up, gulls standing about on the shingle and wheeling overhead.",
+    "initiator": "creature",
+    "lines": [],
+    "things": [
+      "herring gulls",
+      "open withy basket of fresh herring",
+      "a fisherman mending a net twenty paces off with his back turned",
+      "wet sacking lying beside the basket, not over it",
+      "a boy who could have been set to watch",
+      "fish scales and blood on the shingle"
+    ],
+    "outcome": "One gull sidles in, takes a herring and gets away with it; its cries and the flash of fish bring twenty more within a minute. They do not empty the basket, a herring is a big mouthful, but in the five minutes before the fisherman turns round they carry off a dozen, tear as many more, and foul the rest with droppings. Thrown stones scatter them for as long as he keeps throwing. The sacking over the basket, or the boy beside it, would have cost nothing. The spoiled fish still serve as bait.",
+    "steps": [
+      {
+        "process": "spot",
+        "agent": "gull",
+        "patient": "basket of herring",
+        "instrument": "eyes",
+        "because": [
+          "patient is uncovered",
+          "patient is unwatched",
+          "patient is shiny",
+          "agent is bold",
+          "agent is hungry"
+        ],
+        "effects": [
+          "moves agent to the basket",
+          "agent learns the fisherman is not looking"
+        ],
+        "numbers": [
+          "how near a person must be to keep a gull off",
+          "minutes before the first gull dares"
+        ]
+      },
+      {
+        "process": "steal",
+        "agent": "gull",
+        "patient": "herring",
+        "instrument": "beak",
+        "because": [
+          "patient is swallowable whole",
+          "patient is loose"
+        ],
+        "effects": [
+          "transfers herring from fisherman to gull",
+          "creates squalling",
+          "gull flock learns there is food here"
+        ],
+        "numbers": [
+          "seconds per theft",
+          "how many gulls one gull's success draws and how fast"
+        ]
+      },
+      {
+        "process": "mob",
+        "agent": "gulls",
+        "patient": "basket",
+        "instrument": null,
+        "because": [
+          "agent is many",
+          "agent is competing",
+          "patient is open"
+        ],
+        "effects": [
+          "patient herring down",
+          "patient gains torn fish",
+          "patient gains fouled with droppings",
+          "creates scales and scraps on the shingle"
+        ],
+        "numbers": [
+          "fish taken and fish spoiled per minute",
+          "minutes before the fisherman notices the noise"
+        ]
+      },
+      {
+        "process": "drive",
+        "agent": "fisherman",
+        "patient": "gulls",
+        "instrument": "thrown stones",
+        "because": [
+          "patient is people-wary",
+          "patient is reluctant"
+        ],
+        "effects": [
+          "moves patient to a little way off",
+          "patient loses nothing else",
+          "agent learns what he has lost",
+          "agent loses mending time standing guard"
+        ],
+        "numbers": [
+          "how long gulls stay away once driven",
+          "share of the catch still fit to sell"
+        ]
+      }
+    ],
+    "latent": [
+      "how many gulls are within sight of the strand",
+      "whether the boy was anywhere near"
+    ],
+    "state_after": [
+      "basket: a third lighter, the top layer torn and fouled",
+      "gulls: standing in a ring just out of stone's throw, waiting",
+      "fisherman: angry, net unmended, now guarding the basket",
+      "sacking: over the basket at last",
+      "spoiled herring: set aside for bait"
+    ],
+    "stress": "Opportunists that weigh an unguarded prize against a nearby person, and whose success recruits others.",
+    "temptation": "A random 'gulls steal N fish' event attached to fish baskets, instead of creatures that want food, watch where people are looking, are stopped by a cover or a guard, and draw each other by their noise."
+  },
+  {
+    "id": "shore-06",
+    "domain": "shore",
+    "place": "An open sandy beach backed by dunes, facing the winter gales, where old people say a ship was lost in their grandparents' time.",
+    "initiator": "world",
+    "lines": [],
+    "things": [
+      "a three-day onshore gale",
+      "storm waves",
+      "beach sand",
+      "black oak ribs of an old wreck",
+      "an iron anchor fluke",
+      "a bed of blue clay under the sand",
+      "beachcombers from the village",
+      "calmer weather after",
+      "the returning sand"
+    ],
+    "outcome": "The gale's waves drag sand off the beach and lay it on bars offshore, dropping the beach level by a man's height in three days. Where there was smooth sand there is now a bed of clay with a row of black ribs standing out of it and the fluke of an anchor. Villagers come and saw off what oak they can and dig for anything iron, but the anchor is heavier than four men can shift and the tide gives them only a few hours each low water. Through the next weeks of gentle swell the sand walks back up the beach, and within a month or two everything is buried again as if it had never been.",
+    "steps": [
+      {
+        "process": "scour",
+        "agent": "storm waves",
+        "patient": "beach sand",
+        "instrument": null,
+        "because": [
+          "agent is steep",
+          "agent is relentless",
+          "patient is loose"
+        ],
+        "effects": [
+          "moves patient to offshore bars",
+          "patient level down",
+          "creates a low sand cliff at the dune foot"
+        ],
+        "numbers": [
+          "depth of sand removed per day of gale",
+          "how many days the gale blows"
+        ]
+      },
+      {
+        "process": "uncover",
+        "agent": "scour",
+        "patient": "wreck",
+        "instrument": null,
+        "because": [
+          "patient is shallow-buried",
+          "patient is clay-held"
+        ],
+        "effects": [
+          "patient gains exposed",
+          "village learns the old story was true",
+          "village learns where it lies"
+        ],
+        "numbers": [
+          "depth at which the wreck lay against depth of scour"
+        ]
+      },
+      {
+        "process": "salvage",
+        "agent": "beachcombers",
+        "patient": "wreck",
+        "instrument": "saws and spades",
+        "because": [
+          "patient is sodden",
+          "patient is iron-hard oak",
+          "place is tidal",
+          "patient is partly immovable"
+        ],
+        "effects": [
+          "transfers some oak from the wreck to the villagers",
+          "patient loses a few rib tops",
+          "agent learns the anchor cannot be moved by hand",
+          "creates dug holes that fill with water"
+        ],
+        "numbers": [
+          "hours of working time per low water",
+          "weight of the anchor against what men and a rope can drag",
+          "how much waterlogged oak a man can saw in a tide"
+        ]
+      },
+      {
+        "process": "bury",
+        "agent": "gentle swell",
+        "patient": "wreck",
+        "instrument": "returning sand",
+        "because": [
+          "agent is gentle",
+          "instrument is loose"
+        ],
+        "effects": [
+          "moves sand to the beach",
+          "patient loses exposed",
+          "patient gains buried",
+          "beach level up"
+        ],
+        "numbers": [
+          "weeks for the beach to rebuild",
+          "whether it rebuilds as high as before"
+        ]
+      }
+    ],
+    "latent": [
+      "that anything lay under the sand",
+      "what else is in the clay near the ribs",
+      "whether the next gale uncovers it again or a different stretch"
+    ],
+    "state_after": [
+      "beach: back to smooth sand within two months",
+      "wreck: reburied, a few ribs shorter",
+      "anchor: still there, its place known to those who saw it",
+      "village: some black oak for gateposts, a story renewed"
+    ],
+    "stress": "Ground level as something that rises and falls, hiding and showing what is in it, with a short window to act.",
+    "temptation": "Spawning a 'shipwreck' object after a storm event, instead of things lying at a depth in ground whose surface the sea lowers and raises."
+  },
+  {
+    "id": "shore-07",
+    "domain": "shore",
+    "place": "A windy strand at dusk after a wet week, with driftwood of every age lying along the tide lines and nothing else to burn.",
+    "initiator": "player",
+    "lines": [
+      "gather driftwood and light a fire",
+      "use the big log from the water's edge",
+      "hang the iron pot over it"
+    ],
+    "things": [
+      "player",
+      "tinderbox",
+      "bleached dry sticks from the top of the beach",
+      "a big dark log from the latest tide line",
+      "wind",
+      "iron pot",
+      "sparks",
+      "player's wool cloak"
+    ],
+    "outcome": "The small silver-grey sticks from above the highest tide line are bone dry and catch quickly, burning fast, hot and spitting, with salt colouring the flame. The big log from the fresh tide line is soaked through and only hisses, smokes and half-smothers the fire it is put on; it would need weeks above the tides to be any use. So the fire eats armfuls of small stuff and needs feeding every few minutes. In the wind it throws sparks downwind that pinhole the cloak, and unless it is set in a scrape or behind stones most of its heat blows away.",
+    "steps": [
+      {
+        "process": "gather",
+        "agent": "player",
+        "patient": "driftwood",
+        "instrument": null,
+        "because": [
+          "patient is scattered",
+          "patient is unevenly dry",
+          "place is wide"
+        ],
+        "effects": [
+          "transfers dry sticks from the beach to the player",
+          "agent learns dry wood lies high and soaked wood lies low",
+          "place dry driftwood down nearby"
+        ],
+        "numbers": [
+          "armfuls within easy walking distance",
+          "share of what is found that is dry"
+        ]
+      },
+      {
+        "process": "light",
+        "agent": "player",
+        "patient": "dry sticks",
+        "instrument": "tinderbox",
+        "because": [
+          "patient is dry",
+          "patient is thin",
+          "patient is salt-cured",
+          "place is windy"
+        ],
+        "effects": [
+          "patient gains burning",
+          "creates fast hot fire",
+          "creates spitting sparks",
+          "consumes patient quickly"
+        ],
+        "numbers": [
+          "tries to get tinder going in wind",
+          "minutes an armful lasts"
+        ]
+      },
+      {
+        "process": "smother",
+        "agent": "soaked log",
+        "patient": "fire",
+        "instrument": null,
+        "because": [
+          "agent is waterlogged",
+          "agent is massive",
+          "patient is small"
+        ],
+        "effects": [
+          "patient heat down",
+          "creates thick smoke and hissing",
+          "agent gains scorched outside only",
+          "player learns the log will not burn tonight"
+        ],
+        "numbers": [
+          "water in a sea-soaked log",
+          "weeks of drying before it burns"
+        ]
+      },
+      {
+        "process": "blow",
+        "agent": "wind",
+        "patient": "fire",
+        "instrument": null,
+        "because": [
+          "patient is unsheltered",
+          "agent is steady"
+        ],
+        "effects": [
+          "patient burn rate up",
+          "patient warmth to the player down",
+          "moves sparks to downwind",
+          "cloak gains pinhole burns",
+          "pot heating rate down"
+        ],
+        "numbers": [
+          "extra wood burned for the wind",
+          "how much longer the pot takes to boil unsheltered"
+        ]
+      }
+    ],
+    "latent": [
+      "which pieces are dry inside, told by weight and by where on the beach they lie",
+      "how much dry wood the beach holds"
+    ],
+    "state_after": [
+      "fire: bright, hungry, short-lived",
+      "big log: steaming at one end, otherwise unchanged",
+      "pot: warm, not yet boiling",
+      "cloak: pinholed along the downwind side",
+      "beach nearby: stripped of dry sticks"
+    ],
+    "stress": "One named material behaving in opposite ways according to a hidden condition, how wet it is, which depends on where it has been lying.",
+    "temptation": "Making 'driftwood' a single fuel item with one burn value, instead of any wood burning by its dryness and thickness, and dryness following from where and how long it has lain."
+  },
+  {
+    "id": "shore-08",
+    "domain": "shore",
+    "place": "A boat shore in warm muggy weather, with net-drying poles standing unused because the crew came in late, tired and rained on.",
+    "initiator": "world",
+    "lines": [],
+    "things": [
+      "a hemp drift net, wet, heaped in the bottom of the boat",
+      "fish slime and scales in the mesh",
+      "warm damp air",
+      "the drying poles",
+      "the crew",
+      "a good shoal of herring a week later"
+    ],
+    "outcome": "The crew leave the wet net in a heap, meaning to spread it in the morning, and then weather and other work keep them ashore a week. Inside the heap the twine stays wet and warm; the slime rots, the heap heats a little and stinks, and the hemp goes soft and brown through the middle while the outside, which dried, looks well enough. At the next shot the net comes up heavy with herring and tears open along a whole fathom, spilling most of the catch. Mending it takes two people two days, and the rotted twine around the mend will go next.",
+    "steps": [
+      {
+        "process": "heap",
+        "agent": "crew",
+        "patient": "net",
+        "instrument": null,
+        "because": [
+          "agent is tired",
+          "patient is wet",
+          "patient is slimed",
+          "place is rainy"
+        ],
+        "effects": [
+          "moves patient to the bottom of the boat",
+          "patient gains heaped",
+          "patient loses the chance to dry"
+        ],
+        "numbers": [
+          "hours a net needs spread in wind to dry"
+        ]
+      },
+      {
+        "process": "rot",
+        "agent": "damp warmth",
+        "patient": "net twine",
+        "instrument": "fish slime",
+        "because": [
+          "patient is hemp",
+          "patient is wet inside",
+          "place is warm",
+          "instrument is rotting"
+        ],
+        "effects": [
+          "patient strength down in the middle of the heap",
+          "patient gains stinking",
+          "patient gains sound-looking outer folds",
+          "heap warmth up"
+        ],
+        "numbers": [
+          "days for wet hemp to weaken in warm weather",
+          "how much faster with fish slime in it",
+          "share of the net affected"
+        ]
+      },
+      {
+        "process": "tear",
+        "agent": "weight of fish",
+        "patient": "net",
+        "instrument": null,
+        "because": [
+          "patient is patchily rotten",
+          "agent is heavy",
+          "patient is strained"
+        ],
+        "effects": [
+          "patient gains a fathom-long tear",
+          "moves most of the catch to the sea",
+          "crew learns the net had rotted",
+          "crew income down"
+        ],
+        "numbers": [
+          "load at which weakened mesh gives",
+          "share of the catch lost through the hole"
+        ]
+      },
+      {
+        "process": "mend",
+        "agent": "crew",
+        "patient": "net",
+        "instrument": "netting needle and new twine",
+        "because": [
+          "patient is torn",
+          "patient is weak nearby"
+        ],
+        "effects": [
+          "patient gains patched",
+          "consumes twine",
+          "agent loses two days' fishing",
+          "patient gains weak edges beside the mend"
+        ],
+        "numbers": [
+          "days to mend a fathom of mesh",
+          "how long the mend's weak edges last"
+        ]
+      }
+    ],
+    "latent": [
+      "how far the rot has gone, found by pulling a mesh between the hands",
+      "whether the shoal will still be there once the net is mended"
+    ],
+    "state_after": [
+      "net: torn, then patched, brown and soft through a third of its length",
+      "catch: mostly lost",
+      "boat bottom: stinking of rotten slime",
+      "crew: two days ashore mending, poorer, wiser about the poles"
+    ],
+    "stress": "Neglect as a cause: a thing harmed by being left in the wrong state, with the harm uneven through it and invisible from outside.",
+    "temptation": "A flag 'net not maintained, breaks on next use', instead of wet plant fibre rotting where it cannot dry and a weakened thing failing at the moment it is loaded hardest."
+  },
+  {
+    "id": "shore-09",
+    "domain": "shore",
+    "place": "A sheltered harbour with warm summer water, where boats either lie afloat on moorings all season or are hauled out on the hard between trips.",
+    "initiator": "creature",
+    "lines": [],
+    "things": [
+      "shipworm",
+      "an oak-planked boat left afloat from spring to autumn, her bottom bare of tar since last year",
+      "a sister boat hauled out every week and tarred in spring",
+      "harbour water",
+      "the owner",
+      "a caulking mallet and a spike for sounding planks"
+    ],
+    "outcome": "Through the summer shipworm larvae settle on the bare bottom of the moored boat and bore in through pinholes too small to notice, then eat along inside the planks, never breaking the surface. By autumn she looks sound, leaks a little more than she did, and a spike pushed at a garboard plank goes in to the hilt: the wood inside is a honeycomb of chalk-lined tubes. Three planks must be replaced before winter or she will open up in the first hard sea. The tarred boat that dried out weekly has no worm at all, because worm dies when the wood dries and cannot get through tar.",
+    "steps": [
+      {
+        "process": "settle",
+        "agent": "shipworm",
+        "patient": "boat's bottom planks",
+        "instrument": null,
+        "because": [
+          "patient is wooden",
+          "patient is untarred",
+          "patient is always wet",
+          "place is warm",
+          "place is salt"
+        ],
+        "effects": [
+          "patient gains pinholes",
+          "agent gains a home inside the wood",
+          "owner learns nothing"
+        ],
+        "numbers": [
+          "weeks afloat before settlement",
+          "how warm the water must be"
+        ]
+      },
+      {
+        "process": "bore",
+        "agent": "shipworm",
+        "patient": "planks",
+        "instrument": null,
+        "because": [
+          "agent is wood-eating",
+          "agent is hidden",
+          "patient is never dried"
+        ],
+        "effects": [
+          "patient strength down",
+          "patient gains honeycombed inside",
+          "patient loses nothing on its surface",
+          "boat leak rate up slightly"
+        ],
+        "numbers": [
+          "length bored per month",
+          "months until a plank is no longer safe"
+        ]
+      },
+      {
+        "process": "sound",
+        "agent": "owner",
+        "patient": "planks",
+        "instrument": "spike and mallet",
+        "because": [
+          "patient is suspect",
+          "agent is careful"
+        ],
+        "effects": [
+          "agent learns which planks are eaten",
+          "agent learns the tarred boat is clean",
+          "patient gains a hole where the spike went through"
+        ],
+        "numbers": [
+          "how many planks are past saving",
+          "days of work and cost in oak to replace them"
+        ]
+      }
+    ],
+    "latent": [
+      "the state of the wood inside each plank",
+      "whether neighbouring timbers are infested",
+      "how much the leak will grow under way"
+    ],
+    "state_after": [
+      "moored boat: three planks riddled, unfit for winter seas until replanked",
+      "hauled boat: sound",
+      "owner: facing a week's carpentry, resolved to tar and haul out next year",
+      "shipworm: dies in any plank that is dried out ashore"
+    ],
+    "stress": "A living thing consuming a made thing from the inside over months, prevented entirely by a coating or by a habit of drying.",
+    "temptation": "A seasonal 'boat decay' percentage on all boats, instead of wood-eaters that need bare wood kept wet in warm salt water and are stopped by tar or by air."
+  },
+  {
+    "id": "shore-10",
+    "domain": "shore",
+    "place": "Wave-washed rocks at half tide, studded with limpets the size of a child's palm, each sitting in its own worn ring on the stone.",
+    "initiator": "player",
+    "lines": [
+      "pull a limpet off the rock",
+      "try again with the knife",
+      "kick the next one off without touching it first"
+    ],
+    "things": [
+      "player",
+      "limpets",
+      "rock",
+      "player's fingers",
+      "a thin-bladed iron knife",
+      "player's boot heel",
+      "a flat stone for a hammer"
+    ],
+    "outcome": "A limpet that has been touched clamps down, and then nothing a person has will shift it: fingers slide off, and a knife worked under the rim snaps its tip or chips the shell to pieces before the animal lets go. An unwarned limpet, sitting slightly raised, comes off whole with one sharp sideways knock from a heel or a stone. So the first ones the player tries are all failures and the knife is the worse for it, and after that a meal's worth, thirty or forty, takes a quarter hour. They are tough, and need long stewing or a hard pounding before they are eaten.",
+    "steps": [
+      {
+        "process": "pull",
+        "agent": "player",
+        "patient": "limpet",
+        "instrument": "fingers",
+        "because": [
+          "patient is clinging",
+          "patient is smooth coned",
+          "agent is slow"
+        ],
+        "effects": [
+          "patient gains clamped",
+          "patient gains warned",
+          "agent learns it will not come"
+        ],
+        "numbers": [
+          "force a clamped limpet resists against the grip of fingers on a cone"
+        ]
+      },
+      {
+        "process": "pry",
+        "agent": "player",
+        "patient": "clamped limpet",
+        "instrument": "knife",
+        "because": [
+          "patient is clamped",
+          "instrument is thin",
+          "instrument is brittle-tipped",
+          "place is unyielding"
+        ],
+        "effects": [
+          "instrument loses its tip",
+          "patient gains chipped shell",
+          "patient loses nothing else",
+          "agent learns force is the wrong way"
+        ],
+        "numbers": [
+          "odds the blade snaps before the limpet gives"
+        ]
+      },
+      {
+        "process": "knock",
+        "agent": "player",
+        "patient": "unwarned limpet",
+        "instrument": "boot heel",
+        "because": [
+          "patient is relaxed",
+          "patient is slightly raised",
+          "agent is sudden",
+          "instrument is hard"
+        ],
+        "effects": [
+          "patient loses its hold",
+          "moves patient to the player's hand",
+          "neighbouring limpet gains warned if the rock is jarred"
+        ],
+        "numbers": [
+          "odds a single sharp blow frees one",
+          "how many can be gathered in a quarter hour",
+          "how long a warned limpet stays clamped"
+        ]
+      },
+      {
+        "process": "stew",
+        "agent": "player",
+        "patient": "limpets",
+        "instrument": "pot",
+        "because": [
+          "patient is rubbery"
+        ],
+        "effects": [
+          "patient gains cooked",
+          "patient gains still chewy",
+          "agent hunger down a little"
+        ],
+        "numbers": [
+          "hours of stewing to make them tender",
+          "how many make a meal"
+        ]
+      }
+    ],
+    "latent": [
+      "that surprise matters and strength does not",
+      "how long a warned limpet takes to relax"
+    ],
+    "state_after": [
+      "knife: tip snapped",
+      "first limpets: still on the rock, clamped, one with a chipped shell",
+      "player: holding a capful of limpets, knows the trick",
+      "rock: pale clean rings where limpets sat"
+    ],
+    "stress": "A creature whose state flips on first contact, so the order and manner of the attempt decide the result and the obvious approach defeats itself.",
+    "temptation": "A strength check to 'harvest limpet', instead of an animal that holds weakly until alarmed and immovably after, so that a sudden blow works and a strong slow pull never does."
+  },
+  {
+    "id": "shore-11",
+    "domain": "shore",
+    "place": "A flat sandy beach at dead low water, the sea two hundred paces off, with a heavy larch-on-oak fishing boat lying on her bilge where the last tide left her.",
+    "initiator": "player",
+    "lines": [
+      "drag the boat down to the water",
+      "lay driftwood poles under her keel and try again",
+      "wait for the tide to float her"
+    ],
+    "things": [
+      "player, alone",
+      "heavy eighteen-foot boat",
+      "soft wet sand",
+      "round driftwood poles",
+      "an oar used as a lever",
+      "the distant sea",
+      "the incoming tide",
+      "anchor and warp in the boat"
+    ],
+    "outcome": "One person cannot drag this boat: she weighs as much as a carthorse and her keel cuts into the sand. Levering the bow up with an oar and getting round poles under the keel lets her be shoved a length at a time, fetching each freed pole round to the front, but on soft sand the poles sink and it is an hour's brutal work to gain thirty paces, and the oar may crack. The sea will do the job free: in about three hours the tide reaches her and lifts her. The sensible thing is to carry the anchor down-beach, bed it, and wait, so that she does not float off untended.",
+    "steps": [
+      {
+        "process": "drag",
+        "agent": "player",
+        "patient": "boat",
+        "instrument": null,
+        "because": [
+          "patient is very heavy",
+          "place is soft",
+          "agent is alone",
+          "patient is keeled"
+        ],
+        "effects": [
+          "patient loses nothing of its position",
+          "agent tiredness up",
+          "agent learns she cannot be dragged by one person"
+        ],
+        "numbers": [
+          "weight of the boat against one person's pull",
+          "drag of a keel in wet sand"
+        ]
+      },
+      {
+        "process": "roll",
+        "agent": "player",
+        "patient": "boat",
+        "instrument": "poles and oar",
+        "because": [
+          "instrument is round",
+          "instrument is sinking in",
+          "patient is lever-liftable"
+        ],
+        "effects": [
+          "moves patient to thirty paces nearer the sea",
+          "agent tiredness up sharply",
+          "oar gains strained",
+          "instrument gains pressed into the sand"
+        ],
+        "numbers": [
+          "paces gained per hour",
+          "odds the oar cracks used as a lever",
+          "people it would take to do this easily"
+        ]
+      },
+      {
+        "process": "wait",
+        "agent": "tide",
+        "patient": "boat",
+        "instrument": null,
+        "because": [
+          "agent is flooding",
+          "place is flat",
+          "patient is buoyant"
+        ],
+        "effects": [
+          "patient gains afloat",
+          "player effort down to nothing",
+          "player loses three hours"
+        ],
+        "numbers": [
+          "hours until the water reaches her",
+          "speed of the tide's edge over flat sand",
+          "depth needed to float her"
+        ]
+      },
+      {
+        "process": "anchor",
+        "agent": "player",
+        "patient": "boat",
+        "instrument": "anchor and warp",
+        "because": [
+          "patient is nearly afloat",
+          "instrument is heavy enough"
+        ],
+        "effects": [
+          "patient gains held",
+          "moves anchor to down the beach",
+          "agent learns she will be there when the water comes"
+        ],
+        "numbers": [
+          "length of warp against the rise of tide"
+        ]
+      }
+    ],
+    "latent": [
+      "the hour of the tide",
+      "how soft the sand is further down",
+      "whether the oar has a flaw"
+    ],
+    "state_after": [
+      "boat: thirty paces down the beach, then afloat at anchor three hours later",
+      "player: exhausted for little gain, or rested if they simply waited",
+      "oar: strained, maybe cracked",
+      "poles: left half buried in a line down the sand"
+    ],
+    "stress": "A task that is nearly impossible by effort and trivial by patience, because the world will do it on its own timetable.",
+    "temptation": "A 'launch boat' action that succeeds if the player is strong enough, instead of weight against friction, rollers that reduce it, and a rising water level that removes it altogether."
+  },
+  {
+    "id": "shore-12",
+    "domain": "shore",
+    "place": "A spray-blown fishing station on an exposed point, where everything left out is damp with salt by morning even in fair weather.",
+    "initiator": "world",
+    "lines": [],
+    "things": [
+      "an iron gutting knife left on the boat's thwart",
+      "a second knife, wiped with fish oil and kept in a greased leather sheath",
+      "salt spray",
+      "night dew",
+      "rust",
+      "the fisherman",
+      "a whetstone"
+    ],
+    "outcome": "The knife left on the thwart wet with fish blood and seawater has a brown bloom by the next morning. In three days the edge is pitted and it is rusted to a rough orange all over; in three weeks the blade is scaly, the tang has swelled and split the wooden handle, and it will never take a fine edge again. The oiled knife in its greased sheath is bright all season. Scouring the neglected one with wet sand and an hour on the whetstone gets a usable knife back if it is caught in the first week, thinner than before.",
+    "steps": [
+      {
+        "process": "wet",
+        "agent": "spray and dew",
+        "patient": "bare knife",
+        "instrument": null,
+        "because": [
+          "patient is iron",
+          "patient is unoiled",
+          "place is salt-laden",
+          "patient is left out"
+        ],
+        "effects": [
+          "patient gains salt film",
+          "patient gains damp that never dries",
+          "patient dampness up each night as the salt draws it"
+        ],
+        "numbers": [
+          "how many hours a day salted iron stays wet on this shore"
+        ]
+      },
+      {
+        "process": "rust",
+        "agent": "salt damp",
+        "patient": "bare knife",
+        "instrument": null,
+        "because": [
+          "patient is iron",
+          "patient is salt-wet",
+          "patient is unprotected"
+        ],
+        "effects": [
+          "patient gains rust bloom then pits then scale",
+          "patient sharpness down",
+          "patient thickness down",
+          "handle gains split as the tang swells"
+        ],
+        "numbers": [
+          "days to bloom, to pitting, to ruin",
+          "how much faster than rust inland"
+        ]
+      },
+      {
+        "process": "protect",
+        "agent": "oil and grease",
+        "patient": "sheathed knife",
+        "instrument": "leather sheath",
+        "because": [
+          "agent is water-shedding",
+          "patient is coated",
+          "instrument is greased"
+        ],
+        "effects": [
+          "patient loses nothing",
+          "patient gains a film that must be renewed",
+          "fisherman learns nothing because nothing happens"
+        ],
+        "numbers": [
+          "how long a wipe of oil lasts in use"
+        ]
+      },
+      {
+        "process": "scour",
+        "agent": "fisherman",
+        "patient": "rusted knife",
+        "instrument": "wet sand and whetstone",
+        "because": [
+          "patient is surface rusted",
+          "patient is lightly pitted"
+        ],
+        "effects": [
+          "patient loses rust",
+          "patient thickness down",
+          "patient sharpness up",
+          "patient gains lasting pits",
+          "agent loses an hour"
+        ],
+        "numbers": [
+          "metal lost to rust and scouring",
+          "the day after which the edge cannot be recovered"
+        ]
+      }
+    ],
+    "latent": [
+      "how deep the pitting goes under the rust",
+      "whether the tang has rotted the handle from inside"
+    ],
+    "state_after": [
+      "bare knife: rusted, by three weeks ruined with a split handle",
+      "oiled knife: bright",
+      "thwart: an orange stain where the knife lay",
+      "fisherman: one knife short or an hour's scouring poorer"
+    ],
+    "stress": "Slow damage set by a place's air and stopped by a thin coating, where the protected case is a non-event.",
+    "temptation": "A global 'iron items rust N percent per day' tick, instead of rust needing wet, going faster with salt, and being kept off by anything that keeps water from the metal."
+  },
+  {
+    "id": "shore-13",
+    "domain": "shore",
+    "place": "A barren sandy spit with a low ridge of dunes, no stream or spring, the sea on both sides, in dry summer weather.",
+    "initiator": "player",
+    "lines": [
+      "dig a hole in the sand behind the dunes to find water",
+      "dig it deeper",
+      "taste the water"
+    ],
+    "things": [
+      "player",
+      "flat driftwood board used as a spade",
+      "dune sand",
+      "rainwater soaked into the dunes",
+      "salt water beneath it",
+      "the seep hole",
+      "a tin cup"
+    ],
+    "outcome": "Rain that falls on dunes sinks in and floats as a thin lens on the salt water beneath. A hole dug in the hollow behind the first dune ridge reaches damp sand at arm's depth and, a little below that, slowly seeps a few cupfuls of cloudy water that tastes flat, faintly brackish and drinkable. Dug deeper to get more, the hole breaks into the salt beneath and what rises is undrinkable, and the hole is spoiled. Dug too near the beach, it is salt from the start. The sides slump in unless the hole is wide, and it refills only a few cups an hour.",
+    "steps": [
+      {
+        "process": "dig",
+        "agent": "player",
+        "patient": "sand",
+        "instrument": "board",
+        "because": [
+          "patient is loose",
+          "patient is slumping",
+          "instrument is clumsy"
+        ],
+        "effects": [
+          "creates a hole an arm deep",
+          "creates spoil heap",
+          "agent tiredness up",
+          "agent thirst up",
+          "agent learns the sand turns damp and cool"
+        ],
+        "numbers": [
+          "time to dig an arm's depth in dry sand that runs back in",
+          "how wide the hole must be to stand"
+        ]
+      },
+      {
+        "process": "seep",
+        "agent": "fresh groundwater",
+        "patient": "hole",
+        "instrument": null,
+        "because": [
+          "agent is floating",
+          "agent is thin",
+          "place is dune-sheltered",
+          "place is rain-fed"
+        ],
+        "effects": [
+          "patient water up slowly",
+          "patient gains cloudy drinkable water",
+          "agent learns it is fresh enough by taste"
+        ],
+        "numbers": [
+          "cups per hour of seepage",
+          "thickness of the fresh layer after a dry month",
+          "distance from the tide line at which it is still fresh"
+        ]
+      },
+      {
+        "process": "deepen",
+        "agent": "player",
+        "patient": "hole",
+        "instrument": "board",
+        "because": [
+          "agent is impatient",
+          "patient is salt-underlain"
+        ],
+        "effects": [
+          "patient gains salt water",
+          "patient loses drinkable",
+          "agent learns deeper is worse",
+          "agent loses the work of the first hole"
+        ],
+        "numbers": [
+          "how little extra depth reaches the salt",
+          "how far away a new hole must be dug"
+        ]
+      }
+    ],
+    "latent": [
+      "whether any fresh water lies under this sand at all",
+      "how deep the fresh layer is and where the salt begins",
+      "when it last rained"
+    ],
+    "state_after": [
+      "first hole: brackish to salt, spoiled, slumping",
+      "player: tired, thirstier, knows to dig shallow and wide and wait",
+      "second hole, if dug: a few cups an hour of flat drinkable water",
+      "sand: spoil heaps the wind will flatten in a day"
+    ],
+    "stress": "A hidden layered resource where a little effort succeeds and more effort ruins it, and quality is learned only by tasting.",
+    "temptation": "A 'dig for water' action that yields fresh water on sand tiles with some probability, instead of fresh lying over salt at depths set by rain and distance from the sea, and a hole that takes whatever it reaches."
+  },
+  {
+    "id": "shore-14",
+    "domain": "shore",
+    "place": "A gently shelving sand flat that dries for a quarter mile at low water, known for flounder and plaice that come in with the flood to feed.",
+    "initiator": "player",
+    "lines": [
+      "stake out the long line on the sand and bait every hook with lugworm",
+      "come back at the next low water and see what it caught"
+    ],
+    "things": [
+      "player",
+      "long line of tarred cord with forty short snoods and iron hooks",
+      "two stout stakes",
+      "lugworm dug from the flat",
+      "flood tide",
+      "flounder and plaice",
+      "shore crabs",
+      "gulls at the ebb",
+      "a bucket"
+    ],
+    "outcome": "Digging forty lugworm and baiting and staking the line takes most of the low water. The tide covers it for eight or nine hours and the player can do nothing but wait and not be late back. At the next low water: five or six flatfish, two of them pecked open by gulls that got there as the water left; a dozen hooks stripped clean by crabs; two small crabs hooked; one snood bitten off; the rest still holding sodden untouched worm. Arriving an hour after the line dries means the gulls have had the lot. It is a fair return for the work, but never what forty hooks promise.",
+    "steps": [
+      {
+        "process": "bait",
+        "agent": "player",
+        "patient": "long line",
+        "instrument": "lugworm",
+        "because": [
+          "instrument is fresh",
+          "patient is many hooked",
+          "place is briefly uncovered"
+        ],
+        "effects": [
+          "patient gains baited",
+          "patient gains staked at both ends",
+          "consumes instrument",
+          "agent tiredness up"
+        ],
+        "numbers": [
+          "time to dig forty worms and bait forty hooks",
+          "hours of low water available"
+        ]
+      },
+      {
+        "process": "cover",
+        "agent": "tide",
+        "patient": "long line",
+        "instrument": null,
+        "because": [
+          "agent is flooding",
+          "place is shelving"
+        ],
+        "effects": [
+          "patient gains submerged",
+          "player loses all sight and reach of it",
+          "flatfish gains access to the baits"
+        ],
+        "numbers": [
+          "hours covered",
+          "hour of the next low water, by day or by night"
+        ]
+      },
+      {
+        "process": "take",
+        "agent": "flatfish and crabs",
+        "patient": "baits",
+        "instrument": null,
+        "because": [
+          "patient is smelly",
+          "agent is flood-feeding",
+          "agent is partly nibbling"
+        ],
+        "effects": [
+          "patient baits down",
+          "line gains some hooked flatfish",
+          "line gains stripped hooks",
+          "line gains hooked crabs",
+          "line loses a snood"
+        ],
+        "numbers": [
+          "odds per hook of a fish",
+          "odds per hook of being stripped by crabs",
+          "how fish numbers vary with season and tide"
+        ]
+      },
+      {
+        "process": "uncover",
+        "agent": "ebb",
+        "patient": "catch",
+        "instrument": null,
+        "because": [
+          "patient is hook-stranded",
+          "place is gull-watched"
+        ],
+        "effects": [
+          "patient gains exposed",
+          "gull flock gains the first pick",
+          "patient fish down by the minute until the player arrives",
+          "player learns what the line took"
+        ],
+        "numbers": [
+          "minutes between the line drying and the player reaching it",
+          "fish lost to gulls per quarter hour"
+        ]
+      }
+    ],
+    "latent": [
+      "what is happening on the line while it is covered",
+      "how many fish are on the flat this tide",
+      "whether the player wakes in time for a night low water"
+    ],
+    "state_after": [
+      "bucket: three or four good flatfish, two damaged ones for the pot or for bait",
+      "line: tangled in places, one snood short, needing rebaiting throughout",
+      "crabs: two in the bucket",
+      "player: two half days spent for a family's supper"
+    ],
+    "stress": "An unattended device working out of sight for hours, with several kinds of creature competing over it and the result counted only on return.",
+    "temptation": "A trap item that rolls 'catch N fish' when collected, instead of each bait being found by whatever feeds there, and the catch itself becoming bait for others once the water leaves."
+  },
+  {
+    "id": "shore-15",
+    "domain": "shore",
+    "place": "Warm shallow water over clean sand at the low-water edge on a summer afternoon, ankle to knee deep, where shrimpers push their nets.",
+    "initiator": "creature",
+    "lines": [],
+    "things": [
+      "a weever fish lying buried in the sand with only its eyes and back fin showing",
+      "a barefoot shrimper pushing a net",
+      "the fish's venomous back spines",
+      "the shrimper's foot",
+      "the shrimp net and half-full shrimp bag",
+      "a kettle of hot water at the beach fire",
+      "the incoming tide"
+    ],
+    "outcome": "The shrimper treads on the buried fish, which raises its spines and does not move away. The pain is immediate and out of all proportion to the pinprick: within minutes the foot is swollen and he is sick and sweating with it, and it gets worse for the first half hour. He drops the net and must hobble a furlong to the fire with the tide coming in behind him. Holding the foot in water as hot as he can bear breaks the pain within a quarter hour; without that it rages for a couple of hours and aches for a day. No lasting harm, but the day's shrimping is over and the net may be floating off. Shod or shuffling feet would have prevented it.",
+    "steps": [
+      {
+        "process": "hide",
+        "agent": "weever",
+        "patient": "weever",
+        "instrument": "sand",
+        "because": [
+          "agent is sand-coloured",
+          "place is shallow",
+          "place is warm",
+          "agent is ambushing"
+        ],
+        "effects": [
+          "agent gains buried",
+          "agent gains unseen"
+        ],
+        "numbers": [
+          "how many weevers lie on a stretch of summer shallows"
+        ]
+      },
+      {
+        "process": "sting",
+        "agent": "weever",
+        "patient": "shrimper's foot",
+        "instrument": "back spines",
+        "because": [
+          "patient is bare",
+          "patient is treading hard",
+          "instrument is venomous",
+          "agent is unfleeing"
+        ],
+        "effects": [
+          "patient gains punctured",
+          "patient pain up steeply",
+          "patient gains swelling",
+          "shrimper gains nausea",
+          "moves agent to a few yards off afterwards"
+        ],
+        "numbers": [
+          "odds of treading on one per hour of barefoot shrimping",
+          "time for the pain to peak",
+          "hours it lasts untreated"
+        ]
+      },
+      {
+        "process": "hobble",
+        "agent": "shrimper",
+        "patient": "shrimper",
+        "instrument": null,
+        "because": [
+          "agent is pain-stricken",
+          "place is far off",
+          "place is flooding"
+        ],
+        "effects": [
+          "moves agent to the beach fire",
+          "agent loses the net left in the shallows",
+          "net gains adrift when the water deepens"
+        ],
+        "numbers": [
+          "time to cover a furlong on one good foot",
+          "how soon the tide lifts the abandoned net"
+        ]
+      },
+      {
+        "process": "soak",
+        "agent": "shrimper",
+        "patient": "stung foot",
+        "instrument": "hot water",
+        "because": [
+          "instrument is very hot",
+          "patient is envenomed",
+          "instrument is venom-spoiling"
+        ],
+        "effects": [
+          "patient pain down within a quarter hour",
+          "patient gains scalded skin if overdone",
+          "consumes hot water",
+          "agent learns what old shrimpers already know"
+        ],
+        "numbers": [
+          "how hot and for how long",
+          "how long the ache and swelling linger"
+        ]
+      }
+    ],
+    "latent": [
+      "where the fish lie, which cannot be seen",
+      "whether there is hot water at the fire",
+      "whether the net can still be found"
+    ],
+    "state_after": [
+      "shrimper: sitting by the fire, foot swollen, pain easing, done for the day",
+      "weever: unharmed, reburied nearby",
+      "net and shrimp bag: adrift or stranded further up with the tide",
+      "kettle: emptied"
+    ],
+    "stress": "Harm from a creature that does nothing but stay where it is, severe but brief, with a remedy that works by a property of the venom.",
+    "temptation": "A 'weever sting' status with a fixed timer and a named cure item, instead of a hidden spined animal in the path of a bare foot, pain that disables for a while, and heat undoing the poison."
+  }
+]

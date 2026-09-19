@@ -127,6 +127,10 @@ The vocabulary has two layers. **Effect kinds** are the ontology: code, versione
 
 Each effect has a schema, preconditions, and a cause id pointing at the log entry that produced it. Code rejects any effect that breaks an invariant, such as a dead NPC holding a role.
 
+**Physical depth:** section 21 extends this path to composed materials and contacts.
+Repeatability is not enough: transfers must account for resources, interactions
+must compose, and new object identities must not require outcome-specific rules.
+
 **Means and ends**
 
 Decided 2026-09-17, after three playtests found gaps one verb at a time: the world does not permit actions from lists, it answers "what is this for?" and lets the answer decide. Every thing and place is described against a small graph of needs (`packages/core/src/needs.ts`), and any verb can be tried on anything.
@@ -777,6 +781,12 @@ Decided 2026-09-18 as a design; none of it is built. The state that Jev and the 
 | Representation | How code words state for the judge (`eventLine`, `standing`, which fields a slice carries, what is ranked in) and the wording, criteria and examples of the eight families | Generative model, offline | A probe set scored by code, then a pull request a person merges | Dev time |
 | Ontology | Effect kinds, question families, the needs graph, slice schemas' required paths | A person | This spec | Rare |
 
+**Mechanics are not runtime content merely because they are JSON.** A generated
+rate expression, threshold formula or factor altering a base physical rule is
+offline mechanics work: code-owned calibration, invariant and held-out tests,
+versioning, and human review. Runtime generation may fill admitted descriptions
+and templates, not silently change the world's laws. Section 21 defines this boundary.
+
 Rule 8 is why content and representation are separate loops. Generated text never defines instructions or criteria at play time, so the content loop can only add structure (a claim with a subject, predicate and object from closed vocabularies), and code still renders every word the judge reads. A change to wording reaches the judge only as authored code that went through review, which is what the representation loop produces.
 
 **Signals**
@@ -835,3 +845,86 @@ flowchart LR
 **Order.** The probe set and its scorer are built first: they need no new family and no runtime generative call, they are tooling and not the author thread, and the content loop needs them to tell better from merely different. They grow out of `spikes/m2-families`, which already runs handwritten states against live Jev. The content loop arrives with M3.
 
 **First sketch, 2026-09-18** (`spikes/probe-sketch/FINDINGS.md`; 16 live calls, $0.0014). Three paired probes were run by hand in both wordings. The guard's culprit question falls from 0.56 and 0.61 to 0.06 and 0.07 when the apron lines leave the slice, with no repeat noise: the proof carries it, as it should. Tobin tells what he saw at 0.05 indebted and 0.34 once he learns the debt is paid, but dropping the debt's circumstance line alone moves nothing (0.04), so the comment in `slices.ts` that credits that line is not reproduced; the debt is also in his `knows`, which may be why. Dropping `scene.people`, `scene.things` and `scene.exits` from the parse slice, which repeat the criteria, saves 8 to 10% of tokens and flips no top choice, but `target` loses 0.12 to 0.30 to `none` every time because the instruction still says "which entry in `scene`", and "attack mara" falls from 0.98 to 0.70, under the bar for violence. A slice change and its question's wording move together or not at all. The larger parse costs are elsewhere: the verb criteria are about 1,020 tokens and the untrusted-text sentence is sent seven times.
+
+## 21. Compositional causality
+
+**Accepted direction, not implemented completion.** The world must support deep,
+unanticipated causal chains by composing persistent material state and mechanisms.
+A burning sword made of wood, an iron blade with an oil coating, and a hot tool
+with an insulating grip must differ because of their materials, parts and contacts,
+not because the engine recognizes those named combinations.
+
+The detailed contract and C0–C8 acceptance gates are in
+[`docs/compositional-causality.md`](docs/compositional-causality.md). They supplement
+sections 4, 13 and 20 without changing the ten constitutional rules. This decision
+does not accept the entire no-story sandbox proposal or add a Jev question family.
+
+**The architecture**
+
+- Keep the **physical graph** (parts, material state, contacts and reservoirs)
+  separate from the **rule graph** (quantities, transformations and constraints).
+  An assembly owns no extra mass beyond its parts. A coating or grip is material,
+  not a free modifier. One-part objects remain valid coarse representations.
+- Every transfer or transformation identifies what supplies it and where its
+  material and energy go. Finite fuel bounds burning; its substrate can also burn
+  when its own properties allow it. Residue, escaped products and residual heat
+  persist or enter an explicit boundary account. Zero input/exposure cannot cause
+  the corresponding physical transformation.
+- Code integrates active intervals before settling their end events, resolves
+  shared source budgets atomically, and declares numerical tolerances and work
+  bounds. Observed and unobserved evolution use admitted code mechanisms, never
+  model-generated outcomes as a substitute for catch-up.
+- Persistent unknowns are resolved once, consistent with history. Action variation
+  samples causal inputs once; correlated consequences share those inputs. Beliefs
+  can change without changing reality. A seeded outcome table alone is not causal
+  simulation, and the engine does not enumerate all possible futures.
+- Runtime generation fills material/assembly descriptions and existing templates
+  using bounded code-built choices. Arithmetic and calibration remain code-owned.
+  New formulas, factors and couplings, including JSON expressions, are offline,
+  versioned mechanics changes requiring invariant tests, unseen scenarios and human
+  review. Names and literal definition IDs cannot select physical outcomes.
+- Worlds pin mechanics and definition versions. Refinement into parts conserves
+  mass, energy, fuel and established damage/history; it is logged and idempotent.
+  Mechanics upgrades are explicit migrations, not retroactive reinterpretation.
+  Replay uses committed effects. Culling cannot remove referenced historical data.
+- Depth must be learnable: code produces cues, body/inventory consequences and
+  causal explanations; prose renders them and cannot invent missing mechanisms.
+
+**Evidence and order**
+
+The held-out pass at sandbox `928755f` found four remaining gaps: oil dousing,
+zero-dose washing, zero-exposure shock and burnout heating. Reverse heat exchange
+is fixed there. See `validation/sandbox-held-out-928755f-20260720/REPORT.md`.
+That revision already executes multiple mechanisms as graph rows, but rows alone
+do not provide composition, conservation, stable uncertainty or version migrations.
+
+Start with the general budget/exposure/event guarantees and a minimal thermal
+parts model, not more fire-sword recipes. `spikes/composition` is an isolated
+executable design experiment, not an integrated replacement for `matter`.
+Its numerical assumptions, passing evidence and omissions belong in its README.
+The production C0 regressions are closed on the task branch as described below.
+C1–C8 remain open until verified against the active sandbox and renderer, including
+saved replay, latent state, refinement and unfamiliar assemblies.
+
+**C0 implementation:** `docs/c0-exposure.md` records the task-branch fixes for
+zero supplied dose, aqueous dousing, zero heat exposure and burnout boundaries.
+Drift now separates initial suppression, interval evolution and final fuel
+settlement, preserving the true start snapshot through existing generated rows.
+All 15 held-out assertions, 32 exposure and 38 phase regressions pass. The
+combined gate passes 1,070 ordinary tests with 331 unchanged expected failures.
+Generated rows are unchanged; compatibility with the pinned ordering is tested,
+not arbitrary future conflicting extensions. This does not complete resource
+accounting, parts, mechanics migration or integration into other branches.
+
+**First proof:** the isolated composition spike passes 16 tests for finite
+coating/substrate fuel, residue and escaped-energy accounting, contact-dependent
+body exposure, thermal inertia, identity/edge-order invariance and bounded numerical
+evolution. It has no production integration, moisture model, density/geometry,
+structural damage, oxidizer balance, latent state or persistence. Its sampled
+event timing is approximate. This supports the abstraction, not completion of
+the physical-depth goal.
+
+**Documentation boundary:** this branch contains the specification update.
+The linked Claude Doc and other active feature branches must receive the same
+decision before this is treated as synchronized across sessions. Publishing this
+branch does not synchronize the Claude Doc or merge another branch.

@@ -144,6 +144,7 @@ export const POOL: readonly Element[] = [
     props: { mass: 0, size: 0, hardness: 0, toughness: 1, perishability: 4, scent: 1 },
     moist: 3,
     serves: { hunger: 1 },
+    fare: "fruit",
   },
   {
     // What a body strikes and works with when it holds nothing: flesh, as levels.
