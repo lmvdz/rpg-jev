@@ -109,7 +109,8 @@ describe("travel-02: the pass", () => {
     expect(after.things.skin?.state.temperature).toBeLessThan(1.5);
   });
 
-  it.fails("travel-02: with the wind picking up, the pass chills what is carried faster than the same cold out of the wind (the temperature rate in drift.ts reads conductivity and mass and never the place's wind, though X3 names wind; wind only dries)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("travel-02: with the wind picking up, the pass chills what is carried faster than the same cold out of the wind", () => {
     const after = resolve(climb, minutes(30)).world;
     const inWind = after.things.skin?.state.temperature ?? 9;
     const outOfIt = after.things.sheltered?.state.temperature ?? 0;
@@ -240,7 +241,8 @@ describe("travel-05: a spring that may not be there", () => {
     expect(searchOdds(story.world, hour("storyring"))).toBe(0);
   });
 
-  it.fails("travel-05: digging the damp patch by hand leaves a hole (force has blows and cuts and no digging: a hand on loose sand is a weak blow on a big soft thing, a twentieth of a level of damage, and nothing is taken out; what is `granular` should come away by the handful)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("travel-05: digging the damp patch by hand leaves a hole", () => {
     const dig: Act = {
       process: "force",
       instrument: "hands",

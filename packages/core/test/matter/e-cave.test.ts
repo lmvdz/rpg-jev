@@ -184,7 +184,8 @@ describe("cave-02: pit props rotting under a roof", () => {
     expect(gives.world.things.a?.state.integrity).toBeLessThanOrEqual(1);
   });
 
-  it.fails("cave-02: a prop carrying nearly all it can shows it for weeks: bulging, shedding splinters, grit from the roof (load is held or not at a moment: there is no step between whole and broken under a standing load, and nothing is given off until it goes)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("cave-02: a prop carrying nearly all it can shows it for weeks: bulging, shedding splinters, grit from the roof", () => {
     const { world: after, changes } = resolve(level({}), bears("a", ["share"]));
     const shown = changes.some((c) => c.kind === "signal");
     expect(shown || (after.things.a?.state.integrity ?? 5) < 5).toBe(true);

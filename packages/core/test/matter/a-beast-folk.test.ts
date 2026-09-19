@@ -320,7 +320,8 @@ describe("folk: what is matter in them", () => {
     expect(stood.things.board?.state.integrity).toBe(5);
   });
 
-  it.fails("folk-02: a loose board that holds still creaks under shifted weight, and that is what gives the player away (a load that holds is silent: no looseness of a join, R4, and nothing sounds)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("folk-02: a loose board that holds still creaks under shifted weight, and that is what gives the player away", () => {
     const w = world(
       [thing("board", "oak", "street"), thing("player", "person", "street")],
       [],

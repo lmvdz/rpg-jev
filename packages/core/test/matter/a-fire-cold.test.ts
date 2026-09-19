@@ -54,7 +54,8 @@ describe("fire-02: a field set alight", () => {
     expect(later.things.log?.state.burning).not.toBeNull();
   });
 
-  it.fails("fire-02: a strong wind carries the flame to the hay sooner than still air does (wind reaches drying and nothing else: not heat, not burning)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("fire-02: a strong wind carries the flame to the hay sooner than still air does", () => {
     const reach = (at: string) => {
       const alight = resolve(field(at), heat("torch", "grass", 2)).world;
       return resolve(alight, heat("grass", "hay", 1.5, 0.3)).world.things.hay?.state.burning;
@@ -271,7 +272,8 @@ describe("cold-02: the lantern in the pass", () => {
     expect(after.things.lantern?.state.burning).not.toBeNull();
   });
 
-  it.fails("cold-02: a gust through the pass snuffs it (burning reads the place's air and never its wind; nothing sets the size of a flame against the strength of a flow)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("cold-02: a gust through the pass snuffs it", () => {
     const after = resolve(lantern("pass"), { process: "drift", minutes: 1 }).world;
     expect(after.things.lantern?.state.burning).toBeNull();
   });

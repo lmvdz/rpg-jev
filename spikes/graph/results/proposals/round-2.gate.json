@@ -1,0 +1,11 @@
+{
+  "rejected": [
+    {
+      "id": "poison-passes",
+      "process": "soak",
+      "gate": "no regression",
+      "broke": "e-shore.test.ts: shore-02: kept the night in a bucket of clean seawater and cooked next day, they are good eating",
+      "why": "The row passes a liquid's own noxiousness to whatever is soaked in it. Seawater is noxious to drink, so shellfish kept in clean seawater took on its harm and sickened the eater (sickness 0.97 where it was 0). True as it is said, and wrong where being harmful to drink is not being a poison that passes. Checked as data and ratified by Jev at 0.78; stopped only by a held-out scenario."
+    }
+  ]
+}

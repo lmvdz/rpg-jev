@@ -454,7 +454,8 @@ describe("winter-07: sweat, and then standing still", () => {
     expect(resolve(pile, chop("log0")).world.things.log0?.state.integrity).toBeLessThanOrEqual(1);
   });
 
-  it.fails("RULE ERROR: winter-07: and goes on splitting them, a stroke a log, down the pile (wear in force.ts takes 0.29 of a level of edge for each hard stroke into wood: an axe at 4 is at 1.1 after ten strokes, the seventh log no longer parts at a stroke, and an hour of chopping is past it after fourteen)", () => {
+  // Derived since round two of the grown rows (graph/grown.ts): proposed by a model, ratified by Jev.
+  it("fixed rule: what was wrong was: winter-07: and goes on splitting them, a stroke a log, down the pile", () => {
     expect(logs.every((id) => (worked.things[id]?.state.integrity ?? 5) <= 1)).toBe(true);
   });
 
