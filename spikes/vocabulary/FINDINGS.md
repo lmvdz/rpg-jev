@@ -187,6 +187,26 @@ By scenario: 1 of 45 derives whole, 24 in part, 13 hit a rule error (7 high conf
 
 **What there is no held-out batch for now.** A, B and C have all been shown to the engine's author. Any further claim about generalisation needs a batch D, written fresh, before the next round of fixes and not after.
 
+### After batch C: two more invariants, bodies, and the first creature
+
+**One concept, one function; conservation extended** (`invariants-2.test.ts`, seven properties, all failing when written). `scale.ts` is where whatever two rules need to know lives once: a level of mass is a step of four, for weight and for heat alike (thirty pots no longer outweigh a boulder); a cord or a sheet is thin to a load as it is to a cut; a thing is born as wet as its element is moist by whatever path. What force takes off a thing becomes a thing, the minutes a fire gives come out of its fuel, a quench trough warms, and a rare thing is a couple in the whole place however big it is. Ten scenario outcomes crossed over, among them both of batch C's day-old rule errors. Eight assertions whose magnitudes had been set against the old scale went the other way and are marked `RECALIBRATE`: changing what a level means is the most expensive kind of change, and the cost shows up as other people's thresholds. One thing the vocabulary cannot say came out of it: a thread and a hawser have the same toughness and differ only in thickness, and a cord has no thickness (its size is its length).
+
+**Bodies** (`bodies.test.ts`, properties first): a body grows cold by how cold the place is, faster wet and in wind, slower for what it wears (a soaked coat is worth less, which the modifier rules already said) and by a fire; hunger and tiredness come with the hours; what is worn meets a blow first; what a load held falls when it gives way; `able()` lowers what a body can do by hurt, cold, tiredness and sickness. Five batch B and C outcomes crossed over. A body is still a record beside things, not a thing with needs: that refactor is owed.
+
+**The first creature, and the first time Jev met this engine** (`results/creature-probe.json`, ten live calls, about $0.0003). `optionsFor()` builds a wolf's closed options from what it has noticed (it cannot be offered a kill it has not smelt), code puts its needs and percepts into words, and the `pick_action` family chooses; `routine()` chooses by its needs when nobody is watching. Paired twins, direction fixed beforehand, both wordings:
+
+| The wolf | Goes to the kill | Flees the fire | Rests |
+| --- | --- | --- | --- |
+| Starving, no fire | 0.95 / 0.93 | | 0.01 / 0.02 |
+| Fed, no fire | 0.27 / 0.16 | | 0.68 / 0.80 |
+| Starving, a fire far off | 0.87 / 0.71 | 0.10 / 0.26 | |
+| Starving, a fire by the kill | 0.77 / 0.56 | 0.20 / 0.40 | |
+| Fed, a fire by the kill | 0.10 / 0.07 | 0.74 / 0.76 | 0.15 / 0.16 |
+
+Every twin moves the right way: hunger moves it to the kill, a fire moves it off, and a nearer fire moves it more. The largest paraphrase shift is 0.20, on the one case that is a real contest (starving, with a fire by the kill), which is where a spread is a coin flip to take and not a failure (SPEC section 14). The whole path is the constitution in miniature: the world's state is code, the options are a closed set built by code with nothing among them, every number reached the judge as words, the judge chose, and code would carry the choice out as a `move` act. No new question family was needed: this is `pick_action`.
+
+**Batch D is written and unread** (`results/scenarios/d-*.json`, 45 scenarios: a homestead through a hard winter, a river and what people do with one, noticing and being noticed). It is the held-out test of the engine as it now stands, and should be run before the next round of fixes, not after.
+
 The salt one matters most. Version 1 says salt, smoke, dryness and strong drink slow contamination, and **no property of salt says so**: the vocabulary states the effect and gives the engine nothing to read. It wants a property (what it does to living contamination), which would also be why smoke and strong drink work. That is a version 2 candidate the paper pass missed, and it was only visible from the row.
 
 **What this says about method.** Seven rule errors in the first forty assertions, none of them visible on paper, and all of them fixed by a more general rule rather than a case. Expressibility is cheap and necessary; derivability is where the design is actually tested, and the scenarios are a test suite that already exists for it: 190 scenarios have not been run yet.
