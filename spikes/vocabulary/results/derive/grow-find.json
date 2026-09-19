@@ -1,0 +1,201 @@
+[
+  {
+    "id": "grow-01",
+    "status": "partly",
+    "needs": [
+      "growth: germination, viability, crowding",
+      "move (bury)",
+      "contamination consuming or softening what it grows in (v2 candidate)",
+      "place states: soil soured"
+    ],
+    "note": "Drift rots the buried apple within days (contamination 1.6 at one day, 5 by day five) and faster in damp soil than on a dry shelf. The flesh never softens or goes: the thing sits at contamination 5 for ever, and nothing can sprout."
+  },
+  {
+    "id": "grow-02",
+    "status": "rule_error",
+    "needs": [
+      "drying rate that reads mass, size, absorbency and porosity",
+      "standing water as a place state",
+      "a relation from roots to the soil they stand in",
+      "growth: roots drowning, plant death"
+    ],
+    "note": "RULE ERROR in drift.ts, the wetness drift: `pull` reads only temperature and wind, so a waterlogged clay bed (mass 5, size 4) and a cloth shirt dry at the identical rate and both are bone dry in 36 hours; the scenario needs the clay to stay waterlogged for days. General rule: drying should slow with bulk and absorbency and quicken with porosity and exposed surface. Also missing: the second and third can are consumed and vanish ('the liquid runs off it'), so three cans equal one."
+  },
+  {
+    "id": "grow-03",
+    "status": "rule_error",
+    "needs": [
+      "growth: vigour decaying with age, per-seed viability as a latent fact",
+      "groups (a sown row as a count)"
+    ],
+    "note": "RULE ERROR in drift.ts, the contamination drift: `damp = 0.4 + 0.6 * wetness / 5` never falls below 0.4, so a bone-dry seed (perishability 1) on a cold shelf reaches contamination 5 in under two months, and in two weeks at mild temperature: noxious and stinking, a total loss, where the scenario has old dry seed merely weaker. The vocabulary (S9, S11) says dryness kills or slows rot. General rule: growth needs damp above a threshold; at wetness 0 it should be nil or near it, which is also what makes dried food keep. The patchy stand itself is unbuilt."
+  },
+  {
+    "id": "grow-04",
+    "status": "unbuilt",
+    "needs": [
+      "growth and competition for light and water",
+      "places changing (weed cover, moisture drawn down)",
+      "groups",
+      "unobserved routine rates"
+    ],
+    "note": "Nothing in the engine grows, spreads or shades."
+  },
+  {
+    "id": "grow-05",
+    "status": "rule_error",
+    "needs": [
+      "growth: dormancy and germination read from place temperature",
+      "seasons as place state"
+    ],
+    "note": "Same RULE ERROR as grow-03 (drift.ts contamination): seed in cold dry ground is at contamination 5 by spring, where the scenario says outright that it does not rot in cold dry soil but lies dormant. Cold slows it (warmth 0.25) and dryness barely (0.4), and the sum has no ceiling short of 5. Dormancy and sprouting are unbuilt."
+  },
+  {
+    "id": "grow-06",
+    "status": "unbuilt",
+    "needs": [
+      "join as a relation (graft, bind, seal: R4, R10)",
+      "growth (knitting, years to bearing)",
+      "force creating a cut piece from a tough thing",
+      "latent fit settled later"
+    ],
+    "note": "Force can cut at a branch but only ever creates a piece when something hard and brittle shatters; join exists only as a coat."
+  },
+  {
+    "id": "grow-07",
+    "status": "unbuilt",
+    "needs": [
+      "growth",
+      "contamination making heat in bulk (v2 candidate)",
+      "seed survival as a latent fact",
+      "places changing (fertility drawn down)"
+    ],
+    "note": "Turns wholly on germination and growth from discarded seed."
+  },
+  {
+    "id": "grow-08",
+    "status": "unbuilt",
+    "needs": [
+      "creature choices and routine rates",
+      "move",
+      "a join or barrier weakening under repeated load (R4 drift)",
+      "growth (regrowth from stubble)",
+      "groups (a bed of greens as a count)"
+    ],
+    "note": "Ingest could feed the goat one thing at a time if a caller said so, and load could break a fence if a body had mass, but bodies carry no mass and nothing chooses to lean or graze."
+  },
+  {
+    "id": "grow-09",
+    "status": "unbuilt",
+    "needs": [
+      "growth: ripeness as a state with a spread across a group",
+      "groups",
+      "force yielding grain and chaff (threshing)"
+    ],
+    "note": "The outcome is the spread of ripeness across a field; the engine has neither ripeness nor a field."
+  },
+  {
+    "id": "grow-10",
+    "status": "unbuilt",
+    "needs": [
+      "growth over years",
+      "light as a place state and shade as a relation (R8)",
+      "M3: growth stage scaling size"
+    ],
+    "note": "Nothing grows, and nothing casts shade."
+  },
+  {
+    "id": "find-01",
+    "status": "derives",
+    "needs": [],
+    "note": "Turf with stone at abundance 2: a one-minute glance has 2% odds and finds nothing, no stone is made, and 45 deliberate minutes reach 60% without being sure. The glance is recorded as one searched minute, which costs the next search about 3%: close enough to 'not yet marked as searched'."
+  },
+  {
+    "id": "find-02",
+    "status": "rule_error",
+    "needs": [
+      "a piece coming away from a large brittle thing (a share of the parent, not all of it)",
+      "depletion proportional to the stock a level stands for",
+      "composite instruments (chisel driven by hammer)",
+      "move (take)",
+      "care reaching force"
+    ],
+    "note": "Finding stone derives (70% at a glance, 97% in three minutes, far above turf). Two RULE ERRORS. (1) force.ts `damage`: `shatters = p.toughness <= 1 && met.blow > 1` ignores size, so one effort-3 hammer blow sets a size-5 rock face to integrity 0 ('it goes to pieces') while an effort-2 blow takes 0.006 off it and frees nothing; general rule: a blow that beats a brittle thing breaks off a share scaled by the blow against its bulk and creates that piece, and only a thing small against the blow shatters whole. (2) body.ts `searchOdds`: `level = abundance - found * 0.5` is linear in a scale whose rates are geometric, so a quarry's three-minute odds fall from 0.97 to 0.54 after one block, to 0.18 after three, and to zero for ever after nine; the minutes discount does the same to a place where stone is everywhere. General rule: each find, and each minute of ground gone over, should deplete in proportion to the stock the level stands for, so a grass patch gives out after one or two and a quarry does not give out by hand."
+  },
+  {
+    "id": "find-03",
+    "status": "rule_error",
+    "needs": [
+      "yield that scales with time searched (a count or an amount)",
+      "search reading size, cover, light, acuity and attention (X8)"
+    ],
+    "note": "Odds derive: 8% at a glance, 98% in 45 minutes on a good patch, 17% on a thin one, never certain. RULE ERROR in body.ts `search`: `found = draw < odds ? 1 : 0` whatever the minutes, so an hour's careful search yields exactly one mushroom while the same hour typed as sixty glances yields five; the scenario expects several for the hour. General rule: the number found is drawn from rate times effective minutes, capped by the stock, and made as a count, so the yield depends on time spent and not on how the time is cut into acts. Also missing: a small mottled thing under leaf litter is exactly as easy to spot as a stone of the same abundance, because search reads abundance alone."
+  },
+  {
+    "id": "find-04",
+    "status": "derives",
+    "needs": [],
+    "note": "Abundance 0, or no entry at all, gives odds of exactly 0 however long and however often; ten two-hour searches make nothing and record 1200 minutes spent. Stone in the same stream is found readily, so it is the place's row and not the search that says no."
+  },
+  {
+    "id": "find-05",
+    "status": "partly",
+    "needs": [
+      "search settling latent facts that were not sought (X8, E11)",
+      "a specific buried thing as a latent fact rather than an abundance level",
+      "places changing (a dug hole)",
+      "yield of several per search (see find-03)"
+    ],
+    "note": "Worms derive: 94% in ten minutes of damp worm-rich soil, and a worm is made. The bone never turns up: search settles only the element named in the act, so three hours of digging for worms, all lucky, makes six worms and no bone, though the place holds bone at abundance 1."
+  },
+  {
+    "id": "find-06",
+    "status": "covered",
+    "needs": [],
+    "note": "Covered in batch-a.test.ts: a re-search gives worse odds, and nothing renews a searched place."
+  },
+  {
+    "id": "find-07",
+    "status": "rule_error",
+    "needs": [
+      "an instrument and a manner for search (bait, rod)",
+      "ids for created things that are unique for the life of the world",
+      "a found thing taking its place's state (a caught fish is dry and mild)",
+      "size of what is found as a latent draw",
+      "move (cast, take)"
+    ],
+    "note": "Odds build with time on the line (10% in five minutes, 84% in ninety, never 1), which derives. Two RULE ERRORS in body.ts. (1) `searchOdds`: `fresh = minutes / (1 + before.minutes / 30)` discounts ground gone over only between acts and never within one, so two hours' waiting is 0.91 as one act, 0.80 as two and 0.65 as twelve; the player who types 'wait' more often catches less, and the player who declares one long search escapes the re-search penalty of find-06 altogether. General rule: make effective minutes a function of total minutes, 30 * ln((30 + before + minutes) / (30 + before)), which is the same curve and is invariant under splitting. (2) `search` names the find by element and the present count of things in the world: catch two fish, eat the first, catch a third, and the third is created as fish.1 over the fish.1 already there, leaving one fish where there should be two. General rule: ids come from a counter the world carries or from the logged act, never from the present count. Bait changes nothing because search takes no instrument. Unsure of one thing: whether waiting for a fish that swims should be discounted as ground gone over at all; the rule assumes a static stock."
+  },
+  {
+    "id": "find-08",
+    "status": "partly",
+    "needs": [
+      "routine rates for a creature's needs over unobserved time (principle 4)",
+      "drift touching what a place holds",
+      "creature choices",
+      "groups (the pool's fish as a count)"
+    ],
+    "note": "If the heron's hunting is issued as acts (search then ingest, three times), the fish are eaten, the heron is fed, no thing is left to see, and the player's hour at the pool falls from near certain to far worse because finds are one ledger per place: that derives. With nobody issuing acts, eight hours of drift beside a hungry heron changes nothing. The heron's minutes of searching also count against the player as ground gone over, which suits gravel better than fish."
+  },
+  {
+    "id": "find-09",
+    "status": "unbuilt",
+    "needs": [
+      "traces as signals left by movement (E9) and fading by drift",
+      "sense and track (X8)",
+      "move",
+      "ground properties deciding whether a mark is kept"
+    ],
+    "note": "Tracks could be faked as an abundance of zero on stone, which would only repeat find-04; a trail is left by a creature moving, not latent in a kind of place. Force could say whether a hoof marks mud and not stone, but by my arithmetic (not run) the shatter rule of find-02 would put a mud path, and perhaps bedrock, in pieces under one step, so I did not encode it."
+  },
+  {
+    "id": "find-10",
+    "status": "unbuilt",
+    "needs": [
+      "places changing under weather (erosion, E13)",
+      "held versus showing: abundance is one number, so what a place holds and what a glance can see cannot differ",
+      "renewal of a searched place (see find-06)"
+    ],
+    "note": "Drift never touches a place's abundance or its searched ledger; rain is a moisture level and moves nothing."
+  }
+]

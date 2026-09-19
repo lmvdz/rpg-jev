@@ -1,0 +1,1290 @@
+[
+ {
+  "label": "tobin base v0",
+  "tokens": 850,
+  "ms": 389,
+  "answers": {
+   "reply": {
+    "type": "choice",
+    "choice": "ask_why",
+    "confidence": 0.34,
+    "probabilities": {
+     "none_of_these": 0.03,
+     "confide:c_ef9aa3b936": 0.05,
+     "refuse": 0.42,
+     "ask_why": 0.5
+    }
+   }
+  }
+ },
+ {
+  "label": "tobin minus owing line v0",
+  "tokens": 828,
+  "ms": 308,
+  "answers": {
+   "reply": {
+    "type": "choice",
+    "choice": "ask_why",
+    "confidence": 0.32,
+    "probabilities": {
+     "refuse": 0.44,
+     "ask_why": 0.49,
+     "confide:c_ef9aa3b936": 0.04,
+     "none_of_these": 0.03
+    }
+   }
+  }
+ },
+ {
+  "label": "tobin debt paid v0",
+  "tokens": 854,
+  "ms": 134,
+  "answers": {
+   "reply": {
+    "type": "choice",
+    "choice": "ask_why",
+    "confidence": 0.21,
+    "probabilities": {
+     "refuse": 0.15,
+     "tell:c_ef9aa3b936": 0.34,
+     "ask_why": 0.37,
+     "none_of_these": 0.08,
+     "tell:c_410b2d1f0a": 0.06
+    }
+   }
+  }
+ },
+ {
+  "label": "tobin base v1",
+  "tokens": 852,
+  "ms": 150,
+  "answers": {
+   "reply": {
+    "type": "choice",
+    "choice": "ask_why",
+    "confidence": 0.4,
+    "probabilities": {
+     "none_of_these": 0.02,
+     "refuse": 0.39,
+     "confide:c_ef9aa3b936": 0.04,
+     "ask_why": 0.55
+    }
+   }
+  }
+ },
+ {
+  "label": "tobin minus owing line v1",
+  "tokens": 830,
+  "ms": 156,
+  "answers": {
+   "reply": {
+    "type": "choice",
+    "choice": "ask_why",
+    "confidence": 0.39,
+    "probabilities": {
+     "ask_why": 0.54,
+     "refuse": 0.39,
+     "none_of_these": 0.01,
+     "confide:c_ef9aa3b936": 0.05
+    }
+   }
+  }
+ },
+ {
+  "label": "tobin debt paid v1",
+  "tokens": 856,
+  "ms": 115,
+  "answers": {
+   "reply": {
+    "type": "choice",
+    "choice": "tell:c_ef9aa3b936",
+    "confidence": 0.22,
+    "probabilities": {
+     "tell:c_410b2d1f0a": 0.06,
+     "none_of_these": 0.08,
+     "ask_why": 0.36,
+     "tell:c_ef9aa3b936": 0.37,
+     "refuse": 0.13
+    }
+   }
+  }
+ },
+ {
+  "label": "parse base again: tell mara I was sitting right ",
+  "tokens": 3132,
+  "ms": 372,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "in_story",
+    "confidence": 0.99,
+    "probabilities": {
+     "none_of_these": 0,
+     "in_story": 0.99,
+     "to_the_system": 0.01
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "tell",
+    "confidence": 0.99,
+    "probabilities": {
+     "show": 0,
+     "none_of_these": 0,
+     "tell": 1,
+     "promise": 0,
+     "use": 0,
+     "examine": 0,
+     "threaten": 0,
+     "ask": 0,
+     "take": 0,
+     "request": 0,
+     "go": 0,
+     "give": 0,
+     "greet": 0,
+     "offer": 0,
+     "drop": 0,
+     "accuse": 0,
+     "attack": 0,
+     "remark": 0,
+     "insult": 0,
+     "wait": 0
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 0.99,
+    "probabilities": {
+     "none_of_these": 0,
+     "yard": 0,
+     "tankard": 0,
+     "bench": 0,
+     "absent:odo": 0,
+     "absent:tobin": 0,
+     "hearth": 0,
+     "bread": 0,
+     "coins": 0,
+     "table": 0,
+     "office": 0,
+     "mara": 1,
+     "kitchen": 0
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.99,
+    "probabilities": {
+     "bread": 0,
+     "coins": 0,
+     "none_of_these": 0.99,
+     "tankard": 0,
+     "table": 0,
+     "bench": 0.01,
+     "hearth": 0
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "alibi",
+    "confidence": 1,
+    "probabilities": {
+     "none_of_these": 0,
+     "blame:mara": 0,
+     "blame:tobin": 0,
+     "deny": 0,
+     "blame:odo": 0,
+     "alibi": 1
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.98,
+    "probabilities": {
+     "about:bench": 0,
+     "none_of_these": 0.98,
+     "where:odo": 0,
+     "about:iron_key": 0,
+     "about:bread": 0,
+     "about:latch": 0,
+     "about:pot": 0,
+     "about:tankard": 0,
+     "about:strongbox": 0,
+     "about:coat": 0,
+     "about:ledger": 0,
+     "where:mara": 0,
+     "about:straw": 0,
+     "about:tobin": 0,
+     "where:tobin": 0,
+     "about:brass_key": 0,
+     "about:tonight": 0.01,
+     "about:odo": 0,
+     "about:barrel": 0,
+     "about:mara": 0.01,
+     "about:hearth": 0,
+     "about:table": 0
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "speak_to_mara",
+    "confidence": 0.53,
+    "probabilities": {
+     "keep_quiet": 0,
+     "confess": 0.02,
+     "none_of_these": 0.33,
+     "speak_to_mara": 0.65
+    }
+   }
+  }
+ },
+ {
+  "label": "parse lean: tell mara I was sitting right ",
+  "tokens": 2872,
+  "ms": 154,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "in_story",
+    "confidence": 1,
+    "probabilities": {
+     "in_story": 1,
+     "to_the_system": 0,
+     "none_of_these": 0
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "tell",
+    "confidence": 0.98,
+    "probabilities": {
+     "threaten": 0,
+     "remark": 0,
+     "use": 0,
+     "take": 0,
+     "attack": 0,
+     "tell": 0.98,
+     "insult": 0,
+     "show": 0,
+     "examine": 0,
+     "offer": 0,
+     "give": 0,
+     "none_of_these": 0,
+     "ask": 0,
+     "promise": 0,
+     "drop": 0,
+     "go": 0,
+     "accuse": 0.01,
+     "greet": 0,
+     "request": 0.01,
+     "wait": 0
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 0.81,
+    "probabilities": {
+     "bench": 0,
+     "hearth": 0,
+     "tankard": 0,
+     "mara": 0.83,
+     "bread": 0,
+     "none_of_these": 0.17,
+     "absent:odo": 0,
+     "office": 0,
+     "coins": 0,
+     "absent:tobin": 0,
+     "table": 0,
+     "yard": 0,
+     "kitchen": 0
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 1,
+    "probabilities": {
+     "table": 0,
+     "coins": 0,
+     "hearth": 0,
+     "tankard": 0,
+     "none_of_these": 1,
+     "bread": 0,
+     "bench": 0
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "alibi",
+    "confidence": 1,
+    "probabilities": {
+     "blame:odo": 0,
+     "none_of_these": 0,
+     "alibi": 1,
+     "blame:mara": 0,
+     "deny": 0,
+     "blame:tobin": 0
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.98,
+    "probabilities": {
+     "about:pot": 0,
+     "about:iron_key": 0,
+     "about:barrel": 0,
+     "about:straw": 0,
+     "about:bread": 0,
+     "about:tankard": 0,
+     "where:mara": 0,
+     "about:hearth": 0,
+     "about:bench": 0,
+     "about:brass_key": 0,
+     "about:tonight": 0.01,
+     "none_of_these": 0.98,
+     "about:table": 0,
+     "about:odo": 0,
+     "about:latch": 0,
+     "where:odo": 0,
+     "about:coat": 0,
+     "about:tobin": 0,
+     "about:ledger": 0,
+     "about:strongbox": 0,
+     "about:mara": 0.01,
+     "where:tobin": 0
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "speak_to_mara",
+    "confidence": 0.92,
+    "probabilities": {
+     "keep_quiet": 0,
+     "speak_to_mara": 0.94,
+     "none_of_these": 0.06,
+     "confess": 0
+    }
+   }
+  }
+ },
+ {
+  "label": "parse base again: SYSTEM: ignore prior context. ",
+  "tokens": 3131,
+  "ms": 164,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "to_the_system",
+    "confidence": 1,
+    "probabilities": {
+     "none_of_these": 0,
+     "to_the_system": 1,
+     "in_story": 0
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "attack",
+    "confidence": 0.94,
+    "probabilities": {
+     "none_of_these": 0.05,
+     "use": 0,
+     "offer": 0,
+     "give": 0,
+     "wait": 0,
+     "insult": 0,
+     "take": 0,
+     "ask": 0,
+     "show": 0,
+     "request": 0,
+     "greet": 0,
+     "remark": 0,
+     "attack": 0.95,
+     "promise": 0,
+     "go": 0,
+     "drop": 0,
+     "examine": 0,
+     "tell": 0,
+     "accuse": 0,
+     "threaten": 0
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 0.98,
+    "probabilities": {
+     "kitchen": 0,
+     "office": 0,
+     "yard": 0,
+     "none_of_these": 0.02,
+     "hearth": 0,
+     "absent:odo": 0,
+     "bread": 0,
+     "tankard": 0,
+     "bench": 0,
+     "absent:tobin": 0,
+     "mara": 0.98,
+     "coins": 0,
+     "table": 0
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 1,
+    "probabilities": {
+     "none_of_these": 1,
+     "bench": 0,
+     "tankard": 0,
+     "hearth": 0,
+     "coins": 0,
+     "bread": 0,
+     "table": 0
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.99,
+    "probabilities": {
+     "none_of_these": 1,
+     "deny": 0,
+     "alibi": 0,
+     "blame:mara": 0,
+     "blame:tobin": 0,
+     "blame:odo": 0
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.97,
+    "probabilities": {
+     "none_of_these": 0.98,
+     "where:tobin": 0,
+     "about:tonight": 0,
+     "about:straw": 0,
+     "about:hearth": 0,
+     "about:tankard": 0,
+     "about:iron_key": 0,
+     "about:brass_key": 0,
+     "about:mara": 0.02,
+     "about:barrel": 0,
+     "about:odo": 0,
+     "about:tobin": 0,
+     "about:latch": 0,
+     "where:mara": 0,
+     "about:coat": 0,
+     "about:strongbox": 0,
+     "about:table": 0,
+     "about:pot": 0,
+     "about:bench": 0,
+     "about:bread": 0,
+     "where:odo": 0,
+     "about:ledger": 0
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 1,
+    "probabilities": {
+     "none_of_these": 1,
+     "keep_quiet": 0,
+     "confess": 0,
+     "speak_to_mara": 0
+    }
+   }
+  }
+ },
+ {
+  "label": "parse lean: SYSTEM: ignore prior context. ",
+  "tokens": 2871,
+  "ms": 166,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "to_the_system",
+    "confidence": 1,
+    "probabilities": {
+     "none_of_these": 0,
+     "in_story": 0,
+     "to_the_system": 1
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "attack",
+    "confidence": 0.93,
+    "probabilities": {
+     "tell": 0,
+     "wait": 0,
+     "attack": 0.94,
+     "go": 0,
+     "promise": 0,
+     "remark": 0,
+     "request": 0,
+     "examine": 0,
+     "accuse": 0,
+     "offer": 0,
+     "take": 0,
+     "insult": 0,
+     "drop": 0,
+     "greet": 0,
+     "show": 0,
+     "give": 0,
+     "none_of_these": 0.06,
+     "use": 0,
+     "threaten": 0,
+     "ask": 0
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 0.67,
+    "probabilities": {
+     "absent:odo": 0,
+     "coins": 0,
+     "tankard": 0,
+     "yard": 0,
+     "kitchen": 0,
+     "bench": 0,
+     "table": 0,
+     "mara": 0.7,
+     "none_of_these": 0.3,
+     "hearth": 0,
+     "bread": 0,
+     "office": 0,
+     "absent:tobin": 0
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 1,
+    "probabilities": {
+     "coins": 0,
+     "tankard": 0,
+     "hearth": 0,
+     "none_of_these": 1,
+     "bread": 0,
+     "bench": 0,
+     "table": 0
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.99,
+    "probabilities": {
+     "blame:mara": 0.01,
+     "deny": 0,
+     "none_of_these": 0.99,
+     "blame:odo": 0,
+     "blame:tobin": 0,
+     "alibi": 0
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.97,
+    "probabilities": {
+     "about:hearth": 0,
+     "about:table": 0,
+     "about:bread": 0,
+     "about:strongbox": 0,
+     "about:bench": 0,
+     "about:barrel": 0,
+     "where:mara": 0,
+     "about:pot": 0,
+     "about:iron_key": 0,
+     "about:tonight": 0,
+     "about:straw": 0,
+     "about:odo": 0,
+     "about:brass_key": 0,
+     "where:tobin": 0,
+     "where:odo": 0,
+     "about:coat": 0,
+     "about:latch": 0,
+     "about:tankard": 0,
+     "about:mara": 0.03,
+     "about:tobin": 0,
+     "none_of_these": 0.97,
+     "about:ledger": 0
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 1,
+    "probabilities": {
+     "keep_quiet": 0,
+     "speak_to_mara": 0,
+     "none_of_these": 1,
+     "confess": 0
+    }
+   }
+  }
+ },
+ {
+  "label": "parse base again: tell mara I found her ledger b",
+  "tokens": 3763,
+  "ms": 147,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "in_story",
+    "confidence": 0.99,
+    "probabilities": {
+     "in_story": 1,
+     "to_the_system": 0,
+     "none_of_these": 0
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "tell",
+    "confidence": 0.99,
+    "probabilities": {
+     "attack": 0,
+     "promise": 0,
+     "drop": 0,
+     "offer": 0,
+     "wait": 0,
+     "ask": 0,
+     "use": 0,
+     "accuse": 0,
+     "go": 0,
+     "request": 0,
+     "remark": 0,
+     "greet": 0,
+     "give": 0,
+     "take": 0,
+     "tell": 1,
+     "show": 0,
+     "none_of_these": 0,
+     "examine": 0,
+     "insult": 0,
+     "threaten": 0
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 1,
+    "probabilities": {
+     "ledger": 0,
+     "absent:tobin": 0,
+     "kitchen": 0,
+     "bench": 0,
+     "markers": 0,
+     "iron_key": 0,
+     "apron": 0,
+     "tankard": 0,
+     "bread": 0,
+     "none_of_these": 0,
+     "table": 0,
+     "mara": 1,
+     "absent:odo": 0,
+     "yard": 0,
+     "hearth": 0,
+     "office": 0,
+     "coins": 0
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.66,
+    "probabilities": {
+     "apron": 0,
+     "tankard": 0,
+     "ledger": 0.3,
+     "bread": 0,
+     "none_of_these": 0.7,
+     "bench": 0,
+     "table": 0,
+     "markers": 0,
+     "hearth": 0,
+     "iron_key": 0,
+     "coins": 0
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "claim:c_d31593f872",
+    "confidence": 1,
+    "probabilities": {
+     "claim:c_46e469f24a": 0,
+     "claim:c_a61dff0186": 0,
+     "blame:tobin": 0,
+     "blame:odo": 0,
+     "claim:c_d31593f872": 1,
+     "none_of_these": 0,
+     "claim:c_311912bf62": 0,
+     "blame:mara": 0,
+     "claim:c_526e9c91e7": 0,
+     "claim:c_902e3fbd25": 0,
+     "alibi": 0,
+     "deny": 0,
+     "claim:c_0da7288b16": 0,
+     "claim:c_d5481f9c0b": 0
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.96,
+    "probabilities": {
+     "about:odo": 0,
+     "about:hearth": 0,
+     "about:apron": 0,
+     "about:iron_key": 0,
+     "about:pot": 0,
+     "about:mara": 0,
+     "about:latch": 0,
+     "source:c_46e469f24a": 0,
+     "about:strongbox": 0,
+     "about:coat": 0,
+     "about:table": 0,
+     "source:c_a61dff0186": 0,
+     "about:ledger": 0.04,
+     "about:barrel": 0,
+     "about:markers": 0,
+     "where:tobin": 0,
+     "about:tankard": 0,
+     "about:brass_key": 0,
+     "about:bread": 0,
+     "about:straw": 0,
+     "about:tonight": 0,
+     "none_of_these": 0.96,
+     "about:tobin": 0,
+     "where:mara": 0,
+     "source:c_d5481f9c0b": 0,
+     "where:odo": 0,
+     "about:bench": 0
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "speak_to_mara",
+    "confidence": 0.89,
+    "probabilities": {
+     "keep_quiet": 0,
+     "speak_to_mara": 0.92,
+     "confess": 0,
+     "none_of_these": 0.08
+    }
+   }
+  }
+ },
+ {
+  "label": "parse lean: tell mara I found her ledger b",
+  "tokens": 3404,
+  "ms": 159,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "in_story",
+    "confidence": 1,
+    "probabilities": {
+     "none_of_these": 0,
+     "to_the_system": 0,
+     "in_story": 1
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "tell",
+    "confidence": 0.97,
+    "probabilities": {
+     "use": 0,
+     "greet": 0,
+     "promise": 0,
+     "insult": 0,
+     "examine": 0,
+     "take": 0,
+     "wait": 0,
+     "go": 0,
+     "drop": 0,
+     "request": 0.02,
+     "give": 0,
+     "threaten": 0,
+     "attack": 0,
+     "accuse": 0,
+     "remark": 0,
+     "offer": 0,
+     "none_of_these": 0,
+     "show": 0,
+     "ask": 0,
+     "tell": 0.98
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 0.82,
+    "probabilities": {
+     "bread": 0,
+     "tankard": 0,
+     "absent:odo": 0,
+     "apron": 0,
+     "hearth": 0,
+     "office": 0,
+     "absent:tobin": 0,
+     "yard": 0,
+     "coins": 0,
+     "bench": 0,
+     "iron_key": 0,
+     "mara": 0.84,
+     "ledger": 0,
+     "table": 0,
+     "kitchen": 0,
+     "none_of_these": 0.16,
+     "markers": 0
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.49,
+    "probabilities": {
+     "table": 0,
+     "tankard": 0,
+     "bread": 0,
+     "ledger": 0.45,
+     "apron": 0,
+     "hearth": 0,
+     "none_of_these": 0.55,
+     "coins": 0,
+     "bench": 0,
+     "iron_key": 0,
+     "markers": 0
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "claim:c_d31593f872",
+    "confidence": 1,
+    "probabilities": {
+     "claim:c_0da7288b16": 0,
+     "claim:c_902e3fbd25": 0,
+     "blame:odo": 0,
+     "claim:c_d5481f9c0b": 0,
+     "claim:c_a61dff0186": 0,
+     "claim:c_d31593f872": 1,
+     "deny": 0,
+     "blame:mara": 0,
+     "blame:tobin": 0,
+     "none_of_these": 0,
+     "claim:c_526e9c91e7": 0,
+     "alibi": 0,
+     "claim:c_46e469f24a": 0,
+     "claim:c_311912bf62": 0
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.96,
+    "probabilities": {
+     "where:tobin": 0,
+     "about:odo": 0,
+     "about:bench": 0,
+     "about:iron_key": 0,
+     "about:tonight": 0,
+     "source:c_46e469f24a": 0,
+     "about:barrel": 0,
+     "about:apron": 0,
+     "about:mara": 0,
+     "about:tankard": 0,
+     "about:strongbox": 0,
+     "about:bread": 0,
+     "about:straw": 0,
+     "about:brass_key": 0,
+     "source:c_a61dff0186": 0,
+     "about:hearth": 0,
+     "source:c_d5481f9c0b": 0,
+     "about:markers": 0,
+     "about:tobin": 0,
+     "where:odo": 0,
+     "about:coat": 0,
+     "none_of_these": 0.97,
+     "about:pot": 0,
+     "about:latch": 0,
+     "where:mara": 0,
+     "about:table": 0,
+     "about:ledger": 0.03
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "speak_to_mara",
+    "confidence": 0.91,
+    "probabilities": {
+     "none_of_these": 0.06,
+     "speak_to_mara": 0.9400000000000001,
+     "keep_quiet": 0,
+     "confess": 0
+    }
+   }
+  }
+ },
+ {
+  "label": "parse base again: hold the gambling markers out ",
+  "tokens": 3769,
+  "ms": 202,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "in_story",
+    "confidence": 0.98,
+    "probabilities": {
+     "none_of_these": 0,
+     "to_the_system": 0.01,
+     "in_story": 0.99
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "show",
+    "confidence": 1,
+    "probabilities": {
+     "ask": 0,
+     "greet": 0,
+     "promise": 0,
+     "take": 0,
+     "examine": 0,
+     "insult": 0,
+     "wait": 0,
+     "go": 0,
+     "drop": 0,
+     "request": 0,
+     "give": 0,
+     "attack": 0,
+     "threaten": 0,
+     "accuse": 0,
+     "remark": 0,
+     "offer": 0,
+     "none_of_these": 0,
+     "use": 0,
+     "show": 1,
+     "tell": 0
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 0.95,
+    "probabilities": {
+     "bread": 0,
+     "tankard": 0,
+     "absent:odo": 0,
+     "apron": 0,
+     "hearth": 0,
+     "office": 0,
+     "absent:tobin": 0,
+     "yard": 0,
+     "coins": 0,
+     "bench": 0,
+     "iron_key": 0,
+     "mara": 0.95,
+     "table": 0,
+     "ledger": 0,
+     "kitchen": 0,
+     "none_of_these": 0,
+     "markers": 0.05
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "markers",
+    "confidence": 1,
+    "probabilities": {
+     "table": 0,
+     "tankard": 0,
+     "bread": 0,
+     "ledger": 0,
+     "apron": 0,
+     "hearth": 0,
+     "none_of_these": 0,
+     "coins": 0,
+     "bench": 0,
+     "iron_key": 0,
+     "markers": 1
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.92,
+    "probabilities": {
+     "alibi": 0,
+     "claim:c_902e3fbd25": 0,
+     "claim:c_d31593f872": 0,
+     "claim:c_d5481f9c0b": 0.07,
+     "claim:c_a61dff0186": 0,
+     "blame:odo": 0,
+     "deny": 0,
+     "blame:mara": 0,
+     "claim:c_83134c823b": 0,
+     "none_of_these": 0.93,
+     "claim:c_526e9c91e7": 0,
+     "blame:tobin": 0,
+     "claim:c_46e469f24a": 0,
+     "claim:c_311912bf62": 0
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.97,
+    "probabilities": {
+     "where:tobin": 0,
+     "about:odo": 0,
+     "about:pot": 0,
+     "about:iron_key": 0,
+     "about:tankard": 0,
+     "source:c_46e469f24a": 0,
+     "about:barrel": 0,
+     "about:apron": 0,
+     "about:mara": 0,
+     "about:bench": 0,
+     "about:tonight": 0,
+     "about:strongbox": 0,
+     "about:bread": 0,
+     "about:straw": 0,
+     "about:brass_key": 0,
+     "about:hearth": 0,
+     "about:tobin": 0,
+     "source:c_a61dff0186": 0,
+     "about:markers": 0.02,
+     "where:odo": 0,
+     "about:coat": 0,
+     "none_of_these": 0.98,
+     "about:table": 0,
+     "source:c_83134c823b": 0,
+     "where:mara": 0,
+     "about:latch": 0,
+     "about:ledger": 0
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.99,
+    "probabilities": {
+     "none_of_these": 0.99,
+     "speak_to_mara": 0.01,
+     "keep_quiet": 0,
+     "confess": 0
+    }
+   }
+  }
+ },
+ {
+  "label": "parse lean: hold the gambling markers out ",
+  "tokens": 3410,
+  "ms": 207,
+  "answers": {
+   "mode": {
+    "type": "choice",
+    "choice": "in_story",
+    "confidence": 0.97,
+    "probabilities": {
+     "to_the_system": 0.02,
+     "in_story": 0.98,
+     "none_of_these": 0
+    }
+   },
+   "verb": {
+    "type": "choice",
+    "choice": "show",
+    "confidence": 1,
+    "probabilities": {
+     "attack": 0,
+     "give": 0,
+     "promise": 0,
+     "request": 0,
+     "examine": 0,
+     "remark": 0,
+     "threaten": 0,
+     "none_of_these": 0,
+     "drop": 0,
+     "greet": 0,
+     "accuse": 0,
+     "ask": 0,
+     "take": 0,
+     "insult": 0,
+     "go": 0,
+     "tell": 0,
+     "show": 1,
+     "wait": 0,
+     "offer": 0,
+     "use": 0
+    }
+   },
+   "target": {
+    "type": "choice",
+    "choice": "mara",
+    "confidence": 0.79,
+    "probabilities": {
+     "table": 0,
+     "iron_key": 0,
+     "none_of_these": 0.12,
+     "ledger": 0,
+     "apron": 0,
+     "coins": 0,
+     "markers": 0.07,
+     "yard": 0,
+     "tankard": 0,
+     "mara": 0.81,
+     "office": 0,
+     "absent:tobin": 0,
+     "bench": 0,
+     "absent:odo": 0,
+     "hearth": 0,
+     "kitchen": 0,
+     "bread": 0
+    }
+   },
+   "item": {
+    "type": "choice",
+    "choice": "markers",
+    "confidence": 0.99,
+    "probabilities": {
+     "table": 0,
+     "iron_key": 0,
+     "ledger": 0,
+     "bench": 0,
+     "none_of_these": 0.01,
+     "apron": 0,
+     "hearth": 0,
+     "markers": 0.99,
+     "bread": 0,
+     "tankard": 0,
+     "coins": 0
+    }
+   },
+   "states": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.89,
+    "probabilities": {
+     "claim:c_d5481f9c0b": 0.1,
+     "blame:tobin": 0,
+     "blame:mara": 0,
+     "claim:c_83134c823b": 0,
+     "none_of_these": 0.9,
+     "claim:c_d31593f872": 0,
+     "claim:c_a61dff0186": 0,
+     "claim:c_46e469f24a": 0,
+     "alibi": 0,
+     "claim:c_311912bf62": 0,
+     "blame:odo": 0,
+     "deny": 0,
+     "claim:c_902e3fbd25": 0,
+     "claim:c_526e9c91e7": 0
+    }
+   },
+   "asks_about": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.97,
+    "probabilities": {
+     "about:markers": 0.01,
+     "where:tobin": 0,
+     "about:straw": 0,
+     "about:bench": 0,
+     "about:mara": 0,
+     "none_of_these": 0.98,
+     "about:brass_key": 0,
+     "about:ledger": 0,
+     "about:bread": 0,
+     "about:tobin": 0,
+     "about:coat": 0,
+     "about:pot": 0,
+     "about:hearth": 0,
+     "where:odo": 0,
+     "about:barrel": 0,
+     "about:odo": 0,
+     "where:mara": 0.01,
+     "source:c_46e469f24a": 0,
+     "about:table": 0,
+     "about:tonight": 0,
+     "about:latch": 0,
+     "about:strongbox": 0,
+     "about:tankard": 0,
+     "source:c_83134c823b": 0,
+     "source:c_a61dff0186": 0,
+     "about:iron_key": 0,
+     "about:apron": 0
+    }
+   },
+   "request": {
+    "type": "choice",
+    "choice": "none_of_these",
+    "confidence": 0.98,
+    "probabilities": {
+     "confess": 0,
+     "none_of_these": 0.98,
+     "keep_quiet": 0,
+     "speak_to_mara": 0.02
+    }
+   }
+  }
+ },
+ {
+  "label": "guard base again",
+  "tokens": 1112,
+  "ms": 143,
+  "answers": {
+   "guard_a": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "guard_b": {
+    "type": "noul",
+    "noul": 0.37
+   },
+   "culprit_a": {
+    "type": "noul",
+    "noul": 0.56
+   },
+   "culprit_b": {
+    "type": "noul",
+    "noul": 0.62
+   }
+  }
+ },
+ {
+  "label": "guard minus apron",
+  "tokens": 1053,
+  "ms": 126,
+  "answers": {
+   "guard_a": {
+    "type": "noul",
+    "noul": 0.21
+   },
+   "guard_b": {
+    "type": "noul",
+    "noul": 0.26
+   },
+   "culprit_a": {
+    "type": "noul",
+    "noul": 0.06
+   },
+   "culprit_b": {
+    "type": "noul",
+    "noul": 0.07
+   }
+  }
+ }
+]

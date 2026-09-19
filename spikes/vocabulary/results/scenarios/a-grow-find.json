@@ -1,0 +1,716 @@
+[
+  {
+    "id": "grow-01",
+    "domain": "grow",
+    "place": "A cleared garden plot behind a homestead, tilled soil, edge of a small orchard nearby.",
+    "initiator": "player",
+    "lines": ["plant the apple"],
+    "things": ["apple (whole fruit)", "soil", "gardener", "seeds inside the apple", "worms"],
+    "outcome": "The gardener pushes the whole apple into loose soil instead of saving out its seeds. The flesh has no use buried whole: it goes soft and rots within days, feeding worms and souring the soil right there. But a few of the pips inside are viable, and if the rotting flesh doesn't smother them first, two or three seedlings may push up together weeks later, crowded into one hole, once the ground warms in spring. A gardener who cut the fruit for seed and spaced the pips would have done far better.",
+    "steps": [
+      {
+        "process": "bury",
+        "agent": "gardener",
+        "patient": "apple",
+        "instrument": null,
+        "because": ["patient is whole fruit", "place is tilled"],
+        "effects": ["moves patient to soil", "patient loses exposure"],
+        "numbers": ["how deep it's buried"]
+      },
+      {
+        "process": "rot",
+        "agent": "time",
+        "patient": "apple flesh",
+        "instrument": null,
+        "because": ["patient is moist", "patient is soft"],
+        "effects": ["patient loses shape", "creates rot smell", "consumes apple flesh"],
+        "numbers": ["days until flesh breaks down"]
+      },
+      {
+        "process": "germinate",
+        "agent": "seed",
+        "patient": "seed",
+        "instrument": "soil",
+        "because": ["patient is viable", "instrument is moist"],
+        "effects": ["patient gains sprout", "creates seedling"],
+        "numbers": ["odds each pip survives the rot", "weeks until sprouting", "how many of the pips take"]
+      }
+    ],
+    "latent": ["how many of the apple's pips are viable", "whether the rotting flesh smothers the pips before they sprout"],
+    "state_after": ["apple: rotted, gone", "garden plot: soil soured near the hole, several crowded seedlings by spring", "gardener: unaware how many seedlings will come up"],
+    "stress": "planting the whole fruit instead of extracted seed",
+    "temptation": "a rule that says planting an apple always grows an apple tree, naming the fruit by name"
+  },
+  {
+    "id": "grow-02",
+    "domain": "grow",
+    "place": "A row of bean seedlings in a kitchen garden, recently sprouted, clay-heavy soil that drains slowly.",
+    "initiator": "player",
+    "lines": ["water the beans", "water them again", "give them more, they look dry"],
+    "things": ["bean seedlings", "water", "clay soil", "watering can", "gardener"],
+    "outcome": "The gardener waters the seedlings three times in one day because the topsoil looks pale, not realizing the clay beneath is still soaked from yesterday. The extra water has nowhere to drain, and within days the roots sit in standing water and start to rot instead of drawing air. The leaves yellow and the stems soften at the base; by week's end most of the row is dead, and no amount of water brings it back. Overwatering kills as surely as drought, just slower and less obviously.",
+    "steps": [
+      {
+        "process": "water",
+        "agent": "gardener",
+        "patient": "bean seedlings",
+        "instrument": "watering can",
+        "because": ["patient is dry on top"],
+        "effects": ["patient gains moisture", "patient moisture up"],
+        "numbers": ["how much water the topsoil needed versus how much was given"]
+      },
+      {
+        "process": "drain",
+        "agent": "soil",
+        "patient": "water",
+        "instrument": null,
+        "because": ["agent is dense", "patient is pooled"],
+        "effects": ["patient loses depth", "creates standing water"],
+        "numbers": ["how many days the water sits before it drains"]
+      },
+      {
+        "process": "rot",
+        "agent": "standing water",
+        "patient": "bean roots",
+        "instrument": null,
+        "because": ["agent is standing", "patient is waterlogged"],
+        "effects": ["patient loses function", "patient gains rot"],
+        "numbers": ["days of waterlogging before roots die"]
+      }
+    ],
+    "latent": ["whether the clay beneath the topsoil was already saturated"],
+    "state_after": ["bean seedlings: roots rotted, leaves yellowed, most dead", "soil: still waterlogged, needs days to dry before replanting"],
+    "stress": "too much of the very thing a plant needs kills it just as dead as drought does",
+    "temptation": "a hardcoded rule that more water is always good for beans"
+  },
+  {
+    "id": "grow-03",
+    "domain": "grow",
+    "place": "A root cellar shelf with a cloth sack of carrot seed saved two autumns ago, and a garden bed ready for spring sowing.",
+    "initiator": "player",
+    "lines": ["plant these old seeds"],
+    "things": ["saved seed (two years old)", "cloth sack", "garden bed", "gardener"],
+    "outcome": "The gardener sows a handful of carrot seed that has sat in a dry sack for two winters. Seed loses vigor with age, and carrot seed keeps poorly even fresh, so only a fraction of what's sown is still alive enough to sprout. The row comes up patchy: gaps where nothing took, a scatter of seedlings where enough viable seed happened to land close together. It isn't a total loss, but it isn't the full stand a fresh packet would have given, and there was no way to tell which seeds were still good until the ground showed it.",
+    "steps": [
+      {
+        "process": "sow",
+        "agent": "gardener",
+        "patient": "old seed",
+        "instrument": "hand",
+        "because": ["patient is aged", "place is prepared"],
+        "effects": ["moves patient to soil"],
+        "numbers": ["how much seed sown"]
+      },
+      {
+        "process": "germinate",
+        "agent": "seed",
+        "patient": "seed",
+        "instrument": "soil",
+        "because": ["patient is aged", "instrument is moist"],
+        "effects": ["patient gains sprout"],
+        "numbers": ["odds a seed of this age still germinates", "how many of the row take"]
+      }
+    ],
+    "latent": ["which individual seeds in the sack are still viable"],
+    "state_after": ["garden bed: patchy stand of carrot seedlings, gaps between them", "sack: emptied"],
+    "stress": "seed viability decays with storage time and is not visible from outside",
+    "temptation": "treating all seed of a kind as identically viable regardless of age"
+  },
+  {
+    "id": "grow-04",
+    "domain": "grow",
+    "place": "A vegetable plot the household hasn't visited in weeks, bordered by open field thick with wild grasses and bindweed.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["vegetable plot", "cabbage seedlings", "weeds", "bindweed", "wind"],
+    "outcome": "With nobody pulling weeds, wind-blown seed and creeping bindweed from the field edge take hold between the cabbage rows. Over a few weeks the weeds grow faster than the cabbages, shading their leaves and pulling water out from under them. By the time anyone looks again, half the cabbages are stunted and a few are smothered outright under bindweed. Nothing dramatic happened on any single day; it is the sum of weeks of neglect.",
+    "steps": [
+      {
+        "process": "spread",
+        "agent": "weeds",
+        "patient": "vegetable plot",
+        "instrument": "wind",
+        "because": ["agent is hardy", "patient is untended"],
+        "effects": ["creates weed growth", "patient loses bare ground"],
+        "numbers": ["how fast weed cover grows per week untended"]
+      },
+      {
+        "process": "compete",
+        "agent": "weeds",
+        "patient": "cabbage seedlings",
+        "instrument": null,
+        "because": ["agent is faster growing", "patient is shaded"],
+        "effects": ["patient loses light", "patient loses water", "patient size down"],
+        "numbers": ["how much the cabbages' growth rate drops under weed pressure"]
+      }
+    ],
+    "latent": ["how much weed seed was already lying dormant in this plot's soil"],
+    "state_after": ["vegetable plot: half overrun with weeds", "cabbage seedlings: several stunted, a few smothered under bindweed"],
+    "stress": "no single actor to blame; the world keeps working while nobody watches",
+    "temptation": "a rule naming cabbage and bindweed specifically instead of general growth-rate competition for light and water"
+  },
+  {
+    "id": "grow-05",
+    "domain": "grow",
+    "place": "A garden bed in early winter, ground cold but not yet frozen solid.",
+    "initiator": "player",
+    "lines": ["dig a row", "plant the turnip seed here", "cover it up"],
+    "things": ["turnip seed", "cold soil", "gardener", "spade", "frost"],
+    "outcome": "The gardener sows turnip seed into cold ground well past the growing season. The seed doesn't rot outright in cold dry soil, but it also doesn't have the warmth to germinate; it simply sits dormant through winter. Nothing visible happens for months. Only once the ground warms again in spring does the buried seed finally sprout, weeks later than a spring sowing would have and with no guarantee all of it survived the cold undisturbed.",
+    "steps": [
+      {
+        "process": "dig",
+        "agent": "gardener",
+        "patient": "soil",
+        "instrument": "spade",
+        "because": ["patient is not frozen"],
+        "effects": ["patient loses cover", "creates row"],
+        "numbers": ["depth of the row"]
+      },
+      {
+        "process": "sow",
+        "agent": "gardener",
+        "patient": "turnip seed",
+        "instrument": "hand",
+        "because": ["patient is ready"],
+        "effects": ["moves patient to soil"],
+        "numbers": ["how much seed sown"]
+      },
+      {
+        "process": "wait",
+        "agent": "time",
+        "patient": "turnip seed",
+        "instrument": null,
+        "because": ["place is cold", "place is winter"],
+        "effects": ["patient gains dormancy"],
+        "numbers": ["weeks of dormancy before soil warms enough"]
+      },
+      {
+        "process": "germinate",
+        "agent": "turnip seed",
+        "patient": "turnip seed",
+        "instrument": "soil",
+        "because": ["instrument is warm", "place is spring"],
+        "effects": ["patient gains sprout"],
+        "numbers": ["odds the seed survived winter dormancy intact"]
+      }
+    ],
+    "latent": ["whether frost reaches deep enough to kill the buried seed before spring"],
+    "state_after": ["garden bed: bare through winter, seedlings emerging by spring", "turnip seed: dormant then sprouted, later than a spring sowing"],
+    "stress": "germination needs warmth, not just soil contact; timing, not placement, decides the outcome",
+    "temptation": "a rule that seeds sprout a fixed number of days after planting regardless of season"
+  },
+  {
+    "id": "grow-06",
+    "domain": "grow",
+    "place": "An old apple tree past its best fruiting years, orchard corner, beside a young rootstock sapling planted last spring.",
+    "initiator": "player",
+    "lines": ["cut a branch from the old tree", "bind it onto the new sapling", "wrap it up"],
+    "things": ["old apple tree", "young rootstock sapling", "knife", "binding cord", "wax", "gardener"],
+    "outcome": "The gardener cuts a healthy shoot from the old tree, fits it into a cut made in the young rootstock, and binds and seals the join so it doesn't dry out. If the two knit together over the following weeks, the sapling grows on as the old tree's variety, carried on stronger young roots. It takes years, not weeks, before it's old enough to fruit, and there's a real chance the graft simply fails to take if the join dries out or doesn't match up, in which case the rootstock either dies back or grows on as itself with none of the wanted fruit.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "gardener",
+        "patient": "old apple tree",
+        "instrument": "knife",
+        "because": ["patient is fruitful"],
+        "effects": ["creates scion", "patient loses branch"],
+        "numbers": ["length of scion cut"]
+      },
+      {
+        "process": "graft",
+        "agent": "gardener",
+        "patient": "young sapling",
+        "instrument": "scion",
+        "because": ["patient is young rootstock", "instrument is freshly cut"],
+        "effects": ["moves scion to sapling", "creates graft union"],
+        "numbers": ["odds the cut faces match closely enough to knit"]
+      },
+      {
+        "process": "bind",
+        "agent": "gardener",
+        "patient": "graft union",
+        "instrument": "cord and wax",
+        "because": ["patient is exposed"],
+        "effects": ["patient gains seal", "patient loses exposure"],
+        "numbers": ["how many weeks the seal must hold"]
+      },
+      {
+        "process": "knit",
+        "agent": "graft union",
+        "patient": "graft union",
+        "instrument": "time",
+        "because": ["patient is sealed", "place is growing season"],
+        "effects": ["patient gains union", "creates grafted tree"],
+        "numbers": ["weeks until the knit succeeds or fails", "years until the grafted tree first bears fruit"]
+      }
+    ],
+    "latent": ["whether the cut faces are close enough in size and alignment to knit at all"],
+    "state_after": ["young sapling: carrying a bound graft, outcome not yet known", "old apple tree: missing one branch, otherwise unchanged"],
+    "stress": "success is invisible for weeks and the real payoff is years away",
+    "temptation": "a rule that grafting always works when you graft the branch, without conditions on the cut and the seal"
+  },
+  {
+    "id": "grow-07",
+    "domain": "grow",
+    "place": "A compost heap of kitchen scraps and garden waste behind the house, turned occasionally, sitting through summer.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["compost heap", "squash seeds (from discarded rind)", "kitchen scraps", "sun"],
+    "outcome": "Nobody planted anything in the compost heap; squash seed thrown out with last month's rinds survives the pile's heat and, given the heap's rich rot and steady moisture, sprouts on its own. Within weeks a vine is climbing over the heap's edge, and by late summer it's carrying a squash nobody planned for. It's a real vegetable, free for the taking, but it's also sprawled over the compost path and its roots are pulling nutrients that would otherwise have gone into finished compost.",
+    "steps": [
+      {
+        "process": "survive",
+        "agent": "squash seed",
+        "patient": "squash seed",
+        "instrument": "compost heat",
+        "because": ["patient is hardy", "instrument is mild at the edges"],
+        "effects": ["patient gains viability"],
+        "numbers": ["odds a discarded seed survives the heap's heat"]
+      },
+      {
+        "process": "germinate",
+        "agent": "squash seed",
+        "patient": "squash seed",
+        "instrument": "compost moisture",
+        "because": ["instrument is moist", "place is nutrient rich"],
+        "effects": ["patient gains sprout", "creates vine"],
+        "numbers": ["weeks until sprouting"]
+      },
+      {
+        "process": "grow",
+        "agent": "vine",
+        "patient": "vine",
+        "instrument": "sun",
+        "because": ["instrument is full", "place is rich"],
+        "effects": ["patient size up", "creates squash"],
+        "numbers": ["weeks until fruit forms", "how much compost nutrient the vine draws off"]
+      }
+    ],
+    "latent": ["whether any discarded seed in the heap survives the heat"],
+    "state_after": ["compost heap: sprawled over with a squash vine, path partly blocked", "squash: ripening, unplanned", "finished compost: slightly less rich for what the vine drew off"],
+    "stress": "a thing nobody planted growing from what was thrown away, with a cost nobody priced in",
+    "temptation": "a special rule for squash in compost instead of general seed survival plus favorable conditions"
+  },
+  {
+    "id": "grow-08",
+    "domain": "grow",
+    "place": "A fenced kitchen garden of leafy greens, next to a paddock where a goat is kept, fence in need of repair.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["goat", "fence", "leafy greens", "garden bed"],
+    "outcome": "The goat finds the weak section of fence it has been leaning on for days and finally pushes through overnight. By morning it has eaten most of the greens down to bare stubble and trampled the rest flat getting around the bed. Nothing left standing is worth harvesting, and greens grow back slowly from stubble if at all; the household won't have a crop from this bed for weeks, if it recovers before frost.",
+    "steps": [
+      {
+        "process": "break",
+        "agent": "goat",
+        "patient": "fence",
+        "instrument": "goat's weight",
+        "because": ["patient is weak", "agent is persistent"],
+        "effects": ["patient loses barrier", "creates gap"],
+        "numbers": ["how many days of leaning before the fence gives"]
+      },
+      {
+        "process": "graze",
+        "agent": "goat",
+        "patient": "leafy greens",
+        "instrument": "goat's mouth",
+        "because": ["patient is reachable", "agent is hungry"],
+        "effects": ["patient loses leaves", "patient size down"],
+        "numbers": ["how much of the bed the goat eats before it's full"]
+      },
+      {
+        "process": "trample",
+        "agent": "goat",
+        "patient": "garden bed",
+        "instrument": "goat's hooves",
+        "because": ["agent is moving about"],
+        "effects": ["patient loses standing plants"],
+        "numbers": ["fraction of the bed trampled versus eaten"]
+      }
+    ],
+    "latent": ["exactly when overnight the fence finally gives"],
+    "state_after": ["garden bed: eaten to stubble and trampled", "fence: gap where the goat pushed through", "goat: well fed"],
+    "stress": "a slow-building weakness finally failing all at once, with nobody to blame in the moment",
+    "temptation": "naming goat and greens in a specific rule instead of hungry animal meets reachable plant meets weak barrier"
+  },
+  {
+    "id": "grow-09",
+    "domain": "grow",
+    "place": "A wheat field near ripe, golden but with some green still in the heads, weather turning uncertain.",
+    "initiator": "player",
+    "lines": ["harvest the wheat now"],
+    "things": ["wheat field", "sickle", "farmer", "grain heads", "flail"],
+    "outcome": "The farmer cuts the field a little early, worried about a coming storm. Some heads are fully ripe and thresh out well, but a good portion are still green inside the husk and yield shrunken, poor grain that won't store or mill as well. Waiting the extra week would have ripened it fully, but it would also have risked losing grain to shattering heads and birds if the storm had come first; there was no clean answer, only a trade of one loss against another.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "farmer",
+        "patient": "wheat field",
+        "instrument": "sickle",
+        "because": ["patient is close to ripe"],
+        "effects": ["moves patient to threshing floor", "creates cut wheat"],
+        "numbers": ["fraction of heads fully ripe versus still green"]
+      },
+      {
+        "process": "thresh",
+        "agent": "farmer",
+        "patient": "cut wheat",
+        "instrument": "flail",
+        "because": ["patient is mixed ripeness"],
+        "effects": ["creates grain", "creates chaff"],
+        "numbers": ["yield of usable grain versus shrunken grain"]
+      }
+    ],
+    "latent": ["how much of the field was actually still green under the husk before cutting"],
+    "state_after": ["wheat field: cut, stubble left standing", "grain store: mixed lot, part good, part shrunken and poor"],
+    "stress": "cutting too early and cutting too late both cost the harvest, and only one can be chosen",
+    "temptation": "a rule with a fixed calendar date for harvesting wheat rather than the state of the grain"
+  },
+  {
+    "id": "grow-10",
+    "domain": "grow",
+    "place": "A young oak sapling planted a stride from the base of an old hedge, edge of an orchard.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["young oak sapling", "old hedge", "sun"],
+    "outcome": "The sapling was planted close to the hedge for a windbreak, but nobody accounted for how tall the hedge would get. Season by season the hedge grows and leans out, taking more of the sapling's light each year. By the third or fourth year the oak is thin, leaning away from the hedge toward what light it can reach, its growth well behind an unshaded tree of the same age. It isn't dead, but it may never be more than a stunted, lopsided tree unless the hedge is cut back, and by now moving the sapling risks killing it outright.",
+    "steps": [
+      {
+        "process": "grow",
+        "agent": "old hedge",
+        "patient": "old hedge",
+        "instrument": "years",
+        "because": ["agent is established", "agent is unpruned"],
+        "effects": ["patient height up", "creates shade"],
+        "numbers": ["how much taller the hedge grows per year"]
+      },
+      {
+        "process": "shade",
+        "agent": "old hedge",
+        "patient": "young oak sapling",
+        "instrument": null,
+        "because": ["agent is taller now", "patient is close by"],
+        "effects": ["patient loses light"],
+        "numbers": ["fraction of daylight the sapling loses per year as the hedge grows"]
+      },
+      {
+        "process": "stunt",
+        "agent": "shade",
+        "patient": "young oak sapling",
+        "instrument": "years",
+        "because": ["patient is light-starved"],
+        "effects": ["patient loses vigor", "patient gains lean"],
+        "numbers": ["years before the growth gap becomes visible", "how far behind an unshaded sapling of the same age it falls"]
+      }
+    ],
+    "latent": ["how tall the hedge will eventually grow, unknown when the sapling was planted"],
+    "state_after": ["young oak sapling: stunted, leaning away from the hedge, years behind normal growth", "old hedge: unchanged, taller than when planted"],
+    "stress": "a choice made once, where to plant, with a consequence that only shows itself years later, too late to cheaply undo",
+    "temptation": "a rule that checks planting distance against a fixed number instead of computing shade from actual relative growth over time"
+  },
+  {
+    "id": "find-01",
+    "domain": "find",
+    "place": "Open grassland, scattered low stones half-buried in turf, no quarry or outcrop nearby.",
+    "initiator": "player",
+    "lines": ["grab a stone"],
+    "things": ["grassland", "loose stones (maybe)", "player", "turf"],
+    "outcome": "The player glances around at their feet for a moment, expecting an easy pick-up. Loose stones aren't common in open grassland; turf covers most of the ground, so a quick look has real odds of coming up empty. This time nothing is in easy reach, and the player either goes home without a stone or has to commit to a longer, more deliberate search than a glance.",
+    "steps": [
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "grassland patch",
+        "instrument": "eyes",
+        "because": ["patient is turf covered", "agent spent a glance"],
+        "effects": ["consumes time"],
+        "numbers": ["odds a loose stone is visible here", "how many seconds a glance takes"]
+      }
+    ],
+    "latent": ["whether a loose stone happens to be within easy sight on this exact patch"],
+    "state_after": ["player: empty-handed", "grassland patch: unchanged, not yet marked as searched"],
+    "stress": "an everyday object that is still not guaranteed to be wherever you happen to be standing",
+    "temptation": "a rule that grabbing a stone always succeeds because stones exist somewhere in the world"
+  },
+  {
+    "id": "find-02",
+    "domain": "find",
+    "place": "A worked stone quarry face, loose rubble at the base, chisel and hammer left by a previous mason.",
+    "initiator": "player",
+    "lines": ["find a good stone here", "break off a piece", "take it"],
+    "things": ["quarry face", "loose rubble", "chisel", "hammer", "player"],
+    "outcome": "Stone is the whole point of a quarry, so finding one at all is nearly certain; the real work is picking a piece worth taking and freeing it. The player spots a promising seam, works the chisel into it, and knocks a usable block loose. It takes real effort and a few minutes, and a slip with the hammer could just as easily crack the piece wrong and waste it, but there was never any doubt stone was here to find.",
+    "steps": [
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "quarry face",
+        "instrument": "eyes",
+        "because": ["patient is dense with stone"],
+        "effects": ["consumes time"],
+        "numbers": ["odds a decent piece is visible without digging", "time spent picking a spot"]
+      },
+      {
+        "process": "break",
+        "agent": "player",
+        "patient": "quarry face",
+        "instrument": "chisel and hammer",
+        "because": ["patient is seamed"],
+        "effects": ["creates loose block", "patient loses piece"],
+        "numbers": ["odds the block comes free clean versus cracks wrong", "effort spent swinging"]
+      },
+      {
+        "process": "take",
+        "agent": "player",
+        "patient": "loose block",
+        "instrument": "hand",
+        "because": ["patient is free"],
+        "effects": ["moves patient to player", "player gains stone"],
+        "numbers": ["weight of the block carried"]
+      }
+    ],
+    "latent": ["exactly where a clean seam runs through this face"],
+    "state_after": ["player: carrying a stone block", "quarry face: one block freed, a fresh scar in the rock"],
+    "stress": "abundance changes the question from is it here to can I get a good one out",
+    "temptation": "rolling the same low odds for a quarry search as for grassland instead of near-certain existence plus effort to extract"
+  },
+  {
+    "id": "find-03",
+    "domain": "find",
+    "place": "Damp forest floor after recent rain, leaf litter thick, a known patch where mushrooms sometimes come up.",
+    "initiator": "player",
+    "lines": ["look around properly for mushrooms, take your time"],
+    "things": ["forest floor", "leaf litter", "mushrooms (maybe)", "player"],
+    "outcome": "A quick glance across the leaf litter would likely miss the mushrooms entirely; they sit low, mottled, and easy to pass over. The player commits to a slow, careful search, turning over leaves and checking damp hollows, and the extra time pays off: several mushrooms turn up that a glance would have walked past. It costs the better part of an hour rather than a few seconds, and there's still no guarantee of finding enough for a meal if the patch is thin this week.",
+    "steps": [
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "forest floor patch",
+        "instrument": "hands and eyes",
+        "because": ["patient is easy to overlook", "agent spent real time"],
+        "effects": ["consumes time"],
+        "numbers": ["odds of finding mushrooms per minute searched, rising with time spent", "how many mushrooms turn up for the effort spent"]
+      }
+    ],
+    "latent": ["how many mushrooms have actually come up in this patch this week"],
+    "state_after": ["player: holding a handful of mushrooms, or none if the patch is thin this week", "forest floor patch: leaf litter disturbed"],
+    "stress": "the same ground can hide or reveal what's on it depending only on how long you're willing to look",
+    "temptation": "a fixed rule that a thorough search always succeeds instead of time raising the odds without guaranteeing them"
+  },
+  {
+    "id": "find-04",
+    "domain": "find",
+    "place": "A shallow, slow streambed through ordinary farmland, no history of mineral working nearby.",
+    "initiator": "player",
+    "lines": ["find gold"],
+    "things": ["streambed", "gravel", "water", "player"],
+    "outcome": "The player crouches at the stream and starts turning over gravel, hoping for gold. There has never been gold in this stream; the rock upstream doesn't carry any, and no amount of looking, however long or however many times, will turn up what was never there. After a while the player gives up with wet hands and nothing to show, and honestly there was nothing to find no matter how they had searched.",
+    "steps": [
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "streambed gravel",
+        "instrument": "hands",
+        "because": ["place has no gold-bearing rock"],
+        "effects": ["consumes time"],
+        "numbers": ["time spent before giving up"]
+      }
+    ],
+    "latent": ["whether gold exists anywhere in this stream's gravel at all"],
+    "state_after": ["player: wet-handed, empty-handed", "streambed: gravel disturbed, no different otherwise"],
+    "stress": "some searches cannot succeed regardless of effort, because the thing sought was never there",
+    "temptation": "rolling odds for finding gold everywhere instead of first checking whether this place can have gold at all"
+  },
+  {
+    "id": "find-05",
+    "domain": "find",
+    "place": "A patch of damp garden soil near an old compost pit, evening, bait needed for tomorrow's fishing.",
+    "initiator": "player",
+    "lines": ["dig for worms"],
+    "things": ["garden soil", "worms", "spade", "player", "an old bone (buried, unknown)"],
+    "outcome": "The player digs a shallow patch of damp soil expecting worms, and gets several, easily, since worms are common in soil like this. But the spade also turns up something the player wasn't looking for: an old bone buried at some point in the past, weathered and out of place. It isn't what was sought and doesn't answer any question by itself, but it's there now, sitting in the turned dirt, and someone has to decide whether it matters.",
+    "steps": [
+      {
+        "process": "dig",
+        "agent": "player",
+        "patient": "garden soil",
+        "instrument": "spade",
+        "because": ["patient is damp", "place is worm rich"],
+        "effects": ["patient loses cover", "creates turned earth"],
+        "numbers": ["odds worms are present in this soil", "how many worms turn up per scoop"]
+      },
+      {
+        "process": "uncover",
+        "agent": "spade",
+        "patient": "old bone",
+        "instrument": null,
+        "because": ["patient is shallow buried"],
+        "effects": ["creates discovery", "player learns something is buried here"],
+        "numbers": ["odds any unrelated buried thing turns up while digging for something else"]
+      }
+    ],
+    "latent": ["what, if anything, is buried in this patch besides worms", "how old the bone is and how it got there"],
+    "state_after": ["player: has worms for bait, and an unexplained bone", "garden soil: turned over, hole left"],
+    "stress": "searching for one thing can surface an entirely different thing nobody asked about",
+    "temptation": "a scripted event tied to this exact garden plot instead of a general chance of turning up the unrelated while digging"
+  },
+  {
+    "id": "find-06",
+    "domain": "find",
+    "place": "A gravel bar beside a river, searched once already this afternoon for flat skipping stones, ground unchanged since.",
+    "initiator": "player",
+    "lines": ["look here again", "search this spot once more"],
+    "things": ["gravel bar", "flat stones (or lack of them)", "player"],
+    "outcome": "The player already searched this exact patch a short while ago and came up empty. Searching it again right away changes nothing: nothing new has washed in, nothing has shifted, so the second look costs time for no better odds than the first. Only if the player waits, and the river rises overnight and reshuffles the gravel, would coming back tomorrow actually mean something different. Right now, twice in a row is just once, done slowly.",
+    "steps": [
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "gravel bar patch",
+        "instrument": "eyes",
+        "because": ["patient is already searched", "patient is unchanged"],
+        "effects": ["consumes time"],
+        "numbers": ["odds of success on a re-search of an unchanged patch, same as the first search's remaining odds, not improved"]
+      }
+    ],
+    "latent": ["whether anything about this patch has changed since the first search (it hasn't, yet)"],
+    "state_after": ["player: still empty-handed, more time spent", "gravel bar patch: marked as searched, unchanged"],
+    "stress": "searching again is not the same as searching harder, if nothing about the place has changed",
+    "temptation": "letting repeated searches of the same unchanged spot silently stack better odds each time"
+  },
+  {
+    "id": "find-07",
+    "domain": "find",
+    "place": "A slow bend in a river at dusk, rod and line brought from home, midges rising over the water.",
+    "initiator": "player",
+    "lines": ["bait the hook", "cast the line", "wait"],
+    "things": ["river", "fishing rod", "bait worms", "fish (maybe)", "player"],
+    "outcome": "The player baits up, casts into the slow water, and settles in to wait; fishing takes patience more than skill, and the odds build slowly with time spent rather than paying off on any one cast. After a good while something finally takes the line, but it's a small fish, barely worth keeping, and the player has to decide whether to throw it back or count the evening a modest, half-satisfying success rather than a real catch.",
+    "steps": [
+      {
+        "process": "bait",
+        "agent": "player",
+        "patient": "hook",
+        "instrument": "worm",
+        "because": ["patient is bare"],
+        "effects": ["patient gains bait"],
+        "numbers": ["how much bait improves odds over an unbaited hook"]
+      },
+      {
+        "process": "cast",
+        "agent": "player",
+        "patient": "line",
+        "instrument": "rod",
+        "because": ["patient is baited"],
+        "effects": ["moves patient to water"],
+        "numbers": ["how far and where the line lands"]
+      },
+      {
+        "process": "wait",
+        "agent": "player",
+        "patient": "line",
+        "instrument": "time",
+        "because": ["place holds some fish"],
+        "effects": ["consumes time"],
+        "numbers": ["odds a fish bites per span of time waited", "how big a fish that bites turns out to be"]
+      }
+    ],
+    "latent": ["how many fish are actually near this bend tonight, and how large"],
+    "state_after": ["player: holding one small fish, deciding keep or release", "river: undisturbed otherwise"],
+    "stress": "success is a slow accumulation of odds over waiting time, and even a bite isn't always worth keeping",
+    "temptation": "a single roll on casting instead of odds that build the longer the line sits"
+  },
+  {
+    "id": "find-08",
+    "domain": "find",
+    "place": "A narrow fish-holding pool on a stream, known locally as a reliable spot, a heron working the shallows at dawn.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["heron", "stream pool", "fish", "shallows"],
+    "outcome": "The heron works the pool's shallows at first light, patient and efficient, and takes several of the fish holding there before anyone else is awake. Nobody sees it happen. When the player comes down later in the morning meaning to fish the usual reliable spot, the odds are quietly worse than they would have been at dawn, for a reason the player has no way to know just by looking at the water.",
+    "steps": [
+      {
+        "process": "hunt",
+        "agent": "heron",
+        "patient": "fish",
+        "instrument": "heron's beak",
+        "because": ["agent is hungry", "patient is exposed"],
+        "effects": ["patient count down", "consumes fish"],
+        "numbers": ["how many fish the heron takes before it moves on", "how much this lowers the odds of a catch later that day"]
+      }
+    ],
+    "latent": ["how many fish were in the pool before dawn, and how many the heron actually took"],
+    "state_after": ["stream pool: fewer fish than it held at dawn", "heron: fed, moved on", "player: unaware, about to fish odds worse than usual"],
+    "stress": "a resource quietly consumed by something with nobody to observe it happening",
+    "temptation": "keeping the pool's fish count fixed regardless of what happens there when nobody's watching, rather than letting unwatched time change it"
+  },
+  {
+    "id": "find-09",
+    "domain": "find",
+    "place": "Soft mud along a forest path after rain, deer tracks leading off into drier, stonier ground further in.",
+    "initiator": "player",
+    "lines": ["follow these tracks"],
+    "things": ["deer tracks", "mud", "stony ground", "player"],
+    "outcome": "The tracks are plain in the soft mud at first, easy to follow at a walk. But they lead onto drier, stonier ground where hooves leave little or no mark, and after casting around for a while without picking the trail back up, the player has to admit it's lost. Tracking works only as long as the ground keeps a mark; once it stops, more time spent looking doesn't bring the trail back, it takes a fresh sign, not more staring at bare stone.",
+    "steps": [
+      {
+        "process": "track",
+        "agent": "player",
+        "patient": "deer tracks",
+        "instrument": "eyes",
+        "because": ["patient is clear", "patient is fresh"],
+        "effects": ["consumes time"],
+        "numbers": ["how far the trail can be followed per minute on good ground"]
+      },
+      {
+        "process": "lose",
+        "agent": "player",
+        "patient": "deer tracks",
+        "instrument": null,
+        "because": ["place is stony"],
+        "effects": ["player loses trail"],
+        "numbers": ["odds of picking the trail back up by casting around on ground that holds no mark"]
+      }
+    ],
+    "latent": ["where the deer actually went once it crossed onto stone"],
+    "state_after": ["player: standing on stony ground, trail lost", "deer: gone, whereabouts unknown"],
+    "stress": "a skill that depends entirely on what the ground itself is willing to hold, not on effort alone",
+    "temptation": "letting tracking succeed on the same odds regardless of what kind of ground the trail crosses"
+  },
+  {
+    "id": "find-10",
+    "domain": "find",
+    "place": "A steep dirt bank above a farm track, ordinary earth, no stone visible on the surface before a night of heavy rain.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["dirt bank", "heavy rain", "buried stones", "farm track"],
+    "outcome": "A night of hard rain washes a layer of loose soil off the steep bank, exposing a scatter of stones that had been sitting under the surface all along, unseen. Nobody did anything; the world simply changed what was on top. A player passing the next day and glancing at the bank now finds stones easily, where a glance the week before would have found bare earth and nothing else. The place didn't change what it held, only what was showing.",
+    "steps": [
+      {
+        "process": "erode",
+        "agent": "heavy rain",
+        "patient": "dirt bank",
+        "instrument": null,
+        "because": ["patient is steep", "agent is heavy"],
+        "effects": ["patient loses topsoil", "creates exposed ground"],
+        "numbers": ["how much topsoil washes off in one night of hard rain"]
+      },
+      {
+        "process": "expose",
+        "agent": "erosion",
+        "patient": "buried stones",
+        "instrument": null,
+        "because": ["patient is shallow buried"],
+        "effects": ["patient loses cover"],
+        "numbers": ["how much easier the stones are to spot now than before the rain"]
+      }
+    ],
+    "latent": ["how many stones were sitting under the bank's surface before the rain", "whether the rain exposes them enough to be seen at a glance"],
+    "state_after": ["dirt bank: stones now visible on the surface", "farm track: muddy from runoff"],
+    "stress": "a place's findability changing with nobody acting on it, purely from weather over unobserved time",
+    "temptation": "keeping a searched-and-bare tile bare forever instead of letting world processes like erosion change what a glance would find"
+  }
+]

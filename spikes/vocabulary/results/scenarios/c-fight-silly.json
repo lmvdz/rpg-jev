@@ -1,0 +1,614 @@
+[
+  {
+    "id": "fight-01",
+    "domain": "fight",
+    "place": "A rutted trade road through birch scrub, mud-slick from yesterday's rain, with a felled log marking the spot where the two men closed.",
+    "initiator": "player",
+    "lines": ["swing my axes at the guard's neck", "duck under his sword and go for the gap under his arm"],
+    "things": ["player", "hand axe", "guard", "broadsword", "boiled-leather cuirass"],
+    "outcome": "The cuirass turns the first axe blow but the guard's heavy sword is slow to recover from a missed swing, and the lighter, faster player ducks the return and drives an axe into the unarmoured gap under the arm. The guard drops, bleeding badly and unable to raise the sword arm; the player is not unscathed, carrying a shallow cut from the guard's one connecting blow, and both are slower for the rest of the day.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "guard",
+        "instrument": "hand axe",
+        "because": ["instrument is light", "patient is armoured"],
+        "effects": ["patient gains bruise", "guard learns player's speed"],
+        "numbers": ["how much force the axe carries", "whether the cuirass stops the edge"]
+      },
+      {
+        "process": "swing",
+        "agent": "guard",
+        "patient": "player",
+        "instrument": "broadsword",
+        "because": ["instrument is heavy", "agent is slow to recover"],
+        "effects": ["patient gains cut", "patient bleeding up"],
+        "numbers": ["how long the recovery leaves the guard open", "how deep the cut is"]
+      },
+      {
+        "process": "strike",
+        "agent": "player",
+        "patient": "guard",
+        "instrument": "hand axe",
+        "because": ["patient is unarmoured", "instrument is sharp"],
+        "effects": ["patient gains wound", "patient bleeding up", "patient strength down"],
+        "numbers": ["how much blood is lost", "how long before the guard can stand"]
+      },
+      {
+        "process": "collapse",
+        "agent": "guard",
+        "patient": "guard",
+        "instrument": null,
+        "because": ["agent is bleeding heavily", "agent strength is low"],
+        "effects": ["agent loses ability to fight", "moves broadsword to ground"],
+        "numbers": ["how long until the guard passes out"]
+      }
+    ],
+    "latent": ["whether the cuirass's underarm laces were tied tight today", "whether anyone on the road saw the fight"],
+    "state_after": ["guard: wounded under the arm, bleeding, sword dropped, cannot stand unaided", "player: forearm cut, tired, both axes still in hand"],
+    "stress": "armour stops what it covers and nothing else; speed beats power only if the gap is found before the power lands",
+    "temptation": "an engine that checks 'is this a guard' and gives guards a flat armour bonus instead of asking what the cuirass actually covers"
+  },
+  {
+    "id": "fight-02",
+    "domain": "fight",
+    "place": "The doorway of a single-room hut, the only way in, a stack of firewood behind the defender for cover.",
+    "initiator": "player",
+    "lines": ["block the doorway with my shield", "hold the line"],
+    "things": ["player", "plank-and-hide shield", "attacker", "skinning knife", "doorway"],
+    "outcome": "The shield takes two knife thrusts before the hide face splits and a plank cracks, each hit stopped short of the player's body but the shock numbing the shield arm. By the third thrust the shield can no longer be raised in time and fails outright, so the player takes a shallow cut before closing the distance and grappling the attacker down, ending shaken and bruised but alive and in control of the doorway.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "attacker",
+        "patient": "shield",
+        "instrument": "skinning knife",
+        "because": ["instrument is sharp", "patient is absorbing"],
+        "effects": ["patient gains crack"],
+        "numbers": ["how much force the thrust carries", "how much the shield absorbs"]
+      },
+      {
+        "process": "strike",
+        "agent": "attacker",
+        "patient": "shield",
+        "instrument": "skinning knife",
+        "because": ["patient is cracked", "instrument is sharp"],
+        "effects": ["patient loses facing", "patient gains split"],
+        "numbers": ["how many more hits the shield can take"]
+      },
+      {
+        "process": "strike",
+        "agent": "attacker",
+        "patient": "player",
+        "instrument": "skinning knife",
+        "because": ["instrument is sharp", "patient is exposed"],
+        "effects": ["patient gains cut", "patient loses shield"],
+        "numbers": ["whether the thrust reaches the player before the shield fails completely"]
+      },
+      {
+        "process": "grapple",
+        "agent": "player",
+        "patient": "attacker",
+        "instrument": null,
+        "because": ["patient is close", "agent is unarmed"],
+        "effects": ["patient gains bruise", "agent gains fatigue"],
+        "numbers": ["who is stronger in a grapple", "how long it takes to pin"]
+      }
+    ],
+    "latent": ["whether the shield's plank was already weak from earlier use", "whether the firewood stack could have been grabbed as a second weapon"],
+    "state_after": ["shield: split down the hide face, one plank cracked, unusable", "player: shallow cut, arm numb, tired but attacker pinned", "attacker: bruised, disarmed, pinned"],
+    "stress": "a shield buys time, not safety; it fails by degrees and the failure has a countdown",
+    "temptation": "an engine that gives 'has shield' a flat block chance instead of tracking how many hits the shield has already absorbed"
+  },
+  {
+    "id": "fight-03",
+    "domain": "fight",
+    "place": "A scree slope above a dry riverbed, loose stones underfoot, the path narrowing near the top.",
+    "initiator": "player",
+    "lines": ["charge up the slope at him", "try to knock him off balance"],
+    "things": ["player", "rival", "wooden staff", "loose scree"],
+    "outcome": "Fighting uphill, the player tires faster and has worse footing, since the loose scree slides underfoot with every step, while the rival above has gravity and a clear downward swing. The charge loses momentum halfway up and a staff blow catches a rib before the player can close the distance, so the fight goes to the rival cheaply, and the player has to crawl back down bruised and winded.",
+    "steps": [
+      {
+        "process": "charge",
+        "agent": "player",
+        "patient": "rival",
+        "instrument": null,
+        "because": ["place is steep", "place is loose"],
+        "effects": ["agent stamina down"],
+        "numbers": ["how much the slope costs in effort", "how much speed is lost to loose stone"]
+      },
+      {
+        "process": "strike",
+        "agent": "rival",
+        "patient": "player",
+        "instrument": "wooden staff",
+        "because": ["agent is above", "instrument is long"],
+        "effects": ["patient gains bruise", "patient loses balance"],
+        "numbers": ["how much extra force the downward angle carries"]
+      },
+      {
+        "process": "fall",
+        "agent": "player",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent lost balance", "place is loose"],
+        "effects": ["agent gains scrape", "moves player to lower ground"],
+        "numbers": ["how far the player slides"]
+      }
+    ],
+    "latent": ["whether there is a firmer path a few strides to the side"],
+    "state_after": ["player: bruised rib, scraped hands, winded, several strides back downhill", "rival: unmarked, still holding the high ground"],
+    "stress": "ground is not decoration; height and footing move a fight before either weapon does",
+    "temptation": "an engine that resolves combat from stats alone and treats 'uphill' as flavour text with no cost"
+  },
+  {
+    "id": "fight-04",
+    "domain": "fight",
+    "place": "A sunken cart track through dense hazel scrub, tall enough on both sides to hide a standing man, a blind bend just ahead.",
+    "initiator": "creature",
+    "lines": ["spin around and get my knife up"],
+    "things": ["player", "bandit", "second bandit", "cudgel", "belt knife", "hazel scrub"],
+    "outcome": "The bandits, hidden either side of the blind bend, strike before the player has registered them, and the first club blow lands squarely on the shoulder before any weapon is drawn. The player gets a knife up in time to back against a tree and make the fight look costly, and the bandits, unwilling to lose one of their own for a traveller's thin pack, withdraw rather than press an advantage they in fact still hold.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "bandit",
+        "patient": "player",
+        "instrument": "cudgel",
+        "because": ["patient is unaware", "place hides a standing man"],
+        "effects": ["patient gains bruise", "patient loses surprise"],
+        "numbers": ["how much damage a free first hit does", "how long before the player can react"]
+      },
+      {
+        "process": "draw",
+        "agent": "player",
+        "patient": "belt knife",
+        "instrument": null,
+        "because": ["patient is in reach", "agent has one hand free"],
+        "effects": ["agent gains weapon"],
+        "numbers": ["how many seconds it takes to draw"]
+      },
+      {
+        "process": "withdraw",
+        "agent": "second bandit",
+        "patient": "second bandit",
+        "instrument": null,
+        "because": ["agent sees a drawn blade", "agent values his own skin"],
+        "effects": ["agent loses nerve", "moves bandits to scrub"],
+        "numbers": ["how much a wound is worth to a bandit weighing the fight"]
+      }
+    ],
+    "latent": ["how many bandits were actually waiting", "whether they marked this traveller beforehand or acted on opportunity"],
+    "state_after": ["player: bruised shoulder, knife drawn, shaken but standing", "bandits: withdrawn into the scrub, unhurt, watching from cover"],
+    "stress": "the first blow in an ambush is free; everything after that is the victim buying time",
+    "temptation": "an engine that rolls a single combat check for the whole encounter instead of giving the surprise attacker an unanswerable first strike"
+  },
+  {
+    "id": "fight-05",
+    "domain": "fight",
+    "place": "An open heath with a stiff crosswind, a stag grazing eighty paces off near a treeline it can bolt into.",
+    "initiator": "player",
+    "lines": ["aim a little left of the stag for the wind", "loose the arrow"],
+    "things": ["player", "yew bow", "arrow", "stag", "treeline"],
+    "outcome": "The player corrects for the wind but a gust rises just as the arrow is loosed, pushing it further than judged, so it strikes haunch instead of chest. The stag bolts wounded into the treeline rather than dropping, and the player must follow a blood trail losing daylight, with no guarantee of catching the animal before dark, scavengers, or the wound closing enough to let it keep running.",
+    "steps": [
+      {
+        "process": "aim",
+        "agent": "player",
+        "patient": "stag",
+        "instrument": "yew bow",
+        "because": ["place is windy", "patient is far"],
+        "effects": [],
+        "numbers": ["how much to correct for the wind", "how far the shot is"]
+      },
+      {
+        "process": "loose",
+        "agent": "player",
+        "patient": "stag",
+        "instrument": "arrow",
+        "because": ["place gusted late", "instrument drifts"],
+        "effects": ["patient gains wound", "patient bleeding up"],
+        "numbers": ["how far the gust pushes the arrow", "whether it lands centre or off to the side"]
+      },
+      {
+        "process": "flee",
+        "agent": "stag",
+        "patient": "stag",
+        "instrument": null,
+        "because": ["agent is wounded", "place has cover"],
+        "effects": ["agent stamina down", "moves stag to treeline"],
+        "numbers": ["how fast a wounded animal can still run", "how far it gets before tiring"]
+      },
+      {
+        "process": "track",
+        "agent": "player",
+        "patient": "stag",
+        "instrument": null,
+        "because": ["patient left a trail", "place has fading daylight"],
+        "effects": ["player learns stag's direction"],
+        "numbers": ["how long the trail stays followable", "how much daylight is left"]
+      }
+    ],
+    "latent": ["whether the stag's wound is deep enough to slow it within reach", "whether other predators pick up the blood scent first"],
+    "state_after": ["stag: wounded haunch, bleeding, fled into the treeline, exhausted but moving", "player: arrow spent, tracking a blood trail with daylight running out"],
+    "stress": "wind does not care about a good aim; a hit is not a kill, and a wounded animal is a new, worse problem",
+    "temptation": "an engine that resolves a bow shot as a single hit-or-miss roll with no wind, no wound location and no chase afterward"
+  },
+  {
+    "id": "fight-06",
+    "domain": "fight",
+    "place": "A narrow footpath through pine forest, the only route between two ridges, soft needle-covered soil good for digging.",
+    "initiator": "player",
+    "lines": ["dig a pit across the path and cover it with branches and needles", "wait in the trees"],
+    "things": ["player", "digging stick", "branches and pine needles", "pursuer", "second pursuer", "footpath"],
+    "outcome": "The covered pit works exactly once: the pursuer, running hard and watching the trees rather than the ground, breaks through the needle cover and drops in, wrenching an ankle on the packed earth below. It buys the player a real head start, but the digging took most of an afternoon and only works on someone who does not expect it, so a second pursuer minutes behind sees the churned ground and simply walks around.",
+    "steps": [
+      {
+        "process": "dig",
+        "agent": "player",
+        "patient": "footpath",
+        "instrument": "digging stick",
+        "because": ["place is soft", "patient is shallow"],
+        "effects": ["creates pit"],
+        "numbers": ["how long the digging takes", "how deep is deep enough"]
+      },
+      {
+        "process": "cover",
+        "agent": "player",
+        "patient": "pit",
+        "instrument": "branches and pine needles",
+        "because": ["instrument is camouflaged", "patient is bare"],
+        "effects": ["patient gains disguise"],
+        "numbers": ["how convincing the cover is", "how much weight it can hold before giving way"]
+      },
+      {
+        "process": "run",
+        "agent": "pursuer",
+        "patient": "footpath",
+        "instrument": null,
+        "because": ["agent is unwary", "patient is disguised"],
+        "effects": ["agent gains injury", "moves pursuer to pit"],
+        "numbers": ["whether the pursuer's stride lands on the covered patch"]
+      },
+      {
+        "process": "notice",
+        "agent": "second pursuer",
+        "patient": "pit",
+        "instrument": null,
+        "because": ["patient is exposed now", "agent arrives late"],
+        "effects": ["second pursuer learns pit's location"],
+        "numbers": ["how much the second pursuer is slowed by going around"]
+      }
+    ],
+    "latent": ["whether the ground was soft enough everywhere along the path to hide the dig marks"],
+    "state_after": ["pit: exposed, cover broken, first pursuer's fall visible in churned earth", "pursuer: twisted ankle, stuck, cannot give chase", "player: gained a head start, afternoon of digging spent"],
+    "stress": "a trap is one use against one set of eyes; it teaches everyone who sees it afterward",
+    "temptation": "an engine that lets a trap work on anyone who steps in range forever, instead of a hidden thing that stops being hidden the moment it is sprung"
+  },
+  {
+    "id": "fight-07",
+    "domain": "fight",
+    "place": "The single approach to a footbridge over a gorge, at dusk, a lone guard posted to watch the road.",
+    "initiator": "player",
+    "lines": ["shout that there are a dozen of us behind me and he should stand aside", "bang my shield and yell"],
+    "things": ["player", "guard", "footbridge", "gorge", "shield"],
+    "outcome": "The guard cannot see past the bend in the failing light and has no way to confirm numbers, so the noise and confidence read as a raiding party rather than one tired traveller. He steps back from the bridge rather than risk being the only one who stood his ground, but the bluff only holds because nobody tested it; had he simply walked forward far enough to see the empty road, the trick would have failed with nothing behind the noise.",
+    "steps": [
+      {
+        "process": "shout",
+        "agent": "player",
+        "patient": "guard",
+        "instrument": null,
+        "because": ["place is dark", "patient is unsighted"],
+        "effects": ["guard learns a false claim of numbers"],
+        "numbers": ["how convincing the claim is", "how much light is left to see by"]
+      },
+      {
+        "process": "judge",
+        "agent": "guard",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent cannot verify", "agent values his life"],
+        "effects": ["agent gains doubt"],
+        "numbers": ["how much the guard's nerve is worth against an unknown force"]
+      },
+      {
+        "process": "withdraw",
+        "agent": "guard",
+        "patient": "guard",
+        "instrument": null,
+        "because": ["agent decided not to test it"],
+        "effects": ["agent loses nerve", "moves guard to far side"],
+        "numbers": []
+      },
+      {
+        "process": "cross",
+        "agent": "player",
+        "patient": "footbridge",
+        "instrument": null,
+        "because": ["patient is unguarded", "agent is free"],
+        "effects": ["moves player to far side"],
+        "numbers": []
+      }
+    ],
+    "latent": ["whether the guard would have called the bluff by walking forward to look"],
+    "state_after": ["guard: withdrawn to the far bank, alert, still believing there may be a group behind", "player: across the bridge, no fight fought, story untested"],
+    "stress": "a bluff is not a lie that works, it is a lie nobody checked; the whole trick lives or dies on whether the mark looks",
+    "temptation": "an engine that gives a bluff a flat success percentage instead of making it fail the moment the guard has a way to actually verify"
+  },
+  {
+    "id": "fight-08",
+    "domain": "fight",
+    "place": "The dooryard of a burned-out grain store, the fighting just finished, both sides too spent to keep going.",
+    "initiator": "player",
+    "lines": ["check on him", "tear a strip of cloth for the bandage"],
+    "things": ["player", "rival", "torn cloth", "grain store"],
+    "outcome": "The fight is over but nothing about it is clean: the rival who lost is bleeding from a cut across the thigh and cannot walk without help, the player is dizzy from a blow to the head and has to sit before doing anything else, and binding the wound with torn cloth slows the bleeding but does not remove the risk of it turning bad in the days after. Both are slower, hungrier, and worse off than before the fight, whoever is called the winner.",
+    "steps": [
+      {
+        "process": "bleed",
+        "agent": "rival",
+        "patient": "rival",
+        "instrument": null,
+        "because": ["agent is cut", "agent is bleeding freely"],
+        "effects": ["agent bleeding up", "agent strength down"],
+        "numbers": ["how fast the bleeding runs", "how long before it is dangerous"]
+      },
+      {
+        "process": "bind",
+        "agent": "player",
+        "patient": "rival",
+        "instrument": "torn cloth",
+        "because": ["instrument is tight", "patient is bleeding"],
+        "effects": ["patient bleeding down", "consumes torn cloth"],
+        "numbers": ["how much the bleeding slows", "how long the binding holds"]
+      },
+      {
+        "process": "rest",
+        "agent": "player",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is dizzy", "agent took a blow"],
+        "effects": ["agent gains dizziness", "agent stamina down"],
+        "numbers": ["how long before the dizziness passes"]
+      }
+    ],
+    "latent": ["whether the cut is deep enough to need more than cloth in the coming days"],
+    "state_after": ["rival: bleeding slowed but leg wound bound with cloth, cannot walk unaided", "player: dizzy, tired, unharmed otherwise, down one strip of cloth"],
+    "stress": "winning a fight and walking away undamaged are two different things, and the second one is rarer",
+    "temptation": "an engine that zeroes out damage the instant a fight is 'won' instead of carrying wounds and fatigue past the last blow"
+  },
+  {
+    "id": "silly-01",
+    "domain": "silly",
+    "place": "A campfire clearing at night, a plain iron sword recently used to cut kindling resting across two stones near the fire.",
+    "initiator": "player",
+    "lines": ["lick the sword"],
+    "things": ["player", "iron sword", "campfire"],
+    "outcome": "The blade is cold iron with a film of pine sap and dust on it from cutting kindling, so the player's tongue picks up a bitter, metallic taste and a faint sting where the edge is thin enough to nick skin if pressed too hard. Nothing more happens: the sword is unharmed, and the only lasting effect is an unpleasant taste and mild embarrassment.",
+    "steps": [
+      {
+        "process": "lick",
+        "agent": "player",
+        "patient": "iron sword",
+        "instrument": null,
+        "because": ["patient is cold", "patient is dirty", "patient is sharp"],
+        "effects": ["agent gains bitter taste", "agent gains small scrape"],
+        "numbers": ["how sharp the edge is at the point touched", "how much residue is on the blade"]
+      }
+    ],
+    "latent": ["whether the edge nearest the tongue is sharp enough to actually cut"],
+    "state_after": ["player: bitter taste in mouth, tiny scrape on tongue if unlucky, otherwise just an unpleasant taste", "sword: unchanged, a little cleaner where licked"],
+    "stress": "a joke action still has to run through what the object actually is: cold, dirty, and edged",
+    "temptation": "an engine that special-cases 'lick plus weapon' with a scripted gag line instead of deriving the result from temperature, residue and sharpness"
+  },
+  {
+    "id": "silly-02",
+    "domain": "silly",
+    "place": "A dry footpath at the edge of a ploughed field, ordinary packed earth underfoot.",
+    "initiator": "player",
+    "lines": ["eat a handful of dirt"],
+    "things": ["player", "dirt", "ploughed field"],
+    "outcome": "Dirt is not food: it has no nutrition the body can use, grit gets between the teeth, and a mouthful of packed earth is unpleasant and mildly nauseating rather than dangerous in a single handful, though it does nothing for hunger and may carry whatever was in the soil, upsetting the stomach a little over the following hours.",
+    "steps": [
+      {
+        "process": "eat",
+        "agent": "player",
+        "patient": "dirt",
+        "instrument": null,
+        "because": ["patient is inedible", "patient is contaminated"],
+        "effects": ["agent gains nausea", "consumes dirt"],
+        "numbers": ["how much dirt was eaten", "how upset the stomach gets"]
+      }
+    ],
+    "latent": ["what else was in this particular patch of soil, since it borders a ploughed field"],
+    "state_after": ["player: gritty mouth, mild nausea, hunger unchanged"],
+    "stress": "not everything that goes in the mouth is food; edibility is a property, not a permission the game grants to typing 'eat'",
+    "temptation": "an engine that blocks 'eat dirt' with a hardcoded refusal instead of letting inedibility and contamination play out as a real, if unpleasant, consequence"
+  },
+  {
+    "id": "silly-03",
+    "domain": "silly",
+    "place": "A riverbank clearing where a brown bear is fishing, thirty paces off, not yet aware of the player.",
+    "initiator": "player",
+    "lines": ["walk up and hug the bear"],
+    "things": ["player", "bear", "river"],
+    "outcome": "A wild bear does not read intent; a person closing the distance and grabbing it registers as a threat, not affection, and the bear's instinct is to defend itself with far more force than the player can withstand. A swipe lands before the hug is even complete, sending the player away bleeding and lucky it was only a warning strike and not a committed attack, while the bear returns to fishing once the threat backs off.",
+    "steps": [
+      {
+        "process": "approach",
+        "agent": "player",
+        "patient": "bear",
+        "instrument": null,
+        "because": ["patient is unaware", "place is open"],
+        "effects": ["bear learns player's presence"],
+        "numbers": ["how close before the bear reacts", "how much noise the approach makes"]
+      },
+      {
+        "process": "strike",
+        "agent": "bear",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent feels threatened", "patient is close"],
+        "effects": ["patient gains wound", "patient bleeding up", "patient loses nerve"],
+        "numbers": ["how much force the swipe carries", "how bad the wound is"]
+      },
+      {
+        "process": "retreat",
+        "agent": "player",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is wounded", "agent is weaker"],
+        "effects": ["moves player away from bear"],
+        "numbers": ["how fast the player can move while hurt"]
+      }
+    ],
+    "latent": ["whether the bear has cubs nearby, which would make the reaction worse"],
+    "state_after": ["player: bleeding wound, badly shaken, retreating", "bear: back to fishing, undisturbed once the threat left"],
+    "stress": "affection is not a category an animal recognizes; a bear answers proximity and grabbing with the only language it has",
+    "temptation": "an engine that treats 'hug' as a universally gentle verb regardless of what is on the receiving end"
+  },
+  {
+    "id": "silly-04",
+    "domain": "silly",
+    "place": "A stone-floored hearth room at night, three unlit torches leaning against the wall and the hearth fire burning low.",
+    "initiator": "player",
+    "lines": ["light three torches and try to juggle them"],
+    "things": ["player", "three torches", "hearth fire", "stone floor"],
+    "outcome": "Juggling is a learned skill the player does not have, and juggling three lit flames raises the stakes of a dropped catch considerably. The first pass or two goes fine, but a mistimed catch on the third exchange sends a torch tumbling, singeing the player's forearm on the way down before it lands, harmlessly, on the bare stone floor where it can be picked back up.",
+    "steps": [
+      {
+        "process": "light",
+        "agent": "player",
+        "patient": "three torches",
+        "instrument": "hearth fire",
+        "because": ["patient is unlit", "instrument is burning"],
+        "effects": ["patient gains flame"],
+        "numbers": ["how long each torch burns"]
+      },
+      {
+        "process": "juggle",
+        "agent": "player",
+        "patient": "three torches",
+        "instrument": null,
+        "because": ["agent is unskilled", "patient is awkward"],
+        "effects": [],
+        "numbers": ["how many passes before a catch is missed"]
+      },
+      {
+        "process": "drop",
+        "agent": "player",
+        "patient": "torch",
+        "instrument": null,
+        "because": ["agent mistimed", "patient was falling"],
+        "effects": ["agent gains burn", "moves torch to floor"],
+        "numbers": ["how badly the arm is singed"]
+      }
+    ],
+    "latent": ["whether the stone floor has anything flammable near it that the dropped torch could catch"],
+    "state_after": ["player: singed forearm, two torches still lit and in hand, one on the floor still burning", "floor: scorch mark, nothing else flammable nearby so no fire spreads"],
+    "stress": "skill is not granted by intent; juggling fire punishes the same mistake juggling anything else would, just more",
+    "temptation": "an engine that either always allows the juggling to succeed or always fails it, instead of resolving it from the player's actual lack of skill and letting the floor matter for whether a drop becomes a real fire"
+  },
+  {
+    "id": "silly-05",
+    "domain": "silly",
+    "place": "An open hilltop at night with a clear sky and the moon high overhead.",
+    "initiator": "player",
+    "lines": ["take off my boots and throw them at the moon"],
+    "things": ["player", "pair of boots", "hilltop"],
+    "outcome": "The moon is far beyond anything a human arm can reach, so the boots simply arc up a modest height and come back down under their own weight, landing somewhere on the hillside rather than anywhere near the target. The player is now barefoot on rough ground at night and has to search in poor light for two boots that may have landed some distance apart.",
+    "steps": [
+      {
+        "process": "throw",
+        "agent": "player",
+        "patient": "boots",
+        "instrument": null,
+        "because": ["place has no reachable target", "patient is light"],
+        "effects": ["agent loses boots", "moves boots to hillside"],
+        "numbers": ["how high and far the boots actually travel", "where on the hillside they land"]
+      },
+      {
+        "process": "search",
+        "agent": "player",
+        "patient": "boots",
+        "instrument": null,
+        "because": ["patient is out of sight", "place is uneven"],
+        "effects": ["player learns boots' location", "agent gains discomfort"],
+        "numbers": ["how long the search takes", "how much the bare feet suffer on rough ground"]
+      }
+    ],
+    "latent": ["exactly where each boot landed and whether one rolled into brush or a gap in the rocks"],
+    "state_after": ["player: barefoot, searching, feet sore on the rough hillside", "boots: on the ground somewhere nearby, undamaged"],
+    "stress": "an impossible target does not stop physics from acting on the thing thrown; the boots still have to land somewhere real",
+    "temptation": "an engine that special-cases throws at the sky or moon with a canned 'nothing happens' instead of letting the thrown object actually leave the player's possession and land somewhere that has to be dealt with"
+  },
+  {
+    "id": "silly-06",
+    "domain": "silly",
+    "place": "A fenced paddock beside a herder's hut, a tethered nanny goat chewing at a post.",
+    "initiator": "player",
+    "lines": ["marry the goat"],
+    "things": ["player", "goat", "tether post"],
+    "outcome": "There is no one and nothing here to perform, witness or record a marriage: no priest, no register, no custom that recognizes a goat as a party to anything, so nothing is created and nothing changes in the world's records. The player can stand beside the goat and declare it married all they like, and the goat, tethered and indifferent, keeps chewing, unmoved and unbound by any of it.",
+    "steps": [
+      {
+        "process": "declare",
+        "agent": "player",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["place has no witness", "patient has no standing"],
+        "effects": [],
+        "numbers": []
+      },
+      {
+        "process": "chew",
+        "agent": "goat",
+        "patient": "tether post",
+        "instrument": null,
+        "because": ["agent is hungry", "patient is in reach"],
+        "effects": [],
+        "numbers": ["how much of the post the goat wears down over time"]
+      }
+    ],
+    "latent": ["whether anyone in earshot heard the declaration and what they made of it"],
+    "state_after": ["goat: tethered, chewing, unchanged", "player: unmarried, nothing recorded anywhere"],
+    "stress": "a social institution needs an institution behind it; declaring something does not create the apparatus that would make it real",
+    "temptation": "an engine that either lets any declared relationship silently succeed or hardcodes a 'you cannot marry animals' refusal, instead of the declaration simply having no mechanism in the world to attach to"
+  },
+  {
+    "id": "silly-07",
+    "domain": "silly",
+    "place": "A wide, fast-running river below a stony bank, current loud over the rocks, nothing and no one else in sight.",
+    "initiator": "player",
+    "lines": ["shout at the river"],
+    "things": ["player", "river", "nearby birds"],
+    "outcome": "The river does not hear, understand or answer; it is moving water indifferent to sound, and the shout goes nowhere except into the air and the noise of the current. The sudden loud voice does startle a few birds roosting near the bank into flight, and the sound carries far enough along the water that anything downstream with ears now has some notice something is there.",
+    "steps": [
+      {
+        "process": "shout",
+        "agent": "player",
+        "patient": "river",
+        "instrument": null,
+        "because": ["patient is water", "place carries sound"],
+        "effects": ["creates noise"],
+        "numbers": ["how far the sound carries along the water"]
+      },
+      {
+        "process": "startle",
+        "agent": "player",
+        "patient": "nearby birds",
+        "instrument": null,
+        "because": ["patient is close", "place just had a loud noise"],
+        "effects": ["patient gains alarm", "moves birds to air"],
+        "numbers": ["how many birds were close enough to react"]
+      }
+    ],
+    "latent": ["what, if anything, downstream is close enough to hear the shout"],
+    "state_after": ["river: unchanged, still running", "birds: startled into flight, resettling elsewhere", "player: nothing gained but noise made"],
+    "stress": "an action can be honestly answered with 'nothing happens to the thing you addressed', while still rippling outward to whatever nearby actually can react",
+    "temptation": "an engine that gives every player line some effect on its named target, instead of allowing the honest answer that talking to water does nothing to the water at all"
+  }
+]

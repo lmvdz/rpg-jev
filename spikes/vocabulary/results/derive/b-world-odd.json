@@ -1,0 +1,191 @@
+[
+  {
+    "id": "world-01",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "amount in how much heat a thing holds (drift and heat rates)",
+      "phase read downward: freezing, and a frozen thing being hard enough to bear",
+      "growth (S12: grass browning, leaves dropping)",
+      "creature choices and their routine forms (migrate, shelter)",
+      "covers and sheltered by (R5)",
+      "detail inside one instance (iced edges, open middle): not granted"
+    ],
+    "note": "Derives: the pond's water comes down to freezing over winter. Two rule errors. (1) drift.ts and heat.ts set the temperature rate from the element's mass and never the instance's amount, so a pond of 5000 is exactly as cold as a cupful hour by hour (both 0.13 after 3 hours of frost): heat held should scale with mass times amount, as load.ts weight() already does. (2) isLiquid in effective.ts returns true for the `liquid` form without reading temperature, so water at temperature 0 is still liquid: phase should follow S1 against a freezing point both ways. Also missing: nothing hardens what has frozen, so strength() of the frozen pond equals open water (0.5)."
+  },
+  {
+    "id": "world-02",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "erode, silt and deposit as drifts (in X7, not in DRIFTS)",
+      "flow strength as a force on what it runs against",
+      "places changing (E13): a channel moving, a bar building",
+      "join strength of roots in soil, and lean",
+      "creatures trapped: move and contents"
+    ],
+    "note": "Derives: a wet season soaks the clay bank (wetness 4.8) and softens it (hardness 1 to 0.14). Rule error: the setting drift in drift.ts sets anything with P23 the moment its wetness is at or under 0.2, with no heat. The bank dries through in under two summer days, sets, and then a month of rain leaves it at hardness 3 and absorbency 1, like a fired pot. Drying should harden reversibly through M1; only firing past a heat threshold should set for good. This follows VOCABULARY M5 ('dryness or heat'), so the fault is shared with the vocabulary. The bank's row and the summer are my encoding; any clay thing left dry shows the same. A size 5, mass 5 bank drying through in two days is itself a doubtful magnitude."
+  },
+  {
+    "id": "world-03",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "creature choices and routine forms (scavenge, lay eggs)",
+      "sense: scent and sight bringing scavengers",
+      "groups with counts that breed (flies, maggots)",
+      "rot and feeding taking from amount",
+      "byproducts of decay (bones, hide) as created instances",
+      "move and give (a leg carried to a den)",
+      "place fertility changing (E13)"
+    ],
+    "note": "Derives: the carcass is fully contaminated within a day at warm (1.5 at 6 hours, 5 at 24), its scent climbs from 2 to 5, and a body with tolerates 4 eats day-old flesh unharmed where a person sickens. Does not derive: after two weeks amount is still 20; rot only raises S9 and no drift consumes. The succession itself is creature choice and is unbuilt."
+  },
+  {
+    "id": "world-04",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "contamination weakening what it grows in (vocabulary v2 candidate)",
+      "wetting and drying by turns, so that what dries between showers holds off rot",
+      "creature choices (lean to reach grass, follow through the gap)",
+      "move, groups"
+    ],
+    "note": "Derives: the rail in wet ground is wet through (2.6) and rotting (3.8 at two weeks, 5 at three), a rail kept dry stays at 0, and a sound rail holds a leaning goat. Rule error of magnitude: in drift.ts a place of moisture 3 holds a thing at wetness 1.6 for good, and the rot rate's damp term clamp(wetness / 2) is already 0.8 there, so the top rail in damp air reaches full rot in about 23 days against 19 for the one in standing wet. The same arithmetic rots a rail in the shared `cellar` place to the limit in about seven weeks. Rot should need a thing near as wet as it can get. The moisture 3 for 'rainy autumn air' is my encoding, hence medium. Not derived: strength() in load.ts never reads S9, so the fully rotten rail bears 3.38 against 3.6 sound and holds even a whole goat."
+  },
+  {
+    "id": "world-05",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "a thing lying in a liquid (R2, S8 contents)",
+      "S9 and scent passing from a thing into the liquid around it",
+      "sense: smell and taste warning the drinker",
+      "tell: word spreading",
+      "creature choices: where to draw water"
+    ],
+    "note": "Derives: the drowned rat rots to the limit within four days even at well cold, and water carrying contamination 2 goes down harmlessly and brings sickness on hours later, while clean water does not. Does not derive: the well water itself never fouls. soak carries S9 from liquid to target only, water's own perishability is 0, and there is no relation for a thing lying in a liquid; after soak and four days the water is at contamination 0, scent 0. X4 says liquid takes S9 with it, so this is a missing direction rather than a wrong one."
+  },
+  {
+    "id": "world-06",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "wind strength as a force (principle 2)",
+      "join strength of roots in loose ground, and Load against it",
+      "move: a fall, and what it lands on",
+      "places changing (E13): a path blocked, a pit, a gap in the canopy",
+      "light as a place state, and growth (moss, saplings)"
+    ],
+    "note": "Only the aftermath is in reach: three weeks of rain leave the fallen trunk wet through, its wood softer, and rot begun. The fall itself, the blocked path, the moss and the saplings all turn on unbuilt mechanisms, so nearly all of the outcome is unbuilt."
+  },
+  {
+    "id": "world-07",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "electricity: not granted",
+      "fire spreading across a place, and wind in the heat rate (X3 names wind; heat.ts does not read it)",
+      "rain as a soak at a rate",
+      "place states changing (E13): burnt ground"
+    ],
+    "note": "Derives: the burning tree lights dry grass at its foot in half a minute, a brief lick lights dry grass and not the damper scrub, which goes after ten minutes, the grass is ash within the half hour while the tree burns four hours, and 50 units of water douse the tree where 1 does not. Rule error: in drift.ts the burning rate reads only the place's air, and the wetting rate wets a burning thing, so a tree alight in a place of moisture 5 is at wetness 3.4 and temperature 5 together and burns to the end of its 240 minutes. Rain should arrive as a soak at a rate and put a fire out as douse() does."
+  },
+  {
+    "id": "world-08",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "groups with counts, breeding and dying off as drifts",
+      "routine forms of creature choices (a cat takes so many a night)",
+      "access (R6): a gap against the size of what is trying",
+      "sense: scent and sound drawing a predator",
+      "coating or mixing droppings into grain, and spoilage taking from amount"
+    ],
+    "note": "The outcome is two population curves and the damage they leave. The engine has no counts that change, no breeding and no routine predation. That spoilage stays spoiled is trivially true, since nothing in drift lowers S9."
+  },
+  {
+    "id": "odd-01",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "mixtures (muddy water as water plus silt)",
+      "filtering: porosity against the grain of what is carried (X4 names it; nothing reads porosity but drying)",
+      "contents (S8): liquid passing through one thing into another",
+      "a coat left on the filter"
+    ],
+    "note": "The shirt's row is cloth with porosity 4, which is what should do the work, but porosity is read only by the drying rate. soak wets the shirt and consumes all the poured water; nothing comes through."
+  },
+  {
+    "id": "odd-02",
+    "status": "rule_error",
+    "confidence": "low",
+    "needs": [
+      "move (X1): sliding by friction, slope and mass, and the speed it builds",
+      "steering and balance: not granted",
+      "a collision as a force on both bodies",
+      "a step in S4 between whole and cracked"
+    ],
+    "note": "The slide, which is the odd use, is unbuilt: nothing reads friction. Only the crash is in reach, and force needs a striker that a collision does not have. Told with the outcrop as instrument, the shield is marred (4.83) and the rock untouched, which is the right direction. Told with the shield as instrument, the shield is untouched and a piece breaks off the outcrop: in force.ts recoil() harms only a striker with toughness under 3, and breaking() never asks which is harder. A collision should fall on both, each by its own hardness and toughness. Neither telling cracks the wood: denting scales by 0.3 over (1 + size) cubed, so effort 5 still leaves 4.75. Low confidence because which thing is the instrument is my choice, and the engine gives opposite answers for the two."
+  },
+  {
+    "id": "odd-03",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "covers (R5): a blow aimed at a head meeting what is worn on it",
+      "deformation: a bent step in S4 (vocabulary v2 candidate)",
+      "impairment (B8): dazed, deafened",
+      "fit (R10) and join: no strap, so it slips"
+    ],
+    "note": "The pot's row (hard 4, tough 4, hollow, round) does the job as far as the engine can say: a stone that wounds a bare head to depth 1.6 barely marks the iron pot, shatters a fired clay one, and rings at sound 4.1. That the pot protects the head is my choice of patient, since nothing says it is worn. Not derived: the dent. The blow falls short of the pot's toughness, and had it not, denting() mars only when the striker is harder, and stone 4 is not harder than iron 4."
+  },
+  {
+    "id": "odd-04",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "whetting: abrasion raising S5",
+      "a cut's share of integrity going by how much of the patient it crosses (a point against an edge)",
+      "join (X5): stitching, and the missing eye making it slow",
+      "create: a point made from a bone"
+    ],
+    "note": "The bone's row (hard 3, tough 2, pointed) lets it do the needle's job: with edge 3 it pierces leather and unpointed it does not, it dulls from 3 to 2.33 over thirty stitches, and a steel needle dulls less (2.76). Not derived: grinding it to a point, since no rule raises S5. Rule error: cutting() in force.ts charges a sheet (thickness 0) the full depth of the cut times reach, 0.75 of 5 a stitch, so seven needle holes take the pack to integrity 0, and a steel needle does the same. The share should scale with the extent of the cut against the size of the patient."
+  },
+  {
+    "id": "odd-05",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "mixtures: ash and water making a paste whose cleansing code derives",
+      "a wash that lifts part of a coat, and reads effort (principle 5)",
+      "a second coat lying over or mixing with the first",
+      "touch as a route for P17 (irritated hands)"
+    ],
+    "note": "Derives: plain water does not lift grease. Not derived: the ash paste, written at cleansing 3 (dry ash is 2 in the shared rows; soap, lye and sand are 5), does nothing at all. wash() in soak.ts is one threshold, 5 - |oiliness gap| + cleansing = 3 against 3.5, all or nothing, with no manner, so neither 'cleaner than water' nor 'some film remains' can be said. This part is sensitive to my row: at cleansing 4 it lifts everything. Rule error, not row sensitive: coat() in soak.ts replaces S7 outright when the new substance differs, so dusting dry ash on the greasy pot leaves a coat of ash and effective oiliness 0, and plain water then rinses the pot clean. Any powder does it. A second coat should lie over or mix with the first."
+  },
+  {
+    "id": "odd-06",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": [
+      "float or sink: buoyancy and size against the load carried (nothing reads P11)",
+      "move (X1) on water, and flow strength pushing what floats",
+      "steering and balance of odd shapes: not granted",
+      "composites: iron hinges on a wooden door"
+    ],
+    "note": "Buoyancy is on the row and nothing in the engine reads it. load() would treat the door as a bridge, not a raft. Only the waterlogging is in reach, and the outcome does not turn on it."
+  },
+  {
+    "id": "odd-07",
+    "status": "partly",
+    "confidence": "low",
+    "needs": [
+      "fit (R10): a thin flat edge in a slot",
+      "turning force: not granted",
+      "join strength of a seated or rusted screw",
+      "deformation: a soft tough thing bending (vocabulary v2 candidate)"
+    ],
+    "note": "Force is the nearest act to turning, which is a stretch. With it, copper (hard 3) leaves a steel screw unmarked, which is right. Forced at effort 5, the coin is also untouched: recoil() harms only a brittle striker, wear() only a thing with an edge, and S4 has no bent step, so the coin cannot be ruined. Whether an easy screw loosens cannot be asked at all."
+  }
+]

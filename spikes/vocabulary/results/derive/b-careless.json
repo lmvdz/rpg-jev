@@ -1,0 +1,107 @@
+[
+  {
+    "id": "careless-01",
+    "status": "partly",
+    "confidence": "high",
+    "needs": ["move (X1): wind lifting a spark and carrying it a distance", "wind reaching heat and burning, not only drying", "fire spreading across a place and stopping at water (places changing, E13)", "fuel that reads amount (S14)", "a coals phase: hot and not flaming after the flame is out"],
+    "note": "Derives: a lit log nobody smothers is still alight half an hour on and burns to ash; the fire at a few paces (contact 0.1) never lights dry grass while one ember dropped in it does within a minute; burning grass lights the grass beside it, is ash within the hour, and water never takes fire. Does not derive: a sward of amount 1000 gets the same 10 minutes of fuel as one tuft (heat.ts fuelFor reads the row's mass and size, never amount), and the gust, the spread downwind and the stream as a firebreak have nothing to run on."
+  },
+  {
+    "id": "careless-02",
+    "status": "partly",
+    "confidence": "high",
+    "needs": ["exposure: a place's temperature and wet clothing reaching a body's warmth need (B1) over time", "sickness from exposure (B4)", "bodies' modifier rules: sickness slowing travel", "worn things (R5 covers) so clothes are on someone"],
+    "note": "Derives: the ford soaks cloth to 5, M1 makes it heavier and raises its conductivity by more than a level, and eight hours of a cold damp night leave it above 2 and wetter than a dry spare set. Does not derive: the sleeper. driftBody only bleeds wounds and brings on a sickness already ingested; eight hours in the cold leave warmth exactly where it was."
+  },
+  {
+    "id": "careless-03",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": ["emitting scent as a signal (E9) from drift", "sense (X8) and creature choices, with their routine form", "move (X1) and access (R6): rats through a gap", "a softer point scoring a harder surface or its finish"],
+    "note": "Derives: ten warm hours take the haunch past contamination 1 and raise its effective scent; rats with tolerance 3 eat 2 of 3 and are not sickened, where the player eating the same meat is; forty rakes of a claw do not get through a plank door. Does not derive: the claw marks (force.ts cut returns -5 whenever the tool is not harder than the work, and a blow of mass 0 is nothing, so the door is untouched: depends on my claw row at hardness 2 against wood at 3), and the smell drawing anything (M4 raises scent; nothing emits or senses it)."
+  },
+  {
+    "id": "careless-04",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": ["buoyancy (P11) against total mass: freeboard, float or sink", "contents (S8): what is in the boat, and water coming in", "move (X1): swimming, sinking to the bed", "place depth and flow strength"],
+    "note": "P11 is a property no rule reads, so nothing rides low, swamps, floats or sinks. No test written. Load is in reach and is beside the point: weight() does add up cumulatively (four sacks 5.0, plus tools 5.3, plus the rower 5.8) and a rowboat row (mass 4, size 4, hardness 3, toughness 4) bears 6.0, so it says the hull holds, which is true and is not the scenario."
+  },
+  {
+    "id": "careless-05",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": ["thickness as a state of an instance, or growth of ice with cold days (freeze as a drift, S6)", "move (X1): falling through, climbing out", "heat reaching a body (exposure)", "what a failed support held going somewhere"],
+    "note": "Derives: sound young ice bears 4.6 against a walker's 4, the patch over the current (flaw 3) gives way, and the two have identical effective levels, which is S15 as written; pond water soaks cloth and takes its warmth in two minutes where air barely moves it. Does not derive: the player chilled (heat has no bodies for targets). Encoding note: I first gave the edge ice flaw 1 for 'young', and it broke under the walker (3.6 against 4); I changed the edge to flaw 0 because a flaw is a hidden local weakness and not thinness, and there is no way to say thin. The margin is only 0.6 of a level. Also seen: load.ts thins only `long` things, so a `sheet` bears by its full size (a wider pond is stronger ice), while force.ts treats a sheet as thickness 0."
+  },
+  {
+    "id": "malice-01",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": ["mixtures: amounts of several substances with concentration (section 2)", "uneven mixing and settling as a drift", "tell (X10) and claims (E8): villagers connecting the sickness to the well", "creature choices: who draws when"],
+    "note": "Derives, once the crushed berries carry their poison as taint: soak passes it to the well, a full drink sickens after more than an hour with no sign at the time and costs health later, and a sip (0.1) does nothing. Does not derive with the plain row: soak.ts carries the liquid's state (contamination, taint) and never the liquid's own noxiousness, so poison poured in leaves the water clean. RULE ERROR in soak.ts soak(): `taint: Math.max(target.taint, liquid.taint * 0.5)` ignores both amounts, so 0.2 of poison gives a well of 500 taint 2 and a bucket of 2 taint 2. General rule: a carried dose is a quantity; what passes should be dose times amount moved, spread over the amount it lands in. Medium because a liquid as the target of soak is really a mixture, which the engine does not have; the same no-ratio holds for a solid target."
+  },
+  {
+    "id": "malice-02",
+    "status": "partly",
+    "confidence": "high",
+    "needs": ["wind reaching heat and burning", "fire spreading across a place, and distance as more than a contact number", "groups: a field as a count", "creature choices: the neighbour fighting embers all night", "a scorched state short of burning"],
+    "note": "Derives: ripe wheat takes a torch in half a minute, lights the next row, and both are ash within the hour; the barn wall does not catch from the field fire at contact 0.2, does catch from an ember left on it for four minutes, and one bucket puts an ember out before it can. Does not derive: wind makes no difference to how soon fire crosses (drift reads wind for drying only; heat never reads it)."
+  },
+  {
+    "id": "malice-03",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": ["tension as its own way of bearing, rated by toughness and section", "headroom between a sound support and an ordinary load, so damage can weaken without failing", "move (X1): the bridge tipping, the mule falling to a ledge", "sense (X8): a cut that is not noticed at a glance", "composites: a bridge as joined parts sharing a load"],
+    "note": "Derives: two careful knife strokes take the rope to integrity 1.7, weakened and not parted, and it then gives way under the mule train. RULE ERROR in load.ts strength(): `hardness * 0.5 + toughness * 0.3 + section * 0.7 + 0.5` rates a cord as a beam. The anchor row (toughness 5, hardness 1, size 3) bears 4.6 whole, the same as the shared rope; one mule weighs 5 and the train 7.2, so the sound rope fails under a single mule. And since a person weighs 4, any cut at all (one stroke leaves 3.1, two leave 1.6) drops it under a lone walker, so 'holds the light load, fails under the heavy one' cannot derive at any stroke count. General rule: a cord or sheet in tension bears by toughness and section, not hardness, and the strength scale (capped near 8, linear in levels) needs to sit against the weight scale (log2 of summed doublings, unbounded) so that ordinary supports carry ordinary loads with room to spare. Medium because one rope is made to bear the whole party; a share of the load cannot be expressed."
+  },
+  {
+    "id": "malice-04",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": ["give (X9): stealing and planting, possession and ownership", "tell (X10) and claims with a source (E8): the false account, the accusation", "sense and memory: who was seen near the chest", "a judgment over evidence against a claim"],
+    "note": "Nothing here is matter against matter. The one physical fact the scenario turns on, a lock never forced, is simply a thing no force act was run against; the engine has nowhere to hold a claim to check against it. No test written."
+  },
+  {
+    "id": "malice-05",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": ["needs drifting with time: hunger and thirst rising (X7 starve; thirst is not in Need)", "bodies' modifier rules: weakness from deprivation", "lasting harm: a baseline lowered for good", "move (X1) and access (R6): a pen that keeps the goat from the trough", "sense and tell: the neighbour finding it"],
+    "note": "driftBody changes health by bleeding and by a sickness coming due, and never touches needs, so two days without food or water pass over a body without trace. That is a missing rate and not a wrong one. No test written."
+  },
+  {
+    "id": "exploit-01",
+    "status": "partly",
+    "confidence": "high",
+    "needs": ["effort against the size of the ground: a small patch can be searched out", "renewal of a searched place by rain or time (latent, and also absent)"],
+    "note": "The trick is stopped. A hundred hour-long searches on the luckiest possible draws (draw 0 every time) turn up 2 stones, the stock that abundance 1 stands for, and `searched.found` equals what exists; after that searchYield is exactly 0 and the 6000 minutes are still recorded as spent. Cutting the time into 6000 one-minute glances, or searching for a year at a stretch five times, gets no more, and a day of drift restocks nothing. Does not derive: 'the first search finds the two or three that were there'. At abundance 1 an hour is worth 0.13 of a stone and ten hours 0.37, so on a fair draw the first thorough hour finds nothing: the rate knows how common a thing is and not how small the ground is. Not checked as a player trick but worth knowing: a SearchAct with negative minutes gives a negative yield, settles a negative found (which refills the stock) and rewinds the minutes; the engine does not guard its inputs."
+  },
+  {
+    "id": "exploit-02",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": ["conservation of amount when a thing is divided (E3 paired with E4)", "tearing or pulling apart as a way of applying force", "tell (X10): the claim of two loaves"],
+    "note": "Derives by the knife: twenty cuts lower the loaf's integrity and the bread on the table still sums to 1; two halves eaten (0.5 and 0.5) feed exactly as one loaf and leave nothing. RULE ERROR in force.ts breaking(): a blow that gets in pushes `create` for a piece with `amount: Math.min(0.5, share / 5)` and never consumes that amount from the patient, and it does so again on every blow, including after integrity is 0. Twenty blows of a stone on one loaf leave the loaf at amount 1 and twenty pieces of 0.5: eleven loaves. Eating them takes hunger 5 to 0 where the one loaf takes it to 3. It happens at ordinary effort too, and the same rule knaps twenty keen flakes of 0.45 off a flint nodule that stays at amount 1. General rule: the pieces of a thing sum to the thing; a piece's amount comes out of the patient, and what has no amount left gives no more pieces."
+  },
+  {
+    "id": "exploit-03",
+    "status": "unbuilt",
+    "confidence": "high",
+    "needs": ["tell (X10) and claims (E8)", "debts (E12) and give (X9): a ledger as recorded transfers", "accept_offer: the trader's refusal as a judgment over what is recorded"],
+    "note": "The matter world holds no debt, no ledger and no claim, and the Act union has no way to say anything. The scenario's point, that a claim changes no state, is true here only because there is nothing for it to change. No test written."
+  },
+  {
+    "id": "exploit-04",
+    "status": "partly",
+    "confidence": "high",
+    "needs": ["contents (S8): the engine knowing what is in the pack, so the running total is not the caller's to keep", "a failed support acting on what it held: X1 on the load (spill)", "a body's strength against what it carries (X1)", "parts: straps as the join that fails before the bag"],
+    "note": "The trick is stopped as far as Load goes. weight() rises with every ingot (amount counts), a stack of ten weighs exactly what ten loose ingots do, the pack (strength 3.6) holds its supplies and one ingot and tears at the second, no larger pile from there to a hundred is ever held, and once torn (integrity 1) it no longer bears even the supplies alone. Does not derive: the spill. load() breaks the support and makes a sound; nothing happens to the ingots. Caveat: `bearing` is whatever the caller lists, so the bookkeeping that stops one-at-a-time stuffing lives outside the engine until contents exist."
+  },
+  {
+    "id": "exploit-05",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": ["heat that reads the source's size or mass against the target's", "drying in heat bounded by what the surroundings keep in a thing, as drift's is", "a spark as something that can carry heat to a target (force only signals it)", "submersion as a relation and not only a place with air 0"],
+    "note": "The direct trick is stopped: in a place with air 0 ignition refuses, so a hundred showers of sparks, or a flame held to the torch for an hour, never light it under water; soaked (3.4) its flammability falls from 4 to 1.3 and on the bank the sparks that light a dry torch do not light it; a hundred strikes throw sparks and wear the flint; it stays unlightable for an hour out of the water and lights after a week (it is still 2.2 wet after a day, 1.6 after three). RULE ERROR in heat.ts heat(): `drying = temperature >= 3 ? (temperature - 2) * 0.05 * minutes : 0` asks nothing of where the thing is, so a scorching iron held to the torch under water for an hour leaves it at wetness 0 in the stream, and the balance it tends to ignores the water carrying heat off. And heat never reads the source's size: twenty minutes of spark showers under water take the torch to temperature 4.6 and wetness 1.8, and carried up the bank it lights at the first spark, so the trick works by the back door; on the bank fifty-five showers dry and light the soaked torch outright. General rule: nothing dries below what its surroundings keep in it, whatever heats it, and the heat a source can give is bounded by how much it holds. Medium because a shower of sparks is encoded, after batch A's idiom, as 0.2 minutes of full contact with a burning ember; the iron bar case does not depend on that. Changed after the first run: the day-on-the-bank test lost its spark source to the drift (my bug) and asserted a day where the scenario only says 'some time'; it now carries fresh sparks and asserts an hour (no) and a week (yes)."
+  }
+]

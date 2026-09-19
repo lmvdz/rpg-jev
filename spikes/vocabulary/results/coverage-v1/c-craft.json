@@ -1,0 +1,239 @@
+[
+  {
+    "id": "craft-01",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "form:pointed", "form:edged", "R1"], "effects": ["E3:raw clay"] },
+      { "process": "X2", "uses": ["P4", "P5", "S15"], "effects": ["E1:S15 flaw set (rushed)"] },
+      { "process": "X5", "uses": ["P5", "form:hollow", "R10"], "effects": ["E3:pot", "E4:wedged clay"] },
+      { "process": "X7", "uses": ["P9", "S2", "place:shelter"], "effects": ["E1:S2 down", "E1:hardness up (M1)"] },
+      { "process": "X3", "uses": ["S1", "S6", "P8", "S8", "S15", "Load"], "effects": ["E1:S4 cracked", "E4:firewood", "E1:value down"] }
+    ],
+    "reactions": [
+      "S2(wet, trapped) + S15(unworked pocket) under X3 -> S6(phase to gas), Load fail -> E1: pot cracks from steam pressure"
+    ],
+    "missing": [
+      { "kind": "process", "what": "shape/form single material", "why": "Throwing a pot on a wheel is plastic forming of one mass, not motion, force-damage, or joining two things; X5's 'build' is the closest fit and is a stretch." },
+      { "kind": "other", "what": "steam pressure in a solid", "why": "S8's contents/pressure is defined for hollow things, and Load's pressure sources are contents, P22 and S9-gas; a moisture pocket trapped inside solid clay has to stretch one of these beyond what is stated." }
+    ],
+    "lost": "The steam-pressure mechanism that cracks the pot is only reachable by stretching S8 (hollow-thing contents and pressure) onto a solid material's internal defect, and the throwing step has no clean process id.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-02",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X3", "uses": ["P7", "P8", "S1", "M2"], "effects": ["E1:S1 hot", "E4:charcoal"] },
+      { "process": "X2", "uses": ["P3", "P4", "S1", "M2"], "effects": ["E1:S4 cracked", "E1:shape lost"] },
+      { "process": "X3+X5", "uses": ["S1", "M2", "R4"], "effects": ["E4:cracked end", "E3:rejoined bar", "E4:charcoal"] },
+      { "process": "X3", "uses": ["S1", "M2"], "effects": ["E1:S1 cold", "E1:warped shape (no state)"] },
+      { "process": "X2", "uses": ["P3", "P4"], "effects": ["E1:shape restored", "E1:S15 flaw (weakened)"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "state", "what": "bent/warped shape", "why": "S4 integrity only runs whole, cracked, broken, in pieces; there is no state for plastic deformation like warping, which the quenched blade and its straightening both need." },
+      { "kind": "process", "what": "forge-welding join", "why": "Reforging by heating near melting and hammering two pieces into one isn't clearly one of X5's stated strength sources (stickiness, friction, flexibility, fit, care); 'graft' is the nearest verb and is a stretch from its biological sense." },
+      { "kind": "other", "what": "angled/uneven quenching", "why": "Warping from quenching too fast and at an angle needs uneven cooling across one instance; section 8 says detail inside one instance isn't tracked (coverage is one number), and this scenario's outcome turns on exactly that." }
+    ],
+    "lost": "There is no state for 'bent but not broken,' so the warp from an angled quench and the cold-straightening that follows can only be gestured at with S4's whole/cracked/broken levels, not actually expressed.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-03",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "form:edged"], "effects": ["E4:fat and flesh"] },
+      { "process": "X7", "uses": ["place:warmth", "S2"], "effects": ["E1:S2 up", "E1:S9 begins"] },
+      { "process": "X7", "uses": ["S9", "P15", "place:warmth"], "effects": ["E1:S9 up (threshold)", "E9:scent (P19)", "E6:R4 hair-bond breaks (stretch)"] },
+      { "process": "X1", "uses": ["S9"], "effects": ["E4:hide consumed"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "contamination's structural effects", "why": "M4 states S9's effects as noxiousness-when-eaten, scent, and (sealed, sugary) potency and gas. It says nothing about S9 weakening a joined bond, so hair-slip has to stretch R4 (whose stated drift causes are use, drying and wet) beyond what is given." }
+    ],
+    "lost": "Hair-slip is only expressed by stretching R4's joined-to strength to also respond to contamination, which M4 never grants.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-04",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X4", "uses": ["P12", "S1"], "effects": ["E3:wort", "E4:malted grain"] },
+      { "process": "X7", "uses": ["S9 (stretch)", "M4"], "effects": ["E1:ferment state up", "E3:alcohol (P18 via M4)"] },
+      { "process": "X7", "uses": ["S9", "place:warmth"], "effects": ["E1:S9 up (threshold)", "E1:drinkable lost"] },
+      { "process": "X8", "uses": [], "effects": ["E11:batch has turned", "E3:vinegar"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "process", "what": "fermentation distinct from contamination", "why": "X7 lists 'ferment' and 'rot' as separate verbs, but the only rot/growth-tracking state is S9, and M4 says contamination uniformly adds noxiousness. There is no way to race a wanted ferment against a spoiling contamination on the same wort without S9 also making the good outcome noxious." }
+    ],
+    "lost": "The balance the whole scenario turns on, the same warmth helping the wanted process and the unwanted one, cannot be expressed because only one contamination scalar exists and its one stated effect is uniformly bad.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-05",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X5 (stretch)", "uses": [], "effects": ["E3:dough", "E4:flour"] },
+      { "process": "X7", "uses": ["S1 (cold)", "P22 (stretch)"], "effects": ["E1:volume up (stretched)"] },
+      { "process": "X3", "uses": ["S1", "P6"], "effects": ["E1:S1 up", "E4:firewood"] },
+      { "process": "X3", "uses": ["P7", "S1", "mass"], "effects": ["E1:crust burnt", "E1:center undercooked (conductivity/time gradient)", "E3:bread"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "state", "what": "dough rise / leavening", "why": "Volume increase from yeast gas has no clean home: P22 swell is anchored to freezing and soaking only, and S9/M4's contamination effects are food-safety framed (noxiousness, scent), not gas-driven volume growth." }
+    ],
+    "lost": "Dough's rise is only reachable by stretching P22 (freeze/soak swell) to also cover fermentation gas, which it is not defined for.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-06",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5", "uses": ["P5", "form:cord", "care/haste"], "effects": ["E3:thread", "E1:S15 flaw set"] },
+      { "process": "X5", "uses": ["R4", "form:cord"], "effects": ["E3:warp", "E4:thread"] },
+      { "process": "X5", "uses": ["R4", "Load"], "effects": ["E3:cloth", "E4:warp"] },
+      { "process": "Load fail", "uses": ["S15", "Load"], "effects": ["E1:S4 broken (X2 on itself)", "E11:which thread was weak"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "craft-07",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "form:edged"], "effects": ["E3:timber", "E4:standing tree"] },
+      { "process": "X5", "uses": ["R4", "P5", "care/haste"], "effects": ["E3:house frame", "E4:green timber"] },
+      { "process": "X7", "uses": ["S2", "form:grained", "P9"], "effects": ["E1:S2 down", "E1:width down (grained, directional)"] },
+      { "process": "E1 via R4", "uses": ["R4 (drifts with drying)", "Load"], "effects": ["E1:R4 weaker", "E1:sag (no state)"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "state", "what": "bent/sagging shape", "why": "The lintel sagging under its own weight needs an intermediate deformed-but-whole state; S4 integrity only runs whole, cracked, broken, in pieces, with nothing between whole and cracked for a slow bend." }
+    ],
+    "lost": "The joints loosening (R4 drifting with drying, explicitly granted) is well covered, but the lintel's resulting sag has no state to land in.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-08",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5 (stretch mix)", "uses": ["P13", "P5"], "effects": ["E3:daub mix", "E4:straw"] },
+      { "process": "X5", "uses": ["S7"], "effects": ["E1:S7 coated"] },
+      { "process": "X7", "uses": ["S2", "M1", "M5", "place:hot"], "effects": ["E1:S7 coverage down (cracks)", "E1:S4 cracked"] },
+      { "process": "X5", "uses": ["S7"], "effects": ["E1:S7 coverage up"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "craft-09",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X5", "uses": ["S7", "R5", "P10"], "effects": ["E6:R5 covers", "E1:S7 coverage thin"] },
+      { "process": "X4", "uses": ["P10", "R6", "S2"], "effects": ["E1:S2 up (damp patch)"] },
+      { "process": "X7", "uses": ["S9", "S2", "place:damp"], "effects": ["E1:S9 up", "E1:strength down (no modifier)"] },
+      { "process": "Load fail", "uses": ["Load", "place:snow weight"], "effects": ["E1:S4 broken", "E13:place gains hole"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "contamination weakening structure", "why": "M4's stated contamination effects are noxiousness-when-eaten, scent, and (sealed, sugary) potency and gas. Nothing states S9 reducing a material's structural strength, which the rotten rafter's collapse needs." }
+    ],
+    "lost": "The rafter losing load-bearing strength from rot has to assume an effect that S9's one modifier rule never grants.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-10",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["S3", "R7 (wind)"], "effects": ["E3:sparks/embers", "E5:move on wind"] },
+      { "process": "X3", "uses": ["P6", "S2", "S1"], "effects": ["E1:S3 burning"] },
+      { "process": "X3+X1", "uses": ["P6", "S2", "R1", "R7"], "effects": ["E1:S3 burning (more roofs)", "E9:smoke", "E11:villagers learn"] },
+      { "process": "X4", "uses": ["S2 up", "S3 down"], "effects": ["E1:S3 out", "E4:well water"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "craft-11",
+    "verdict": "partial",
+    "steps": [
+      { "process": "Load stress", "uses": ["P1", "S9 (structural, missing)", "Load"], "effects": ["E1:strength down"] },
+      { "process": "Load fail", "uses": ["Load"], "effects": ["E1:S4 broken (X2 on itself)", "E6:R6 access gap"] },
+      { "process": "X6", "uses": ["B1 hunger", "P20 serves"], "effects": ["E4:grain consumed", "E1:grain spilled"] },
+      { "process": "X8", "uses": ["S7 (whitewash hides rot)"], "effects": ["E11:rot found under coat", "E5:goat moved"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "contamination weakening structure", "why": "Same gap as the rafter: M4 gives S9 no stated effect on hardness, toughness or mass, so a rotten fence rail failing under a goat's weight has to assume an unstated strength loss." }
+    ],
+    "lost": "The rail's rot-driven weakness, hidden under whitewash and found only when it gives way, fits S7/S15/Load's design well; the rot-to-weaker-wood link itself is unstated.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-12",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "form:edged"], "effects": ["E3:harvested grain", "E4:standing grain"] },
+      { "process": "X5/S8", "uses": ["S2 (damp)", "S8 (sealed)"], "effects": ["E1:S8 sealed"] },
+      { "process": "X7", "uses": ["S9", "S2", "place:enclosed"], "effects": ["E1:S1 up (no modifier)", "E3:mold"] },
+      { "process": "X8", "uses": [], "effects": ["E11:spoilage extent found", "E4:moldy grain discarded"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "contamination generating heat", "why": "Self-heating of damp, packed grain needs S9's growth to raise S1 temperature; M4 only grants noxiousness, scent, and (sealed, sugary) potency and gas, not a temperature effect." }
+    ],
+    "lost": "The grain heating itself from its own dampness, the scenario's whole point, has no modifier rule connecting S9 to S1.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-13",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P14", "R3"], "effects": ["E1:S15 flaw progresses (wear)"] },
+      { "process": "X7", "uses": ["P14", "S4"], "effects": ["E1:S15 flaw set", "E1:S4 weakened"] },
+      { "process": "Load fail", "uses": ["Load", "S15"], "effects": ["E1:S4 broken (X2 on itself)", "E5:bucket to bottom (X1 on what it held)"] },
+      { "process": "X1", "uses": ["R1"], "effects": ["E5:bucket to surface", "E11:new rope needed"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "craft-14",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X7/B4", "uses": ["B2 low", "place:damp cold"], "effects": ["E2:B4 feverish onset"] },
+      { "process": "X6", "uses": ["S9/S13 via shared cup", "B4 delay"], "effects": ["E2:B4 feverish (others)", "E11:household learns"] },
+      { "process": "cascading B1", "uses": ["B1 (no lactation need)"], "effects": ["E2:goat discomfort (missing)", "E1:milk down"] },
+      { "process": "X9 (stretch)", "uses": [], "effects": ["E2:goat discomfort down", "E12:obligation made"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "body", "what": "lactation / milking need", "why": "B1's need list (hunger, thirst, air, rest, warmth, money, safety, company) has no entry for a producing animal's milk buildup, so the goat's discomfort from missed milking, and its relief, have no body condition to shift." }
+    ],
+    "lost": "The goat's suffering and relief, the thing the scenario's cost is actually measured in, has no B1 need or body condition to attach to.",
+    "named_rule": null
+  },
+  {
+    "id": "craft-15",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P1", "P2", "R2"], "effects": ["E5:pots to cart", "E1:mass up"] },
+      { "process": "X1", "uses": ["P14", "place:rutted", "S15"], "effects": ["E1:S15 flaw progresses"] },
+      { "process": "Load fail", "uses": ["Load", "S15"], "effects": ["E1:S4 broken (X2 on itself)"] },
+      { "process": "X1", "uses": [], "effects": ["E5:pots fall (X1 on what it held)", "E1:some pots S4 broken (per-pot X2)"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]

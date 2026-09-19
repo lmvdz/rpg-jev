@@ -1,0 +1,785 @@
+[
+  {
+    "id": "world-01",
+    "domain": "season",
+    "place": "A mixed forest clearing beside a shallow pond, at the edge between grass and treeline, as summer turns to autumn and then winter.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["pond", "grass", "deciduous trees", "leaves", "frost", "ice", "a hedgehog", "geese"],
+    "outcome": "Over several weeks the days shorten and nights grow cold; leaves change color and drop, grass stops growing and browns, the pond skins with ice on the coldest nights and eventually freezes solid at the edges, and the geese fly off while the hedgehog shelters under the fallen leaves. A person returning after this finds a stiff, quiet, white-rimmed clearing instead of the green one they left, and the pond can bear weight in places but not in the open middle.",
+    "steps": [
+      {
+        "process": "cool",
+        "agent": "weather",
+        "patient": "air and ground",
+        "instrument": null,
+        "because": ["place is far from the sun's summer angle", "night is longer than day"],
+        "effects": ["place loses warmth", "place gains frost"],
+        "numbers": ["how many degrees colder each week, how many weeks to first frost"]
+      },
+      {
+        "process": "wither",
+        "agent": "cold",
+        "patient": "grass and leaves",
+        "instrument": null,
+        "because": ["grass is soft plant", "leaf is thin and full of water"],
+        "effects": ["grass loses growth", "leaves loses color", "leaves loses attachment", "creates leaf litter"],
+        "numbers": ["how many days until leaves drop"]
+      },
+      {
+        "process": "freeze",
+        "agent": "cold",
+        "patient": "pond water",
+        "instrument": null,
+        "because": ["water is liquid that turns solid below a threshold", "pond is shallow near the edges"],
+        "effects": ["pond gains ice", "pond loses open water"],
+        "numbers": ["how thick the ice grows per night, how much weight it can bear"]
+      },
+      {
+        "process": "migrate",
+        "agent": "geese",
+        "patient": "geese",
+        "instrument": null,
+        "because": ["geese need warmth and open water to feed", "geese can fly far"],
+        "effects": ["geese loses presence here", "moves geese to south"],
+        "numbers": ["how many days before the geese are gone"]
+      },
+      {
+        "process": "shelter",
+        "agent": "hedgehog",
+        "patient": "hedgehog",
+        "instrument": "leaf litter",
+        "because": ["hedgehog is small and loses heat fast", "hedgehog can slow its own body"],
+        "effects": ["hedgehog gains shelter", "hedgehog loses activity"],
+        "numbers": ["how long the hedgehog stays hidden"]
+      }
+    ],
+    "latent": ["whether the ice at the pond's center is thick enough to walk on", "whether any food is cached under the leaf litter"],
+    "state_after": ["pond: skinned with ice at the edges, open and dark in the middle", "grass: brown and flattened", "trees: bare of leaves, leaf litter thick on the ground", "hedgehog: curled and still under the litter", "geese: gone"],
+    "stress": "same world, no actor, driven purely by slow accumulating weather over weeks",
+    "temptation": "a rule that says 'in autumn, geese leave' instead of deriving migration from cold and food scarcity"
+  },
+  {
+    "id": "world-02",
+    "domain": "river",
+    "place": "A river bend cutting through soft clay banks below a stand of willows, over a wet season of heavy rain.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["river", "clay bank", "willow tree", "gravel bar", "old channel", "fish"],
+    "outcome": "Heavy rain over several weeks swells the river, and the current cuts into the soft clay bank on the outer bend, undermining a willow's roots until it leans, while sediment drops on the inner bend and builds a new gravel bar. By the end of the wet season the river's main flow has shifted a few strides sideways, leaving a shallow stagnant channel where the old course was, and the willow now stands with its roots partly bare in standing water.",
+    "steps": [
+      {
+        "process": "swell",
+        "agent": "rain",
+        "patient": "river",
+        "instrument": null,
+        "because": ["rain adds water faster than the ground can absorb", "river channel has limited capacity"],
+        "effects": ["river quantity up", "river gains speed"],
+        "numbers": ["how much the flow rate rises, over how many days"]
+      },
+      {
+        "process": "erode",
+        "agent": "current",
+        "patient": "clay bank",
+        "instrument": null,
+        "because": ["fast water carries force", "clay is soft and breaks apart when wet"],
+        "effects": ["bank loses material", "creates silt", "river gains width at outer bend"],
+        "numbers": ["how much bank is carried away per week"]
+      },
+      {
+        "process": "undermine",
+        "agent": "current",
+        "patient": "willow roots",
+        "instrument": null,
+        "because": ["roots need soil to hold onto", "bank underneath the roots is eroding away"],
+        "effects": ["willow loses support", "willow gains lean"],
+        "numbers": ["how many weeks before the tree tips further"]
+      },
+      {
+        "process": "deposit",
+        "agent": "current",
+        "patient": "silt and gravel",
+        "instrument": null,
+        "because": ["water slows on the inner bend", "slow water cannot carry as much load"],
+        "effects": ["creates gravel bar", "river loses depth at inner bend"],
+        "numbers": ["how high the bar builds"]
+      },
+      {
+        "process": "abandon",
+        "agent": "river",
+        "patient": "old channel",
+        "instrument": null,
+        "because": ["water follows the path of least resistance", "new outer channel is now lower"],
+        "effects": ["old channel loses flow", "moves river to new course", "old channel gains stillness"],
+        "numbers": ["how much water still trickles through the old channel"]
+      }
+    ],
+    "latent": ["whether fish that lived in the old channel are trapped in shrinking pools", "whether the new channel has undercut anything else along its length"],
+    "state_after": ["river: running along a new line a few strides toward the willow", "willow: leaning, roots partly bare and in standing water", "old channel: a shallow, stagnant backwater with pools", "gravel bar: new, bare, damp"],
+    "stress": "a physical process (erosion and deposition) that reshapes the map itself over unobserved time",
+    "temptation": "a scripted event 'the river moves on day 40' instead of deriving the shift from current, softness of the bank, and sediment load"
+  },
+  {
+    "id": "world-03",
+    "domain": "carcass",
+    "place": "A dry gully at the edge of open grassland, where a deer died of an old injury.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["deer carcass", "crows", "a fox", "flies", "maggots", "bones", "grass"],
+    "outcome": "Within a day, crows find the carcass by sight and smell and tear at the softest parts; a fox follows the crows in and takes the rest of the meat over the next couple of nights, dragging a leg off. Flies lay eggs in the exposed flesh within hours, and by the third day maggots are working through what is left; after a week or more only hide, sinew and bones remain, scattered and picked clean, with flattened grass and a patch of dark, enriched soil where the fluids soaked in.",
+    "steps": [
+      {
+        "process": "die",
+        "agent": "old injury",
+        "patient": "deer",
+        "instrument": null,
+        "because": ["deer is a living body that needs blood and organs working"],
+        "effects": ["deer loses life", "creates carcass"],
+        "numbers": ["how long ago it died"]
+      },
+      {
+        "process": "scavenge",
+        "agent": "crows",
+        "patient": "carcass",
+        "instrument": null,
+        "because": ["carcass is meat and crows are carrion eaters", "carcass smell carries and crows see well"],
+        "effects": ["carcass loses soft tissue", "crows gains food"],
+        "numbers": ["how soon the first crow arrives, how much they eat before larger scavengers come"]
+      },
+      {
+        "process": "scavenge",
+        "agent": "fox",
+        "patient": "carcass",
+        "instrument": null,
+        "because": ["carcass is meat and fox is a hunter and scavenger", "crows feeding are visible from a distance"],
+        "effects": ["carcass loses more tissue", "fox gains food", "transfers a leg from carcass to fox's den"],
+        "numbers": ["how many nights the fox returns"]
+      },
+      {
+        "process": "lay eggs",
+        "agent": "flies",
+        "patient": "carcass",
+        "instrument": null,
+        "because": ["exposed wet flesh is a place flies breed", "flies are drawn to the smell of death"],
+        "effects": ["carcass gains eggs"],
+        "numbers": ["how many hours before eggs are laid, how many hours before they hatch"]
+      },
+      {
+        "process": "consume",
+        "agent": "maggots",
+        "patient": "remaining flesh",
+        "instrument": null,
+        "because": ["maggots eat soft tissue to grow", "flesh left is softened and unguarded"],
+        "effects": ["carcass loses remaining flesh", "consumes carcass", "creates bones", "place gains enriched soil"],
+        "numbers": ["how many days until only bone and hide remain"]
+      }
+    ],
+    "latent": ["whether the fox's den holds the missing leg", "whether the enriched patch of ground grows differently next season"],
+    "state_after": ["carcass site: scattered bones, dried hide, sinew, flattened and matted grass", "ground: a dark patch where fluids soaked in", "fox den: holds a deer leg", "flies: gone, having moved on as adults"],
+    "stress": "a strict succession chain (death, birds, mammal, insects, decomposers) that must play out in the right order over days with nobody watching",
+    "temptation": "a single 'carcass rots after N days' timer instead of separate scavenger and insect processes each triggered by what state the carcass is in"
+  },
+  {
+    "id": "world-04",
+    "domain": "fence",
+    "place": "A wooden post-and-rail fence around a goat pasture, standing in damp ground near a stream, over a rainy autumn.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["fence rail", "fence post", "goats", "damp ground", "neighboring garden"],
+    "outcome": "Weeks of rain keep the lower rail and the base of one post constantly wet, and the wood there softens and rots while the rest of the fence stays sound. The weakened rail gives way when a goat leans on it to reach fresh grass on the other side, and the gap widens as more goats push through; the goats wander into a neighbor's garden and strip the vegetables before anyone notices, and one wanders further and is not found again for a day.",
+    "steps": [
+      {
+        "process": "soak",
+        "agent": "rain and ground damp",
+        "patient": "fence rail",
+        "instrument": null,
+        "because": ["wood absorbs standing water", "the base of the post sits in ground that never dries"],
+        "effects": ["rail gains dampness"],
+        "numbers": ["how many weeks of constant wet before rot sets in"]
+      },
+      {
+        "process": "rot",
+        "agent": "damp and fungus",
+        "patient": "fence rail",
+        "instrument": null,
+        "because": ["wet wood feeds fungus", "fungus breaks down wood fiber"],
+        "effects": ["rail loses strength", "rail gains softness"],
+        "numbers": ["how much strength is lost per week"]
+      },
+      {
+        "process": "lean",
+        "agent": "a goat",
+        "patient": "fence rail",
+        "instrument": null,
+        "because": ["goat wants grass on the other side", "goat is heavy enough to press hard"],
+        "effects": ["rail loses remaining strength"],
+        "numbers": ["how much force a goat's lean applies"]
+      },
+      {
+        "process": "break",
+        "agent": "goat's weight",
+        "patient": "rail",
+        "instrument": null,
+        "because": ["rail's strength is now below what it takes to hold", "rotten wood snaps rather than bends"],
+        "effects": ["rail loses integrity", "creates gap in fence"],
+        "numbers": ["how wide the gap is"]
+      },
+      {
+        "process": "escape",
+        "agent": "goats",
+        "patient": "goats",
+        "instrument": null,
+        "because": ["gap is wide enough for a goat's body", "goats follow the first one out"],
+        "effects": ["moves goats to neighboring garden", "garden loses vegetables"],
+        "numbers": ["how many goats get out, how long before anyone notices"]
+      }
+    ],
+    "latent": ["whether the post itself is also rotten below the soil line", "where the missing goat has wandered to"],
+    "state_after": ["fence: a broken, gapped rail hanging loose", "goats: several in the neighbor's stripped garden, one missing", "garden: vegetables eaten down to stubs", "missing goat: wherever it wandered, unaccounted for"],
+    "stress": "cause runs from slow material decay (rot) through an ordinary animal behavior (leaning to reach grass) to a social consequence (a neighbor's loss) with no one triggering it",
+    "temptation": "a rule 'goat fences need repair every season' instead of deriving the failure from dampness, wood softening, and the weight a goat applies"
+  },
+  {
+    "id": "world-05",
+    "domain": "well",
+    "place": "A village's shared well, dug beside the main square, after a dead rat falls in during a dry spell.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["well", "well water", "a dead rat", "villagers", "a stream outside the village"],
+    "outcome": "A rat that fell in and drowned goes unnoticed for days because the well is deep and dark; the water starts to smell and taste foul as the body breaks down in it, and the first people to draw from it after that get bad stomachs. Word spreads through the village within a day or two, and people stop drawing from the well and start walking to the stream outside the walls instead, a longer and more exposed trip, until someone eventually hauls the rat out and the well is left unused for a while before anyone trusts it again.",
+    "steps": [
+      {
+        "process": "fall",
+        "agent": "rat",
+        "patient": "rat",
+        "instrument": null,
+        "because": ["rat was on the well's rim looking for water", "well has a long drop with no easy way out"],
+        "effects": ["rat loses life", "moves rat to well water"],
+        "numbers": ["how many days before anyone notices"]
+      },
+      {
+        "process": "foul",
+        "agent": "decay",
+        "patient": "well water",
+        "instrument": "rat carcass",
+        "because": ["carcass rots in standing water", "still water does not carry the rot away"],
+        "effects": ["well water gains taint"],
+        "numbers": ["how many days until the smell is strong enough to notice"]
+      },
+      {
+        "process": "sicken",
+        "agent": "tainted water",
+        "patient": "villagers who drink it",
+        "instrument": null,
+        "because": ["water carries what rotted into it", "a body reacts badly to what a carcass has fouled"],
+        "effects": ["villagers gains sickness"],
+        "numbers": ["how many people get sick before people connect it to the well"]
+      },
+      {
+        "process": "spread",
+        "agent": "word",
+        "patient": "villagers",
+        "instrument": null,
+        "because": ["people talk about who got sick and why", "the well is shared and visible to everyone"],
+        "effects": ["villagers learns well is bad"],
+        "numbers": ["how many days before most people know"]
+      },
+      {
+        "process": "relocate",
+        "agent": "villagers",
+        "patient": "villagers",
+        "instrument": null,
+        "because": ["people need water regardless of the well", "stream outside still runs clean"],
+        "effects": ["moves villagers to stream", "well loses use"],
+        "numbers": ["how much longer the walk to the stream takes"]
+      }
+    ],
+    "latent": ["whether the rat carcass is still visible if someone finally looks down the well", "whether anyone downstream of the village draws from the same stream"],
+    "state_after": ["well: standing unused, water still tainted", "villagers: drawing water from the stream instead, several still recovering from sickness", "stream: now busier and more trafficked at its bank"],
+    "stress": "an unremarkable creature accident (a rat falling in) escalating through public health and social behavior with no one intending any of it",
+    "temptation": "a rule naming 'a rat in the well makes people sick' instead of deriving taint from decay in standing water and sickness from what the water now carries"
+  },
+  {
+    "id": "world-06",
+    "domain": "storm",
+    "place": "A footpath through a stand of tall pines on a slope, during a night of strong wind.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["pine tree", "footpath", "root ball", "wind", "saplings", "moss"],
+    "outcome": "A night of strong, gusting wind puts more sideways force on a tall pine than its roots can hold in the loose slope soil, and it topples across the footpath, tearing a slab of earth and roots up with it and leaving a bare pit behind. The fallen trunk blocks the path completely; over the following weeks rain softens the bark, moss grows on the shaded underside, and a few opportunistic saplings sprout in the new gap of sunlight the fall opened in the canopy, so someone walking the path later finds it blocked and has to go around through the trees.",
+    "steps": [
+      {
+        "process": "push",
+        "agent": "wind",
+        "patient": "pine tree",
+        "instrument": null,
+        "because": ["tree is tall and catches wind in its branches", "wind gusts hard during the storm"],
+        "effects": ["tree gains strain"],
+        "numbers": ["how strong the gusts are, how tall the tree is"]
+      },
+      {
+        "process": "uproot",
+        "agent": "wind force",
+        "patient": "tree roots",
+        "instrument": null,
+        "because": ["slope soil is loose and does not hold roots as firmly as flat ground", "roots' grip has a limit the strain now exceeds"],
+        "effects": ["tree loses footing", "creates root pit", "creates torn earth"],
+        "numbers": ["how much force it takes to uproot a tree this size"]
+      },
+      {
+        "process": "fall",
+        "agent": "tree",
+        "patient": "footpath",
+        "instrument": null,
+        "because": ["tree is now unsupported and heavy", "gravity pulls it down the slope"],
+        "effects": ["footpath gains obstruction", "creates fallen trunk"],
+        "numbers": ["how much of the path width the trunk covers"]
+      },
+      {
+        "process": "colonize",
+        "agent": "moss",
+        "patient": "fallen trunk",
+        "instrument": null,
+        "because": ["shaded, damp wood is a place moss can take hold", "moss spreads from spores already in the area"],
+        "effects": ["trunk gains moss"],
+        "numbers": ["how many weeks before moss is noticeable"]
+      },
+      {
+        "process": "sprout",
+        "agent": "saplings",
+        "patient": "the new gap",
+        "instrument": null,
+        "because": ["the fallen tree opened a hole in the canopy", "extra sunlight reaches ground that was shaded before"],
+        "effects": ["place gains saplings"],
+        "numbers": ["how many weeks before saplings are visible"]
+      }
+    ],
+    "latent": ["whether the root pit has filled with rainwater", "whether the path is easier to go around on the uphill or downhill side"],
+    "state_after": ["footpath: blocked by a thick fallen trunk, a torn pit and mound of earth beside it", "trunk: mossy on its shaded side", "canopy: gapped, letting light through", "ground beneath the gap: a few new saplings"],
+    "stress": "a single sudden event (the fall) followed by a slow multi-week aftermath (moss, saplings) that changes what the place looks like by the time anyone returns",
+    "temptation": "a rule 'storms fell trees on paths' instead of deriving the fall from wind force exceeding what loose-soil roots can hold"
+  },
+  {
+    "id": "world-07",
+    "domain": "fire",
+    "place": "A stretch of dry grassland and scrub at the end of a rainless summer, during a thunderstorm with little rain.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["lightning", "a dead tree", "dry grass", "scrub brush", "wind", "rain clouds"],
+    "outcome": "Lightning strikes a dead, dry tree standing alone in the grass and sets its brittle wood alight; the fire drops burning fragments into the tinder-dry grass around its base and spreads outward with the wind, faster through grass than through the damper scrub at the field's edge. It burns through the night until the same storm finally brings heavy rain that douses what is left, leaving a blackened, smoking scar of bare ground and charred stumps where grass and scrub used to stand.",
+    "steps": [
+      {
+        "process": "strike",
+        "agent": "lightning",
+        "patient": "dead tree",
+        "instrument": null,
+        "because": ["tree stands taller than anything around it", "dead wood is dry and brittle"],
+        "effects": ["tree gains fire"],
+        "numbers": ["how likely the tallest thing in an open field is to be struck"]
+      },
+      {
+        "process": "ignite",
+        "agent": "fire",
+        "patient": "dry grass nearby",
+        "instrument": "burning fragments",
+        "because": ["grass is dry and thin, easily lit", "fragments fall within reach of the grass"],
+        "effects": ["grass gains burning", "creates burning grass"],
+        "numbers": ["how far the fragments scatter"]
+      },
+      {
+        "process": "spread",
+        "agent": "fire",
+        "patient": "grassland",
+        "instrument": "wind",
+        "because": ["wind pushes flame toward unburned fuel", "dry grass burns fast and passes flame to its neighbor"],
+        "effects": ["place gains burning", "grass loses moisture", "consumes grass"],
+        "numbers": ["how fast the fire front moves with the wind, how much ground it covers before rain comes"]
+      },
+      {
+        "process": "slow",
+        "agent": "fire",
+        "patient": "scrub at the field edge",
+        "instrument": null,
+        "because": ["scrub holds more moisture than grass", "damper fuel resists catching"],
+        "effects": ["fire loses speed at the edge"],
+        "numbers": ["how much slower the fire moves through scrub"]
+      },
+      {
+        "process": "douse",
+        "agent": "rain",
+        "patient": "fire",
+        "instrument": null,
+        "because": ["water smothers flame and cools fuel below its burning point", "the same storm that struck the tree eventually drops heavy rain"],
+        "effects": ["fire loses heat", "consumes fire"],
+        "numbers": ["how many hours after the strike the rain arrives"]
+      }
+    ],
+    "latent": ["whether any animals were caught in the burned stretch", "whether the fire jumped the stream at the field's far edge"],
+    "state_after": ["field: blackened, bare, smoking ground where grass stood", "dead tree: reduced to a charred stump", "scrub at the edge: scorched but not fully consumed", "ground: wet ash from the rain that finally put it out"],
+    "stress": "fire ignition, fuel-dependent spread speed, and its own natural end (rain from the same storm) with no one fighting or tending it",
+    "temptation": "a rule 'lightning starts a wildfire' instead of deriving ignition from the tallest dry thing being struck, spread from fuel dryness and wind, and extinguishing from the storm's own rain"
+  },
+  {
+    "id": "world-08",
+    "domain": "grain store",
+    "place": "A timber grain store raised on posts at the edge of a farmstead, over the weeks after harvest.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["grain store", "stored grain", "mice", "droppings", "a barn cat", "gnawed sacks"],
+    "outcome": "Mice find a gap at the base of the grain store soon after it is filled and move in, breeding quickly on a steady food supply with no predators reaching them. Over a few weeks they gnaw through sacking, spoil far more grain than they eat with droppings and urine, and their numbers climb; a cat drawn by the smell and the noise starts hunting around the store, picking off mice night by night, and within another couple of weeks the population has dropped sharply, though the grain already spoiled stays spoiled.",
+    "steps": [
+      {
+        "process": "enter",
+        "agent": "mice",
+        "patient": "grain store",
+        "instrument": null,
+        "because": ["store has a gap where a post meets the floor", "mice are small enough to fit through narrow gaps"],
+        "effects": ["grain store gains mice"],
+        "numbers": ["how soon after filling the mice find the gap"]
+      },
+      {
+        "process": "breed",
+        "agent": "mice",
+        "patient": "mice",
+        "instrument": null,
+        "because": ["mice breed fast when food is steady and safe", "no predator reaches inside the store"],
+        "effects": ["mice quantity up"],
+        "numbers": ["how many weeks before the population doubles"]
+      },
+      {
+        "process": "spoil",
+        "agent": "mice",
+        "patient": "stored grain",
+        "instrument": null,
+        "because": ["mice gnaw and burrow through sacking to feed", "mice leave droppings and urine in what they don't eat"],
+        "effects": ["grain loses quantity", "grain gains contamination", "creates gnawed sacks"],
+        "numbers": ["how much grain is spoiled versus actually eaten"]
+      },
+      {
+        "process": "attract",
+        "agent": "smell and noise",
+        "patient": "barn cat",
+        "instrument": null,
+        "because": ["cat hunts by scent and sound", "a mouse colony is noisy and smells strongly over time"],
+        "effects": ["barn cat gains interest"],
+        "numbers": ["how many weeks before the cat notices"]
+      },
+      {
+        "process": "hunt",
+        "agent": "cat",
+        "patient": "mice",
+        "instrument": null,
+        "because": ["cat is a natural predator of mice", "mice are now numerous and easy to find near the store"],
+        "effects": ["mice quantity down", "cat gains food"],
+        "numbers": ["how many mice the cat takes per night, how many weeks before the population falls sharply"]
+      }
+    ],
+    "latent": ["whether any mice survive deeper in the grain pile out of the cat's reach", "how much of the sacking is damaged beyond repair"],
+    "state_after": ["grain store: gnawed sacks, a portion of grain spoiled and contaminated", "mice: greatly reduced in number, a few survivors remain", "cat: living near the store, well fed", "grain: the spoiled portion is unusable regardless of the mice's fate now"],
+    "stress": "two separate creature-driven processes (an infestation, then a predator response) chained over weeks with permanent damage that a later predator cannot undo",
+    "temptation": "a rule 'mice ruin grain until a cat comes' instead of deriving spoilage from gnawing and contamination and the cat's arrival from smell and noise, with damage already done not reversing"
+  },
+  {
+    "id": "odd-01",
+    "domain": "filtering",
+    "place": "A muddy creek bank where the only water available is cloudy with silt, no clean spring nearby.",
+    "initiator": "player",
+    "lines": ["strain the muddy water through my shirt into the waterskin", "pour the water through my shirt again"],
+    "things": ["linen shirt", "muddy creek water", "waterskin", "silt"],
+    "outcome": "Stretching the shirt's woven fabric over the waterskin's mouth and pouring the muddy water through it catches the larger silt and grit in the weave, so what drips through is noticeably clearer, though still faintly cloudy since the weave is coarser than the finest particles. Pouring it through a second time, especially once the shirt already holds a layer of trapped silt, clears it further but slows the flow, and the shirt itself ends up muddy and needs washing before it can be worn again; the water is clearer, not purified, and could still carry anything the creek does that a weave cannot stop.",
+    "steps": [
+      {
+        "process": "strain",
+        "agent": "player",
+        "patient": "muddy water",
+        "instrument": "linen shirt",
+        "because": ["shirt is a woven fabric with small gaps between threads", "silt particles are larger than the gaps in the weave", "water is a liquid that passes through small gaps"],
+        "effects": ["waterskin gains water", "water loses coarse silt", "shirt gains silt"],
+        "numbers": ["how much silt is caught versus passes through, how much water is lost to soaking into the cloth"]
+      },
+      {
+        "process": "strain",
+        "agent": "player",
+        "patient": "once-strained water",
+        "instrument": "silt-clogged shirt",
+        "because": ["shirt now holds a layer of trapped silt that itself blocks finer particles", "clogging narrows the effective gaps"],
+        "effects": ["water loses more fine silt", "shirt loses flow speed"],
+        "numbers": ["how much slower the second pour is, how much clearer the result is"]
+      }
+    ],
+    "latent": ["whether anything in the creek is dissolved rather than suspended, which the weave cannot catch either way"],
+    "state_after": ["water: visibly clearer but not fully clear, untested for anything dissolved", "shirt: soaked and muddy, needs washing", "waterskin: partly filled"],
+    "stress": "a fabric's mesh property (weave gap size) doing filtering work it was never designed for, with an honest limit (dissolved matter passes regardless)",
+    "temptation": "a special rule 'shirts purify water' instead of deriving partial filtering from weave gap size versus particle size, with dissolved contaminants explicitly untouched"
+  },
+  {
+    "id": "odd-02",
+    "domain": "sliding",
+    "place": "A steep snow-covered hillside above a frozen valley, after a heavy snowfall.",
+    "initiator": "player",
+    "lines": ["sit in the shield and push off down the slope"],
+    "things": ["wooden shield", "snow slope", "player", "a rock outcrop partway down"],
+    "outcome": "The shield's broad, curved, smooth-faced underside presents a low-friction surface against packed snow, so sitting in its bowl and pushing off lets the player slide downhill under gravity much like a sled would, picking up real speed on the steeper stretch. The shield's rim, meant to deflect blows rather than steer, gives little control over direction, so a shift in the slope's angle sends the ride off-line, and it clips the rock outcrop partway down hard enough to crack the wood and pitch the player off into the snow rather than stopping cleanly.",
+    "steps": [
+      {
+        "process": "slide",
+        "agent": "gravity",
+        "patient": "player and shield",
+        "instrument": "shield's smooth underside",
+        "because": ["shield's face is broad, curved and smooth", "snow is slippery under a smooth hard surface", "slope descends under gravity"],
+        "effects": ["player gains speed", "moves player downhill"],
+        "numbers": ["how fast the shield accelerates on this slope, how much friction the snow offers"]
+      },
+      {
+        "process": "veer",
+        "agent": "slope irregularity",
+        "patient": "shield",
+        "instrument": null,
+        "because": ["shield has no keel or runner to hold a line", "shield's rim is round, not straight, so it offers no steering edge"],
+        "effects": ["shield loses course"],
+        "numbers": ["how far off-line the shield drifts before the rock"]
+      },
+      {
+        "process": "collide",
+        "agent": "shield and player",
+        "patient": "rock outcrop",
+        "instrument": null,
+        "because": ["shield is moving fast with real weight behind it", "wood cracks under a sharp sudden impact", "player has nothing to grip to stop"],
+        "effects": ["shield loses integrity", "player loses balance", "moves player to snow"],
+        "numbers": ["how hard the impact is, how much of the shield's edge cracks"]
+      }
+    ],
+    "latent": ["whether the crack in the shield weakens it enough to fail in a real block later"],
+    "state_after": ["shield: cracked along one edge, scuffed underneath", "player: thrown clear, dusted in snow, unhurt or bruised", "slope: a scuffed track down to the rock, a scatter of disturbed snow beyond it"],
+    "stress": "a rigid curved object's smooth surface doing sled work while its shape (no keel, round rim) gives none of a sled's steering, so the physics that makes it work also makes it fail",
+    "temptation": "a rule 'shields can be used as sleds' instead of deriving both the slide (smooth curved surface, low friction) and the crash (no steering edge) from the same shape"
+  },
+  {
+    "id": "odd-03",
+    "domain": "protection",
+    "place": "A narrow lane between two crumbling stone walls, where loose mortar and small stones sometimes fall from above.",
+    "initiator": "player",
+    "lines": ["put the cooking pot on my head before going under the wall"],
+    "things": ["iron cooking pot", "loose stones", "crumbling wall", "player"],
+    "outcome": "The pot's rigid iron shell and rounded shape sit over the skull with an air gap between metal and scalp, so when a fist-sized stone drops from the wall and strikes it, the hard shell spreads and absorbs the blow rather than letting it hit bone directly, saving the player from a real injury, though the impact rings loudly enough to daze and half-deafen them for a moment and the pot itself takes a visible dent. The pot's lack of a strap means it sits loose and nearly slides off with the impact, and it is now dented enough that food cooked in it afterward sits unevenly.",
+    "steps": [
+      {
+        "process": "shield",
+        "agent": "player",
+        "patient": "player's head",
+        "instrument": "iron pot",
+        "because": ["pot is rigid metal that resists denting more than skull resists cracking", "pot's rounded shape sits over the head with a gap of air beneath it"],
+        "effects": ["player gains protection"],
+        "numbers": ["how much force the pot can absorb before it fails"]
+      },
+      {
+        "process": "strike",
+        "agent": "falling stone",
+        "patient": "pot",
+        "instrument": null,
+        "because": ["stone has weight and falls with gravity's acceleration", "wall above is loose and shedding material"],
+        "effects": ["pot gains dent", "player gains ringing ears"],
+        "numbers": ["how much the stone weighs, how far it fell, how loud and jarring the impact is"]
+      },
+      {
+        "process": "slip",
+        "agent": "impact",
+        "patient": "pot",
+        "instrument": null,
+        "because": ["pot has no strap or chin tie to hold it in place", "sudden force can knock a loose-fitting object off-center"],
+        "effects": ["pot loses fit"],
+        "numbers": ["how close the pot comes to falling off entirely"]
+      }
+    ],
+    "latent": ["whether the wall keeps shedding more stones as the player continues down the lane"],
+    "state_after": ["pot: dented on one side, sitting crooked on the player's head", "player: dazed briefly, ears ringing, unhurt underneath the pot", "wall: still loose above, having shed one stone"],
+    "stress": "a rigid vessel's shell and shape doing armor's job (absorbing and spreading blunt force) while lacking armor's fit (no strap, so it nearly falls off), and taking lasting damage that affects its original use",
+    "temptation": "a rule 'pots protect the head like helmets' instead of deriving protection from rigidity and shape, and the near-miss from the absence of a strap"
+  },
+  {
+    "id": "odd-04",
+    "domain": "sewing",
+    "place": "A hunting camp with a torn leather pack and a fresh kill nearby, no metal needle to hand.",
+    "initiator": "player",
+    "lines": ["sharpen a splinter of bone into a point", "use the bone point to sew the torn pack with sinew"],
+    "things": ["deer leg bone", "torn leather pack", "sinew", "a whetstone"],
+    "outcome": "Splitting a long bone and grinding one end against the whetstone produces a thin, rigid, sharp-tipped sliver that can pierce leather the way a needle does, since what a needle needs is hardness and a fine point, not any particular material. Working the sinew through the holes it pierces closes the tear, though the bone point is brittle compared to metal and has no eye, so the player has to push it through then thread the sinew behind it by hand each stitch, which is slow, and the tip chips slightly after enough punctures through the tougher, thicker part of the leather.",
+    "steps": [
+      {
+        "process": "split and grind",
+        "agent": "player",
+        "patient": "deer leg bone",
+        "instrument": "whetstone",
+        "because": ["bone splits along its length into long slivers", "bone is hard enough to hold an edge when ground"],
+        "effects": ["creates bone point", "consumes leg bone"],
+        "numbers": ["how long it takes to grind a usable point"]
+      },
+      {
+        "process": "pierce",
+        "agent": "player",
+        "patient": "torn leather",
+        "instrument": "bone point",
+        "because": ["bone point is hard and thin enough to push through leather's fibers", "leather resists but is not as hard as bone"],
+        "effects": ["leather gains hole"],
+        "numbers": ["how much force each puncture takes"]
+      },
+      {
+        "process": "thread",
+        "agent": "player",
+        "patient": "sinew",
+        "instrument": "bone point's hole path",
+        "because": ["bone point has no eye to carry the thread through, unlike a metal needle", "sinew can be pushed through an existing hole by hand"],
+        "effects": ["leather gains stitch"],
+        "numbers": ["how many stitches, how much slower than sewing with an eyed needle"]
+      },
+      {
+        "process": "chip",
+        "agent": "repeated impact",
+        "patient": "bone point tip",
+        "instrument": null,
+        "because": ["bone is more brittle than metal under repeated sharp force", "thicker leather needs more force to pierce"],
+        "effects": ["bone point loses sharpness"],
+        "numbers": ["how many punctures before the tip visibly chips"]
+      }
+    ],
+    "latent": ["whether the whetstone has enough life left to resharpen the point later"],
+    "state_after": ["pack: torn seam closed with visible, uneven stitches", "bone point: slightly chipped at the tip, still usable but duller", "leg bone: mostly consumed making the point, a stub left over"],
+    "stress": "a tool defined by two properties (hard, pointed) substituting for a needle that also needs a third the substitute lacks (an eye), so the workaround is real but slower and the material's own weakness (brittleness) shows through repeated use",
+    "temptation": "a rule 'bone can be a needle' instead of deriving the partial substitution from hardness and point, and the friction from the missing eye and bone's brittleness"
+  },
+  {
+    "id": "odd-05",
+    "domain": "cleaning",
+    "place": "A hearth-side camp after a big fire, with a greasy pot and no proper soap on hand.",
+    "initiator": "player",
+    "lines": ["mix the cold ash with water and rub it on the pot", "scrub the greasy pot with the ash paste"],
+    "things": ["wood ash", "water", "a greasy iron pot", "player's hands"],
+    "outcome": "Wood ash mixed with water releases the alkaline compounds left over from burning, and rubbed against grease that alkaline paste breaks the grease's grip on the metal the way soap does, since soap itself is made from ash and fat cooked together, and grinds off caked residue by simple abrasion as well. The pot comes cleaner than plain water would leave it, though the ash paste is gritty and mild rather than a true soap, so heavier grease needs real scrubbing and some film remains, and it leaves the player's hands dry and a little irritated from the alkalinity.",
+    "steps": [
+      {
+        "process": "mix",
+        "agent": "player",
+        "patient": "ash and water",
+        "instrument": null,
+        "because": ["ash contains alkaline residue from burnt wood", "water dissolves that residue into a mild alkaline paste"],
+        "effects": ["creates ash paste"],
+        "numbers": ["how much ash to water makes a workable paste"]
+      },
+      {
+        "process": "scrub",
+        "agent": "player",
+        "patient": "grease on the pot",
+        "instrument": "ash paste",
+        "because": ["alkaline paste breaks grease's bond to metal, the same chemistry soap uses", "ash grains are gritty enough to abrade stuck residue"],
+        "effects": ["pot loses grease", "pot gains cleanliness"],
+        "numbers": ["how much scrubbing it takes versus plain water"]
+      },
+      {
+        "process": "irritate",
+        "agent": "ash paste",
+        "patient": "player's hands",
+        "instrument": null,
+        "because": ["alkaline substances dry and irritate skin with prolonged contact", "player's hands are in direct contact while scrubbing"],
+        "effects": ["player gains dry skin"],
+        "numbers": ["how long before the irritation is noticeable"]
+      }
+    ],
+    "latent": ["whether the pot's baked-on residue from repeated use needs more than one pass of paste"],
+    "state_after": ["pot: mostly clean, a faint greasy film remaining in the corners", "ash paste: used up, spent gray sludge left in the water", "player's hands: dry and slightly irritated"],
+    "stress": "a burnt residue doing a cleaning agent's chemical job (alkalinity breaking grease) because of what it chemically is, with the same property causing an unintended side effect on skin",
+    "temptation": "a rule 'ash cleans pots' instead of deriving cleaning from alkalinity and abrasiveness, and the hand irritation from the same alkalinity"
+  },
+  {
+    "id": "odd-06",
+    "domain": "floating",
+    "place": "A flooded stretch of river valley after days of heavy rain, where the water is too deep and fast to wade, with a fallen barn door lying nearby.",
+    "initiator": "player",
+    "lines": ["lay the barn door flat on the water and push it out", "lie on the door and paddle across with my hands"],
+    "things": ["wooden barn door", "floodwater", "hinges", "player", "current"],
+    "outcome": "The door's flat, wide, air-filled wood displaces enough water to float the player's weight, working as a crude raft the same way any broad slab of wood less dense than water would. Lying flat and paddling by hand moves it slowly across the slack water near the bank, but out in the main current the water's push overpowers the little steering hand-paddling gives, so the door drifts downstream faster than it crosses and the player lands well below where they aimed; the iron hinges, being denser than wood, drag one corner down and tip the door enough to nearly pitch the player off partway across.",
+    "steps": [
+      {
+        "process": "float",
+        "agent": "buoyancy",
+        "patient": "wooden door",
+        "instrument": null,
+        "because": ["wood is less dense than water", "door's flat wide shape spreads the player's weight over a large area"],
+        "effects": ["door gains buoyancy"],
+        "numbers": ["how much weight the door can hold before it starts to swamp"]
+      },
+      {
+        "process": "paddle",
+        "agent": "player",
+        "patient": "door",
+        "instrument": "player's hands",
+        "because": ["pushing water backward by hand moves a floating object forward, though weakly", "door has no rudder or paddle shape to steer well"],
+        "effects": ["moves player across river"],
+        "numbers": ["how slow hand-paddling is compared to a real paddle"]
+      },
+      {
+        "process": "drift",
+        "agent": "current",
+        "patient": "door and player",
+        "instrument": null,
+        "because": ["current exerts more force than hand-paddling can counter", "door presents a broad flat face for the current to push"],
+        "effects": ["moves player downstream"],
+        "numbers": ["how far downstream the door travels before reaching the far bank"]
+      },
+      {
+        "process": "tip",
+        "agent": "hinge weight",
+        "patient": "door",
+        "instrument": null,
+        "because": ["iron hinges are denser than the wood and water they sit in", "the corner with hinges rides lower and catches more current drag"],
+        "effects": ["door loses balance", "player gains near-fall"],
+        "numbers": ["how far the door tips before the player catches balance"]
+      }
+    ],
+    "latent": ["whether the door will still float on a second crossing after this much water has worked into the wood grain"],
+    "state_after": ["door: waterlogged along one edge, afloat but lower in the water than at the start", "player: across the river but well downstream of where they aimed, wet from the near-tip", "hinges: still attached, dragging the one corner"],
+    "stress": "buoyancy from a flat wooden shape doing a raft's job while lacking a raft's steering and balance, so the same trip that succeeds at floating fails at aiming",
+    "temptation": "a rule 'doors can be used as rafts' instead of deriving floating from wood's density and shape, and the drift and near-tip from missing steering and uneven hinge weight"
+  },
+  {
+    "id": "odd-07",
+    "domain": "prying",
+    "place": "A workshop bench with a wooden chest whose lid is held by a single slotted screw, no proper tool at hand.",
+    "initiator": "player",
+    "lines": ["fit the edge of the coin into the screw slot and turn it"],
+    "things": ["copper coin", "slotted screw", "wooden chest lid", "player"],
+    "outcome": "The coin's thin, flat, rigid edge fits into the screw's slot much like a screwdriver's blade does, since what the slot needs is a thin rigid tab, not a purpose-made tool, and turning it with enough grip loosens a screw that is not seated too tightly. On a screw that has rusted or is driven firmly, though, the coin's edge is softer and thinner than steel and starts to bend and round off under the twisting force before the screw gives, so after a few tries the coin is deformed enough that it no longer grips the slot at all, and the player is left with a still-stuck screw and a ruined coin.",
+    "steps": [
+      {
+        "process": "fit",
+        "agent": "player",
+        "patient": "screw slot",
+        "instrument": "coin edge",
+        "because": ["coin is thin and flat like a blade", "screw slot is a matching thin straight groove"],
+        "effects": ["coin gains fit in slot"],
+        "numbers": ["how well the coin's thickness matches the slot's width"]
+      },
+      {
+        "process": "turn",
+        "agent": "player",
+        "patient": "screw",
+        "instrument": "coin",
+        "because": ["turning force applied through a fitted blade rotates a slotted screw", "screw is not seated too tightly to begin with"],
+        "effects": ["screw loses tightness"],
+        "numbers": ["how much force loosens it, how many turns to free it"]
+      },
+      {
+        "process": "bend",
+        "agent": "resistance",
+        "patient": "coin edge",
+        "instrument": null,
+        "because": ["copper is softer than the hardened steel a real screwdriver is made of", "screw resists turning harder than the coin's edge can push without deforming"],
+        "effects": ["coin loses shape", "coin loses fit in slot"],
+        "numbers": ["how much resistance it takes before the coin starts to bend"]
+      }
+    ],
+    "latent": ["whether a thicker coin or a different edge would have held up better on this particular screw"],
+    "state_after": ["coin: edge bent and rounded, no longer fits any slot well", "screw: still partly stuck, loosened only slightly", "chest lid: still closed"],
+    "stress": "a coin's incidental shape (thin, flat, rigid edge) doing a screwdriver's job right up to the point where a property it lacks (hardness comparable to steel) makes it fail and ruins the coin in the process",
+    "temptation": "a rule 'coins work as screwdrivers' instead of deriving success from edge fit and turning force, and failure from copper's softness against a resistant screw"
+  }
+]
