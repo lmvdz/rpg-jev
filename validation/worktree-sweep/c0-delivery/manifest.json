@@ -1,0 +1,67 @@
+{
+  "base": "c31901a3efc940eaada4b575e8ee85623ca7c43b",
+  "sandboxAncestor": "b94fe5c8f5377fda5e697406f1e445ab2faed78f",
+  "fetchedRef": "origin/design/compositional-causality",
+  "fetchedRevision": "c31901a3efc940eaada4b575e8ee85623ca7c43b",
+  "stagingRoot": "validation/c0-work",
+  "pathRule": "Each target is also its relative staging path. Copy only these files, never the inherited root.",
+  "hashKind": "Git SHA-1 blob, null means absent at base",
+  "files": [
+    {
+      "target": "packages/core/src/matter/heat.ts",
+      "baselineBlob": "afe3ef34d5e2c5bf99ca76613e9682d5a9e5bfee"
+    },
+    {
+      "target": "packages/core/src/matter/drift.ts",
+      "baselineBlob": "bc6d082f9f760d1b63e70b1b63905c7f249bcb03"
+    },
+    {
+      "target": "packages/core/src/matter/graph/soak-rules.ts",
+      "baselineBlob": "4ee6ca29b9d601dbb6c97e756a39d3b93421a13d"
+    },
+    {
+      "target": "packages/core/src/matter/graph/drift-rules.ts",
+      "baselineBlob": "0f101d937d8205f11c242f5ec85316e95330f372"
+    },
+    {
+      "target": "packages/core/test/matter/graph/drift-oracle.ts",
+      "baselineBlob": "5f5a86877714c2af8ce53b8ea04800468582d747"
+    },
+    {
+      "target": "packages/core/test/matter/graph/drift-rules.test.ts",
+      "baselineBlob": "1f36c28cd49de917aada2389a23440170032a22b"
+    },
+    {
+      "target": "packages/core/test/matter/graph/validate.test.ts",
+      "baselineBlob": "f78a93eaa1d7ea2aac873185e0bfbb4e19178ca2"
+    },
+    {
+      "target": "packages/core/test/matter/graph/soak-oracle.ts",
+      "baselineBlob": "e97a020c8db79949c19e3173f7417a91ba8fdf39"
+    },
+    {
+      "target": "packages/core/test/matter/graph/heat-oracle.ts",
+      "baselineBlob": "9a77e08f4c6cb7227336c7991984dc1e3435feab"
+    },
+    {
+      "target": "packages/core/test/matter/c0-exposure.test.ts",
+      "baselineBlob": null
+    },
+    {
+      "target": "packages/core/test/matter/c0-drift-phases.test.ts",
+      "baselineBlob": null
+    },
+    {
+      "target": "packages/core/test/matter/held-out-clearing.test.ts",
+      "baselineBlob": null,
+      "unchangedArchiveSource": "validation/sandbox-held-out-928755f-20260720/held-out-clearing.test.ts",
+      "archiveBlob": "2d87880c5c314b4f3c13407f712c078b018870a7"
+    },
+    {
+      "target": "packages/core/test/matter/held-out-fixture.ts",
+      "baselineBlob": null,
+      "unchangedArchiveSource": "validation/sandbox-held-out-928755f-20260720/held-out-fixture.ts",
+      "archiveBlob": "7d0713e5d639e9be03a7abb11b6fa714f18e0397"
+    }
+  ]
+}
