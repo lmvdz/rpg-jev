@@ -3,6 +3,7 @@
  * and the glyphs. Sun, a point light on the hero, fog that closes in around
  * the followed point, foliage sway. Colours are palette indices until here.
  */
+import { GLYPH_DAMAGED, GLYPH_WET } from "../glyph/batch.ts";
 import { ATLAS_COLS, CELL_H, CELL_W, GLYPH_H, GLYPH_W } from "../glyph/font.ts";
 import { INK, PALETTE_SIZE } from "../palette.ts";
 import { TEXELS_PER_TILE, TEXTURE_SIZE } from "../terrain/textures.ts";
@@ -180,6 +181,8 @@ out vec2 v_pixel;
 out vec3 v_color;
 flat out ivec2 v_cell;
 flat out float v_fog;
+flat out int v_flags;
+flat out float v_selected;
 
 void main() {
   float pixel = u_fog.z * a_look.w / 16.0;
@@ -209,6 +212,9 @@ void main() {
   vec3 ownLight = vec3(1.25 - 0.3 * flickerOf(a_anchor.x + a_anchor.z));
   v_color = u_palette[int(a_look.y)].rgb * mix(light, ownLight, glows);
   v_fog = fogAt(a_anchor);
+  v_flags = int(a_look.z);
+  v_selected = all(greaterThanEqual(a_anchor.xz, u_cursor.xy))
+    && all(lessThan(a_anchor.xz, u_cursor.zw)) ? 1.0 : 0.0;
   gl_Position = facing;
 }
 `;
@@ -221,6 +227,8 @@ in vec2 v_pixel;
 in vec3 v_color;
 flat in ivec2 v_cell;
 flat in float v_fog;
+flat in int v_flags;
+flat in float v_selected;
 out vec4 o_color;
 
 float ink(ivec2 p) {
@@ -228,14 +236,27 @@ float ink(ivec2 p) {
   return texelFetch(u_atlas, v_cell + ivec2(p.x, ${GLYPH_H - 1} - p.y), 0).r;
 }
 
+// Marks stay opaque and fixed to glyph pixels: no shimmer and no change to pickable ink.
+vec3 surface(vec3 color, ivec2 p) {
+  if ((v_flags & ${GLYPH_WET}) != 0) {
+    // Find an occupied upper-left edge, even for short or centred silhouettes.
+    float sheen = ink(p + ivec2(0, 1)) < 0.5 && ink(p - ivec2(1, 0)) < 0.5 ? 1.12 : 0.7;
+    color *= sheen;
+  }
+  if ((v_flags & ${GLYPH_DAMAGED}) != 0 && p.x == p.y % ${GLYPH_W}) {
+    color *= 0.4;
+  }
+  return color;
+}
+
 void main() {
   ivec2 p = ivec2(floor(v_pixel));
-  vec3 color = v_color;
+  vec3 color = surface(v_color, p);
   if (ink(p) < 0.5) {
     float around = ink(p + ivec2(1, 0)) + ink(p - ivec2(1, 0))
       + ink(p + ivec2(0, 1)) + ink(p - ivec2(0, 1));
     if (u_fog.w < 0.5 || around < 0.5) discard;
-    color = u_palette[0].rgb;
+    color = mix(u_palette[0].rgb, u_palette[${INK.ash}].rgb, v_selected * 0.7);
   }
   o_color = vec4(mix(color, u_fogColor.rgb, v_fog), 1.0);
 }

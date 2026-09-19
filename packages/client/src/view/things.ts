@@ -13,7 +13,14 @@
  * seedling is small. A new element needs no renderer change, and a new
  * visible state is one more row.
  */
-import { GLYPH_GLOWS, GLYPH_SWAYS, type GlyphLook, SCALE_ONE } from "../glyph/batch.ts";
+import {
+  GLYPH_DAMAGED,
+  GLYPH_GLOWS,
+  GLYPH_SWAYS,
+  GLYPH_WET,
+  type GlyphLook,
+  SCALE_ONE,
+} from "../glyph/batch.ts";
 import { INK } from "../palette.ts";
 
 export interface ElementLook {
@@ -98,6 +105,14 @@ const GLYPH_RULES: readonly ((states: VisibleStates, out: Required<GlyphLook>) =
   },
   (states, out) => {
     if (states.amount !== undefined) out.scale *= 0.55 + 0.09 * states.amount;
+  },
+  // Surface colour follows the most apparent decay; heat below takes precedence.
+  // No absent state is inferred, and mild/hidden deterioration is not advertised.
+  (states, out) => {
+    if ((states.corrosion ?? 0) >= 3) out.ink = INK.wood;
+    if ((states.contamination ?? 0) >= 3) out.ink = INK.pine;
+    if ((states.wetness ?? 0) >= 3) out.flags |= GLYPH_WET;
+    if (states.integrity !== undefined && states.integrity <= 3) out.flags |= GLYPH_DAMAGED;
   },
   (states, out) => {
     if ((states.burning ?? 0) > 0) out.flags |= GLYPH_GLOWS;

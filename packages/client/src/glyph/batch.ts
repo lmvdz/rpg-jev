@@ -7,6 +7,9 @@ export const INSTANCE_BYTES = 16;
 export const GLYPH_SWAYS = 1;
 /** Gives its own light: drawn at full brightness whatever the hour, and flickering. */
 export const GLYPH_GLOWS = 2;
+/** Surface treatments keep the atlas's ink mask, so drawing and picking still agree. */
+export const GLYPH_WET = 4;
+export const GLYPH_DAMAGED = 8;
 /** Scale is in sixteenths, so 16 draws a glyph pixel at the frame's `glyphPixel`. */
 export const SCALE_ONE = 16;
 
