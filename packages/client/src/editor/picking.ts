@@ -43,6 +43,20 @@ function edgeSteps(at: number, tile: number, step: number, t: number): [number, 
  * `ndcX` and `ndcY` run from -1 to 1, left to right and bottom to top.
  */
 export function pickTile(grid: TileGrid, viewProjection: mat4, ndcX: number, ndcY: number): number {
+  return walkRay(grid, viewProjection, ndcX, ndcY, null);
+}
+
+/**
+ * As `pickTile`, telling `visit` of every tile the ray passes over on its way,
+ * the one it lands on included: what stands on those may be in front of it.
+ */
+export function walkRay(
+  grid: TileGrid,
+  viewProjection: mat4,
+  ndcX: number,
+  ndcY: number,
+  visit: ((x: number, z: number) => void) | null,
+): number {
   if (!mat4.invert(inverse, viewProjection)) return -1;
   vec3.transformMat4(near, vec3.set(near, ndcX, ndcY, -1), inverse);
   vec3.transformMat4(far, vec3.set(far, ndcX, ndcY, 1), inverse);
@@ -61,6 +75,7 @@ export function pickTile(grid: TileGrid, viewProjection: mat4, ndcX: number, ndc
   let [nextZ, everyZ] = edgeSteps(near[2] + dz * t, z, dz, t);
 
   for (let steps = grid.width + grid.depth + 2; steps > 0 && grid.contains(x, z); steps--) {
+    visit?.(x, z);
     const leave = Math.min(nextX, nextZ, span[1]);
     const lowest = Math.min(near[1] + dy * t, near[1] + dy * leave);
     if (lowest <= tileTop(grid, x, z)) return grid.index(x, z);

@@ -8,7 +8,7 @@
  * the mouse, and sent to the world as intents; nothing here will change.
  */
 import type { Camera } from "../camera.ts";
-import { pickTile } from "../editor/picking.ts";
+import type { GlyphLook } from "../glyph/batch.ts";
 import { findPath } from "../scene/path.ts";
 import { type Blocked, NOTHING_BLOCKS } from "../scene/steps.ts";
 import type { Walker } from "../scene/walker.ts";
@@ -16,6 +16,7 @@ import type { TileGrid } from "../terrain/grid.ts";
 import { describeTile, type TileReport } from "../view/describe.ts";
 import type { LivingThings } from "../view/living.ts";
 import { type ActRequest, buildActRequest } from "./act-request.ts";
+import { glyphViewOf, pickInPlay } from "./pick-glyph.ts";
 
 export interface PlayHost {
   canvas: HTMLCanvasElement;
@@ -23,6 +24,9 @@ export interface PlayHost {
   grid: TileGrid;
   walker: Walker;
   living: LivingThings | null;
+  /** How glyphs are drawn (the frame's atmosphere) and what stands on a tile: picking tests the glyphs themselves. */
+  glyphs: { glyphTilt: number; glyphPixel: number };
+  glyphAt(tileIndex: number): GlyphLook | null;
   playing(): boolean;
   /** Says something on the HUD's note line. */
   say(text: string): void;
@@ -53,6 +57,7 @@ function floating(className: string): HTMLDivElement {
 export function mountPlay(host: PlayHost): MountedPlay {
   const { canvas, camera, grid, walker, living } = host;
   const blocked: Blocked = living ? living.blocks : NOTHING_BLOCKS;
+  const view = glyphViewOf(camera, host.glyphs);
   const tooltip = floating("tooltip");
   const menu = floating("menu");
   const mouse = { x: 0, y: 0, left: 0, top: 0, over: false };
@@ -199,7 +204,7 @@ export function mountPlay(host: PlayHost): MountedPlay {
     track() {
       frames++;
       const playing = host.playing();
-      hover = playing && mouse.over ? pickTile(grid, camera.viewProjection, mouse.x, mouse.y) : -1;
+      hover = playing && mouse.over ? pickInPlay(grid, view, mouse.x, mouse.y, host.glyphAt) : -1;
       if (!playing) {
         closeMenu();
         steering = false;

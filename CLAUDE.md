@@ -26,7 +26,7 @@ Spikes M0 and S0 come first. Do not start the village, the author thread or rend
 
 - `pnpm check`: lint, typecheck and tests. Run it before calling work done.
 - `pnpm format`: apply Biome fixes.
-- `pnpm client`: the renderer at http://localhost:5174, showing the grown clearing (`?seed=<n>` grows another, T moves the hour on; `?card` is the old test card and `?stress` puts the whole R1 scene on screen; press B to measure what a frame costs; the HUD's GPU timer is only a hint). Tab or `?edit` opens the world editor; `?world=<name>` names the world, and Ctrl+S writes it to `packages/client/public/worlds/`.
+- `pnpm client`: the renderer at http://localhost:5174, showing the grown clearing (`?seed=<n>` grows another, T moves the hour on; `?card` is the old test card and `?stress` puts the whole R1 scene on screen; press B to measure what a frame costs; the HUD's GPU timer is only a hint; `?born` draws every look from a birth and `?judge=<ms>` makes the judge answer late, and `window.__births` is the log). Tab or `?edit` opens the world editor; `?world=<name>` names the world, and Ctrl+S writes it to `packages/client/public/worlds/`.
 
 ## Conventions
 

@@ -420,6 +420,8 @@ loadWorld(query).then((loaded) => {
     grid: app.session.world.grid,
     walker: app.walker,
     living: app.living,
+    glyphs: app.renderer.atmosphere,
+    glyphAt: (tile) => app.objects.at(tile),
     playing: () => !app.editing,
     say: (text) => {
       app.note = text;
