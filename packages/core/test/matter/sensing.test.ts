@@ -11,11 +11,13 @@ import {
   alight,
   type Body,
   type Element,
+  emits,
   FRESH,
   type MatterWorld,
   POOL,
   placeOf,
   play,
+  reaches,
   resolve,
   sensed,
   type Thing,
@@ -97,8 +99,15 @@ describe("what a body notices", () => {
     const night = wood([pyre([0, 0])], [body("wolf", "wolf", [30, 0])]);
     const noon = wood([pyre([0, 0])], [body("wolf", "wolf", [30, 0])], { light: 5 });
     const asleep = wood([pyre([0, 0])], [body("wolf", "wolf", [30, 0], { attention: "asleep" })]);
-    expect(aware(night, "wolf", "pyre")).toBeGreaterThan(0);
-    expect(aware(noon, "wolf", "pyre")).toBeLessThan(aware(night, "wolf", "pyre"));
+    // It is the fire's light that is hardly seen at noon; the pile itself is plain to see then.
+    const glow = (w: MatterWorld) => {
+      const [wolf, fire] = [w.bodies.wolf, w.things.pyre];
+      return wolf && fire ? reaches(w, wolf, fire, "light", emits(w, fire).light ?? 0) : 0;
+    };
+    expect(glow(night)).toBeGreaterThan(0);
+    expect(glow(noon)).toBeLessThan(0);
+    expect(sensed(night).get("wolf")?.pyre?.channel).toBe("light");
+    expect(sensed(noon).get("wolf")?.pyre?.channel).toBe("sight");
     expect(sensed(asleep).get("wolf")?.pyre?.channel).not.toBe("light");
   });
 
@@ -131,6 +140,38 @@ describe("what a body notices", () => {
     expect(after.world.bodies.near?.aware?.flint?.channel).toBe("sound");
     expect(after.world.bodies.far?.aware?.flint).toBeUndefined();
     expect(after.changes.some((c) => c.kind === "percept" && c.body === "near")).toBe(true);
+  });
+});
+
+describe("what is simply seen", () => {
+  const berries = (where: [number, number]) => thing("berries", "berries", where);
+  const seen = (w: MatterWorld, who = "walker") => sensed(w).get(who)?.berries;
+
+  it("in daylight a thing two tiles off is seen though it gives nothing off, and not in the dark", () => {
+    const noon = wood([berries([2, 0])], [body("walker", "person", [0, 0])], { light: 5 });
+    const night = wood([berries([2, 0])], [body("walker", "person", [0, 0])], { light: 0 });
+    expect(seen(noon)?.channel).toBe("sight");
+    expect(seen(night)).toBeUndefined();
+  });
+
+  it("nearer and bigger are seen more easily, and cover hides", () => {
+    const at = (where: [number, number], place = {}) =>
+      seen(wood([berries(where)], [body("walker", "person", [0, 0])], { light: 5, ...place }))
+        ?.strength ?? 0;
+    expect(at([2, 0])).toBeGreaterThan(at([12, 0]));
+    expect(at([60, 0])).toBe(0);
+    expect(at([2, 0], { cover: 5 })).toBeLessThan(at([2, 0]));
+    const tree = wood([thing("oak", "oak", [60, 0])], [body("walker", "person", [0, 0])], {
+      light: 5,
+    });
+    expect(sensed(tree).get("walker")?.oak?.channel).toBe("sight");
+  });
+
+  it("a sleeper sees nothing, and what is seen is never the body's own hands", () => {
+    const w = wood([berries([2, 0])], [body("walker", "person", [0, 0], { attention: "asleep" })], {
+      light: 5,
+    });
+    expect(seen(w)).toBeUndefined();
   });
 });
 
@@ -206,9 +247,17 @@ describe("the invariants of sensing", () => {
     for (const seed of SEEDS) {
       const dim = some(Rng.fromSeed(seed), { light: 1, noise: 1 });
       const bright = some(Rng.fromSeed(seed), { light: 5, noise: 5 });
-      expect(aware(bright, "wolf", "pyre"), `seed ${seed}`).toBeLessThanOrEqual(
-        aware(dim, "wolf", "pyre"),
-      );
+      // Channel by channel, for what is given off. (What is simply seen goes the other way by
+      // nature: the light is what shows it.)
+      // Smoke is left out with sight: it is seen against the sky, so daylight shows it.
+      for (const channel of ["light", "scent", "sound"] as const) {
+        const on = (w: MatterWorld) => {
+          const [wolf, fire] = [w.bodies.wolf, w.things.pyre];
+          const strength = fire ? (emits(w, fire)[channel] ?? 0) : 0;
+          return wolf && fire ? reaches(w, wolf, fire, channel, strength) : 0;
+        };
+        expect(on(bright), `seed ${seed} ${channel}`).toBeLessThanOrEqual(on(dim) + 1e-9);
+      }
     }
   });
 

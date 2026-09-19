@@ -141,7 +141,7 @@ export const POOL: readonly Element[] = [
     name: "berries",
     kind: "plant",
     forms: [],
-    props: { mass: 0, size: 0, hardness: 0, toughness: 1, perishability: 4 },
+    props: { mass: 0, size: 0, hardness: 0, toughness: 1, perishability: 4, scent: 1 },
     moist: 3,
     serves: { hunger: 1 },
   },

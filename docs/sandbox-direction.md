@@ -146,6 +146,41 @@ Batch B's chains broke at the first step that needed something to reach somethin
 
 **What it will not do yet.** Line of sight around things (there is no geometry in matter; "what is in the way" is the place's cover as one level). Memory of what was sensed (that is the claim store's). Deciding what a creature does about it.
 
+## Minds: many factors, no list of cases
+
+The first creature was a list of cases: what burns may be fled, what feeds may be approached. A wolf is more than that. Another creature may be provoking it; it may be a mother with young to feed; it may be hurt, cornered, on its own ground, or remember this place. A design that adds a branch for each of those is the shape this project exists to avoid (`.claude/skills/world-design`). Two questions have to be kept apart.
+
+**Can the judge weigh many factors at once?** Yes, measured (`spikes/vocabulary/results/mind-probe.json`, twelve live calls, the existing `pick_action` family, state written by hand on purpose). Same stones thrown, same hunger: a lone male flees (0.52) and a mother stands between the intruder and her den (0.68) and leaves the meat. A starving mother with nobody about eats, or carries meat home (0.25 to 0.46). Badly hurt, with three armed people closing, she still guards (0.78). The bond is what flips it, and the judge needed nothing new to see that.
+
+**Can the engine produce that state and those options without a case per factor?** Not yet, and this is the work. The answer has the same shape as the answer for things: **a closed vocabulary of kinds, open rows, and code that derives.** A factor is never a branch. It is a structure the world already keeps, put into words by one function and ranked by one score.
+
+| Kind of factor | The structure it lives in | In the example |
+| --- | --- | --- |
+| What it needs | The needs graph, per body, rising with time | starving; nursing takes more every day |
+| What it can do now | `able()`: its row lowered by hurt, cold, tiredness | a deep wound, can barely run |
+| Who it is bound to | **Bonds**: a relation from one body to another with a kind (young, mate, pack, owner, prey, rival) and a weight. A ward's needs count as its own, by that weight | four pups who cannot feed themselves, crying |
+| What it holds and where it lives | Ownership (R9) and a **home**: a claim about a place | the den under the fallen tree |
+| What others have done | **Deeds** on the witness path (SPEC section 9), which sensing now feeds: a percept of an act is a deed witnessed | two stones thrown, shouting, coming closer |
+| How it feels toward someone | Feelings (B6) toward a specific body, moved by deeds, by predicate and never by who, fading with time | anger and fear toward the thrower |
+| What the other could do to it | The other's `able()`, its size, what it holds, how many | smaller than it; or three, with spears |
+| What it notices | Percepts (`sense.ts`) | the meat; the person twenty paces off |
+| What it is like | Traits as levels on its row | wary of people, patient |
+| What it knows | Claims it holds, including of places (E8) | meat was here yesterday |
+
+Sex is not a factor. What matters is on the row and in the state: whether it bears young, whether it is nursing (a `produces`, and a drain on a need), whether it has wards. A design with a gender branch has misnamed a bond.
+
+**Options come from affordances, not from a list of situations.** An option is an **intent** toward something the body is aware of. Intents are a closed set, the counterpart for minds of the ten processes: go to, keep away from, take, eat, carry to, guard, warn off, attack, follow, hide from, call, rest, and none. Code offers an intent when its precondition holds against the structures above (guard needs a ward or a home and a threat near it; carry to needs a ward that cannot come and something that serves its need; warn off needs another body within reach of a rush), and says in words what it serves and what it risks. Twelve intents over everything a body notices is too many to ask about, so code ranks by salience (how urgent the need it serves, how near the threat it answers) and keeps a handful, with none always among them (SPEC section 14: long lists are ranked in code first). An intent compiles to acts the rules already resolve. Adding an intent is a row: a precondition, a description, and how it compiles.
+
+**One slice builder.** The state the judge sees is compiled from those structures by one function, within a token budget, most salient first: the same slice compiler the inn uses (SPEC section 13). Nothing is written by hand per creature. Every number reaches the judge as words.
+
+**The routine is the same options, scored in code.** When nobody is watching (rule 10), the choice is the option with the best score: what it serves, weighed by how urgent that need is (a ward's need counted by the bond), less what it risks, weighed by a trait. That gives a test no list of cases could have: over many generated situations, the routine's choice should usually be among the judge's two likeliest. Where they part, either the score or the words are wrong, and section 20's representation loop is how that is found.
+
+**Scaling in number is a different question and already has its answer** (SPEC section 11): events and not ticks, a judge call only where someone is watching, the routine everywhere else, and a group acting as one.
+
+**How to know it covers "so many other factors".** The way the vocabulary was tested. Write held-out scenarios of what a creature or a person does and why, with no vocabulary given; derive the smallest set of factor kinds and intents that says them; test on a batch its author has not read. Expect it not to close, as the vocabulary did not: a domain of behaviour (parenthood, rank in a pack, territory, trade) is a feature, admitted when held-out coverage says so. The table above is version 0 and came from one example.
+
+**What to build, in order.** Bonds and homes as structures, with a ward's needs reaching its keeper. Deeds from percepts, moving feelings by predicate. Intents as rows, with preconditions and salience, replacing `optionsFor`. The slice builder, replacing the hand-written words of the probes. The routine as a score over the same options, with the agreement test against the judge. Properties first, each time.
+
 ## Admitting a feature
 
 A property, process or substrate is admitted when:

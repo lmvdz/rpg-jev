@@ -273,7 +273,8 @@ export interface Manner {
 
 export const ORDINARY: Manner = { effort: 2, care: 2, haste: 2 };
 
-export type Channel = "light" | "sound" | "scent" | "smoke";
+/** What a thing gives off, and `sight`: what is simply seen, by daylight, giving nothing off. */
+export type Channel = "light" | "sound" | "scent" | "smoke" | "sight";
 
 /** The effect kinds of section 6. Every change says which vocabulary ids caused it. */
 export type Change = (

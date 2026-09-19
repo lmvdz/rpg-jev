@@ -1,0 +1,88 @@
+[
+ {
+  "case": "lone male, starving, nobody about",
+  "v0": {
+   "go_to_kill": 0.92,
+   "flee": 0.04,
+   "none_of_these": 0.03
+  },
+  "tokens": 677,
+  "v1": {
+   "go_to_kill": 0.9,
+   "flee": 0.05
+  }
+ },
+ {
+  "case": "lone male, starving, provoked",
+  "v0": {
+   "flee": 0.52,
+   "go_to_kill": 0.25,
+   "threaten": 0.18,
+   "attack": 0.04
+  },
+  "tokens": 721,
+  "v1": {
+   "flee": 0.47,
+   "go_to_kill": 0.34,
+   "threaten": 0.14,
+   "attack": 0.04
+  }
+ },
+ {
+  "case": "mother, starving, pups hungry, nobody about",
+  "v0": {
+   "go_to_kill": 0.69,
+   "carry_food_home": 0.25
+  },
+  "tokens": 750,
+  "v1": {
+   "carry_food_home": 0.46,
+   "go_to_kill": 0.43,
+   "guard_den": 0.07
+  }
+ },
+ {
+  "case": "mother, starving, provoked at the den",
+  "v0": {
+   "guard_den": 0.68,
+   "threaten": 0.22,
+   "attack": 0.04
+  },
+  "tokens": 784,
+  "v1": {
+   "guard_den": 0.59,
+   "threaten": 0.18,
+   "go_to_kill": 0.09,
+   "carry_food_home": 0.08,
+   "flee": 0.03,
+   "attack": 0.03
+  }
+ },
+ {
+  "case": "mother, fed, provoked at the den",
+  "v0": {
+   "guard_den": 0.61,
+   "threaten": 0.34,
+   "flee": 0.04
+  },
+  "tokens": 748,
+  "v1": {
+   "guard_den": 0.65,
+   "threaten": 0.3,
+   "flee": 0.04
+  }
+ },
+ {
+  "case": "mother, badly hurt, provoked at the den, by three armed people",
+  "v0": {
+   "guard_den": 0.78,
+   "threaten": 0.19
+  },
+  "tokens": 731,
+  "v1": {
+   "guard_den": 0.74,
+   "threaten": 0.17,
+   "flee": 0.05
+  }
+ }
+]

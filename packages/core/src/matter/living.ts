@@ -119,6 +119,11 @@ const feeds = (world: MatterWorld, thing: Thing) =>
   (world.elements[thing.element]?.serves?.hunger ?? 0) > 0;
 
 /**
+ * A PLACEHOLDER, and the shape to replace: two cases (what burns may be fled, what feeds may be
+ * approached) is a list of situations, and every new factor would be another branch. The
+ * design that scales is in docs/sandbox-direction.md, "Minds": intents as rows with
+ * preconditions over bonds, deeds, feelings and needs, ranked by salience.
+ *
  * What this body could do now, built from what it is aware of. It cannot be offered what it
  * has not noticed, and it is always offered nothing.
  */
