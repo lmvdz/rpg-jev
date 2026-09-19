@@ -4,7 +4,9 @@
  * and let in only if every test the engine already passed still passes. They run after the base
  * rules of their process, on the same kernel, and the base rules and their oracles are untouched.
  *
- * Append-only: a row is never edited once play has been logged against it (SPEC.md rule 7).
+ * The rows are JSON and are kept as JSON: nothing here is code. This file is written by the
+ * intake (spikes/graph), from `round-1`. Append-only: a row is never edited once play has
+ * been logged against it (SPEC.md rule 7).
  */
 import type { Expr } from "./expr.ts";
 import type { Rule } from "./rules.ts";
@@ -14,5 +16,10 @@ export interface Grown {
   readonly derived: Readonly<Record<string, Expr>>;
 }
 
-export const GROWN_DRIFT: Grown = { rules: [], derived: {} };
-export const GROWN_HEAT: Grown = { rules: [], derived: {} };
+const DRIFT =
+  '{"rules":[{"id":"mildew","says":"What drinks water and is left damp where there is air goes musty, even when little about it feeds rot; without something perishable in it, it goes no further than musty","first":[{"when":{"all":[{"a":"p.absorbency","is":">","b":0},{"ref":"row.is.liquid","equals":false},{"a":"place.air","is":">","b":0},{"a":"s.temperature","is":"<","b":4.5},{"a":"s.contamination","is":"<","b":2}]},"effects":[{"kind":"accrue","q":"s.contamination","rate":{"op":"mul","of":[{"op":"div","of":["p.absorbency",5]},"d.warmth","d.damp","d.kept",0.0003]},"lo":0,"hi":2}],"because":["S9","P9","S2","R6","X7"],"note":"left damp, it goes musty"}]},{"id":"rot-weakens","says":"Rot eats what it grows in: once living contamination is far gone in something perishable, the thing softens and falls apart, faster the more perishable, warm and damp it is, and not at all while it is dry or frozen","first":[{"when":{"all":[{"a":"p.perishability","is":">","b":0},{"ref":"row.is.liquid","equals":false},{"a":"d.eaten","is":">","b":0},{"a":"s.temperature","is":"<","b":4.5}]},"effects":[{"kind":"accrue","q":"s.integrity","rate":{"op":"mul","of":[-0.0002,"d.eaten","d.rots","d.warmth","d.damp"]},"lo":0,"hi":5}],"because":["S9","P15","S4","M4","X7"],"note":"the rot in it is eating it away"}]}],"derived":{"eaten":{"op":"clamp","of":[{"op":"div","of":[{"op":"sub","of":[{"op":"div","of":[{"op":"add","of":["was.contamination","s.contamination"]},2]},3]},2]},0,1]}}}';
+const HEAT =
+  '{"rules":[{"id":"parched","says":"What has drunk water and is dried fast, too close to strong heat, comes out stiff and cracked, by how much water was driven out of it and how close it lay; dried gently at a distance it does not","about":"tgt","first":[{"when":{"all":[{"a":"d.drivenOut","is":">","b":0},{"a":"d.tooClose","is":">","b":0},{"a":"tgt.p.absorbency","is":">","b":0},{"ref":"tgt.was.set","equals":false},{"ref":"tgt.row.is.liquid","equals":false},{"a":"tgt.wetWith.p.oiliness","is":"<","b":3}]},"effects":[{"kind":"set","q":"tgt.s.integrity","to":{"op":"sub","of":["tgt.s.integrity",{"op":"mul","of":[0.2,"d.drivenOut","d.tooClose",{"op":"div","of":["tgt.p.absorbency",5]}]}]},"lo":{"op":"min","of":[3,"tgt.s.integrity"]},"hi":5}],"because":["M1","S2","S4","P9","X3"],"note":"dried too fast and too hot, it stiffens and cracks"}]}],"derived":{"crossing":{"if":{"a":"tgt.was.temperature","is":">=","b":4.9},"then":0,"else":{"if":{"a":"tgt.s.temperature","is":"<","b":4.9},"then":"d.minutes","else":{"op":"div","of":[{"op":"mul","of":[1000,{"op":"sub","of":[{"op":"pow","of":[{"op":"div","of":[{"op":"sub","of":["d.to","tgt.was.temperature"]},{"op":"sub","of":["d.to",4.9]}]},0.001]},1]}]},"d.rate"]}}},"overheatedFor":{"op":"clamp","of":[{"op":"sub","of":["d.minutes","d.crossing"]},0,"d.minutes"]},"drivenOut":{"op":"max","of":[0,{"op":"sub","of":["tgt.was.wetness",{"op":"max","of":["tgt.s.wetness",1]}]}]},"tooClose":{"op":"max","of":[0,{"op":"sub","of":["d.reach",3.5]}]}}}';
+
+export const GROWN_DRIFT: Grown = JSON.parse(DRIFT);
+export const GROWN_HEAT: Grown = JSON.parse(HEAT);

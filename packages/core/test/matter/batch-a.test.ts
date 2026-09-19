@@ -62,7 +62,8 @@ describe("fire and cold", () => {
     expect(far?.state.temperature).toBeLessThan(3.5);
   });
 
-  it.fails("fire-03: left too close, the leather stiffens and cracks (M1's dried-fast-and-hot is not a rule yet)", () => {
+  // Derived since the grown rule `parched` (graph/grown.ts, round 1): proposed by a model, ratified by Jev.
+  it("fire-03: left too close, the leather stiffens and cracks", () => {
     const w = world([flame, thing("boots", "leather", "hearth", { wetness: 3 })]);
     const boots = resolve(w, heatFrom("boots", 60, 0.8)).world.things.boots;
     expect(boots?.state.integrity).toBeLessThan(5);
@@ -112,7 +113,8 @@ describe("fire and cold", () => {
     expect(hour.things.shirt?.state.wetness).toBeGreaterThan(2);
   });
 
-  it.fails("cold-01: and the wet cloth turns musty in a day or two (cloth's row has no perishability, and nothing else says damp fibre moulds)", () => {
+  // Derived since the grown rule `mildew` (graph/grown.ts, round 1): proposed by a model, ratified by Jev.
+  it("cold-01: and the wet cloth turns musty in a day or two", () => {
     const w = world([thing("shirt", "cloth", "rain", { wetness: 4 })]);
     const days = resolve(w, { process: "drift", minutes: 2880 }).world;
     expect(days.things.shirt?.state.contamination).toBeGreaterThan(0.5);
