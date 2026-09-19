@@ -69,13 +69,17 @@ export function searchYield(world: MatterWorld, act: SearchAct): number {
   const place = world.places[act.place];
   const before = place?.searched[act.element] ?? { minutes: 0, found: 0 };
   const level = Math.floor(clamp(place?.abundance[act.element] ?? 0));
-  const stock = STOCK[level] ?? 0;
+  // A bigger place holds more and takes longer to go over.
+  const extent = Math.max(1, place?.extent ?? 1);
+  const stock = (STOCK[level] ?? 0) * extent;
   if (stock <= 0 || act.minutes <= 0) return 0;
+  const patch = 30 * extent;
   // What all the minutes so far should have turned up, as one curve: ground gone over gives
   // less, and the stock runs down as it is found. An act's yield is a stretch of that curve.
   const upTo = (minutes: number) =>
     stock *
-    (1 - Math.exp((-(PER_MINUTE[level] ?? 0) * 30 * Math.log((30 + minutes) / 30)) / stock));
+    (1 -
+      Math.exp((-(PER_MINUTE[level] ?? 0) * patch * Math.log((patch + minutes) / patch)) / stock));
   const expected = upTo(before.minutes + act.minutes) - upTo(before.minutes);
   return Math.max(0, Math.min(stock - before.found, expected));
 }

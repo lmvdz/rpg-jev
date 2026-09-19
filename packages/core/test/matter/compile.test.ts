@@ -6,6 +6,7 @@
 import { describe, expect, it } from "vitest";
 import {
   type Answers,
+  alight,
   BARE_HANDS,
   blaze,
   COMPILED,
@@ -34,7 +35,7 @@ function clearing(): MatterWorld {
   const things = [
     at("c1-7", "blade", { edge: 4 }),
     at("c1-9", "oil"),
-    at("c1-12", "fire", { burning: { of: "self", fuel: 600 } }),
+    at("c1-12", "branch", { amount: 8 }),
     at("c1-20", "branch"),
     at("c1-31", "berries"),
     at("hands", "hand"),
@@ -48,11 +49,14 @@ function clearing(): MatterWorld {
     sickness: 0,
     sickensIn: 0,
   };
-  return {
+  const made = {
     ...empty,
     things: Object.fromEntries(things.map((t) => [t.id, t])),
     bodies: { hero },
   };
+  const hearth = made.things["c1-12"];
+  // A fire is fuel, burning: the hearth is a pile of branches set alight.
+  return hearth ? { ...made, things: { ...made.things, "c1-12": alight(made, hearth) } } : made;
 }
 
 const BLANK: Answers = {
@@ -122,6 +126,41 @@ describe("the act compiler", () => {
     expect(blaze(lit, guttering)).toBeLessThan(
       blaze(lit, at("high", "branch", { burning: { of: "self", fuel: 60 } })),
     );
+  });
+
+  it("keeps a hearth alight through a wait, and says what time did once, not once a step", () => {
+    const w = clearing();
+    expect(w.things["c1-12"]?.state.burning?.fuel).toBeGreaterThan(240);
+    const act = compile(w, asked({ process: "X7", duration: "until it is done" }));
+    const waited = act ? resolve(w, act) : null;
+    expect(waited?.world.things["c1-12"]?.state.burning).not.toBeNull();
+    const about = (id: string) =>
+      waited?.changes.filter((c) => c.kind === "state" && c.thing === id) ?? [];
+    expect(about("c1-12")).toHaveLength(1);
+    expect(about("c1-12")[0]?.note).toContain("it burns down");
+    // A cold dry blade did nothing worth saying, and is not said.
+    expect(about("c1-7")).toHaveLength(0);
+    expect(waited?.changes.filter((c) => !c.quiet).length).toBeLessThan(6);
+  });
+
+  it("finds branches in a wood at a glance, again and again: a clearing is many patches", () => {
+    const small = clearing();
+    const place = small.places.clearing;
+    const wood = place
+      ? { ...small, places: { clearing: { ...place, extent: 40, abundance: { branch: 4 } } } }
+      : small;
+    let at = wood;
+    let found = 0;
+    for (const draw of [0.11, 0.92, 0.53, 0.49]) {
+      const before = Object.keys(at.things).length;
+      at = does(
+        at,
+        { process: "X8", patient: UNSEEN, kind: "branch", effort: "a quick look" },
+        draw,
+      );
+      if (Object.keys(at.things).length > before) found += 1;
+    }
+    expect(found).toBeGreaterThanOrEqual(3);
   });
 
   it("looks for a stone: a glance finds nothing, a long search finds one and makes it real", () => {

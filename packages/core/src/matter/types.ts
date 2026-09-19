@@ -214,6 +214,11 @@ export interface Place {
   /** Latent abundance per element, a Score settled once per kind of place. */
   abundance: Record<string, number>;
   searched: Record<string, Searched>;
+  /**
+   * How much ground the place is, in patches a person can go over in half an hour. Absent is
+   * one. A whole clearing held as one place is many: going over some of it leaves the rest.
+   */
+  extent?: number;
 }
 
 export interface MatterWorld {
@@ -247,7 +252,12 @@ export type Change = (
   | { kind: "signal"; place: string; channel: Channel; strength: number }
   | { kind: "settle"; place: string; element: string; minutes: number; found: number }
   | { kind: "nothing" }
-) & { because: string[]; note: string };
+) & {
+  because: string[];
+  note: string;
+  /** Nothing a person standing there would notice. Apply it; do not say it or redraw for it. */
+  quiet?: true;
+};
 
 export const clamp = (x: number, lo = 0, hi = 5) => Math.min(hi, Math.max(lo, x));
 
