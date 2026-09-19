@@ -845,8 +845,19 @@ Start with the general budget/exposure/event guarantees and a minimal thermal
 parts model, not more fire-sword recipes. `spikes/composition` is an isolated
 executable design experiment, not an integrated replacement for `matter`.
 Its numerical assumptions, passing evidence and omissions belong in its README.
-The full C0–C8 gates remain open until verified against the active sandbox and
-renderer, including saved replay, latent state, refinement and unfamiliar assemblies.
+The production C0 regressions are closed on the task branch as described below.
+C1–C8 remain open until verified against the active sandbox and renderer, including
+saved replay, latent state, refinement and unfamiliar assemblies.
+
+**C0 implementation:** `docs/c0-exposure.md` records the task-branch fixes for
+zero supplied dose, aqueous dousing, zero heat exposure and burnout boundaries.
+Drift now separates initial suppression, interval evolution and final fuel
+settlement, preserving the true start snapshot through existing generated rows.
+All 15 held-out assertions, 32 exposure and 38 phase regressions pass. The
+combined gate passes 1,070 ordinary tests with 331 unchanged expected failures.
+Generated rows are unchanged; compatibility with the pinned ordering is tested,
+not arbitrary future conflicting extensions. This does not complete resource
+accounting, parts, mechanics migration or integration into other branches.
 
 **First proof:** the isolated composition spike passes 16 tests for finite
 coating/substrate fuel, residue and escaped-energy accounting, contact-dependent

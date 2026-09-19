@@ -317,7 +317,7 @@ outcomes; the source has no material-name or object-name branches.
 
 | Gate | Evidence obtained | Still not established |
 | --- | --- | --- |
-| C0 | Zero time, contact conductance and fuel in the spike | Fixing active sandbox H1/H2/H4/H5 |
+| C0 | Task-branch production fix: 15 held-out, 32 exposure and 38 phase regressions pass; see `c0-exposure.md` | Upstream branch integration; full resource accounts and arbitrary-extension composition are not certified |
 | C1 | Separate coating/substrate, bare/wrapped contact paths, ordinary thermal body part | Geometry-derived contacts, real wrapping degradation, game targeting |
 | C2 | Finite fuel, substrate consumption, retained residue, escaped fuel-derived mass/heat and signed ambient account | Oxidizer/full chemical mass, moisture evaporation, structural damage and disappearing parts |
 | C3 | Rename/reorder parts and contacts, change thermal inertia through mass, remove conductance | Density/geometry derivation, wet/dry cases and independently authored material families |

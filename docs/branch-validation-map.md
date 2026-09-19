@@ -26,6 +26,11 @@ standalone TypeScript check. The historical held-out suites are archived outside
 test discovery; this green gate does not assert that their defects are fixed
 on this newer revision. Revalidate before starting production fixes.
 
+The subsequent C0 correction is recorded in [c0-exposure.md](c0-exposure.md).
+It installs the normal held-out suite as regressions and adds exposure/phase tests;
+the combined task branch passes 1,070 ordinary tests and 331 expected failures.
+This is still not a merge into the sandbox or renderer branch.
+
 ## Renderer inspection
 
 This is a read-only inspection of the locally available revisions, not a renderer
