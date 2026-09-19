@@ -56,6 +56,7 @@ export function load(world: MatterWorld, act: LoadAct): Change[] {
       kind: "signal",
       place: support.place,
       channel: "sound",
+      source: support.id,
       strength: 4,
       because: ["X2", "E9"],
       note: "a crack as it goes",

@@ -43,6 +43,7 @@ function douse(target: Thing, amount: number): Change[] {
       kind: "signal",
       place: target.place,
       channel: "smoke",
+      source: target.id,
       strength: 3,
       because: ["X3", "S6", "E9"],
       note: "steam",

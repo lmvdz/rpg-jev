@@ -9,6 +9,7 @@ import { type DriftAct, drift } from "./drift.ts";
 import { type ForceAct, force } from "./force.ts";
 import { type HeatAct, heat } from "./heat.ts";
 import { type LoadAct, load } from "./load.ts";
+import { perceive } from "./sense.ts";
 import { type CoatAct, coat, type SoakAct, soak } from "./soak.ts";
 import type { Change, MatterWorld } from "./types.ts";
 
@@ -71,7 +72,10 @@ export interface Outcome {
 export function resolve(world: MatterWorld, act: Act): Outcome {
   const process = PROCESSES[act.process] as Process<typeof act.process>;
   const changes = process(world, inRange(act));
-  return { world: apply(world, changes), changes };
+  const after = apply(world, changes);
+  // Whatever the act did, some of it reaches someone (sense.ts).
+  const noticed = perceive(after, changes);
+  return { world: apply(after, noticed), changes: [...changes, ...noticed] };
 }
 
 /** Several acts in order, each on the world the last one left. */

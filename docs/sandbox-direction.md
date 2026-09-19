@@ -114,6 +114,36 @@ The user raised it with the renderer session, and the vocabulary pass ran into i
 - **"Nothing is made from nothing" bounds a generated ability's power**, as it bounds a generated element's: what an ability yields is bounded by what went in, plus effort and time.
 - Not decided: how many skills, and whether they are per process (ten) or finer. The vocabulary pass should answer it the way it answered the rest: write held-out scenarios where skill is what decides the outcome, and find the smallest set that expresses them.
 
+## Sensing
+
+Batch B's chains broke at the first step that needed something to reach something else at a distance (smoke to bees, light to a wolf, scent to a scavenger, a signal seen from a hill), and the playable clearing has the same hole: the engine emits signals and nothing receives them. This is X8's other half. It is designed here before it is built, invariants first, because the batch B run showed what happens the other way round.
+
+**What is emitted.** Two sources, and only the second exists today.
+
+- *Standing emissions*, read off state and never stored: a burning thing gives light and smoke by how hard it burns (`blaze`); a thing gives scent by its effective scent and how much of it there is (so a carcass smells more each day, which the rules already derive); a thing hot enough glows.
+- *Event signals*, the `signal` changes an act already makes: the sound of a blow, the crack of a plank, steam.
+
+**What carries it.** A strength from 0 to 5 on a channel (light, sound, scent, smoke), lessened by distance, by what is in the way, and by what it competes with on its own channel: a fire is seen far at night and hardly at noon; a footstep is lost in a storm; a strong smell covers a weak one. Wind carries scent and smoke and thins them. Distance needs positions, which matter does not have: a thing and a body gain an optional position in tiles, absent meaning "right here", so nothing built so far changes. Places gain an optional light and noise level.
+
+**Who receives it.** A body, by the acuity of the sense (a body row, which bodies do not have yet: the vocabulary has it and the engine gave bodies no element) and by its attention: alert, distracted, asleep. What is received is a **percept**: this body, this channel, this source, this strength. Sensing is deterministic: no draw. A percept is either above the body's threshold or it is not.
+
+**What it is for.** A percept is not a belief and does nothing by itself. It is what the next layer is built from: the option set for `pick_action` ("there is fire that way", "something smells of meat upwind") when someone is watching, the routine when nobody is (rule 10), and a claim held with its source when the perceiver is a person (E8: "saw it", which is how a deed gets a witness). Matter's job ends at the percept. That keeps the judge out of physics and physics out of the judge.
+
+**Where it runs.** After an act, inside `resolve`, over what the act changed and what stands emitting in that place; and at the end of a drift. Cost is bodies times emitting things, and few things emit.
+
+**The invariants, written before the rule:**
+
+1. No percept without a source: every percept names a thing that emits on that channel, or an event that happened.
+2. Stronger is never less noticed. Nearer is never less noticed. More in the way is never more noticed.
+3. What an alert body misses, a distracted one misses, and what a distracted one misses, a sleeping one misses.
+4. A louder or brighter surrounding never makes a weak signal easier to notice.
+5. Sensing changes nothing but what bodies are aware of: no thing's state, no amount, no heat.
+6. The same world sensed twice gives the same percepts, and cutting a wait into parts does not change what is noticed at the end of it.
+
+**Built** (`packages/core/src/matter/sense.ts`, `test/matter/sensing.test.ts`): the six invariants were written first and the rule passed them on its first run. A fire is seen across a wood at night and hardly at noon; a carcass is smelt further each day, by a wolf long before a person; a blow is heard by who is near, and the act that made it records the hearing. A body may now name an element row for its hide, bulk and senses (the first step toward a body being a thing with needs, which three batch C runners asked for independently); a blow reads it, so a bear is no longer a man.
+
+**What it will not do yet.** Line of sight around things (there is no geometry in matter; "what is in the way" is the place's cover as one level). Memory of what was sensed (that is the claim store's). Deciding what a creature does about it.
+
 ## Admitting a feature
 
 A property, process or substrate is admitted when:

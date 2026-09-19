@@ -53,6 +53,12 @@ const APPLIERS: { [K in Change["kind"]]: Applier<K> } = {
   },
   // A signal is heard or not by whoever is sensing; it leaves no state of its own here.
   signal: (world) => world,
+  // Sensing writes what a body is aware of, and nothing else.
+  percept: (world, c) => {
+    const body = world.bodies[c.body];
+    if (!body) return world;
+    return { ...world, bodies: { ...world.bodies, [c.body]: { ...body, aware: c.aware } } };
+  },
   settle: (world, c) => {
     const place = world.places[c.place];
     if (!place) return world;

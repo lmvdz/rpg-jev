@@ -74,6 +74,23 @@ export interface Element {
   look?: Look;
   /** What it gives off while it exists. The client picks among its own by visible state. */
   effect?: EffectRow;
+  /** The body row, for what lives: levels 0 to 5. A thing that is not alive has none. */
+  body?: BodyRow;
+}
+
+/** What a living thing can do and notice (vocabulary section 1, the body row). */
+export interface BodyRow {
+  strength: number;
+  speed: number;
+  sight: number;
+  hearing: number;
+  smell: number;
+}
+
+/** What a body is aware of from one source: the channel it came by, and how strongly. */
+export interface Percept {
+  channel: Channel;
+  strength: number;
 }
 
 /** The client's glyph atlas and 16-entry palette are closed sets, so a look can be ratified. */
@@ -173,6 +190,8 @@ export interface Thing {
   id: string;
   element: string;
   place: string;
+  /** Where in the place, in tiles. Absent is right here: nothing built before positions changes. */
+  where?: readonly [number, number];
   state: ThingState;
 }
 
@@ -186,6 +205,13 @@ export interface Wound {
 export interface Body {
   id: string;
   place: string;
+  where?: readonly [number, number];
+  /** The row of what it is: its hide and bulk, its strength, its senses. Absent is a person. */
+  element?: string;
+  /** B7. Absent is alert. */
+  attention?: "alert" | "distracted" | "asleep";
+  /** What it is aware of now, by source. Written only by sensing. */
+  aware?: Record<string, Percept>;
   needs: Partial<Record<Need, number>>;
   /** B2: 0 to 5. */
   health: number;
@@ -214,6 +240,10 @@ export interface Place {
   /** Latent abundance per element, a Score settled once per kind of place. */
   abundance: Record<string, number>;
   searched: Record<string, Searched>;
+  /** How light it is (0 dark, 5 noon), how loud, and how much stands in the way. Absent is middling, quiet, open. */
+  light?: number;
+  noise?: number;
+  cover?: number;
   /**
    * How much ground the place is, in patches a person can go over in half an hour. Absent is
    * one. A whole clearing held as one place is many: going over some of it leaves the rest.
@@ -249,7 +279,8 @@ export type Change = (
   | { kind: "treat"; body: string; index: number; set: Partial<Wound> }
   | { kind: "create"; thing: Thing }
   | { kind: "consume"; thing: string; amount: number }
-  | { kind: "signal"; place: string; channel: Channel; strength: number }
+  | { kind: "signal"; place: string; channel: Channel; strength: number; source?: string }
+  | { kind: "percept"; body: string; aware: Record<string, Percept> }
   | { kind: "settle"; place: string; element: string; minutes: number; found: number }
   | { kind: "nothing" }
 ) & {
