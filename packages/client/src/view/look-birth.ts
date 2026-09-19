@@ -2,9 +2,9 @@
  * A look as a kind of born row (`birth.ts`): a glyph of the atlas, a palette
  * colour, a size, whether it sways. The subject is the element as it is whole
  * and mild: its kind, forms and baseline levels. Code shortlists the glyphs by
- * kind, so the judge chooses among a few that could fit and "none"; letters
- * stand for creatures and people as they do in any roguelike, and which letter
- * is the judge's to say, since only it reads the name.
+ * kind, so the judge chooses among a few that could fit and "none"; curated
+ * silhouettes sit alongside letters for creatures and people. Which fits is
+ * the judge's to say, since only it reads the name.
  *
  * The world's element birth will call this when it makes a row
  * (docs/sandbox-direction.md, "What a row owes the client"); until a row
@@ -61,11 +61,11 @@ const STUFF = ["*", "%", ":", ".", "~", "=", "#"];
 
 /** Which glyphs could stand for an element of each kind. Anything else is offered every one of them. */
 const SHORTLIST: Record<(typeof KINDS)[number], readonly string[]> = {
-  plant: ["tree", "pine", "bush", "reed", '"', ",", "%"],
-  creature: [...LOWER, ...UPPER],
+  plant: ["tree", "pine", "bush", "reed", "stump", "branches", "mushroom", '"', ",", "%"],
+  creature: ["creature", ...LOWER, ...UPPER],
   person: ["@", ...UPPER],
-  material: ["rock", ...STUFF],
-  thing: ["flame", "rock", ...MARKS],
+  material: ["rock", "stump", "branches", ...STUFF],
+  thing: ["flame", "rock", "stump", "branches", "mushroom", "tool", ...MARKS],
   place: ["#", "_", "^", "~"],
 };
 const EVERY = [...new Set(Object.values(SHORTLIST).flat())];

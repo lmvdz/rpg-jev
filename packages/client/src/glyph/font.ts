@@ -105,7 +105,10 @@ const ASCII: Readonly<Record<string, string>> = {
   "~": "... .## ##. ... ...",
 };
 
-/** Props that no ASCII character draws well. They follow "~" in the atlas. */
+/**
+ * Silhouettes that no ASCII character draws well. They follow "~" in the atlas.
+ * Append only: saved worlds and born looks store these atlas indices.
+ */
 const EXTRA = {
   tree: ".#. ### ### .#. .#.",
   pine: ".#. .#. ### ### .#.",
@@ -113,6 +116,11 @@ const EXTRA = {
   flame: ".#. .#. ### #.# .#.",
   rock: "... ... .#. ### ###",
   reed: "#.# #.# #.# .#. .#.",
+  stump: "... ... ### #.# ###",
+  branches: "... #.. .## ##. #.#",
+  mushroom: ".#. ### ### .#. ###",
+  tool: "### ##. .#. .#. .#.",
+  creature: "#.# ### .#. ### #.#",
 } as const;
 
 export type ExtraGlyph = keyof typeof EXTRA;

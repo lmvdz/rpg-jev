@@ -5,6 +5,7 @@ import {
   buildGlyphAtlas,
   CELL_H,
   CELL_W,
+  EXTRA_GLYPHS,
   GLYPH_COUNT,
   GLYPH_H,
   GLYPH_W,
@@ -15,7 +16,8 @@ import {
 import { PALETTE_HEX, PALETTE_SIZE, paletteToFloats } from "../src/palette.ts";
 
 describe("the font", () => {
-  it("draws every printable ASCII character at 3 by 5", () => {
+  it("draws every ASCII character and curated silhouette at exactly 3 by 5", () => {
+    expect([GLYPH_W, GLYPH_H]).toEqual([3, 5]);
     const glyphs = glyphRows();
     expect(glyphs).toHaveLength(GLYPH_COUNT);
     for (const rows of glyphs) {
@@ -50,8 +52,33 @@ describe("the font", () => {
 
   it("falls back to a question mark and finds the extra glyphs after ASCII", () => {
     expect(glyphOfChar("é")).toBe(glyphOfChar("?"));
+    for (let code = 32; code <= 126; code++) {
+      expect(glyphOfChar(String.fromCharCode(code))).toBe(code - 32);
+    }
+    // These indices are persisted, not offsets relative to a growing glyph count.
+    expect(["tree", "pine", "bush", "flame", "rock", "reed"]).toEqual(EXTRA_GLYPHS.slice(0, 6));
     expect(glyphOfExtra("tree")).toBe(95);
-    expect(glyphOfExtra("reed")).toBe(GLYPH_COUNT - 1);
+    expect(glyphOfExtra("pine")).toBe(96);
+    expect(glyphOfExtra("bush")).toBe(97);
+    expect(glyphOfExtra("flame")).toBe(98);
+    expect(glyphOfExtra("rock")).toBe(99);
+    expect(glyphOfExtra("reed")).toBe(100);
+  });
+
+  it("appends recognizable silhouettes without changing the hero mark", () => {
+    const glyphs = glyphRows();
+    expect(glyphs[glyphOfChar("@")]).toEqual([".##", "#.#", "#.#", "#..", ".##"]);
+    const curated = [
+      ["stump", "... ... ### #.# ###"],
+      ["branches", "... #.. .## ##. #.#"],
+      ["mushroom", ".#. ### ### .#. ###"],
+      ["tool", "### ##. .#. .#. .#."],
+      ["creature", "#.# ### .#. ### #.#"],
+    ] as const;
+    curated.forEach(([name, mask], offset) => {
+      expect(glyphOfExtra(name)).toBe(101 + offset);
+      expect(glyphs[glyphOfExtra(name)]?.join(" ")).toBe(mask);
+    });
   });
 });
 
