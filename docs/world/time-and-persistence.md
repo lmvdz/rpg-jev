@@ -29,9 +29,11 @@ direction rather than adding an independently firing high-frequency timer per
 creature. Eligibility, priority, fairness and batch budgets still need measurement.
 Subscription scope controls delivery, not simulation or access authorization.
 
-This settles execution architecture only. It does not decide whether all
-individuals are created eagerly, how inactive state is stored, or how databases
-are partitioned. S0's queue/storage measurements are infrastructure evidence, not
+This settles execution architecture only. The separate
+[population-entry decision](world-identity-and-context.md#accepted-decision-accounted-population-entry)
+uses accounted regional sources rather than mandatory eager individual creation.
+Inactive storage and database partitioning remain open.
+S0's queue/storage measurements are infrastructure evidence, not
 a per-entity compute budget or proof of the integrated embodied runtime.
 Implementation must exercise sleeping populations, scheduled activity, dense
 interactions and clustered/dispersed players before claiming capacity.

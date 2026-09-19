@@ -79,12 +79,28 @@ event-driven work in a shared SpacetimeDB runtime, not a dedicated VM, thread,
 connection or perpetual tick. A bounded scheduler dispatches eligible work and
 the common commit authority resolves interactions. See the
 [runtime decision](world/time-and-persistence.md#accepted-decision-logical-entity-runtimes).
-This does not settle eager versus lazy individual creation or claim measured
-capacity for the full entity model.
+Execution is separate from the population-entry decision below; neither decision
+claims measured capacity for the full entity model.
 
 ## 4. World construction and persistent identity
 
 Generate a consistent situation, not independent random attributes.
+
+**Accepted population-entry model:** use rule-driven spawning from an accounted,
+potentially coarse regional population source, not mandatory eager creation of
+every individual. Initial population, arrivals/births and activation are separate
+operations. Materializing individuals transfers source allocation atomically;
+activation never spawns, and migration retains identity. Dormant individuals still
+count. Replenishment requires admitted events, not automatic replacement of deaths.
+Population allocation is not a substitute for physical/body resource accounts.
+
+Persist spawn opportunities and their resolution so revisiting, extra players
+or repeated evaluation cannot mint independent chances. Proximity may schedule
+work but cannot reset reality. Placement and initialization respect established
+observations. Once created, individuals persist across absence; retirement is
+explicit rather than distance-based erasure. Source calibration and lifecycle
+details remain open in the
+[population-entry contract](world/world-identity-and-context.md#accepted-decision-accounted-population-entry).
 
 A creature's creation record establishes its identity, organism definition,
 developmental stage, admitted biological attributes, body and initial context.

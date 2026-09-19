@@ -955,8 +955,22 @@ machine, thread, database, connection or permanent tick. A bounded shared
 scheduler dispatches eligible work; reducers remain the common authoritative
 commit path. Sleeping execution does not waive admitted elapsed-time effects.
 This extends section 18's bounded due-work design, not one high-frequency timer
-per creature. Eager versus lazy individual creation, runtime capacity and
-partitioning remain separate decisions; S0 is not an embodied-entity benchmark.
+per creature. Runtime capacity and partitioning remain open;
+S0 is not an embodied-entity benchmark.
+
+**Accepted population-entry model:** rule-driven creature spawning draws from
+an accounted regional population source that may remain coarse. Initial
+population, arrivals/births and activation are distinct; not every individual
+must exist at region generation. Materialization transfers source allocation
+atomically, dormant explicit creatures still count, and migration preserves
+identity. Births and replenishment need admitted transitions; deaths do not
+automatically refund spawn stock. Population counts do not replace body/material
+accounts. Persist opportunity resolutions so retries, extra observers and region
+re-entry do not grant fresh independent rolls. Placement respects established
+observations. Created individuals persist across absence; retirement is explicit,
+not distance-based identity erasure. See the
+[population-entry contract](docs/world/world-identity-and-context.md#accepted-decision-accounted-population-entry)
+for boundaries and still-open calibration/lifecycle questions.
 
 Keep realized truth, subjective uncertainty, evolving physical risk and sampled
 choices distinct. Save/load, offscreen catch-up and refinement preserve committed
