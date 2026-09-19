@@ -22,6 +22,7 @@ import {
   fromHome,
   precedes,
 } from "./bonds.ts";
+import { feeds, preyTo } from "./diet.ts";
 import { effective } from "./effective.ts";
 import { blaze } from "./heat.ts";
 import { able, canTake } from "./living.ts";
@@ -67,6 +68,8 @@ interface Target {
   hurt: number;
   /** How much stronger than this body it is. */
   stronger: number;
+  /** How hungry this body is, if that one would feed it and could be taken. */
+  prey: number;
   /** Custom here gives it the first turn. */
   first: boolean;
   /** It wants what this body wants: both hungry, with food in reach of it. */
@@ -111,14 +114,28 @@ function threatOf(world: MatterWorld, body: Body, other: Body, gap: number): num
   if (bound(world, body.id, other.id) || cannotCome(world, other)) return 0;
   const f = body.feels?.[other.id] ?? NO_FEELING;
   const stronger = Math.max(0, able(world, other).strength - able(world, body).strength);
-  const menace = f.fear + f.anger * 0.3 + (armed(world, other) ? 1 : 0) + stronger * 0.5;
+  // What would make a meal of it is a menace before it has done anything.
+  const hunted = preyTo(world, other, body) > 0 ? 1.5 : 0;
+  const menace = f.fear + f.anger * 0.3 + (armed(world, other) ? 1 : 0) + stronger * 0.5 + hunted;
   return menace / (1 + gap / 8);
 }
 
-/** The most urgent of these needs that the thing would meet. */
+/** A full measure: what gives this much toward a need meets it as well as anything does. */
+const FULL = 2;
+
+/**
+ * The need this thing is worth most toward, for whoever has the need: how urgent the need is,
+ * by how well the thing would meet it. What barely feeds it is worth little however hungry.
+ */
 function meets(world: MatterWorld, thing: Thing, felt: readonly Felt[]): Felt | null {
-  const serves = world.elements[thing.element]?.serves ?? {};
-  return felt.find((f) => (serves[f.need] ?? 0) > 0) ?? null;
+  let best: Felt | null = null;
+  for (const f of felt) {
+    const whose = world.bodies[f.whose];
+    const gives = whose ? (feeds(world, whose, thing.element)[f.need] ?? 0) : 0;
+    const worth = f.urgency * Math.min(1, gives / FULL);
+    if (worth > (best?.urgency ?? 0)) best = { ...f, urgency: worth };
+  }
+  return best;
 }
 
 function thingTarget(world: MatterWorld, body: Body, thing: Thing, felt: readonly Felt[]) {
@@ -139,7 +156,7 @@ function thingTarget(world: MatterWorld, body: Body, thing: Thing, felt: readonl
   // What already lies beside the ward needs no carrying.
   const held = (body.holds ?? []).includes(thing.id);
   const there = ward !== null && !held && apart(ward.where, thing.where) <= NEAR;
-  const serves = world.elements[thing.element]?.serves ?? {};
+  const serves = feeds(world, body, thing.element);
   return {
     kept,
     useful: Object.keys(body.needs).some((need) => (serves[need as keyof typeof serves] ?? 0) > 0),
@@ -154,14 +171,18 @@ function otherTarget(world: MatterWorld, body: Body, other: Body, gap: number) {
   const hungry = (other.needs.hunger ?? 0) >= 2 && (body.needs.hunger ?? 0) >= 2;
   const food = Object.keys(body.aware ?? {}).some((id) => {
     const thing = world.things[id];
-    const feeds = (world.elements[thing?.element ?? ""]?.serves?.hunger ?? 0) > 0;
-    return feeds && apart(other.where, thing?.where) <= 8;
+    const fed = (feeds(world, body, thing?.element ?? "").hunger ?? 0) > 0;
+    return fed && apart(other.where, thing?.where) <= 8;
   });
+  const stronger = able(world, other).strength - able(world, body).strength;
+  // What it is as quarry is one question, asked in one place (diet.ts).
+  const meal = preyTo(world, body, other);
   return {
+    prey: (body.needs.hunger ?? 0) * Math.min(1, meal / FULL),
     threat: threatOf(world, body, other, gap),
     dear: bondTo(world, body.id, other.id) / 5,
     hurt: other.wounds.reduce((n, w) => n + w.depth, 0),
-    stronger: able(world, other).strength - able(world, body).strength,
+    stronger,
     first: precedes(world, other, body, "food"),
     contests: hungry && food,
   };
@@ -186,6 +207,7 @@ function targetOf(
     ...blank,
     hurt: 0,
     stronger: 0,
+    prey: 0,
     first: false,
     contests: false,
     feeling: body.feels?.[id] ?? NO_FEELING,
@@ -237,7 +259,11 @@ function situationOf(world: MatterWorld, body: Body): Situation {
     .map((id) => targetOf(base, id, names[id] ?? "something"));
   const threat = Math.max(0, ...targets.map((t) => t.threat));
   const lacking = felt.find(
-    (f) => !targets.some((t) => t.thing !== null && meets(world, t.thing, [f]) !== null),
+    (f) =>
+      !targets.some((t) => {
+        const quarry = f.need === "hunger" && f.whose === body.id && t.prey > 0;
+        return quarry || (t.thing !== null && meets(world, t.thing, [f]) !== null);
+      }),
   );
   const unmet = SOUGHT.has(lacking?.need ?? "") ? (lacking?.urgency ?? 0) : 0;
   return { ...base, targets, threat, unmet, stake: stakeOf(world, body, felt) };
@@ -267,7 +293,10 @@ const waits = (waitsOn: string, says: string): IntentRow => ({
 const near = (t: Target) => t.gap <= NEAR;
 /** What is at hand counts for more than what is far: a chance now may not be one later. */
 const atHand = (t: Target) => 1.5 / (1 + t.gap / 8);
-const want = (t: Target) => Math.max(t.servesOwn, t.servesWard);
+/** A rush: within this, what lives is struck at, not gone toward. */
+const RUSH = 8;
+// Quarry is gone toward only from beyond a rush; nearer than that, it is struck at.
+const want = (t: Target) => Math.max(t.servesOwn, t.servesWard, t.gap > RUSH ? t.prey : 0);
 const gate = (open: boolean, salience: number) => (open ? salience : 0);
 
 /** Carrying is take, then go, then set down: which, by where things stand. */
@@ -288,7 +317,7 @@ function striking(s: Situation, t: Target): Act | undefined {
 
 export const INTENT_ROWS: Record<string, IntentRow> = {
   go_to: {
-    toward: "thing",
+    toward: "any",
     when: (s, t) =>
       gate(
         !(near(t) || t.held) && want(t) > 0,
@@ -365,8 +394,8 @@ export const INTENT_ROWS: Record<string, IntentRow> = {
   store: {
     toward: "thing",
     when: (s, t) => {
-      const feeds = (s.world.elements[t.thing?.element ?? ""]?.serves?.hunger ?? 0) > 0;
-      return gate(near(t) && feeds && s.urgent < 2 && s.threat <= 0, 0.8);
+      const fed = (feeds(s.world, s.body, t.thing?.element ?? "").hunger ?? 0) > 0;
+      return gate(near(t) && fed && s.urgent < 2 && s.threat <= 0, 0.8);
     },
     says: (n) => `put ${n} by for later`,
   },
@@ -397,7 +426,10 @@ export const INTENT_ROWS: Record<string, IntentRow> = {
     when: (s, t) => {
       const cause = t.feeling.anger >= 2 || (s.cornered && t.threat > 0);
       const push = t.feeling.anger + (s.cornered ? 2 : 0) + s.stake * 0.5;
-      return gate(t.gap <= 8 && cause, push - Math.max(0, t.stronger) - 1);
+      const fight = gate(cause, push - Math.max(0, t.stronger) - 1);
+      // Or it is hungry, and that one is food that is still alive.
+      const hunt = gate(t.prey >= 1, t.prey + atHand(t) - 1.5 - s.threat * 0.5);
+      return gate(t.gap <= RUSH, Math.max(fight, hunt));
     },
     says: (n) => `use force on ${n}`,
     act: striking,
@@ -494,6 +526,7 @@ const NOTHING: Target = {
   strange: false,
   hurt: 0,
   stronger: 0,
+  prey: 0,
   first: false,
   contests: false,
 };

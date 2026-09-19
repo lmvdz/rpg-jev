@@ -9,6 +9,7 @@
  * feels, how the ground lies. It does not say what it is offered; the offers are the question.
  */
 import { apart, bondsOf, cornered, fromHome, witnesses } from "./bonds.ts";
+import { feeds, preyTo } from "./diet.ts";
 import { able } from "./living.ts";
 import { handles, nameOf } from "./names.ts";
 import type { Body, Feeling, MatterWorld } from "./types.ts";
@@ -84,9 +85,9 @@ const BOND_WORDS: Record<string, string> = {
 function bearing(world: MatterWorld, body: Body, id: string): number {
   const f = body.feels?.[id];
   const dear = bondsOf(world, body.id).find((b) => b.to === id)?.weight ?? 0;
-  const feeds = world.elements[world.things[id]?.element ?? ""]?.serves?.hunger ?? 0;
+  const fed = feeds(world, body, world.things[id]?.element ?? "").hunger ?? 0;
   const lives = id in world.bodies ? 2 : 0;
-  const wanted = feeds > 0 ? (body.needs.hunger ?? 0) : 0;
+  const wanted = fed > 0 ? (body.needs.hunger ?? 0) : 0;
   return dear + (f ? f.fear + f.anger : 0) + lives + wanted + (body.aware?.[id]?.strength ?? 0) / 5;
 }
 
@@ -103,7 +104,13 @@ function presentOf(world: MatterWorld, body: Body, names: Record<string, string>
   const thing = world.things[id];
   const percept = body.aware?.[id];
   const held = (other?.holds ?? []).map((h) => nameOf(world, h));
+  // What it is to this one: food, or prey, or one that would make food of it.
+  const food = thing ? (feeds(world, body, thing.element).hunger ?? 0) > 0 : false;
+  const prey = other ? preyTo(world, body, other) > 0 : false;
+  const hunter = other ? preyTo(world, other, body) > 0 : false;
   const notes = [
+    ...(food || prey ? ["would feed it"] : []),
+    ...(hunter ? ["would make a meal of it"] : []),
     ...(other ? [`looks ${word(MIGHT, able(world, other).strength)}`, ...woundsSeen(other)] : []),
     ...(held.length > 0 ? [`holding ${held.join(" and ")}`] : []),
     ...(thing?.state.burning ? ["burning"] : []),

@@ -19,15 +19,20 @@ const NONE = "none_of_these";
 type W = matter.MatterWorld;
 
 const ROWS: matter.Element[] = [
-  { id: "wolf", name: "a wolf", kind: "creature", forms: [], props: { mass: 3, size: 3, hardness: 1, toughness: 3 }, body: { strength: 3, speed: 4, sight: 3, hearing: 4, smell: 5 } },
-  { id: "pup", name: "a wolf pup", kind: "creature", forms: [], props: { mass: 1, size: 1, hardness: 0, toughness: 1 }, body: { strength: 0, speed: 1, sight: 1, hearing: 2, smell: 2 } },
-  { id: "hind", name: "a red deer hind", kind: "creature", forms: [], props: { mass: 4, size: 4, hardness: 1, toughness: 2 }, body: { strength: 2, speed: 5, sight: 3, hearing: 5, smell: 4 } },
-  { id: "bear", name: "a bear", kind: "creature", forms: [], props: { mass: 5, size: 4, hardness: 1, toughness: 4 }, body: { strength: 5, speed: 3, sight: 2, hearing: 3, smell: 5 } },
-  { id: "person", name: "a person", kind: "person", forms: [], props: { mass: 3, size: 3, hardness: 1, toughness: 2 }, body: { strength: 2, speed: 2, sight: 3, hearing: 3, smell: 1 } },
-  { id: "infant", name: "an infant", kind: "person", forms: [], props: { mass: 1, size: 1, hardness: 0, toughness: 1 }, body: { strength: 0, speed: 0, sight: 2, hearing: 2, smell: 1 } },
-  { id: "meat", name: "meat", kind: "material", forms: [], props: { mass: 1, size: 1, toughness: 2, perishability: 5, scent: 3 }, moist: 3, serves: { hunger: 3 } },
+  { id: "wolf", name: "a wolf", kind: "creature", forms: [], props: { mass: 3, size: 3, hardness: 1, toughness: 3 }, body: { strength: 3, speed: 4, sight: 3, hearing: 4, smell: 5, eats: { flesh: 5, fruit: 1 } }, fare: "flesh", serves: { hunger: 3 } },
+  { id: "pup", name: "a wolf pup", kind: "creature", forms: [], props: { mass: 1, size: 1, hardness: 0, toughness: 1 }, body: { strength: 0, speed: 1, sight: 1, hearing: 2, smell: 2, eats: { flesh: 5 } }, fare: "flesh", serves: { hunger: 1 } },
+  { id: "fawn", name: "a fawn", kind: "creature", forms: [], props: { mass: 1, size: 1, hardness: 0, toughness: 1 }, body: { strength: 0, speed: 1, sight: 2, hearing: 3, smell: 2, eats: { leaf: 5, fruit: 3 } }, fare: "flesh", serves: { hunger: 2 } },
+  { id: "cub", name: "a bear cub", kind: "creature", forms: [], props: { mass: 2, size: 1, hardness: 0, toughness: 2 }, body: { strength: 0, speed: 1, sight: 1, hearing: 2, smell: 3, eats: { flesh: 4, fruit: 5 } }, fare: "flesh", serves: { hunger: 2 } },
+  { id: "hind", name: "a red deer hind", kind: "creature", forms: [], props: { mass: 4, size: 4, hardness: 1, toughness: 2 }, body: { strength: 2, speed: 5, sight: 3, hearing: 5, smell: 4, eats: { leaf: 5, fruit: 3, seed: 3 } }, fare: "flesh", serves: { hunger: 3 } },
+  { id: "hare", name: "a hare", kind: "creature", forms: [], props: { mass: 1, size: 1, hardness: 0, toughness: 1 }, body: { strength: 1, speed: 5, sight: 3, hearing: 5, smell: 3, eats: { leaf: 5, seed: 2 } }, fare: "flesh", serves: { hunger: 2 } },
+  { id: "bear", name: "a bear", kind: "creature", forms: [], props: { mass: 5, size: 4, hardness: 1, toughness: 4 }, body: { strength: 5, speed: 3, sight: 2, hearing: 3, smell: 5, eats: { flesh: 4, fruit: 5, seed: 3, leaf: 2 } }, fare: "flesh", serves: { hunger: 4 } },
+  { id: "person", name: "a person", kind: "person", forms: [], props: { mass: 3, size: 3, hardness: 1, toughness: 2 }, body: { strength: 2, speed: 2, sight: 3, hearing: 3, smell: 1, eats: { flesh: 4, fruit: 5, seed: 5, leaf: 1 } }, fare: "flesh", serves: { hunger: 3 } },
+  { id: "infant", name: "an infant", kind: "person", forms: [], props: { mass: 1, size: 1, hardness: 0, toughness: 1 }, body: { strength: 0, speed: 0, sight: 2, hearing: 2, smell: 1, eats: { flesh: 2, fruit: 4, seed: 4 } }, fare: "flesh", serves: { hunger: 1 } },
+  { id: "meat", name: "meat", kind: "material", forms: [], props: { mass: 1, size: 1, toughness: 2, perishability: 5, scent: 3 }, moist: 3, serves: { hunger: 3 }, fare: "flesh" },
+  { id: "haws", name: "a spray of haws", kind: "plant", forms: [], props: { mass: 0, size: 1, toughness: 1, scent: 1 }, serves: { hunger: 2 }, fare: "fruit" },
+  { id: "browse", name: "green browse", kind: "plant", forms: [], props: { mass: 1, size: 2, toughness: 2 }, serves: { hunger: 2 }, fare: "leaf" },
 ];
-const YOUNG: Record<string, string> = { wolf: "pup", person: "infant", hind: "pup", bear: "pup" };
+const YOUNG: Record<string, string> = { wolf: "pup", person: "infant", hind: "fawn", bear: "cub" };
 
 function scene(seed: number): W {
   const r = Rng.fromSeed(seed);
@@ -50,7 +55,7 @@ function scene(seed: number): W {
     }
   }
   if (r.next() < 0.75) {
-    const other = pick(["person", "wolf", "bear", "hind", what]);
+    const other = pick(["person", "wolf", "bear", "hind", "hare", what]);
     const gap = pick([2, 4, 8, 15, 30]);
     const o = body("other", other, [gap, 1]);
     if (r.next() < 0.3) o.wounds = [{ depth: 2 + level(2), bleeding: 1, burned: 0 }];
@@ -65,8 +70,8 @@ function scene(seed: number): W {
     } else if (r.next() < 0.6) self.feels = { other: { fear: level(4), anger: level(3), trust: 0 } };
     bodies.push(o);
   }
-  // A grazer is not fed by meat. (What feeds whom is not yet a structure: see INTENTS.md.)
-  if (r.next() < 0.7) things.push({ id: "food", element: what === "hind" ? "berries" : "meat", place: "wood", where: [pick([1, 5, 12, 25]), -1], state: { ...matter.FRESH, amount: 5, wetness: 3 } });
+  // What the food is, is drawn without regard to who is there: diet decides what it is to them.
+  if (r.next() < 0.7) things.push({ id: "food", element: pick(["meat", "meat", "haws", "browse"]), place: "wood", where: [pick([1, 5, 12, 25]), -1], state: { ...matter.FRESH, amount: 5, wetness: 3 } });
   bodies.push(self);
   const place = matter.placeOf("wood", { light: pick([1, 4, 4]), noise: 1, cover: pick([0, 0, 3]), exits: pick([0, 2, 5, 5]), ...(self.rank === undefined ? {} : { customs: [{ over: "food" as const, first: "rank" as const }] }) });
   const empty = matter.worldOf([...matter.POOL, ...ROWS], [place]);

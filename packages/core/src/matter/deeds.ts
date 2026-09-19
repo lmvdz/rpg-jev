@@ -8,6 +8,7 @@
  * Feelings fade by half-lives, in closed form, so the hours may be cut anywhere.
  */
 import { apart, bondTo } from "./bonds.ts";
+import { feeds } from "./diet.ts";
 import type { Act } from "./resolve.ts";
 import type { Body, Change, Feeling, MatterWorld } from "./types.ts";
 import { clamp } from "./types.ts";
@@ -52,12 +53,14 @@ export const DEEDS: readonly DeedRow[] = [
     of: (world, act) => {
       if (act.process !== "take" || !act.drop) return null;
       const thing = world.things[act.thing];
-      const serves = world.elements[thing?.element ?? ""]?.serves ?? {};
       // Set down beside someone who needed it: the nearest such is who it was for.
       const near = Object.values(world.bodies)
         .filter((b) => b.id !== act.body && b.place === thing?.place)
         .filter((b) => apart(b.where, thing?.where) <= 2)
-        .filter((b) => Object.entries(serves).some(([n, s]) => s > 0 && needOf(b, n) >= 2))
+        .filter((b) => {
+          const gets = Object.entries(feeds(world, b, thing?.element ?? ""));
+          return gets.some(([need, gives]) => gives > 0 && needOf(b, need) >= 2);
+        })
         .sort((a, b) => a.id.localeCompare(b.id))[0];
       return near ? { by: act.body, to: near.id, severity: 2 } : null;
     },

@@ -68,6 +68,8 @@ export interface Element {
   serves?: Partial<Record<Need, number>>;
   /** The water it holds when fresh, 0 to 5: a thing of this element is born this wet. */
   moist?: number;
+  /** What fare it is, to whatever eats it. Absent: it feeds anyone it serves (diet.ts). */
+  fare?: Fare;
   /** What is left when it has burned. Absent: nothing worth naming. */
   burnsTo?: string;
   /** How it is drawn: closed choices, made once when the element is born (SPEC.md section 19). */
@@ -78,8 +80,14 @@ export interface Element {
   body?: BodyRow;
 }
 
+/** The fares a food can be. A closed set: what an eater's row is asked about. */
+export const FARES = ["flesh", "leaf", "fruit", "seed"] as const;
+export type Fare = (typeof FARES)[number];
+
 /** What a living thing can do and notice (vocabulary section 1, the body row). */
 export interface BodyRow {
+  /** How well each fare feeds it, 0 to 5. Absent: it eats anything. A fare left out is 0. */
+  eats?: Partial<Record<Fare, number>>;
   strength: number;
   speed: number;
   sight: number;

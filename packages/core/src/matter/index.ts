@@ -23,6 +23,7 @@ export {
   UNSEEN,
 } from "./compile.ts";
 export { DEEDS, type Deed, deedsOf, faded, felt } from "./deeds.ts";
+export { feeds, preyTo, relish } from "./diet.ts";
 export type { DriftAct } from "./drift.ts";
 export { baseline, effective, isLiquid, MODIFIERS, meltingPoint } from "./effective.ts";
 export { type ForceAct, REACTIONS, type Reaction } from "./force.ts";

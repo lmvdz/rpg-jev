@@ -11,6 +11,7 @@
  * source when the one who noticed is a person. Deterministic: no draw. Sensing changes
  * nothing but what bodies are aware of.
  */
+import { feeds } from "./diet.ts";
 import { effective } from "./effective.ts";
 import { blaze } from "./heat.ts";
 import type { Body, Change, Channel, MatterWorld, Percept, Place, Thing } from "./types.ts";
@@ -124,10 +125,10 @@ function attended(world: MatterWorld, body: Body, aware: Record<string, Percept>
   if (entries.length <= ATTENDS) return aware;
   const hungry = (body.needs.hunger ?? 0) >= 2;
   const weight = ([id, p]: [string, Percept]) => {
-    const feeds = (world.elements[world.things[id]?.element ?? ""]?.serves?.hunger ?? 0) > 0;
+    const fed = (feeds(world, body, world.things[id]?.element ?? "").hunger ?? 0) > 0;
     // What lives draws the eye before what only stands there.
     const lives = id in world.bodies ? 3 : 0;
-    return p.strength + (p.channel === "sight" ? 0 : 2) + (hungry && feeds ? 3 : 0) + lives;
+    return p.strength + (p.channel === "sight" ? 0 : 2) + (hungry && fed ? 3 : 0) + lives;
   };
   const kept = entries.sort((a, b) => weight(b) - weight(a) || a[0].localeCompare(b[0]));
   return Object.fromEntries(kept.slice(0, ATTENDS));
