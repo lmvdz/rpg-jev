@@ -37,8 +37,18 @@ const LEVELS: ReadonlySet<string> = new Set([
   "taint",
   "flaw",
 ]);
-/** States a proposed row may not write: only the engine makes and unmakes matter and fire. */
+/** States a proposed row may not write: only the engine makes matter, fire and coats. */
 const KEPT: ReadonlySet<string> = new Set(["amount", "burning", "coating", "wetWith"]);
+
+/**
+ * What a proposed row may still do to a kept state: put a fire out (never light one), and move
+ * how well a coat is bonded or how much of the surface it covers (never what it is or how much).
+ * Using a thing up is its own kind of effect, `use`, and it can only lessen.
+ */
+function mayWrite(key: string, inner: string, effect: Record<string, unknown>): boolean {
+  if (key === "burning") return inner === "" && effect.kind === "put" && effect.value === null;
+  return key === "coating" && (inner === "bond" || inner === "coverage");
+}
 
 export interface Allowed {
   /** The engine's own rows may move what a proposed row may not. */
@@ -158,10 +168,13 @@ class Checker {
     const { root, rest, ok } = split(q, this.allowed);
     if (!ok || (root !== "s" && root !== "x"))
       return this.say(`writes to ${JSON.stringify(q)}, which is not a state`);
-    const [key = ""] = rest;
-    if (root === "s" && KEPT.has(key) && !this.allowed.engine)
+    const [key = "", inner = ""] = rest;
+    if (root === "s" && KEPT.has(key) && !this.allowed.engine && !mayWrite(key, inner, effect))
       this.say(`writes ${key}, which only the engine may`);
-    const level = root === "s" && LEVELS.has(key) && effect.kind !== "put";
+    // A coat's bond and its coverage are levels too; what it is and how much are not.
+    const coat = key === "coating" && (inner === "bond" || inner === "coverage");
+    const moves = effect.kind !== "put" && effect.kind !== "copy";
+    const level = root === "s" && (LEVELS.has(key) || coat) && moves;
     if (level && !(effect.lo !== undefined && effect.hi !== undefined))
       this.say(`moves the level ${key} without bounds`);
   }
@@ -171,9 +184,9 @@ class Checker {
     const party = node.kind === "wound" || node.kind === "seal" ? node.on : node.from;
     if (typeof party !== "string" || !this.allowed.parties.includes(party))
       this.say(`${String(node.kind)} names ${JSON.stringify(party)}, who is not there`);
-    // Only the engine wounds a body or uses a thing up: a proposed row may give something off,
-    // or split a thing.
-    if (["wound", "seal", "use"].includes(node.kind as string) && !this.allowed.engine)
+    // Only the engine wounds a body: a proposed row may give something off, split a thing, or
+    // use some of it up. None of those makes anything from nothing.
+    if (["wound", "seal"].includes(node.kind as string) && !this.allowed.engine)
       this.say(`${node.kind}s a body, which only the engine may`);
     for (const key of ["strength", "amount", "depth", "bleeding", "burned"])
       if (node[key] !== undefined) this.expr(node[key]);
@@ -235,6 +248,19 @@ export function validate(rule: unknown, allowed: Allowed): string[] {
       alt.effects.some((e: { kind: string }) => !MADE.includes(e.kind));
     if (moves && (alt.because?.length ?? 0) === 0) check.say("acts and cites nothing");
   }
+  return check.problems;
+}
+
+/** A factor is an expression laid on a quantity the base rows already name. */
+export function validateFactor(
+  name: string,
+  expr: unknown,
+  allowed: Allowed,
+  base: object,
+): string[] {
+  const check = new Checker(allowed, `factor on d.${name}`);
+  if (!(name in base)) check.say("is on a quantity the base rows do not name");
+  check.expr(expr);
   return check.problems;
 }
 

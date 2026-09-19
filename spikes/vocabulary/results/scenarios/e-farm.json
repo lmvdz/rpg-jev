@@ -5,7 +5,16 @@
     "place": "A timber barn with a thatched roof in a showery haymaking season, its bay filled to the tie beams with meadow hay carted a day too early.",
     "initiator": "world",
     "lines": [],
-    "things": ["meadow hay, carted while still tough and a little green", "the barn bay", "heat building inside the mow", "a sweet tobacco smell, later a sharp burnt one", "the farmer", "an iron rod pushed into the mow to feel for heat", "thatch and timber", "the cattle tied at the far end"],
+    "things": [
+      "meadow hay, carted while still tough and a little green",
+      "the barn bay",
+      "heat building inside the mow",
+      "a sweet tobacco smell, later a sharp burnt one",
+      "the farmer",
+      "an iron rod pushed into the mow to feel for heat",
+      "thatch and timber",
+      "the cattle tied at the far end"
+    ],
     "outcome": "Hay put up damp ferments and warms itself, and a big tight mow cannot lose the heat. For the first week it smells sweet and steams faintly on cool mornings, which is normal enough to ignore. Over three to six weeks the core goes brown, then black, and the rod comes out too hot to hold. If nobody pulls the mow apart, a carter's load at a time out into the yard, the core chars and then smoulders, and it breaks into open flame when it reaches air, often as someone finally digs into it. The barn, thatch and all, goes in an hour. Even if caught, the heated hay is brown, brittle and poor feed.",
     "steps": [
       {
@@ -13,31 +22,79 @@
         "agent": "damp hay",
         "patient": "mow",
         "instrument": null,
-        "because": ["agent is damp", "agent is green", "patient is tightly packed", "patient is large"],
-        "effects": ["patient heat up", "creates sweet smell and morning steam", "patient feed value down"],
-        "numbers": ["how damp is too damp at carting", "days for the core to warm", "how size of the mow limits heat escaping"]
+        "because": [
+          "agent is damp",
+          "agent is green",
+          "patient is tightly packed",
+          "patient is large"
+        ],
+        "effects": [
+          "patient heat up",
+          "creates sweet smell and morning steam",
+          "patient feed value down"
+        ],
+        "numbers": [
+          "how damp is too damp at carting",
+          "days for the core to warm",
+          "how size of the mow limits heat escaping"
+        ]
       },
       {
         "process": "char",
         "agent": "trapped heat",
         "patient": "core of the mow",
         "instrument": null,
-        "because": ["patient is insulated", "patient is airless", "agent is self-feeding"],
-        "effects": ["patient gains brown then black", "patient heat up further", "creates burnt smell", "farmer learns it only if he smells it or tries the rod"],
-        "numbers": ["weeks from carting to the dangerous stage", "temperature the rod must show for alarm"]
+        "because": [
+          "patient is insulated",
+          "patient is airless",
+          "agent is self-feeding"
+        ],
+        "effects": [
+          "patient gains brown then black",
+          "patient heat up further",
+          "creates burnt smell",
+          "farmer learns it only if he smells it or tries the rod"
+        ],
+        "numbers": [
+          "weeks from carting to the dangerous stage",
+          "temperature the rod must show for alarm"
+        ]
       },
       {
         "process": "ignite",
         "agent": "air",
         "patient": "charred core",
         "instrument": null,
-        "because": ["patient is smouldering", "patient is opened up", "barn is dry timber and thatch"],
-        "effects": ["patient gains burning", "barn gains burning", "consumes hay", "cattle gain mortal danger", "creates a fire seen for miles"],
-        "numbers": ["odds a heated mow goes all the way to fire", "minutes from first flame to the roof alight", "time to untie and drive out the cattle"]
+        "because": [
+          "patient is smouldering",
+          "patient is opened up",
+          "place is dry thatched"
+        ],
+        "effects": [
+          "patient gains burning",
+          "barn gains burning",
+          "consumes hay",
+          "cattle herd gains mortal danger",
+          "creates a fire seen for miles"
+        ],
+        "numbers": [
+          "odds a heated mow goes all the way to fire",
+          "minutes from first flame to the roof alight",
+          "time to untie and drive out the cattle"
+        ]
       }
     ],
-    "latent": ["how hot the middle of the mow is", "how damp the hay was when carted, which the farmer half knew", "whether the smell has turned from sweet to burnt"],
-    "state_after": ["mow: heated and spoiled at best, ash at worst", "barn: standing with a brown-cored mow pulled out across the yard, or burnt to its stone footings", "cattle: without winter hay either way", "farmer: knows exactly which afternoon's hurry caused it"],
+    "latent": [
+      "how hot the middle of the mow is",
+      "how damp the hay was when carted, which the farmer half knew",
+      "whether the smell has turned from sweet to burnt"
+    ],
+    "state_after": [
+      "mow: heated and spoiled at best, ash at worst",
+      "barn: standing with a brown-cored mow pulled out across the yard, or burnt to its stone footings",
+      "cattle: without winter hay either way",
+      "farmer: knows exactly which afternoon's hurry caused it"
+    ],
     "stress": "A thing that makes its own heat slowly with nobody doing anything, where scale and packing decide whether it is harmless or a fire.",
     "temptation": "A rule 'wet hay in barn has N percent chance to burn the barn', instead of damp plant matter warming as it rots, heat that escapes from a small heap and not from a great one, and hot charred stuff flaring when air reaches it."
   },
@@ -46,8 +103,21 @@
     "domain": "farm",
     "place": "A cow byre at first light in cold weather, where a newly bought heifer, calved a week ago, stands tied beside the old house cow.",
     "initiator": "player",
-    "lines": ["sit down and milk the new cow", "give her some meal in the manger and try again gently", "milk the old cow instead"],
-    "things": ["player, a stranger to both cows", "newly calved heifer, nervous, udder tight and sore", "old quiet house cow", "wooden pail", "three-legged stool", "player's cold hands", "a scoop of barley meal", "the heifer's calf in the next pen, bawling"],
+    "lines": [
+      "sit down and milk the new cow",
+      "give her some meal in the manger and try again gently",
+      "milk the old cow instead"
+    ],
+    "things": [
+      "player, a stranger to both cows",
+      "newly calved heifer, nervous, udder tight and sore",
+      "old quiet house cow",
+      "wooden pail",
+      "three-legged stool",
+      "player's cold hands",
+      "a scoop of barley meal",
+      "the heifer's calf in the next pen, bawling"
+    ],
     "outcome": "The old cow stands, lets down her milk at once and gives a gallon and a half in ten minutes to any competent hands. The heifer is another matter: strange person, cold hands, sore udder and a calf calling. She holds her milk up, swishes, and at the second squeeze kicks the pail across the byre and steps in it. With meal in front of her, warmed hands, a quiet voice and the calf where she can see it, she gives perhaps half her milk, fidgeting throughout. The rest stays in her, and a heifer left half-milked for days goes hard in the udder and gives less thereafter.",
     "steps": [
       {
@@ -55,40 +125,100 @@
         "agent": "player",
         "patient": "old cow",
         "instrument": "pail",
-        "because": ["patient is quiet", "patient is used to milking", "agent is competent"],
-        "effects": ["transfers milk from cow to pail", "patient udder fullness down", "agent learns what an easy milking is"],
-        "numbers": ["yield per milking", "minutes taken"]
+        "because": [
+          "patient is quiet",
+          "patient is well handled",
+          "agent is competent"
+        ],
+        "effects": [
+          "transfers milk from cow to pail",
+          "patient udder fullness down",
+          "agent learns what an easy milking is"
+        ],
+        "numbers": [
+          "yield per milking",
+          "minutes taken"
+        ]
       },
       {
         "process": "refuse",
         "agent": "heifer",
         "patient": "player",
         "instrument": null,
-        "because": ["agent is nervous", "agent is sore", "patient is a stranger", "patient is cold handed", "calf is calling"],
-        "effects": ["agent gains holding up her milk", "agent fear up", "patient learns she is not letting down"],
-        "numbers": ["how much of her milk a frightened cow withholds"]
+        "because": [
+          "agent is nervous",
+          "agent is sore",
+          "patient is a stranger",
+          "patient is cold handed",
+          "place is calf-noisy"
+        ],
+        "effects": [
+          "agent gains holding up her milk",
+          "agent fear up",
+          "patient learns she is not letting down"
+        ],
+        "numbers": [
+          "how much of her milk a frightened cow withholds"
+        ]
       },
       {
         "process": "kick",
         "agent": "heifer",
         "patient": "pail",
         "instrument": "hind leg",
-        "because": ["agent is sore", "agent is untrained", "patient is within reach"],
-        "effects": ["moves patient to across the byre", "pail milk down to nothing", "creates spilt milk in the dung channel", "player gains bruised shin perhaps", "pail gains fouled"],
-        "numbers": ["odds of a kick at each touch while she is unsettled", "milk lost"]
+        "because": [
+          "agent is sore",
+          "agent is untrained",
+          "patient is within reach"
+        ],
+        "effects": [
+          "moves patient to across the byre",
+          "pail milk down to nothing",
+          "creates spilt milk in the dung channel",
+          "player gains bruised shin perhaps",
+          "pail gains fouled"
+        ],
+        "numbers": [
+          "odds of a kick at each touch while she is unsettled",
+          "milk lost"
+        ]
       },
       {
         "process": "settle",
         "agent": "player",
         "patient": "heifer",
         "instrument": "meal and warm hands",
-        "because": ["patient is greedy for meal", "patient is calmer with the calf in sight", "agent is patient"],
-        "effects": ["patient fear down", "patient gains partly let down", "transfers half her milk from heifer to pail", "consumes meal", "patient trust up a little for next time"],
-        "numbers": ["share of her milk got this time", "days of quiet handling before she milks like the old cow", "days of half-milking before her udder hardens and her yield drops"]
+        "because": [
+          "patient is greedy",
+          "patient is calf-calmed",
+          "agent is patient"
+        ],
+        "effects": [
+          "patient fear down",
+          "patient gains partly let down",
+          "transfers half her milk from heifer to pail",
+          "consumes meal",
+          "patient trust up a little for next time"
+        ],
+        "numbers": [
+          "share of her milk got this time",
+          "days of quiet handling before she milks like the old cow",
+          "days of half-milking before her udder hardens and her yield drops"
+        ]
       }
     ],
-    "latent": ["each cow's temper, learned only by handling her", "how much milk the heifer is holding back", "whether her udder is already inflamed"],
-    "state_after": ["old cow: milked out, content", "heifer: half milked, unsettled, a little less afraid of this person", "pail: a gallon and a half from the old cow, a quart or two from the heifer, less what was kicked over", "player: knows which cow needs time", "byre floor: milk in the dung channel"],
+    "latent": [
+      "each cow's temper, learned only by handling her",
+      "how much milk the heifer is holding back",
+      "whether her udder is already inflamed"
+    ],
+    "state_after": [
+      "old cow: milked out, content",
+      "heifer: half milked, unsettled, a little less afraid of this person",
+      "pail: a gallon and a half from the old cow, a quart or two from the heifer, less what was kicked over",
+      "player: knows which cow needs time",
+      "byre floor: milk in the dung channel"
+    ],
     "stress": "The same action on two animals of the same kind giving different results because of temper, history and the state of the one acting.",
     "temptation": "A 'milk cow' verb that yields a fixed quantity per cow per day, instead of an animal that gives or withholds according to fear, soreness, familiarity and what is in the manger."
   },
@@ -97,8 +227,24 @@
     "domain": "farm",
     "place": "A farmyard in late autumn, pig-killing time, with a stone-flagged cool pantry, a salting trough, and weather that ought to be cold by now but has turned mild and muggy.",
     "initiator": "player",
-    "lines": ["kill the fat pig and salt it down for the winter", "rub the salt well into the hams and pack them in the trough", "check the hams in a fortnight"],
-    "things": ["player", "a fat pig of twenty stone", "helpers to hold and scald", "sticking knife", "scalding tub and hot water", "half a hundredweight of salt", "a little saltpetre", "salting trough", "hams, flitches and offal", "mild muggy weather", "blowflies still about"],
+    "lines": [
+      "kill the fat pig and salt it down for the winter",
+      "rub the salt well into the hams and pack them in the trough",
+      "check the hams in a fortnight"
+    ],
+    "things": [
+      "player",
+      "a fat pig of twenty stone",
+      "helpers to hold and scald",
+      "sticking knife",
+      "scalding tub and hot water",
+      "half a hundredweight of salt",
+      "a little saltpetre",
+      "salting trough",
+      "hams, flitches and offal",
+      "mild muggy weather",
+      "blowflies still about"
+    ],
     "outcome": "Killing, scalding, scraping and cutting up is a full day for three people, and the offal must be eaten or given away within days. The sides and hams take a stone of salt each, rubbed in hard and renewed over three to four weeks, and then they keep all winter. But curing is a race between the salt working inward and the meat going off from the bone outward, and warm weather tips it: in this mild spell the thin flitches cure sound, while one thick ham taints at the bone before the salt gets there. It looks and smells fine outside; a skewer run in to the bone a fortnight later comes out stinking. That ham is lost, and the flies have blown a corner of another.",
     "steps": [
       {
@@ -106,40 +252,100 @@
         "agent": "player and helpers",
         "patient": "pig",
         "instrument": "sticking knife and scalding tub",
-        "because": ["patient is fat", "agent is several", "instrument is sharp"],
-        "effects": ["patient gains dead", "creates hams, flitches, lard, blood and offal", "consumes hot water and a day's labour", "creates offal that will not keep"],
-        "numbers": ["weight of meat from the live weight", "days the fresh offal lasts", "hours of work for three people"]
+        "because": [
+          "patient is fat",
+          "agent is several",
+          "instrument is sharp"
+        ],
+        "effects": [
+          "patient gains dead",
+          "creates hams, flitches, lard, blood and offal",
+          "consumes hot water and a day's labour",
+          "creates offal that will not keep"
+        ],
+        "numbers": [
+          "weight of meat from the live weight",
+          "days the fresh offal lasts",
+          "hours of work for three people"
+        ]
       },
       {
         "process": "salt",
         "agent": "player",
         "patient": "hams and flitches",
         "instrument": "salt and saltpetre",
-        "because": ["instrument is plentiful", "patient is fresh", "patient is thick in the hams and thin in the flitches"],
-        "effects": ["consumes instrument", "patient saltiness up from the outside in", "patient wetness down", "creates brine in the trough"],
-        "numbers": ["salt per stone of meat", "days for salt to reach the middle of a thick joint", "how often it must be rubbed and turned"]
+        "because": [
+          "instrument is plentiful",
+          "patient is fresh",
+          "patient is unevenly thick"
+        ],
+        "effects": [
+          "consumes instrument",
+          "patient saltiness up from the outside in",
+          "patient wetness down",
+          "creates brine in the trough"
+        ],
+        "numbers": [
+          "salt per stone of meat",
+          "days for salt to reach the middle of a thick joint",
+          "how often it must be rubbed and turned"
+        ]
       },
       {
         "process": "taint",
         "agent": "warmth",
         "patient": "thickest ham",
         "instrument": null,
-        "because": ["place is mild not cold", "patient is thick", "patient is unsalted at the bone as yet"],
-        "effects": ["patient gains sour at the bone", "patient loses edible", "patient looks sound from outside", "player learns of it only with a skewer"],
-        "numbers": ["how warm is too warm for curing", "which wins at each thickness, salt inward or rot outward", "days until the taint can be detected"]
+        "because": [
+          "place is mild",
+          "patient is thick",
+          "patient is unsalted within"
+        ],
+        "effects": [
+          "patient gains sour at the bone",
+          "patient loses edible",
+          "patient gains sound-looking outside",
+          "player learns of it only with a skewer"
+        ],
+        "numbers": [
+          "how warm is too warm for curing",
+          "which wins at each thickness, salt inward or rot outward",
+          "days until the taint can be detected"
+        ]
       },
       {
         "process": "blow",
         "agent": "blowflies",
         "patient": "a ham's exposed corner",
         "instrument": null,
-        "because": ["agent is still active in mild weather", "patient is uncovered", "patient is damp"],
-        "effects": ["patient gains maggots in a crevice", "patient loses a cut-away pound or two", "player learns to keep the trough covered"],
-        "numbers": ["days from eggs to maggots", "how much must be cut away"]
+        "because": [
+          "agent is still active",
+          "patient is uncovered",
+          "patient is damp"
+        ],
+        "effects": [
+          "patient gains maggots in a crevice",
+          "patient loses a cut-away pound or two",
+          "player learns to keep the trough covered"
+        ],
+        "numbers": [
+          "days from eggs to maggots",
+          "how much must be cut away"
+        ]
       }
     ],
-    "latent": ["whether the weather will turn cold after the pig is dead", "the state of each ham at the bone", "whether the salt was enough"],
-    "state_after": ["flitches: cured sound, hung in the chimney", "one ham: tainted at the bone, fit only for the dogs", "other hams: cured, one trimmed of a fly-blown corner", "salt: nearly all used", "household: lard, a week of offal feasting, most of a winter's bacon"],
+    "latent": [
+      "whether the weather will turn cold after the pig is dead",
+      "the state of each ham at the bone",
+      "whether the salt was enough"
+    ],
+    "state_after": [
+      "flitches: cured sound, hung in the chimney",
+      "one ham: tainted at the bone, fit only for the dogs",
+      "other hams: cured, one trimmed of a fly-blown corner",
+      "salt: nearly all used",
+      "household: lard, a week of offal feasting, most of a winter's bacon"
+    ],
     "stress": "Two rates racing each other inside one object, with thickness and temperature deciding which wins, and the result hidden in the middle.",
     "temptation": "A recipe 'pork plus salt yields preserved pork' that always succeeds, instead of salt travelling inward at its own pace, meat spoiling at a pace set by warmth, and the thick places being where spoilage gets there first."
   },
@@ -149,7 +355,15 @@
     "place": "A granary loft over the cart shed, boarded floor, winter, holding the year's seed corn and bread corn in sacks and one open bin.",
     "initiator": "creature",
     "lines": [],
-    "things": ["rats living under the cart shed floor", "twenty sacks of wheat", "an open wooden bin of barley", "gnawed hole in a floorboard", "rat droppings and urine", "the farm cat, shut out of the loft by a closed door", "the farmer who goes up once a fortnight"],
+    "things": [
+      "rats living under the cart shed floor",
+      "twenty sacks of wheat",
+      "an open wooden bin of barley",
+      "gnawed hole in a floorboard",
+      "rat droppings and urine",
+      "the farm cat, shut out of the loft by a closed door",
+      "the farmer who goes up once a fortnight"
+    ],
     "outcome": "A pair of rats gnaw up through a floorboard and have the loft to themselves, since the cat cannot get in. They eat from the open bin first, then hole the bottom corners of sacks so that grain runs out onto the floor, and they foul far more than they eat. Well fed and sheltered, they breed: by the end of winter the pair is forty. Each rat eats only an ounce or so a day, so the farmer notices nothing for a month; by spring a fifth of the grain is eaten or spilled, more is musty with urine, several sacks are useless as sacks, and the seed corn from fouled sacks comes up thin.",
     "steps": [
       {
@@ -157,40 +371,95 @@
         "agent": "rats",
         "patient": "floorboard",
         "instrument": "teeth",
-        "because": ["patient is wooden", "agent is smelling grain above", "agent is persistent"],
-        "effects": ["patient gains a fist-sized hole", "moves agent to the loft", "creates wood shavings below"],
-        "numbers": ["nights to gnaw through an inch board"]
+        "because": [
+          "patient is wooden",
+          "agent is grain-scenting",
+          "agent is persistent"
+        ],
+        "effects": [
+          "patient gains a fist-sized hole",
+          "moves agent to the loft",
+          "creates wood shavings below"
+        ],
+        "numbers": [
+          "nights to gnaw through an inch board"
+        ]
       },
       {
         "process": "feed",
         "agent": "rats",
         "patient": "grain",
         "instrument": null,
-        "because": ["patient is unprotected", "sacks are cloth", "bin is open", "cat is shut out"],
-        "effects": ["patient quantity down", "sacks gain holed corners", "creates spilled grain on the floor", "patient gains fouled with droppings and urine"],
-        "numbers": ["grain eaten per rat per day", "grain spoiled for each measure eaten", "sacks ruined per month"]
+        "because": [
+          "patient is unprotected",
+          "patient is cloth-sacked",
+          "patient is open-binned",
+          "place is cat-free"
+        ],
+        "effects": [
+          "patient quantity down",
+          "sacking gains holed corners",
+          "creates spilled grain on the floor",
+          "patient gains fouled with droppings and urine"
+        ],
+        "numbers": [
+          "grain eaten per rat per day",
+          "grain spoiled for each measure eaten",
+          "sacks ruined per month"
+        ]
       },
       {
         "process": "breed",
         "agent": "rats",
         "patient": "rats",
         "instrument": null,
-        "because": ["agent is well fed", "agent is sheltered", "agent is unhunted"],
-        "effects": ["agent numbers up every few weeks", "patient feeding rate up with them"],
-        "numbers": ["weeks per litter and young per litter", "how fast the young breed in turn", "numbers by spring from one pair"]
+        "because": [
+          "agent is well fed",
+          "agent is sheltered",
+          "agent is unhunted"
+        ],
+        "effects": [
+          "agent numbers up every few weeks",
+          "patient feeding rate up with them"
+        ],
+        "numbers": [
+          "weeks per litter and young per litter",
+          "how fast the young breed in turn",
+          "numbers by spring from one pair"
+        ]
       },
       {
         "process": "notice",
         "agent": "farmer",
         "patient": "granary",
         "instrument": null,
-        "because": ["agent is visiting seldom", "loss is small at first"],
-        "effects": ["agent learns of rats by droppings, smell and run grain", "agent learns the true loss only on weighing out in spring", "seed corn vigour down"],
-        "numbers": ["weeks before the loss is big enough to see", "share of the store lost by spring"]
+        "because": [
+          "agent is visiting seldom",
+          "patient is slowly shrinking"
+        ],
+        "effects": [
+          "agent learns of rats by droppings, smell and run grain",
+          "agent learns the true loss only on weighing out in spring",
+          "seed corn vigour down"
+        ],
+        "numbers": [
+          "weeks before the loss is big enough to see",
+          "share of the store lost by spring"
+        ]
       }
     ],
-    "latent": ["how many rats there now are", "which sacks are fouled inside", "where the hole comes up, behind the sacks"],
-    "state_after": ["grain: a fifth gone, more tainted", "sacks: several holed at the corners", "rats: forty and rising, nested under the floor", "cat: still on the wrong side of the door", "farmer: finds out the scale in spring"],
+    "latent": [
+      "how many rats there now are",
+      "which sacks are fouled inside",
+      "where the hole comes up, behind the sacks"
+    ],
+    "state_after": [
+      "grain: a fifth gone, more tainted",
+      "sacks: several holed at the corners",
+      "rats: forty and rising, nested under the floor",
+      "cat: still on the wrong side of the door",
+      "farmer: finds out the scale in spring"
+    ],
     "stress": "A loss that starts too small to see and compounds because the ones causing it multiply on what they take.",
     "temptation": "A fixed 'vermin spoilage percent per month' on stored grain, instead of animals that must get in, eat a little each, foul more, breed on plenty, and are kept down by a predator that can reach them."
   },
@@ -200,7 +469,15 @@
     "place": "A farmyard at dusk in early spring, with a wooden henhouse on the orchard side, its pop-hole closed by a sliding board that someone has to remember.",
     "initiator": "creature",
     "lines": [],
-    "things": ["a vixen with cubs to feed", "fourteen laying hens and a cockerel, roosting", "the henhouse pop-hole, left open tonight", "the yard dog, chained on the far side of the house", "the child whose job it was", "feathers", "the household asleep"],
+    "things": [
+      "a vixen with cubs to feed",
+      "fourteen laying hens and a cockerel, roosting",
+      "the henhouse pop-hole, left open tonight",
+      "the yard dog, chained on the far side of the house",
+      "the child whose job it was",
+      "feathers",
+      "the household asleep"
+    ],
     "outcome": "The hens put themselves to roost at dusk as always; nobody slides the board. The vixen, who tries this yard most nights, finds the hole open some time after midnight. In the panic inside she kills far more than she can carry: eleven hens bitten through the neck, one taken away, a second fetched and buried in the orchard. The dog barks at the noise, but chained and used to barking at nothing, he is ignored. The morning finds three live hens up in the rafters, too shocked to lay for a fortnight, and a drift of feathers. Eggs for the house and for market are gone until pullets are raised, which is five months.",
     "steps": [
       {
@@ -208,40 +485,94 @@
         "agent": "child",
         "patient": "pop-hole",
         "instrument": null,
-        "because": ["agent is distracted", "patient is needing shutting every night"],
-        "effects": ["patient gains open overnight", "nobody learns of it until morning"],
-        "numbers": ["how many nights in a season the board is forgotten"]
+        "because": [
+          "agent is distracted",
+          "patient is habit-dependent"
+        ],
+        "effects": [
+          "patient gains open overnight",
+          "nobody learns of it until morning"
+        ],
+        "numbers": [
+          "how many nights in a season the board is forgotten"
+        ]
       },
       {
         "process": "prowl",
         "agent": "vixen",
         "patient": "henhouse",
         "instrument": "nose",
-        "because": ["agent is hungry", "agent is feeding cubs", "agent is checking nightly", "patient is smelling of hens"],
-        "effects": ["moves agent to inside the henhouse", "agent learns the hole is open tonight"],
-        "numbers": ["odds the fox visits on any given night", "hour of the visit"]
+        "because": [
+          "agent is hungry",
+          "agent is feeding cubs",
+          "agent is checking nightly",
+          "patient is hen-scented"
+        ],
+        "effects": [
+          "moves agent to inside the henhouse",
+          "agent learns the hole is open tonight"
+        ],
+        "numbers": [
+          "odds the fox visits on any given night",
+          "hour of the visit"
+        ]
       },
       {
         "process": "kill",
         "agent": "vixen",
         "patient": "hens",
         "instrument": "teeth",
-        "because": ["patient is penned", "patient is fluttering", "patient is unable to see in the dark", "agent is triggered by movement"],
-        "effects": ["patient numbers down by most of the flock", "creates carcasses and feathers", "transfers two hens from the farm to the vixen", "survivors gain shocked", "dog barks unheeded"],
-        "numbers": ["share of a penned flock killed in one visit", "how many she carries off and caches", "minutes it takes"]
+        "because": [
+          "patient is penned",
+          "patient is fluttering",
+          "patient is night-blind",
+          "agent is movement-triggered"
+        ],
+        "effects": [
+          "patient numbers down by most of the flock",
+          "creates carcasses and feathers",
+          "transfers two hens from the farm to the vixen",
+          "surviving flock gains shocked",
+          "creates barking that nobody heeds"
+        ],
+        "numbers": [
+          "share of a penned flock killed in one visit",
+          "how many she carries off and caches",
+          "minutes it takes"
+        ]
       },
       {
         "process": "find",
         "agent": "household",
         "patient": "henhouse",
         "instrument": null,
-        "because": ["agent is rising at dawn"],
-        "effects": ["agent learns the flock is lost", "agent learns a fox did it and how it got in", "egg supply down to nothing for weeks", "child gains blame"],
-        "numbers": ["days before shocked hens lay again", "months to raise replacement layers"]
+        "because": [
+          "agent is dawn-rising"
+        ],
+        "effects": [
+          "agent learns the flock is lost",
+          "agent learns a fox did it and how it got in",
+          "egg supply down to nothing for weeks",
+          "child gains blame"
+        ],
+        "numbers": [
+          "days before shocked hens lay again",
+          "months to raise replacement layers"
+        ]
       }
     ],
-    "latent": ["that the fox checks the yard nearly every night", "whether the board was shut, which nobody thought about until morning", "where the cached hen is buried"],
-    "state_after": ["hens: three alive, off lay; eleven dead in the house; two gone", "cockerel: dead", "vixen: fed, will be back for the carcasses and again after that", "pop-hole: shut every night from now on", "household: no eggs, a pot of tough boiled fowl for a week"],
+    "latent": [
+      "that the fox checks the yard nearly every night",
+      "whether the board was shut, which nobody thought about until morning",
+      "where the cached hen is buried"
+    ],
+    "state_after": [
+      "hens: three alive, off lay; eleven dead in the house; two gone",
+      "cockerel: dead",
+      "vixen: fed, will be back for the carcasses and again after that",
+      "pop-hole: shut every night from now on",
+      "household: no eggs, a pot of tough boiled fowl for a week"
+    ],
     "stress": "A guard that works only as a nightly habit, and a predator whose killing is set off by the prey's panic rather than by its own hunger.",
     "temptation": "A rule 'fox takes one chicken per night if coop is open', instead of a hunter that tests the defence repeatedly and, once inside with penned birds, kills whatever moves."
   },
@@ -250,8 +581,22 @@
     "domain": "farm",
     "place": "A small pasture bounded by an old post-and-rail fence, with one rotten post snapped at ground level and two rails down, leaving a gap a cow could walk through.",
     "initiator": "player",
-    "lines": ["cut a new post and mend the gap in the fence", "dig the hole for the post", "nail the rails back on"],
-    "things": ["player", "a green ash pole cut from the hedge for a post", "spade", "stony ground", "the two fallen rails, still sound", "hammer and six iron nails", "sheep", "a cow with an itch", "the neighbour's young wheat beyond the fence"],
+    "lines": [
+      "cut a new post and mend the gap in the fence",
+      "dig the hole for the post",
+      "nail the rails back on"
+    ],
+    "things": [
+      "player",
+      "a green ash pole cut from the hedge for a post",
+      "spade",
+      "stony ground",
+      "the two fallen rails, still sound",
+      "hammer and six iron nails",
+      "sheep",
+      "a cow with an itch",
+      "the neighbour's young wheat beyond the fence"
+    ],
     "outcome": "The job takes a morning. The ground is stony and the player gets the hole knee deep instead of the thigh deep a post needs, rams the earth back as well as they can, and nails the rails on. It looks right and it turns the sheep, which only ever test a fence with their noses. But a cow uses a fence post to scratch on, leaning half a ton into it, and a shallow post in freshly dug earth rocks a little more each day. After a week of rain it lies over, the rails spring their nails, and the cattle are in the neighbour's wheat by morning. The green ash would also have rotted at the ground within three years.",
     "steps": [
       {
@@ -259,40 +604,97 @@
         "agent": "player",
         "patient": "post hole",
         "instrument": "spade",
-        "because": ["place is stony", "instrument is a spade not a bar", "agent is tiring"],
-        "effects": ["creates a knee-deep hole", "agent tiredness up", "agent learns the ground will not go deeper without an iron bar"],
-        "numbers": ["depth a post needs against depth achieved", "time per foot of depth in stony ground"]
+        "because": [
+          "place is stony",
+          "instrument is too light",
+          "agent is tiring"
+        ],
+        "effects": [
+          "creates a knee-deep hole",
+          "agent tiredness up",
+          "agent learns the ground will not go deeper without an iron bar"
+        ],
+        "numbers": [
+          "depth a post needs against depth achieved",
+          "time per foot of depth in stony ground"
+        ]
       },
       {
         "process": "set",
         "agent": "player",
         "patient": "post",
         "instrument": "rammed earth",
-        "because": ["patient is green ash", "instrument is loose", "hole is shallow"],
-        "effects": ["patient gains upright", "patient gains weakly held", "creates a mended-looking fence once the rails are nailed", "consumes nails"],
-        "numbers": ["sideways force a shallow-set post resists", "weeks for disturbed earth to firm"]
+        "because": [
+          "patient is green ash",
+          "instrument is loose",
+          "place is shallow-dug"
+        ],
+        "effects": [
+          "patient gains upright",
+          "patient gains weakly held",
+          "creates a mended-looking fence once the rails are nailed",
+          "consumes nails"
+        ],
+        "numbers": [
+          "sideways force a shallow-set post resists",
+          "weeks for disturbed earth to firm"
+        ]
       },
       {
         "process": "test",
         "agent": "sheep",
         "patient": "fence",
         "instrument": null,
-        "because": ["agent is light", "agent is pushing with nose only"],
-        "effects": ["patient loses nothing", "agent gains turned back"],
-        "numbers": ["force a sheep puts on a rail"]
+        "because": [
+          "agent is light",
+          "agent is nose-testing"
+        ],
+        "effects": [
+          "patient loses nothing",
+          "agent gains turned back"
+        ],
+        "numbers": [
+          "force a sheep puts on a rail"
+        ]
       },
       {
         "process": "rub",
         "agent": "cow",
         "patient": "post",
         "instrument": null,
-        "because": ["agent is itchy", "agent is very heavy", "patient is weakly held", "ground is softened by rain"],
-        "effects": ["patient gains loosened more each day", "patient gains leaning then fallen", "rails lose their nails", "moves cattle to the neighbour's wheat", "neighbour goodwill down", "player learns the fence failed a week after it was finished"],
-        "numbers": ["force of a rubbing cow", "days of rubbing until the post goes", "damage cattle do to young wheat in a night"]
+        "because": [
+          "agent is itchy",
+          "agent is very heavy",
+          "patient is weakly held",
+          "place is rain-softened"
+        ],
+        "effects": [
+          "patient gains loosened more each day",
+          "patient gains leaning then fallen",
+          "fence loses its rails as the nails spring",
+          "moves cattle to the neighbour's wheat",
+          "neighbour goodwill down",
+          "player learns the fence failed a week after it was finished"
+        ],
+        "numbers": [
+          "force of a rubbing cow",
+          "days of rubbing until the post goes",
+          "damage cattle do to young wheat in a night"
+        ]
       }
     ],
-    "latent": ["how stony the ground is below a spade's depth", "how hard the cattle will use the fence", "how long green ash lasts in the ground"],
-    "state_after": ["post: lying over, hole reamed wide", "rails: on the ground again, nails bent", "cattle: in the wheat until someone fetches them", "neighbour: owed for the damage", "player: knows the hole was the fault"],
+    "latent": [
+      "how stony the ground is below a spade's depth",
+      "how hard the cattle will use the fence",
+      "how long green ash lasts in the ground"
+    ],
+    "state_after": [
+      "post: lying over, hole reamed wide",
+      "rails: on the ground again, nails bent",
+      "cattle: in the wheat until someone fetches them",
+      "neighbour: owed for the damage",
+      "player: knows the hole was the fault"
+    ],
     "stress": "A repair that passes every test on the day and fails under a load it was never tried against, some days later.",
     "temptation": "A 'fence: repaired' flag set when post and rails are supplied, instead of a post that holds by how deep and firm it is set against whatever force the heaviest animal puts on it."
   },
@@ -302,7 +704,16 @@
     "place": "A ten-acre wheat field at harvest, the crop cut and bound and standing in stooks of eight sheaves, waiting for a week of wind to dry before carting.",
     "initiator": "world",
     "lines": [],
-    "things": ["wheat sheaves in stooks", "a week of warm drizzle and still air", "the ears", "the straw bands", "the stubble and ground beneath", "the farmer and two hands", "pigeons and rooks", "a single dry windy day at the end of it"],
+    "things": [
+      "wheat sheaves in stooks",
+      "a week of warm drizzle and still air",
+      "the ears",
+      "the straw bands",
+      "the stubble and ground beneath",
+      "the farmer and two hands",
+      "pigeons and rooks",
+      "a single dry windy day at the end of it"
+    ],
     "outcome": "Stooks shed a shower well enough, but a week of warm wet with no wind soaks them through. By the fourth day the grain in the ears, especially in the butts and on the sheltered side, begins to sprout, and sprouted wheat makes sticky, sweetish flour that will not bake a proper loaf. The bands rot, the sheaves slump, and birds work over the fallen ones. When a dry day comes every stook must be pulled apart and reset by hand, sheaf by sheaf, to air the insides, a day's work for three, and carting waits again. Perhaps a quarter of the crop is lost or fit only for the pigs, and the damp-carted rest needs watching in the stack.",
     "steps": [
       {
@@ -310,40 +721,97 @@
         "agent": "drizzle",
         "patient": "stooks",
         "instrument": null,
-        "because": ["agent is persistent", "place is windless", "place is warm", "patient is dense inside"],
-        "effects": ["patient wetness up right through", "patient gains slumped", "straw bands strength down"],
-        "numbers": ["days of wet a stook sheds before it is wet through", "drying days needed afterwards"]
+        "because": [
+          "agent is persistent",
+          "place is windless",
+          "place is warm",
+          "patient is dense inside"
+        ],
+        "effects": [
+          "patient wetness up right through",
+          "patient gains slumped",
+          "straw bands strength down"
+        ],
+        "numbers": [
+          "days of wet a stook sheds before it is wet through",
+          "drying days needed afterwards"
+        ]
       },
       {
         "process": "sprout",
         "agent": "warm wet",
         "patient": "grain in the ear",
         "instrument": null,
-        "because": ["patient is ripe", "patient is alive as seed", "patient is wet and warm for days"],
-        "effects": ["patient gains sprouted", "patient loses breadmaking quality", "patient remains fit for pigs and hens"],
-        "numbers": ["days of warm wet before ripe grain chits", "share of ears affected", "how unevenly through each stook"]
+        "because": [
+          "patient is ripe",
+          "patient is living seed",
+          "patient is long wet",
+          "patient is warm"
+        ],
+        "effects": [
+          "patient gains sprouted",
+          "patient loses breadmaking quality",
+          "patient gains fit only for pigs and hens"
+        ],
+        "numbers": [
+          "days of warm wet before ripe grain chits",
+          "share of ears affected",
+          "how unevenly through each stook"
+        ]
       },
       {
         "process": "raid",
         "agent": "pigeons and rooks",
         "patient": "fallen sheaves",
         "instrument": null,
-        "because": ["patient is on the ground", "patient is unwatched", "agent is flocking"],
-        "effects": ["patient grain down", "creates threshed-out litter on the stubble"],
-        "numbers": ["grain a flock takes in a day"]
+        "because": [
+          "patient is fallen",
+          "patient is unwatched",
+          "agent is flocking"
+        ],
+        "effects": [
+          "patient grain down",
+          "creates threshed-out litter on the stubble"
+        ],
+        "numbers": [
+          "grain a flock takes in a day"
+        ]
       },
       {
         "process": "reset",
         "agent": "farmer and hands",
         "patient": "stooks",
         "instrument": "hands",
-        "because": ["patient is wet inside", "day is dry and windy at last"],
-        "effects": ["patient gains opened to the air", "patient wetness down over the following days", "agent loses a day", "agent learns how much has sprouted", "consumes new bands for the broken sheaves"],
-        "numbers": ["sheaves three people can turn in a day", "further dry days needed before carting", "share of the crop saved for bread"]
+        "because": [
+          "patient is wet inside",
+          "place is dry",
+          "place is windy"
+        ],
+        "effects": [
+          "patient gains opened to the air",
+          "patient wetness down over the following days",
+          "agent loses a day",
+          "agent learns how much has sprouted",
+          "consumes new bands for the broken sheaves"
+        ],
+        "numbers": [
+          "sheaves three people can turn in a day",
+          "further dry days needed before carting",
+          "share of the crop saved for bread"
+        ]
       }
     ],
-    "latent": ["what the weather will do next", "how far sprouting has gone inside each stook", "whether the carted corn will heat in the stack"],
-    "state_after": ["crop: three quarters saved, some of that doubtful; a quarter sprouted or eaten", "stooks: reset, drying, still in the field a week late", "farmer: a bad year for bread corn, a good one for the pigs", "stack, later: needs watching for heat"],
+    "latent": [
+      "what the weather will do next",
+      "how far sprouting has gone inside each stook",
+      "whether the carted corn will heat in the stack"
+    ],
+    "state_after": [
+      "crop: three quarters saved, some of that doubtful; a quarter sprouted or eaten",
+      "stooks: reset, drying, still in the field a week late",
+      "farmer: a bad year for bread corn, a good one for the pigs",
+      "stack, later: needs watching for heat"
+    ],
     "stress": "Weather acting for days on a crop that is both a product and a living seed, so that wet does not merely dampen it but starts it growing.",
     "temptation": "A 'rain during harvest reduces yield by N percent' modifier, instead of seed that sprouts when warm and wet long enough, heaps that dry from outside in, and labour that can only be spent on the dry days given."
   },
@@ -352,8 +820,22 @@
     "domain": "farm",
     "place": "A barn threshing floor of beaten clay between two big doors, on a still, foggy winter morning.",
     "initiator": "player",
-    "lines": ["thresh the wheat sheaves with the flail", "winnow the grain by tossing it in the doorway", "fan it with the big basket instead"],
-    "things": ["player", "two dozen wheat sheaves", "a flail, ash handstaff and holly swingle joined by a leather thong", "threshing floor", "threshed heap of grain, chaff and short straw", "wooden shovel", "wide shallow winnowing basket", "the two barn doors", "still air"],
+    "lines": [
+      "thresh the wheat sheaves with the flail",
+      "winnow the grain by tossing it in the doorway",
+      "fan it with the big basket instead"
+    ],
+    "things": [
+      "player",
+      "two dozen wheat sheaves",
+      "a flail, ash handstaff and holly swingle joined by a leather thong",
+      "threshing floor",
+      "threshed heap of grain, chaff and short straw",
+      "wooden shovel",
+      "wide shallow winnowing basket",
+      "the two barn doors",
+      "still air"
+    ],
     "outcome": "Flailing is steady hard work: a practised hand threshes two dozen sheaves in a morning for about a bushel and a half of grain, and an unpractised one raps their own head with the swingle first. The result is grain mixed with as much chaff again by bulk. Winnowing needs moving air, a breeze through both doors that carries chaff aside while grain drops straight, and today there is none. Tossed in still air it all comes down together. Fanning with the basket works after a fashion, slowly and dustily: after an hour the grain is half clean, enough for the hens or a coarse grist, not for the miller. Proper cleaning waits for a windy day.",
     "steps": [
       {
@@ -361,31 +843,80 @@
         "agent": "player",
         "patient": "sheaves",
         "instrument": "flail",
-        "because": ["patient is dry", "patient is ripe", "instrument is jointed", "agent is unpractised at first"],
-        "effects": ["creates loose grain mixed with chaff", "creates threshed straw", "agent tiredness up", "agent gains a rapped head early on", "agent skill up"],
-        "numbers": ["sheaves per hour", "grain per sheaf", "share of grain left in the ear by a poor thresher"]
+        "because": [
+          "patient is dry",
+          "patient is ripe",
+          "instrument is jointed",
+          "agent is unpractised"
+        ],
+        "effects": [
+          "creates loose grain mixed with chaff",
+          "creates threshed straw",
+          "agent tiredness up",
+          "agent gains a rapped head early on",
+          "agent skill up"
+        ],
+        "numbers": [
+          "sheaves per hour",
+          "grain per sheaf",
+          "share of grain left in the ear by a poor thresher"
+        ]
       },
       {
         "process": "toss",
         "agent": "player",
         "patient": "grain and chaff",
         "instrument": "shovel",
-        "because": ["place is windless", "patient is light chaff with heavy grain", "doors are open to no purpose"],
-        "effects": ["patient loses nothing of its chaff", "creates dust hanging in the barn", "agent learns there is no wind to do the work"],
-        "numbers": ["breeze needed to part chaff from grain", "how often a winter day gives it"]
+        "because": [
+          "place is windless",
+          "patient is mixed-weight",
+          "place is open-doored"
+        ],
+        "effects": [
+          "patient loses nothing of its chaff",
+          "creates dust hanging in the barn",
+          "agent learns there is no wind to do the work"
+        ],
+        "numbers": [
+          "breeze needed to part chaff from grain",
+          "how often a winter day gives it"
+        ]
       },
       {
         "process": "fan",
         "agent": "player",
         "patient": "grain and chaff",
         "instrument": "winnowing basket",
-        "because": ["instrument is wide", "agent is making the draught by arm", "patient is light chaff with heavy grain"],
-        "effects": ["patient chaff down by half", "moves chaff to a drift by the wall", "agent tiredness up", "agent gains dusty lungs", "creates half-clean grain"],
-        "numbers": ["hours to half clean a bushel by hand", "how clean the miller requires"]
+        "because": [
+          "instrument is wide",
+          "agent is arm-fanning",
+          "patient is mixed-weight"
+        ],
+        "effects": [
+          "patient chaff down by half",
+          "moves chaff to a drift by the wall",
+          "agent tiredness up",
+          "agent gains dusty lungs",
+          "creates half-clean grain"
+        ],
+        "numbers": [
+          "hours to half clean a bushel by hand",
+          "how clean the miller requires"
+        ]
       }
     ],
-    "latent": ["whether the wind will get up later", "how much grain is still in the threshed straw", "how good the player is with a flail"],
-    "state_after": ["grain: a bushel and a half, half clean, in a heap", "straw: threshed, stacked for bedding", "chaff: a drift against the wall, good for the hens to pick over", "player: arms dead, coughing, waiting on the weather", "flail: thong a little more worn"],
+    "latent": [
+      "whether the wind will get up later",
+      "how much grain is still in the threshed straw",
+      "how good the player is with a flail"
+    ],
+    "state_after": [
+      "grain: a bushel and a half, half clean, in a heap",
+      "straw: threshed, stacked for bedding",
+      "chaff: a drift against the wall, good for the hens to pick over",
+      "player: arms dead, coughing, waiting on the weather",
+      "flail: thong a little more worn"
+    ],
     "stress": "A job whose second half is done by the weather, so that the right action at the wrong time simply does nothing.",
     "temptation": "A craft chain 'sheaf, flail, grain' with winnowing folded in as automatic, instead of separation that works only because moving air carries light things further than heavy ones."
   },
@@ -394,8 +925,20 @@
     "domain": "farm",
     "place": "A field gateway after three days of rain, the ground poached to deep mud by cattle, on the only way from the root field to the yard.",
     "initiator": "player",
-    "lines": ["load the cart full of turnips and drive it to the yard", "whip up the horse", "unload half and try again"],
-    "things": ["player", "two-wheeled tip cart with narrow iron-tyred wheels", "one cart horse", "a full load of turnips, about a ton", "gateway mud, hub deep in the ruts", "armfuls of hedge brushwood", "the horse's collar and traces"],
+    "lines": [
+      "load the cart full of turnips and drive it to the yard",
+      "whip up the horse",
+      "unload half and try again"
+    ],
+    "things": [
+      "player",
+      "two-wheeled tip cart with narrow iron-tyred wheels",
+      "one cart horse",
+      "a full load of turnips, about a ton",
+      "gateway mud, hub deep in the ruts",
+      "armfuls of hedge brushwood",
+      "the horse's collar and traces"
+    ],
     "outcome": "On the firm headland the horse handles the full load. In the gateway the narrow wheels cut straight down to the hubs and the cart stops dead. Whipping the horse makes it plunge and strain, which digs its own feet in, risks a broken trace or a strained shoulder, and moves the cart not at all. What works is dull: tip or throw off half the load into the mud, lay brushwood in front of the wheels, let the horse take it out quietly, then come back for the rest in two more trips. An hour lost, the turnips from the mud filthy, and the gateway worse for the next load. A sensible carter would have taken half loads from the start.",
     "steps": [
       {
@@ -403,40 +946,99 @@
         "agent": "mud",
         "patient": "cart",
         "instrument": null,
-        "because": ["patient is heavy laden", "patient is narrow wheeled", "place is poached", "place is saturated"],
-        "effects": ["patient gains stuck to the hubs", "patient loses all movement", "player learns the load was too much for this ground"],
-        "numbers": ["depth a wheel sinks for its load and width", "pull needed against what one horse can give"]
+        "because": [
+          "patient is heavy laden",
+          "patient is narrow wheeled",
+          "place is poached",
+          "place is saturated"
+        ],
+        "effects": [
+          "patient gains stuck to the hubs",
+          "patient loses all movement",
+          "player learns the load was too much for this ground"
+        ],
+        "numbers": [
+          "depth a wheel sinks for its load and width",
+          "pull needed against what one horse can give"
+        ]
       },
       {
         "process": "whip",
         "agent": "player",
         "patient": "horse",
         "instrument": "whip",
-        "because": ["agent is impatient", "patient is willing", "cart is immovable"],
-        "effects": ["patient gains plunging", "patient tiredness up", "patient trust down", "traces gain strained", "patient feet sink deeper", "cart loses nothing of its stuckness"],
-        "numbers": ["odds of a broken trace or a lamed horse per attempt"]
+        "because": [
+          "agent is impatient",
+          "patient is willing",
+          "patient is over-tasked"
+        ],
+        "effects": [
+          "patient gains plunging",
+          "patient tiredness up",
+          "patient trust down",
+          "harness gains strained",
+          "patient footing down as its feet sink",
+          "cart loses nothing of its stuckness"
+        ],
+        "numbers": [
+          "odds of a broken trace or a lamed horse per attempt"
+        ]
       },
       {
         "process": "unload",
         "agent": "player",
         "patient": "cart",
         "instrument": "hands",
-        "because": ["patient is tippable", "load is loose roots"],
-        "effects": ["patient weight down by half", "moves half the turnips to the mud beside the gateway", "turnips gain filthy", "agent tiredness up"],
-        "numbers": ["minutes to throw off half a ton", "load the horse can draw out of this mud"]
+        "because": [
+          "patient is tippable",
+          "patient is loose-loaded"
+        ],
+        "effects": [
+          "patient weight down by half",
+          "moves half the turnips to the mud beside the gateway",
+          "unloaded heap gains filthy",
+          "agent tiredness up"
+        ],
+        "numbers": [
+          "minutes to throw off half a ton",
+          "load the horse can draw out of this mud"
+        ]
       },
       {
         "process": "draw",
         "agent": "horse",
         "patient": "cart",
         "instrument": "brushwood under the wheels",
-        "because": ["patient is lightened", "instrument is giving the wheels something to bite", "agent is calmed"],
-        "effects": ["moves patient to the yard", "place gains deeper ruts", "consumes instrument into the mud", "player learns to cart half loads until it dries"],
-        "numbers": ["extra trips needed", "total time lost", "how many more loads the gateway will stand"]
+        "because": [
+          "patient is lightened",
+          "instrument is grip-giving",
+          "agent is calmed"
+        ],
+        "effects": [
+          "moves patient to the yard",
+          "place gains deeper ruts",
+          "consumes instrument into the mud",
+          "player learns to cart half loads until it dries"
+        ],
+        "numbers": [
+          "extra trips needed",
+          "total time lost",
+          "how many more loads the gateway will stand"
+        ]
       }
     ],
-    "latent": ["how deep the mud is, known only when the wheel goes in", "how much the horse has left in him", "whether the traces are sound"],
-    "state_after": ["cart: in the yard with half a load", "turnips: half in the yard, half in a muddy heap by the gate awaiting two more trips", "horse: blown, sweated, a little sour", "gateway: ruts deeper, brushwood trodden in", "player: an hour behind"],
+    "latent": [
+      "how deep the mud is, known only when the wheel goes in",
+      "how much the horse has left in him",
+      "whether the traces are sound"
+    ],
+    "state_after": [
+      "cart: in the yard with half a load",
+      "turnips: half in the yard, half in a muddy heap by the gate awaiting two more trips",
+      "horse: blown, sweated, a little sour",
+      "gateway: ruts deeper, brushwood trodden in",
+      "player: an hour behind"
+    ],
     "stress": "Ground that carries a load or does not according to how wet it is and how narrowly the load presses on it, and force that makes things worse.",
     "temptation": "A carry-weight limit on the cart that simply forbids overloading, instead of soft ground giving way under concentrated weight and a draught animal that can be pushed into hurting itself."
   },
@@ -445,8 +1047,20 @@
     "domain": "farm",
     "place": "A kitchen garden beside the yard in spring, rows of cabbage and lettuce seedlings a finger tall, and a henhouse that has just been cleaned out.",
     "initiator": "player",
-    "lines": ["spread the fresh hen dung thickly along the seedling rows", "water it in"],
-    "things": ["player", "two barrow loads of fresh hen droppings mixed with a little straw", "cabbage and lettuce seedlings", "garden soil", "watering can", "last year's dung heap, black and crumbly, at the end of the yard", "slugs", "weed seeds"],
+    "lines": [
+      "spread the fresh hen dung thickly along the seedling rows",
+      "water it in"
+    ],
+    "things": [
+      "player",
+      "two barrow loads of fresh hen droppings mixed with a little straw",
+      "cabbage and lettuce seedlings",
+      "garden soil",
+      "watering can",
+      "last year's dung heap, black and crumbly, at the end of the yard",
+      "slugs",
+      "weed seeds"
+    ],
     "outcome": "Meant as a kindness, it kills them. Fresh hen dung is fierce stuff: laid thick against young stems and watered in, it scorches the roots, and within three or four days the seedlings yellow from the edges, go limp and brown, and most die. The ones at the row ends, which got least, survive and later grow enormous. The same dung heaped for six months and turned would have been mild and rich, and the old black heap at the end of the yard was there for the taking. The bed is too strong to resow for some weeks, and is first-rate by midsummer. The smell brings flies for a week.",
     "steps": [
       {
@@ -454,31 +1068,78 @@
         "agent": "player",
         "patient": "seedling rows",
         "instrument": "fresh hen dung",
-        "because": ["instrument is fresh", "instrument is very strong", "patient is young", "agent is generous"],
-        "effects": ["moves instrument to the soil around the stems", "patient gains heavily manured", "creates strong smell", "creates flies"],
-        "numbers": ["how much fresh dung a row will bear", "how much was put on"]
+        "because": [
+          "instrument is fresh",
+          "instrument is very strong",
+          "patient is young",
+          "agent is generous"
+        ],
+        "effects": [
+          "moves instrument to the soil around the stems",
+          "patient gains heavily manured",
+          "creates strong smell",
+          "creates flies"
+        ],
+        "numbers": [
+          "how much fresh dung a row will bear",
+          "how much was put on"
+        ]
       },
       {
         "process": "scorch",
         "agent": "fresh dung",
         "patient": "seedlings",
         "instrument": "water",
-        "because": ["agent is unrotted", "agent is caustic to roots", "patient is tender", "instrument is carrying it down to the roots"],
-        "effects": ["patient gains yellowed then browned", "patient numbers down to the few at the row ends", "player learns of it three or four days later"],
-        "numbers": ["days until damage shows", "share of seedlings killed by dose"]
+        "because": [
+          "agent is unrotted",
+          "agent is root-burning",
+          "patient is tender",
+          "instrument is soaking"
+        ],
+        "effects": [
+          "patient gains yellowed then browned",
+          "patient numbers down to the few at the row ends",
+          "player learns of it three or four days later"
+        ],
+        "numbers": [
+          "days until damage shows",
+          "share of seedlings killed by dose"
+        ]
       },
       {
         "process": "mellow",
         "agent": "time and rain",
         "patient": "bed",
         "instrument": null,
-        "because": ["patient is overloaded", "agent is slow"],
-        "effects": ["patient strength down to a useful level over weeks", "patient fertility up", "survivors gain rank growth", "creates a flush of weeds from seed in the dung and straw"],
-        "numbers": ["weeks before the bed can be resown", "months dung needs in the heap before it is safe", "how late a resown crop will be"]
+        "because": [
+          "patient is overloaded",
+          "agent is slow"
+        ],
+        "effects": [
+          "patient strength down to a useful level over weeks",
+          "patient fertility up",
+          "surviving row gains rank growth",
+          "creates a flush of weeds from seed in the dung and straw"
+        ],
+        "numbers": [
+          "weeks before the bed can be resown",
+          "months dung needs in the heap before it is safe",
+          "how late a resown crop will be"
+        ]
       }
     ],
-    "latent": ["how strong this dung is compared with cow or horse", "which seedlings got the least", "that the old heap was the right stuff"],
-    "state_after": ["seedlings: mostly dead, a few survivors at the row ends", "bed: too strong for now, rich later, weedy", "henhouse: clean", "old dung heap: untouched", "player: three weeks behind with the cabbages, knows fresh from rotted"],
+    "latent": [
+      "how strong this dung is compared with cow or horse",
+      "which seedlings got the least",
+      "that the old heap was the right stuff"
+    ],
+    "state_after": [
+      "seedlings: mostly dead, a few survivors at the row ends",
+      "bed: too strong for now, rich later, weedy",
+      "henhouse: clean",
+      "old dung heap: untouched",
+      "player: three weeks behind with the cabbages, knows fresh from rotted"
+    ],
     "stress": "A helpful substance that harms at the wrong age and dose, the same stuff being poison fresh and food when old.",
     "temptation": "A 'fertiliser gives plus growth' effect applied by any dung item, instead of dung that changes with age, a dose that can be too much, and young plants being less able to bear it than old."
   },
@@ -488,7 +1149,17 @@
     "place": "A farmyard with a stone-lined well five fathoms deep, in the eighth week without rain of a hot summer, with twelve cattle, two horses and a household to water from it.",
     "initiator": "world",
     "lines": [],
-    "things": ["drought", "the yard well", "falling water table", "well rope, cut years ago to suit the usual level", "bucket", "twelve cattle, two horses, pigs, the household", "the stock trough", "silt on the well bottom", "a pond half a mile off, shrinking and green"],
+    "things": [
+      "drought",
+      "the yard well",
+      "falling water table",
+      "well rope, cut years ago to suit the usual level",
+      "bucket",
+      "twelve cattle, two horses, pigs, the household",
+      "the stock trough",
+      "silt on the well bottom",
+      "a pond half a mile off, shrinking and green"
+    ],
     "outcome": "The stock alone drink a hundred buckets a day in this heat. Week by week the water stands lower: first the rope has to be lengthened with a knotted piece, then the bucket comes up half full, then it comes up with silt in it because it is scraping the bottom. The well is not dry, it refills overnight to a few feet, but it gives perhaps thirty buckets a day when a hundred are wanted. So the cattle must be walked to the far pond morning and evening, losing condition and milk on the way, the household water is cloudy and must stand to settle, and the garden gets nothing. The first real rain does not mend it: the well takes weeks to recover after the ground has drunk its fill.",
     "steps": [
       {
@@ -496,40 +1167,98 @@
         "agent": "drought",
         "patient": "water table",
         "instrument": null,
-        "because": ["agent is long", "place is hot", "patient is rain-fed", "patient is drawn on daily"],
-        "effects": ["patient level down week by week", "well depth of water down", "pond size down"],
-        "numbers": ["fall per rainless week", "depth of water left in the well"]
+        "because": [
+          "agent is long",
+          "place is hot",
+          "patient is rain-fed",
+          "patient is daily-drawn"
+        ],
+        "effects": [
+          "patient level down week by week",
+          "well depth of water down",
+          "pond size down"
+        ],
+        "numbers": [
+          "fall per rainless week",
+          "depth of water left in the well"
+        ]
       },
       {
         "process": "draw",
         "agent": "household",
         "patient": "well",
         "instrument": "rope and bucket",
-        "because": ["instrument is too short now", "patient is shallow", "patient is slow to refill", "stock are many and thirsty"],
-        "effects": ["instrument gains a knotted extension", "patient water down faster than it refills", "creates silty half buckets", "agent labour up"],
-        "numbers": ["buckets needed per day by beasts and people in heat", "buckets the well yields per day at this level", "time per bucket with a longer haul"]
+        "because": [
+          "instrument is too short",
+          "patient is shallow",
+          "patient is slow-refilling",
+          "agent is heavily stocked"
+        ],
+        "effects": [
+          "instrument gains a knotted extension",
+          "patient water down faster than it refills",
+          "creates silty half buckets",
+          "agent labour up"
+        ],
+        "numbers": [
+          "buckets needed per day by beasts and people in heat",
+          "buckets the well yields per day at this level",
+          "time per bucket with a longer haul"
+        ]
       },
       {
         "process": "drive",
         "agent": "farmer",
         "patient": "cattle",
         "instrument": null,
-        "because": ["well is insufficient", "pond is distant", "weather is hot"],
-        "effects": ["moves patient to the pond and back twice a day", "patient condition down", "patient milk down", "agent loses two hours a day", "pond water down and fouled by hooves"],
-        "numbers": ["time and condition lost per trip", "days the pond will last at this rate"]
+        "because": [
+          "place is water-short",
+          "place is pond-remote",
+          "place is hot"
+        ],
+        "effects": [
+          "moves patient to the pond and back twice a day",
+          "patient condition down",
+          "patient milk down",
+          "agent loses two hours a day",
+          "pond water down and fouled by hooves"
+        ],
+        "numbers": [
+          "time and condition lost per trip",
+          "days the pond will last at this rate"
+        ]
       },
       {
         "process": "recover",
         "agent": "rain",
         "patient": "well",
         "instrument": null,
-        "because": ["ground is parched and drinks first", "patient is fed from below not above"],
-        "effects": ["patient level up only after weeks", "household learns the first storm changes nothing in the well"],
-        "numbers": ["rain needed before any reaches the water table", "weeks of lag"]
+        "because": [
+          "place is parched",
+          "patient is ground-fed"
+        ],
+        "effects": [
+          "patient level up only after weeks",
+          "household learns the first storm changes nothing in the well"
+        ],
+        "numbers": [
+          "rain needed before any reaches the water table",
+          "weeks of lag"
+        ]
       }
     ],
-    "latent": ["how much water is left in the well, seen only by the wet mark on the rope", "how long the drought will last", "whether the pond will hold out"],
-    "state_after": ["well: a few feet of silty water, refilling slowly overnight", "rope: lengthened with a knotted piece", "cattle: thin, milk halved, walking a mile a day for water", "garden: dead", "pond: shrinking, trampled, green"],
+    "latent": [
+      "how much water is left in the well, seen only by the wet mark on the rope",
+      "how long the drought will last",
+      "whether the pond will hold out"
+    ],
+    "state_after": [
+      "well: a few feet of silty water, refilling slowly overnight",
+      "rope: lengthened with a knotted piece",
+      "cattle: thin, milk halved, walking a mile a day for water",
+      "garden: dead",
+      "pond: shrinking, trampled, green"
+    ],
     "stress": "A shared stock drawn down by many users against a slow refill, with the shortage arriving by degrees and the recovery lagging the cause.",
     "temptation": "A well that is simply 'dry' or 'not dry' by season flag, instead of a level that falls with no rain and with use, a rope of a certain length, a refill rate, and thirsty animals whose need is a number of buckets."
   },
@@ -539,7 +1268,15 @@
     "place": "A stable and feed store under one roof, the feed store closed by a door with a simple drop latch, the bin inside holding four bushels of crushed oats and barley.",
     "initiator": "creature",
     "lines": [],
-    "things": ["a clever cob gelding, loose in the yard overnight", "the drop latch", "feed store door", "bin of crushed oats and barley with a loose lid", "water trough in the yard", "the carter who finds him at dawn", "the horse's gut and feet"],
+    "things": [
+      "a clever cob gelding, loose in the yard overnight",
+      "the drop latch",
+      "feed store door",
+      "bin of crushed oats and barley with a loose lid",
+      "water trough in the yard",
+      "the carter who finds him at dawn",
+      "the horse's gut and feet"
+    ],
     "outcome": "The cob has watched the latch lifted a thousand times and works it with his lip. He noses the lid off the bin and eats until he cannot, fifteen or twenty pounds of grain where his ration is four, then drinks deep at the trough. At dawn he looks merely full and rather pleased. By midday he is dull, off his feed and blowing; by evening he is pawing, looking at his flanks and wanting to roll with colic, and must be walked for hours to stop him twisting a gut. If he comes through that, two days later he stands rocked back on his heels with hot feet, foundered, and may never be fully sound. A peg through the latch would have stopped it.",
     "steps": [
       {
@@ -547,40 +1284,100 @@
         "agent": "cob",
         "patient": "feed store door",
         "instrument": "lips",
-        "because": ["agent is clever", "agent is having watched it done", "patient is simply latched", "agent is loose overnight"],
-        "effects": ["patient gains open", "moves agent to the feed store", "agent learns the trick for good"],
-        "numbers": ["odds a given horse learns a drop latch", "minutes of fiddling it takes"]
+        "because": [
+          "agent is clever",
+          "agent is observant",
+          "patient is simply latched",
+          "agent is loose overnight"
+        ],
+        "effects": [
+          "patient gains open",
+          "moves agent to the feed store",
+          "agent learns the trick for good"
+        ],
+        "numbers": [
+          "odds a given horse learns a drop latch",
+          "minutes of fiddling it takes"
+        ]
       },
       {
         "process": "gorge",
         "agent": "cob",
         "patient": "grain",
         "instrument": null,
-        "because": ["patient is unlimited", "patient is rich", "agent is greedy", "agent is unable to be sick"],
-        "effects": ["consumes patient by several days' ration", "agent gains overfull gut", "creates scattered grain and a nosed-off lid", "carter learns at dawn roughly how much is gone"],
-        "numbers": ["grain eaten against a safe ration", "how much is too much for his size"]
+        "because": [
+          "patient is unlimited",
+          "patient is rich",
+          "agent is greedy",
+          "agent is non-vomiting"
+        ],
+        "effects": [
+          "consumes patient by several days' ration",
+          "agent gains overfull gut",
+          "creates scattered grain and a nosed-off lid",
+          "carter learns at dawn roughly how much is gone"
+        ],
+        "numbers": [
+          "grain eaten against a safe ration",
+          "how much is too much for his size"
+        ]
       },
       {
         "process": "sicken",
         "agent": "grain overload",
         "patient": "cob",
         "instrument": null,
-        "because": ["agent is fermenting in the gut", "patient is a horse", "patient is having drunk deeply after"],
-        "effects": ["patient gains colic by evening", "patient pain up", "patient gains danger of a twisted gut if he rolls", "carter loses a night walking him"],
-        "numbers": ["hours from gorging to colic", "odds of death from colic", "hours of walking needed"]
+        "because": [
+          "agent is gut-fermenting",
+          "patient is a horse",
+          "patient is deep-watered"
+        ],
+        "effects": [
+          "patient gains colic by evening",
+          "patient pain up",
+          "patient gains danger of a twisted gut if he rolls",
+          "carter loses a night walking him"
+        ],
+        "numbers": [
+          "hours from gorging to colic",
+          "odds of death from colic",
+          "hours of walking needed"
+        ]
       },
       {
         "process": "founder",
         "agent": "grain overload",
         "patient": "cob's feet",
         "instrument": null,
-        "because": ["patient is a horse's hoof", "agent is poisoning the blood"],
-        "effects": ["patient gains hot and painful two days on", "cob gains lame", "cob work value down for months or for good", "farm loses its cart horse at a busy time"],
-        "numbers": ["days from gorging to founder", "odds given the amount eaten", "weeks or months off work"]
+        "because": [
+          "patient is hoofed",
+          "agent is blood-poisoning"
+        ],
+        "effects": [
+          "patient gains hot and painful two days on",
+          "cob gains lame",
+          "cob work value down for months or for good",
+          "farm loses its cart horse at a busy time"
+        ],
+        "numbers": [
+          "days from gorging to founder",
+          "odds given the amount eaten",
+          "weeks or months off work"
+        ]
       }
     ],
-    "latent": ["how much he actually ate", "whether the colic will pass or twist", "whether founder will follow, not known for two days"],
-    "state_after": ["grain bin: a quarter emptied, lid on the floor", "cob: colicky, then perhaps foundered, off work", "latch: now pegged", "carter: no sleep, hauling to be done with a borrowed horse", "cob: will try every latch he meets from now on"],
+    "latent": [
+      "how much he actually ate",
+      "whether the colic will pass or twist",
+      "whether founder will follow, not known for two days"
+    ],
+    "state_after": [
+      "grain bin: a quarter emptied, lid on the floor",
+      "cob: colicky, then perhaps foundered, off work",
+      "latch: now pegged",
+      "carter: no sleep, hauling to be done with a borrowed horse",
+      "cob: will try every latch he meets from now on"
+    ],
     "stress": "An animal defeating a barrier by learning, then harmed by getting exactly what it wanted, with the worst consequence arriving days after the act.",
     "temptation": "Treating doors as impassable to animals and feed as always good for them, instead of a latch that anything with lips and patience can lift and a gut that rich food in excess poisons on a delay."
   },
@@ -589,8 +1386,21 @@
     "domain": "farm",
     "place": "A two-acre hay meadow in June, grass thigh high and in flower, heavy with dew at dawn and dry and wiry by mid-morning.",
     "initiator": "player",
-    "lines": ["mow the meadow with the scythe", "keep mowing", "stop and sharpen the blade"],
-    "things": ["player", "scythe with a long thin blade", "whetstone carried in a horn of water at the belt", "standing grass", "dew", "molehills and a hidden stone in the sward", "swathes of cut grass", "the rising sun"],
+    "lines": [
+      "mow the meadow with the scythe",
+      "keep mowing",
+      "stop and sharpen the blade"
+    ],
+    "things": [
+      "player",
+      "scythe with a long thin blade",
+      "whetstone carried in a horn of water at the belt",
+      "standing grass",
+      "dew",
+      "molehills and a hidden stone in the sward",
+      "swathes of cut grass",
+      "the rising sun"
+    ],
     "outcome": "A scythe cuts only while it is razor keen, and grass takes the edge off it in a few minutes. Freshly whetted and at dawn, with the dew making the grass stand heavy and cut sweet, the blade sings through and a good mower lays an acre in a day. Pushed on without whetting, it begins to bend the grass over and tear it, leaving a ragged ridge between strokes, and the work gets twice as hard for half the result. Whetting every five or ten minutes feels like lost time and is not. By mid-morning the dry grass is tough and the mowing slows regardless. A molehill dulls the edge at once; the hidden stone puts a nick in it that must be hammered out at home.",
     "steps": [
       {
@@ -598,40 +1408,100 @@
         "agent": "player",
         "patient": "grass",
         "instrument": "scythe",
-        "because": ["instrument is keen", "patient is dewy", "patient is standing", "agent is rhythmic"],
-        "effects": ["creates swathes of cut grass", "patient standing area down", "instrument sharpness down with every stroke", "agent tiredness up slowly"],
-        "numbers": ["strokes before the edge goes off", "area mown per hour keen against dull", "how much faster in dew than in dry"]
+        "because": [
+          "instrument is keen",
+          "patient is dewy",
+          "patient is standing",
+          "agent is rhythmic"
+        ],
+        "effects": [
+          "creates swathes of cut grass",
+          "patient standing area down",
+          "instrument sharpness down with every stroke",
+          "agent tiredness up slowly"
+        ],
+        "numbers": [
+          "strokes before the edge goes off",
+          "area mown per hour keen against dull",
+          "how much faster in dew than in dry"
+        ]
       },
       {
         "process": "dull",
         "agent": "grass and grit",
         "patient": "scythe edge",
         "instrument": null,
-        "because": ["patient is thin", "patient is soft iron drawn fine", "agent is gritty near molehills"],
-        "effects": ["patient sharpness down", "grass gains bent and torn instead of cut", "creates ragged uncut ridges", "player tiredness up fast", "player learns the blade is off by the sound and the pull"],
-        "numbers": ["effort per stroke as the edge goes", "share of grass left uncut behind a dull blade"]
+        "because": [
+          "patient is thin",
+          "patient is fine-drawn",
+          "agent is gritty"
+        ],
+        "effects": [
+          "patient sharpness down",
+          "grass gains bent and torn instead of cut",
+          "creates ragged uncut ridges",
+          "player tiredness up fast",
+          "player learns the blade is off by the sound and the pull"
+        ],
+        "numbers": [
+          "effort per stroke as the edge goes",
+          "share of grass left uncut behind a dull blade"
+        ]
       },
       {
         "process": "whet",
         "agent": "player",
         "patient": "scythe edge",
         "instrument": "whetstone",
-        "because": ["instrument is wet", "patient is merely dulled not nicked"],
-        "effects": ["patient sharpness up", "patient width down a hair over a season", "agent gains a minute's rest", "agent risks a cut hand if careless"],
-        "numbers": ["minutes per whetting", "whettings per hour", "seasons a blade lasts"]
+        "because": [
+          "instrument is wet",
+          "patient is merely dulled"
+        ],
+        "effects": [
+          "patient sharpness up",
+          "patient width down a hair over a season",
+          "agent gains a minute's rest",
+          "agent gains a cut hand if careless"
+        ],
+        "numbers": [
+          "minutes per whetting",
+          "whettings per hour",
+          "seasons a blade lasts"
+        ]
       },
       {
         "process": "strike",
         "agent": "scythe",
         "patient": "hidden stone",
         "instrument": null,
-        "because": ["patient is hidden in the sward", "agent is thin edged", "agent is swung hard"],
-        "effects": ["agent gains a nick", "agent loses clean cutting at that spot", "player learns the whetstone cannot take it out", "creates a job for the hammer and anvil tonight"],
-        "numbers": ["odds of a stone per acre", "time to peen out a nick"]
+        "because": [
+          "patient is grass-hidden",
+          "agent is thin edged",
+          "agent is swung hard"
+        ],
+        "effects": [
+          "agent gains a nick",
+          "agent loses clean cutting at that spot",
+          "player learns the whetstone cannot take it out",
+          "creates a job for the hammer and anvil tonight"
+        ],
+        "numbers": [
+          "odds of a stone per acre",
+          "time to peen out a nick"
+        ]
       }
     ],
-    "latent": ["where the stones and molehills are under the grass", "how keen the edge is, told by sound and feel not by sight", "how long the dew will last"],
-    "state_after": ["meadow: half mown by mid-morning, swathes lying in rows", "scythe: nicked near the heel, otherwise keen", "player: tired but not spent if they whetted often, wrecked if they did not", "cut grass: needs turning tomorrow and two dry days"],
+    "latent": [
+      "where the stones and molehills are under the grass",
+      "how keen the edge is, told by sound and feel not by sight",
+      "how long the dew will last"
+    ],
+    "state_after": [
+      "meadow: half mown by mid-morning, swathes lying in rows",
+      "scythe: nicked near the heel, otherwise keen",
+      "player: tired but not spent if they whetted often, wrecked if they did not",
+      "cut grass: needs turning tomorrow and two dry days"
+    ],
     "stress": "A tool whose usefulness decays within minutes of use and is restored by a small repeated upkeep that the impatient skip to their own cost.",
     "temptation": "A scythe with a durability bar that only matters when it hits zero, instead of an edge whose keenness sets the effort and quality of every stroke and is renewed many times an hour."
   },
@@ -641,7 +1511,18 @@
     "place": "A sloping home field in early spring, the ewes brought close to the house for lambing, on a night of sleet driven by an east wind.",
     "initiator": "creature",
     "lines": [],
-    "things": ["a ewe carrying twins", "first lamb", "second lamb", "sleet and east wind", "a hurdle and straw shelter in the field corner that the ewe does not use", "the shepherd making rounds with a lantern every two hours", "the kitchen hearth", "a sack", "a bottle of warm milk from another ewe", "a carrion crow at first light"],
+    "things": [
+      "a ewe carrying twins",
+      "first lamb",
+      "second lamb",
+      "sleet and east wind",
+      "a hurdle and straw shelter in the field corner that the ewe does not use",
+      "the shepherd making rounds with a lantern every two hours",
+      "the kitchen hearth",
+      "a sack",
+      "a bottle of warm milk from another ewe",
+      "a carrion crow at first light"
+    ],
     "outcome": "The ewe lambs in the open on the windward slope, as ewes will. She licks the first lamb dry and it is up and sucking within half an hour. The second, born twenty minutes later while she is busy with the first, gets a few licks, stays wet, and in sleet a wet newborn chills past the point of standing within the hour. The shepherd's round finds it flat and cold-mouthed but alive. Rubbed with a sack, laid by the hearth and given a little warm first milk, it is on its feet by dawn; the hard part is then getting the ewe to take it back, and she may not, since it smells of kitchen now. Found an hour later it would have been dead, and the crow would have had its eyes at first light.",
     "steps": [
       {
@@ -649,40 +1530,102 @@
         "agent": "ewe",
         "patient": "twin lambs",
         "instrument": null,
-        "because": ["agent is at term", "place is exposed", "agent is choosing her own spot"],
-        "effects": ["creates first lamb", "creates second lamb twenty minutes later", "agent tiredness up", "creates birth fluids and afterbirth on the grass"],
-        "numbers": ["interval between twins", "hour of the night against the shepherd's rounds"]
+        "because": [
+          "agent is at term",
+          "place is exposed",
+          "agent is self-willed"
+        ],
+        "effects": [
+          "creates first lamb",
+          "creates second lamb twenty minutes later",
+          "agent tiredness up",
+          "creates birth fluids and afterbirth on the grass"
+        ],
+        "numbers": [
+          "interval between twins",
+          "hour of the night against the shepherd's rounds"
+        ]
       },
       {
         "process": "lick",
         "agent": "ewe",
         "patient": "first lamb",
         "instrument": "tongue",
-        "because": ["agent is attentive to the firstborn", "patient is wet"],
-        "effects": ["patient loses wetness", "patient gains standing and sucking", "patient warmth up", "agent gains bonded to it by smell", "second lamb loses her attention"],
-        "numbers": ["minutes to dry and get a lamb up", "how much attention the second gets"]
+        "because": [
+          "agent is firstborn-fixed",
+          "patient is wet"
+        ],
+        "effects": [
+          "patient loses wetness",
+          "patient gains standing and sucking",
+          "patient warmth up",
+          "agent gains bonded to it by smell",
+          "second lamb loses her attention"
+        ],
+        "numbers": [
+          "minutes to dry and get a lamb up",
+          "how much attention the second gets"
+        ]
       },
       {
         "process": "chill",
         "agent": "sleet and wind",
         "patient": "second lamb",
         "instrument": null,
-        "because": ["patient is wet", "patient is newborn", "patient is unfed", "agent is cold and driving"],
-        "effects": ["patient warmth down fast", "patient loses the strength to stand or suck", "patient gains near death within the hour"],
-        "numbers": ["minutes a wet newborn lasts in sleet", "time until the next round"]
+        "because": [
+          "patient is wet",
+          "patient is newborn",
+          "patient is unfed",
+          "agent is cold",
+          "agent is driving"
+        ],
+        "effects": [
+          "patient warmth down fast",
+          "patient loses the strength to stand or suck",
+          "patient gains near death within the hour"
+        ],
+        "numbers": [
+          "minutes a wet newborn lasts in sleet",
+          "time until the next round"
+        ]
       },
       {
         "process": "revive",
         "agent": "shepherd",
         "patient": "second lamb",
         "instrument": "sack, hearth and warm milk",
-        "because": ["patient is still alive", "instrument is warm", "agent is in time by luck of the round"],
-        "effects": ["moves patient to the kitchen hearth", "patient warmth up", "patient gains fed", "patient gains kitchen smell", "ewe bond with it down", "agent loses the rest of the night"],
-        "numbers": ["hours to bring a chilled lamb round", "odds the ewe accepts it back", "weeks of bottle feeding if she does not"]
+        "because": [
+          "patient is still alive",
+          "instrument is warm",
+          "agent is just timely"
+        ],
+        "effects": [
+          "moves patient to the kitchen hearth",
+          "patient warmth up",
+          "patient gains fed",
+          "patient gains kitchen smell",
+          "ewe bond with it down",
+          "agent loses the rest of the night"
+        ],
+        "numbers": [
+          "hours to bring a chilled lamb round",
+          "odds the ewe accepts it back",
+          "weeks of bottle feeding if she does not"
+        ]
       }
     ],
-    "latent": ["when each ewe will lamb, guessed only from her restlessness", "whether the second lamb is alive when found", "whether the ewe will take it back"],
-    "state_after": ["first lamb: dry, fed, with the ewe", "second lamb: alive by the hearth, to be tried back on the ewe at dawn", "ewe: moved into the shelter with the first lamb", "shepherd: no sleep", "crow: waiting on the wall for the next one"],
+    "latent": [
+      "when each ewe will lamb, guessed only from her restlessness",
+      "whether the second lamb is alive when found",
+      "whether the ewe will take it back"
+    ],
+    "state_after": [
+      "first lamb: dry, fed, with the ewe",
+      "second lamb: alive by the hearth, to be tried back on the ewe at dawn",
+      "ewe: moved into the shelter with the first lamb",
+      "shepherd: no sleep",
+      "crow: waiting on the wall for the next one"
+    ],
     "stress": "A newborn's survival turning on minutes, on a mother's divided attention, and on where a person happens to be at the time.",
     "temptation": "A lambing event that rolls 'lamb survives' per lamb from weather, instead of wet, cold, feeding and a mother's care each doing their part, a rescuer who may or may not arrive, and a bond that goes by smell."
   },
@@ -691,8 +1634,22 @@
     "domain": "farm",
     "place": "A farmhouse dairy with a plunger churn, on a frosty morning with the cream crock standing on a stone shelf as cold as the room.",
     "initiator": "player",
-    "lines": ["pour the cream into the churn and churn it into butter", "keep churning", "add hot water to warm it up"],
-    "things": ["player", "three days' cream, ripened and slightly sour, very cold", "wooden plunger churn", "the cold dairy", "a kettle of hot water", "buttermilk", "butter grains", "cold well water for washing the butter", "wooden butter hands and salt"],
+    "lines": [
+      "pour the cream into the churn and churn it into butter",
+      "keep churning",
+      "add hot water to warm it up"
+    ],
+    "things": [
+      "player",
+      "three days' cream, ripened and slightly sour, very cold",
+      "wooden plunger churn",
+      "the cold dairy",
+      "a kettle of hot water",
+      "buttermilk",
+      "butter grains",
+      "cold well water for washing the butter",
+      "wooden butter hands and salt"
+    ],
     "outcome": "Cream comes to butter in half an hour at the warmth of a mild spring day. Stone cold, it only froths and swells in the churn, and the player can plunge for two hours with aching arms and get nothing but foam. Setting the churn near the kitchen fire for a while, or standing the crock in warm water beforehand, fixes it and the butter comes in twenty minutes. The quick remedy of pouring hot water straight in overshoots: the butter comes at once but as a pale, greasy, soft mass that will not firm, keeps badly and tastes oily. Even good butter must be washed in cold water until it runs clear and worked with salt, or the trapped buttermilk turns it rancid within the week.",
     "steps": [
       {
@@ -700,40 +1657,95 @@
         "agent": "player",
         "patient": "cold cream",
         "instrument": "plunger churn",
-        "because": ["patient is too cold", "patient is ripe enough", "agent is persistent"],
-        "effects": ["patient gains frothy and swollen", "patient loses nothing to butter", "agent tiredness up", "agent learns it is not coming"],
-        "numbers": ["churning time at the right warmth against too cold", "the band of warmth within which butter comes"]
+        "because": [
+          "patient is too cold",
+          "patient is ripe enough",
+          "agent is persistent"
+        ],
+        "effects": [
+          "patient gains frothy and swollen",
+          "patient loses nothing to butter",
+          "agent tiredness up",
+          "agent learns it is not coming"
+        ],
+        "numbers": [
+          "churning time at the right warmth against too cold",
+          "the band of warmth within which butter comes"
+        ]
       },
       {
         "process": "overheat",
         "agent": "player",
         "patient": "cream",
         "instrument": "hot water",
-        "because": ["instrument is too hot", "instrument is poured straight in", "agent is impatient"],
-        "effects": ["patient warmth up past the mark", "creates soft greasy pale butter at once", "creates thin watery buttermilk", "patient keeping quality down"],
-        "numbers": ["how much hot water to how much cream overshoots", "days such butter keeps"]
+        "because": [
+          "instrument is too hot",
+          "instrument is undiluted",
+          "agent is impatient"
+        ],
+        "effects": [
+          "patient warmth up past the mark",
+          "creates soft greasy pale butter at once",
+          "creates thin watery buttermilk",
+          "patient keeping quality down"
+        ],
+        "numbers": [
+          "how much hot water to how much cream overshoots",
+          "days such butter keeps"
+        ]
       },
       {
         "process": "come",
         "agent": "churning",
         "patient": "gently warmed cream",
         "instrument": "plunger churn",
-        "because": ["patient is at the right warmth", "patient is ripened"],
-        "effects": ["creates firm yellow butter grains", "creates buttermilk", "player learns by the change in sound and the clean plunger"],
-        "numbers": ["minutes to come", "butter per gallon of cream"]
+        "because": [
+          "patient is rightly warm",
+          "patient is ripened"
+        ],
+        "effects": [
+          "creates firm yellow butter grains",
+          "creates buttermilk",
+          "player learns by the change in sound and the clean plunger"
+        ],
+        "numbers": [
+          "minutes to come",
+          "butter per gallon of cream"
+        ]
       },
       {
         "process": "wash",
         "agent": "player",
         "patient": "butter",
         "instrument": "cold water, butter hands and salt",
-        "because": ["patient is holding buttermilk", "instrument is cold so the butter stays firm"],
-        "effects": ["patient loses buttermilk", "patient gains salted", "patient keeping time up from days to weeks", "consumes salt", "transfers buttermilk from the dairy to the pig bucket"],
-        "numbers": ["washes until the water runs clear", "days unwashed butter keeps against washed and salted"]
+        "because": [
+          "patient is holding buttermilk",
+          "instrument is cold"
+        ],
+        "effects": [
+          "patient loses buttermilk",
+          "patient gains salted",
+          "patient keeping time up from days to weeks",
+          "consumes salt",
+          "transfers buttermilk from the dairy to the pig bucket"
+        ],
+        "numbers": [
+          "washes until the water runs clear",
+          "days unwashed butter keeps against washed and salted"
+        ]
       }
     ],
-    "latent": ["how cold the cream is, which nobody measured", "how ripe it is", "whether the butter was washed enough, which shows only in a week"],
-    "state_after": ["butter: either a firm yellow pat, washed and salted, or a bowl of greasy stuff for cooking", "buttermilk: in the pig bucket or the baking", "player: arms aching from two wasted hours", "churn: needs scalding before next time or the next batch taints"],
+    "latent": [
+      "how cold the cream is, which nobody measured",
+      "how ripe it is",
+      "whether the butter was washed enough, which shows only in a week"
+    ],
+    "state_after": [
+      "butter: either a firm yellow pat, washed and salted, or a bowl of greasy stuff for cooking",
+      "buttermilk: in the pig bucket or the baking",
+      "player: arms aching from two wasted hours",
+      "churn: needs scalding before next time or the next batch taints"
+    ],
     "stress": "A transformation that happens only inside a narrow band of warmth, failing in different ways on either side of it.",
     "temptation": "A recipe 'cream plus churn plus time yields butter', instead of a change that needs the stuff to be neither too cold nor too warm, with effort doing nothing outside that band."
   }

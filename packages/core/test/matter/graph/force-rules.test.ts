@@ -6,12 +6,13 @@
  */
 import { describe, expect, it } from "vitest";
 import { Rng } from "../../../src/index.ts";
-import { force } from "../../../src/matter/force.ts";
+import { forceFrom } from "../../../src/matter/force.ts";
 import {
   FORCE_BODY_RULES,
   FORCE_DERIVED,
   FORCE_THING_RULES,
 } from "../../../src/matter/graph/force-rules.ts";
+import { NONE } from "../../../src/matter/graph/grown.ts";
 import {
   apply,
   type Body,
@@ -151,7 +152,13 @@ const plain = (changes: readonly Change[]) =>
     ...(c.kind === "state" ? { set: null } : {}),
   }));
 
+// The base rows alone: what has grown since is not what the oracle speaks for.
+const force = forceFrom(NONE, NONE);
+
 const CASES = 12000;
+
+/** Thousands of seeded cases, beside every other file: given room, not a deadline. */
+const HEAVY = 60_000;
 
 describe("force, as data", () => {
   it("is plain data: the rows survive JSON unchanged", () => {
@@ -159,47 +166,52 @@ describe("force, as data", () => {
       expect(JSON.parse(JSON.stringify(rows))).toEqual(rows);
   });
 
-  it(`says the same changes as the function did, in the same order, over ${CASES} seeded blows`, () => {
-    const r = Rng.fromSeed(9200);
-    const seen: Record<string, number> = {};
-    for (let n = 0; n < CASES; n++) {
-      const { w, act } = some(r);
-      const [was, now] = [plain(forceOracle(w, act)), plain(force(w, act))];
-      const label = `case ${n}: ${w.things.tool?.element} on ${act.patient === "who" ? `a body (${w.bodies.who?.element ?? "person"})` : w.things.work?.element}, ${JSON.stringify(act)}\nwas ${JSON.stringify(was)}\nnow ${JSON.stringify(now)}`;
-      expect(
-        now.map((c) => `${c.kind}: ${c.note}`),
-        label,
-      ).toEqual(was.map((c) => `${c.kind}: ${c.note}`));
-      expect(close(now, was), label).toBe(true);
-      const [after, before] = [apply(w, force(w, act)), apply(w, forceOracle(w, act))];
-      expect(close(after.things, before.things) && close(after.bodies, before.bodies), label).toBe(
-        true,
-      );
-      for (const c of was) seen[c.note] = (seen[c.note] ?? 0) + 1;
-    }
-    // The comparison means something only if every outcome came up often.
-    const outcomes = [
-      "it cuts",
-      "it sears what it touches",
-      "held there, the heat closes the wound",
-      "the blow sounds",
-      "the edge wears",
-      "it parts",
-      "the edge bites into it",
-      "what comes off it lies beside it",
-      "it takes the blow and gives",
-      "the harder thing mars it",
-      "it goes to pieces",
-      "it gives under the blow",
-      "a piece comes away with a keen edge",
-      "a piece breaks off",
-      "and the thing is the less for it",
-      "it barely marks it",
-      "hard on hard throws a spark",
-      "nothing comes of it",
-      "there is nothing there to strike with",
-    ];
-    for (const note of outcomes)
-      expect(seen[note] ?? 0, `too few cases of: ${note}`).toBeGreaterThan(40);
-  });
+  it(
+    `says the same changes as the function did, in the same order, over ${CASES} seeded blows`,
+    () => {
+      const r = Rng.fromSeed(9200);
+      const seen: Record<string, number> = {};
+      for (let n = 0; n < CASES; n++) {
+        const { w, act } = some(r);
+        const [was, now] = [plain(forceOracle(w, act)), plain(force(w, act))];
+        const label = `case ${n}: ${w.things.tool?.element} on ${act.patient === "who" ? `a body (${w.bodies.who?.element ?? "person"})` : w.things.work?.element}, ${JSON.stringify(act)}\nwas ${JSON.stringify(was)}\nnow ${JSON.stringify(now)}`;
+        expect(
+          now.map((c) => `${c.kind}: ${c.note}`),
+          label,
+        ).toEqual(was.map((c) => `${c.kind}: ${c.note}`));
+        expect(close(now, was), label).toBe(true);
+        const [after, before] = [apply(w, force(w, act)), apply(w, forceOracle(w, act))];
+        expect(
+          close(after.things, before.things) && close(after.bodies, before.bodies),
+          label,
+        ).toBe(true);
+        for (const c of was) seen[c.note] = (seen[c.note] ?? 0) + 1;
+      }
+      // The comparison means something only if every outcome came up often.
+      const outcomes = [
+        "it cuts",
+        "it sears what it touches",
+        "held there, the heat closes the wound",
+        "the blow sounds",
+        "the edge wears",
+        "it parts",
+        "the edge bites into it",
+        "what comes off it lies beside it",
+        "it takes the blow and gives",
+        "the harder thing mars it",
+        "it goes to pieces",
+        "it gives under the blow",
+        "a piece comes away with a keen edge",
+        "a piece breaks off",
+        "and the thing is the less for it",
+        "it barely marks it",
+        "hard on hard throws a spark",
+        "nothing comes of it",
+        "there is nothing there to strike with",
+      ];
+      for (const note of outcomes)
+        expect(seen[note] ?? 0, `too few cases of: ${note}`).toBeGreaterThan(40);
+    },
+    HEAVY,
+  );
 });

@@ -1,36 +1,25 @@
-// Writes graph/grown.ts from an intake's accepted rows. The rows go in as a JSON string: they
-// are data, and the engine parses them as data.
+// Writes the rows into graph/grown.ts from the intakes' accepted rows, round after round:
+//   node spikes/graph/results/scripts/grow.cjs round-1 round-2
+// The rows go in as a JSON string: they are data, and the engine parses them as data.
+// Append-only: later rounds add to earlier ones and never edit them.
 const fs = require("node:fs");
 const root = "H:/rpg-jev.worktrees/sandbox-matter";
-const round = process.argv[2] ?? "round-1";
-const empty = process.argv[3] === "empty";
-const grown = empty
-  ? { drift: { rules: [], derived: {} }, heat: { rules: [], derived: {} } }
-  : JSON.parse(fs.readFileSync(`${root}/spikes/graph/results/proposals/${round}.grown.json`, "utf8"));
-const lit = (v) => JSON.stringify(JSON.stringify(v));
-const out = `/**
- * Rules that were not written by whoever wrote the engine: proposed by a generative model from
- * scenarios the rules could not produce, checked as data (validate.ts), ratified by the judge,
- * and let in only if every test the engine already passed still passes. They run after the base
- * rules of their process, on the same kernel, and the base rules and their oracles are untouched.
- *
- * The rows are JSON and are kept as JSON: nothing here is code. This file is written by the
- * intake (spikes/graph), from \`${round}\`. Append-only: a row is never edited once play has
- * been logged against it (SPEC.md rule 7).
- */
-import type { Expr } from "./expr.ts";
-import type { Rule } from "./rules.ts";
-
-export interface Grown {
-  readonly rules: readonly Rule[];
-  readonly derived: Readonly<Record<string, Expr>>;
+const rounds = process.argv.slice(2);
+const grown = {};
+for (const round of rounds) {
+  const file = `${root}/spikes/graph/results/proposals/${round}.grown.json`;
+  for (const [name, more] of Object.entries(JSON.parse(fs.readFileSync(file, "utf8")))) {
+    const has = (grown[name] ??= { rules: [], derived: {}, factors: {} });
+    has.rules.push(...(more.rules ?? []));
+    Object.assign(has.derived, more.derived ?? {});
+    for (const [q, fs_] of Object.entries(more.factors ?? {})) has.factors[q] = [...(has.factors[q] ?? []), ...fs_];
+  }
 }
-
-const DRIFT = ${lit(grown.drift)};
-const HEAT = ${lit(grown.heat)};
-
-export const GROWN_DRIFT: Grown = JSON.parse(DRIFT);
-export const GROWN_HEAT: Grown = JSON.parse(HEAT);
-`;
-fs.writeFileSync(`${root}/packages/core/src/matter/graph/grown.ts`, out);
-console.log(`drift ${grown.drift.rules.length} rules, heat ${grown.heat.rules.length} rules`);
+const target = `${root}/packages/core/src/matter/graph/grown.ts`;
+const was = fs.readFileSync(target, "utf8");
+const line = /^const ROWS =[\s\S]*?;\n/m;
+if (!line.test(was)) throw new Error("grown.ts has no ROWS line");
+const rows = `const ROWS =\n  ${JSON.stringify(JSON.stringify(grown))};\n`;
+fs.writeFileSync(target, was.replace(line, () => rows));
+for (const [name, g] of Object.entries(grown))
+  console.log(`${name}: ${g.rules.length} rules, ${Object.keys(g.derived).length} derived, ${Object.keys(g.factors).length} factored`);

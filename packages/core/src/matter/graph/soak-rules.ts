@@ -202,7 +202,7 @@ const laid = (more: boolean): Rule["first"][number] => {
         lo: 0,
         hi: 1,
       },
-      { kind: "set", q: "tgt.s.coating.bond", to: more ? "tgt.was.coating.bond" : 0 },
+      { kind: "set", q: "tgt.s.coating.bond", to: more ? "tgt.was.coating.bond" : 0, lo: 0, hi: 5 },
       { kind: "use", from: "sub", amount: "d.used", because: ["E4"], note: "it is used up" },
     ],
     because: ["X5", "S7", "S14", "P2", "M6"],

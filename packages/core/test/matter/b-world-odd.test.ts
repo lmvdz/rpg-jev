@@ -496,7 +496,8 @@ describe("a long drift is the same answer in one act or many", () => {
           expect(Math.abs((x?.[key] ?? 0) - (y?.[key] ?? 9)), `${id} ${key}`).toBeLessThan(0.25);
         expect(x?.set).toBe(y?.set);
       }
-  });
+    // Three long drifts: about a second alone, and several when every other file runs beside it.
+  }, 30_000);
 
   // Not from a scenario: the two places where cutting time finer than the hour changes the answer.
   it("fixed rule: drift: a bleeding wound costs half as much blood again in one act as it does watched minute by minute (driftBody charges the whole step at the bleeding it began with; the loss should be the closed-form sum under the clotting line)", () => {

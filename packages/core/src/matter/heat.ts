@@ -10,11 +10,9 @@
  * Only what is burning or glowing can light a thing; hot water cannot.
  */
 import { effective } from "./effective.ts";
-import type { Expr } from "./graph/expr.ts";
-import { GROWN_HEAT } from "./graph/grown.ts";
+import { type Grown, grownFor } from "./graph/grown.ts";
 import { HEAT_DERIVED, HEAT_RULES } from "./graph/heat-rules.ts";
-import { changesOf, envOf, partyOf, type Ready, readyAll } from "./graph/kernel.ts";
-import type { Rule } from "./graph/rules.ts";
+import { changesOf, envOf, Kernel, partyOf, type Ready, ready } from "./graph/kernel.ts";
 import { quantity } from "./scale.ts";
 import type { Burning, Change, MatterWorld, Properties, Thing } from "./types.ts";
 import { clamp } from "./types.ts";
@@ -83,16 +81,14 @@ export function keptWet(world: MatterWorld, thing: Thing, p: Properties): number
  * source pays, the target may take light, a plunge may crack or temper it. Each rule that acts
  * is one change, said about the party the row names.
  */
-export const heat = heatFrom([...HEAT_RULES, ...GROWN_HEAT.rules], {
-  ...HEAT_DERIVED,
-  ...GROWN_HEAT.derived,
-});
-
-/** Heat, from whatever rows it is given: the engine's are the base rows and what has grown. */
-export function heatFrom(rules: readonly Rule[], derived: Readonly<Record<string, Expr>>) {
-  const ready = readyAll(rules, derived);
-  return (world: MatterWorld, act: HeatAct): Change[] => heatBy(ready, world, act);
+/** Heat, from the base rows and whatever has grown beside them. */
+export function heatFrom(grown: Grown) {
+  const kernel = Kernel.with(HEAT_DERIVED, grown);
+  const rules = [...HEAT_RULES, ...grown.rules].map((rule) => ready(kernel, rule));
+  return (world: MatterWorld, act: HeatAct): Change[] => heatBy(rules, world, act);
 }
+
+export const heat = heatFrom(grownFor("heat"));
 
 function heatBy(rules: readonly Ready[], world: MatterWorld, act: HeatAct): Change[] {
   const source = world.things[act.source];

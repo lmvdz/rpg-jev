@@ -11,6 +11,7 @@ import { effective } from "../effective.ts";
 import type { Change, MatterWorld, Place, Properties, Thing, ThingState, Wound } from "../types.ts";
 import { clamp } from "../types.ts";
 import { type Cond, type Expr, OPS, ROOTS } from "./expr.ts";
+import type { Grown } from "./grown.ts";
 import type { Alternative, Effect, Rule } from "./rules.ts";
 
 export interface Party {
@@ -125,7 +126,8 @@ function nowOf(env: Env, party: Party): Properties {
 const ROW_OF: Record<string, (party: Party) => string | null | undefined> = {
   row: (party) => party.thing.element,
   coat: (party) => party.s.coating?.element,
-  wetWith: (party) => party.s.wetWith,
+  // Wet with nothing in particular is wet with water.
+  wetWith: (party) => party.s.wetWith ?? (party.s.wetness > 0 ? "water" : null),
 };
 
 function rowReader(which: (party: Party) => string | null | undefined, rest: readonly string[]) {
@@ -179,10 +181,32 @@ const PARTY_ROOTS: Record<
 
 export class Kernel {
   private readonly derived: Readonly<Record<string, Expr>>;
+  private readonly factors: Readonly<Record<string, readonly Expr[]>>;
   private readonly made = new Map<string, Num>();
 
-  constructor(derived: Readonly<Record<string, Expr>>) {
+  constructor(
+    derived: Readonly<Record<string, Expr>>,
+    factors: Readonly<Record<string, readonly Expr[]>> = {},
+  ) {
     this.derived = derived;
+    this.factors = factors;
+  }
+
+  /** The base rows' quantities and what has grown beside them, with the grown factors on them. */
+  static with(base: Readonly<Record<string, Expr>>, ...grown: readonly Grown[]): Kernel {
+    const derived = Object.assign({}, base, ...grown.map((g) => g.derived));
+    const factors: Record<string, Expr[]> = {};
+    for (const g of grown)
+      for (const [name, more] of Object.entries(g.factors))
+        factors[name] = [...(factors[name] ?? []), ...more];
+    return new Kernel(derived, factors);
+  }
+
+  /** A named quantity as it is said, times whatever factors have grown on it. */
+  private said(name: string): Expr {
+    const base = this.derived[name] ?? 0;
+    const more = this.factors[name] ?? [];
+    return more.length > 0 ? { op: "mul", of: [base, ...more] } : base;
   }
 
   read(path: string): Get {
@@ -206,7 +230,7 @@ export class Kernel {
       if (known !== undefined) return known;
       let fn = this.made.get(name);
       if (!fn) {
-        fn = this.num(this.derived[name] ?? 0);
+        fn = this.num(this.said(name));
         this.made.set(name, fn);
       }
       const value = fn(env);

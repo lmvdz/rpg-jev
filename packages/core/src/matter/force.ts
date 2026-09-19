@@ -19,6 +19,7 @@ import {
   FORCE_STRIKES,
   FORCE_THING_RULES,
 } from "./graph/force-rules.ts";
+import { type Grown, grownFor } from "./graph/grown.ts";
 import {
   changesOf,
   type Env,
@@ -130,12 +131,6 @@ export const REACTIONS: readonly Reaction[] = [
   },
 ];
 
-const DERIVED = FORCE_DERIVED;
-const KERNEL = new Kernel(DERIVED);
-const ON_THING = FORCE_THING_RULES.map((rule) => ready(KERNEL, rule));
-const ON_BODY = FORCE_BODY_RULES.map((rule) => ready(KERNEL, rule));
-const STRIKES = KERNEL.test(FORCE_STRIKES);
-
 function actOf(act: ForceAct): Record<string, number> {
   const manner = act.manner ?? ORDINARY;
   return {
@@ -155,32 +150,44 @@ function run(rules: readonly Ready[], env: Env): Change[] {
   });
 }
 
-/** A blow or a cut on a thing: nothing, if there is nothing there or either of them flows. */
-function strike(world: MatterWorld, act: ForceAct, tool: Thing, patient: Thing | undefined) {
-  if (!patient || patient.id === tool.id) return [];
-  const parties = { tgt: partyOf(world, patient), tool: partyOf(world, tool) };
-  const env = envOf(world, parties, 0, actOf(act));
-  return STRIKES(env) ? run(ON_THING, env) : [];
+/** Force, from the base rows and whatever has grown beside them: on things, and on bodies. */
+export function forceFrom(onThing: Grown, onBody: Grown) {
+  const KERNEL = Kernel.with(FORCE_DERIVED, onThing, onBody);
+  const ON_THING = [...FORCE_THING_RULES, ...onThing.rules].map((rule) => ready(KERNEL, rule));
+  const ON_BODY = [...FORCE_BODY_RULES, ...onBody.rules].map((rule) => ready(KERNEL, rule));
+  const STRIKES = KERNEL.test(FORCE_STRIKES);
+
+  /** A blow or a cut on a thing: nothing, if there is nothing there or either of them flows. */
+  function strike(world: MatterWorld, act: ForceAct, tool: Thing, patient: Thing | undefined) {
+    if (!patient || patient.id === tool.id) return [];
+    const parties = { tgt: partyOf(world, patient), tool: partyOf(world, tool) };
+    const env = envOf(world, parties, 0, actOf(act));
+    return STRIKES(env) ? run(ON_THING, env) : [];
+  }
+
+  /**
+   * Force is rows of data (graph/force-rules.ts). A body is wounded through what it wears, what
+   * it wears is struck as a thing, and a thing is struck as a thing.
+   */
+  function force(world: MatterWorld, act: ForceAct): Change[] {
+    const tool = world.things[act.instrument];
+    if (!tool)
+      return [{ kind: "nothing", because: [], note: "there is nothing there to strike with" }];
+    const body = world.bodies[act.patient];
+    const worn = wornBy(world, body?.wears);
+    const changes: Change[] = [];
+    if (body) {
+      const arm = worn ? { arm: partyOf(world, worn) } : {};
+      const parties = { tgt: fleshParty(world, body), tool: partyOf(world, tool), ...arm };
+      changes.push(...run(ON_BODY, envOf(world, parties, 0, actOf(act))));
+    }
+    if (worn) changes.push(...strike(world, act, tool, worn));
+    changes.push(...strike(world, act, tool, world.things[act.patient]));
+    if (changes.length > 0) return changes;
+    return [{ kind: "nothing", because: ["X2"], note: "nothing comes of it" }];
+  }
+
+  return force;
 }
 
-/**
- * Force is rows of data (graph/force-rules.ts). A body is wounded through what it wears, what
- * it wears is struck as a thing, and a thing is struck as a thing.
- */
-export function force(world: MatterWorld, act: ForceAct): Change[] {
-  const tool = world.things[act.instrument];
-  if (!tool)
-    return [{ kind: "nothing", because: [], note: "there is nothing there to strike with" }];
-  const body = world.bodies[act.patient];
-  const worn = wornBy(world, body?.wears);
-  const changes: Change[] = [];
-  if (body) {
-    const arm = worn ? { arm: partyOf(world, worn) } : {};
-    const parties = { tgt: fleshParty(world, body), tool: partyOf(world, tool), ...arm };
-    changes.push(...run(ON_BODY, envOf(world, parties, 0, actOf(act))));
-  }
-  if (worn) changes.push(...strike(world, act, tool, worn));
-  changes.push(...strike(world, act, tool, world.things[act.patient]));
-  if (changes.length > 0) return changes;
-  return [{ kind: "nothing", because: ["X2"], note: "nothing comes of it" }];
-}
+export const force = forceFrom(grownFor("strike"), grownFor("wound"));

@@ -20,7 +20,12 @@ import {
   SOAK_DERIVED,
   SOAK_RULES,
 } from "../../../src/matter/graph/soak-rules.ts";
-import { type Allowed, validate, validateDerived } from "../../../src/matter/graph/validate.ts";
+import {
+  type Allowed,
+  validate,
+  validateDerived,
+  validateFactor,
+} from "../../../src/matter/graph/validate.ts";
 
 const DRIFT: Allowed = { parties: [], act: [], derived: DRIFT_DERIVED };
 const HEAT: Allowed = {
@@ -96,7 +101,7 @@ describe("checking a row without running it", () => {
     const stopped = [...DRIFT_RULES, ...HEAT_RULES]
       .filter((r) => validate(r, r.about ? HEAT : DRIFT).length > 0)
       .map((r) => r.id);
-    expect(stopped.sort()).toEqual(["bond", "burning", "draw", "ignite", "wetness"]);
+    expect(stopped.sort()).toEqual(["burning", "draw", "ignite", "wetness"]);
   });
 
   it("lets a sound proposal through", () => {
@@ -190,6 +195,61 @@ describe("checking a row without running it", () => {
     ],
   ])("stops %s", (_name, change, problem) => {
     expect(validate(broken(change), DRIFT).join("\n")).toMatch(problem);
+  });
+});
+
+describe("what a proposed row may and may not do", () => {
+  it("lets a proposal put a fire out, loosen a coat, use a thing up, give something off and split a piece off; and never light a fire or make matter", () => {
+    const rule = (effect: Record<string, unknown>): unknown => ({
+      ...good,
+      first: [{ effects: [effect], because: ["S3"] }],
+    });
+    const said = { because: ["E9"], note: "it does" };
+    const allowed = { ...DRIFT, parties: ["self"] };
+    expect(validate(rule({ kind: "put", q: "s.burning", value: null }), DRIFT)).toEqual([]);
+    expect(
+      validate(rule({ kind: "accrue", q: "s.coating.bond", rate: -0.01, lo: 0, hi: 5 }), DRIFT),
+    ).toEqual([]);
+    expect(validate(rule({ kind: "use", from: "self", amount: 0.1, ...said }), allowed)).toEqual(
+      [],
+    );
+    expect(
+      validate(
+        rule({ kind: "emit", from: "self", channel: "smoke", strength: 2, ...said }),
+        allowed,
+      ),
+    ).toEqual([]);
+    expect(
+      validate(
+        rule({ kind: "put", q: "s.burning", value: { of: "self", fuel: 99 } }),
+        DRIFT,
+      ).join(),
+    ).toMatch(/only the engine/);
+    expect(
+      validate(rule({ kind: "set", q: "s.coating.amount", to: 9, lo: 0, hi: 9 }), DRIFT).join(),
+    ).toMatch(/only the engine/);
+    expect(
+      validate(
+        rule({ kind: "wound", on: "self", depth: 5, bleeding: 5, burned: 0, ...said }),
+        allowed,
+      ).join(),
+    ).toMatch(/only the engine/);
+    expect(
+      validate(
+        rule({ kind: "emit", from: "self", channel: "telepathy", strength: 2, ...said }),
+        allowed,
+      ).join(),
+    ).toMatch(/no channel/);
+  });
+
+  it("checks a factor as an expression on a quantity the base rows name", () => {
+    expect(
+      validateFactor("rots", { op: "clamp", of: ["s.wetness", 0, 1] }, DRIFT, DRIFT_DERIVED),
+    ).toEqual([]);
+    expect(validateFactor("nothing", 1, DRIFT, DRIFT_DERIVED).join()).toMatch(/do not name/);
+    expect(validateFactor("rots", "p.magic", DRIFT, DRIFT_DERIVED).join()).toMatch(
+      /unknown quantity/,
+    );
   });
 
   it("stops what is not data at all", () => {

@@ -4,6 +4,7 @@
  * a hidden flaw are all the same rule. What fails becomes force on itself.
  */
 import { baseline, effective } from "./effective.ts";
+import { type Grown, grownFor } from "./graph/grown.ts";
 import {
   changesOf,
   type Env,
@@ -26,9 +27,8 @@ export interface LoadAct {
   bearing: string[];
 }
 
-const KERNEL = new Kernel(LOAD_DERIVED);
-const BEARS = LOAD_RULES.map((rule) => ready(KERNEL, rule));
-const FALLS = FALL_RULES.map((rule) => ready(KERNEL, rule));
+const GROWN = grownFor("load");
+const KERNEL = Kernel.with(LOAD_DERIVED, GROWN);
 const STRENGTH = KERNEL.num("d.strength");
 
 const run = (rules: readonly Ready[], env: Env): Change[] =>
@@ -70,18 +70,28 @@ function faller(world: MatterWorld, body: Body): Party {
   return { thing, p, place: world.places[body.place], s: FRESH, was: FRESH, x: {}, b: { mass } };
 }
 
-/** Load is rows of data: the support bears or gives way, and each body it bore falls. */
-export function load(world: MatterWorld, act: LoadAct): Change[] {
-  const support = world.things[act.support];
-  if (!support)
-    return [{ kind: "nothing", because: [], note: "there is nothing there to bear it" }];
-  const numbers = { borne: weight(world, act.bearing) };
-  const changes = run(BEARS, envOf(world, { sup: partyOf(world, support) }, 0, numbers));
-  for (const id of act.bearing) {
-    const body = world.bodies[id];
-    if (!body) continue;
-    const parties = { who: faller(world, body), sup: partyOf(world, support) };
-    changes.push(...run(FALLS, envOf(world, parties, 0, numbers)));
+/** Load, from the base rows and whatever has grown beside them. */
+export function loadFrom(grown: Grown) {
+  const kernel = Kernel.with(LOAD_DERIVED, grown);
+  const BEARS = [...LOAD_RULES, ...grown.rules].map((rule) => ready(kernel, rule));
+  const FALLS = FALL_RULES.map((rule) => ready(kernel, rule));
+
+  /** Load is rows of data: the support bears or gives way, and each body it bore falls. */
+  function load(world: MatterWorld, act: LoadAct): Change[] {
+    const support = world.things[act.support];
+    if (!support)
+      return [{ kind: "nothing", because: [], note: "there is nothing there to bear it" }];
+    const numbers = { borne: weight(world, act.bearing) };
+    const changes = run(BEARS, envOf(world, { sup: partyOf(world, support) }, 0, numbers));
+    for (const id of act.bearing) {
+      const body = world.bodies[id];
+      if (!body) continue;
+      const parties = { who: faller(world, body), sup: partyOf(world, support) };
+      changes.push(...run(FALLS, envOf(world, parties, 0, numbers)));
+    }
+    return changes;
   }
-  return changes;
+  return load;
 }
+
+export const load = loadFrom(GROWN);

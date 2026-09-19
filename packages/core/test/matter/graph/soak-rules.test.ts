@@ -5,6 +5,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { Rng } from "../../../src/index.ts";
+import { NONE } from "../../../src/matter/graph/grown.ts";
 import {
   type Act,
   apply,
@@ -18,8 +19,8 @@ import {
   type Thing,
   type ThingState,
 } from "../../../src/matter/index.ts";
-import { load } from "../../../src/matter/load.ts";
-import { coat, soak } from "../../../src/matter/soak.ts";
+import { loadFrom } from "../../../src/matter/load.ts";
+import { coatFrom, soakFrom } from "../../../src/matter/soak.ts";
 import { ELEMENTS, world } from "../elements.ts";
 import { loadOracle, strengthOracle } from "./load-oracle.ts";
 import { coatOracle, soakOracle } from "./soak-oracle.ts";
@@ -147,105 +148,124 @@ function coating(r: Rng, { pick, maybe, thing, built }: ReturnType<typeof tools>
   return { w: built([sub, tgt]), act, label };
 }
 
+// The base rows alone: what has grown since is not what the oracle speaks for.
+const [soak, coat, load] = [soakFrom(NONE), coatFrom(NONE), loadFrom(NONE)];
+
 const CASES = 6000;
 
+/** Thousands of seeded cases, beside every other file: given room, not a deadline. */
+const HEAVY = 60_000;
+
 describe("soak, coat and load, as data", () => {
-  it(`soak: the same changes as the function, over ${CASES} seeded wettings`, () => {
-    const r = Rng.fromSeed(9300);
-    const { pick, maybe, thing, built } = tools(r);
-    const seen: Record<string, number> = {};
-    for (let n = 0; n < CASES; n++) {
-      const w = built([thing("liq", maybe(0.85) ? LIQUIDS : ROWS), thing("tgt", ROWS)]);
-      const act = {
-        process: "soak" as const,
-        liquid: maybe(0.03) ? "gone" : "liq",
-        target: maybe(0.03) ? "liq" : "tgt",
-        amount: pick([0, 0.01, 0.2, 1, 50]),
-      };
-      agree(
-        w,
-        soakOracle(w, act),
-        soak(w, act),
-        `soak ${n}: ${w.things.liq?.element} on ${w.things.tgt?.element} ${JSON.stringify(act)}`,
-        seen,
-      );
-    }
-    often(seen, [
-      "it takes up the liquid",
-      "the liquid runs off it",
-      "the water puts it out",
-      "there is not enough water: it hisses and burns on",
-      "steam",
-      "the coat does not lift: the liquid cannot get under it",
-      "the coat washes off",
-      "the liquid is used",
-      "there is nothing there to wet it with",
-    ]);
-  });
+  it(
+    `soak: the same changes as the function, over ${CASES} seeded wettings`,
+    () => {
+      const r = Rng.fromSeed(9300);
+      const { pick, maybe, thing, built } = tools(r);
+      const seen: Record<string, number> = {};
+      for (let n = 0; n < CASES; n++) {
+        const w = built([thing("liq", maybe(0.85) ? LIQUIDS : ROWS), thing("tgt", ROWS)]);
+        const act = {
+          process: "soak" as const,
+          liquid: maybe(0.03) ? "gone" : "liq",
+          target: maybe(0.03) ? "liq" : "tgt",
+          amount: pick([0, 0.01, 0.2, 1, 50]),
+        };
+        agree(
+          w,
+          soakOracle(w, act),
+          soak(w, act),
+          `soak ${n}: ${w.things.liq?.element} on ${w.things.tgt?.element} ${JSON.stringify(act)}`,
+          seen,
+        );
+      }
+      often(seen, [
+        "it takes up the liquid",
+        "the liquid runs off it",
+        "the water puts it out",
+        "there is not enough water: it hisses and burns on",
+        "steam",
+        "the coat does not lift: the liquid cannot get under it",
+        "the coat washes off",
+        "the liquid is used",
+        "there is nothing there to wet it with",
+      ]);
+    },
+    HEAVY,
+  );
 
-  it(`coat: the same changes as the function, over ${CASES} seeded coatings`, () => {
-    const r = Rng.fromSeed(9400);
-    const seen: Record<string, number> = {};
-    for (let n = 0; n < CASES; n++) {
-      const { w, act, label } = coating(r, tools(r), n);
-      agree(w, coatOracle(w, act), coat(w, act), label, seen);
-    }
-    often(seen, [
-      "it is coated",
-      "it is used up",
-      "it goes on over the coat already there",
-      "it is too hard to spread",
-      "there is nothing there to coat",
-    ]);
-  });
+  it(
+    `coat: the same changes as the function, over ${CASES} seeded coatings`,
+    () => {
+      const r = Rng.fromSeed(9400);
+      const seen: Record<string, number> = {};
+      for (let n = 0; n < CASES; n++) {
+        const { w, act, label } = coating(r, tools(r), n);
+        agree(w, coatOracle(w, act), coat(w, act), label, seen);
+      }
+      often(seen, [
+        "it is coated",
+        "it is used up",
+        "it goes on over the coat already there",
+        "it is too hard to spread",
+        "there is nothing there to coat",
+      ]);
+    },
+    HEAVY,
+  );
 
-  it(`load: the same changes and the same strength as the function, over ${CASES} seeded loads`, () => {
-    const r = Rng.fromSeed(9500);
-    const { pick, maybe, thing, built } = tools(r);
-    const seen: Record<string, number> = {};
-    const person = (id: string, element?: string): Body => ({
-      id,
-      place: "here",
-      ...(element ? { element } : {}),
-      needs: {},
-      health: 5,
-      wounds: [],
-      sickness: 0,
-      sickensIn: 0,
-    });
-    for (let n = 0; n < CASES; n++) {
-      const things = [thing("sup", ROWS), thing("pack", ROWS), thing("crate", ROWS)];
-      const w = built(things, [person("walker"), person("beast", "ox")]);
-      const bearing = [
-        ["pack"],
-        ["walker"],
-        ["walker", "pack", "crate"],
-        ["beast", "walker"],
-        ["crate", "ghost"],
-        [],
-      ][Math.floor(r.next() * 6)] as string[];
-      const act = { process: "load" as const, support: maybe(0.03) ? "gone" : "sup", bearing };
-      agree(
-        w,
-        loadOracle(w, act),
-        load(w, act),
-        `load ${n}: ${w.things.sup?.element} under ${bearing.join("+")}`,
-        seen,
-      );
-      const sup = w.things.sup as Thing;
-      expect(close(strength(w, sup), strengthOracle(w, sup)), `strength ${n}: ${sup.element}`).toBe(
-        true,
-      );
-      void pick;
-    }
-    often(seen, [
-      "it holds",
-      "it gives way under the load",
-      "a crack as it goes",
-      "it falls, and is hurt",
-      "there is nothing there to bear it",
-    ]);
-  });
+  it(
+    `load: the same changes and the same strength as the function, over ${CASES} seeded loads`,
+    () => {
+      const r = Rng.fromSeed(9500);
+      const { pick, maybe, thing, built } = tools(r);
+      const seen: Record<string, number> = {};
+      const person = (id: string, element?: string): Body => ({
+        id,
+        place: "here",
+        ...(element ? { element } : {}),
+        needs: {},
+        health: 5,
+        wounds: [],
+        sickness: 0,
+        sickensIn: 0,
+      });
+      for (let n = 0; n < CASES; n++) {
+        const things = [thing("sup", ROWS), thing("pack", ROWS), thing("crate", ROWS)];
+        const w = built(things, [person("walker"), person("beast", "ox")]);
+        const bearing = [
+          ["pack"],
+          ["walker"],
+          ["walker", "pack", "crate"],
+          ["beast", "walker"],
+          ["crate", "ghost"],
+          [],
+        ][Math.floor(r.next() * 6)] as string[];
+        const act = { process: "load" as const, support: maybe(0.03) ? "gone" : "sup", bearing };
+        agree(
+          w,
+          loadOracle(w, act),
+          load(w, act),
+          `load ${n}: ${w.things.sup?.element} under ${bearing.join("+")}`,
+          seen,
+        );
+        const sup = w.things.sup as Thing;
+        expect(
+          close(strength(w, sup), strengthOracle(w, sup)),
+          `strength ${n}: ${sup.element}`,
+        ).toBe(true);
+        void pick;
+      }
+      often(seen, [
+        "it holds",
+        "it gives way under the load",
+        "a crack as it goes",
+        "it falls, and is hurt",
+        "there is nothing there to bear it",
+      ]);
+    },
+    HEAVY,
+  );
 
   it("still goes through the one way in", () => {
     const { thing, built } = tools(Rng.fromSeed(1));

@@ -5,6 +5,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { Rng } from "../../../src/index.ts";
+import { NONE } from "../../../src/matter/graph/grown.ts";
 import { HEAT_DERIVED, HEAT_RULES } from "../../../src/matter/graph/heat-rules.ts";
 import { touches } from "../../../src/matter/graph/rules.ts";
 import { heatFrom } from "../../../src/matter/heat.ts";
@@ -113,9 +114,12 @@ const said = (changes: readonly Change[]) =>
   );
 
 // The base rows alone: what has grown since is not what the oracle speaks for.
-const heat = heatFrom(HEAT_RULES, HEAT_DERIVED);
+const heat = heatFrom(NONE);
 
 const CASES = 6000;
+
+/** Thousands of seeded cases, beside every other file: given room, not a deadline. */
+const HEAVY = 60_000;
 
 describe("heat between two things, as data", () => {
   it("is plain data: the rows survive JSON unchanged", () => {
@@ -123,32 +127,36 @@ describe("heat between two things, as data", () => {
     expect(JSON.parse(JSON.stringify(HEAT_DERIVED))).toEqual(HEAT_DERIVED);
   });
 
-  it(`leaves both things as the function did and says the same, over ${CASES} seeded meetings`, () => {
-    const r = Rng.fromSeed(8100);
-    const seen: Record<string, number> = {};
-    for (let n = 0; n < CASES; n++) {
-      const { w, act } = some(r);
-      const [was, now] = [heatOracle(w, act), heat(w, act)];
-      const label = `case ${n}: ${w.things.src?.element} on ${w.things.tgt?.element}, ${JSON.stringify(act)}\nwas ${JSON.stringify(was)}\nnow ${JSON.stringify(now)}`;
-      expect(said(now), label).toEqual(said(was));
-      expect(close(apply(w, now).things, apply(w, was).things), label).toBe(true);
-      for (const c of was) seen[c.note] = (seen[c.note] ?? 0) + 1;
-    }
-    // The comparison means something only if every outcome came up often.
-    for (const note of [
-      "it heats",
-      "it cools",
-      "it burns out",
-      "it burns down",
-      "it cools as it gives up its heat",
-      "it warms as it takes the heat",
-      "its coat takes light",
-      "it takes light",
-      "it cracks from the sudden cold",
-      "cooled fast from hot, it comes out harder and less tough",
-    ])
-      expect(seen[note] ?? 0, `too few cases of: ${note}`).toBeGreaterThan(40);
-  });
+  it(
+    `leaves both things as the function did and says the same, over ${CASES} seeded meetings`,
+    () => {
+      const r = Rng.fromSeed(8100);
+      const seen: Record<string, number> = {};
+      for (let n = 0; n < CASES; n++) {
+        const { w, act } = some(r);
+        const [was, now] = [heatOracle(w, act), heat(w, act)];
+        const label = `case ${n}: ${w.things.src?.element} on ${w.things.tgt?.element}, ${JSON.stringify(act)}\nwas ${JSON.stringify(was)}\nnow ${JSON.stringify(now)}`;
+        expect(said(now), label).toEqual(said(was));
+        expect(close(apply(w, now).things, apply(w, was).things), label).toBe(true);
+        for (const c of was) seen[c.note] = (seen[c.note] ?? 0) + 1;
+      }
+      // The comparison means something only if every outcome came up often.
+      for (const note of [
+        "it heats",
+        "it cools",
+        "it burns out",
+        "it burns down",
+        "it cools as it gives up its heat",
+        "it warms as it takes the heat",
+        "its coat takes light",
+        "it takes light",
+        "it cracks from the sudden cold",
+        "cooled fast from hot, it comes out harder and less tough",
+      ])
+        expect(seen[note] ?? 0, `too few cases of: ${note}`).toBeGreaterThan(40);
+    },
+    HEAVY,
+  );
 
   it("still does what the examples say: an oiled blade held in a fire takes light", () => {
     const blade: Thing = {
