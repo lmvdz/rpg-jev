@@ -5,6 +5,7 @@
  */
 import { apply } from "./apply.ts";
 import { effective } from "./effective.ts";
+import { report } from "./report.ts";
 import type { Body, Change, MatterWorld, Place, Properties, Thing, ThingState } from "./types.ts";
 import { clamp, FRESH } from "./types.ts";
 
@@ -254,7 +255,7 @@ function nextEvent(world: MatterWorld): number {
  * step is closed form, and it is all code (SPEC.md rule 10).
  */
 export function drift(world: MatterWorld, act: DriftAct): Change[] {
-  const changes: Change[] = [];
+  const because = new Map<string, Set<string>>();
   let at = world;
   let left = act.minutes;
   while (left > 1e-9) {
@@ -262,9 +263,15 @@ export function drift(world: MatterWorld, act: DriftAct): Change[] {
     // thousand steps, not a hundred thousand. A step never straddles an event.
     const span = Math.max(1e-6, Math.min(left, nextEvent(at), Math.max(STEP, left / 500)));
     const made = step(at, span);
-    changes.push(...made);
+    for (const change of made) {
+      if (change.kind !== "state") continue;
+      const ids = because.get(change.thing) ?? new Set<string>();
+      for (const id of change.because) ids.add(id);
+      because.set(change.thing, ids);
+    }
     at = apply(at, made);
     left -= span;
   }
-  return changes;
+  // Said once: what is different now, not what each step did (report.ts).
+  return report(world, at, because);
 }

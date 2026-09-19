@@ -4,7 +4,9 @@
  * the anchors of `spikes/vocabulary/VOCABULARY.md`, and no rule in this module names any of
  * them. When an element can be born, these become its first rows and nothing else changes.
  */
-import type { Element, MatterWorld, Place } from "./types.ts";
+import { effective } from "./effective.ts";
+import { fuelFor } from "./heat.ts";
+import type { Element, MatterWorld, Place, Thing } from "./types.ts";
 
 export const POOL: readonly Element[] = [
   {
@@ -97,7 +99,6 @@ export const POOL: readonly Element[] = [
     forms: ["edged"],
     props: { mass: 1, size: 1, hardness: 5, toughness: 1 },
   },
-  { id: "fire", name: "a fire", kind: "thing", forms: [], props: { size: 2 } },
   {
     id: "ash",
     name: "ash",
@@ -153,6 +154,17 @@ export const POOL: readonly Element[] = [
     props: { mass: 1, size: 1, hardness: 1, toughness: 2, flexibility: 3 },
   },
 ];
+
+/**
+ * A fire is not an element. It is fuel, burning: a thing of some element that can burn, with
+ * as much burning time as there is of it. This sets one alight without a spark, for building
+ * a world that already has a hearth in it.
+ */
+export function alight(world: MatterWorld, thing: Thing): Thing {
+  const burning = fuelFor(world, thing, effective(world, thing));
+  if (burning.fuel <= 0) return thing;
+  return { ...thing, state: { ...thing.state, burning, temperature: 5 } };
+}
 
 /** A place as it is on a mild dry day with nothing looked for yet. */
 export function placeOf(id: string, set: Partial<Place> = {}): Place {
