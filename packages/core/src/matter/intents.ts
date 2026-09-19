@@ -57,10 +57,12 @@ interface Target {
   servesOwn: number;
   servesWard: number;
   ward: Body | null;
+  /** It would meet a need this body has from time to time, pressing now or not. */
+  useful: boolean;
   held: boolean;
   /** Another has hold of it. */
   kept: boolean;
-  /** Noticed, and not by sight: something is there and it does not know what. */
+  /** A sound, a light or smoke: something is there and it does not know what. A scent tells. */
   strange: boolean;
   hurt: number;
   /** How much stronger than this body it is. */
@@ -87,9 +89,15 @@ interface Situation {
   stake: number;
   /** Those bound to it that could come if called. */
   allies: number;
+  /** The most urgent need felt that nothing it has noticed would meet. */
+  unmet: number;
   targets: Target[];
 }
 
+/** The needs a thing can meet, so that going to look for one is worth offering. */
+const SOUGHT: ReadonlySet<string> = new Set(["hunger", "warmth"]);
+/** The channels that say something is there without saying what. */
+const UNTOLD: ReadonlySet<string> = new Set(["sound", "light", "smoke"]);
 const NO_FEELING: Feeling = { fear: 0, anger: 0, trust: 0 };
 const NEAR = 1.5;
 
@@ -131,8 +139,10 @@ function thingTarget(world: MatterWorld, body: Body, thing: Thing, felt: readonl
   // What already lies beside the ward needs no carrying.
   const held = (body.holds ?? []).includes(thing.id);
   const there = ward !== null && !held && apart(ward.where, thing.where) <= NEAR;
+  const serves = world.elements[thing.element]?.serves ?? {};
   return {
     kept,
+    useful: Object.keys(body.needs).some((need) => (serves[need as keyof typeof serves] ?? 0) > 0),
     servesOwn: own?.urgency ?? 0,
     servesWard: there ? 0 : (forWard?.urgency ?? 0),
     ward: there ? null : ward,
@@ -157,7 +167,11 @@ function otherTarget(world: MatterWorld, body: Body, other: Body, gap: number) {
   };
 }
 
-function targetOf(s: Omit<Situation, "targets" | "threat" | "stake">, id: string, name: string) {
+function targetOf(
+  s: Omit<Situation, "targets" | "threat" | "stake" | "unmet">,
+  id: string,
+  name: string,
+) {
   const { world, body } = s;
   const thing = world.things[id] ?? null;
   const other = world.bodies[id] ?? null;
@@ -177,7 +191,8 @@ function targetOf(s: Omit<Situation, "targets" | "threat" | "stake">, id: string
     feeling: body.feels?.[id] ?? NO_FEELING,
     held: (body.holds ?? []).includes(id),
     kept: false,
-    strange: body.aware?.[id]?.channel !== "sight" && !(id in (body.feels ?? {})),
+    useful: false,
+    strange: UNTOLD.has(body.aware?.[id]?.channel ?? "sight") && !(id in (body.feels ?? {})),
     ...(thing ? thingTarget(world, body, thing, s.felt) : {}),
     ...(other ? otherTarget(world, body, other, gap) : {}),
   };
@@ -221,7 +236,11 @@ function situationOf(world: MatterWorld, body: Body): Situation {
     .sort()
     .map((id) => targetOf(base, id, names[id] ?? "something"));
   const threat = Math.max(0, ...targets.map((t) => t.threat));
-  return { ...base, targets, threat, stake: stakeOf(world, body, felt) };
+  const lacking = felt.find(
+    (f) => !targets.some((t) => t.thing !== null && meets(world, t.thing, [f]) !== null),
+  );
+  const unmet = SOUGHT.has(lacking?.need ?? "") ? (lacking?.urgency ?? 0) : 0;
+  return { ...base, targets, threat, unmet, stake: stakeOf(world, body, felt) };
 }
 
 interface IntentRow {
@@ -230,7 +249,9 @@ interface IntentRow {
   /** How much it matters now. At or below nothing, it is not offered. */
   when: (s: Situation, t: Target) => number;
   /** The words it is offered in. */
-  says: (name: string) => string;
+  says: (name: string, t: Target) => string;
+  /** The same intent toward nothing in particular, where that means something. */
+  unaimed?: { when: (s: Situation) => number; says: string };
   act?: (s: Situation, t: Target) => Act | undefined;
   /** The structure this row cannot be offered without, and which does not exist yet. */
   waitsOn?: string;
@@ -244,6 +265,9 @@ const waits = (waitsOn: string, says: string): IntentRow => ({
 });
 
 const near = (t: Target) => t.gap <= NEAR;
+/** What is at hand counts for more than what is far: a chance now may not be one later. */
+const atHand = (t: Target) => 1.5 / (1 + t.gap / 8);
+const want = (t: Target) => Math.max(t.servesOwn, t.servesWard);
 const gate = (open: boolean, salience: number) => (open ? salience : 0);
 
 /** Carrying is take, then go, then set down: which, by where things stand. */
@@ -267,10 +291,15 @@ export const INTENT_ROWS: Record<string, IntentRow> = {
     toward: "thing",
     when: (s, t) =>
       gate(
-        !(near(t) || t.held),
-        Math.max(t.servesOwn, t.servesWard) - t.gap * 0.02 - s.threat * 0.5,
+        !(near(t) || t.held) && want(t) > 0,
+        want(t) + atHand(t) - t.gap * 0.02 - s.threat * 0.5,
       ),
     says: (n) => `go toward ${n}`,
+    // A need that nothing in sight would meet: it goes looking.
+    unaimed: {
+      when: (s) => gate(s.unmet >= 2 && s.can.speed > 0, s.unmet * 0.8 - s.threat * 0.5),
+      says: "go looking for what it or its own needs",
+    },
     act: (s, t) => ({ process: "move", body: s.body.id, toward: t.id, minutes: 1 }),
   },
   keep_away: {
@@ -303,7 +332,8 @@ export const INTENT_ROWS: Record<string, IntentRow> = {
     toward: "nothing",
     when: (s) => {
       const tired = s.body.needs.rest ?? 0;
-      return gate(tired >= 2 || s.hurt >= 2, Math.max(tired, s.hurt * 0.8) - s.threat);
+      // Rest can be had later; it gives way to what is at hand now.
+      return gate(tired >= 2 || s.hurt >= 2, Math.max(tired, s.hurt) * 0.7 - s.threat);
     },
     says: () => "lie down and rest",
   },
@@ -316,7 +346,9 @@ export const INTENT_ROWS: Record<string, IntentRow> = {
   },
   eat_drink: {
     toward: "thing",
-    when: (s, t) => gate(near(t) && !t.kept, t.servesOwn - s.threat * 0.3),
+    // Even fed, what feeds it and lies right here is worth something.
+    when: (s, t) =>
+      gate(near(t) && !t.kept && t.useful, Math.max(t.servesOwn, 0.8) + atHand(t) - s.threat * 0.3),
     says: (n) => `eat or drink ${n}`,
     act: (s, t) => ({ process: "ingest", body: s.body.id, thing: t.id, amount: 1 }),
   },
@@ -340,8 +372,16 @@ export const INTENT_ROWS: Record<string, IntentRow> = {
   },
   guard: {
     toward: "other",
-    when: (s, t) => gate(t.threat > 0 && s.stake > 0, s.stake + t.threat),
-    says: (n) => `put itself between ${n} and what is its own`,
+    when: (s, t) => {
+      if (t.threat > 0 && s.stake > 0) return s.stake + t.threat;
+      // With nothing menacing, it may still stay over one of its own that cannot fend for itself.
+      const ward = t.dear > 0 && t.other !== null && cannotCome(s.world, t.other) && t.gap <= 12;
+      return gate(ward, t.dear * 1.5);
+    },
+    says: (n, t) =>
+      t.threat > 0
+        ? `put itself between ${n} and what is its own`
+        : `stay over ${n} and keep watch`,
   },
   warn_off: {
     toward: "other",
@@ -450,6 +490,7 @@ const NOTHING: Target = {
   ward: null,
   held: false,
   kept: false,
+  useful: false,
   strange: false,
   hurt: 0,
   stronger: 0,
@@ -478,7 +519,7 @@ function offerOf(s: Situation, intent: string, row: IntentRow, t: Target): Offer
       id: t.id ? `${intent}:${t.id}` : `${intent}:`,
       intent,
       ...(t.id ? { toward: t.id } : {}),
-      description: row.says(t.name),
+      description: row.says(t.name, t),
       salience: Math.round(salience * 1000) / 1000,
       ...(act ? { act } : {}),
     },
@@ -491,11 +532,17 @@ function offerOf(s: Situation, intent: string, row: IntentRow, t: Target): Offer
  */
 export function offers(world: MatterWorld, body: Body): Offer[] {
   const s = situationOf(world, body);
-  const made = Object.entries(INTENT_ROWS).flatMap(([intent, row]) =>
-    row.toward === "nothing"
-      ? offerOf(s, intent, row, NOTHING)
-      : s.targets.filter(FITS[row.toward]).flatMap((t) => offerOf(s, intent, row, t)),
-  );
+  const made = Object.entries(INTENT_ROWS).flatMap(([intent, row]) => {
+    const { unaimed } = row;
+    const alone: IntentRow | null = unaimed
+      ? { toward: "nothing", when: unaimed.when, says: () => unaimed.says }
+      : null;
+    return [
+      ...(row.toward === "nothing" ? offerOf(s, intent, row, NOTHING) : []),
+      ...s.targets.filter(FITS[row.toward]).flatMap((t) => offerOf(s, intent, row, t)),
+      ...(alone ? offerOf(s, intent, alone, NOTHING) : []),
+    ];
+  });
   made.sort((a, b) => b.salience - a.salience || a.id.localeCompare(b.id));
   return [...made.slice(0, HANDFUL), NONE];
 }

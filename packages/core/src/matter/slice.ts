@@ -46,10 +46,10 @@ const FAR: readonly [number, string][] = [
 ];
 const howFar = (gap: number) => FAR.find(([within]) => gap <= within)?.[1] ?? "far off";
 
-/** Needs worth saying: what is above nothing, in its word. */
+/** Needs worth saying: hunger always (fed is a fact too), the rest when above nothing. */
 function needsOf(body: Body): string[] {
-  return Object.entries(body.needs)
-    .filter(([need, level]) => level >= 1 && need in NEED_WORDS)
+  return Object.entries({ hunger: 0, ...body.needs })
+    .filter(([need, level]) => (level >= 1 || need === "hunger") && need in NEED_WORDS)
     .map(([need, level]) => word(NEED_WORDS[need] ?? LEVEL, level));
 }
 

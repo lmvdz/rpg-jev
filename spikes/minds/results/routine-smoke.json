@@ -1,0 +1,315 @@
+{
+ "summary": {
+  "scenes": 6,
+  "measured": 4,
+  "skipped": 2,
+  "errors": 0,
+  "tokens": 14710,
+  "usd": 0.0006,
+  "routine_is_jev_top1_pct": 25,
+  "routine_in_jev_top2_pct": 50,
+  "chance_top1_pct": 19,
+  "chance_top2_pct": 38,
+  "jev_none_over_handful_pct": 0,
+  "median_shift": 0.08,
+  "wanted_intent_was_offered_pct": 50,
+  "wanted_but_not_offered": {
+   "eat_drink": 2
+  }
+ },
+ "rows": [
+  {
+   "seed": 1000,
+   "skipped": "only 1 offered",
+   "offered": [
+    "go_to:food"
+   ]
+  },
+  {
+   "seed": 1001,
+   "what": "a bear",
+   "n": 5,
+   "routine": "carry_to:food",
+   "jev": [
+    "carry_to:food",
+    "examine:food",
+    "express:"
+   ],
+   "p": 0.49,
+   "none": 0.02,
+   "top1": true,
+   "top2": true,
+   "shift": 0.08,
+   "wants": "eat_drink",
+   "wants_p": 0.45,
+   "wanted_offered": false,
+   "waits": null,
+   "offered": [
+    "carry_to:food 4",
+    "rest: 2.4",
+    "tend_self: 2.1",
+    "examine:food 1",
+    "express: 0.6"
+   ],
+   "slice": {
+    "creature": {
+     "what": "a bear",
+     "condition": [
+      "sound",
+      "fresh enough",
+      "wounded and bleeding",
+      "strong now"
+     ],
+     "the_place_it_keeps": "right here",
+     "standing_among_its_own": "the lowest"
+    },
+    "its_own": [
+     {
+      "who": "a wolf pup",
+      "is": "its young",
+      "dear": "wholly",
+      "where": "right here",
+      "condition": [
+       "sound",
+       "starving",
+       "helpless now"
+      ]
+     },
+     {
+      "who": "a bear",
+      "is": "one of its own",
+      "dear": "strongly",
+      "where": "some way off",
+      "condition": [
+       "sound",
+       "tired",
+       "wounded and bleeding",
+       "able now"
+      ]
+     }
+    ],
+    "present": [
+     {
+      "what": "meat",
+      "where": "right here",
+      "noticed": "smelled"
+     }
+    ],
+    "ground": {
+     "light": "daylight",
+     "cover": "open ground",
+     "ways_out": "open country",
+     "custom_here": [
+      "over food, rank goes first"
+     ],
+     "watched_by": [
+      "nobody"
+     ]
+    }
+   }
+  },
+  {
+   "seed": 1002,
+   "what": "a wolf",
+   "n": 6,
+   "routine": "keep_away:other",
+   "jev": [
+    "eat_drink:food",
+    "take:food",
+    "warn_off:other"
+   ],
+   "p": 0.57,
+   "none": 0,
+   "top1": false,
+   "top2": false,
+   "shift": 0.03,
+   "wants": "eat_drink",
+   "wants_p": 0.7,
+   "wanted_offered": true,
+   "waits": null,
+   "offered": [
+    "keep_away:other 1.644",
+    "wait_watch:other 1.493",
+    "warn_off:other 1.322",
+    "eat_drink:food 0.507",
+    "take:food 0.5",
+    "rest: 0.356"
+   ],
+   "slice": {
+    "creature": {
+     "what": "a wolf",
+     "condition": [
+      "sound",
+      "a little hungry",
+      "tiring",
+      "able now"
+     ]
+    },
+    "present": [
+     {
+      "what": "a person",
+      "where": "close",
+      "noticed": "seen",
+      "notes": [
+       "looks weak",
+       "strongly afraid of it",
+       "slightly angry at it"
+      ]
+     },
+     {
+      "what": "meat",
+      "where": "right here",
+      "noticed": "smelled"
+     }
+    ],
+    "ground": {
+     "light": "daylight",
+     "cover": "open ground",
+     "ways_out": "few ways out",
+     "watched_by": [
+      "a person"
+     ]
+    }
+   }
+  },
+  {
+   "seed": 1003,
+   "skipped": "only 1 offered",
+   "offered": [
+    "rest:"
+   ]
+  },
+  {
+   "seed": 1004,
+   "what": "a wolf",
+   "n": 2,
+   "routine": "rest:",
+   "jev": [
+    "examine:food",
+    "rest:",
+    "none_of_these"
+   ],
+   "p": 0.82,
+   "none": 0.03,
+   "top1": false,
+   "top2": true,
+   "shift": 0.04,
+   "wants": "eat_drink",
+   "wants_p": 0.58,
+   "wanted_offered": false,
+   "waits": null,
+   "offered": [
+    "rest: 3",
+    "examine:food 1"
+   ],
+   "slice": {
+    "creature": {
+     "what": "a wolf",
+     "condition": [
+      "sound",
+      "tired",
+      "able now"
+     ]
+    },
+    "present": [
+     {
+      "what": "meat",
+      "where": "a few steps away",
+      "noticed": "smelled"
+     }
+    ],
+    "ground": {
+     "light": "daylight",
+     "cover": "open ground",
+     "ways_out": "open country",
+     "watched_by": [
+      "nobody"
+     ]
+    }
+   }
+  },
+  {
+   "seed": 1005,
+   "what": "a person",
+   "n": 7,
+   "routine": "warn_off:other",
+   "jev": [
+    "guard:other",
+    "hide:other",
+    "wait_watch:other"
+   ],
+   "p": 0.28,
+   "none": 0,
+   "top1": false,
+   "top2": false,
+   "shift": 0.26,
+   "wants": "guard",
+   "wants_p": 0.76,
+   "wanted_offered": true,
+   "waits": null,
+   "offered": [
+    "warn_off:other 4.162",
+    "guard:other 3.885",
+    "attack:other 3.2",
+    "call: 1.742",
+    "keep_away:other 1.485",
+    "wait_watch:other 1.445",
+    "hide:other 0.891"
+   ],
+   "slice": {
+    "creature": {
+     "what": "a person",
+     "condition": [
+      "sound",
+      "tiring",
+      "weak now"
+     ],
+     "the_place_it_keeps": "right here"
+    },
+    "its_own": [
+     {
+      "who": "an infant",
+      "is": "its young",
+      "dear": "very strongly",
+      "where": "right here",
+      "condition": [
+       "sound",
+       "helpless now"
+      ]
+     },
+     {
+      "who": "another infant",
+      "is": "its young",
+      "dear": "very strongly",
+      "where": "right here",
+      "condition": [
+       "sound",
+       "starving",
+       "helpless now"
+      ]
+     }
+    ],
+    "present": [
+     {
+      "what": "a person",
+      "where": "a few steps away",
+      "noticed": "seen",
+      "notes": [
+       "looks weak",
+       "slightly afraid of it",
+       "strongly angry at it"
+      ]
+     }
+    ],
+    "ground": {
+     "light": "daylight",
+     "cover": "brush",
+     "ways_out": "open country",
+     "watched_by": [
+      "a person"
+     ]
+    }
+   }
+  }
+ ]
+}

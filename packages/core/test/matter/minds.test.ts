@@ -312,6 +312,44 @@ describe("5. the routine is the same offers, scored", () => {
   });
 });
 
+describe("what the first measure against the judge taught (spikes/minds/INTENTS.md)", () => {
+  const he = (set: Partial<Body>) => body("he", "wolf", [2, 0], set);
+
+  it("what is at hand counts: as tired as it is hungry, with food a few steps off, it goes to the food first", () => {
+    const w = wood(
+      [at("kill", "meat", [6, 0], { amount: 5 })],
+      [he({ needs: { hunger: 3, rest: 3 } })],
+    );
+    expect(ids(w, "he")[0]).toBe("go_to:kill");
+  });
+
+  it("fed, with food right here, it is still offered eating, and never before a need that presses", () => {
+    const fed = wood(
+      [at("kill", "meat", [2.5, 0], { amount: 5 })],
+      [he({ needs: { hunger: 0, rest: 4 } })],
+    );
+    expect(ids(fed, "he")).toContain("eat_drink:kill");
+    expect(ids(fed, "he")[0]).toBe("rest:");
+  });
+
+  it("with its young beside it and nothing menacing, it is offered staying over them; alone it is not", () => {
+    const w = wood([], [mother(), ...pups(1)], young("she"));
+    expect(ids(w, "she")).toContain("guard:pup1");
+    expect(ids(wood([], [mother(), ...pups(1)], []), "she")).not.toContain("guard:pup1");
+  });
+
+  it("a need that nothing in sight would meet offers going to look, and not once something is in sight", () => {
+    const hungryYoung = wood([], [mother({ needs: { hunger: 0 } }), ...pups(4)], young("she"));
+    expect(ids(hungryYoung, "she")).toContain("go_to:");
+    const inSight = wood(
+      [at("kill", "meat", [9, 0])],
+      [mother({ needs: { hunger: 0 } }), ...pups(4)],
+      young("she"),
+    );
+    expect(ids(inSight, "she")).not.toContain("go_to:");
+  });
+});
+
 describe("it scales by structure, never by case", () => {
   /** Everyone does the most pressing thing they are offered, turn about, with nobody watching. */
   function live(start: MatterWorld, turns: number) {
@@ -343,7 +381,9 @@ describe("it scales by structure, never by case", () => {
       30,
     );
     expect(alone.did).not.toContain("carry_to:kill");
-    expect(apartFrom(alone.w.things.kill, 30)).toBeLessThan(1);
+    // It ate where the kill lay: it never took hold of it, and it is still there itself.
+    expect(alone.did).not.toContain("take:kill");
+    expect(apartFrom(alone.w.bodies.she, 30)).toBeLessThan(2);
   });
 
   it("what a creature is called changes nothing: the same rows under other names are offered the same", () => {
@@ -382,4 +422,4 @@ describe("it scales by structure, never by case", () => {
   });
 });
 
-const apartFrom = (thing: Thing | undefined, x: number) => Math.abs((thing?.where?.[0] ?? 0) - x);
+const apartFrom = (it: Thing | Body | undefined, x: number) => Math.abs((it?.where?.[0] ?? 0) - x);
