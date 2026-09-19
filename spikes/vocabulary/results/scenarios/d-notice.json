@@ -1,0 +1,551 @@
+[
+  {
+    "id": "notice-01",
+    "domain": "fire",
+    "place": "A ridge overlooking a wooded valley, well after dark, no moon.",
+    "initiator": "player",
+    "lines": ["climb the ridge and look for anyone camped in the valley"],
+    "things": ["player", "campfire", "valley", "trees", "ridge"],
+    "outcome": "From the ridge the player sees a small orange glow through gaps in the trees, far off but unmistakable against the dark valley floor. By day the same fire would show only as a thin haze of smoke, harder to place and easy to mistake for mist. The player can guess roughly where the camp is but not how many people are there or what they are doing.",
+    "steps": [
+      {
+        "process": "see",
+        "agent": "player",
+        "patient": "campfire",
+        "instrument": null,
+        "because": ["patient is bright", "place is dark", "place is high"],
+        "effects": ["player learns a fire is in the valley", "player gains rough direction"],
+        "numbers": ["how far a small flame is visible at night from elevation"]
+      }
+    ],
+    "latent": ["how many people are at the fire", "which way the camp faces"],
+    "state_after": ["campfire: burning, visible at night from the ridge", "player: aware of a distant camp, direction only"],
+    "stress": "same light source, opposite visibility by day and by night",
+    "temptation": "write a rule that campfires are always visible from ridges at a fixed distance"
+  },
+  {
+    "id": "notice-02",
+    "domain": "fire",
+    "place": "The same valley in daylight, clear sky, light wind.",
+    "initiator": "player",
+    "lines": ["look at the valley from the ridge in daylight"],
+    "things": ["player", "campfire", "smoke", "valley", "ridge"],
+    "outcome": "In daylight the flame itself is washed out and invisible from the ridge, but a thin column of smoke rises above the trees and drifts with the wind, staying visible for as long as the fire is fed. A person unfamiliar with the valley might mistake it for low cloud, but anyone who has seen a cookfire before will know what it is.",
+    "steps": [
+      {
+        "process": "see",
+        "agent": "player",
+        "patient": "smoke",
+        "instrument": null,
+        "because": ["patient is pale", "place is bright", "instrument is absent"],
+        "effects": ["player learns a fire is in the valley", "player gains rough direction"],
+        "numbers": ["how tall the smoke column rises before it disperses"]
+      }
+    ],
+    "latent": ["whether the fire is being fed or dying down"],
+    "state_after": ["campfire: burning, invisible by day, smoke rising", "player: aware of a distant camp from smoke, not flame"],
+    "stress": "the signal changes sense and channel with the time of day, not the fire itself",
+    "temptation": "hardcode that fires are visible by day the same way as by night, just dimmer"
+  },
+  {
+    "id": "notice-03",
+    "domain": "light",
+    "place": "A hunting camp at night in open scrubland, a lantern hanging from a post.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["hunter", "lantern", "shutter", "wolf", "scrubland"],
+    "outcome": "A wolf circling the camp at a distance sees the lantern's glow and keeps its distance, wary of people. When the hunter notices movement and closes the lantern's shutter, the light drops to almost nothing within a few paces; the wolf, no longer able to place the camp precisely, drifts closer under cover of the dark to sniff at a food cache near the camp's edge.",
+    "steps": [
+      {
+        "process": "see",
+        "agent": "wolf",
+        "patient": "lantern",
+        "instrument": null,
+        "because": ["patient is bright", "place is dark"],
+        "effects": ["wolf learns people are near", "wolf loses interest in approaching"],
+        "numbers": ["how far the open lantern is visible on flat scrubland"]
+      },
+      {
+        "process": "shutter",
+        "agent": "hunter",
+        "patient": "lantern",
+        "instrument": "shutter",
+        "because": ["agent is wary", "patient is exposed"],
+        "effects": ["lantern loses visibility", "patient down"],
+        "numbers": ["how far the shuttered lantern still shows light"]
+      },
+      {
+        "process": "approach",
+        "agent": "wolf",
+        "patient": "camp",
+        "instrument": null,
+        "because": ["patient is dim", "agent is hungry"],
+        "effects": ["wolf gains proximity", "wolf moves to camp edge"],
+        "numbers": ["how close the wolf comes before its own caution stops it"]
+      }
+    ],
+    "latent": ["the food cache the wolf can smell but has not yet found"],
+    "state_after": ["lantern: shuttered, dim", "wolf: closer to camp, still wary", "hunter: unaware the wolf approached"],
+    "stress": "shuttering removes a light-based cue but does nothing about smell or sound",
+    "temptation": "make a shuttered lantern invisible outright rather than merely much dimmer"
+  },
+  {
+    "id": "notice-04",
+    "domain": "scent",
+    "place": "Open grassland at dusk, a light breeze blowing from the east.",
+    "initiator": "player",
+    "lines": ["creep toward the deer from the west, staying low"],
+    "things": ["player", "deer", "grassland", "wind"],
+    "outcome": "Approaching from downwind of the deer, with the breeze carrying the player's scent away rather than toward it, the deer relies on sight and hearing alone and does not startle until the player is fairly close. Had the player circled to the east and approached with the wind at their back, the deer would have caught their scent long before they were in sight and bolted well out of range.",
+    "steps": [
+      {
+        "process": "approach",
+        "agent": "player",
+        "patient": "deer",
+        "instrument": null,
+        "because": ["player is downwind", "player is quiet", "player is low"],
+        "effects": ["player gains proximity"],
+        "numbers": ["how close the player gets before the deer notices by sight or sound"]
+      }
+    ],
+    "latent": ["the deer's escape route if it does bolt"],
+    "state_after": ["deer: grazing, unaware", "player: close, undetected"],
+    "stress": "wind direction alone flips a stalk from viable to hopeless",
+    "temptation": "give deer a fixed detection radius that ignores wind direction"
+  },
+  {
+    "id": "notice-05",
+    "domain": "scent",
+    "place": "The same grassland, player now upwind of the deer.",
+    "initiator": "player",
+    "lines": ["circle around and approach the deer from the east"],
+    "things": ["player", "deer", "grassland", "wind"],
+    "outcome": "With the wind now blowing from the player toward the deer, the deer catches human scent on the breeze while the player is still far off, well before any sound or sight would have given them away. It lifts its head, goes still for a moment, then runs, putting a long stretch of open ground between itself and the smell before it stops to look back.",
+    "steps": [
+      {
+        "process": "smell",
+        "agent": "deer",
+        "patient": "player",
+        "instrument": null,
+        "because": ["agent is upwind of nothing, patient is upwind of agent", "patient is scented"],
+        "effects": ["deer learns a person is near", "deer gains alarm"],
+        "numbers": ["how far scent carries on a light breeze before it thins out"]
+      },
+      {
+        "process": "flee",
+        "agent": "deer",
+        "patient": "deer",
+        "instrument": null,
+        "because": ["agent is alarmed", "place is open"],
+        "effects": ["deer moves to far side of grassland", "player loses quarry"],
+        "numbers": ["how far the deer runs before stopping"]
+      }
+    ],
+    "latent": ["whether the deer will return to graze here later"],
+    "state_after": ["deer: fled, wary", "player: quarry lost for now"],
+    "stress": "the same stalk fails outright on wind direction alone, before skill or noise enter into it",
+    "temptation": "treat every stalking attempt as a single stealth roll regardless of wind"
+  },
+  {
+    "id": "notice-06",
+    "domain": "hearing",
+    "place": "A farmhouse at night, a dog sleeping by the door, the household asleep inside.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["dog", "stranger", "farmhouse", "household", "gate"],
+    "outcome": "A stranger easing open the farmyard gate makes almost no sound to human ears, but the dog wakes at the faint creak and the stranger's unfamiliar scent on the air, and begins barking well before anyone in the house stirs. The household wakes only once the barking has gone on for a while, by which point the stranger has already had time to slip away or to be caught in the yard.",
+    "steps": [
+      {
+        "process": "hear",
+        "agent": "dog",
+        "patient": "gate",
+        "instrument": null,
+        "because": ["patient is creaking", "agent is keen-eared", "place is quiet"],
+        "effects": ["dog learns someone is at the gate", "dog gains alarm"],
+        "numbers": ["how faint a sound a sleeping dog still wakes to"]
+      },
+      {
+        "process": "smell",
+        "agent": "dog",
+        "patient": "stranger",
+        "instrument": null,
+        "because": ["patient is unfamiliar", "agent is keen-nosed"],
+        "effects": ["dog gains certainty", "dog learns stranger is not household"],
+        "numbers": []
+      },
+      {
+        "process": "bark",
+        "agent": "dog",
+        "patient": "household",
+        "instrument": null,
+        "because": ["agent is alarmed"],
+        "effects": ["household gains warning", "creates noise"],
+        "numbers": ["how long the barking runs before a sleeper wakes"]
+      }
+    ],
+    "latent": ["whether the stranger meant harm or was only lost"],
+    "state_after": ["dog: barking, alert", "household: waking, delayed", "stranger: discovered or fled, uncertain which"],
+    "stress": "the dog notices well ahead of the people it warns, and the warning itself takes time to land",
+    "temptation": "make the dog's bark instantly wake the whole household"
+  },
+  {
+    "id": "notice-07",
+    "domain": "sound",
+    "place": "A dry forest floor thick with fallen branches, midday.",
+    "initiator": "player",
+    "lines": ["move quickly through the trees toward the ridge"],
+    "things": ["player", "twig", "forest floor", "boar"],
+    "outcome": "Moving quickly and carelessly, the player's foot comes down on a dry branch, and the snap carries clearly through the still forest air. A wild boar rooting some way off lifts its head at the sound, and though it cannot see the player through the trees, it moves off in the opposite direction rather than investigate, unwilling to risk finding out what made the noise.",
+    "steps": [
+      {
+        "process": "snap",
+        "agent": "player",
+        "patient": "twig",
+        "instrument": "foot",
+        "because": ["patient is dry", "patient is brittle"],
+        "effects": ["creates noise", "patient loses shape"],
+        "numbers": ["how far a dry snap carries in still forest air"]
+      },
+      {
+        "process": "hear",
+        "agent": "boar",
+        "patient": "noise",
+        "instrument": null,
+        "because": ["patient is sudden", "place is quiet"],
+        "effects": ["boar learns something moved nearby", "boar gains wariness"],
+        "numbers": []
+      },
+      {
+        "process": "withdraw",
+        "agent": "boar",
+        "patient": "boar",
+        "instrument": null,
+        "because": ["agent is wary", "agent cannot see player"],
+        "effects": ["boar moves away from noise"],
+        "numbers": ["how far the boar withdraws"]
+      }
+    ],
+    "latent": ["how close the player actually was to the boar's wallow"],
+    "state_after": ["twig: broken", "boar: withdrawn, unseen", "player: unaware they were noticed"],
+    "stress": "the boar reacts to sound alone and never confirms what caused it, so caution wins over curiosity",
+    "temptation": "make every twig-snap alert every nearby creature identically regardless of what it is"
+  },
+  {
+    "id": "notice-08",
+    "domain": "guard",
+    "place": "A palisade gate at night, one guard posted, hours into a long watch.",
+    "initiator": "world",
+    "lines": ["watch the guard from the treeline and time an approach"],
+    "things": ["player", "guard", "gate", "treeline", "torch"],
+    "outcome": "Early in the watch the guard is alert, turning to check the treeline every so often, and any approach would be seen at a fair distance in the torchlight. Well past midnight the same guard has grown drowsy, head nodding, eyes drifting shut for stretches at a time; a careful approach along the darker side of the gate now goes unnoticed until the player is close enough to touch the wall.",
+    "steps": [
+      {
+        "process": "watch",
+        "agent": "guard",
+        "patient": "treeline",
+        "instrument": "torch",
+        "because": ["agent is alert", "instrument is bright"],
+        "effects": ["guard gains awareness"],
+        "numbers": ["how far the torchlit approach is visible early in the watch"]
+      },
+      {
+        "process": "doze",
+        "agent": "guard",
+        "patient": "guard",
+        "instrument": null,
+        "because": ["agent is tired", "place is quiet", "numbers hours awake"],
+        "effects": ["guard loses awareness", "guard gains drowsy"],
+        "numbers": ["how many hours into the watch before drowsiness sets in"]
+      },
+      {
+        "process": "approach",
+        "agent": "player",
+        "patient": "gate",
+        "instrument": null,
+        "because": ["guard is drowsy", "player is on dark side"],
+        "effects": ["player gains proximity"],
+        "numbers": ["how close the player gets before a drowsy guard would notice"]
+      }
+    ],
+    "latent": ["whether the guard is due to be relieved soon"],
+    "state_after": ["guard: drowsy, unaware", "player: at the wall, unnoticed"],
+    "stress": "the same sentry's reliability changes over the course of one watch without anything else changing",
+    "temptation": "give a guard a single fixed perception value for the whole watch"
+  },
+  {
+    "id": "notice-09",
+    "domain": "weather",
+    "place": "A riverside camp during a steady rainstorm with gusting wind.",
+    "initiator": "player",
+    "lines": ["cut the rope on the tied boat while the storm is loud"],
+    "things": ["player", "rope", "boat", "rain", "wind", "camp owner"],
+    "outcome": "The rain drums on the boat and the tent, and the wind gusts through the reeds, and under that noise the scrape of a knife through wet rope goes unheard even a few paces away. The camp owner, dozing inside the tent with the storm as a constant backdrop, never stirs. In clear still weather the same cut would likely have carried enough to wake a light sleeper.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "player",
+        "patient": "rope",
+        "instrument": "knife",
+        "because": ["patient is taut", "instrument is sharp"],
+        "effects": ["patient loses integrity", "creates noise"],
+        "numbers": ["how loud the cutting sound is at close range"]
+      },
+      {
+        "process": "mask",
+        "agent": "rain",
+        "patient": "noise",
+        "instrument": null,
+        "because": ["agent is loud", "agent is steady"],
+        "effects": ["noise loses reach", "camp owner loses chance to hear"],
+        "numbers": ["how much ambient noise it takes to cover a given sound at a given distance"]
+      }
+    ],
+    "latent": ["that the boat will be found adrift only once the storm clears"],
+    "state_after": ["rope: cut", "boat: adrift", "camp owner: still asleep, unaware"],
+    "stress": "weather noise is a resource the player can spend a stealthy act against",
+    "temptation": "give rain a flat stealth bonus number instead of it masking specific sounds by loudness and distance"
+  },
+  {
+    "id": "notice-10",
+    "domain": "fog",
+    "place": "A moor at dawn thick with fog, visibility down to a few strides.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["traveler", "wolf pack", "moor", "fog", "sheep"],
+    "outcome": "A wolf pack working the moor's edge passes close by a traveler without either side seeing the other, the fog cutting sight to almost nothing; only the traveler's boots crunching frost-stiffened grass gives them away, and the pack veers off toward easier prey it can smell nearby rather than investigate an unseen sound. The traveler never learns how close the danger came.",
+    "steps": [
+      {
+        "process": "muffle",
+        "agent": "fog",
+        "patient": "moor",
+        "instrument": null,
+        "because": ["agent is thick", "agent is close to the ground"],
+        "effects": ["traveler loses sight", "wolf pack loses sight"],
+        "numbers": ["how far sight reaches in thick fog"]
+      },
+      {
+        "process": "hear",
+        "agent": "wolf pack",
+        "patient": "footsteps",
+        "instrument": null,
+        "because": ["patient is crunching", "place is quiet"],
+        "effects": ["wolf pack learns something moves nearby"],
+        "numbers": []
+      },
+      {
+        "process": "divert",
+        "agent": "wolf pack",
+        "patient": "wolf pack",
+        "instrument": null,
+        "because": ["agent smells sheep", "patient is unseen and uncertain"],
+        "effects": ["wolf pack moves toward sheep", "traveler gains safety unknowingly"],
+        "numbers": []
+      }
+    ],
+    "latent": ["how close the pack actually passed"],
+    "state_after": ["traveler: unaware, safe", "wolf pack: moved off toward the sheep", "fog: unchanged, still thick"],
+    "stress": "neither party ever confirms the other, and a stronger competing cue (nearby sheep) decides the outcome, not stealth",
+    "temptation": "make fog simply halve a fixed detection range rather than gate sight down to a short distance"
+  },
+  {
+    "id": "notice-11",
+    "domain": "tracks",
+    "place": "A snow-covered forest the morning after fresh snowfall, still air.",
+    "initiator": "player",
+    "lines": ["follow the tracks leading away from the cabin"],
+    "things": ["player", "tracks", "snow", "thief", "cabin"],
+    "outcome": "The fresh snow holds a clean line of footprints leading from the cabin door into the trees, easy to follow even for someone with little tracking skill, and it also muffles the player's own footsteps as they follow. Once the tracks reach a stretch of wind-scoured rock the trail vanishes entirely, and the player has to guess which way the thief went from the lay of the land alone.",
+    "steps": [
+      {
+        "process": "see",
+        "agent": "player",
+        "patient": "tracks",
+        "instrument": null,
+        "because": ["patient is fresh", "place is snow-covered", "place is unmarked otherwise"],
+        "effects": ["player learns which way the thief went", "player gains trail"],
+        "numbers": ["how old tracks can be and still show clearly in snow"]
+      },
+      {
+        "process": "muffle",
+        "agent": "snow",
+        "patient": "footsteps",
+        "instrument": null,
+        "because": ["agent is soft", "agent is deep"],
+        "effects": ["player loses noise"],
+        "numbers": ["how much snow depth it takes to muffle footfall"]
+      },
+      {
+        "process": "vanish",
+        "agent": "tracks",
+        "patient": "tracks",
+        "instrument": null,
+        "because": ["place is bare rock", "agent leaves no mark on stone"],
+        "effects": ["player loses trail"],
+        "numbers": ["how far the bare rock stretch runs"]
+      }
+    ],
+    "latent": ["which direction the thief actually took past the rock"],
+    "state_after": ["tracks: visible up to the rock, then gone", "player: at a dead end, guessing"],
+    "stress": "the same surface that reveals one thing conceals another, and the trail simply ends rather than resolving",
+    "temptation": "make tracking a single skill check with a pass or fail regardless of ground surface"
+  },
+  {
+    "id": "notice-12",
+    "domain": "sound",
+    "place": "A river gorge with steep rock walls, a bell hanging at a rope bridge crossing.",
+    "initiator": "player",
+    "lines": ["ring the bell at the bridge"],
+    "things": ["player", "bell", "gorge", "bandit lookout", "rope bridge"],
+    "outcome": "The bell's ring bounces off the gorge's rock walls and repeats as a fading echo, so that a lookout posted well up the gorge, who could never have heard the bell directly at that range, hears the echo rolling down the canyon and comes to investigate. The echo also makes it hard for the lookout to judge exactly where the sound came from, so they search the wrong stretch of the bridge first.",
+    "steps": [
+      {
+        "process": "ring",
+        "agent": "player",
+        "patient": "bell",
+        "instrument": null,
+        "because": ["patient is metal", "patient is hollow"],
+        "effects": ["creates noise"],
+        "numbers": ["how loud the bell is at the source"]
+      },
+      {
+        "process": "echo",
+        "agent": "gorge",
+        "patient": "noise",
+        "instrument": null,
+        "because": ["place is enclosed by rock", "place is narrow"],
+        "effects": ["noise gains reach", "noise loses clarity"],
+        "numbers": ["how far an echo carries beyond the sound's direct range, and how many times it repeats"]
+      },
+      {
+        "process": "hear",
+        "agent": "bandit lookout",
+        "patient": "echo",
+        "instrument": null,
+        "because": ["patient is loud", "place is quiet"],
+        "effects": ["bandit lookout learns someone rang the bell", "bandit lookout gains uncertain direction"],
+        "numbers": []
+      }
+    ],
+    "latent": ["that the lookout will search the wrong stretch first"],
+    "state_after": ["bell: rung, silent again", "bandit lookout: alerted, searching the wrong place", "player: has bought some time"],
+    "stress": "the gorge extends a sound's reach while degrading its precision, two separate effects from one geography",
+    "temptation": "give enclosed spaces a flat noise-range multiplier without also blurring where the sound seems to come from"
+  },
+  {
+    "id": "notice-13",
+    "domain": "scent",
+    "place": "Open plains at midday, sun high, a fallen elk carcass some distance off.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["elk carcass", "vultures", "hyenas", "plains", "sun"],
+    "outcome": "The carcass has lain in the sun for the better part of a day and begun to reek, and the smell rises with the day's warmth and carries a long way over the open plains. Vultures circling far off catch the scent and drop into a slow spiral toward it long before any hyena arrives on the ground; the hyenas that do come are drawn partly by the smell and partly by the sight of circling birds, a second, visible signal layered on the first.",
+    "steps": [
+      {
+        "process": "rot",
+        "agent": "elk carcass",
+        "patient": "elk carcass",
+        "instrument": null,
+        "because": ["agent is dead", "place is warm"],
+        "effects": ["creates smell", "patient gains rotten"],
+        "numbers": ["how long before a carcass smells strongly enough to carry far"]
+      },
+      {
+        "process": "smell",
+        "agent": "vultures",
+        "patient": "elk carcass",
+        "instrument": null,
+        "because": ["patient is rotten", "place is open", "agent is high up"],
+        "effects": ["vultures learn where carrion is", "vultures move to elk carcass"],
+        "numbers": ["how far carrion scent carries on open ground and how high it can be caught from"]
+      },
+      {
+        "process": "see",
+        "agent": "hyenas",
+        "patient": "vultures",
+        "instrument": null,
+        "because": ["patient is circling", "place is open"],
+        "effects": ["hyenas learn where food is", "hyenas move to elk carcass"],
+        "numbers": ["how far circling birds are visible from the ground"]
+      }
+    ],
+    "latent": ["how many scavengers converge before the day is out"],
+    "state_after": ["elk carcass: being scavenged", "vultures: circling and landing", "hyenas: arrived"],
+    "stress": "one signal (smell) produces a second, independently visible signal (circling birds) that draws a different audience",
+    "temptation": "have carrion attract all scavenger types at once from a single fixed radius"
+  },
+  {
+    "id": "notice-14",
+    "domain": "sound",
+    "place": "A small house under search by soldiers, an infant in a back room, midday.",
+    "initiator": "world",
+    "lines": ["search the house for the hidden ledger"],
+    "things": ["player", "house", "ledger", "baby", "mother", "soldiers"],
+    "outcome": "While the player quietly searches the front room, the infant in the back begins to cry, loud enough that the mother must go quiet it, drawing one of the soldiers waiting outside to knock and ask if everything is well inside. The crying itself reveals nothing about the search, but it forces an interruption that nearly costs the player the time needed to finish before someone comes in to check.",
+    "steps": [
+      {
+        "process": "cry",
+        "agent": "baby",
+        "patient": "baby",
+        "instrument": null,
+        "because": ["agent is startled", "agent is hungry"],
+        "effects": ["creates noise"],
+        "numbers": ["how loud and how far a baby's crying carries through a house"]
+      },
+      {
+        "process": "hear",
+        "agent": "soldiers",
+        "patient": "crying",
+        "instrument": null,
+        "because": ["patient is loud", "place is otherwise quiet"],
+        "effects": ["soldiers gain suspicion", "soldiers learn someone is inside"],
+        "numbers": []
+      },
+      {
+        "process": "quiet",
+        "agent": "mother",
+        "patient": "baby",
+        "instrument": null,
+        "because": ["agent wants no attention", "patient is loud"],
+        "effects": ["baby loses noise", "mother gains delay"],
+        "numbers": ["how long it takes to settle a crying infant"]
+      }
+    ],
+    "latent": ["whether the soldiers will still come in to check despite the quiet"],
+    "state_after": ["baby: quieted", "mother: shaken, delayed", "soldiers: suspicious, waiting at the door", "player: search unfinished, time pressure"],
+    "stress": "a noise unrelated to the player's own action still threatens to expose them, and settling it costs time they need",
+    "temptation": "script the baby crying as a scripted story beat rather than a noise with its own cause and its own fix"
+  },
+  {
+    "id": "notice-15",
+    "domain": "camouflage",
+    "place": "A snowfield at dusk under a clear sky and a near-full moon.",
+    "initiator": "player",
+    "lines": ["cross the snowfield in the dark cloak to reach the far treeline"],
+    "things": ["player", "cloak", "snowfield", "moon", "watchman on the far ridge"],
+    "outcome": "The moon is bright enough to throw shadows on the snow, and the player's dark cloak, which would hide them well against bare earth or trees, stands out sharply against the pale open snowfield; a watchman on the far ridge, whose eyes are already adjusted to the moonlit dark, picks out the moving shape long before the player reaches the treeline. A white or pale wrap would have blended and likely gone unseen at the same distance.",
+    "steps": [
+      {
+        "process": "cross",
+        "agent": "player",
+        "patient": "snowfield",
+        "instrument": "cloak",
+        "because": ["instrument is dark", "place is pale", "place is lit by moon"],
+        "effects": ["player gains visibility"],
+        "numbers": ["how far a dark shape against pale snow is visible under moonlight"]
+      },
+      {
+        "process": "see",
+        "agent": "watchman on the far ridge",
+        "patient": "player",
+        "instrument": null,
+        "because": ["patient is dark", "place is pale", "agent is dark-adapted"],
+        "effects": ["watchman on the far ridge learns someone crosses the snowfield", "watchman on the far ridge gains alarm"],
+        "numbers": ["how long it takes eyes to adapt to moonlit dark, and how much that improves distant sight"]
+      }
+    ],
+    "latent": ["whether the watchman will raise the alarm or just keep watching"],
+    "state_after": ["player: spotted, still crossing", "watchman on the far ridge: alerted, watching"],
+    "stress": "the right garment for one background is the wrong garment for another, and moonlight and dark-adaptation both raise the stakes",
+    "temptation": "give cloaks a single fixed stealth bonus regardless of the background they are seen against"
+  }
+]

@@ -1,0 +1,527 @@
+/**
+ * The client as it stands: a world on screen, a hero to walk it, and the
+ * editor that paints it (SPEC.md section 16, steps R0 to R4).
+ *
+ * Play: arrows or WASD walk. Tab opens the editor, where the same keys move
+ * the view and the mouse paints. Both: Q and E turn the camera, - and = zoom,
+ * O toggles glyph outlines, P swaps the palette, B measures what a frame costs.
+ */
+import { vec3 } from "gl-matrix";
+import { Camera } from "./camera.ts";
+import { type MountedEditor, mountEditor } from "./editor/mount.ts";
+import { EditorPanel } from "./editor/panel.ts";
+import { Rover } from "./editor/rover.ts";
+import { EditorSession } from "./editor/session.ts";
+import { DEFAULT_ATMOSPHERE } from "./gl/frame.ts";
+import { Renderer } from "./gl/renderer.ts";
+import { GlyphBatch } from "./glyph/batch.ts";
+import { glyphOfChar } from "./glyph/font.ts";
+import { INK, PALETTE_HEX } from "./palette.ts";
+import type { ActRequest } from "./play/act-request.ts";
+import { matterPort } from "./play/matter-port.ts";
+import { type MountedPlay, mountPlay } from "./play/pointer.ts";
+import { StatusDisplay } from "./play/status.ts";
+import { WorldLink } from "./play/world-link.ts";
+import { noticed, perform, type WorldPort } from "./play/world-port.ts";
+import { StandInBody } from "./scene/body.ts";
+import { Drift } from "./scene/drift.ts";
+import { scorchAround, standInGround } from "./scene/ground.ts";
+import { Walker } from "./scene/walker.ts";
+import { ChunkManager } from "./terrain/chunks.ts";
+import { kindAt } from "./terrain/kinds.ts";
+import { askPriors, delayed } from "./view/birth.ts";
+import { Births } from "./view/births.ts";
+import { EFFECTS } from "./view/effect-rows.ts";
+import { OneShots } from "./view/effects.ts";
+import { GroundStates } from "./view/ground.ts";
+import { LivingThings } from "./view/living.ts";
+import { MOTIONS } from "./view/motions.ts";
+import { applySky } from "./view/sky.ts";
+import type { ThingView } from "./view/things.ts";
+import type { WorldContent } from "./world/format.ts";
+import { ObjectLayer } from "./world/objects.ts";
+import { dropDraft, keepDraft, type LoadedWorld, loadWorld, saveWorld } from "./world/storage.ts";
+
+const NIGHT_HEX = PALETTE_HEX.map((hex, i) => (i === INK.lamp ? hex : dim(hex)));
+const DRAFT_AFTER_MS = 1500;
+/** The hero is always the glyph batch's first instance. */
+const HERO_SLOT = () => 0;
+/** A stand-in until acts come from the world: how hard a reach is. */
+const STRIKE_LEVEL = 3;
+
+function dim(hex: string): string {
+  const value = Number.parseInt(hex.slice(1), 16);
+  const r = Math.round(((value >> 16) & 0xff) * 0.45);
+  const g = Math.round(((value >> 8) & 0xff) * 0.55);
+  const b = Math.round((value & 0xff) * 0.8);
+  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
+}
+
+function need<T extends Element>(selector: string): T {
+  const found = document.querySelector<T>(selector);
+  if (!found) throw new Error(`the page has no ${selector}`);
+  return found;
+}
+
+/** Everything on the page that outlives a frame. */
+interface App {
+  canvas: HTMLCanvasElement;
+  hud: HTMLPreElement;
+  name: string;
+  stress: boolean;
+  renderer: Renderer;
+  camera: Camera;
+  batch: GlyphBatch;
+  walker: Walker;
+  rover: Rover;
+  objects: ObjectLayer;
+  chunks: ChunkManager;
+  session: EditorSession;
+  goal: vec3;
+  stats: {
+    fps: number;
+    cpuMs: number;
+    gpuMs: number | null;
+    benchMs: number | null;
+    waiting: number;
+  };
+  editing: boolean;
+  night: boolean;
+  yawGoal: number;
+  last: number;
+  hudAt: number;
+  /** When the world last changed without being kept, or 0. */
+  changedAt: number;
+  /** Where the world on screen came from or went to. */
+  note: string;
+  /** A grown world's things and what changes them, or null for a painted world. */
+  living: LivingThings | null;
+  things: readonly ThingView[] | null;
+  /** The states of the ground (wet, scorched, snow), which the terrain shader reads a texel a tile. */
+  ground: GroundStates;
+  /** What has been born so far: effects, motions and looks. */
+  births: Births;
+  /** Effects of events, each played once. */
+  shots: OneShots;
+  /** The world that compiles and resolves acts, or none yet. Held so it can be attached late. */
+  world: { port: WorldPort | null };
+  /** Where a resolved act's changes become what is drawn. */
+  link: WorldLink;
+  /** The mouse in play: tooltip, click to walk, menu. Mounted once the page is up. */
+  play: MountedPlay | null;
+  /** The hero's body (a stand-in until world state has one) and the bars that show it. */
+  body: StandInBody;
+  status: StatusDisplay | null;
+  drift: Drift | null;
+  driftAt: number;
+  /** The hour of the day, 0 to 24, and how many hours pass in a second. */
+  hour: number;
+  hoursPerSecond: number;
+}
+
+function build(loaded: LoadedWorld, query: URLSearchParams): App {
+  const canvas = need<HTMLCanvasElement>("#view");
+  const { grid, objects: placed, start } = loaded.content;
+  const renderer = new Renderer(canvas);
+  const camera = new Camera();
+  if (query.has("study")) camera.settings.distance = 64;
+  const stress = query.has("stress");
+  if (stress) {
+    // The R1 gate's worst case: every tile and every glyph on screen at once.
+    camera.settings.distance = 560;
+    camera.settings.far = 2000;
+  }
+
+  // The hero is the batch's first glyph; everything after it belongs to the object layer.
+  const batch = new GlyphBatch(placed.length + 256);
+  // The hero must be in the batch before the things are, and must know what blocks the way:
+  // so the walker asks through this, and the things are filled in a few lines down.
+  let living: LivingThings | null = null;
+  const walker = new Walker(grid, start[0], start[1], (tile) => living?.blocks(tile) ?? false);
+  batch.add(walker.x, walker.y, walker.z, { glyph: glyphOfChar("@"), ink: INK.lamp });
+  const objects = new ObjectLayer(grid, batch);
+  for (const o of placed) objects.set(grid.index(o.x, o.z), o.look);
+  // `?born` takes the hand-given looks off the stand-in elements, so every look on screen is born.
+  const given = loaded.things ?? null;
+  const things = given && query.has("born") ? given.map(({ look: _, ...rest }) => rest) : given;
+  // No judge is attached yet, so the priors answer; `?judge=<ms>` makes them answer late, which
+  // shows the generic row handing over to the born one. Elements are shared between worlds, so
+  // the books' seed is not the map's.
+  const wait = Number(query.get("judge") ?? 0);
+  const births = new Births(wait > 0 ? delayed(askPriors, wait) : askPriors, 1);
+  if (things) living = new LivingThings(things, grid, objects, births);
+  const shots = new OneShots();
+  // The world behind the client, once one is attached (`play/world-port.ts`).
+  // A grown world's things are put into a world of matter; a painted world has none behind it.
+  // Where a creature can stand is the map's to say: on it, dry, and nothing standing there already.
+  const canStand = ([x, z]: readonly [number, number]) =>
+    grid.contains(x, z) && !kindAt(grid.kindAt(x, z)).liquid && (living?.free(x, z) ?? true);
+  const tiles = grid.width * grid.depth;
+  const world: App["world"] = {
+    port: things ? matterPort(things, { tiles, seed: 1, canStand }) : null,
+  };
+  // Where the world's changes arrive. Until a world is attached nothing is known of any
+  // element but what its things already carry, so nothing can be created.
+  const link = new WorldLink({
+    grid,
+    living: living ?? new LivingThings([], grid, objects, births),
+    births,
+    shots,
+    motions: renderer.motions,
+    actorSlot: HERO_SLOT,
+    slotAt: (tile) => objects.slotAt(tile),
+    elementOf: (id) => world.port?.elementOf(id) ?? null,
+  });
+  // The states of the ground are a stand-in too; a painted world has none.
+  const ground = things ? standInGround(grid, things) : new GroundStates(grid.width, grid.depth);
+  renderer.setGround(ground);
+
+  const worker = new Worker(new URL("./terrain/worker.ts", import.meta.url), { type: "module" });
+  worker.onerror = (event) => console.error(`the tessellation worker failed: ${event.message}`);
+  const chunks = new ChunkManager(grid, worker, (key, mesh, x, z, size) =>
+    renderer.terrain.setChunk(key, mesh, x, z, size),
+  );
+  renderer.onRestored = () => {
+    chunks.markAllDirty();
+    batch.markAllDirty();
+  };
+
+  return {
+    canvas,
+    hud: need<HTMLPreElement>("#hud"),
+    name: loaded.name,
+    stress,
+    renderer,
+    camera,
+    batch,
+    walker,
+    rover: new Rover(grid, walker.x, walker.z),
+    objects,
+    chunks,
+    session: new EditorSession({ grid, objects }),
+    goal: vec3.fromValues(walker.x, walker.y, walker.z),
+    stats: { fps: 0, cpuMs: 0, gpuMs: null, benchMs: null, waiting: 0 },
+    editing: query.has("edit"),
+    night: false,
+    yawGoal: 0,
+    last: performance.now(),
+    hudAt: 0,
+    changedAt: 0,
+    note: loaded.from,
+    living,
+    things,
+    ground,
+    births,
+    shots,
+    world,
+    link,
+    play: null,
+    body: new StandInBody(),
+    status: null,
+    drift: things ? new Drift(things, 1) : null,
+    driftAt: 0,
+    // A grown world starts late in the afternoon, so its first dusk is a minute away.
+    hour: things ? 17 : 12,
+    hoursPerSecond: things ? 1 / 12 : 0,
+  };
+}
+
+function content(app: App): WorldContent {
+  return {
+    grid: app.session.world.grid,
+    objects: app.objects.list(),
+    start: [app.walker.tileX, app.walker.tileZ],
+  };
+}
+
+function mountEditing(app: App): { panel: EditorPanel; editor: MountedEditor } {
+  const { session, walker, chunks } = app;
+  const grid = session.world.grid;
+  session.onChanged = (tiles) => {
+    for (const index of tiles)
+      chunks.markTileDirty(index % grid.width, Math.floor(index / grid.width));
+    app.changedAt = performance.now();
+  };
+  const heroHere = () => {
+    if (session.hover < 0) return;
+    walker.jumpToTile(session.hover % grid.width, Math.floor(session.hover / grid.width));
+    app.changedAt = performance.now();
+  };
+  const save = () => {
+    app.changedAt = 0;
+    saveWorld(app.name, content(app)).then((said) => {
+      app.note = said;
+      panel.status(said);
+    });
+  };
+  const revert = () => {
+    dropDraft(app.name);
+    location.reload();
+  };
+  const panel = new EditorPanel(session, { save, revert, heroHere });
+  document.body.append(panel.root);
+  panel.visible = app.editing;
+  const editor = mountEditor({
+    canvas: app.canvas,
+    camera: app.camera,
+    session,
+    panel,
+    editing: () => app.editing,
+    save,
+    heroHere,
+  });
+  return { panel, editor };
+}
+
+function writeHud(app: App): void {
+  const { stats, renderer, canvas } = app;
+  // The timer query stretches with the GPU's clock state and its other work: a hint, not a measure.
+  const gpu = stats.gpuMs === null ? "n/a" : `~${stats.gpuMs.toFixed(1)} ms`;
+  const bench = stats.benchMs === null ? "press b" : `${stats.benchMs.toFixed(2)} ms a frame`;
+  const terrain = renderer.terrain.stats;
+  app.hud.textContent = [
+    `${stats.fps.toFixed(0)} fps   cpu ${stats.cpuMs.toFixed(2)} ms   gpu timer ${gpu}`,
+    `measured: ${bench}   at ${canvas.width}x${canvas.height}`,
+    `${terrain.chunksDrawn} chunks   ${terrain.triangles} tris   ${app.batch.count} glyphs`,
+    app.chunks.waiting > 0 ? `building ${app.chunks.waiting} chunks` : app.note,
+    app.editing ? "EDITING   tab: play" : "arrows walk  q/e turn  -/= zoom  tab: edit",
+  ].join("\n");
+}
+
+function bindKeys(app: App, panel: EditorPanel, editor: MountedEditor): void {
+  const { camera, renderer, rover, walker, session } = app;
+  const keys: Readonly<Record<string, () => void>> = {
+    tab: () => {
+      app.editing = !app.editing;
+      panel.visible = app.editing;
+      rover.releaseAll();
+      rover.jumpTo(walker.x, walker.z);
+      if (!app.editing) session.moveTo(-1);
+    },
+    q: () => {
+      app.yawGoal += Math.PI / 2;
+    },
+    e: () => {
+      app.yawGoal -= Math.PI / 2;
+    },
+    "-": () => {
+      camera.settings.distance = Math.min(camera.settings.distance * 1.15, 400);
+    },
+    "=": () => {
+      camera.settings.distance = Math.max(camera.settings.distance / 1.15, 8);
+    },
+    o: () => {
+      renderer.atmosphere.outline = !renderer.atmosphere.outline;
+    },
+    p: () => {
+      app.night = !app.night;
+      renderer.setPalette(app.night ? NIGHT_HEX : PALETTE_HEX);
+    },
+    t: () => {
+      app.hour = (app.hour + 2) % 24;
+    },
+    " ": () => renderer.motions.play(HERO_SLOT, MOTIONS.hop, app.last / 1000),
+    x: () => renderer.motions.play(HERO_SLOT, MOTIONS.spin, app.last / 1000),
+    c: () => renderer.motions.play(HERO_SLOT, MOTIONS.recoil, app.last / 1000, 0, -1),
+    b: () => {
+      app.stats.benchMs = renderer.measure(camera, app.batch, app.last / 1000);
+      writeHud(app);
+    },
+  };
+
+  window.addEventListener("keydown", (event) => {
+    const key = event.key.toLowerCase();
+    const chord = event.ctrlKey || event.metaKey;
+    const steps = app.editing
+      ? rover.press.bind(rover)
+      : (k: string) => walker.press(k, camera.settings.yaw);
+    if ((!chord && steps(key)) || (app.editing && editor.key(event))) {
+      event.preventDefault();
+      return;
+    }
+    const run = chord ? undefined : keys[key];
+    if (!run) return;
+    event.preventDefault();
+    run();
+  });
+  window.addEventListener("keyup", (event) => {
+    const key = event.key.toLowerCase();
+    walker.release(key);
+    rover.release(key);
+  });
+  window.addEventListener("blur", () => {
+    rover.releaseAll();
+    walker.releaseAll();
+  });
+}
+
+/**
+ * The fog backs off with the camera, so zooming out shows the map and not a
+ * wall of fog: gently in play (at the usual distance it is where it always
+ * was), and right out of the way while editing or measuring.
+ */
+function setFog(app: App): void {
+  const a = app.renderer.atmosphere;
+  const reach = app.camera.settings.distance * (app.stress || app.editing ? 2 : 0.65);
+  a.fogStart = Math.max(DEFAULT_ATMOSPHERE.fogStart, reach);
+  a.fogEnd = Math.max(DEFAULT_ATMOSPHERE.fogEnd, reach * 2.2);
+  app.renderer.applyAtmosphere();
+}
+
+/** The hour moves the sky; a grown world's things change, and the ones that burn light the frame. */
+function liven(app: App, now: number, dt: number): void {
+  app.hour = (app.hour + dt * app.hoursPerSecond) % 24;
+  applySky(app.hour, app.renderer.atmosphere);
+  app.renderer.lights.begin(app.goal[0], app.goal[2]);
+  const emitters = app.renderer.emitters;
+  emitters.begin();
+  // The hero kicks up dust while on the move.
+  const { walker } = app;
+  const moving = walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5;
+  if (moving) emitters.add(walker.x, walker.y, walker.z, EFFECTS.dust);
+  app.shots.emit(emitters, now / 1000);
+  if (!(app.living && app.drift)) return;
+  app.living.emit(emitters);
+  if (now - app.driftAt > 400) {
+    app.driftAt = now;
+    const changed = app.drift.step();
+    app.living.redraw(changed);
+    // What burns harder scorches more ground: a texel each, and no chunk is re-meshed.
+    for (const index of changed) {
+      const thing = app.things?.[index];
+      if (thing) scorchAround(app.ground, thing);
+    }
+  }
+  app.living.shine(app.renderer.lights);
+}
+
+function frame(app: App, editor: MountedEditor, now: number): void {
+  const { walker, rover, camera, renderer, batch, goal, stats, session } = app;
+  // The first timestamp can be earlier than the clock read at load.
+  const dt = Math.min(Math.max((now - app.last) / 1000, 0), 0.1);
+  app.last = now;
+  const began = performance.now();
+
+  walker.update(dt, camera.settings.yaw);
+  batch.move(0, walker.x, walker.y, walker.z);
+  // The hero's body is the world's when there is one; the stand-in tires and hungers otherwise.
+  const lived = app.world.port?.body?.();
+  const moving = walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5;
+  if (!lived) app.body.update(dt, moving);
+  app.status?.update(lived ?? app.body.view);
+  if (app.editing) {
+    rover.update(dt, camera.settings.yaw, camera.settings.distance);
+    vec3.set(goal, rover.x, rover.y, rover.z);
+    editor.track();
+  } else {
+    vec3.set(goal, walker.x, walker.y, walker.z);
+  }
+  liven(app, now, dt);
+  setFog(app);
+  camera.settings.yaw += (app.yawGoal - camera.settings.yaw) * Math.min(dt * 10, 1);
+  app.chunks.pump(goal[0], goal[2]);
+  camera.update(goal, dt, renderer.resize());
+  // Picking and drawing read the same camera, clock and packed motion slots.
+  renderer.motions.pack(now / 1000);
+  const pointed = app.play?.track(now / 1000) ?? null;
+  renderer.setCursor(app.editing ? session.cursor() : pointed);
+  renderer.draw(camera, batch, now / 1000);
+
+  if (app.changedAt > 0 && began - app.changedAt > DRAFT_AFTER_MS && !session.busy) {
+    app.changedAt = 0;
+    keepDraft(app.name, content(app));
+    app.note = `${app.name}: unsaved copy kept in this browser (ctrl s saves it to the repository)`;
+  }
+  stats.cpuMs += (performance.now() - began - stats.cpuMs) * 0.05;
+  stats.fps += (1 / Math.max(dt, 1e-4) - stats.fps) * 0.05;
+  stats.gpuMs = renderer.timer.latestMs;
+  stats.waiting = app.chunks.waiting;
+  if (now - app.hudAt > 500) {
+    app.hudAt = now;
+    writeHud(app);
+  }
+}
+
+const query = new URLSearchParams(location.search);
+loadWorld(query).then((loaded) => {
+  const app = build(loaded, query);
+  const { panel, editor } = mountEditing(app);
+  bindKeys(app, panel, editor);
+  app.status = new StatusDisplay();
+  const acts: ActRequest[] = [];
+  Object.assign(window, { __acts: acts });
+  app.play = mountPlay({
+    canvas: app.canvas,
+    camera: app.camera,
+    grid: app.session.world.grid,
+    walker: app.walker,
+    living: app.living,
+    glyphs: app.renderer.atmosphere,
+    motions: app.renderer.motions,
+    slotAt: (tile) => app.objects.slotAt(tile),
+    glyphAt: (tile) => app.objects.at(tile),
+    playing: () => !app.editing,
+    say: (text) => {
+      app.note = text;
+      writeHud(app);
+    },
+    // A stand-in for an act: the hero lunges at the thing, the thing shakes, and what comes off
+    // a thing of its element when it is struck is played once. How hard is the world's to say.
+    // It takes the path a resolved act will take (`play/world-link.ts`), with no changes to apply.
+    reach: (tile) => {
+      const actorTile = app.walker.tile;
+      const now = app.last / 1000;
+      app.link.show({ process: "force", actorTile, tile, level: STRIKE_LEVEL, now }, []);
+    },
+    world: () => app.world.port,
+    // A menu row's answers need no judge: they go to the world now and the outcome is shown.
+    intend: (request, answers, tile) => {
+      // Where the hero stands and the hour are the client's, and the world senses by them.
+      const standing = { where: [app.walker.tileX, app.walker.tileZ] as const, hour: app.hour };
+      const at = { actorTile: app.walker.tile, targetTile: tile, now: app.last / 1000, standing };
+      const said = perform(app.world.port, app.link, request, answers, at);
+      // What the hero is aware of now, as the world sensed it at the end of the act.
+      // A thing on the map is called what the map calls it; anything else, what its element is called.
+      const called = (source: string) => app.living?.thing(app.living.indexOf(source))?.name;
+      const sensed = app.world.port?.aware?.() ?? [];
+      const aware = sensed.map((one) => ({ ...one, name: called(one.source) ?? one.name }));
+      const notices = noticed(aware);
+      app.note = notices ? `${said}  |  ${notices}` : said;
+      writeHud(app);
+    },
+    // A typed line needs a judge to answer its questions, and none is attached, so the request is kept where
+    // a judge or a test can take it (`__acts`), and the HUD says what was handed over.
+    act: (request) => {
+      acts.push(request);
+      const { line, inReach } = request.state;
+      app.note = `"${line}" is ready for the judge: ${inReach.length} things in reach, ${request.questions.length} questions. No world is attached yet to resolve it.`;
+      writeHud(app);
+      console.log("act request", request);
+    },
+  });
+  // Handles for driving the page from a script: nothing in the client reads them.
+  Object.assign(window, {
+    __stats: app.stats,
+    __renderer: app.renderer,
+    __session: app.session,
+    __walker: app.walker,
+    __births: app.births.log,
+    __shots: app.shots,
+    __link: app.link,
+    __world: app.world,
+    // Another world can be attached from a script, for a test or a stand-in.
+    __attachWorld: (port: WorldPort) => {
+      app.world.port = port;
+    },
+    __living: app.living,
+    __ground: app.ground,
+    __chunks: app.chunks,
+  });
+  app.camera.snapTo(app.goal);
+  // One closure for the life of the page: the frame itself allocates nothing.
+  const tick = (now: number) => {
+    frame(app, editor, now);
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+});

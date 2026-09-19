@@ -1,0 +1,788 @@
+[
+  {
+    "id": "food-01",
+    "domain": "food",
+    "place": "A one-room hunting hut in autumn; meat from yesterday's kill has hung unwrapped near the doorway overnight, warm and humid.",
+    "initiator": "player",
+    "lines": ["eat the meat", "I'm starving, just eat it"],
+    "things": ["player", "meat", "hut"],
+    "outcome": "The meat has been sitting too long in warm, humid air and already smells slightly off, but a hungry player eats it anyway. It satisfies hunger in the moment with no immediate sign of harm. A few hours later cramps and vomiting set in as the bacteria that took hold overnight do their work, leaving the player weak and dehydrated for the rest of the day.",
+    "steps": [
+      {
+        "process": "spoil",
+        "agent": "time",
+        "patient": "meat",
+        "instrument": null,
+        "because": ["meat is raw", "meat is warm", "place is humid"],
+        "effects": ["meat gains rot", "meat loses freshness"],
+        "numbers": ["how many hours before meat this warm and humid turns"]
+      },
+      {
+        "process": "eat",
+        "agent": "player",
+        "patient": "meat",
+        "instrument": null,
+        "because": ["patient is spoiled", "agent is hungry"],
+        "effects": ["player hunger down", "consumes meat"],
+        "numbers": ["odds of illness from how spoiled the meat already was", "hours until symptoms show"]
+      },
+      {
+        "process": "sicken",
+        "agent": "rot",
+        "patient": "player",
+        "instrument": null,
+        "because": ["patient ate spoiled food", "rot carries harmful bacteria"],
+        "effects": ["player gains sick", "player fluid down"],
+        "numbers": ["how severe the illness is, from how spoiled the meat was"]
+      }
+    ],
+    "latent": ["how spoiled the meat already was, only found by smell or taste"],
+    "state_after": ["meat: eaten, gone", "player: hunger satisfied at first, then sick and weak a few hours later"],
+    "stress": "spoilage as a hidden property judged by smell and touch, not a countdown the player can see",
+    "temptation": "hardcode 'meat spoils after N hours' and 'eating spoiled meat = illness' as a rule about meat specifically"
+  },
+  {
+    "id": "food-02",
+    "domain": "food",
+    "place": "A dry, open campsite in summer; strips of venison hang on a rack in full sun to dry into jerky.",
+    "initiator": "player",
+    "lines": ["hang the meat to dry", "cut it thin and dry it over a few days"],
+    "things": ["player", "venison strips", "drying rack", "sun", "rain"],
+    "outcome": "Thin strips in steady sun and dry air lose moisture over several days and become safe, long-keeping jerky. Partway through, an unexpected rain soaks the half-dried strips and undoes much of the drying. Left damp afterward instead of being re-hung and finished, the strips grow mould instead of curing, ruining the batch nobody meant to ruin.",
+    "steps": [
+      {
+        "process": "dry",
+        "agent": "sun",
+        "patient": "venison strips",
+        "instrument": "drying rack",
+        "because": ["patient is wet", "agent is hot", "place is dry"],
+        "effects": ["venison strips loses moisture", "venison strips gains dryness"],
+        "numbers": ["how many days of sun are needed to dry meat cut this thin"]
+      },
+      {
+        "process": "rain",
+        "agent": "weather",
+        "patient": "venison strips",
+        "instrument": null,
+        "because": ["place is exposed", "weather is wet"],
+        "effects": ["venison strips gains moisture", "venison strips loses dryness"],
+        "numbers": ["how much of the drying so far the rain undoes"]
+      },
+      {
+        "process": "mould",
+        "agent": "time",
+        "patient": "venison strips",
+        "instrument": null,
+        "because": ["patient is damp", "patient is organic"],
+        "effects": ["venison strips gains mould", "creates spoiled meat"],
+        "numbers": ["how many more damp hours before mould takes hold"]
+      }
+    ],
+    "latent": ["whether rain comes before the drying finishes, not known until it does"],
+    "state_after": ["venison strips: ruined by mould, inedible", "drying rack: holds mouldy strips instead of jerky"],
+    "stress": "a multi-day process that can be interrupted partway and land in a worse outcome than either finishing or never starting",
+    "temptation": "write a rule specifically for 'venison drying in rain' instead of general wetness undoing dryness and enabling mould on anything organic"
+  },
+  {
+    "id": "food-03",
+    "domain": "food",
+    "place": "A cold shoreline hut at the start of winter; the player has just landed a good catch of fish and needs it to last the season.",
+    "initiator": "player",
+    "lines": ["gut the fish", "pack it in salt for winter"],
+    "things": ["player", "fish", "salt", "barrel"],
+    "outcome": "Gutting removes the organs that would rot fastest, salting draws out the remaining moisture, and packing the salted fish in a cold barrel keeps it edible for weeks. One fish in the catch was gutted carelessly, though, with a scrap of gut left inside; under the salt it rots anyway, invisible from outside the barrel until it is opened weeks later and the smell gives it away among otherwise good fish.",
+    "steps": [
+      {
+        "process": "gut",
+        "agent": "player",
+        "patient": "fish",
+        "instrument": "knife",
+        "because": ["patient has organs", "organs rot fast"],
+        "effects": ["fish loses organs", "creates offal"],
+        "numbers": ["how much longer gutted fish keeps than ungutted"]
+      },
+      {
+        "process": "salt",
+        "agent": "player",
+        "patient": "fish",
+        "instrument": "salt",
+        "because": ["instrument draws out moisture", "patient is raw"],
+        "effects": ["fish loses moisture", "fish gains salted"],
+        "numbers": ["how much salt per fish is needed to preserve it"]
+      },
+      {
+        "process": "store",
+        "agent": "player",
+        "patient": "fish",
+        "instrument": "barrel",
+        "because": ["place is cold", "patient is salted"],
+        "effects": ["moves fish to barrel", "fish quantity up"],
+        "numbers": ["how many weeks salted fish keeps in cold storage"]
+      }
+    ],
+    "latent": ["whether every fish was gutted cleanly before salting, not checked until the barrel is opened weeks later"],
+    "state_after": ["fish: salted and stored, one fish among them rotten under the salt from a missed scrap of gut"],
+    "stress": "a preservation process whose success is only checkable much later, and can fail silently on one item among many that succeeded",
+    "temptation": "special-case 'fish plus salt equals preserved' without modeling that a poorly gutted fish rots under the salt anyway"
+  },
+  {
+    "id": "food-04",
+    "domain": "food",
+    "place": "A small smokehouse hut with poor ventilation, built for curing meat over a smouldering fire.",
+    "initiator": "player",
+    "lines": ["build a smoky fire and hang the meat", "I'll tend it myself all day"],
+    "things": ["player", "meat", "smokehouse", "green wood", "fire"],
+    "outcome": "Damp, green wood smoulders instead of burning clean, throwing off heavy smoke that cures the hanging meat well over the day. The same smoke fills the poorly vented hut where the player stays to tend it, and by evening the meat is beautifully cured while the player is nauseous and headachy from hours of breathing the fumes in an enclosed space, a cost nobody set out to pay.",
+    "steps": [
+      {
+        "process": "burn",
+        "agent": "player",
+        "patient": "green wood",
+        "instrument": "fire",
+        "because": ["patient is damp", "damp wood smoulders instead of burning clean"],
+        "effects": ["creates smoke", "consumes green wood"],
+        "numbers": ["how much smoke a smouldering damp fire makes over a day"]
+      },
+      {
+        "process": "smoke",
+        "agent": "smoke",
+        "patient": "meat",
+        "instrument": "smokehouse",
+        "because": ["patient is raw", "smoke is preserving"],
+        "effects": ["meat loses moisture", "meat gains cured"],
+        "numbers": ["how many hours of smoke cures meat this size"]
+      },
+      {
+        "process": "breathe",
+        "agent": "smoke",
+        "patient": "player",
+        "instrument": null,
+        "because": ["place is enclosed", "smoke is thick", "player stayed inside tending it"],
+        "effects": ["player gains sick", "player breath down"],
+        "numbers": ["how long before smoke this thick in an enclosed space sickens a person"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["meat: smoked, cured, keeps for weeks", "player: nauseous, headache, needs fresh air"],
+    "stress": "a process that is good for one thing in the scene and harmful to a person nearby, from the very same cause",
+    "temptation": "hardcode smoking a smokehouse as simply safe, instead of letting the same smoke that cures meat also harm anyone breathing it in an enclosed space"
+  },
+  {
+    "id": "food-05",
+    "domain": "food",
+    "place": "A damp stone cellar under a farmhouse, storing a loaf of bread nobody has touched in days.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["bread", "cellar", "rats"],
+    "outcome": "With nobody touching it, the loaf sits in damp cellar air for days until mould visibly covers it. Rats that have been slipping into the cellar unseen find and eat the mouldy bread anyway, driven by hunger rather than caution. A day or two later one of the rats sickens and dies from the mould's toxins, a small death nobody was watching for that only shows up after the fact.",
+    "steps": [
+      {
+        "process": "mould",
+        "agent": "damp air",
+        "patient": "bread",
+        "instrument": null,
+        "because": ["place is damp", "bread is organic", "bread is untouched"],
+        "effects": ["bread gains mould", "bread loses freshness"],
+        "numbers": ["how many days of damp air before mould becomes visible"]
+      },
+      {
+        "process": "eat",
+        "agent": "rats",
+        "patient": "bread",
+        "instrument": null,
+        "because": ["rats is hungry", "bread is reachable"],
+        "effects": ["rats hunger down", "consumes bread"],
+        "numbers": ["odds a hungry rat eats mouldy food anyway"]
+      },
+      {
+        "process": "poison",
+        "agent": "mould",
+        "patient": "rats",
+        "instrument": null,
+        "because": ["mould is toxic", "rats ate enough of it"],
+        "effects": ["rats gains sick", "creates dead rat"],
+        "numbers": ["how much mould toxin it takes to kill a rat, over how many days"]
+      }
+    ],
+    "latent": ["that rats have been visiting the cellar at all, unnoticed until the bread is gone or a dead rat turns up"],
+    "state_after": ["bread: gone, eaten", "cellar: a dead rat found in the corner, days later"],
+    "stress": "a chain that starts and ends with nobody watching, only explainable after the fact from what is left behind",
+    "temptation": "special-case 'bread in a damp cellar goes mouldy' instead of general dampness plus time acting on anything organic, and mould as generally toxic to whatever eats it"
+  },
+  {
+    "id": "food-06",
+    "domain": "food",
+    "place": "A mixed forest floor after rain; a cluster of unfamiliar mushrooms has come up near the path.",
+    "initiator": "player",
+    "lines": ["eat the mushrooms", "they look fine, just eat some"],
+    "things": ["player", "mushrooms"],
+    "outcome": "The player eats unidentified mushrooms without checking them, and this particular kind gives no warning taste or smell. Nothing seems wrong at first. Several hours later severe stomach pain and vomiting begin, and the deeper harm, to organs that quietly absorbed the toxin, does not show itself until a day or two after that, well past when the first symptoms seemed to be the whole story.",
+    "steps": [
+      {
+        "process": "eat",
+        "agent": "player",
+        "patient": "mushrooms",
+        "instrument": null,
+        "because": ["patient looks edible", "agent is hungry"],
+        "effects": ["player hunger down", "consumes mushrooms"],
+        "numbers": ["odds this species is the poisonous look-alike, given how common it is here"]
+      },
+      {
+        "process": "poison",
+        "agent": "mushrooms",
+        "patient": "player",
+        "instrument": null,
+        "because": ["patient is poisonous", "poison is slow-acting"],
+        "effects": ["player gains sick", "player health down"],
+        "numbers": ["hours until the first symptoms show", "days until the deeper harm shows"]
+      }
+    ],
+    "latent": ["whether this particular mushroom was the poisonous look-alike, not knowable by looking"],
+    "state_after": ["player: fine-feeling at first, then badly ill hours later, and still recovering days after that"],
+    "stress": "a poison with no immediate warning sign and harm that outlasts the symptoms that first announce it",
+    "temptation": "hardcode a specific mushroom species and a fixed damage number instead of a general poisonous property with a delayed, graded effect"
+  },
+  {
+    "id": "food-07",
+    "domain": "food",
+    "place": "A hillside pasture where a family keeps a milking goat; a patch of bitter, dark-leaved weed grows unchecked at the fence line.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["goat", "poisonous weed", "pasture", "family", "milk"],
+    "outcome": "The goat grazes the weed in among the grass with nobody watching, and it sickens over the following day. Nobody connects the goat's dull mood to the fence line, so it gets milked as usual, and the toxin passes into the milk. The family drinks it that evening and falls ill themselves hours later, a second, delayed harm from a plant none of them ever touched.",
+    "steps": [
+      {
+        "process": "eat",
+        "agent": "goat",
+        "patient": "poisonous weed",
+        "instrument": null,
+        "because": ["goat is grazing", "poisonous weed is unfenced"],
+        "effects": ["goat hunger down", "consumes poisonous weed"],
+        "numbers": ["odds a grazing animal eats the poisonous weed among the grass"]
+      },
+      {
+        "process": "poison",
+        "agent": "poisonous weed",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["poisonous weed is toxic to livestock"],
+        "effects": ["goat gains sick", "goat health down"],
+        "numbers": ["hours until the goat visibly shows illness"]
+      },
+      {
+        "process": "milk",
+        "agent": "family",
+        "patient": "goat",
+        "instrument": null,
+        "because": ["goat is due for milking", "family did not know goat was sick"],
+        "effects": ["creates milk", "transfers toxin from goat to milk"],
+        "numbers": ["how much of the toxin passes into the milk"]
+      },
+      {
+        "process": "drink",
+        "agent": "family",
+        "patient": "milk",
+        "instrument": null,
+        "because": ["milk looks normal", "family is thirsty"],
+        "effects": ["family gains sick"],
+        "numbers": ["hours until the milk-drinkers fall ill after the goat did"]
+      }
+    ],
+    "latent": ["that the goat grazed on the weed at all, unseen at the fence line"],
+    "state_after": ["goat: sick, off its feed", "milk: tainted, already drunk by the family", "family: ill, with no obvious cause to them"],
+    "stress": "a poison that travels from plant to animal to person along an ordinary chain nobody set up on purpose",
+    "temptation": "special-case 'this weed poisons goats' without letting the toxin also transfer through milk to whoever drinks it"
+  },
+  {
+    "id": "food-08",
+    "domain": "food",
+    "place": "A dry trail in summer heat; a shrinking, still pond, green-tinged, is the only water for miles.",
+    "initiator": "player",
+    "lines": ["just drink it, I'm so thirsty"],
+    "things": ["player", "pond water"],
+    "outcome": "Desperate for water, the player drinks from the stagnant pond, and it quenches thirst at once. Hours later cramping and diarrhea set in from whatever the still water was carrying, and the fluid lost to sickness leaves the player thirstier and weaker than before drinking at all, the fix having deepened the problem it was meant to solve.",
+    "steps": [
+      {
+        "process": "drink",
+        "agent": "player",
+        "patient": "pond water",
+        "instrument": null,
+        "because": ["pond water is standing", "player is thirsty"],
+        "effects": ["player thirst down", "consumes pond water"],
+        "numbers": ["odds standing water this still carries something harmful"]
+      },
+      {
+        "process": "sicken",
+        "agent": "pond water",
+        "patient": "player",
+        "instrument": null,
+        "because": ["pond water is stagnant", "stagnant water breeds harm"],
+        "effects": ["player gains sick", "player fluid down"],
+        "numbers": ["hours until symptoms begin", "how much fluid is lost to the sickness afterward"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: thirst gone for a while, then sick and more dehydrated by evening"],
+    "stress": "a fix that solves the immediate need while making the underlying problem it was meant to solve worse",
+    "temptation": "hardcode 'pond water equals bad' as a flag instead of a general still-versus-moving property that applies to any water source"
+  },
+  {
+    "id": "food-09",
+    "domain": "food",
+    "place": "A larder shelf; a clay jar of crushed berries and honey, sealed tight, set aside to ferment weeks ago.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["clay jar", "berries and honey", "larder", "stray animal"],
+    "outcome": "Fermentation keeps working inside the sealed jar with nobody tending it, and the gas it gives off has nowhere to go. Over several days pressure builds until it cracks the seal and the jar bursts on its own, spraying fermented mess across the larder. The strong smell draws a stray scavenging animal in from outside, an unintended visitor nobody invited over a jar nobody was even watching.",
+    "steps": [
+      {
+        "process": "ferment",
+        "agent": "time",
+        "patient": "berries and honey",
+        "instrument": "clay jar",
+        "because": ["berries and honey is sugary", "clay jar is sealed", "place is warm enough"],
+        "effects": ["berries and honey gains alcohol", "creates gas"],
+        "numbers": ["how many days of fermenting before pressure becomes a problem"]
+      },
+      {
+        "process": "burst",
+        "agent": "gas",
+        "patient": "clay jar",
+        "instrument": null,
+        "because": ["clay jar is sealed", "gas quantity up"],
+        "effects": ["clay jar loses seal", "creates mess", "consumes clay jar"],
+        "numbers": ["how much gas pressure the sealed jar can hold before it fails"]
+      },
+      {
+        "process": "scavenge",
+        "agent": "stray animal",
+        "patient": "mess",
+        "instrument": null,
+        "because": ["mess smells strong", "stray animal is nearby"],
+        "effects": ["stray animal hunger down", "moves stray animal to larder"],
+        "numbers": ["how far the smell draws a scavenger from"]
+      }
+    ],
+    "latent": ["how far along the fermentation had gotten, unknown until the jar is opened or bursts on its own"],
+    "state_after": ["clay jar: broken, contents lost", "larder: sticky mess and animal tracks"],
+    "stress": "a slow process that keeps running unattended until it forces itself on someone's attention",
+    "temptation": "special-case 'sealed jar of fermenting fruit explodes' instead of general gas buildup inside any sealed container of something fermenting"
+  },
+  {
+    "id": "food-10",
+    "domain": "food",
+    "place": "A hunting trail, third day without a catch; the player's boots and leather belt are the only leather at hand.",
+    "initiator": "player",
+    "lines": ["eat my belt", "chew on the leather, better than nothing"],
+    "things": ["player", "leather belt"],
+    "outcome": "Leather is not food: the player can chew and swallow strips of the belt, but there is nothing in it the body can draw nourishment from, so real hunger returns almost as fast as before. The tough, undigested strips sit heavy, giving cramps and a bloated feeling for a while, and a poorly chewed piece going down risks catching in the throat, all for no real gain.",
+    "steps": [
+      {
+        "process": "eat",
+        "agent": "player",
+        "patient": "leather belt",
+        "instrument": null,
+        "because": ["leather belt is inedible", "player is desperate"],
+        "effects": ["consumes leather belt", "player fullness up"],
+        "numbers": ["how long the false fullness lasts before hunger returns", "odds a poorly chewed piece catches in the throat going down"]
+      },
+      {
+        "process": "digest",
+        "agent": "player",
+        "patient": "leather belt",
+        "instrument": null,
+        "because": ["leather belt has no nourishment", "leather belt is not food"],
+        "effects": ["player gains discomfort", "player hunger up"],
+        "numbers": ["how soon real hunger returns after the false fullness fades"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: hungry again within the hour, uncomfortable, belt gone", "leather belt: gone, chewed and swallowed"],
+    "stress": "an action that satisfies the verb 'eat' without satisfying the need behind it, because the thing has no food in it",
+    "temptation": "hardcode a whitelist of 'edible things' instead of a general nourishment property that leather simply lacks"
+  },
+  {
+    "id": "body-01",
+    "domain": "body",
+    "place": "Deep pine forest at midday; the player is splitting firewood alone when the axe glances off a knot and bites into a shin.",
+    "initiator": "player",
+    "lines": ["fix my leg", "wrap it tight, quick"],
+    "things": ["player", "axe", "cloth strip"],
+    "outcome": "The axe leaves an open, steadily bleeding cut on the shin. Wrapping it tightly with a cloth strip, done one-handed and in a hurry, slows the bleeding enough to walk, but the wrap is loose at the edges. Within an hour of walking on it the wrap works itself free and the bleeding starts again, needing a proper rewrap and rest to actually hold.",
+    "steps": [
+      {
+        "process": "cut",
+        "agent": "axe",
+        "patient": "player",
+        "instrument": null,
+        "because": ["axe is sharp", "player's leg was in the path"],
+        "effects": ["player gains wound", "player gains bleeding"],
+        "numbers": ["how deep the cut is", "how fast it bleeds"]
+      },
+      {
+        "process": "bandage",
+        "agent": "player",
+        "patient": "player",
+        "instrument": "cloth strip",
+        "because": ["player is bleeding", "player is rushed and one-handed"],
+        "effects": ["player loses bleeding", "player gains wrapped"],
+        "numbers": ["how well a rushed one-handed wrap holds compared to a careful one"]
+      },
+      {
+        "process": "strain",
+        "agent": "walking",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player is loosely wrapped", "player's leg is moving"],
+        "effects": ["player loses wrapped", "player gains bleeding"],
+        "numbers": ["how much movement it takes to work a loose wrap free"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: shin wound rebleeding after an hour of walking, needs a proper rewrap and rest"],
+    "stress": "a fix that works only as well as the care put into it, and can be undone by ordinary movement afterward",
+    "temptation": "hardcode 'bandage equals wound fixed' instead of a bandage quality that depends on care taken and can come loose"
+  },
+  {
+    "id": "body-02",
+    "domain": "body",
+    "place": "A narrow gorge at dusk; the player's sword has been left resting in the campfire and pulled out coated in burning oil for a fight.",
+    "initiator": "player",
+    "lines": ["light the sword and cut him"],
+    "things": ["player", "burning oil-coated sword", "attacker"],
+    "outcome": "The blade is hot and briefly alight, and cutting flesh with it opens a wound while also burning the skin right at the edges. But the cut itself takes only a fraction of a second, far too brief for the heat to seal the blood vessels the way a held, steady cautery would. The wound still bleeds, now alongside a burn, and the attacker's clothing near the cut catches light too, a side effect nobody was aiming for.",
+    "steps": [
+      {
+        "process": "coat",
+        "agent": "player",
+        "patient": "sword",
+        "instrument": "oil",
+        "because": ["oil is flammable", "sword was resting in the fire"],
+        "effects": ["sword gains coating", "sword gains burning"],
+        "numbers": ["how long the oil keeps burning on the blade"]
+      },
+      {
+        "process": "cut",
+        "agent": "player",
+        "patient": "attacker",
+        "instrument": "burning oil-coated sword",
+        "because": ["burning oil-coated sword is sharp", "burning oil-coated sword is hot", "attacker is soft flesh"],
+        "effects": ["attacker gains wound", "attacker gains bleeding", "attacker gains burn"],
+        "numbers": ["how deep the cut is", "how much heat a blade passing this fast actually transfers"]
+      },
+      {
+        "process": "ignite",
+        "agent": "burning oil-coated sword",
+        "patient": "attacker's clothing",
+        "instrument": null,
+        "because": ["attacker's clothing is flammable", "burning oil-coated sword touched it while alight"],
+        "effects": ["attacker's clothing gains burning"],
+        "numbers": ["odds the brief contact is enough to catch cloth"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["attacker: cut, bleeding, burned at the wound edges, clothing smouldering", "sword: still alight, losing oil"],
+    "stress": "the tempting shortcut that heat plus a cut should equal a sealed wound, when contact time is what actually decides it",
+    "temptation": "hardcode 'burning weapon cuts equals cauterized, no bleeding' instead of weighing how long the heat actually stays against the wound"
+  },
+  {
+    "id": "body-03",
+    "domain": "body",
+    "place": "A rocky scree slope; the player slipped and fell several feet onto uneven ground.",
+    "initiator": "player",
+    "lines": ["fix my leg", "splint it with the branches"],
+    "things": ["player", "branches", "cloth"],
+    "outcome": "The fall snaps a bone in the lower leg. Splinting it with branches and cloth binds the leg roughly straight and stops the worst movement, but it does not set the bone properly. Swelling builds around the break over the following day regardless, and the leg needs real time immobilized and resting to knit, with a real risk of healing slightly crooked if walked on too soon.",
+    "steps": [
+      {
+        "process": "fall",
+        "agent": "gravity",
+        "patient": "player",
+        "instrument": "scree slope",
+        "because": ["scree slope is unstable", "player lost footing"],
+        "effects": ["player gains broken bone", "player gains pain"],
+        "numbers": ["how hard the fall was, whether the bone snapped or only bruised"]
+      },
+      {
+        "process": "splint",
+        "agent": "player",
+        "patient": "player",
+        "instrument": "branches and cloth",
+        "because": ["player is broken", "branches and cloth is rigid enough to brace"],
+        "effects": ["player gains braced", "player free movement down"],
+        "numbers": ["how well an improvised splint holds compared to a proper one"]
+      },
+      {
+        "process": "swell",
+        "agent": "time",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player is broken", "broken bones swell as they bruise"],
+        "effects": ["player gains swelling"],
+        "numbers": ["how many hours until the swelling peaks"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: leg braced but not properly set, swollen, unable to bear weight for days"],
+    "stress": "a fix that stabilizes without healing, where the real cost of proper healing time is paid later, not now",
+    "temptation": "hardcode 'splint equals leg fixed' instead of a bone that stays broken under a rough brace until enough rest passes"
+  },
+  {
+    "id": "body-04",
+    "domain": "body",
+    "place": "A warm, cramped hut; the player's own cut on the forearm, three days old, was bandaged once and forgotten.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["player", "old wound", "herbs"],
+    "outcome": "Nobody tends the wound for days, and under the bandage the edges turn red and swollen, warmth and puffiness setting in as an infection nobody watched for. Once noticed and treated with crushed herbs found nearby, the poultice eases the swelling and some of the pain, but it does not clear an infection already this advanced, and a fever follows a day later, needing more than herbs to fully turn back.",
+    "steps": [
+      {
+        "process": "infect",
+        "agent": "bacteria",
+        "patient": "old wound",
+        "instrument": null,
+        "because": ["old wound was never cleaned", "old wound stayed covered and damp"],
+        "effects": ["old wound gains infection", "old wound gains swelling"],
+        "numbers": ["how many untended days before infection sets in"]
+      },
+      {
+        "process": "treat",
+        "agent": "player",
+        "patient": "old wound",
+        "instrument": "herbs",
+        "because": ["herbs has healing property", "old wound is infected"],
+        "effects": ["old wound swelling down", "player pain down"],
+        "numbers": ["how much a poultice helps against infection this advanced"]
+      },
+      {
+        "process": "fever",
+        "agent": "infection",
+        "patient": "player",
+        "instrument": null,
+        "because": ["old wound infection quantity up", "player is fighting it"],
+        "effects": ["player gains fever"],
+        "numbers": ["how many hours after treatment the fever still comes on"]
+      }
+    ],
+    "latent": ["how bad the infection had gotten under the bandage, not seen until it is unwrapped"],
+    "state_after": ["player: feverish, wound still angry-looking despite the herbs, needing more than a poultice now"],
+    "stress": "herbs that help without curing, so a partial remedy can look like it worked right up until the fever proves it didn't",
+    "temptation": "hardcode 'herbs on wound equals cured' instead of herbs reducing severity without guaranteeing a cure"
+  },
+  {
+    "id": "body-05",
+    "domain": "body",
+    "place": "A festival night around the fire; a jug of last month's fermented berry wine gets passed around.",
+    "initiator": "player",
+    "lines": ["drink some", "have another"],
+    "things": ["player", "fermented wine", "fire"],
+    "outcome": "Cup after cup of the fermented wine leaves the player warm, loud, and increasingly clumsy, judgment loosening with each round, and stumbling near the fire becomes a real risk by the end of the night. The alcohol clears from the body over the following hours, but the next morning brings a pounding head and a raw stomach, the delayed price for the night before.",
+    "steps": [
+      {
+        "process": "drink",
+        "agent": "player",
+        "patient": "fermented wine",
+        "instrument": null,
+        "because": ["fermented wine has alcohol", "player kept drinking"],
+        "effects": ["player gains drunk", "player coordination down"],
+        "numbers": ["how many cups before the player is unsteady, from how strong the wine is"]
+      },
+      {
+        "process": "recover",
+        "agent": "time",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player is drunk", "body clears alcohol over hours"],
+        "effects": ["player loses drunk", "player gains headache"],
+        "numbers": ["how many hours until sober", "how bad the morning-after is, from how much was drunk"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: sober by morning but hungover, slow and unwell for a few hours"],
+    "stress": "a state that changes what a person can reliably do while it lasts, with a delayed cost the next day",
+    "temptation": "hardcode 'drinking wine equals drunk' as a flag instead of a graded state that scales with how much was drunk"
+  },
+  {
+    "id": "body-06",
+    "domain": "body",
+    "place": "A high moor at night in early winter; the player fell asleep in the open without building a proper shelter or fire.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["player", "moor", "cold night air"],
+    "outcome": "With nobody acting, the cold works on the sleeping player through the night. Shivering starts first, then fades as core temperature drops further, which is the dangerous part, since the shivering stopping can look like recovering when it is actually worse. Left long enough with nobody checking, this could kill; found and warmed in time, it costs a sick, sluggish day afterward instead.",
+    "steps": [
+      {
+        "process": "chill",
+        "agent": "cold night air",
+        "patient": "player",
+        "instrument": null,
+        "because": ["moor is exposed", "player is asleep and not moving", "cold night air is cold"],
+        "effects": ["player loses warmth", "player gains shivering"],
+        "numbers": ["how fast body heat drops with no shelter or fire, from how cold the night is"]
+      },
+      {
+        "process": "chill",
+        "agent": "cold night air",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player warmth quantity down", "cold night air exposure continuing"],
+        "effects": ["player loses shivering", "player gains dangerous cold"],
+        "numbers": ["how many hours of exposure before shivering stops being protective and starts being a bad sign"]
+      }
+    ],
+    "latent": ["how cold the player actually got, not known until someone checks on them or they wake"],
+    "state_after": ["player: dangerously cold, barely shivering, needs warming urgently"],
+    "stress": "a worsening condition whose visible warning sign disappears exactly when the danger is greatest",
+    "temptation": "hardcode 'cold night equals take damage' instead of a body-heat state that can pass through a misleadingly quiet stage"
+  },
+  {
+    "id": "body-07",
+    "domain": "body",
+    "place": "An open scrubland trail at high summer noon; the player has been walking for hours with an empty waterskin.",
+    "initiator": "player",
+    "lines": ["keep walking", "push on, we're nearly there"],
+    "things": ["player", "sun", "empty waterskin"],
+    "outcome": "Hours of heat and exertion with no water to replace what is sweated out bring on dizziness, an early warning that pushing on instead of resting in shade ignores. The player keeps going rather than stopping, and eventually collapses on the trail before reaching anywhere, a forced stop that costs far more time than resting earlier would have.",
+    "steps": [
+      {
+        "process": "sweat",
+        "agent": "sun",
+        "patient": "player",
+        "instrument": null,
+        "because": ["place is hot", "player is exerting"],
+        "effects": ["player fluid down", "player gains heat"],
+        "numbers": ["how much fluid is lost per hour of walking in this heat"]
+      },
+      {
+        "process": "overheat",
+        "agent": "heat",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player fluid quantity down", "player kept walking instead of resting"],
+        "effects": ["player gains dizziness", "player fluid down"],
+        "numbers": ["how many hours of this before collapse"]
+      },
+      {
+        "process": "collapse",
+        "agent": "exhaustion",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player fluid is critically low", "player pushed past the warning signs"],
+        "effects": ["player gains collapsed", "player loses consciousness"],
+        "numbers": ["how close to shelter or water the player was when it happened"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: collapsed on the trail, needs shade, water and time before moving again"],
+    "stress": "ignoring an early warning sign turns a recoverable problem into a forced stop",
+    "temptation": "hardcode 'walking in heat equals damage per hour' instead of a fluid and heat state that only turns dangerous past a threshold, worsened by not resting"
+  },
+  {
+    "id": "body-08",
+    "domain": "body",
+    "place": "A hunting camp; a companion has a deep bleeding gash from a boar's tusk that a bandage alone can't stop.",
+    "initiator": "player",
+    "lines": ["heat the knife and cauterize it"],
+    "things": ["player", "companion", "knife", "fire"],
+    "outcome": "The knife is heated properly in the fire until glowing, then held steadily against the bleeding wound, unlike a passing cut. Because the contact is sustained rather than brief, this genuinely seals the smaller vessels and stops the worst of the bleeding, at the cost of a real burn injury layered onto the wound, and pain severe enough the companion needs holding down. The burn itself needs its own care afterward, or it risks turning septic in the following days.",
+    "steps": [
+      {
+        "process": "heat",
+        "agent": "player",
+        "patient": "knife",
+        "instrument": "fire",
+        "because": ["knife is metal", "fire is hot enough"],
+        "effects": ["knife gains heat"],
+        "numbers": ["how long in the fire until the blade is hot enough to cauterize"]
+      },
+      {
+        "process": "cauterize",
+        "agent": "player",
+        "patient": "companion",
+        "instrument": "hot knife",
+        "because": ["hot knife is scorching", "hot knife is held steady against the wound", "companion is bleeding"],
+        "effects": ["companion loses bleeding", "companion gains burn", "companion gains pain"],
+        "numbers": ["how long the blade must stay in contact to seal the vessels", "odds of a burn infection afterward"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["companion: bleeding stopped, but with a bad burn on top of the wound, in severe pain, needing the burn tended over the coming days"],
+    "stress": "a treatment that genuinely works, unlike the sword-cut version, because it trades sustained contact for a real, costly burn",
+    "temptation": "hardcode 'hot metal to wound equals cauterized, no downside' instead of weighing contact time against the burn it also causes"
+  },
+  {
+    "id": "body-09",
+    "domain": "body",
+    "place": "A mountain pass; the player has been marching for two days and a night with barely any sleep to outrun bad weather.",
+    "initiator": "player",
+    "lines": ["keep going, no time to stop"],
+    "things": ["player", "mountain pass"],
+    "outcome": "Pushing through without sleep, the player's judgment and coordination degrade the longer it goes on. Eventually a stumble on the uneven pass becomes a near-fall that a rested person would have caught easily, forcing the very stop that was being avoided and losing more time in the end than sleeping earlier would have cost.",
+    "steps": [
+      {
+        "process": "exhaust",
+        "agent": "time",
+        "patient": "player",
+        "instrument": null,
+        "because": ["player has not slept", "player keeps exerting"],
+        "effects": ["player gains exhaustion", "player alertness down"],
+        "numbers": ["how many hours awake before judgment and balance start to suffer"]
+      },
+      {
+        "process": "stumble",
+        "agent": "exhaustion",
+        "patient": "player",
+        "instrument": "mountain pass",
+        "because": ["player alertness quantity down", "mountain pass is uneven"],
+        "effects": ["player gains injury risk", "player footing down"],
+        "numbers": ["odds an exhausted person misjudges a step here that a rested one would not"]
+      }
+    ],
+    "latent": [],
+    "state_after": ["player: forced to stop and rest after nearly falling, having lost more time than sleeping earlier would have cost"],
+    "stress": "pushing past a bodily need instead of paying it, which ends up costing more time than the need itself would have",
+    "temptation": "hardcode 'no sleep for N hours equals stat penalty' instead of a compounding exhaustion state that creates its own accidents"
+  },
+  {
+    "id": "body-10",
+    "domain": "body",
+    "place": "A warm forest clearing where a deer, killed by a wolf and abandoned mid-meal, lies in the sun.",
+    "initiator": "world",
+    "lines": [],
+    "things": ["deer corpse", "clearing", "flies", "wolves and a bear"],
+    "outcome": "Nobody touches the carcass, but it does not stay still: warmth speeds the rot, flies arrive within the day, and by the second day the smell has drawn more wolves and a bear in from further off than the one that made the original kill, an unintended pull of danger into the clearing that started from an animal nobody was even watching.",
+    "steps": [
+      {
+        "process": "rot",
+        "agent": "warmth",
+        "patient": "deer corpse",
+        "instrument": null,
+        "because": ["deer corpse is dead flesh", "clearing is warm and sunny"],
+        "effects": ["deer corpse gains rot", "creates smell"],
+        "numbers": ["how many hours of warmth before the corpse turns and starts smelling"]
+      },
+      {
+        "process": "scavenge",
+        "agent": "flies",
+        "patient": "deer corpse",
+        "instrument": null,
+        "because": ["deer corpse is rotting", "flies is drawn to rot"],
+        "effects": ["deer corpse loses flesh", "creates maggots"],
+        "numbers": ["how soon flies find a rotting carcass in the open"]
+      },
+      {
+        "process": "draw",
+        "agent": "smell",
+        "patient": "wolves and a bear",
+        "instrument": null,
+        "because": ["smell quantity up", "wolves and a bear is hungry"],
+        "effects": ["moves wolves and a bear to clearing"],
+        "numbers": ["how far a strong smell of rot carries and draws predators from"]
+      }
+    ],
+    "latent": ["that more than one predator is now within smelling range of the clearing, unknown until they arrive"],
+    "state_after": ["clearing: rotting carcass, flies, and now wolves and a bear drawn in, more dangerous than before"],
+    "stress": "an ordinary process with a side effect far bigger and further-reaching than the process itself",
+    "temptation": "hardcode 'corpse rots after N hours' without letting the smell it produces pull in creatures as its own general effect"
+  }
+]

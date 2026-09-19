@@ -1,0 +1,192 @@
+[
+  {
+    "id": "craft-01",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "a making act that leaves S15 by the actor's haste (wedge, shape)",
+      "heat finding S15 and water held inside (steam in a pocket)",
+      "a fire's fuel spent by the minutes of heat it gives",
+      "what force removes becoming a thing",
+      "things born by search taking their element's moist"
+    ],
+    "note": "Chain breaks at step 1 and again at step 5. Derives: a search of a clay-bearing pit turns clay up; a thrown pot is damp after a day and dry and set hard in two (hardness 0.5 to 3); a sound pot reaches 4.5+ in the kiln whole; the flawed pot reads the same as the sound one. RULE ERRORS: (1) body.ts search births things with FRESH wetness 0 and ignores `moist`, so dug clay is bone dry (and would set on the first drift anywhere mild); (2) force.ts `cutting` with aim surface consumes 0.127 of a whole clay bank per spade stroke and creates nothing, so dug clay vanishes (through-aim only scars the bank); (3) heat.ts takes nothing from a burning source's fuel however many minutes it gives: 30 logs at 1800 min fuel fire two 8-hour kilns and still hold 1800, while a drift of the same hours burns wood but cools the pots to the yard. Not derived: the flawed pot does not crack (heat reads neither S15 nor trapped water; a pot put in at wetness 2 also fires clean). Wedging and shaping are unbuilt. Side note: drying alone sets clay for good (as M5 says), so a dried pot and a fired pot are the same thing to the engine and firing adds nothing."
+  },
+  {
+    "id": "craft-02",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "a blow that reads the work's temperature (M2) and deforms instead of harming",
+      "deformation (bent, warped) between whole and cracked",
+      "a cut that parts a thing into two amounts",
+      "join (forge weld)",
+      "manner on a heat act (careless quench)",
+      "cold work writing S15"
+    ],
+    "note": "Chain breaks at step 2. Derives: 30 min in burning charcoal takes the bar to 4.99 and M2 softens it (hardness 4 to 3.2); a chisel bites 0.83 into the hot bar against 0.2 cold; the quench cools the blade in 2 min and tempers it (toughness 4 to 3, strength 4.2 to 3.9), so 'weaker than one forged clean' comes from the quench. RULE ERROR: force.ts `blow`/`denting` never read the work's heat: 20 blows at effort 4 take the hot bar and the cold bar alike from 5 to 4.38 (effort 5: 3.71), so forging at heat harms iron exactly as cold hammering does and neither cracks as the scenario says the cold one should. Medium confidence because part of this is the missing deformation state. Not derived: the chisel is blunt in about 3 strokes on hot iron (30 strokes leave integrity 3.61), no offcut is ever made and amount stays 1; cold straightening 'barely marks it' and leaves strength at 3.9. Warping is unbuilt (no test). Seen in passing: the trough gains no heat from the blade (heat.ts `drawn` only ever cools a source), so heat vanishes in a quench."
+  },
+  {
+    "id": "craft-03",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "working a surface lifts the coat before the thing, against its bond",
+      "removal scaled by the thing's size",
+      "S9 weakening what it grows in (hair slip, ruined leather)",
+      "report choosing the largest change, not the first two in a fixed order",
+      "smoke as a preservative"
+    ],
+    "note": "Chain breaks at step 1 (scrape); the rot itself derives. Derives: in a warm damp yard an unsalted hide is at contamination 3.9 after a day and 5 after two, its scent goes 2 to 5, a salted one stays at 0, and the same hide in a cold cellar is at 2 after two days. RULE ERRORS: (1) force.ts `cutting` with aim surface takes from the hide's own amount and never from its coat: 20 scraper strokes leave 0.13 of the hide with the whole 0.3 coat of fat and flesh still on it (0.046 of any thing per stroke, whatever its size); (2) report.ts keeps the first two SEEN notes in a fixed order, so two days that take the hide from 0 to 5 are reported as 'it dries, it warms' and 'it turns' is dropped (lower confidence: a reporting rule, but it is what the returning tanner would be told). Not derived: rot does not weaken the hide (strength 3.92 fresh, 4.10 rotten because it dried a little). Encoding note: the yard is moisture 3; on a dry breezy rack at the same warmth the hide dries first and rot stops at 3.6, which is a fair picture of air-drying a hide."
+  },
+  {
+    "id": "craft-04",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "mixtures (mash makes wort)",
+      "kinds of contamination that race (yeast against souring)",
+      "M4's potency and gas in a sugary watery thing",
+      "harm from S9 depending on what it fed on",
+      "taste as a sense"
+    ],
+    "note": "Chain breaks at step 1 (no wort is made) and the ferment/sour race cannot be told. Derives: hot water soaks and warms the malt and is used up; what lives in the wort grows far faster by the hearth (4.3 after a day) than in the cellar (1.15); a sip does no harm and the turned batch smells (scent 4). RULE ERROR: M4 in effective.ts makes every unit of S9 noxious whatever it grew in, so one cup of soured wort is sickness 4 of 5 and health 5 to 3 next day; by the same rule every ale is poison. The vocabulary says ferment and rot are one quantity, so the engine is faithful to the vocabulary here and the error is as much the vocabulary's (already a version 2 candidate: kinds of contamination). Not derived: fermented wort has potency 0; no new liquid is ever created by soaking."
+  },
+  {
+    "id": "craft-05",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "a source giving by its bulk temperature, not its surface's",
+      "cooking and setting thresholds below the ignition threshold; char without flame",
+      "a temperature scale with room above a proper oven (5 is the top, so 'hotter' saturates)",
+      "S9 making gas and volume (rise)",
+      "mixtures (dough from flour, water, starter)"
+    ],
+    "note": "Chain breaks at step 3 (stoke) and step 4 (bake). Derives: what lives in the dough grows under half as fast on a cold morning (0.17 against 0.46 in 4 h), as one S9 with no volume; 10 min in a fully stoked oven gives a scorching crust (surface 5) over a raw crumb (bulk 4.07, not set). RULE ERRORS: (1) heat.ts `shared` weighs the source's surface temperature by its whole capacity, so an oven 15 min in the flame (bulk 3.85) bakes a loaf identically to one fired 4 hours (bulk 5), to 4.58 at 20 min, hotter than its own bulk: stoking changes nothing; (2) heat.ts uses 4.5 both for set/cooked/clean and for a 'glowing' source that lights things, so straight from the fire the loaf is set and alight at 20 min (fuel 80) and ash within hours, while from a raked oven rested 10 min (4.63) it tops out at 4.39 and never sets: there is no telling in which bread bakes without burning. Not derived: rise has no volume. First-run note: the identical loaves made me add the rested-oven telling to separate my encoding from the engine; both are in the test."
+  },
+  {
+    "id": "craft-06",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "a making act (spin) whose evenness comes from the actor and leaves S15",
+      "skill (a first attempt against a hundredth)",
+      "detail inside one instance (where along the thread)",
+      "tension as a load; join (re-tie) and its lasting weakness"
+    ],
+    "note": "Chain breaks at step 1: nothing makes a thread, and nothing writes S15 from an unsteady hand. What is in reach derives: a thread with a hidden thin place (flaw 2) reads exactly as a sound one, holds nothing like the same load (strength 0.1 against 2.1) and parts under a loom weight (1) that the sound one bears. But load finds it at the first check, not days into the weave, because a flaw has no position; and re-tying is unbuilt."
+  },
+  {
+    "id": "craft-07",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "edge wear small enough for a tool to do its ordinary job",
+      "drying rate scaled by bulk as powers, and by amount",
+      "M1's swell (P22) moving effective size",
+      "a cut that fells and yields timber (E3)",
+      "join and fit (R4, R10) that loosen as size changes",
+      "deformation (sag)"
+    ],
+    "note": "Chain breaks at step 1 (the oak cannot be felled) and step 3 (seasoning takes days). Derives: one stroke of a keen axe bites 0.07 into a standing oak; green timber dries untouched; green it is heavier (4.36 against 4.0) and weaker (4.35 against 4.6) than seasoned. RULE ERRORS: (1) force.ts `wear` takes 0.05 x effort^2 x (hardness ratio)^2 per stroke: steel on oak at effort 4 loses 0.29 of edge a stroke, the axe is at 1.8 after 10 strokes and 0 by 20, the oak stops at 4.63 and 300 strokes do no more; (2) drift.ts dries held water against a bulk linear in mass and size levels: a mass-4 size-4 oak timber goes 3 to 1.8 in a day and 0 in three, against months in the scenario (a pot takes 2 days, a hide 1.5); (3) low confidence, a hair's breadth on this row: load.ts has the green lintel fail under its own weight at once (weighs 4.36, bears 4.348) and hold once seasoned, the scenario's order reversed. Not derived: size does not shrink with drying (4 and 4), so no joint loosens; no timber thing is made by felling."
+  },
+  {
+    "id": "craft-08",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "mixtures whose properties come from their parts (straw as toughness)",
+      "a coat with wetness, shrinkage and integrity that can crack and come away",
+      "drying speed against binder as a threshold event",
+      "a paste form (daub spreads only because it is given `granular`)"
+    ],
+    "note": "Chain breaks at step 3 (the coat cannot crack). Derives: a thick coat covers the panel (coverage 1) and uses 1 of 5 of the mix; a slab of daub sets within the hot week (wetness 0 by day 7) and is still damp (0.67) after a mild one; a second coat adds to the first and costs as much again. Not derived: a lean coat and a good one are the same coat, all there after the week; the row's toughness is never read for a coat. Seen in passing: daub's bond never rises above 0 (drift.ts counts `granular` as loose), so by wash's arithmetic one wetting would lift a year-old coat whole."
+  },
+  {
+    "id": "craft-09",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "S9 weakening what it grows in (strength reading contamination)",
+      "covers and access (R5, R6): rain through thin thatch onto what is under it",
+      "coat or cover thickness as depth",
+      "a fall after a support fails (move), a hole (place change)"
+    ],
+    "note": "Chain breaks at step 4 (sag): the rot happens and does nothing. Derives: a rafter wetted and kept under a leaking roof through a cold winter stays at wetness 2.6 and rots (0.95 at a week, 4 at a month, 5 by two months) while one under sound thatch stays at 0; a sound rafter bears the snow (3.32 against 3.9). Not derived: the fully rotten rafter bears exactly what a sound wet one does (3.68) and holds the same snow; only a hand-written S15 makes it give. Thatching thin and seepage are unbuilt, so the damp place is set by hand."
+  },
+  {
+    "id": "craft-10",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "wetness quenching flammability by saturation, and a wet surface drying before it lights",
+      "wind in heat transfer and spark carry (move)",
+      "groups acting (a bucket chain) and sensing (the alarm)",
+      "scorched as a state short of burning"
+    ],
+    "note": "Most of the chain derives; it breaks on the scenario's premise that dryness is what lets the spark catch. Derives: one ember lights tinder-dry thatch in half a minute; the burning roof lights one built close (contact 0.5) and not one across the lane (0.3 and below); one bucket or five hiss and it burns on, twenty put it out and the well is 20 lower; left alone both roofs that caught are ash within 6 hours and the third stands. RULE ERROR: M1 in effective.ts takes 0.8 x wetness from flammability and soak.ts caps wetness at 1 + 0.8 x absorbency, so thatch (flammability 4, absorbency 3) soaked as far as it will drink (3.4) is still 1.28: it lights from the same ember inside a minute, carries 360 min of fuel against 101 dry, and burns on through an hour of rain. First run: I had this as a plain `it` with wetness set by hand and it failed; I printed the numbers, re-encoded the rain as a soak act, and reclassified. Not derived: the same fire at the same distance behaves identically at wind 4 and wind 0."
+  },
+  {
+    "id": "craft-11",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "S9 weakening what it grows in",
+      "sensing through a coat (whitewash hiding rot)",
+      "creature choices (pick_action) and move: through the gap, to the grain, back to the pen",
+      "trampling and spilling (contents)"
+    ],
+    "note": "Chain breaks at step 1 as the scenario tells it: the weakness is rot (S9) and load.ts never reads S9, so a rail at contamination 4 bears 3.6 like a sound one and holds the goat. Written by hand as S15 (flaw 2) it derives: the weak rail gives under a leaning goat, the sound one holds, and the two read alike. The goat eating derives (hunger 4 to 1, grain 10 to 8.5). Everything between, the goat getting in and being found, is unbuilt."
+  },
+  {
+    "id": "craft-12",
+    "status": "rule_error",
+    "confidence": "high",
+    "needs": [
+      "drying that reads amount and enclosure (R6): water has to go somewhere",
+      "a shut space whose air takes its moisture from its contents (contents and pressure)",
+      "S9 making heat in bulk",
+      "detail inside one instance (centre against top)",
+      "sensing on opening"
+    ],
+    "note": "Chain breaks at step 2 (sack and seal): the damp does not stay. RULE ERROR: drift.ts dries by the row and the place's air and wind only; a hundred measures of grain at wetness 1.5 shut in a still bin (air 1, wind 0) are at 0.36 after 6 hours and 0 within the day, exactly as a 0.1 handful is, and contamination stops at 0.14, so the sealed damp grain never moulds. Derives: grain binned dry keeps; in a damp undercroft grain is fully mouldy in six weeks, so spoilage comes from damp and not a calendar. Not derived: in that damp place grain binned dry and grain binned damp mould identically (the air resets both to 1.6 within minutes), and mouldering grain makes no heat (stays at 1). Seen in passing: over a 120-day gap the bin's contamination is 0.06 in one act and 0.14 taken a day at a time, because wetness is stepped before rot inside each step and long gaps take long steps; within the invariant test's tolerance but it is a dependence on how time is cut."
+  },
+  {
+    "id": "craft-13",
+    "status": "partly",
+    "confidence": "high",
+    "needs": [
+      "wear by rubbing (X7) and by use: load or haul writing S15 or integrity",
+      "detail inside one instance (where the rope is thin, the splice elsewhere)",
+      "join (splice) with a strength",
+      "move (the bucket falls, is fished out)"
+    ],
+    "note": "Chain breaks at step 2 (fray): 300 hauls leave the rope's strength at 4.6, since a load that holds leaves no trace and nothing ever writes S15. With the wear written by hand (flaw 2) the rest of the material chain derives: the sound rope bears bucket and water (3.0 against 4.6, 4.18 wet), the worn one (2.6) parts with a sound, and the two read alike. Splicing, the fall and the fishing are unbuilt."
+  },
+  {
+    "id": "craft-14",
+    "status": "partly",
+    "confidence": "medium",
+    "needs": [
+      "S9 in a body and passing from a body to what it touches (contagion)",
+      "exposure: cold and damp lowering a body's resistance",
+      "body modifier rule (too weak for chores)",
+      "creature needs met by routine (milking) and neglect",
+      "give and debt (the neighbour's help), groups (a household)"
+    ],
+    "note": "Almost all unbuilt; one material step is in reach and the chain breaks at it. Derives: water carrying S9 3 goes down unnoticed and shows 3 hours later as lost health (5 to 4.4), clean water does nothing. Not derived: a sick body drinking from a cup leaves it clean (contamination 0), so nothing carries the fever on. The day-apart spacing, the missed milkings and the favour owed are unbuilt. Medium confidence only because so little of the scenario is testable."
+  },
+  {
+    "id": "craft-15",
+    "status": "rule_error",
+    "confidence": "medium",
+    "needs": [
+      "mass levels and strength on scales that meet (a level of mass as a much bigger step than a doubling)",
+      "wear from years of use writing S15",
+      "a jolt as a multiplied load (move over rough ground)",
+      "contents spilling when a support tips; chance or aim in which pots land hard"
+    ],
+    "note": "Chain breaks at step 1 (load) before the rut is reached. RULE ERROR: load.ts `weight` adds amounts as powers of two, so 30 pots at mass 2 weigh 6.9 (more than a boulder, 5) and 7.09 with the cart, while `strength` is a sum of levels: the sound oak axle bears 3.9, gives way under the empty cart (4.0), and no long thing of any row can bear more than 6.6. So the worn axle failing shows nothing. Medium confidence: the empty-cart failure is a hair's breadth and rests on my rows (pole, cart body mass 4), but the loaded weight being out of any axle's reach does not. Derives: a fired pot thrown hard on the road goes to pieces with a shard (effort 3), one that slides off gently is whole (effort 1), the road is unmarked, and it is the same whichever is called the striker. Which pots land hard is unbuilt."
+  }
+]

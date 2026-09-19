@@ -1,0 +1,242 @@
+[
+  {
+    "id": "beast-01",
+    "status": "rule_error",
+    "needs": [
+      "X8 sense: scent carried by wind (R7) against distance and acuity",
+      "creature choices (pick_action) from hunger against fear, with its routine form",
+      "B6 feeling and B7 attention (the trapper asleep, the fox's caution)",
+      "E9 light from S3 as a level that falls with the fuel",
+      "X1 move (drag the sack off)",
+      "contents (S8): meat inside a sack, reached by tearing it",
+      "force: resistance of sheet and cord forms by thickness, not by the cube of overall size"
+    ],
+    "note": "Derives: the embers burn out overnight by drift, dried meat keeps overnight and feeds the fox by ingest. RULE ERROR in force.ts `damage`: share = into*1.2*(1+tool.size*0.5)/(1+p.size)^3 treats every patient as a solid block, so a cloth sack (shared cloth row, size 2, form sheet) is at 4.25/5 after five hard fox bites and 4.73 after a full slash from the shared steel blade; nothing can tear a sack. The general rule: what a cut or tear must pass through is the thin dimension for `sheet`, `cord`, `flat` and `long` forms, and only a compact solid goes with the cube of size. Aside, outside this outcome: dryness never stops rot (drift's damp factor floors at 0.4), so a perishability-1 dried meat reaches contamination 3.6 in 30 mild days."
+  },
+  {
+    "id": "beast-02",
+    "status": "partly",
+    "needs": [
+      "X1 move (throw, back away, approach)",
+      "B6 feeling: fear toward someone that builds and fades with repeated experience",
+      "X8 sense (sudden move, unfamiliar smell)",
+      "creature choices: approach food only when the feared thing is far enough",
+      "R1 distance finer than three buckets"
+    ],
+    "note": "Derives only the last sentence: a 0.3 scrap of meat is eaten and gone, the thin wolf's hunger drops 4 to 3.1, and nothing else about the wolf changes. Taming as slow accumulation is entirely B6 plus choices, neither built; Body has no feelings at all."
+  },
+  {
+    "id": "beast-03",
+    "status": "partly",
+    "needs": [
+      "X1 move: chase as speed against speed, a place with no exit (R6 for a place), being knocked off one's feet",
+      "B6 fear and the choice flipping from flee to fight when escape is blocked",
+      "creature body rows: strength and mass of the body behind an instrument (principle 5); only tool mass and a relative effort reach force",
+      "bleeding that slows (see beast-06)"
+    ],
+    "note": "Derives the goring itself: a tusk row (hardness 3, edge 2) driven at effort 5 opens a wound of depth 2.4 that bleeds, and health is 4.0 after twenty minutes. The flip from flight to fight and the escape are unbuilt. Same error as beast-06 shows here as magnitude: untreated, that wound takes health to 0 in under two hours because bleeding never slows."
+  },
+  {
+    "id": "beast-04",
+    "status": "partly",
+    "needs": [
+      "weather emits (E9 sound from a storm; version 2 candidate)",
+      "X8 sense and B6 fear for a group",
+      "groups: a herd with a count that startles and moves as one",
+      "X1 move and which snares lie in the path (a logged draw)",
+      "E13 change a place (the flattened trail)",
+      "Load as tension from a moving body rather than resting weight"
+    ],
+    "note": "Derives the material end: by `load` a thin cord snare (strength 2.4) holds a rabbit (mass 2) and gives way under a deer (mass 4). Which two of three break, the herd, the thunder and the trampled trail are all unbuilt. Load here reads a running deer as a resting weight; there is no speed in it."
+  },
+  {
+    "id": "beast-05",
+    "status": "partly",
+    "needs": [
+      "S3 burning as a level, with E9 light and smoke signals emitted by drift and fading with fuel",
+      "place state: light",
+      "X8 sense and creature choices (wariness of light against curiosity), with routine form",
+      "B7 attention: asleep",
+      "fire spreading between touching fuel by drift, so a built fire burns progressively rather than every log at once"
+    ],
+    "note": "Derives the fire's side: a split log lit from a brand gets 60 minutes of fuel from its row, is still burning at 20 minutes, is ash after an unfed five hours, and a spare log fed in time carries the fire on. What does not derive (it.fails): the fire gives no light at any point; burning is on or off with no level, and drift emits no signal, so there is nothing for a deterrent to fade with."
+  },
+  {
+    "id": "beast-06",
+    "status": "rule_error",
+    "needs": [
+      "bleeding that clots: a wound's bleeding decays in closed form, faster the shallower it is (X7 heal)",
+      "S8 contents and R6 access: breaking a shell exposes what is inside to air, scent and rot",
+      "X8 sense on two channels (sight for the birds, scent for the fox)",
+      "E9 sound (alarm calls)",
+      "X9 take, R9 guards, creature choices (defend the nest), routine rounds for the fox"
+    ],
+    "note": "Derives: an egg lifted at effort 0 stays whole and one grabbed at effort 3 goes to pieces; the broken egg's scent rises by evening through M4; a beak row gives a peck of depth 0.56 against 2.0 for a tusk at the same effort. RULE ERROR in drift.ts `driftBody`: health falls by bleeding*0.02 per minute for ever, because nothing ever lowers a wound's bleeding except cautery, so the 0.56 peck has the player at health 3.7 after two hours and dead by morning. General rule: bleeding decays with time at a rate set by depth (shallow wounds close themselves, deep ones need binding), in closed form. Also does not derive (it.fails): a whole egg and a broken one rot and smell identically, since integrity reaches nothing."
+  },
+  {
+    "id": "beast-07",
+    "status": "unbuilt",
+    "needs": [
+      "groups with a count (S14 as count), breeding and die-off as X7 rates",
+      "S12 growth and regrowth of plants drawing on a place",
+      "principle 4: grazing as a routine rate in code",
+      "E13 place change: coverage, burrows, erosion",
+      "predator presence as an input to the rates"
+    ],
+    "note": "Nothing material is in reach beyond ingest consuming an amount one act at a time; drift has no rate for a population or a plant, and places do not change. No test written."
+  },
+  {
+    "id": "beast-08",
+    "status": "unbuilt",
+    "needs": [
+      "X8 sense: scent against wind direction and strength (R7), sight against cover and the watcher's attention (B7)",
+      "place row: cover",
+      "X1 move: creep, and a chase as speed against speed",
+      "creature choices with a logged draw for the moment the goat looks up",
+      "B6 fear, B1 hunger persisting as the reason to try again"
+    ],
+    "note": "The whole scenario is sensing, choosing and moving. Nothing material changes hands or state. No test written."
+  },
+  {
+    "id": "beast-09",
+    "status": "partly",
+    "needs": [
+      "X8 sense: tracking a scent to its source",
+      "R5 covers: a covering of leaves and dirt damping a scent (M6 only ever raises surface scent, never masks it)",
+      "R9 guards and R1 distance of the guard from the cache",
+      "creature choices (defend a cache), B6 fear in the player",
+      "X1 move (charge, flee)"
+    ],
+    "note": "Derives the premise: a carcass of the shared meat row goes from scent 2 to above 4 in two mild days through S9 and M4, so it is the rot that makes the cache findable. The guarding bear is unbuilt. Note the bear would sicken from its own cache by the beast-10 error."
+  },
+  {
+    "id": "beast-10",
+    "status": "rule_error",
+    "needs": [
+      "creature rows with `eats` and a tolerance by route, read by ingest",
+      "X8 sense: scent range from strength, sound of crows as a second signal",
+      "groups, creature choices and dominance (who yields the carcass)",
+      "principle 4: scavenging as a routine rate for unobserved days",
+      "place state: predator traffic along a trail (E13)",
+      "integrity and access: an unopened carcass is closed to small scavengers"
+    ],
+    "note": "Derives: scent 2.0 fresh, 3.1 at one day, 4.2 at two, 5 by four, which is the staging the outcome describes, and successive ingests eat the stag most of the way down. RULE ERROR in body.ts `ingest`: harm = effective noxiousness * eaten is applied to every body alike, so a wolf that eats one unit of the four-day carcass gets sickness 4 and is at health 3 twelve hours later; carrion eaters cannot exist. General rule: M4's added noxiousness is measured against the eater's row (what it eats and tolerates, by route), so the same carcass is food to a crow and poison to a person. Lower confidence that this is an error rather than a missing body row: Body has no element at all."
+  },
+  {
+    "id": "folk-01",
+    "status": "unbuilt",
+    "needs": [
+      "X9 steal (E7) with R9 owns",
+      "X8 see with R8 line of sight and B7 attention (the baker's turned back)",
+      "E8 claim held by the bystander, X10 tell later with a source",
+      "people's routines so that the two cross paths"
+    ],
+    "note": "No material change beyond a loaf changing hands, which the engine cannot express. No test written."
+  },
+  {
+    "id": "folk-02",
+    "status": "rule_error",
+    "needs": [
+      "R3 support with a span: strength from section and span, not overall size",
+      "R4 join with a looseness, and E9 sound when a loose join takes shifting weight without failing",
+      "R8 light reach from a lantern, place light, X8 see and hear as separate channels against ambient sound",
+      "B7 attention of the watchman"
+    ],
+    "note": "RULE ERROR in load.ts `strength`: toughness*0.6 + hardness*0.2 + size*0.4 gives a sound oak plank (hardness 3, toughness 4, size 2) 3.8, a grown person is mass 4, so the plank gives way under someone merely standing on it; by the same sum any wooden thing smaller than a person (a stool, a rung, a stair) fails under one. General rule: bearing strength comes from cross-section against span and how it is supported, on a scale where ordinary furniture and floors bear a person. Uncertain: the margin is 0.2, and with a person at mass 3 (as batch-a's stand-in climber) the plank holds, so this may be the mass scale's coarseness rather than the formula. Separately (it.fails): a load that holds is always silent, so the creak the scenario turns on cannot occur; ironically the only sound the engine makes here is the crack of the plank breaking."
+  },
+  {
+    "id": "folk-03",
+    "status": "unbuilt",
+    "needs": [
+      "X9 trade (E7 both ways)",
+      "`accept_offer` judgment over what each thing serves the taker",
+      "bargaining ladder over amounts (version 2 candidate)",
+      "needs graph for a person who is not the player"
+    ],
+    "note": "Nothing material happens. No test written."
+  },
+  {
+    "id": "folk-04",
+    "status": "partly",
+    "needs": [
+      "X8 see another's body condition (tired, hungry) as a signal",
+      "person choices (pick_action: offer help unasked)",
+      "X9 give (E7)",
+      "E12 an unspoken debt or expectation that surfaces later, with elapsed days",
+      "B6 feeling when refused"
+    ],
+    "note": "Only the meal derives: bread then cheese take hunger from 4 to 0 by ingest, rest is untouched, no harm. Everything the scenario is about (noticing need, giving, the obligation three days on) is unbuilt."
+  },
+  {
+    "id": "folk-05",
+    "status": "unbuilt",
+    "needs": [
+      "X10 lie: E8 claim with credence and source, later contradicted by a second claim",
+      "`believe` judgment from plausibility and B6 trust",
+      "R9 owns surviving a change of holder, X8 recognise one's own goods",
+      "B6 trust toward the player lowered by the exposed lie",
+      "X1 move through a gate"
+    ],
+    "note": "Nothing material. No test written."
+  },
+  {
+    "id": "folk-06",
+    "status": "unbuilt",
+    "needs": [
+      "X9 lend with E12 debt and a due time",
+      "X1 move between places",
+      "X10 tell: a claim carried by a traveller to another town, E8 with source",
+      "B6 wariness formed from a heard claim",
+      "time and distance for the claim to travel"
+    ],
+    "note": "Nothing material in the outcome (the lantern is never lit in it). No test written."
+  },
+  {
+    "id": "folk-07",
+    "status": "unbuilt",
+    "needs": [
+      "X1 move: a push as strength and effort against mass, friction and the grip of soft ground (viscosity candidate)",
+      "body rows: strength",
+      "X8 see another's struggle, person choices with nobody typing",
+      "B6 goodwill between two people who are not the player",
+      "E8 the player as a witness"
+    ],
+    "note": "The freed wheel is X1 move, which is unbuilt; force and load have nothing to say about pushing a cart out of a rut. No test written."
+  },
+  {
+    "id": "folk-08",
+    "status": "unbuilt",
+    "needs": [
+      "R9 owns against holds, with ownership not visible to the taker",
+      "X9 take and give back (E7)",
+      "X8 see on return, E8 a claim formed from what was seen (sack in hand) not from intent",
+      "X10 accuse, explain, and tell others later",
+      "B6 suspicion that an explanation lowers but does not clear"
+    ],
+    "note": "Nothing material. No test written."
+  },
+  {
+    "id": "folk-09",
+    "status": "unbuilt",
+    "needs": [
+      "X8 see with resemblance: a select-or-none match of a face against remembered people, which can be wrong",
+      "E8 a false claim about identity with a credence below certainty",
+      "B6 resentment attached to a remembered person",
+      "person choices (refuse service), E8 the player as witness"
+    ],
+    "note": "Nothing material. No test written."
+  },
+  {
+    "id": "folk-10",
+    "status": "rule_error",
+    "needs": [
+      "force: resistance of cord and sheet forms by thickness (same root as beast-01)",
+      "R4 joined to: the purse hanging from the belt by its strings, freed when they part",
+      "X9 steal (E7)",
+      "X8 see degraded by place light: a claim with less detail, which then matches the wrong person",
+      "X10 tell with a vague description, E8 held by the merchant about the player",
+      "B7 attention of the merchant"
+    ],
+    "note": "RULE ERROR, same rule as beast-01 (force.ts `damage`, division by (1+size)^3): one full stroke of the shared keen steel blade leaves a leather purse string (size 1) at 4.1/5, and twenty strokes leave the shared rope row (size 3) at 2.75 while the knife's edge wears from 4 to 2.3. A knife cannot cut a cord. General rule as in beast-01. The degraded sighting and the false accusation, which are the point of the scenario, are unbuilt."
+  }
+]

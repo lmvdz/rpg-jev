@@ -1,0 +1,167 @@
+[
+  {
+    "id": "water-01",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X4", "uses": ["S8", "R6", "P10"], "effects": ["E1:S8"] },
+      { "process": "X1", "uses": ["S8", "R6", "P1"], "effects": ["E1:S8", "E4"] },
+      { "process": "X2", "uses": ["P14", "S2"], "effects": ["E2:B3"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "wetness-friction link on skin", "why": "the blister needs wet leather to rub and injure skin faster than dry leather would; X2's contact-time input now covers sustained low-force rubbing as a wound source, but nothing states whether or how wetness raises the friction or vulnerability driving it, so the wet-vs-dry difference is a stretch" }
+    ],
+    "lost": "why wetness specifically speeds the chafing, versus dry leather, has no stated link; only that sustained rubbing over contact time can wound is now expressible",
+    "named_rule": null
+  },
+  {
+    "id": "water-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "E13", "uses": ["R6", "place:light"], "effects": ["E1"] },
+      { "process": "X7", "uses": ["S1", "P12", "S6"], "effects": ["E1:S8", "E3"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "water-05",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["place:footing", "P1"], "effects": ["E3"] },
+      { "process": "X6", "uses": ["B1"], "effects": ["E2:B1", "E4"] },
+      { "process": "X7", "uses": ["P1"], "effects": ["E1"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "water-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["place:flow", "P14"], "effects": ["E2"] },
+      { "process": "X1", "uses": ["R7", "P1", "R9"], "effects": ["E5", "E7"] },
+      { "process": "X4", "uses": ["P9", "S2"], "effects": ["E1:S2", "E1:S4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "water-08",
+    "verdict": "full",
+    "steps": [
+      { "process": "X4", "uses": ["P10", "S8"], "effects": ["E1:S8"] },
+      { "process": "X3", "uses": ["S1", "S9"], "effects": ["E1:S1", "E1:S9"] },
+      { "process": "X3", "uses": ["S1"], "effects": ["E1:S1"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "water-09",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P14", "R4"], "effects": ["E5", "E7"] },
+      { "process": "X1", "uses": ["place:footing", "R3"], "effects": ["E1"] },
+      { "process": "X1", "uses": ["place:depth", "B1"], "effects": ["E1:B1", "E10"] },
+      { "process": "X9", "uses": ["R1", "R4"], "effects": ["E1:B1", "E2"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "mix-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5", "uses": ["P14", "S7"], "effects": ["E1:S7"] },
+      { "process": "X5", "uses": ["S7"], "effects": ["E4", "E3"] },
+      { "process": "X5", "uses": ["P13", "M6"], "effects": ["E1:S7"] }
+    ],
+    "reactions": [
+      "P13(oil,sticky) + airborne dust under X5 -> E1:S7 grime: an oily film exposed to dusty air collects grit, a synergy plain X5 joining would not give without dust present and time passing"
+    ],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "mix-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X4", "uses": ["P12", "S7"], "effects": ["E1:S7", "E4"] },
+      { "process": "X4", "uses": ["S7", "P24"], "effects": ["E1:S7"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "mix-05",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X4", "uses": ["P12", "P10"], "effects": ["E3", "E4"] },
+      { "process": "X3", "uses": ["S1"], "effects": ["E3", "E4"] },
+      { "process": "X7", "uses": ["P23", "S1"], "effects": ["E1:P3(M5)", "E1:S13"] }
+    ],
+    "reactions": [
+      "lye + fat under X3 heat -> E3 soap paste, E4 consumes fat, E4 consumes lye: fat and lye react under sustained heat into a paste neither ingredient resembles, a transformation the general heat-balance rule would not give by itself"
+    ],
+    "missing": [
+      { "kind": "state", "what": "causticity fading with cure", "why": "P17's touch route now covers lye's skin-contact harm, but soap's harshness must fall from caustic to safe as it cures over days; S13 taint states plainly that heat does not remove it and is silent on time-based fading, and M5 setting only moves hardness and flexibility, not noxiousness" }
+    ],
+    "lost": "soap's drop from caustic to skin-safe over the cure has no stated fading rule to sit on; P17 and S13 give causticity a place to live, but no rule eases it with time",
+    "named_rule": null
+  },
+  {
+    "id": "mix-06",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X5", "uses": ["S7"], "effects": ["E1:S7", "E4"] },
+      { "process": "X7", "uses": ["place:weather", "S2"], "effects": ["E1:S2"] },
+      { "process": "X7", "uses": ["S9", "S7"], "effects": ["E1:S9", "E9"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "state", "what": "per-region coating coverage", "why": "section 8 names this exact case (salt missing one fold of the meat) as not granted: S7 coating holds one amount and coverage for the whole surface, so which specific fold stayed unsalted cannot be represented, only an aggregate coverage fraction" }
+    ],
+    "lost": "which specific fold the salt missed is lost; only an aggregate coverage number can drive a generic chance of a patch spoiling, not a located one",
+    "named_rule": null
+  },
+  {
+    "id": "mix-09",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["P4"], "effects": ["E3", "E4"] },
+      { "process": "X4", "uses": ["P9", "S7"], "effects": ["E1:S7"] },
+      { "process": "X5", "uses": ["S7", "R1"], "effects": ["E1:S7", "E6"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "mix-10",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["S8"], "effects": ["E1:S8"] },
+      { "process": "X7", "uses": ["P16", "S10", "S8"], "effects": ["E1:S10"] },
+      { "process": "Load", "uses": ["S4", "S10"], "effects": ["E1:S4", "E4", "E3"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "grow-01",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["P2", "R2"], "effects": ["E5", "E6"] },
+      { "process": "X7", "uses": ["P15", "S2", "S9", "R6"], "effects": ["E1:S9", "E9", "E4"] },
+      { "process": "X7", "uses": ["S12", "S2", "R6"], "effects": ["E1:S12", "E3", "E11"] }
+    ],
+    "reactions": ["S9(rotten, moist flesh) covering seed + R6(low access, smothered) under X7 -> E1: germination blocked for the smothered pips"],
+    "missing": [ { "kind": "place", "what": "decay-driven souring", "why": "no rule lets excess rotting flesh push a place's state around; place fertility is a static latent field plants draw down, never one that decaying matter sours or depletes locally" } ],
+    "lost": "the outcome's claim that the rotting apple 'sours the soil right there' has no mechanism that produces a lasting local place-state effect; only the seed-smothering path (rot covering the pips) is expressible",
+    "named_rule": null
+  },
+  {
+    "id": "grow-02",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X4", "uses": ["S2", "P9"], "effects": ["E1:S2"] },
+      { "process": "X4", "uses": ["P10", "S2", "R6"], "effects": ["E1:S2", "E3"] },
+      { "process": "X7", "uses": ["S2", "R6", "S9"], "effects": ["E1:S9", "E2"] }
+    ],
+    "reactions": ["S2(soaked, standing) + R6(low air access at roots) under X7 -> E2: roots rot even though there was no drought"],
+    "missing": [ { "kind": "state", "what": "soil moisture by depth", "why": "S2 is one scalar per soil instance; a dry-looking topsoil sitting over an already-soaked subsoil, the whole deceptive mechanism this scenario turns on, can only be modelled by hand-splitting the bed into two joined instances, not by any single state" } ],
+    "lost": "the surface-dry / subsoil-wet mismatch that fools the gardener has no native representation; it needs the soil hand-split into separate joined instances rather than falling out of one wetness value",
+    "named_rule": null
+  },
+  {
+    "id": "grow-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["place.abundance", "R6"], "effects": ["E1", "E3"] },
+      { "process": "X7", "uses": ["S12", "place.moisture", "place.fertility"], "effects": ["E1:place"] },
+      { "process": "X7", "uses": ["R8", "S12", "place.moisture", "place.fertility"], "effects": ["E1:S12"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "grow-06",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "P4"], "effects": ["E3", "E1"] },
+      { "process": "X5", "uses": ["R4", "R10"], "effects": ["E6", "E3"] },
+      { "process": "X5", "uses": ["P5", "S7"], "effects": ["E1:S7", "E6"] },
+      { "process": "X7", "uses": ["R4", "S12"], "effects": ["E1:S12", "E3", "E11"] }
+    ],
+    "reactions": ["R4(matched, fresh-cut faces) + S7(sealed) under X7 -> E1: graft knits into one growing union"],
+    "missing": [ { "kind": "property", "what": "composite trait inheritance", "why": "the composite rule only says code derives a joined thing's properties from its parts; it never says which part's 'produces' trait a grafted composite carries, scion variety versus rootstock, so which fruit the resulting tree bears is undefined" } ],
+    "lost": "which variety of fruit the grafted tree eventually bears, which the outcome states plainly as the scion's variety, has no rule to derive from the stated composite-property mechanism",
+    "named_rule": null
+  },
+  {
+    "id": "grow-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["P15", "S1"], "effects": ["E1"] },
+      { "process": "X7", "uses": ["S2", "place.fertility"], "effects": ["E1:S12", "E3"] },
+      { "process": "X7", "uses": ["S12", "place.fertility", "place.moisture"], "effects": ["E1:S12", "E3", "E1"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "grow-09",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["S12"], "effects": ["E5", "E3"] },
+      { "process": "X2", "uses": ["S12", "P2"], "effects": ["E3", "E1"] }
+    ],
+    "reactions": [],
+    "missing": [ { "kind": "process", "what": "wind-driven grain shatter", "why": "the foregone alternative's cost, a storm shattering fully ripe heads or birds taking grain if the farmer had waited, has no clean process; Load's listed triggers are contents, swell and sealed gas, not wind force on a ripe head, so modelling it stretches Load's weight/tension check to cover wind" } ],
+    "lost": "only the early-cut branch (mixed-ripeness grain) is cleanly computable; the waited branch's storm-loss risk that makes this a real trade-off has no defined mechanism beyond stretching Load to wind",
+    "named_rule": null
+  },
+  {
+    "id": "grow-10",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["S12", "M3"], "effects": ["E1:S12"] },
+      { "process": "X7", "uses": ["M3", "R8", "place.light"], "effects": ["E1"] },
+      { "process": "X7", "uses": ["R8", "S12"], "effects": ["E1:S12", "E2"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "find-05",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["S2", "place.abundance"], "effects": ["E1", "E3"] },
+      { "process": "X8", "uses": ["place.abundance"], "effects": ["E11"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "find-08",
+    "verdict": "full",
+    "steps": [
+      { "process": "X6", "uses": ["B1", "place.abundance"], "effects": ["E4", "E1:S14"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]

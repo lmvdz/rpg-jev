@@ -1,0 +1,218 @@
+[
+  {
+    "id": "fight-01",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P1", "P3", "S5", "R5", "P4", "effort", "care"], "effects": ["E1:S4", "E11"] },
+      { "process": "X2", "uses": ["P1", "P3", "haste", "R1"], "effects": ["E2:B3"] },
+      { "process": "X2", "uses": ["P3", "S5", "R5", "R1", "care"], "effects": ["E2:B3", "E2:B2"] },
+      { "process": "X7", "uses": ["B2", "B3"], "effects": ["E2:B7", "E6"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "body", "what": "wound-to-capability modifier", "why": "B3 wound quantities have no stated rule scaling effective strength or speed, unlike section 7's rules for material properties" },
+      { "kind": "state", "what": "attack recovery window", "why": "no state captures being briefly open or off-balance after committing to a heavy swing, which is the mechanic that lets speed beat power here" }
+    ],
+    "lost": "the central causal mechanic (a lighter, faster fighter exploiting the moment a heavy weapon is slow to recover) has to be inferred from ordering by speed rather than resolved by any stated rule, and wound severity reducing the guard's strength is asserted, not derived",
+    "named_rule": null
+  },
+  {
+    "id": "fight-02",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "S5", "R5", "P4"], "effects": ["E1:S4"] },
+      { "process": "X2", "uses": ["P3", "S5", "S4", "P4"], "effects": ["E1:S4"] },
+      { "process": "X2", "uses": ["P3", "S5", "R5", "R1"], "effects": ["E2:B3", "E6"] },
+      { "process": "X5", "uses": ["P1", "R4", "effort"], "effects": ["E2:B3", "E2:B8"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "process", "what": "contested grapple or restraint", "why": "X5's verbs assume a compliant material being joined; forcibly holding a resisting person still is not covered by X5 or by the damage-only X2" },
+      { "kind": "relation", "what": "force transfer through a held item", "why": "the shock numbing the shield arm needs force to pass from the struck shield through the grip to the holder's body, which no stated rule gives" }
+    ],
+    "lost": "the pin that ends the fight has to stretch X5 join, written for compliant materials, onto a resisting person; and the numbed shield arm assumes an unstated force-transfer rule",
+    "named_rule": null
+  },
+  {
+    "id": "fight-03",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["place.slope", "place.footing", "P14", "effort"], "effects": ["E1:B1"] },
+      { "process": "X2", "uses": ["P1", "P2", "R1"], "effects": ["E2:B3", "E1"] },
+      { "process": "X1", "uses": ["place.slope", "place.footing"], "effects": ["E2:B3", "E5"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "relation", "what": "elevation force bonus", "why": "no rule gives a downhill striker extra force from gravity the way R3's lever rule gives a supported lever extra leverage; the rival's terrain advantage has to be asserted" }
+    ],
+    "lost": "the extra force of a downward blow from higher ground, which the outcome credits for the hit landing, is not derivable from any stated property or relation",
+    "named_rule": null
+  },
+  {
+    "id": "fight-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["P1", "B7", "place.cover", "R8"], "effects": ["E2:B3", "E1:B7"] },
+      { "process": "X1", "uses": ["R2", "R1"], "effects": ["E6"] },
+      { "process": "pick_action", "uses": ["B6", "E8", "P20"], "effects": ["E1:B6", "E5"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "fight-05",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X8", "uses": ["place.wind", "R1"], "effects": [] },
+      { "process": "X1+X2", "uses": ["place.wind", "P1", "R1"], "effects": ["E2:B3"] },
+      { "process": "X1", "uses": ["B3", "place.cover"], "effects": ["E5", "E1:B1"] },
+      { "process": "X8", "uses": ["E9", "place.light"], "effects": ["E11"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "process", "what": "aim-error hit location", "why": "nothing computes where a wind-pushed shot actually lands (haunch vs chest); only hit/miss and generic wound severity are resolvable" },
+      { "kind": "relation", "what": "distance granularity", "why": "R1 has only near, reachable and out of reach, too coarse to support graded wind compensation over eighty paces" },
+      { "kind": "body", "what": "wound-to-speed modifier", "why": "a wounded animal running slower needs wound severity to scale effective speed, and no rule provides that" }
+    ],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "fight-06",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["place.footing", "P3", "effort"], "effects": ["E13"] },
+      { "process": "X5", "uses": ["P5", "S7", "R5"], "effects": ["E1:S7", "E6"] },
+      { "process": "X1+Load", "uses": ["Load", "P1", "B7"], "effects": ["E2:B3", "E5"] },
+      { "process": "X8", "uses": ["R8", "place.light"], "effects": ["E11"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "colour or pattern matching", "why": "how convincing camouflage looks implies visual matching to surroundings, and colour is explicitly not granted" }
+    ],
+    "lost": "the cover's visual convincingness reduces to a coverage or occlusion percentage; any pattern-matching nuance a sharp eye might still catch is not modeled",
+    "named_rule": null
+  },
+  {
+    "id": "fight-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X10", "uses": ["place.light", "R8"], "effects": ["E8"] },
+      { "process": "pick_action", "uses": ["E8", "B6", "R8"], "effects": ["E1:B6"] },
+      { "process": "X1", "uses": ["B6"], "effects": ["E5"] },
+      { "process": "X1", "uses": ["R1"], "effects": ["E5"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "fight-08",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X7", "uses": ["B3"], "effects": ["E2:B3", "E2:B2"] },
+      { "process": "X5", "uses": ["P5", "P13", "care"], "effects": ["E2:B3", "E4"] },
+      { "process": "X7", "uses": ["B8"], "effects": ["E2:B8"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "body", "what": "dizziness or concussion", "why": "B8's fixed categories (dazzled, deafened, numb, lame, winded) don't include head-blow disorientation; dazzled is specifically about light" },
+      { "kind": "body", "what": "wound-to-capability modifier", "why": "the rival's bleeding reducing his ability to walk has no stated scaling rule" }
+    ],
+    "lost": "the player's dizziness is stretched into 'dazzled', and the rival's inability to walk unaided is asserted rather than derived from wound severity",
+    "named_rule": null
+  },
+  {
+    "id": "silly-01",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X6", "uses": ["S1", "S7", "S5"], "effects": ["E2:B3"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "taste", "why": "section 8 explicitly withholds taste as a property the world reasons about, and the outcome is centrally a bitter, metallic taste" }
+    ],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "silly-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X6", "uses": ["P20", "S9"], "effects": ["E2:B4", "E4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "silly-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["place.cover", "B7"], "effects": ["E11"] },
+      { "process": "pick_action", "uses": ["P1", "B6"], "effects": ["E2:B3", "E1:B6"] },
+      { "process": "X1", "uses": ["B3"], "effects": ["E5"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "process", "what": "embrace or unwanted contact", "why": "no process models a person initiating body contact with another creature; same gap as grappling, though it doesn't change this outcome since the bear reacts first" }
+    ],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "silly-04",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X3", "uses": ["P6", "S3"], "effects": ["E1:S3"] },
+      { "process": "X1", "uses": ["skill(missing)"], "effects": [] },
+      { "process": "X1+X3", "uses": ["P1", "S3"], "effects": ["E2:B3", "E5"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "body", "what": "skill or proficiency", "why": "no property represents competence at a learned physical task; 'agent is unskilled', which drives the whole scenario, has nothing to attach to" }
+    ],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "silly-05",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P1", "P2", "effort"], "effects": ["E5"] },
+      { "process": "X8", "uses": ["place.footing", "place.light"], "effects": ["E11"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "silly-06",
+    "verdict": "full",
+    "steps": [
+      { "process": "none", "uses": [], "effects": [] },
+      { "process": "X2", "uses": ["P3"], "effects": ["E1"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "silly-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X10-void", "uses": [], "effects": ["E9"] },
+      { "process": "X8", "uses": ["group", "B7", "E9"], "effects": ["E5", "E1:B6"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]
