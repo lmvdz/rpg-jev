@@ -50,10 +50,18 @@ Proposed interface names below describe contracts, not existing exported APIs.
 4. `resolveAttempt(attempt, truth)` consults
    [embodiment](embodiment.md) and [composition](composition-and-processes.md).
    It computes physical consequences and resource debits through admitted mechanics.
-5. `commitAttempt(resolution)` atomically validates read dependencies and effects.
+5. `commitAttempt(resolution)` requests atomic validation and commit from
+   time/persistence's single authority, not an execution-owned transaction engine.
    It records action, decision linkage, draws, costs, outcomes, evidence sources and cause IDs.
-6. `emitEvidence(committedOutcome)` exposes only eligible observations.
+6. `emitEvidence(committedOutcome)` durably hands evidence opportunities to perception;
+   observer-specific detection and observation commitment are separate stages.
    [Presentation](presentation-and-explanation.md) renders those observations.
+
+The outcome commit retains event-time detection context (or immutable references
+that reconstruct it), stable delivery identity and pending status. A crash between
+settlement and detection cannot lose the opportunity or evaluate it against later
+conditions. Detection draws, observation delivery and learning are retry-safe;
+the storage/protocol choice must prove this before integration.
 
 For an interval action, admission starts a persistent activity rather than precommitting
 its eventual success. Time advancement settles progress at declared boundaries.

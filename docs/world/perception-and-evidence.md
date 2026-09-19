@@ -66,6 +66,13 @@ Neither a prose renderer nor a model slice receives raw provenance to redact aft
 6. Eligible memory and presentation consumers receive their filtered observations.
    Investigation feedback can trigger later choices, not a recursive inference loop.
 
+Physical outcome commits persist evidence opportunities, not already-known observer
+facts. The durable handoff retains event-time detection conditions or reconstructible
+immutable references and a stable delivery identity. Recovery resumes pending
+detection against that context, never a later world snapshot. Recorded draws and
+observation/learning delivery must remain idempotent across every crash boundary.
+The exact protocol is open; losing opportunities or rerolling detection is not.
+
 Continuous exposure needs an interval rule before it can be implemented.
 Rechecking on every render frame cannot mint repeated independent detection chances.
 An observer becoming incapable partway through an interval bounds that opportunity;

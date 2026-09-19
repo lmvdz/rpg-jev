@@ -27,7 +27,9 @@ Recall rankings, selected slices and display summaries are derived views.
 [Intention](motivation-and-intention.md) reads a bounded context, including uncertainty
 and known gaps, rather than a truth lookup disguised as a remembered target accessor.
 [Embodiment](embodiment.md) supplies authorized own-body context separately from memories;
-hunger does not need a fabricated observation and fear is not sensory evidence.
+hunger need not create a retained memory record, but requires an admitted own-body
+signal. Bypassing memory is not bypassing sensory authorization or exposing hidden
+impairments. Fear is not sensory evidence.
 [Execution](action-execution.md) sends committed outcomes through eligible evidence.
 [Persistence](time-and-persistence.md) preserves learned time, causes and replay.
 [Presentation](presentation-and-explanation.md) distinguishes recollection, report and

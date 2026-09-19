@@ -89,6 +89,21 @@ Tests should demand exact committed replay and declared equivalence for named sc
 Numerical tolerances belong to code-owned mechanics, not prose in this coordination draft.
 Where no summary operator is admitted, execute bounded detailed work or defer explicitly.
 
+### Freeze, overload and resumption
+
+Preserve SPEC section 11's load-shedding order: freeze unobserved regions first,
+then skip optional questions, then use cached routines and deterministic parsing.
+With nobody online, execution freezes and the elapsed gap is reconciled in code at
+next login; this is not permission to reseed bodies or skip finite fuel expenditure.
+
+Overload freezing still needs an explicit clock contract: does it accrue deferred
+simulation time or pause a region's effective time, and how are cross-region debts
+and player entry reconciled? This draft does not decide that by using the word
+"pending." Admission requires an absence → overload → return trace for fuel,
+reserves, commitments and entry, including a dependency that cannot yet advance.
+Unrelated play needs a measured safe path; pending work alone does not establish
+SPEC's promise that the play loop never fails.
+
 ## Persistence and recovery
 
 Log each Jev request basis, questions, full answer, draw and committed effects.
@@ -171,6 +186,9 @@ These tests target parent W gates and do not replace physical C0–C8 evidence.
 Define boundary ordering, simultaneous events and frontier publication with race fixtures.
 Resolve embodied travel versus schedule location lookup without silently rewriting SPEC §7.
 Choose checkpoint format and prove crash recovery at every log/archive acknowledgement boundary.
+Include outcome commit → pending evidence → detection → learning crash boundaries;
+retain original detection conditions and prevent duplicate draws or observations.
+Resolve overload freeze/resume semantics against SPEC section 11 before admission.
 Profile long-absence work and zero-time cycles before assigning operational limits.
 Validate each summary separately against named detailed fixtures and declared tolerances.
 Keep all W gates open until integrated observed/offscreen/replay evidence exists.

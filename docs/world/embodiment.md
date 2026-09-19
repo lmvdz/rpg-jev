@@ -31,6 +31,12 @@ Outputs are proposed reserve changes, developmental/condition events, capabiliti
 and eligible internal sensory signals. Pain or hunger information reaches the
 agent through an admitted own-body channel; other observers do not get it for free.
 
+Actual capability and actor-authorized capability information are different views.
+An undetected impairment can prevent execution without preemptively changing a
+subjective candidate list. Direct interoceptive context need not be retained as
+memory, but still requires an admitted sensory/authorization path; it is not raw
+access to every body quantity or diagnosis.
+
 ## Organism construction
 
 An organism definition composes supported anatomy/functions and calibrations.
@@ -130,7 +136,7 @@ has no hunger merely because it can move and carry objects.
 | --- | --- |
 | W1/W2 | Coherent initialization, finite intake, single-spend nourishment, activity/interruption costs |
 | C7/W2 | Controlled exposure affects the declared body capability only through admitted mappings |
-| W3/W7 | Own-body signals and public cues stay distinct; private reserves are not public knowledge |
+| W3/W7 | Own-body signals and public cues stay distinct; hidden impairment twins have identical subjective options until admitted sensation/attempt feedback |
 | W5/W6 | Equivalent player/NPC exertion, save/load during processing, offscreen reserve/event consistency |
 | W8 | Held-out organism topology and missing-capability cases without name-based exceptions |
 

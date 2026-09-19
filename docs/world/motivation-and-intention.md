@@ -21,7 +21,8 @@ The module must support persistent mistakes without turning persistence into bli
 [Memory](knowledge-and-memory.md) supplies bounded subjective context and reasons.
 [Perception](perception-and-evidence.md) supplies eligible new evidence through that
 context, not a second raw-world feed to a supposedly private decision.
-[Embodiment](embodiment.md) supplies authorized own-body needs and admitted capabilities.
+[Embodiment](embodiment.md) supplies authorized own-body needs and capability information,
+not an unrestricted view of actual bodily impairment.
 [World identity](world-identity-and-context.md) supplies stable references and revisions;
 an actor knowing a relationship is separate from that relationship existing.
 
@@ -45,8 +46,10 @@ Completion requires committed results under an admitted condition, not persuasiv
 
 ### The two meanings of feasibility
 
-Candidate construction uses own capabilities, subjective opportunities and authorized
+Candidate construction uses authorized capability information, subjective opportunities and authorized
 constraints. Execution separately validates current truth, reach and actual resources.
+An unperceived injury may change execution capability without changing the option
+set. Direct own-body context may bypass retained memory, not sensory authorization.
 This preserves SPEC's code pruning where observed facts rule an action out without
 turning option omission into an oracle for concealed facts.
 For example, a remembered path can remain an option despite a hidden obstruction.
@@ -162,6 +165,8 @@ without any predator/prey assumptions or a universal utility policy.
 
 W3 pairs worlds differing only in hidden food, target movement or obstructions and
 compares option sets, labels, ordering and slices before execution, not just choices.
+Include a concealed bodily impairment twin: options remain equal until authorized
+sensation or attempted execution supplies evidence; actual work may differ.
 W4 tests irrelevant ticks, near-equal reasons, urgent interrupts and save/load continuity.
 W2/W5 verify shared execution costs, failed searches and cancellation without refunds.
 W0/W6 verify stale decision rejection, retry idempotence and replay without new draws.

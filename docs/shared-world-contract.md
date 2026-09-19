@@ -55,7 +55,7 @@ the records below describe required information, not already available APIs.
 | --- | --- | --- |
 | [World identity and context](world/world-identity-and-context.md) | Stable entities, placement, environmental context and relationship records; references clock/version authority | Supplies scoped contexts and lifecycle events |
 | [Composition and processes](world/composition-and-processes.md) | Material portions, parts, contacts, resource accounts, geometry approximations, active processes and structural change | Consumes physical attempts/exposures; produces accounted effects and evidence sources |
-| [Embodiment](world/embodiment.md) | Organism state, needs, functional capabilities, accumulated injury and development | Reads physical exchanges and activity; proposes metabolic and capability effects |
+| [Embodiment](world/embodiment.md) | Physiological condition, reserves and development; references composition-owned physical damage | Derives needs/capabilities under admitted mappings and proposes physiological effects |
 | [Perception and evidence](world/perception-and-evidence.md) | Admitted observation opportunities, detection and provenance | Reads scoped signals and sensor capabilities; produces agent-specific observations |
 | [Knowledge and memory](world/knowledge-and-memory.md) | Observations, claims, remembered places, uncertainty and source attribution | Consumes evidence; supplies a bounded subjective context |
 | [Motivation and intention](world/motivation-and-intention.md) | Active commitments, reasons, current activity and interruption state | Consumes subjective context and own needs; proposes choices from code-built options |
@@ -183,16 +183,19 @@ reasons for behavior. Hunger is not an intention; fear is not evidence; a goal i
 not proof that the goal is achievable.
 
 An intention records its goal, relevant target or remembered place, reasons,
-admitted next activities, progress, start cause, and completion/interruption
+admitted next activities, a reference to execution-owned progress, start cause, and completion/interruption
 conditions. An activity is its current execution, not the entire intention.
 Commitment and hysteresis prevent repeated reconsideration from producing rapid
 oscillation between near-equal options. New evidence, physical failure or an
 urgent condition can invalidate a commitment; persistence must not become blindness.
 
-Code builds bounded options from capabilities, subjective opportunities and
+Code builds bounded options from actor-authorized capability information, subjective opportunities and
 observable constraints, including none. It does not advertise secret state by
 pruning every attempt that will fail. Execution separately checks actual truth:
 a remembered route may be blocked, and an attempted search may find nothing.
+Unperceived bodily impairment is also hidden truth. Actual execution capability
+can constrain an attempt before the actor knows why; it must not silently update
+subjective options or reasons without an admitted own-body signal or feedback.
 
 Existing admitted Jev action choices and deterministic routines keep their current
 roles. This contract does not replace them with an unvalidated numeric utility
@@ -215,8 +218,11 @@ intent, admitted attempt, ongoing execution and committed result.
    declared concurrency rules. Two actors cannot both eat the same portion.
 4. Evolve applicable physical/body processes and settle boundaries in a declared
    order, revalidating changed contacts or targets as required.
-5. Commit effects, progress and evidence together; publish observations only from
-   committed results.
+5. Commit effects, progress and evidence opportunities together through the single
+   time/persistence commit authority. Persist enough event-time context and
+   pending-delivery identity for observer-specific detection to resume durably.
+   Observations are separately detected and committed, not inferred from later
+   conditions after a crash; retries cannot duplicate detection draws or learning.
 6. Update eligible memories and interruption triggers for subsequent decisions.
 
 Rejection, partial progress, interruption and success are distinct statuses.
@@ -260,6 +266,10 @@ mechanisms, not an unsupported claim that schedules alone simulate an ecosystem.
 On activation, reconcile elapsed time once. Unsupported offscreen mechanisms use
 a documented conservative fallback, not a freshly invented encounter. Refinement
 cannot manufacture food, new interior material or a changed personal history.
+SPEC section 11's freeze/degradation ordering still applies. Offline gaps are
+reconciled in code at login; overload freeze/resume clock semantics and safe entry
+across unresolved dependencies require an explicit admission decision, not merely
+a pending-work queue claimed to satisfy uninterrupted play.
 
 ## 11. Presentation and explanation
 
