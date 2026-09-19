@@ -1,0 +1,305 @@
+{
+ "round": "round-2",
+ "threshold": 0.6,
+ "processes": {
+  "drift": {
+   "derivedProblems": [],
+   "rules": [
+    {
+     "id": "holds-its-heat",
+     "says": "A great mass of something holds its warmth or its cold long after a little of the same stuff has come to the temperature of the place, and a wind hurries both along",
+     "problems": [],
+     "judged": {
+      "v0": 0.87,
+      "v1": 0.89,
+      "mean": 0.88
+     },
+     "accepted": true
+    },
+    {
+     "id": "heap-heats",
+     "says": "A big damp heap of loose stuff that is going mouldy warms itself from within, the more so the bigger the heap and the further gone it is",
+     "problems": [],
+     "judged": {
+      "v0": 0.68,
+      "v1": 0.82,
+      "mean": 0.75
+     },
+     "accepted": true
+    },
+    {
+     "id": "frost-wedge",
+     "says": "Water that freezes inside a crack or in the pores of something brittle swells and forces it wider, a little more with every freeze",
+     "problems": [],
+     "judged": {
+      "v0": 0.88,
+      "v1": 0.93,
+      "mean": 0.91
+     },
+     "accepted": true
+    },
+    {
+     "id": "gust",
+     "says": "A strong wind blows out a small flame, though it only fans a big fire",
+     "problems": [],
+     "judged": {
+      "v0": 0.87,
+      "v1": 0.91,
+      "mean": 0.89
+     },
+     "accepted": true
+    },
+    {
+     "id": "downpour",
+     "says": "Heavy rain puts out a fire in the open once what is burning is soaked as far as it can drink",
+     "problems": [],
+     "judged": {
+      "v0": 0.84,
+      "v1": 0.89,
+      "mean": 0.87
+     },
+     "accepted": true
+    },
+    {
+     "id": "factor on d.exposed",
+     "says": "A wet thing dries by what the air can carry off from it: more slowly in the cold and hardly at all once it is frozen, more slowly the more of it is heaped together, more slowly where little air reaches it, and not at all shut in where none does",
+     "problems": [],
+     "judged": {
+      "v0": 0.9,
+      "v1": 0.93,
+      "mean": 0.92
+     },
+     "accepted": true
+    }
+   ]
+  },
+  "heat": {
+   "derivedProblems": [],
+   "rules": [
+    {
+     "id": "gives-light",
+     "says": "Whatever is burning gives off light and smoke, and the damper the fuel the more it smokes",
+     "problems": [],
+     "judged": {
+      "v0": 0.48,
+      "v1": 0.58,
+      "mean": 0.53
+     },
+     "accepted": false
+    },
+    {
+     "id": "flaw-in-fire",
+     "says": "Strong heat finds the hidden flaw in something brittle: heated scorching hot, a flawed thing cracks where a sound one comes through whole",
+     "problems": [],
+     "judged": {
+      "v0": 0.49,
+      "v1": 0.7,
+      "mean": 0.6
+     },
+     "accepted": true
+    },
+    {
+     "id": "factor on d.surfaceRate",
+     "says": "Wind fans a fire: what stands near a fire in a wind is brought up to burning heat sooner than it would be in still air",
+     "problems": [],
+     "judged": {
+      "v0": 0.82,
+      "v1": 0.87,
+      "mean": 0.85
+     },
+     "accepted": true
+    },
+    {
+     "id": "factor on d.reach",
+     "says": "Wind leans a flame over and carries its heat further, so a fire reaches things in a wind that it would not reach in still air",
+     "problems": [],
+     "judged": {
+      "v0": 0.86,
+      "v1": 0.91,
+      "mean": 0.89
+     },
+     "accepted": true
+    }
+   ]
+  },
+  "strike": {
+   "derivedProblems": [],
+   "rules": [
+    {
+     "id": "whet",
+     "says": "Rubbing an edge or a point with care on something rough and about as hard as itself sharpens it, up to the keenness its own hardness can hold",
+     "problems": [],
+     "judged": {
+      "v0": 0.79,
+      "v1": 0.85,
+      "mean": 0.82
+     },
+     "accepted": true
+    },
+    {
+     "id": "loose-comes-away",
+     "says": "What is loose and granular needs no edge to work it: a hand or a tool driven into it brings some away, more for the effort and the size of what digs",
+     "problems": [],
+     "judged": {
+      "v0": 0.78,
+      "v1": 0.84,
+      "mean": 0.81
+     },
+     "accepted": true
+    },
+    {
+     "id": "factor on d.wear",
+     "says": "An edge worked along the grain of what it cuts wears far less than one forced across the grain, because the stuff parts ahead of the edge",
+     "problems": [],
+     "judged": {
+      "v0": 0.72,
+      "v1": 0.83,
+      "mean": 0.77
+     },
+     "accepted": true
+    },
+    {
+     "id": "factor on d.cutShare",
+     "says": "A point makes only a small hole where an edge makes a long cut, so piercing a thing harms it far less than slashing it",
+     "problems": [],
+     "judged": {
+      "v0": 0.61,
+      "v1": 0.72,
+      "mean": 0.67
+     },
+     "accepted": true
+    }
+   ]
+  },
+  "wound": {
+   "derivedProblems": [],
+   "rules": []
+  },
+  "soak": {
+   "derivedProblems": [],
+   "rules": [
+    {
+     "id": "poison-passes",
+     "says": "Something poisonous poured into a liquid or soaked into a thing leaves its poison there, thinned by how much it is spread through",
+     "problems": [],
+     "judged": {
+      "v0": 0.74,
+      "v1": 0.81,
+      "mean": 0.78
+     },
+     "accepted": true
+    },
+    {
+     "id": "factor on d.lift",
+     "says": "Hot water lifts a coat that softens with heat, where cold water would leave it",
+     "problems": [],
+     "judged": {
+      "v0": 0.18,
+      "v1": 0.37,
+      "mean": 0.28
+     },
+     "accepted": false
+    }
+   ]
+  },
+  "coat": {
+   "derivedProblems": [],
+   "rules": []
+  },
+  "load": {
+   "derivedProblems": [],
+   "rules": [
+    {
+     "id": "rot-gives-way",
+     "says": "What is rotten bears less than the same thing sound: far gone in rot, it gives way under a load it would once have held",
+     "problems": [],
+     "judged": {
+      "v0": 0.69,
+      "v1": 0.72,
+      "mean": 0.71
+     },
+     "accepted": true
+    },
+    {
+     "id": "creak",
+     "says": "A support loaded close to all it can bear creaks or groans under the load, though it holds",
+     "problems": [],
+     "judged": {
+      "v0": 0.65,
+      "v1": 0.78,
+      "mean": 0.72
+     },
+     "accepted": true
+    }
+   ]
+  }
+ },
+ "controls": [
+  {
+   "says": "A thin thing heats through sooner than a thick one of the same material",
+   "truth": true,
+   "v0": 0.92,
+   "v1": 0.93,
+   "mean": 0.93,
+   "right": true
+  },
+  {
+   "says": "Something that dissolves readily, packed around food, draws the water out of it",
+   "truth": true,
+   "v0": 0.73,
+   "v1": 0.74,
+   "mean": 0.74,
+   "right": true
+  },
+  {
+   "says": "A fire with no air goes out",
+   "truth": true,
+   "v0": 0.95,
+   "v1": 0.95,
+   "mean": 0.95,
+   "right": true
+  },
+  {
+   "says": "What is tough takes a blow that would shatter what is brittle",
+   "truth": true,
+   "v0": 0.82,
+   "v1": 0.85,
+   "mean": 0.84,
+   "right": true
+  },
+  {
+   "says": "What is soaked through catches fire more readily than what is dry",
+   "truth": false,
+   "v0": 0.04,
+   "v1": 0.04,
+   "mean": 0.04,
+   "right": true
+  },
+  {
+   "says": "Cold makes meat rot faster than warmth does",
+   "truth": false,
+   "v0": 0.03,
+   "v1": 0.03,
+   "mean": 0.03,
+   "right": true
+  },
+  {
+   "says": "A keen edge grows keener the more hard things it cuts",
+   "truth": false,
+   "v0": 0.04,
+   "v1": 0.05,
+   "mean": 0.05,
+   "right": true
+  },
+  {
+   "says": "Oil poured on iron makes it rust faster in the rain",
+   "truth": false,
+   "v0": 0.09,
+   "v1": 0.11,
+   "mean": 0.1,
+   "right": true
+  }
+ ],
+ "tokens": 25018,
+ "usd": 0.0011
+}
