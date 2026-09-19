@@ -28,12 +28,15 @@ function driftThing(world: MatterWorld, thing: Thing, minutes: number): Change[]
   const env = envOf(world, { self: partyOf(world, thing) }, minutes);
   let spent = false;
   const because = new Set<string>();
+  // What the rows made besides moving a state: what was used up, split off or given off.
+  const made: Change[] = [];
   // Each rule is a row (graph/drift-rules.ts), and sees the state the rows before it left.
   for (const rule of RULES) {
     const step = rule(env);
     if (!step) continue;
     spent ||= step.spent === true;
     for (const id of step.because) because.add(id);
+    made.push(...step.made);
   }
   const state = env.parties.self?.s ?? thing.state;
   const changes: Change[] = [
@@ -68,6 +71,7 @@ function driftThing(world: MatterWorld, thing: Thing, minutes: number): Change[]
         note: "what is left of it",
       });
   }
+  changes.push(...made);
   return changes;
 }
 
@@ -143,6 +147,7 @@ function nextEvent(world: MatterWorld): number {
  */
 export function drift(world: MatterWorld, act: DriftAct): Change[] {
   const because = new Map<string, Set<string>>();
+  const given = new Map<string, Extract<Change, { kind: "signal" }>>();
   let at = world;
   let left = act.minutes;
   while (left > 1e-9) {
@@ -156,9 +161,15 @@ export function drift(world: MatterWorld, act: DriftAct): Change[] {
       for (const id of change.because) ids.add(id);
       because.set(change.thing, ids);
     }
+    for (const change of made) {
+      if (change.kind !== "signal") continue;
+      const key = `${change.source ?? change.place}:${change.channel}`;
+      if ((given.get(key)?.strength ?? 0) < change.strength) given.set(key, change);
+    }
     at = apply(at, made);
     left -= span;
   }
-  // Said once: what is different now, not what each step did (report.ts).
-  return report(world, at, because);
+  // Said once: what is different now, not what each step did (report.ts); and what was given
+  // off along the way, each once, at its strongest.
+  return [...report(world, at, because), ...given.values()];
 }

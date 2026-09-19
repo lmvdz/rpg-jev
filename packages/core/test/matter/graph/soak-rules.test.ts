@@ -15,11 +15,10 @@ import {
   type MatterWorld,
   POOL,
   resolve,
-  strength,
   type Thing,
   type ThingState,
 } from "../../../src/matter/index.ts";
-import { loadFrom } from "../../../src/matter/load.ts";
+import { loadFrom, strengthFrom } from "../../../src/matter/load.ts";
 import { coatFrom, soakFrom } from "../../../src/matter/soak.ts";
 import { ELEMENTS, world } from "../elements.ts";
 import { loadOracle, strengthOracle } from "./load-oracle.ts";
@@ -150,6 +149,7 @@ function coating(r: Rng, { pick, maybe, thing, built }: ReturnType<typeof tools>
 
 // The base rows alone: what has grown since is not what the oracle speaks for.
 const [soak, coat, load] = [soakFrom(NONE), coatFrom(NONE), loadFrom(NONE)];
+const strength = strengthFrom(NONE);
 
 const CASES = 6000;
 

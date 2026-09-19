@@ -46,6 +46,13 @@ export function strength(world: MatterWorld, support: Thing): number {
   return STRENGTH(envOf(world, { sup: partyOf(world, support) }, 0, { borne: 0 }));
 }
 
+/** The same, from the base rows and whatever has grown beside them. */
+export function strengthFrom(grown: Grown) {
+  const read = Kernel.with(LOAD_DERIVED, grown).num("d.strength");
+  return (world: MatterWorld, support: Thing): number =>
+    read(envOf(world, { sup: partyOf(world, support) }, 0, { borne: 0 }));
+}
+
 /** Weights add as quantities and are read back as a level, so amount counts (scale.ts). */
 export function weight(world: MatterWorld, ids: readonly string[]): number {
   const total = ids.reduce((sum, id) => {
