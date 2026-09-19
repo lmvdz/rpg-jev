@@ -47,7 +47,9 @@ interface Play {
 }
 
 export class LivingThings {
-  readonly #things: readonly ThingView[];
+  readonly #things: ThingView[];
+  readonly #byId = new Map<string, number>();
+  readonly #gone = new Set<number>();
   readonly #grid: TileGrid;
   readonly #objects: ObjectLayer;
   readonly #births: Births;
@@ -59,20 +61,58 @@ export class LivingThings {
   /** The things that came without a look, by element: redrawn when the element's look is born. */
   readonly #unlooked = new Map<string, number[]>();
 
-  constructor(things: readonly ThingView[], grid: TileGrid, objects: ObjectLayer, births: Births) {
+  constructor(things: ThingView[], grid: TileGrid, objects: ObjectLayer, births: Births) {
     this.#things = things;
     this.#grid = grid;
     this.#objects = objects;
     this.#births = births;
     things.forEach((thing, index) => {
-      this.#byTile.set(grid.index(thing.x, thing.z), index);
-      if (thing.look) return;
-      const same = this.#unlooked.get(thing.element);
-      if (same) same.push(index);
-      else this.#unlooked.set(thing.element, [index]);
+      this.#know(thing, index);
     });
     births.onLook = (element) => this.redraw(this.#unlooked.get(element) ?? []);
     this.redraw(things.map((_, index) => index));
+  }
+
+  #know(thing: ThingView, index: number): void {
+    this.#byTile.set(this.#grid.index(thing.x, thing.z), index);
+    this.#byId.set(thing.id, index);
+    if (thing.look) return;
+    const same = this.#unlooked.get(thing.element);
+    if (same) same.push(index);
+    else this.#unlooked.set(thing.element, [index]);
+  }
+
+  /** Where a thing is in the list, by the world's id for it, or -1. */
+  indexOf(id: string): number {
+    return this.#byId.get(id) ?? -1;
+  }
+
+  thing(index: number): ThingView | null {
+    return this.#gone.has(index) ? null : (this.#things[index] ?? null);
+  }
+
+  /** A thing has come into being. One thing to a tile: -1 if its tile is taken or off the map. */
+  add(thing: ThingView): number {
+    if (!this.#grid.contains(thing.x, thing.z)) return -1;
+    if (this.#byTile.has(this.#grid.index(thing.x, thing.z)) || this.#byId.has(thing.id)) return -1;
+    const index = this.#things.push(thing) - 1;
+    this.#know(thing, index);
+    this.redraw([index]);
+    return index;
+  }
+
+  /** A thing is no more. Its place in the list is kept and left empty, so other things' indices hold. */
+  remove(index: number): void {
+    const thing = this.thing(index);
+    if (!thing) return;
+    const tile = this.#grid.index(thing.x, thing.z);
+    this.#gone.add(index);
+    this.#byTile.delete(tile);
+    this.#byId.delete(thing.id);
+    this.#objects.set(tile, null);
+    this.#lit.set(index, false);
+    this.#showing.set(index, false);
+    this.#plays.delete(index);
   }
 
   /** The thing standing on a tile, if any: what the mouse is over, what a step would bump into. */
@@ -91,7 +131,7 @@ export class LivingThings {
    */
   redraw(changed: readonly number[]): void {
     for (const index of changed) {
-      const thing = this.#things[index];
+      const thing = this.thing(index);
       if (!thing) continue;
       // An element row brings its look; one that came without has it born here, once.
       const base = thing.look ?? this.#births.look(thing).value;

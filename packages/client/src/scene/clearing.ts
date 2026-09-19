@@ -120,7 +120,9 @@ const LOOK = {
 
 function place(element: Element, x: number, z: number, states: VisibleStates): ThingView {
   const { id, kind, name, solid, look, forms, baseline } = element;
-  return { element: id, kind, name, solid, x, z, look, forms, baseline, states };
+  // One thing to a tile, so the tile tells the instances of an element apart.
+  const thing = `${id}@${x},${z}`;
+  return { id: thing, element: id, kind, name, solid, x, z, look, forms, baseline, states };
 }
 
 function shapeLand(grid: TileGrid, rng: Rng): void {

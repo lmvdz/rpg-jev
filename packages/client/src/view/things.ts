@@ -34,9 +34,19 @@ export interface VisibleStates {
   growth?: number;
   /** S14, 0 to 5: how much of a pile or a substance is left. */
   amount?: number;
+  /** S2, 0 dry to 5 soaked. */
+  wetness?: number;
+  /** S4: 5 whole, 3 cracked, 1 broken, 0 in pieces. */
+  integrity?: number;
+  /** S10, 0 to 5. */
+  corrosion?: number;
+  /** S9, 0 to 5: rot and mould, given only once it is strong enough that anyone would notice. */
+  contamination?: number;
 }
 
 export interface ThingView {
+  /** Which instance this is: the world's id for the thing, which changes to it are addressed by. */
+  id: string;
   /**
    * Which element this is an instance of: an id made by code. What is decided
    * once for an element (its look, the effect of what happens to it) is kept

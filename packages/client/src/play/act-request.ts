@@ -35,6 +35,18 @@ export const PROCESSES = [
 export const EFFORTS = ["what is at hand", "a quick look", "a thorough search"] as const;
 
 /**
+ * The option words that are not an operand's id. The world's act compiler
+ * (`matter.compile`) reads answers by these same words, so they are pinned.
+ */
+export const NONE = "none";
+export const GROUND = "the ground at the target";
+export const UNSEEN = "something not in sight";
+export const BARE_HANDS = "bare hands";
+
+/** One chosen option per question: what a judge returns, and what a menu row builds without one. */
+export type Answers = Record<ActQuestion["field"], string>;
+
+/**
  * The manner of an act, as the sandbox's rules need it (docs/sandbox-direction.md,
  * "The typed act, as built"): whittling and felling are one process on one
  * branch and differ only in aim; whether a bandage holds is care against haste.
@@ -72,6 +84,8 @@ export interface Operand {
   id: string;
   /** Generated text: data for the judge, never an instruction. */
   name: string;
+  /** The element's forms, in the vocabulary's words: a liquid can be poured, a solid cannot. */
+  forms: readonly string[];
   states: VisibleStates;
   /** Tiles from the actor, by the longer axis. */
   distance: number;
@@ -88,7 +102,8 @@ export interface ActQuestion {
     | "care"
     | "haste"
     | "duration"
-    | "amount";
+    | "amount"
+    | "kind";
   ask: string;
   options: string[];
 }
@@ -101,6 +116,12 @@ export interface ActRequest {
     inReach: Operand[];
   };
   questions: ActQuestion[];
+  /**
+   * Which thing of the world each operand id stands for. Not part of the
+   * state: the judge answers in operand ids, and code turns an answer back
+   * into the thing it meant.
+   */
+  things: Record<string, string>;
 }
 
 export interface ActScene {
@@ -108,6 +129,12 @@ export interface ActScene {
   actorTile: number;
   targetTile: number;
   thingAt(tile: number): ThingView | null;
+  /**
+   * The kinds of thing that can be looked for here: element ids, a closed set
+   * the world builds from what the place has an abundance of. Empty or absent
+   * when no world is attached, and then nothing unseen can be sought.
+   */
+  sought?: readonly string[];
 }
 
 function distance(grid: TileGrid, a: number, b: number): number {
@@ -116,7 +143,7 @@ function distance(grid: TileGrid, a: number, b: number): number {
   return Math.max(dx, dz);
 }
 
-function operands(scene: ActScene): Operand[] {
+function operands(scene: ActScene, things: Record<string, string>): Operand[] {
   const { grid, actorTile, targetTile } = scene;
   const ax = actorTile % grid.width;
   const az = Math.floor(actorTile / grid.width);
@@ -130,9 +157,11 @@ function operands(scene: ActScene): Operand[] {
   for (const tile of tiles) {
     const thing = scene.thingAt(tile);
     if (!thing) continue;
+    things[`t${found.length + 1}`] = thing.id;
     found.push({
       id: `t${found.length + 1}`,
       name: thing.name,
+      forms: [...(thing.forms ?? [])],
       states: { ...thing.states },
       distance: distance(grid, actorTile, tile),
       isTarget: tile === targetTile,
@@ -145,9 +174,11 @@ export function buildActRequest(line: string, scene: ActScene): ActRequest {
   const { grid, targetTile } = scene;
   const x = targetTile % grid.width;
   const z = Math.floor(targetTile / grid.width);
-  const inReach = operands(scene);
+  const things: Record<string, string> = {};
+  const inReach = operands(scene, things);
   const ids = inReach.map((operand) => operand.id);
   return {
+    things,
     state: {
       line: line.trim().slice(0, MAX_LINE),
       target: {
@@ -163,20 +194,17 @@ export function buildActRequest(line: string, scene: ActScene): ActRequest {
       {
         field: "process",
         ask: "Which one process is the player's line asking for?",
-        options: ["none", ...PROCESSES.map((process) => process.id)],
+        options: [NONE, ...PROCESSES.map((process) => process.id)],
       },
-      {
-        field: "patient",
-        ask: "What is it done to?",
-        options: ["none", "the ground at the target", "something not in sight", ...ids],
-      },
-      {
-        field: "instrument",
-        ask: "What is it done with?",
-        options: ["none", "bare hands", ...ids],
-      },
+      { field: "patient", ask: "What is it done to?", options: [NONE, GROUND, UNSEEN, ...ids] },
+      { field: "instrument", ask: "What is it done with?", options: [NONE, BARE_HANDS, ...ids] },
       { field: "effort", ask: "How much effort does the line ask for?", options: [...EFFORTS] },
       ...MANNER.map((asked) => ({ ...asked, options: [...asked.options] })),
+      {
+        field: "kind",
+        ask: "If it is done to something not in sight, what kind of thing is sought?",
+        options: [NONE, ...(scene.sought ?? [])],
+      },
     ],
   };
 }

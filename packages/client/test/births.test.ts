@@ -137,8 +137,8 @@ describe("everything born on the page", () => {
     const grid = new TileGrid(8, 8);
     const batch = new GlyphBatch(8);
     const things: ThingView[] = [
-      { ...oak, x: 1, z: 1, states: {} },
-      { ...oak, x: 2, z: 1, states: {}, look: { glyph: 7, ink: 1 } },
+      { ...oak, id: "a", x: 1, z: 1, states: {} },
+      { ...oak, id: "b", x: 2, z: 1, states: {}, look: { glyph: 7, ink: 1 } },
     ];
     const births = new Births(askPriors, 1);
     const objects = new ObjectLayer(grid, batch);

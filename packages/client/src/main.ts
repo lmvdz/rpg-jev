@@ -20,12 +20,13 @@ import { INK, PALETTE_HEX } from "./palette.ts";
 import type { ActRequest } from "./play/act-request.ts";
 import { type MountedPlay, mountPlay } from "./play/pointer.ts";
 import { StatusDisplay } from "./play/status.ts";
+import { WorldLink } from "./play/world-link.ts";
+import { perform, type WorldPort } from "./play/world-port.ts";
 import { StandInBody } from "./scene/body.ts";
 import { Drift } from "./scene/drift.ts";
 import { scorchAround, standInGround } from "./scene/ground.ts";
 import { Walker } from "./scene/walker.ts";
 import { ChunkManager } from "./terrain/chunks.ts";
-import { groundHeight } from "./terrain/tessellate.ts";
 import { askPriors, delayed } from "./view/birth.ts";
 import { Births } from "./view/births.ts";
 import { EFFECTS } from "./view/effect-rows.ts";
@@ -43,8 +44,7 @@ const NIGHT_HEX = PALETTE_HEX.map((hex, i) => (i === INK.lamp ? hex : dim(hex)))
 const DRAFT_AFTER_MS = 1500;
 /** The hero is always the glyph batch's first instance. */
 const HERO_SLOT = () => 0;
-/** Stand-ins until acts come from the world: when a reach lands, in seconds, and how hard it is. */
-const STRIKE_LANDS = 0.08;
+/** A stand-in until acts come from the world: how hard a reach is. */
 const STRIKE_LEVEL = 3;
 
 function dim(hex: string): string {
@@ -101,6 +101,10 @@ interface App {
   births: Births;
   /** Effects of events, each played once. */
   shots: OneShots;
+  /** The world that compiles and resolves acts, or none yet. Held so it can be attached late. */
+  world: { port: WorldPort | null };
+  /** Where a resolved act's changes become what is drawn. */
+  link: WorldLink;
   /** The mouse in play: tooltip, click to walk, menu. Mounted once the page is up. */
   play: MountedPlay | null;
   /** The hero's body (a stand-in until world state has one) and the bars that show it. */
@@ -143,6 +147,21 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
   const wait = Number(query.get("judge") ?? 0);
   const births = new Births(wait > 0 ? delayed(askPriors, wait) : askPriors, 1);
   if (things) living = new LivingThings(things, grid, objects, births);
+  const shots = new OneShots();
+  // The world behind the client, once one is attached (`play/world-port.ts`).
+  const world: App["world"] = { port: null };
+  // Where the world's changes arrive. Until a world is attached nothing is known of any
+  // element but what its things already carry, so nothing can be created.
+  const link = new WorldLink({
+    grid,
+    living: living ?? new LivingThings([], grid, objects, births),
+    births,
+    shots,
+    motions: renderer.motions,
+    actorSlot: HERO_SLOT,
+    slotAt: (tile) => objects.slotAt(tile),
+    elementOf: (id) => world.port?.elementOf(id) ?? null,
+  });
   // The states of the ground are a stand-in too; a painted world has none.
   const ground = things ? standInGround(grid, things) : new GroundStates(grid.width, grid.depth);
   renderer.setGround(ground);
@@ -183,7 +202,9 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
     things,
     ground,
     births,
-    shots: new OneShots(),
+    shots,
+    world,
+    link,
     play: null,
     body: new StandInBody(),
     status: null,
@@ -429,26 +450,20 @@ loadWorld(query).then((loaded) => {
     },
     // A stand-in for an act: the hero lunges at the thing, the thing shakes, and what comes off
     // a thing of its element when it is struck is played once. How hard is the world's to say.
+    // It takes the path a resolved act will take (`play/world-link.ts`), with no changes to apply.
     reach: (tile) => {
-      const { walker, renderer, objects } = app;
-      const grid = app.session.world.grid;
+      const actorTile = app.walker.tile;
       const now = app.last / 1000;
-      const x = tile % grid.width;
-      const z = Math.floor(tile / grid.width);
-      const struck = app.living?.thingAt(tile) ?? null;
-      // How each glyph moves is born too: for the one forcing (X2), and for an element forced.
-      const lunge = app.births.motion("X2", "actor", null, MOTIONS.lunge).value;
-      const shake = app.births.motion("X2", "patient", struck, MOTIONS.shake).value;
-      const [dirX, dirZ] = [x - walker.tileX, z - walker.tileZ];
-      if (lunge) renderer.motions.play(HERO_SLOT, lunge, now, dirX, dirZ);
-      const slotOf = () => objects.slotAt(tile);
-      if (shake) renderer.motions.play(slotOf, shake, now + STRIKE_LANDS, dirX, dirZ);
-      if (!struck) return;
-      const rows = app.births.effects.entry(struck, "struck").value[STRIKE_LEVEL] ?? [];
-      const y = groundHeight(grid, x + 0.5, z + 0.5) + 0.5;
-      app.shots.play(x + 0.5, y, z + 0.5, rows, now + STRIKE_LANDS);
+      app.link.show({ process: "force", actorTile, tile, level: STRIKE_LEVEL, now }, []);
     },
-    // There is no world behind the client yet to resolve an act, so the request is kept where
+    world: () => app.world.port,
+    // A menu row's answers need no judge: they go to the world now and the outcome is shown.
+    intend: (request, answers, tile) => {
+      const at = { actorTile: app.walker.tile, targetTile: tile, now: app.last / 1000 };
+      app.note = perform(app.world.port, app.link, request, answers, at);
+      writeHud(app);
+    },
+    // A typed line needs a judge to answer its questions, and none is attached, so the request is kept where
     // a judge or a test can take it (`__acts`), and the HUD says what was handed over.
     act: (request) => {
       acts.push(request);
@@ -466,6 +481,11 @@ loadWorld(query).then((loaded) => {
     __walker: app.walker,
     __births: app.births.log,
     __shots: app.shots,
+    __link: app.link,
+    // A world is attached from outside until the engine can be imported here.
+    __attachWorld: (port: WorldPort) => {
+      app.world.port = port;
+    },
     __living: app.living,
     __ground: app.ground,
     __chunks: app.chunks,

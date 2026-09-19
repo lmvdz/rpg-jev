@@ -140,6 +140,7 @@ describe("the things on screen", () => {
   const grid = new TileGrid(8, 8);
   const thing = (x: number, burning: number): ThingView => ({
     ...pitch,
+    id: `p${x}`,
     x,
     z: 2,
     look: { glyph: 1, ink: 1 },

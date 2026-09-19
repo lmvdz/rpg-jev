@@ -15,8 +15,10 @@ import type { Walker } from "../scene/walker.ts";
 import type { TileGrid } from "../terrain/grid.ts";
 import { describeTile, type TileReport } from "../view/describe.ts";
 import type { LivingThings } from "../view/living.ts";
-import { type ActRequest, buildActRequest } from "./act-request.ts";
+import { type ActRequest, type Answers, buildActRequest } from "./act-request.ts";
+import { intentsFor } from "./intents.ts";
 import { glyphViewOf, pickInPlay } from "./pick-glyph.ts";
+import type { WorldPort } from "./world-port.ts";
 
 export interface PlayHost {
   canvas: HTMLCanvasElement;
@@ -34,6 +36,10 @@ export interface PlayHost {
   reach(tileIndex: number): void;
   /** The player typed an act. The request is ready for a judge; resolving it is the world's. */
   act(request: ActRequest): void;
+  /** The world behind the client, if one is attached: what it can compile decides the menu's rows. */
+  world(): WorldPort | null;
+  /** The player chose a menu row: answers built by code, to go the way a judge's answers will. */
+  intend(request: ActRequest, answers: Answers, tileIndex: number): void;
 }
 
 export interface MountedPlay {
@@ -42,8 +48,8 @@ export interface MountedPlay {
 }
 
 interface MenuRow {
-  label(report: TileReport): string;
-  run(report: TileReport): void;
+  label(): string;
+  run(): void;
 }
 
 function floating(className: string): HTMLDivElement {
@@ -52,6 +58,26 @@ function floating(className: string): HTMLDivElement {
   made.style.display = "none";
   document.body.append(made);
   return made;
+}
+
+/** A box to type an act into, where the menu was. Enter sends it, Escape or clicking away drops it. */
+function lineBox(menu: HTMLDivElement, close: () => void, send: (line: string) => void): void {
+  const box = document.createElement("input");
+  box.type = "text";
+  box.maxLength = 200;
+  box.placeholder = "what do you do?";
+  menu.replaceChildren(box);
+  menu.style.display = "block";
+  box.focus();
+  box.addEventListener("keydown", (event) => {
+    // The game's keys are not for typing with.
+    event.stopPropagation();
+    if (event.key === "Escape") close();
+    if (event.key !== "Enter" || box.value.trim() === "") return;
+    const line = box.value;
+    close();
+    send(line);
+  });
 }
 
 export function mountPlay(host: PlayHost): MountedPlay {
@@ -85,61 +111,56 @@ export function mountPlay(host: PlayHost): MountedPlay {
     if (path?.length === 0) host.reach(index);
   };
 
-  const rows: readonly MenuRow[] = [
-    {
-      label: (at) => (at.thing?.solid ? `walk up to ${at.thing.name}` : "walk here"),
-      run: (at) => walkTo(at.index),
-    },
-    {
-      label: (at) => `look at ${at.thing?.name ?? "the ground"}`,
-      run: (at) => host.say(describeTile(grid, at).join("  |  ")),
-    },
-    {
-      // The open door: whatever the player can put into words, aimed at this tile.
-      label: (at) => (at.thing ? `do something with ${at.thing.name}...` : "do something here..."),
-      run: (at) => askForLine(at),
-    },
-  ];
-
-  /** A box to type an act into, where the menu was. Enter sends it, Escape or clicking away drops it. */
-  const askForLine = (at: TileReport): void => {
-    const box = document.createElement("input");
-    box.type = "text";
-    box.maxLength = 200;
-    box.placeholder = "what do you do?";
-    menu.replaceChildren(box);
-    menu.style.display = "block";
-    box.focus();
-    box.addEventListener("keydown", (event) => {
-      // The game's keys are not for typing with.
-      event.stopPropagation();
-      if (event.key === "Escape") closeMenu();
-      if (event.key !== "Enter" || box.value.trim() === "") return;
-      const request = buildActRequest(box.value, {
-        grid,
-        actorTile: walker.tile,
-        targetTile: at.index,
-        thingAt: (tile) => living?.thingAt(tile) ?? null,
-      });
-      closeMenu();
-      host.act(request);
+  const requestFor = (line: string, at: TileReport): ActRequest =>
+    buildActRequest(line, {
+      grid,
+      actorTile: walker.tile,
+      targetTile: at.index,
+      thingAt: (tile) => living?.thingAt(tile) ?? null,
+      sought: host.world()?.sought() ?? [],
     });
+
+  /** Walk and look, then what the world can do here without a judge, then the open door. */
+  const rowsFor = (at: TileReport): MenuRow[] => {
+    const request = requestFor("", at);
+    return [
+      {
+        label: () => (at.thing?.solid ? `walk up to ${at.thing.name}` : "walk here"),
+        run: () => walkTo(at.index),
+      },
+      {
+        label: () => `look at ${at.thing?.name ?? "the ground"}`,
+        run: () => host.say(describeTile(grid, at).join("  |  ")),
+      },
+      ...intentsFor(request, host.world()?.compiled ?? []).map((intent) => ({
+        label: () => intent.label,
+        run: () => host.intend(request, intent.answers, at.index),
+      })),
+      {
+        // The open door: whatever the player can put into words, aimed at this tile.
+        label: () => (at.thing ? `do something with ${at.thing.name}...` : "do something here..."),
+        run: () => askForLine(at),
+      },
+    ];
   };
 
   const closeMenu = (): void => {
     menu.style.display = "none";
   };
 
+  const askForLine = (at: TileReport): void =>
+    lineBox(menu, closeMenu, (line) => host.act(requestFor(line, at)));
+
   const openMenu = (index: number): void => {
     const at = report(index);
     menu.replaceChildren();
-    for (const row of rows) {
+    for (const row of rowsFor(at)) {
       const button = document.createElement("button");
       // Names are generated text: set as text, never as markup.
-      button.textContent = row.label(at);
+      button.textContent = row.label();
       button.addEventListener("click", () => {
         closeMenu();
-        row.run(at);
+        row.run();
       });
       menu.append(button);
     }

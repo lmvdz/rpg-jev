@@ -12,6 +12,10 @@ const GROWTH = ["a seed", "a sprout", "still growing", "full grown", "bearing", 
 const BURNING = ["", "smouldering", "burning low", "burning", "burning well", "blazing"];
 const AMOUNT = ["none left", "a little", "some", "a fair amount", "plenty", "a great deal"];
 const TEMPERATURE = ["frozen", "cold", "", "warm", "hot", "scorching"];
+const WETNESS = ["", "damp", "damp", "wet", "wet", "soaked"];
+const INTEGRITY = ["in pieces", "broken", "badly cracked", "cracked", "chipped", ""];
+const CORROSION = ["", "tarnished", "tarnished", "corroded", "corroded", "eaten away"];
+const CONTAMINATION = ["", "", "gone off", "spoiled", "rotten", "putrid"];
 const SLANTS: Readonly<Record<number, string>> = {
   [SHAPE.slantN]: "a slope up to the north",
   [SHAPE.slantE]: "a slope up to the east",
@@ -27,6 +31,11 @@ const STATE_WORDS: readonly ((states: VisibleStates) => string | undefined)[] = 
   (states) => (states.amount === undefined ? undefined : AMOUNT[Math.round(states.amount)]),
   (states) =>
     states.temperature === undefined ? undefined : TEMPERATURE[Math.round(states.temperature)],
+  (states) => (states.wetness === undefined ? undefined : WETNESS[Math.round(states.wetness)]),
+  (states) =>
+    states.integrity === undefined ? undefined : INTEGRITY[Math.round(states.integrity)],
+  (states) => CORROSION[Math.round(states.corrosion ?? 0)],
+  (states) => CONTAMINATION[Math.round(states.contamination ?? 0)],
 ];
 
 export function describeThing(thing: ThingView): string {
