@@ -6,6 +6,12 @@
 import { z } from "zod";
 import { claimId } from "./claims.ts";
 import { currentEdge } from "./graph.ts";
+import { settlementSchema, type ThermalSettlement } from "./thermal/contract.ts";
+import {
+  applyThermalSettlement,
+  validateRecordedThermal,
+  validateThermalSettlement,
+} from "./thermal/settlement.ts";
 import {
   type BeliefSource,
   type Claim,
@@ -46,7 +52,8 @@ export type Effect =
   | { kind: "advance_clock"; minutes: number }
   | { kind: "queue_speech"; intent: SpeechIntent }
   | { kind: "say"; intent: SpeechIntent }
-  | { kind: "drop_speech"; id: string; reason: string };
+  | { kind: "drop_speech"; id: string; reason: string }
+  | ThermalSettlement;
 
 export type EffectKind = Effect["kind"];
 
@@ -188,6 +195,7 @@ export const effectSchema = z.discriminatedUnion("kind", [
   z.strictObject({ kind: z.literal("queue_speech"), intent: speechIntent }),
   z.strictObject({ kind: z.literal("say"), intent: speechIntent }),
   z.strictObject({ kind: z.literal("drop_speech"), id, reason: z.string() }),
+  settlementSchema,
 ]);
 
 export const EFFECT_KINDS: readonly EffectKind[] = effectSchema.options.map(
@@ -378,8 +386,12 @@ function validateRetire(
   if (!world.actors[effect.actor]?.present) errors.push(`${effect.actor} is not in the world`);
 }
 
-function validateAdvanceClock(): void {
-  // No preconditions: the clock always may advance.
+function validateAdvanceClock(
+  world: World,
+  _effect: Extract<Effect, { kind: "advance_clock" }>,
+  errors: string[],
+): void {
+  if (world.thermal) errors.push("active thermal state requires an accounted thermal wait");
 }
 
 function validateSpeech(
@@ -426,17 +438,22 @@ const validators: { [K in EffectKind]: Validator<K> } = {
   queue_speech: validateSpeech,
   say: validateSpeech,
   drop_speech: validateDropSpeech,
+  thermal_settle: validateThermalSettlement,
 };
 
 /**
  * Schema plus preconditions. Returns the reasons an effect is illegal in this
  * world; an empty list means it may be logged and applied.
  */
-export function validateEffect(world: World, candidate: unknown): string[] {
+export function validateEffect(world: World, candidate: unknown, recorded = false): string[] {
   const parsed = effectSchema.safeParse(candidate);
   if (!parsed.success) return parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`);
   const effect = parsed.data as Effect;
   const errors: string[] = [];
+  if (recorded && effect.kind === "thermal_settle") {
+    validateRecordedThermal(world, effect, errors);
+    return errors;
+  }
   const validate = validators[effect.kind] as (
     world: World,
     effect: Effect,
@@ -674,6 +691,7 @@ const appliers: { [K in EffectKind]: Applier<K> } = {
   queue_speech: applyQueueSpeech,
   say: applySay,
   drop_speech: applyDropSpeech,
+  thermal_settle: applyThermalSettlement,
 };
 
 /**

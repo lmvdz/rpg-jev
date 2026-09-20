@@ -68,6 +68,17 @@ export class Store {
   /** Validate, log, apply. An illegal effect is logged as rejected and changes nothing. */
   tryCommit(effect: Effect, cause: LogId | null): LogId | null {
     const reasons = validateEffect(this.world, effect);
+    if (
+      effect.kind === "thermal_settle" &&
+      this.log.some(
+        (entry) =>
+          entry.kind === "effect" &&
+          entry.effect.kind === "thermal_settle" &&
+          entry.effect.actor === effect.actor &&
+          entry.effect.requestId === effect.requestId,
+      )
+    )
+      reasons.push("thermal request already settled");
     if (reasons.length > 0) {
       this.append({ kind: "rejected", effect, reasons }, cause);
       return null;
@@ -105,7 +116,7 @@ export function replay(initial: World, log: readonly LogEntry[]): World {
   const world = structuredClone(initial);
   for (const entry of log) {
     if (entry.kind === "effect") {
-      const reasons = validateEffect(world, entry.effect);
+      const reasons = validateEffect(world, entry.effect, true);
       if (reasons.length > 0)
         throw new Error(`log entry ${entry.id} no longer validates: ${reasons.join("; ")}`);
       applyEffect(world, entry.effect, entry.id);

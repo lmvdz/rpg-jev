@@ -4,6 +4,7 @@
  * Nothing in this file changes state; `effects.ts` is the only write path.
  */
 import type { RngState } from "./rng.ts";
+import type { ThermalState } from "./thermal/contract.ts";
 
 export type ActorId = string;
 export type RoomId = string;
@@ -243,4 +244,6 @@ export interface World {
   schedules: Record<ActorId, Schedule>;
   debts: Record<DebtId, Debt>;
   conversation: Conversation;
+  /** Absent in legacy worlds. SI state, never derived from ordinal matter levels. */
+  thermal?: ThermalState;
 }
