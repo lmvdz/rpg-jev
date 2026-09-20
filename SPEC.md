@@ -1140,7 +1140,7 @@ records. Those records are not simulated beliefs and do not expand the physical
 operation catalog. SI/ordinal interoperability, broader Q064 schemas and actual
 participant-learning evidence remain unestablished.
 
-**Current next-step selection:** the bench is now an automated engineering
+**Historical next-step selection (superseded below):** the bench is now an automated engineering
 fixture, not a prescribed player exercise. The [finite sweep and selection](validation/thermal-learning/AUTOMATION.md)
 choose preparation of an inn sleeping place using an already-warm finite solid
 heat store and persistent solid receiver while ordinary inn activity continues.
@@ -1148,3 +1148,38 @@ This is not an implemented bed/comfort mechanic: shared time progression,
 item/contact bindings and a meaningful property-based service consequence still
 need narrow admission. No ordinal-to-SI conversion, body physiology, ambient
 cooling or unlimited temperature-threshold benefit is implied by the selection.
+
+### Shared-food browser slice
+
+**Current implementation direction:** moving finite resources around autonomous
+inhabitants, exposed through the existing `pnpm client` renderer. The player
+brings food back to camp while a hungry creature independently pursues eligible
+food. This replaces the thermal inn selection above, not the retained thermal
+engineering work. No laboratory protocol or prescribed bait solution is a player
+requirement.
+
+The [bounded admission and Q064 handoff review](docs/world/shared-food.md)
+govern this slice. Food consists of stable discrete portions without splitting or
+merging. Code owns possession, reach, dietary suitability, resource depletion,
+terrain-valid movement and autonomous opportunities. Names and the read-only
+camp progress indicator cannot select consequences or grant resources.
+
+Bounded command steps advance one local simulation timeline for movement,
+ordinary actions and waiting. Animation displays committed state; renderer frame
+rate does not determine outcomes. Idle, paused, background and absent clients
+perform no catch-up. Local-browser save/resume preserves consequential state
+without resetting needs or refilling food. This is not a multiplayer persistence
+deployment or a general scheduler. Existing M2 families remain unchanged and the
+baseline requires no live-model calls.
+
+The bounded implementation and [verification report](validation/shared-food/REPORT.md)
+record deterministic accounting/contrast/replay tests and actual browser
+operability. Q064 and broader physical/shared-world gates remain open; intuitive
+playability is not established by those scripts. A participant subsequently
+reported observing shared consumption and eating food on a restarted run; this
+is narrow evidence of adaptation, not validation of the camp/relocation loop.
+Command timing was accepted for the demo only. Multiplayer time remains
+server-owned and independent of player input; menus, hidden tabs and disconnects
+must not pause the shared world. Returning observes current authoritative state,
+not a restored personal snapshot.
+The external Claude Doc has not been verified or synchronized.

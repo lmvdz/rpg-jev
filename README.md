@@ -54,7 +54,7 @@ Packages planned in the spec (`server`, `author`) are added when their milestone
 | `pnpm play` | Play the inn |
 | `node validation/thermal-learning/validate.ts --out=<new-directory>` | Automate the thermal engineering checks using existing dependencies; see the report for a no-install launcher |
 | `pnpm play --bench` | Optional development fixture, not a recommended player exercise; resumes `saves/thermal-bench.jsonl` |
-| `pnpm client` | Open the renderer at http://localhost:5174. `?study` compares glyphs and material states, `?stress` shows the performance scene, and Tab opens the editor |
+| `pnpm client` | Open the renderer at http://localhost:5174. `?food` plays the [shared-food slice](docs/world/shared-food.md#implemented-interface); `?study` compares glyphs and material states, `?stress` shows the performance scene, and Tab opens the editor outside food mode |
 | `pnpm demo` | Play the fixed script against live Jev; write `demo/transcript.md` and `demo/metrics.json` |
 | `pnpm demo --record` | As above, and re-record `demo/recordings.json` for the offline test. Do this after changing a slice, a question or the content |
 | `pnpm friction` | Read the saved nights and write `playtests/friction.md`: where play snagged. See `docs/playtest-loop.md` |

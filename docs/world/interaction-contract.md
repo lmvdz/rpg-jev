@@ -216,6 +216,13 @@ perturbation or unsupported internal gradients prevent useful comparisons.
 
 ## Evidence and exit criteria for the review
 
+The [shared-food admission](shared-food.md#q064-ownership-and-handoff-review)
+records the subsequent six-probe reconciliation for finite possession,
+terrain-valid movement, diet, current sensory evidence and local persistence.
+It does not reuse the thermal retention decision as a sequencing waiver or close
+the general contract. Its executable scope is the existing ordinal matter world,
+not SI metabolism, general containment or asynchronous belief delivery.
+
 The design review is ready to inform mechanism selection when every probe has a
 coherent annotated trace, ownership map and explicit unsupported dependencies,
 and at least one cross-domain composition introduces no special-case write path.

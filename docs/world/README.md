@@ -25,6 +25,12 @@ waiver of Q064's prerequisite review. The corrective review assesses the existin
 choices without closing Q064. Engineering evidence remains separate from
 unverified participant learning.
 
+The [shared-food browser slice](shared-food.md) is the current bounded gameplay
+direction: moving finite resources around autonomous inhabitants through ordinary
+actions. Its Q064 handoff review and local command-time/persistence admission are
+scoped to the existing matter world. The thermal bench is not its dependency or
+player task. Browser operability does not establish intuitive human playability.
+
 The [experimentation-first research record](experimentation.md) captures the
 parallel engine exploration, cross-review revisions and accepted Q063 player
 loop/learning milestone. It guides the next design study without closing Q018
