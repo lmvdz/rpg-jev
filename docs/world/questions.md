@@ -40,8 +40,8 @@ No new integrated W0–W8 capability is marked implemented and verified here.
 
 ## Next question: Q018
 
-**Which concrete geometry parameters and precision should the accepted
-parts-and-relationships foundation represent first?**
+**Which shape vocabulary and geometric detail do the next design-only player
+journeys require from the accepted foundation?**
 
 The [Q018 foundation](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships)
 is accepted: material-bearing parts and typed couplings underlie assemblies.
@@ -56,6 +56,12 @@ schema fields, precision, approximation transfers or supported channels.
 are now accepted internally, with descriptive/converted presentation values.
 Legacy calibration/conversion and migration remain explicit integration work;
 the unit choice does not establish numerical accuracy or physical realism.
+[Hierarchical coordinates and frame invariance](composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes)
+are accepted: frame changes alone preserve physical outcomes, identities,
+generation history and knowledge. Numeric formats, dimensions, transform details
+and error budgets remain open. Follow Q063's
+[design-only journeys](experimentation.md#next-work-remains-design-only) to assess
+candidate geometry before selecting a concrete palette or claiming implementation.
 
 Assess a coherent coupled representation, not isolated subsystems. The spontaneous
 sword/ground/exertion example probes contact, support, work, body demand and thermal
@@ -107,7 +113,7 @@ These record the recent agreed direction. None implies a complete entity runtime
 | Q010 | What does coarse population state represent, distinct from habitat capacity and body resources? | Open | [Population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry); source units, cohorts/viable stages where needed, and explicit/coarse transfer invariants |
 | Q011 | Which conditions, opportunities and replenishment mechanisms govern entry? | Open | [Population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry); supported inputs, timing/draw identity, migration/birth boundaries and no repeated-evaluation exploit |
 | Q012 | How are coherent regions/individuals/groups initialized atomically and retried? | Open | [Initialization](world-identity-and-context.md#coherent-initialization-not-attribute-confetti) and [source model](world-identity-and-context.md#accepted-decision-accounted-population-entry); spatial boundary/time basis, stable allocation IDs, constraint/fan-out bounds and initialization accounts respecting established facts |
-| Q013 | How are identity, world placement/containment and relationship transitions represented? | Open | [Lifecycle](world-identity-and-context.md#lifecycle-and-identity-decisions) and [spatial alternatives](world-identity-and-context.md#alternatives-and-tradeoffs); coordinate/containment schema and conversion precision, relationship lifetimes, split/detach/rebuild lineage and ownership versus possession |
+| Q013 | How are identity, world placement/containment and relationship transitions represented? | Open | [Lifecycle](world-identity-and-context.md#lifecycle-and-identity-decisions); [hierarchical frames/invariance accepted](composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes), but coordinate/containment schema, conversion precision, relationship lifetimes and lineage still need design |
 | Q014 | When may individual state retire, archive or refine? | Open | [Evidence questions](world-identity-and-context.md#evidence-and-open-decisions); retention/refinement rules preserving references, quantities and history |
 | Q015 | Which settings, bounds, defaults and caller permissions are supported? | Open | [Live settings](world-identity-and-context.md#accepted-decision-prospective-live-ecological-settings); concrete validated catalogue and authorization rules, with Q054 transitions |
 | Q016 | Are exceptional restoration, protected-species or administrator-reset mechanics admitted? | Deferred | [Extinction scope](world-identity-and-context.md#revised-decision-extinction-has-an-explicit-scope); none admitted; Q009 initializes new sources, not restoration of ended identities or depleted regions |
@@ -117,7 +123,7 @@ These record the recent agreed direction. None implies a complete entity runtime
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
 | Q017 | Do we retain compositional physics rather than named encounter recipes? | Decided | Yes; physical/rule graphs, conservation and C gates remain foundational; [physical contract](../compositional-causality.md#what-is-abstracted) |
-| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Parts/relationships](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships), [structure-first geometry](composition-and-processes.md#accepted-q018-approach-structure-before-approximation) and [SI units](composition-and-processes.md#accepted-q018-units-si-internally) accepted; shape palette, fields, precision, calibration/adapters, approximation transfers and channels remain open |
+| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Parts/relationships](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships), [structure-first geometry](composition-and-processes.md#accepted-q018-approach-structure-before-approximation), [SI units](composition-and-processes.md#accepted-q018-units-si-internally) and [hierarchical frames/invariance](composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes) accepted; palette, fields, precision, adapters, transforms and channels remain open, guided by Q063 journeys |
 | Q019 | How are simultaneous physical transfers allocated from shared budgets? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); consistent read state, allocation and boundary settlement; coordinate Q045/Q050 |
 | Q020 | How do damage, fracture and attachment changes alter topology? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); first admitted mechanisms with material/energy-preserving transitions |
 | Q021 | Which current matter processes migrate first, through which adapters? | Open | [Physical open decisions](composition-and-processes.md#evidence-and-open-decisions); mechanism-to-current-row compatibility map, not a second production engine |
