@@ -220,6 +220,15 @@ per concept. Bodies and accounted bulk environments share the same exchange
 boundaries. See the [foundation decision](world/composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships).
 Concrete geometry, units and first admitted channels remain open.
 
+**Accepted Q018 representation approach:** compound simple geometry and explicit
+interfaces describe meaningful stored structure. Derive active physical
+approximations and visual representations from that structure and shared committed
+state, not independent copies of physical quantities. Visual richness cannot
+grant unsupported capabilities. Prefer retrieving established detail to inventing
+it; any later refinement remains versioned, conserving and consistent with history.
+The primitive palette, precision and approximation/transfer rules still need
+design and evidence. See the [structure-first approach](world/composition-and-processes.md#accepted-q018-approach-structure-before-approximation).
+
 Retain the distinction between the physical graph and rule graph. Assemblies
 contain actual material; coatings, wraps and joints are not free modifiers.
 Contacts expose admitted channels such as thermal transfer or force transmission.

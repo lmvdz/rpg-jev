@@ -964,6 +964,15 @@ Bodies and bulk environmental reservoirs use shared accounted exchanges.
 Geometry precision, units, concrete schemas and initial channels remain open;
 this agreement is not implementation completion.
 
+**Accepted Q018 representation approach:** store meaningful structure using
+compound simple geometry and explicit interfaces, then derive active physical
+approximations and visual representations from it. All reference the same
+identities and committed state; projections do not own duplicate physical budgets.
+Visual detail grants no unsupported capability, and restoring definition detail
+cannot erase instance damage/history. Prefer stored structure; later refinement
+must remain admitted, conserving and consistent with established facts. Shape
+palette, precision, approximation transitions and supported channels remain open.
+
 An NPC is a persistent participant in the same world as the player. Its initial
 body, biological attributes, relationships and history must be seeded coherently,
 not independently rolled into contradictory facts. Its intentions use its own

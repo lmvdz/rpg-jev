@@ -12,8 +12,9 @@ persistent simulation afterward and explicitly revised extinction scope.
 Q062 records the accepted six-layer variation model; Q061 retains concrete
 variant-schema and admission questions. The
 [next discussion is Q018](questions.md#next-question-q018):
-geometry and spatial precision. Its parts-and-typed-relationships foundation is
-accepted; concrete fields, units and initial channels remain open.
+concrete geometry, units and precision. Parts/typed relationships and structure-first
+compound geometry are accepted; shape palette, fields, approximation transfers,
+units and initial channels remain open.
 
 | Module | Design question |
 | --- | --- |

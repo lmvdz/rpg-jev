@@ -47,6 +47,49 @@ history; missing representation/mechanics is not filled with a plausible result.
 No thermal, respiratory or mechanical channel is certified by accepting this
 foundation. Their schemas, calibrations and coupled evidence still need admission.
 
+## Accepted Q018 approach: structure before approximation
+
+Use compound simple geometry and explicit interfaces as the initial representation
+direction. Store meaningful structure first, then derive cheaper physical
+approximations; do not invent consequential structure only when an action needs it.
+The concrete primitive palette, coordinate precision and geometric algorithms
+remain open. Nesting primitives does not itself implement cavities, deformability,
+cutting, fracture or joints.
+
+Keep three linked representations:
+
+| Representation | Responsibility |
+| --- | --- |
+| Structural definition and instantiated structure | Admitted parts, materials, interfaces, meaningful geometric detail and structural changes |
+| Active physical representation | A declared approximation suitable for the admitted interactions being resolved |
+| Visual representation | Appearance derived from structure and committed state, potentially richer than the active physical approximation |
+
+These reference one set of identities and authoritative instance quantities,
+damage, topology and history. Definition geometry describes the baseline; it
+cannot restore a damaged instance when a cache is rebuilt. Approximations and
+rendering are projections, not independent stores of mass, energy or capabilities.
+
+An approximation declares its supported operations and error bounds. Changing
+resolution must preserve quantities, mass-distribution constraints, contacts and
+significant history within its admitted contract; fine and coarse representations
+cannot evolve independently. Exact transition/transfer rules need evidence before
+an approximation is used for a new channel or resolution.
+
+Visual smoothing and texture cannot create a physical hook, opening or cutting
+edge absent from the supported structure. Mechanically relevant visual features
+need matching physical representation; otherwise do not imply they can be used.
+
+Retrieving stored detail is different from inventing it. Existing one-part/coarse
+objects remain valid where sufficient. If important detail was never established,
+only an admitted, versioned, conserving refinement may introduce it consistently
+with prior observations and events. If none exists, retain the coarse object and
+report the unsupported interaction rather than create a convenient fresh interior.
+
+Required C3/C4/C6/C7 evidence includes coarse/fine transitions around damage and
+detachment, input/order invariance, retained budgets and geometry constraints, and
+rendering that neither grants missing physical features nor contradicts committed
+changes. Complex assemblies must work through composition, not named exceptions.
+
 ## Ownership and interfaces
 
 Composition owns material portions, stored physical quantities, contacts, damage
