@@ -94,6 +94,13 @@ activation never spawns, and migration retains identity. Dormant individuals sti
 count. Replenishment requires admitted events, not automatic replacement of deaths.
 Population allocation is not a substitute for physical/body resource accounts.
 
+**Revised Q009 source model:** genuinely new regions may establish fresh seeded
+population sources, including further populations of existing species. There is
+no finite world-wide founding-stock requirement. Initialization is recorded once
+with coherent groups, bodies and resource accounts; subsequent behavior belongs
+to simulation. Retries, re-entry and relabeling established areas cannot initialize
+them again. Generation respects existing observations and cross-region commitments.
+
 Persist spawn opportunities and their resolution so revisiting, extra players
 or repeated evaluation cannot mint independent chances. Proximity may schedule
 work but cannot reset reality. Placement and initialization respect established
@@ -112,22 +119,26 @@ Count dormant and coarse populations too: unseen does not mean extinct.
 See the
 [local-extinction decision](world/world-identity-and-context.md#accepted-decision-local-extinction-and-causal-recovery).
 
-**Accepted full-extinction rule:** a species can lose every actual source in the
-world's declared population scope, with no guaranteed refuge or hidden replacement.
-Ordinary recovery is then impossible. Later exploration or definition changes
-cannot recreate stock contrary to committed history. Count dormant/coarse sources
-and admitted viable reproductive stages; unresolved ungenerated/external sources
-are not zero. The authoritative condition is not automatic observer knowledge.
-Population scope and source accounting still require design; no exceptional
-restoration mechanic is admitted. Both rare local species and widespread species
-can become fully extinct; actual population structure determines difficulty, not
-an exemption for common species. This does not settle upfront versus progressive
-population geography. See the
-[full-extinction decision](world/world-identity-and-context.md#accepted-decision-full-extinction-is-possible).
+**Revised Q005 extinction scope:** the previous promise of permanent species-wide
+extinction across all future geography is superseded by open-ended generation.
+Species/variants still eligible for new-region initialization may occur again
+elsewhere. Local losses and individual/community histories persist; a new related
+population does not resurrect an ended identity. Extinction assertions name their
+scope and account for dormant/coarse/reproductive sources. Unknown is not zero,
+and world truth is not automatic observer knowledge. See
+[extinction scope](world/world-identity-and-context.md#revised-decision-extinction-has-an-explicit-scope).
+
+**Accepted variant direction:** species may have technically distinct variant
+definitions expressed through admitted structured properties and capabilities,
+not display names or new generated laws. Keep species grouping, variant,
+community/population and individual identity separate. New variants do not reset
+established identities or losses. Schema, distinction criteria and compatibility
+remain Q061; no genetics/evolution system is implied. See
+[species variants](world/world-identity-and-context.md#accepted-direction-technically-distinct-species-variants).
 
 **Accepted world direction:** support indefinitely expanding geography and explicit
-world settings, not mandatory finite maps. Expansion is distinct from inexhaustible
-species sources: full extinction must remain possible. Source scope, setting names,
+world settings, not mandatory finite maps. New-region initialization is distinct
+from refilling established sources. Source detail, setting names,
 defaults and the specific live-adjustable settings need further design. Persistent
 settings are code-validated and revisioned; they cannot silently rewrite history or reseed it.
 See [world expansion and settings](world/world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings).
@@ -135,7 +146,7 @@ See [world expansion and settings](world/world-identity-and-context.md#accepted-
 **Accepted live-settings policy:** ecological rules may change prospectively through
 explicit, authorized and recorded revisions. Existing individuals, population
 accounts and committed history are preserved; changed settings do not refill
-sources, resurrect extinct species or rewrite generated places. Each setting needs
+established sources, resurrect ended identities or rewrite generated places. Each setting needs
 a validated transition for in-flight work and an effective simulation boundary,
 including offscreen catch-up. Unsupported changes are rejected or deferred.
 Concrete settings and transition choices remain open. See

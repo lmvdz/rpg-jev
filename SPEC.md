@@ -977,6 +977,14 @@ not distance-based identity erasure. See the
 [population-entry contract](docs/world/world-identity-and-context.md#accepted-decision-accounted-population-entry)
 for boundaries and still-open calibration/lifecycle questions.
 
+**Revised Q009 source model:** new regions may establish fresh seeded populations,
+including further populations of existing species; a finite world-wide founding
+inventory is not required. This supports open-ended discoveries of wildlife and
+communities. Initialization records coherent groups, bodies and source accounts
+once, under a stable generation basis. Established regions thereafter evolve
+through simulation: revisits, retries or relabeling cannot reroll or refill them.
+Existing observations and cross-region commitments constrain new generation.
+
 **Accepted local-recovery rule:** local extinction is possible, and a population
 with no survivors, unrepresented stock or reachable source remains absent until
 an admitted process changes that situation. Habitat capacity, elapsed time and
@@ -986,34 +994,37 @@ needs eligible surviving sources, and establishment still requires suitable
 conditions. Dormant individuals count; absence of sightings does not prove
 extinction. Exact recovery mechanics remain open.
 
-**Accepted full-extinction rule:** species can become fully extinct across the
-world's declared population scope; no guaranteed refuge or hidden replacement
-source prevents it. All active, dormant, coarse and admitted viable reproductive
-sources must be exhausted. Ordinary migration, reproduction or reintroduction
-then cannot restore them. Exploration and later region/definition generation must
-respect committed extinction rather than mint new stock. Global source accounting,
-including ungenerated regions, must distinguish unresolved from zero. Extinction
-is world truth, not automatically player/NPC knowledge. Scope details and any
-exceptional restoration policy require separate design; none is admitted here.
-The rule applies to both rare limited-range species and widespread species.
-Distribution, numbers and surviving sources determine difficulty; commonness
-does not confer immunity. When population geography is generated remains open.
+**Revised Q005 extinction scope:** the earlier guarantee of possible permanent
+species-wide extinction across all future geography is superseded by Q009.
+Species/variants eligible for open-ended regional generation may appear in new
+regions after all established populations are lost. Local extinction, persistent
+individual losses and ended community/lineage identities remain meaningful.
+Related new populations cannot silently recreate those identities. Assertions
+of extinction specify scope, account for dormant/coarse/reproductive sources,
+and distinguish unresolved from zero; they do not automatically inform observers.
+
+**Accepted variant direction:** a species may contain technically distinct,
+versioned variant definitions using admitted properties/capabilities. Species
+grouping, variant, community/population and individual identity are distinct.
+Names do not determine physical or behavioral outcomes; new variants cannot
+reset established populations or histories. Q061 covers the schema and admission
+criteria; this does not admit generated laws, genetics or new judgment families.
 
 **Accepted world direction:** indefinitely expanding geography and configurable
 world rules are intended capabilities, not mandatory finite maps. Geographic
-expansion does not grant inexhaustible species sources; full extinction remains
-possible. The source-accounting model, concrete settings/defaults and catalogue
+expansion can initialize additional population sources under Q009, not refill
+established ones. Source-accounting detail, concrete settings/defaults and catalogue
 of live-adjustable rules remain undecided. Code validates settings and pins their
 relevant generation/mechanics revisions; changing persistent semantics requires explicit
-migration, not silently rewriting history. This admits no extinction exemption,
-automatic replenishment mode or claim of unbounded compute/storage.
+migration, not silently rewriting history. This admits no automatic replenishment
+of established regions or claim of unbounded compute/storage.
 
 **Accepted live-settings policy:** ecological rules may change during play through
 explicit, authorized and recorded revisions governing future evolution, not resets
 of existing state. Preserve individuals, population/source accounts and history.
 Each admitted change has an effective simulation boundary and a validated policy
 for in-flight work and offscreen catch-up; it cannot retroactively apply new rules,
-duplicate progress, reroll settled opportunities or restore extinct populations.
+duplicate progress, reroll settled opportunities or reset established population losses.
 Unsupported changes are rejected or deferred. Specific knobs/defaults and their
 transition policies require further design; no live-settings API is claimed.
 

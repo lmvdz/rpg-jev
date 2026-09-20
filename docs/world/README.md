@@ -7,8 +7,10 @@ admitted mechanics or a promise that every suggested mechanism will ship.
 
 Use the [numbered question register](questions.md) to track decided, open,
 measurement-dependent and deferred questions separately from implementation
-evidence. The [next discussion is Q009](questions.md#next-question-q009):
-accountable species sources across expanding geography.
+evidence. Q009 now permits fresh seeded population sources in new regions, with
+persistent simulation afterward and explicitly revised extinction scope.
+The [next discussion is Q061](questions.md#next-question-q061):
+technically distinct variants versus individual traits and community identity.
 
 | Module | Design question |
 | --- | --- |

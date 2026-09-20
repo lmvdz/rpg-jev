@@ -34,26 +34,29 @@ No new integrated W0–W8 capability is marked implemented and verified here.
 - Counts describe this inventory, not engineering effort or percent completion.
   Related rows differ in size and can depend on each other.
 
-## Next question: Q009
+## Next question: Q061
 
-**How are finite, accountable species sources represented across indefinitely
-expanding geography?**
+**What makes a technically distinct species variant different from an individual
+trait or a community affiliation?**
 
-Constraints already decided: persistent individuals, accounted entry, no hidden
-respawn source, possible extinction of both rare and widespread species, expanding
-terrain and prospective versioned setting changes.
+Q009 is now decided: genuinely new regions may initialize fresh seeded population
+sources without a finite world-wide founding inventory. Once established, sources
+and individuals persist and follow simulation. Initialization retries, exploration
+order and re-entry cannot reset them. Source schema, placement and generation-time
+details remain Q010–Q012, not claimed implementations.
 
-An answer must identify where founding stock comes from, how ungenerated territory
-is accounted for, and why continued exploration cannot supply that same species
-forever. It must distinguish unknown source state from exhausted source state.
-It need not choose reproduction rates, full biology or every spawn eligibility
-parameter; those are Q010–Q011 and embodiment follow-ups.
+This changed the assumption behind Q005. The earlier permanent species-wide
+extinction promise is superseded: species/variants eligible for open-ended regional
+generation may appear elsewhere after all established populations disappear.
+Local losses and ended individual/community identities remain persistent. This
+is an explicit decision revision, not completion of the old finite-source proposal.
 
-No solution is selected by this register. Compare candidate source models against
-the same traces: concurrent exploration, migration, source exhaustion, a genuinely
-unresolved population, full extinction followed by exploration, and save/replay.
-After this source-model discussion, prefer moving to the physical representation
-questions rather than exhausting ecological tuning. Dependencies stay explicit.
+The user also accepted technically distinct species variants. Q061 records the
+remaining schema/admission question rather than assuming every visible difference,
+faction or injury defines a new variant. Distinct profiles must use admitted
+properties and preserve identity/history boundaries. No inheritance or genetics
+mechanism has been selected. After this focused distinction, prefer moving to
+Q018's physical representation rather than exhausting ecological tuning.
 
 ## Accepted cross-module decisions
 
@@ -65,8 +68,8 @@ These record the recent agreed direction. None implies a complete entity runtime
 | Q002 | Must every creature exist individually at region generation? | Decided | No; rule-driven entry draws from accounted sources; [population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry) |
 | Q003 | Does distance or reactivation replace an established creature? | Decided | No; individuals persist, activation is not creation, migration preserves identity; [population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry) |
 | Q004 | Does an isolated depleted region automatically recover? | Decided | No; recovery needs admitted causal sources and conditions; [local extinction](world-identity-and-context.md#accepted-decision-local-extinction-and-causal-recovery) |
-| Q005 | Can both rare and widespread species become fully extinct? | Decided | Yes; no guaranteed refuge or hidden replacement, and unseen is not extinct; [full extinction](world-identity-and-context.md#accepted-decision-full-extinction-is-possible) |
-| Q006 | Must geography be finite to support accounting? | Decided | Indefinitely expanding geography is an intended capability; source scope remains Q009; [world expansion](world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings) |
+| Q005 | Can both rare and widespread species become fully extinct? | Decided | Revised by Q009: no permanent world-wide guarantee for species/variants still eligible for new-region generation; preserve local and identity-scoped losses; [extinction scope](world-identity-and-context.md#revised-decision-extinction-has-an-explicit-scope) |
+| Q006 | Must geography be finite to support accounting? | Decided | No; expanding geography uses Q009's fresh regional initialization rather than finite world-wide stock; [world expansion](world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings) |
 | Q007 | Are world rules configurable? | Decided | Yes, with code-validated revisioned semantics; actual settings remain Q015; [world settings](world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings) |
 | Q008 | May ecological rules change while the world runs? | Decided | Yes, explicitly and prospectively without resetting history; transition details remain Q054; [live settings](world-identity-and-context.md#accepted-decision-prospective-live-ecological-settings) |
 
@@ -74,14 +77,14 @@ These record the recent agreed direction. None implies a complete entity runtime
 
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
-| Q009 | What population-source model reconciles endless geography and full extinction? | Open | [Expansion requirement](world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings); source-accounting model passing the traces above |
+| Q009 | What population-source model reconciles endless geography and extinction? | Decided | Fresh seeded sources in genuinely new regions, persistent accounts afterward; supersedes the global-extinction premise of Q005 rather than pretending to satisfy it; [population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry) |
 | Q010 | What does coarse population state represent, distinct from habitat capacity and body resources? | Open | [Population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry); source units, cohorts/viable stages where needed, and explicit/coarse transfer invariants |
 | Q011 | Which conditions, opportunities and replenishment mechanisms govern entry? | Open | [Population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry); supported inputs, timing/draw identity, migration/birth boundaries and no repeated-evaluation exploit |
-| Q012 | How are coherent individuals/groups constructed atomically and retried? | Open | [Initialization](world-identity-and-context.md#coherent-initialization-not-attribute-confetti); allocation IDs, constraint/fan-out bounds and initialization accounts |
+| Q012 | How are coherent regions/individuals/groups initialized atomically and retried? | Open | [Initialization](world-identity-and-context.md#coherent-initialization-not-attribute-confetti) and [source model](world-identity-and-context.md#accepted-decision-accounted-population-entry); spatial boundary/time basis, stable allocation IDs, constraint/fan-out bounds and initialization accounts respecting established facts |
 | Q013 | How are identity, world placement/containment and relationship transitions represented? | Open | [Lifecycle](world-identity-and-context.md#lifecycle-and-identity-decisions) and [spatial alternatives](world-identity-and-context.md#alternatives-and-tradeoffs); coordinate/containment schema and conversion precision, relationship lifetimes, split/detach/rebuild lineage and ownership versus possession |
 | Q014 | When may individual state retire, archive or refine? | Open | [Evidence questions](world-identity-and-context.md#evidence-and-open-decisions); retention/refinement rules preserving references, quantities and history |
 | Q015 | Which settings, bounds, defaults and caller permissions are supported? | Open | [Live settings](world-identity-and-context.md#accepted-decision-prospective-live-ecological-settings); concrete validated catalogue and authorization rules, with Q054 transitions |
-| Q016 | Are exceptional restoration, protected-species or administrator-reset mechanics admitted? | Deferred | [Full-extinction boundary](world-identity-and-context.md#accepted-decision-full-extinction-is-possible); none admitted; requires explicit scope/ruleset decision before design |
+| Q016 | Are exceptional restoration, protected-species or administrator-reset mechanics admitted? | Deferred | [Extinction scope](world-identity-and-context.md#revised-decision-extinction-has-an-explicit-scope); none admitted; Q009 initializes new sources, not restoration of ended identities or depleted regions |
 
 ## Composition and processes
 
@@ -169,6 +172,15 @@ Q001 already records the accepted shared-runtime architecture.
 | Q059 | How are uncertainty, withheld causes, staleness and degraded output represented? | Open | [Honest explanations](presentation-and-explanation.md#honest-explanations) and [failure cases](presentation-and-explanation.md#staleness-replay-and-failure-cases); non-leaking projections and deterministic fallbacks |
 | Q060 | Do supported cues help players predict unfamiliar consequences? | Needs measurement | [Presentation evidence](presentation-and-explanation.md#open-decisions-and-implementation-evidence); wolf/non-wolf rendered fixtures, legibility evidence and multiplayer leakage tests |
 
+## Newly identified follow-up
+
+Appended without renumbering prior questions, following the explicit variant
+direction accepted alongside Q009's revision.
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q061 | How are species groupings and technically distinct variants represented and admitted? | Open | [Variant direction](world-identity-and-context.md#accepted-direction-technically-distinct-species-variants); meaningful distinction criteria, stable/versioned identity, admitted properties, population scope and compatibility boundaries without assuming genetics or equating culture with biology |
+
 ## Implementation evidence
 
 Evidence here is inherited and scoped, not newly established by making this list.
@@ -187,7 +199,7 @@ Do not mark an entire module verified because one fixture passes.
 
 ## Progress snapshot
 
-The initial register contains **60 questions**: **14 decided**, **39 open**,
+The register contains **61 questions**: **15 decided**, **39 open**,
 **5 needing measurement**, and **2 deferred**. These counts are a discussion
 inventory, not a completion percentage. None of the nine shared modules is claimed
 complete. C0's existing narrow completion is tracked separately above.

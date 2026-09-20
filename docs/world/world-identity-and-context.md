@@ -16,9 +16,29 @@ This module establishes references and context; it is not an all-knowing mind.
 Use rule-driven population entry, persistent individuals afterward, and
 event-driven activation. Ordinary creature spawning draws from an accounted
 regional population source, which may initially be coarse. Suitable habitat or
-player proximity alone does not create an unlimited supply of new individuals.
+player proximity alone does not refill an established source.
 This replaces the proposal to establish every creature at region generation;
 it does not require individually simulating the unrepresented regional population.
+
+**Revised source model (Q009):** each genuinely new region may establish fresh,
+seeded population sources, including further populations of an existing species.
+There is no world-wide finite founding-stock requirement. An expanding world may
+therefore offer an unlimited series of new regional population opportunities,
+not unlimited retries or replacements within a region already initialized.
+Suitable regions may still yield no population under admitted generation rules.
+
+Initialization records a stable region/opportunity identity, seed basis,
+generation/settings revision, source quantities and coherent group/individual
+construction. It uses declared initialization accounts for bodies and supplies,
+not an unrecorded transfer from a fictional neighboring population. Once committed,
+that source follows the ordinary simulation rules. Retries, player arrival order,
+unloading and relabeling a depleted area cannot initialize it again.
+
+Existing observations, relationships, traces and cross-region events constrain
+later generation. A newly detailed area cannot fabricate a history contradicting
+established facts. Exact spatial initialization boundaries and the time basis of
+initial history/catch-up remain design work; fresh generation is not permission
+to ignore causal commitments at the edge of the known world.
 
 Keep three operations distinct:
 
@@ -91,49 +111,67 @@ replacements. None of these opportunities guarantees successful establishment.
 Habitat restoration can improve eligibility but does not itself supply creatures.
 Exact source boundaries, migration eligibility, reproductive conditions and
 recovery times remain admission work; no food-web or population solver is claimed.
-The full-extinction decision below extends this rule across the world. Specific
-refuge designs and administrator-reset policy still need explicit decisions, not
-invisible exceptions to ordinary spawning.
+Fresh generation elsewhere may create a future migration source. It does not
+immediately refill this region: any arrival still needs a real transfer and valid
+route. Specific refuge designs and administrator-reset policy remain separate
+decisions, not invisible exceptions to established-region accounting.
 
-## Accepted decision: full extinction is possible
+## Revised decision: extinction has an explicit scope
 
-A species can become fully extinct within the world's declared population scope.
-No guaranteed surviving refuge, minimum population or hidden replacement source
-prevents that outcome. Independent populations and geographic barriers may make
-extinction difficult, but cannot silently make it impossible.
+**Supersedes the earlier Q005 promise** that both rare and widespread species must
+be capable of permanent extinction across all possible future geography. The user
+chose continued seeded population generation in new regions instead. The finite
+founding-range proposal was not accepted. This is a rules change, not a claim that
+the two promises were compatible.
 
-This applies to both rare, geographically limited species and widespread species
-such as wolves. Rarity or commonness grants no extinction exemption. Difficulty
-follows from actual distribution, numbers, surviving sources and admitted recovery
-mechanisms, not a species-label protection flag. A widespread species may be
-extremely difficult to eliminate, but its ungenerated territory cannot serve as
-an inexhaustible replacement source that makes the accepted outcome impossible.
-This does not select upfront population geography or a bounded-range generation
-scheme. Expanding geography is accepted below; ecological source scope remains open.
+For a species or variant still eligible for open-ended regional generation,
+exhausting all established sources does not establish extinction across all future
+regions. A later, separately initialized population is permitted; the old losses
+are not undone. Rarity changes generation eligibility, not the meaning of scope.
 
-Full extinction requires exhausting all actual sources in that scope, including
-explicit active/dormant individuals, coarse populations and any admitted viable
-reproductive stages. Zero adults or zero sightings alone is insufficient.
-An isolated surviving population prevents full extinction even if it cannot
-currently replenish another region.
+Local extinction remains real. Specific individuals and fully ended families,
+lineages or communities are not regenerated by discovering a similar population.
+Settlement, faction and biological identity are distinct: a new goblin community
+is not automatically the destroyed clan. Continuing a specific identity requires
+valid surviving links and committed history, not just reusing its display name.
 
-Once all sources are gone, ordinary migration, reproduction and reintroduction
-cannot restore the species. Time, exploration, save/load and habitat restoration
-do not supply new individuals. Later region generation must honor committed
-population history rather than initialize replacement stock for an extinct species.
-Renaming a definition or changing its version cannot bypass that history.
+An extinction assertion must identify its scope and account for active/dormant
+individuals, coarse sources and admitted viable reproductive stages. Unseen and
+unresolved are not zero. Closed-scope extinction cannot be reported as world-wide
+extinction when future generation remains eligible. No new global species-ban,
+resurrection or administrator-reset mechanic is admitted here.
 
-This requires defining the world's population scope and how ungenerated regions
-and external sources are accounted for. If those sources are genuinely unresolved,
-the engine cannot claim proven full extinction merely because generated regions
-are empty. A coarse source inventory can cover unexplored territory without
-creating every individual or revealing that inventory to players.
+Authoritative population state and observer belief remain separate. An NPC may
+believe a species extinct and later encounter another population; discovery changes
+knowledge, not the recorded fate of previously established creatures.
 
-Authoritative extinction and an observer's belief remain distinct. Confirming the
-world condition does not automatically announce it to players or NPCs.
-No resurrection, protected-species exception, cross-world import or administrative
-reset mechanic is admitted by this decision; any future exception must be explicit
-and versioned rather than disguised as ordinary recovery.
+## Accepted direction: technically distinct species variants
+
+A species may have persistent, technically distinct variant definitions, not just
+different display names. Distinguish a species grouping, a variant definition,
+a population/community identity and an individual identity. A cultural affiliation,
+faction or village is not automatically a biological variant.
+
+Variant differences must be represented through admitted structured properties,
+capabilities, material/body composition or bounded generation parameters. Names
+render those differences; they do not select special outcomes. Runtime content
+uses existing code-owned kinds and calibrations, not newly invented physiology,
+formulas or judgment families. Definition revisions preserve replay semantics.
+
+For example, two generated goblin populations may use different admitted body
+profiles while retaining a shared species grouping. They can also have different
+communities without having different body profiles. An individual injury or
+personality change does not by itself create a new variant definition.
+
+Loss and eligibility need explicit scope: absence of one variant is not absence
+of all related variants, and a new variant is not a replacement for an ended
+lineage or community. Future regional generation may introduce a variant only
+under its admitted eligibility and initialization rules. Changing a name, ID or
+definition version cannot reset an existing population or evade its history.
+
+The minimum species/variant schema, meaningful distinction criteria, inheritance,
+reproductive compatibility and variant admission workflow remain open (Q061).
+No genetics, evolution or hybridization system is implied by this direction.
 
 ## Accepted direction: expanding geography and world settings
 
@@ -143,20 +181,19 @@ World rules must be configurable through explicit settings. This does not promis
 infinite resident state, compute or mathematical coordinates; execution, storage
 and supported limits remain bounded engineering concerns.
 
-Separate geographic expansion from population-source expansion. New terrain does
-not automatically entitle an existing species to unlimited replacement sources.
-The accepted possibility of full extinction, including widespread species, still
-applies. How ungenerated source populations are bounded/accounted for without
-bounding exploration is an unresolved design requirement, not solved by an
-extinction flag that merely suppresses inconvenient unseen survivors.
+Geographic expansion may establish additional seeded population sources under
+Q009. Keep that initialization boundary separate from recovery of existing regions.
+Source units, placement, eligibility, generation-time semantics and bounded work
+still need design; an unlimited sequence of regions does not imply unlimited
+active simulation or an inexhaustible source in any one region.
 
 Setting names, defaults and the catalogue of live-adjustable rules remain undecided.
 They must use code-owned validated semantics and join the world's pinned generation/mechanics
 configuration so replay does not reinterpret old events using current settings.
 Changing persistent semantics needs an explicit migration, not a silent reseed.
-No configurable extinction exemption or automatic replenishment mode is admitted
-by accepting settings in general. Any such alternative would be a separate,
-explicit ruleset decision.
+No automatic replenishment mode for established regions is admitted by accepting
+settings in general. Fresh population initialization in new regions is the explicit
+Q009 rule, not a hidden setting exception.
 
 ## Accepted decision: prospective live ecological settings
 
@@ -167,7 +204,7 @@ bounds, an effective simulation boundary and a transition policy.
 
 Preserve established individuals, relationships, realized traits, injuries,
 population/source accounts and committed history. Changing abundance cannot refill
-depleted sources or reverse extinction; changing a reproduction parameter cannot
+depleted established sources or reset local losses; changing a reproduction parameter cannot
 retroactively create offspring. Future lawful births or migrations still require
 their ordinary prerequisites and accounts.
 
@@ -294,9 +331,10 @@ Theft changes possession, not mass or every observer's belief about ownership.
 | W1/W6 | Exhaust all local sources and isolate the region; time, reload, player return and habitat restoration alone preserve absence |
 | W1/W5 | Restore a real migration route or reintroduce individuals; source is debited, identity/accounting persists, and establishment still checks eligibility |
 | W3/W7 | Failed searches do not assert authoritative extinction or disclose hidden survivors |
-| W1/W6 | Exhaust every source in a declared scope; exploration, reload and definition-version changes cannot recreate an extinct species |
-| W1/W6 | Apply the same extinction rule to a limited-range fixture and a widespread multi-region fixture; commonness introduces no protected floor |
-| W1/W3 | A surviving dormant/coarse population or admitted viable reproductive stage prevents full extinction without becoming observer knowledge |
+| W1/W6 | Deplete an established region, then generate a new region with an eligible fresh population; old losses persist and migration requires a real transfer |
+| W0/W1/W6 | Concurrent/reordered exploration initializes each source once under its pinned generation basis; reload never rerolls established stock |
+| W1/W3 | Extinction assertions state scope and account for dormant/coarse/reproductive sources without leaking hidden truth to observers |
+| W1/C3 | Distinct variant profiles use admitted properties; renames leave outcomes unchanged, and new communities do not resurrect ended identities |
 | C6/W6 | Split, detach, archive, refine and migrate without dangling references, resource duplication or latent rerolls |
 | W8 | Rename/reorder proposals and test bounded cyclic relationships and missing definitions |
 
@@ -310,5 +348,7 @@ Tests must include exhaustion, birth/death accounting and continuously observed
 placement, not merely a reproducible random spawn.
 Recovery tests must distinguish an empty active view from actual local extinction,
 and opportunity to recover from guaranteed recovery.
-Define global population scope and ungenerated/external source accounting before
-claiming a full-extinction detector; test unresolved sources separately from zero.
+Define generation eligibility and extinction scope before reporting extinction;
+test unresolved sources separately from zero and open-ended generation separately
+from closed regional loss. Resolve Q061's variant schema without assuming every
+individual trait or cultural difference is a separate biological kind.
