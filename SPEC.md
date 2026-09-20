@@ -992,8 +992,16 @@ is world truth, not automatically player/NPC knowledge. Scope details and any
 exceptional restoration policy require separate design; none is admitted here.
 The rule applies to both rare limited-range species and widespread species.
 Distribution, numbers and surviving sources determine difficulty; commonness
-does not confer immunity. This does not decide world extent or when population
-geography is generated.
+does not confer immunity. When population geography is generated remains open.
+
+**Accepted world direction:** indefinitely expanding geography and configurable
+world rules are intended capabilities, not mandatory finite maps. Geographic
+expansion does not grant inexhaustible species sources; full extinction remains
+possible. The source-accounting model, concrete settings/defaults and permitted
+live changes remain undecided. Code validates settings and pins their relevant
+generation/mechanics revisions; changing persistent semantics requires explicit
+migration, not silently rewriting history. This admits no extinction exemption,
+automatic replenishment mode or claim of unbounded compute/storage.
 
 Keep realized truth, subjective uncertainty, evolving physical risk and sampled
 choices distinct. Save/load, offscreen catch-up and refinement preserve committed

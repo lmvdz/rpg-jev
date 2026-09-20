@@ -121,9 +121,16 @@ are not zero. The authoritative condition is not automatic observer knowledge.
 Population scope and source accounting still require design; no exceptional
 restoration mechanic is admitted. Both rare local species and widespread species
 can become fully extinct; actual population structure determines difficulty, not
-an exemption for common species. This does not settle world extent or upfront
-versus progressive population geography. See the
+an exemption for common species. This does not settle upfront versus progressive
+population geography. See the
 [full-extinction decision](world/world-identity-and-context.md#accepted-decision-full-extinction-is-possible).
+
+**Accepted world direction:** support indefinitely expanding geography and explicit
+world settings, not mandatory finite maps. Expansion is distinct from inexhaustible
+species sources: full extinction must remain possible. Source scope, setting names,
+defaults and permitted live changes need further design. Persistent settings are
+code-validated and revisioned; they cannot silently rewrite history or reseed it.
+See [world expansion and settings](world/world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings).
 
 A creature's creation record establishes its identity, organism definition,
 developmental stage, admitted biological attributes, body and initial context.

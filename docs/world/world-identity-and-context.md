@@ -108,8 +108,8 @@ follows from actual distribution, numbers, surviving sources and admitted recove
 mechanisms, not a species-label protection flag. A widespread species may be
 extremely difficult to eliminate, but its ungenerated territory cannot serve as
 an inexhaustible replacement source that makes the accepted outcome impossible.
-This does not select a finite map, upfront population geography or bounded-range
-generation scheme; those remain separate world-design decisions.
+This does not select upfront population geography or a bounded-range generation
+scheme. Expanding geography is accepted below; ecological source scope remains open.
 
 Full extinction requires exhausting all actual sources in that scope, including
 explicit active/dormant individuals, coarse populations and any admitted viable
@@ -134,6 +134,29 @@ world condition does not automatically announce it to players or NPCs.
 No resurrection, protected-species exception, cross-world import or administrative
 reset mechanic is admitted by this decision; any future exception must be explicit
 and versioned rather than disguised as ordinary recovery.
+
+## Accepted direction: expanding geography and world settings
+
+Indefinitely expanding, progressively generated geography is an intended world
+capability, rather than requiring every world to have a fixed geographic boundary.
+World rules must be configurable through explicit settings. This does not promise
+infinite resident state, compute or mathematical coordinates; execution, storage
+and supported limits remain bounded engineering concerns.
+
+Separate geographic expansion from population-source expansion. New terrain does
+not automatically entitle an existing species to unlimited replacement sources.
+The accepted possibility of full extinction, including widespread species, still
+applies. How ungenerated source populations are bounded/accounted for without
+bounding exploration is an unresolved design requirement, not solved by an
+extinction flag that merely suppresses inconvenient unseen survivors.
+
+Setting names, defaults and permitted live changes remain undecided. They must
+use code-owned validated semantics and join the world's pinned generation/mechanics
+configuration so replay does not reinterpret old events using current settings.
+Changing persistent semantics needs an explicit migration, not a silent reseed.
+No configurable extinction exemption or automatic replenishment mode is admitted
+by accepting settings in general. Any such alternative would be a separate,
+explicit ruleset decision.
 
 ## Ownership and interfaces
 
