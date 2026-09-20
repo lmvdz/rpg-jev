@@ -10,7 +10,8 @@ There is a playable proof of concept: one night at an inn, in a terminal, agains
 
 - [spikes/m0-jev](spikes/m0-jev): does Jev judge social fiction the way people do? Done: three of four tests pass and the fourth misses narrowly. See the [findings](spikes/m0-jev/FINDINGS.md).
 - [spikes/m2-families](spikes/m2-families): are speech-act choice, distortion choice and accept-offer usable? Done: yes, with conditions. See the [findings](spikes/m2-families/FINDINGS.md).
-- [spikes/s0-spacetimedb](spikes/s0-spacetimedb): does SpacetimeDB hold as the world server? Not run.
+- [spikes/s0-spacetimedb](spikes/s0-spacetimedb): scoped infrastructure measurements completed; see the [qualified findings](spikes/s0-spacetimedb/FINDINGS.md), not a full-world capacity claim.
+- [Thermal engineering validation](validation/thermal-learning/AUTOMATION.md): deterministic enumeration covers 5,509 arrangements and 24,553 probe placements, with numerical and shared-settlement probes. The bench is a development fixture, not the next player exercise. Results select finite warmth allocation for an inn sleeping place as the next interaction to develop; that interaction is not yet implemented.
 
 ## Play it
 
@@ -51,6 +52,8 @@ Packages planned in the spec (`server`, `author`) are added when their milestone
 | --- | --- |
 | `pnpm check` | Lint, typecheck and tests. Tests run offline against recorded judge answers. The lint is strict (complexity, length, nested ternaries, unused code) and the tests include a ratchet on character names in engine code and coverage over every verb, thing, deed, voice and activity |
 | `pnpm play` | Play the inn |
+| `node validation/thermal-learning/validate.ts --out=<new-directory>` | Automate the thermal engineering checks using existing dependencies; see the report for a no-install launcher |
+| `pnpm play --bench` | Optional development fixture, not a recommended player exercise; resumes `saves/thermal-bench.jsonl` |
 | `pnpm client` | Open the renderer at http://localhost:5174. `?study` compares glyphs and material states, `?stress` shows the performance scene, and Tab opens the editor |
 | `pnpm demo` | Play the fixed script against live Jev; write `demo/transcript.md` and `demo/metrics.json` |
 | `pnpm demo --record` | As above, and re-record `demo/recordings.json` for the offline test. Do this after changing a slice, a question or the content |

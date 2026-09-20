@@ -7,6 +7,13 @@ domains before selecting concrete geometry, initial mechanisms or a learning-stu
 domain. Player journeys remain later validation tools, not the foundation from
 which all architecture must be inferred.
 
+**Implementation status:** the first [solid-contact slice](thermal-learning.md)
+was selected without first documenting the required six-probe reconciliation.
+Calling its authorization a sequencing exception was incorrect. The
+[corrective review below](#corrective-six-probe-reconciliation-for-the-thermal-slice)
+assesses the existing choices against this prerequisite, without retrospectively
+marking the original selection compliant or declaring Q064 closed.
+
 **Draft content:** the envelope, lifecycle and probes below are a proposal for
 Q064, not accepted schemas, new effect kinds or implemented behavior. SPEC and the
 [shared contract](../shared-world-contract.md) take precedence. Existing module
@@ -159,6 +166,53 @@ This preserves domain meaning while making cross-module validation explicit.
 The tradeoff is deliberate adapters and supported-domain declarations; the envelope
 cannot magically synthesize the physics or social inference those adapters lack.
 This recommendation remains under review in Q064, not a newly accepted API.
+
+## Corrective six-probe reconciliation for the thermal slice
+
+This review occurs **after** the first implementation. It corrects a missed
+prerequisite; it does not rewrite that chronology. The following are annotated
+design traces, not claims that six runtime mechanisms have been implemented.
+They evaluate whether the existing fixture can responsibly be retained before
+making further commitments.
+
+| Probe | Ownership, annotated trace and unsupported dependencies |
+| --- | --- |
+| Support, movement and detachment | Structure owns part identity, placement and supports; bodies would own exertion. An attempt binds an observed part/support, execution validates reach/support/capability, then commits placement and incurred costs together. Only eligible movement/contact cues reach observers. The bench admits discrete relocation by an explicitly insulated fixture manipulator, not free bodily work, arbitrary attachment or gravity. Its local socket coordinates cannot stand in for the unimplemented general frame/force contract. Moving a warm part preserves its energy. |
+| Material entering/leaving containment | A portion owns quantity; containment owns opening/capacity relationships, not a second copy of that quantity. An attempt binds source, destination and opening; code checks all three and atomically debits/credits admitted progress. Interruption retains transferred material. Seeing a vessel does not reveal concealed contents. The bench implements neither portions nor containment; a rack is separate support, not an inventory/container mechanic. Adding pouring would require new representation and accounts, not another seating command. |
+| Body consuming resources during activity | Body state owns distinct physiological reserves and capability. Activity binds duration and sources, validates an admitted metabolism/work mapping, and commits spent reserves with progress at supported boundaries. Eligible bodily signals are separate evidence, not direct access to hidden reserve numbers. Interruption does not refund work. These mechanisms are absent; the fixture's safe manipulation must not be advertised as bare-hand handling, unlimited stamina or respiration. |
+| A process changing its own substrate | Physical parts own quantities and structure; active processes own progress. Execution reads a common start basis, settles exchange up to the next admitted topology/material event, commits all shared accounts, then derives the next interfaces from the new structure. Prior heat is not erased when a path disappears. The bench supports persistent heat plus later seating changes at minute boundaries, not burning, phase changes, damage or automatic structural failure within an interval. No generated rule can supply those missing events. |
+| An observer acquiring incomplete evidence | Physics owns the source and probe state; sensing owns a rounded eligible reading; the actor owns only acquired evidence. A read validates access at one frontier and commits its original time, target and result with its receipt. Retry returns that record rather than detecting again; later observations cannot rewrite it. The bench's synchronous path avoids a commit/detection crash gap without asserting that asynchronous workers are generally unnecessary. Evidence is not a physical commodity or an omniscient world snapshot. |
+| An agent revising an intention | An actor's evidence and authored interpretation justify a possible later choice, not successful physical effects. A recorded prediction/reason remains an attributed claim; any subsequent action starts a fresh authority/feasibility check. Neither note text nor hidden thermal truth selects an outcome. Human study reflections are research metadata, not an implemented NPC belief/intention policy. Existing M2 rules remain unchanged; no new planner or judgment family is admitted. |
+
+**Composed trace:** observation at frontier N → attributed prediction using only
+then-available evidence → seating attempt with N's revision → one validated
+structural settlement → subsequent shared wait → explicit probe read → attributed
+revision of the explanation → a separately validated next attempt. Competing
+actors may invalidate the seating attempt. A note neither reserves the part nor
+advances the clock. Recorded observations remain available after rearrangement,
+but are not relabeled as current truth. This uses the existing Store/log authority,
+not a second physical writer or a universal “transfer” operation for information.
+
+**Counterexamples and alternatives:** arbitrary user-supplied contact edges would
+grant effects without structure; truthful solver values in a journal would erase
+the evidence boundary; tying note text to success would make interpretation an
+executable law. Conversely, introducing a general body, container, perception
+worker or workflow engine merely to support this fixture would add unsupported
+mechanisms rather than satisfy the review.
+
+**Retention decision:** the fixture is adequate for the stated finite solid/
+probe/choice-boundary experiment, with those exclusions made visible. Retain its
+physical model for corrective player-surface work; do not broaden its admitted
+mechanisms. Shared envelopes, physiological mappings, containment, general frames,
+offscreen scheduling and NPC intention policies remain unresolved in their owning
+Q IDs. Q064 stays open for broader contract selection and measured handoffs.
+Independent review of all six probes reached the same provisional retention
+recommendation before the corrective surface implementation. It additionally
+requires immutable, actor-authorized study snapshots, declared participant versus
+self-test provenance, explicit historical probe readings and no automatic
+truth/learning scores. The review supports a narrow choice; it does not certify
+general C/W gates. Revise or stop the fixture if sensing granularity, probe
+perturbation or unsupported internal gradients prevent useful comparisons.
 
 ## Evidence and exit criteria for the review
 

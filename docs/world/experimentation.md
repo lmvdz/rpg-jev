@@ -89,13 +89,20 @@ materials, quantities, interfaces and body/observation effects must be compatibl
 with Q018 and the shared mechanisms. Do not silently expand this into liquids,
 combustion, pressure, fracture, chemistry, ecology and seasons at once.
 
-### Next work remains design-only
+### Original design-only priority and subsequent bounded authorization
 
 **Revised priority:** first review the
 [common interaction contract across domains](interaction-contract.md). Do not
 select the foundation or first mechanism set solely from the thermal journeys.
 Q063's learning goal remains accepted; this changes the order of design work,
 not the goal. Q064 tracks the open cross-domain contract.
+
+The subsequent [solid-contact learning surface](thermal-learning.md) was selected
+before the required six-probe reconciliation was documented. That process error
+is not excused by implementation authorization. Corrective review must assess
+the existing choices before further commitments; it cannot retrospectively
+complete the original prerequisite or promote the journeys/foundation-review
+companion into accepted architecture. Participant learning remains unmeasured.
 
 The [three worked journeys](experimentation-journeys.md) now explore these
 contrasting paths as preserved proposals for later validation, not the immediate

@@ -11,19 +11,26 @@ evidence. Q009 now permits fresh seeded population sources in new regions, with
 persistent simulation afterward and explicitly revised extinction scope.
 Q062 records the accepted six-layer variation model; Q061 retains concrete
 variant-schema and admission questions. The
-[next discussion is Q064](questions.md#next-question-q064):
+[next general contract question remains Q064](questions.md#next-question-q064):
 the [common interaction contract](interaction-contract.md), challenged across
 domains before choosing Q018 geometry and a first mechanism set.
 Parts/typed relationships, structure-first compound geometry, SI units and
 hierarchical coordinates/frame invariance are accepted; shape palette, fields,
 precision, calibration/adapters, transforms and initial channels remain open.
 
+The [bounded solid-contact slice](thermal-learning.md) now records a reversible
+admission for implementation and testing, not a general geometry selection.
+Its initial sequencing was deficient: implementation authorization was not a
+waiver of Q064's prerequisite review. The corrective review assesses the existing
+choices without closing Q064. Engineering evidence remains separate from
+unverified participant learning.
+
 The [experimentation-first research record](experimentation.md) captures the
 parallel engine exploration, cross-review revisions and accepted Q063 player
 loop/learning milestone. It guides the next design study without closing Q018
-or claiming implementation. Heat/contact/insulation is a proposed study domain,
-not a newly admitted mechanism set. The worked journeys are preserved for later
-validation; they do not select the common foundation.
+or claiming general implementation. The narrower thermal admission above does
+not admit the broader heat/contact/insulation study domain. The worked journeys
+are preserved for later validation; they do not select the common foundation.
 
 | Module | Design question |
 | --- | --- |

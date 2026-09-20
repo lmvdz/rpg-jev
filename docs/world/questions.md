@@ -43,12 +43,14 @@ No new integrated W0–W8 capability is marked implemented and verified here.
 **Which common interaction contract supports physical, bodily, informational and
 intentional change without erasing their domain-specific meaning?**
 
-The accepted next step is the [cross-domain review](interaction-contract.md),
+The accepted general design priority is the [cross-domain review](interaction-contract.md),
 not selecting architecture from the thermal journeys. Its proposed envelope,
 lifecycle and six probes are design drafts; Q064 remains open until their
-cross-module responsibilities and gaps have been reviewed. No first mechanism set
-or concrete geometry palette is selected. Q063's learning goal remains accepted;
-the preserved player journeys become later validation work.
+cross-module responsibilities and gaps have been reviewed. No general mechanism
+set or geometry palette is selected. A later authorized
+[bounded solid-contact admission](thermal-learning.md) selects a reversible
+fixture-scale implementation without closing Q018/Q064. Q063's learning goal
+remains accepted; the preserved player journeys become later validation work.
 
 The [Q018 foundation](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships)
 is accepted: material-bearing parts and typed couplings underlie assemblies.
@@ -230,7 +232,7 @@ of the Q060 evidence or selection of Q018's concrete mechanisms.
 
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
-| Q063 | Which player loop and first learning milestone guide the next engine exploration? | Decided | [Experimentation-first direction](experimentation.md#accepted-player-loop): hypothesize, intervene, observe, transfer; a player learns a general rule and uses it creatively in an unfamiliar situation. Exact study domain, pacing, protocol and success thresholds remain open; no implementation claimed |
+| Q063 | Which player loop and first learning milestone guide the next engine exploration? | Decided | [Experimentation-first direction](experimentation.md#accepted-player-loop): hypothesize, intervene, observe, transfer; [bounded thermal implementation](thermal-learning.md) supplies one engineering test surface, not participant evidence. General pacing, study protocol and learning success thresholds remain open |
 
 ## Cross-domain foundation review
 
@@ -243,12 +245,14 @@ does not approve the proposed envelope or resolve its schema choices.
 
 ## Implementation evidence
 
-Evidence here is inherited and scoped, not newly established by making this list.
+Evidence here is scoped; adding an entry does not establish broader module completion.
 
 | Scope | Delivery status | Evidence and limits |
 | --- | --- | --- |
 | Production C0 exposure/event correction | Implemented and verified for the narrow correction | [C0 report](../c0-exposure.md) and [combined integration](../integration-status.md#verification); not arbitrary generated-row composition or full material accounts |
 | Isolated thermal composition proof | Partial evidence for C1–C4 | [Spike evidence](../compositional-causality.md#evidence-from-the-isolated-proof); not production bodies, perception, latent state or persistence |
+| Bounded solid-contact learning slice | Implemented under a reversible narrow admission; engineering checks recorded | [Admission](thermal-learning.md) and [evidence](../../validation/thermal-learning/REPORT.md); core Store integration, manipulation and limited sensing, not verified participant learning or general geometry |
+| Automated thermal arrangement validation | Finite enumeration and additional probes executed | [5,509 arrangements / 24,553 probe placements and next-interaction selection](../../validation/thermal-learning/AUTOMATION.md); not all numeric values, operation histories or in-world service consequences |
 | SpacetimeDB infrastructure | Partial evidence for Q001/Q048/Q055 | [S0 findings](../../spikes/s0-spacetimedb/FINDINGS.md#verdict); measured queues, transactions, subscriptions and storage, not complete entity capacity |
 | Existing M2 systems | Existing baseline, not certification of richer modules | [SPEC minds](../../SPEC.md#6-npc-minds) and [catalog](../../SPEC.md#14-jev-question-design-rules); richer adapters/policies still need compatibility and admission |
 | Shared integrated W0–W8 contract | Not verified | [Required gates](../shared-world-contract.md#13-acceptance-gates); no module-wide completion inferred from current test counts |

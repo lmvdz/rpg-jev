@@ -953,10 +953,12 @@ consequences and applying what was learned. The first learning milestone is
 **learning a general rule and using it creatively in an unfamiliar situation**,
 not accumulating materials or discovering named recipes. The
 [research and milestone record](docs/world/experimentation.md) preserves the
-parallel review, alternatives and open choices. Heat/contact/insulation is a
-proposed study, not an admitted mechanism set. The next step is the design-only
-cross-domain interaction-contract review (Q064); the worked player journeys remain
-later validation proposals, not the basis for selecting the whole architecture.
+parallel review, alternatives and open choices. The broader heat/contact/insulation
+study remains a proposal. The initial priority was the design-only cross-domain
+interaction-contract review (Q064); the subsequently authorized
+[bounded solid-contact admission](docs/world/thermal-learning.md) selects only
+one reversible implementation scope. The worked player journeys remain later
+validation proposals, not the basis for selecting the whole architecture.
 Major renderer commitments wait for clearer engine
 needs, while the existing client remains a harness. This goal does not replace
 M0–M5, the shared proving fixture or C/W gates; Q018 remains open and Q060 still
@@ -1118,3 +1120,31 @@ remain open and supplement the physical acceptance gates.
 
 The repository specification is updated; the external Claude Doc remains
 unsynchronized. This design work does not authorize bypassing milestone order.
+
+### Bounded solid-contact learning implementation
+
+The [thermal learning admission](docs/world/thermal-learning.md) selects one
+reversible slice under Q063/Q064: fixture-supported rearrangement of SI solid
+parts, finite contact exchange and a loading contact probe, using the existing
+Store/effect/log/replay authority and whole-minute choice boundaries. It does
+not convert legacy ordinal matter, admit combustion or injury, select the final
+multiplayer pacing, or close the broader physical/shared-world gates.
+Participant learning remains an empirical obligation, not an engineering-test
+claim. The external Claude Doc has not been verified or synchronized.
+
+The corrective pass documents the previously missed six-probe Q064 reconciliation;
+it does not claim the prerequisite preceded the original implementation or that
+authorization waived it. After that review, the existing terminal launcher gains
+an offline `--bench` mode with evidence-only commands and versioned research input
+records. Those records are not simulated beliefs and do not expand the physical
+operation catalog. SI/ordinal interoperability, broader Q064 schemas and actual
+participant-learning evidence remain unestablished.
+
+**Current next-step selection:** the bench is now an automated engineering
+fixture, not a prescribed player exercise. The [finite sweep and selection](validation/thermal-learning/AUTOMATION.md)
+choose preparation of an inn sleeping place using an already-warm finite solid
+heat store and persistent solid receiver while ordinary inn activity continues.
+This is not an implemented bed/comfort mechanic: shared time progression,
+item/contact bindings and a meaningful property-based service consequence still
+need narrow admission. No ordinal-to-SI conversion, body physiology, ambient
+cooling or unlimited temperature-threshold benefit is implied by the selection.
