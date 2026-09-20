@@ -19,6 +19,13 @@ No engine, renderer, numerical experiment or player study is implemented here.
 The existing composition spike is evidence for a narrow thermal abstraction,
 not an implementation of the representation recommended below.
 
+**Sequencing update:** the subsequently accepted
+[Q064 cross-domain interaction review](interaction-contract.md) comes before
+selecting concrete geometry or a first mechanism set. This comparison is a
+physical-domain contribution to that review, not a foundation inferred from the
+thermal journeys. The hybrid below is a candidate physical representation;
+it is not the representation of beliefs, intentions or every engine interaction.
+
 ## What makes a representation good for this goal?
 
 It should let a player change an arrangement, form a prediction about it, obtain
@@ -209,7 +216,8 @@ or long-horizon catch-up.
 
 ## Remaining decisions
 
-The immediate choice is how much **arrangement freedom** the first study offers:
+First complete Q064's cross-domain responsibility review. A subsequent physical
+choice is how much **arrangement freedom** an eventual study offers:
 validated relations/poses with explicit supports, or free placement whose contact
 and stability need a more general geometric/mechanical model. Recommend the former
 for initial evidence, while retaining meaningful 3D structure rather than
@@ -226,3 +234,30 @@ sites, and thermal-state resolution together. Calibration, error/work limits and
 legacy-state migration remain separate obligations. The best representation is
 the smallest one that preserves the distinctions the player can learn and exploit,
 not the one with the fewest fields or the richest-looking mesh.
+
+## Boundary with the common interaction contract
+
+The best physical candidate is not a universal engine record. Share stable
+references, authority, state revisions, causal time, commit and evidence handoffs;
+retain separately validated domain meanings:
+
+- Physical exchange uses actual parts, interfaces and resource accounts.
+- Bodily capability reads admitted physical/physiological state; stamina or pain
+  cannot become another independently spendable copy of thermal energy.
+- Measurement produces eligible evidence from an event-time sensor situation,
+  not an unrestricted physical-state snapshot for every observer.
+- Knowledge retains the evidence available to an actor; it does not move a
+  remembered object to its hidden current location.
+- Intention authorizes an attempted intervention. It cannot create contact or
+  grant the requested physical benefit.
+
+As a combined probe, trace a participant measuring a covered object, learning
+something and changing a support contact. The physical result, detection,
+belief update and later attempt must use coherent references and causal order
+without collapsing into one thermal operation or an unbounded same-transaction
+decision loop. A missed observation cannot stop physical evolution; a retry
+cannot duplicate a transfer or supply a new observation draw by accident.
+
+This is one contribution to Q064, not completion of its six cross-domain probes.
+Their review may change the needed physical scope or replace the thermal study;
+do not select a shape palette merely because it can render these examples.

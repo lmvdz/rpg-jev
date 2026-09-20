@@ -954,11 +954,20 @@ consequences and applying what was learned. The first learning milestone is
 not accumulating materials or discovering named recipes. The
 [research and milestone record](docs/world/experimentation.md) preserves the
 parallel review, alternatives and open choices. Heat/contact/insulation is a
-proposed initial study, not an admitted mechanism set. The next step remains
-design-only player journeys; major renderer commitments wait for clearer engine
+proposed study, not an admitted mechanism set. The next step is the design-only
+cross-domain interaction-contract review (Q064); the worked player journeys remain
+later validation proposals, not the basis for selecting the whole architecture.
+Major renderer commitments wait for clearer engine
 needs, while the existing client remains a harness. This goal does not replace
 M0–M5, the shared proving fixture or C/W gates; Q018 remains open and Q060 still
 needs measurement. No new code, APIs or Jev families are authorized by this decision.
+
+**Accepted design priority:** define and challenge the
+[common interaction contract](docs/world/interaction-contract.md) across physical,
+bodily, informational and intentional change before choosing concrete geometry
+and first mechanisms. Share reference, authority, time, commit and evidence
+contracts without forcing every domain into one physical effect or universal
+optional-field schema. The linked envelope/probes are drafts; Q064 remains open.
 
 **Standing design rule:** spontaneous examples test composable primitives, not
 bespoke actions or outcome recipes. For Q018 and later questions, identify reusable

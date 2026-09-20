@@ -91,8 +91,15 @@ combustion, pressure, fracture, chemistry, ecology and seasons at once.
 
 ### Next work remains design-only
 
+**Revised priority:** first review the
+[common interaction contract across domains](interaction-contract.md). Do not
+select the foundation or first mechanism set solely from the thermal journeys.
+Q063's learning goal remains accepted; this changes the order of design work,
+not the goal. Q064 tracks the open cross-domain contract.
+
 The [three worked journeys](experimentation-journeys.md) now explore these
-contrasting paths as a design-only proposal, not measured evidence:
+contrasting paths as preserved proposals for later validation, not the immediate
+architectural basis or measured evidence:
 
 1. A correct hypothesis supported by a controlled comparison.
 2. A plausible wrong hypothesis distinguished from the actual cause by evidence.
