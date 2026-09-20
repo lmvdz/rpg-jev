@@ -3,8 +3,10 @@ import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import path from "node:path";
+import { exerciseFood } from "./food-workflow.mjs";
 
 const [repository, browserPath, outputDirectory] = process.argv.slice(2);
+const foodMode = process.argv[5] === "food";
 if (!(repository && browserPath && outputDirectory)) {
   throw new Error(
     "Usage: node browser-smoke.mjs <repository> <chromium executable> <output directory>",
@@ -199,12 +201,19 @@ async function main() {
   await mkdir(output, { recursive: true });
   const profile = await mkdtemp(path.join(output, "chromium-profile-"));
   const port = await freePort();
-  const url = `http://127.0.0.1:${port}/?seed=1`;
+  const url = `http://127.0.0.1:${port}/?${foodMode ? "food" : "seed=1"}`;
   const vite = path.join(root, "packages/client/node_modules/vite/bin/vite.js");
   const server = spawn(
-    process.execPath,
-    [vite, "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
-    { cwd: path.join(root, "packages/client"), windowsHide: true, stdio: "ignore" },
+    foodMode ? "pnpm" : process.execPath,
+    foodMode
+      ? ["client", "--host", "127.0.0.1", "--port", String(port), "--strictPort"]
+      : [vite, "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
+    {
+      cwd: foodMode ? root : path.join(root, "packages/client"),
+      shell: foodMode && process.platform === "win32",
+      windowsHide: true,
+      stdio: "inherit",
+    },
   );
   const browser = spawn(
     browserPath,
@@ -245,7 +254,9 @@ async function main() {
     });
     assert(target?.webSocketDebuggerUrl);
     cdp = await connect(target.webSocketDebuggerUrl, errors);
-    const result = await exercise(cdp, url);
+    const result = foodMode
+      ? await exerciseFood({ cdp, url, output, evaluate, until, click })
+      : await exercise(cdp, url);
     assert.deepEqual(errors, []);
     const report = { browser: browserPath, ...result, errors };
     await writeFile(path.join(output, "result.json"), `${JSON.stringify(report, null, 2)}\n`);
@@ -256,7 +267,9 @@ async function main() {
       cdp.close();
     }
     browser.kill();
-    server.kill();
+    if (process.platform === "win32" && server.pid) {
+      spawn("taskkill", ["/pid", String(server.pid), "/T", "/F"], { stdio: "ignore" });
+    } else server.kill();
   }
 }
 
