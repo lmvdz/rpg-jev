@@ -40,7 +40,7 @@ No new integrated W0–W8 capability is marked implemented and verified here.
 
 ## Next question: Q018
 
-**Which concrete geometry parameters, units and precision should the accepted
+**Which concrete geometry parameters and precision should the accepted
 parts-and-relationships foundation represent first?**
 
 The [Q018 foundation](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships)
@@ -51,7 +51,11 @@ The [structure-first approach](composition-and-processes.md#accepted-q018-approa
 is also accepted: compound simple geometry and explicit interfaces, with physical
 approximations and visual representations derived from meaningful stored structure
 and shared state. This settles the direction, not the concrete shape palette,
-schema fields, precision, units, approximation transfers or supported channels.
+schema fields, precision, approximation transfers or supported channels.
+[SI physical units](composition-and-processes.md#accepted-q018-units-si-internally)
+are now accepted internally, with descriptive/converted presentation values.
+Legacy calibration/conversion and migration remain explicit integration work;
+the unit choice does not establish numerical accuracy or physical realism.
 
 Assess a coherent coupled representation, not isolated subsystems. The spontaneous
 sword/ground/exertion example probes contact, support, work, body demand and thermal
@@ -113,7 +117,7 @@ These record the recent agreed direction. None implies a complete entity runtime
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
 | Q017 | Do we retain compositional physics rather than named encounter recipes? | Decided | Yes; physical/rule graphs, conservation and C gates remain foundational; [physical contract](../compositional-causality.md#what-is-abstracted) |
-| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Parts/relationships foundation](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships) and [structure-first compound geometry](composition-and-processes.md#accepted-q018-approach-structure-before-approximation) accepted; shape palette, fields, precision, units, approximation transfers and channels remain open |
+| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Parts/relationships](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships), [structure-first geometry](composition-and-processes.md#accepted-q018-approach-structure-before-approximation) and [SI units](composition-and-processes.md#accepted-q018-units-si-internally) accepted; shape palette, fields, precision, calibration/adapters, approximation transfers and channels remain open |
 | Q019 | How are simultaneous physical transfers allocated from shared budgets? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); consistent read state, allocation and boundary settlement; coordinate Q045/Q050 |
 | Q020 | How do damage, fracture and attachment changes alter topology? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); first admitted mechanisms with material/energy-preserving transitions |
 | Q021 | Which current matter processes migrate first, through which adapters? | Open | [Physical open decisions](composition-and-processes.md#evidence-and-open-decisions); mechanism-to-current-row compatibility map, not a second production engine |

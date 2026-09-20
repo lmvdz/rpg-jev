@@ -961,7 +961,7 @@ form the substrate; recognizable objects and creatures are assemblies over it,
 not special-case behavior owners. Distinguish material definitions, portions,
 parts, assemblies, couplings and active processes without prescribing tables.
 Bodies and bulk environmental reservoirs use shared accounted exchanges.
-Geometry precision, units, concrete schemas and initial channels remain open;
+Geometry precision, concrete schemas and initial channels remain open;
 this agreement is not implementation completion.
 
 **Accepted Q018 representation approach:** store meaningful structure using
@@ -972,6 +972,14 @@ Visual detail grants no unsupported capability, and restoring definition detail
 cannot erase instance damage/history. Prefer stored structure; later refinement
 must remain admitted, conserving and consistent with established facts. Shape
 palette, precision, approximation transitions and supported channels remain open.
+
+**Accepted Q018 units:** the new physical substrate uses SI quantities internally
+and qualitative descriptions or converted units at presentation boundaries.
+Physical durations use seconds, absolute temperatures kelvin, and energy/work
+joules. Existing ordinal levels, time conventions and historical records require
+explicit code-owned calibration/conversion or versioned migration; they are not
+silently reinterpreted. Using SI does not certify formulas or calibrations, nor
+make aggregate stamina/belief signals physical quantities. Precision remains open.
 
 An NPC is a persistent participant in the same world as the player. Its initial
 body, biological attributes, relationships and history must be seeded coherently,

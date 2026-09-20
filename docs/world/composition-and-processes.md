@@ -17,7 +17,7 @@ fixed object. But unrestricted generated equations are not an acceptable shortcu
 Material-bearing parts and typed physical relationships are the foundation.
 Recognizable objects and creatures are assemblies over that substrate, not the
 units that own special-case interaction rules. This accepts the representation
-direction; concrete fields, geometry precision, units and initial channels remain
+direction; concrete fields, geometry precision and initial channels remain
 open under Q018.
 
 | Concept | Responsibility |
@@ -89,6 +89,39 @@ Required C3/C4/C6/C7 evidence includes coarse/fine transitions around damage and
 detachment, input/order invariance, retained budgets and geometry constraints, and
 rendering that neither grants missing physical features nor contradicts committed
 changes. Complex assemblies must work through composition, not named exceptions.
+
+## Accepted Q018 units: SI internally
+
+Use a consistent SI unit system for physical quantities in the new substrate.
+Player-facing descriptions may be qualitative or use convenient converted units;
+presentation never becomes a second physical account.
+
+| Quantity | Internal convention |
+| --- | --- |
+| Length, area, volume | Metres and corresponding powers |
+| Mass | Kilograms |
+| Physical duration | Seconds |
+| Absolute temperature | Kelvin; distinguish absolute values from temperature differences |
+| Energy/work, force, pressure | Joules, newtons, pascals |
+
+Other admitted physical quantities and rates use dimensionally consistent units
+derived from this convention. Unit meanings must be explicit at schema and module
+boundaries, including conversions for existing game-clock minutes or displayed
+temperatures. Do not confuse mass with force, energy with power, or an ordinal
+material rating with a physical quantity.
+
+Existing matter levels, body signals and historical records are not relabeled as
+SI quantities. Integration requires code-owned calibration/conversion adapters or
+an explicit versioned migration, with replay retaining historical semantics.
+Dimensionless categories can select admitted calibrations; they cannot be added
+to material or energy accounts. Stamina, belief and other aggregate game signals
+are not automatically joules or oxygen quantities.
+
+Real units do not certify realistic equations or coefficients. Numerical precision,
+error tolerances, supported ranges and calibrations still need evidence. Required
+checks include unit-boundary conversions, compatible cross-module exchanges and
+unchanged simulation results when only display units change. This is a design
+decision, not a conversion of current runtime data.
 
 ## Ownership and interfaces
 
@@ -165,7 +198,7 @@ exclusions should be visible in support metadata rather than narrated as realism
 
 ## Budgets, numerical limits and fallback
 
-Declare units or a consistent model scale, accuracy targets, event tolerances,
+Declare SI quantity semantics, accuracy targets, event tolerances,
 maximum graph work and source-allocation semantics before test evaluation.
 Ordinal material levels select calibrations; they are not conserved quantities.
 The solver must not get a different fuel budget merely because it has more edges.
@@ -201,7 +234,7 @@ mechanism accounts for it; "wet" is not an arbitrary insulation multiplier.
 | C7/W2/W5 | Physical exposure feeds body capability/evidence once; NPC and player attempts share mechanisms |
 | C8/W8 | Held-out assemblies and chains, including a useful failure rather than universal success |
 
-Open decisions: minimum geometry vocabulary, material-state units, allocation of
+Open decisions: minimum geometry vocabulary, quantity schemas/calibration adapters, allocation of
 simultaneous source budgets, fracture/attachment representations, and which
 processes migrate first. Require a mechanism-to-current-row compatibility map.
 Keep the original thermal proof and its limitations as evidence; do not expand

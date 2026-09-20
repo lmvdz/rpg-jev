@@ -91,8 +91,11 @@ must not be collapsed into a material name.
 
 **Material levels are not quantities.** A 0–5 judgment category can select a
 code-authored calibration or bounded parameter set. Energy and material accounting
-use quantities with declared units or a documented consistent model scale, not
-sums of ordinal levels. Density, volume and mass must agree through one code rule;
+use SI quantities in the new physical substrate, not sums of ordinal levels.
+Existing model scales require explicit calibration/conversion or versioned migration;
+historical values are not silently reinterpreted. See the
+[Q018 unit decision](world/composition-and-processes.md#accepted-q018-units-si-internally).
+Density, volume and mass must agree through one code rule;
 heat capacity belongs to the amount and material, not to the object's label.
 
 ## Every transformation has an account

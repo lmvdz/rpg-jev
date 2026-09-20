@@ -218,7 +218,7 @@ recipes. Material definitions, actual portions, parts, assemblies, couplings and
 active processes have distinct responsibilities; this does not prescribe a table
 per concept. Bodies and accounted bulk environments share the same exchange
 boundaries. See the [foundation decision](world/composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships).
-Concrete geometry, units and first admitted channels remain open.
+Concrete geometry, quantity schemas and first admitted channels remain open.
 
 **Accepted Q018 representation approach:** compound simple geometry and explicit
 interfaces describe meaningful stored structure. Derive active physical
@@ -228,6 +228,14 @@ grant unsupported capabilities. Prefer retrieving established detail to inventin
 it; any later refinement remains versioned, conserving and consistent with history.
 The primitive palette, precision and approximation/transfer rules still need
 design and evidence. See the [structure-first approach](world/composition-and-processes.md#accepted-q018-approach-structure-before-approximation).
+
+**Accepted Q018 units:** use SI quantities internally in the new physical substrate,
+with qualitative descriptions or converted units at presentation boundaries.
+Physical durations use seconds and absolute temperatures use kelvin. Existing
+ordinal scales and clock conventions require explicit code-owned adapters or
+versioned migrations, not relabeling old state. Aggregate game signals are not
+automatically physical quantities. Calibration and numerical precision remain
+open. See [unit semantics](world/composition-and-processes.md#accepted-q018-units-si-internally).
 
 Retain the distinction between the physical graph and rule graph. Assemblies
 contain actual material; coatings, wraps and joints are not free modifiers.
