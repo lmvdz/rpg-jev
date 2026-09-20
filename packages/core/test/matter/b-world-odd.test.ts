@@ -12,7 +12,8 @@
  * became `it.fails` once the engine's numbers were printed (world-04 the top rail, odd-02 the
  * crack, odd-03 the dent, odd-04 the pack, odd-05 the paste). odd-02 gained the same crash told
  * with the shield as the striker, and the drift block gained its two sub-hour cases. No row,
- * threshold or place was changed.
+ * threshold or place was changed in that pass. Shared-food reach validation later
+ * required placing eaters at the source; the dietary assertions remain unchanged.
  */
 import { describe, expect, it } from "vitest";
 import {
@@ -106,7 +107,7 @@ describe("world-02: a river works at a clay bank", () => {
 describe("world-03: a carcass in a dry gully", () => {
   const gully = world(
     [thing("deer", "carcass", "gully", { amount: 20 })],
-    [body("crow", { tolerates: 4 }), body("walker")],
+    [body("crow", { tolerates: 4, place: "gully" }), body("walker", { place: "gully" })],
     EXTRA,
   );
   const dayOld = resolve(gully, days(1)).world;
@@ -193,8 +194,15 @@ describe("world-05: a rat in the well", () => {
   });
 
   it("world-05: fouled water goes down like any water and tells hours later; the stream's does not", () => {
-    const drinks = (from: string) =>
-      resolve(village, { process: "ingest", body: "villager", thing: from }).world;
+    const drinks = (from: string) => {
+      const atSource = {
+        ...village,
+        bodies: {
+          villager: body("villager", { place: village.things[from]?.place ?? "hearth" }),
+        },
+      };
+      return resolve(atSource, { process: "ingest", body: "villager", thing: from }).world;
+    };
     const drunk = drinks("fouled");
     expect(drunk.bodies.villager?.health).toBe(5);
     expect(drunk.bodies.villager?.sickensIn).toBeGreaterThan(60);

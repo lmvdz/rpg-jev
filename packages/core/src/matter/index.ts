@@ -36,6 +36,18 @@ export { alight, POOL, placeOf, worldOf } from "./pool.ts";
 export { type Act, type Outcome, PROCESSES, play, resolve } from "./resolve.ts";
 export { bearing, born, levelOf, quantity, section, thin } from "./scale.ts";
 export { emits, type Heard, perceive, reaches, sensed } from "./sense.ts";
+export {
+  createMatterSession,
+  type MatterAction,
+  type MatterCommand,
+  type MatterSession,
+  type MatterSessionInput,
+  type MatterStep,
+  restoreMatterSession,
+  serializeMatterSession,
+  stepMatterSession,
+} from "./session.ts";
+export type { MatterTerrain, Tile } from "./session-terrain.ts";
 export { sliceFor } from "./slice.ts";
 export type { CoatAct, SoakAct } from "./soak.ts";
 export * from "./types.ts";

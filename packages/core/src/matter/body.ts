@@ -6,6 +6,7 @@
  */
 import { feeds } from "./diet.ts";
 import { effective } from "./effective.ts";
+import { withinReach } from "./living.ts";
 import { born } from "./scale.ts";
 import type { Change, MatterWorld } from "./types.ts";
 import { clamp } from "./types.ts";
@@ -32,6 +33,13 @@ export function ingest(world: MatterWorld, act: IngestAct): Change[] {
   const thing = world.things[act.thing];
   if (!(body && thing))
     return [{ kind: "nothing", because: [], note: "there is nothing there to eat" }];
+  if (
+    !(withinReach(world, body, thing.id) && Number.isFinite(act.amount ?? 1)) ||
+    (act.amount ?? 1) <= 0 ||
+    !Number.isFinite(thing.state.amount) ||
+    thing.state.amount <= 0
+  )
+    return [{ kind: "nothing", because: ["X6"], note: "it cannot eat that" }];
   const p = effective(world, thing);
   const eaten = Math.min(act.amount ?? 1, thing.state.amount);
   // What it gets from it is by what it is to this eater (diet.ts).

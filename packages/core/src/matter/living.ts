@@ -100,7 +100,8 @@ export function move(world: MatterWorld, act: MoveAct): Change[] {
   const gap = Math.hypot(to[0] - from[0], to[1] - from[1]);
   const stride = able(world, body).speed * PACE * act.minutes;
   // Toward, it stops beside the thing; away, it keeps going.
-  const go = act.away ? -stride : Math.min(stride, Math.max(0, gap - 1));
+  const stoppingGap = act.to ? 0 : 1;
+  const go = act.away ? -stride : Math.min(stride, Math.max(0, gap - stoppingGap));
   const [dx, dz] = gap > 0 ? [(to[0] - from[0]) / gap, (to[1] - from[1]) / gap] : [1, 0];
   const where: [number, number] = [from[0] + dx * go, from[1] + dz * go];
   const carried: Change[] = (body.holds ?? []).map((thing) => ({
@@ -132,9 +133,22 @@ export interface TakeAct {
 }
 
 /** What one body can take hold of: within reach, and no heavier than it is strong. */
+export function withinReach(world: MatterWorld, body: Body, thingId: string): boolean {
+  const thing = world.things[thingId];
+  if (!thing || thing.place !== body.place) return false;
+  if (
+    Object.values(world.bodies).some(
+      (other) => other.id !== body.id && (other.holds ?? []).includes(thingId),
+    )
+  )
+    return false;
+  const gap = apart(body.where, thing.where);
+  return Number.isFinite(gap) && gap <= 1.5;
+}
+
 export function canTake(world: MatterWorld, body: Body, thingId: string): boolean {
   const thing = world.things[thingId];
-  if (!thing || thing.place !== body.place || apart(body.where, thing.where) > 1.5) return false;
+  if (!(thing && withinReach(world, body, thingId))) return false;
   return effective(world, thing).mass <= able(world, body).strength + 1;
 }
 
@@ -148,5 +162,15 @@ export function take(world: MatterWorld, act: TakeAct): Change[] {
   if (!body || act.drop || holds.includes(act.thing) || !canTake(world, body, act.thing))
     return [{ kind: "nothing", because: ["X1", "P1"], note: "it cannot take hold of that" }];
   const set = { holds: [...holds, act.thing] };
-  return [{ kind: "body", body: body.id, set, because: ["X1", "P1"], note: "it takes hold of it" }];
+  return [
+    { kind: "body", body: body.id, set, because: ["X1", "P1"], note: "it takes hold of it" },
+    {
+      kind: "carried",
+      thing: act.thing,
+      where: body.where ?? [0, 0],
+      because: ["X1"],
+      note: "what it takes is now with it",
+      quiet: true,
+    },
+  ];
 }

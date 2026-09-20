@@ -42,14 +42,22 @@ const APPLIERS: { [K in Change["kind"]]: Applier<K> } = {
   },
   consume: (world, c) => {
     const thing = world.things[c.thing];
-    if (!thing) return world;
+    if (!(thing && Number.isFinite(c.amount)) || c.amount <= 0) return world;
     const left = thing.state.amount - c.amount;
     if (left > 0) {
       const next = { ...thing, state: { ...thing.state, amount: left } };
       return { ...world, things: { ...world.things, [c.thing]: next } };
     }
     const { [c.thing]: _gone, ...things } = world.things;
-    return { ...world, things };
+    const bodies = Object.fromEntries(
+      Object.entries(world.bodies).map(([id, body]) => [
+        id,
+        (body.holds ?? []).includes(c.thing)
+          ? { ...body, holds: body.holds?.filter((held) => held !== c.thing) ?? [] }
+          : body,
+      ]),
+    );
+    return { ...world, things, bodies };
   },
   // What is held goes where its holder goes.
   carried: (world, c) => {
