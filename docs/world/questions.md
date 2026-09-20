@@ -196,7 +196,7 @@ Q001 already records the accepted shared-runtime architecture.
 | Q057 | Who can inspect privileged causes, and through which surfaces? | Open | [Presentation questions](presentation-and-explanation.md#open-decisions-and-implementation-evidence); authorization model across UI, subscriptions, diagnostics and errors |
 | Q058 | Does historical explanation use then-known or now-known evidence? | Open | [Presentation questions](presentation-and-explanation.md#open-decisions-and-implementation-evidence); explicit supported view(s), labels and history-preservation tests |
 | Q059 | How are uncertainty, withheld causes, staleness and degraded output represented? | Open | [Honest explanations](presentation-and-explanation.md#honest-explanations) and [failure cases](presentation-and-explanation.md#staleness-replay-and-failure-cases); non-leaking projections and deterministic fallbacks |
-| Q060 | Do supported cues help players predict unfamiliar consequences? | Needs measurement | [Presentation evidence](presentation-and-explanation.md#open-decisions-and-implementation-evidence); wolf/non-wolf rendered fixtures, legibility evidence and multiplayer leakage tests |
+| Q060 | Do supported cues help players predict unfamiliar consequences? | Needs measurement | [Presentation evidence](presentation-and-explanation.md#open-decisions-and-implementation-evidence) and [accepted learning milestone](experimentation.md#first-milestone-learn-a-rule-and-use-it-creatively); prediction and transfer evidence, wolf/non-wolf fixtures, legibility and multiplayer leakage tests; study protocol and thresholds remain open |
 
 ## Variation follow-ups and decisions
 
@@ -208,6 +208,16 @@ of those schema/mechanics choices.
 | --- | --- | --- | --- |
 | Q061 | How are species groupings and technically distinct variants represented and admitted? | Open | [Variant direction](world-identity-and-context.md#accepted-direction-technically-distinct-species-variants); Q062 settles the causal-layer distinction, while schema, definition-admission criteria, identity and compatibility remain open |
 | Q062 | Which causal layers explain environmentally influenced variation? | Decided | [Six-layer model](world-identity-and-context.md#accepted-model-six-causes-of-variation); founding traits, development, acclimatization/conditioning, current condition, learning/culture and population composition; admitted mechanisms connect environment/history to changes, not labels or assumed evolution |
+
+## Experimentation-first product direction
+
+The research record is advisory where it compares architecture or proposes a
+domain. Q063 records the accepted player loop and learning goal, not completion
+of the Q060 evidence or selection of Q018's concrete mechanisms.
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q063 | Which player loop and first learning milestone guide the next engine exploration? | Decided | [Experimentation-first direction](experimentation.md#accepted-player-loop): hypothesize, intervene, observe, transfer; a player learns a general rule and uses it creatively in an unfamiliar situation. Exact study domain, pacing, protocol and success thresholds remain open; no implementation claimed |
 
 ## Implementation evidence
 
@@ -227,7 +237,7 @@ Do not mark an entire module verified because one fixture passes.
 
 ## Progress snapshot
 
-The register contains **62 questions**: **16 decided**, **39 open**,
+The register contains **63 questions**: **17 decided**, **39 open**,
 **5 needing measurement**, and **2 deferred**. These counts are a discussion
 inventory, not a completion percentage. None of the nine shared modules is claimed
 complete. C0's existing narrow completion is tracked separately above.

@@ -16,6 +16,12 @@ concrete geometry and precision. Parts/typed relationships, structure-first
 compound geometry and SI physical units are accepted; shape palette, fields,
 calibration/adapters, approximation transfers and initial channels remain open.
 
+The [experimentation-first research record](experimentation.md) captures the
+parallel engine exploration, cross-review revisions and accepted Q063 player
+loop/learning milestone. It guides the next design study without closing Q018
+or claiming implementation. Heat/contact/insulation is a proposed study domain,
+not a newly admitted mechanism set.
+
 | Module | Design question |
 | --- | --- |
 | [World identity and context](world-identity-and-context.md) | What persists through creation, movement, separation, refinement and death? |

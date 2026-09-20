@@ -24,6 +24,13 @@ enumerate infinite futures or promise human-level intelligence or full biology.
 Depth means meaningful interventions, persistent consequences and learnable
 evidence, not maximizing the number of hidden variables.
 
+**Accepted initial player loop (Q063):** experimentation. The first learning
+milestone is a player learning a general rule and using it creatively in an
+unfamiliar situation. The [research record](world/experimentation.md) preserves
+the cross-review and distinguishes this accepted goal from proposed domains,
+pacing and study methods. It does not replace the shared proving fixture or
+C/W gates, close Q018, or claim a measured learning result.
+
 ## 2. Shared invariants
 
 1. There is one authoritative world. Players, NPCs and environmental processes

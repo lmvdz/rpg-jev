@@ -947,6 +947,19 @@ open questions by stable ID across all nine modules. Discussion status and
 implementation evidence are separate; the register does not ratify draft
 recommendations or replace the contracts it links.
 
+**Accepted experimentation-first direction (Q063):** the next engine exploration
+starts with a player forming a hypothesis, changing conditions, observing
+consequences and applying what was learned. The first learning milestone is
+**learning a general rule and using it creatively in an unfamiliar situation**,
+not accumulating materials or discovering named recipes. The
+[research and milestone record](docs/world/experimentation.md) preserves the
+parallel review, alternatives and open choices. Heat/contact/insulation is a
+proposed initial study, not an admitted mechanism set. The next step remains
+design-only player journeys; major renderer commitments wait for clearer engine
+needs, while the existing client remains a harness. This goal does not replace
+M0–M5, the shared proving fixture or C/W gates; Q018 remains open and Q060 still
+needs measurement. No new code, APIs or Jev families are authorized by this decision.
+
 **Standing design rule:** spontaneous examples test composable primitives, not
 bespoke actions or outcome recipes. For Q018 and later questions, identify reusable
 state, admitted typed interpretation, code-owned execution and cross-module
