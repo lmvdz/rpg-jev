@@ -151,6 +151,30 @@ Archive unavailability may degrade historical inspection, but cannot justify del
 An archive is not a lossy narrative digest; a readable summary cannot replace replay data.
 Retention optimizations must prove that no live reference or audit chain is orphaned.
 
+### Live rule transition boundaries
+
+Live ecological changes are accepted in principle, subject to an admitted
+transition for each setting. Record the authorized change, old/new configuration
+revisions, effective simulation boundary, scope and transition-policy revision.
+Commit it through the single authority with a stable retry identity.
+
+Prospective means simulation time, not the wall-clock moment a region is loaded.
+Catch-up spanning the boundary applies the appropriate rules on each side;
+it cannot use the newest setting for the entire absence. Preserve old revisions
+for replay, which applies recorded effects rather than recalculating history.
+
+An in-flight activity needs a declared transition: retain its admitted old policy,
+split remaining work at the boundary, or stop it under a lawful interruption rule.
+No universal option is selected here. None may duplicate progress, refund spent
+resources, reroll settled opportunities or restart a reproductive lifecycle.
+Validate state/account invariants; reject or defer unsupported transitions.
+
+Required W0/W4/W6 evidence includes save/load on either side, an activity crossing
+the boundary, offscreen catch-up crossing it, a retried change request, and invalid
+changes leaving the world untouched. Compare observed and catch-up execution under
+the same declared policy. This is a transition contract, not an implemented live
+settings API or permission to alter rules without caller authorization.
+
 ## Alternatives and provisional recommendation
 
 **Uniform tiny ticks:** easy local reasoning, unacceptable unbounded offscreen work.

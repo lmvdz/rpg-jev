@@ -150,13 +150,36 @@ applies. How ungenerated source populations are bounded/accounted for without
 bounding exploration is an unresolved design requirement, not solved by an
 extinction flag that merely suppresses inconvenient unseen survivors.
 
-Setting names, defaults and permitted live changes remain undecided. They must
-use code-owned validated semantics and join the world's pinned generation/mechanics
+Setting names, defaults and the catalogue of live-adjustable rules remain undecided.
+They must use code-owned validated semantics and join the world's pinned generation/mechanics
 configuration so replay does not reinterpret old events using current settings.
 Changing persistent semantics needs an explicit migration, not a silent reseed.
 No configurable extinction exemption or automatic replenishment mode is admitted
 by accepting settings in general. Any such alternative would be a separate,
 explicit ruleset decision.
+
+## Accepted decision: prospective live ecological settings
+
+Ecological rules may change while a world is running through explicit, authorized,
+recorded revision changes that govern future evolution. Permission to change rules
+is not permission to reset existing state. Each admitted setting needs validated
+bounds, an effective simulation boundary and a transition policy.
+
+Preserve established individuals, relationships, realized traits, injuries,
+population/source accounts and committed history. Changing abundance cannot refill
+depleted sources or reverse extinction; changing a reproduction parameter cannot
+retroactively create offspring. Future lawful births or migrations still require
+their ordinary prerequisites and accounts.
+
+Generation settings do not rewrite established terrain or source allocations.
+Any change applying to future generation must preserve those facts and declare
+its compatibility with the existing generation contract. The exact adjustable
+settings and defaults remain open; no new ecology mechanism is admitted here.
+
+The [time/persistence transition contract](time-and-persistence.md#live-rule-transition-boundaries)
+defines how version boundaries, in-flight work and offscreen catch-up must be
+handled. A rule change lacking a safe transition is rejected or deferred, not
+applied opportunistically when each region next becomes visible.
 
 ## Ownership and interfaces
 

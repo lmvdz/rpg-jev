@@ -997,11 +997,20 @@ does not confer immunity. When population geography is generated remains open.
 **Accepted world direction:** indefinitely expanding geography and configurable
 world rules are intended capabilities, not mandatory finite maps. Geographic
 expansion does not grant inexhaustible species sources; full extinction remains
-possible. The source-accounting model, concrete settings/defaults and permitted
-live changes remain undecided. Code validates settings and pins their relevant
-generation/mechanics revisions; changing persistent semantics requires explicit
+possible. The source-accounting model, concrete settings/defaults and catalogue
+of live-adjustable rules remain undecided. Code validates settings and pins their
+relevant generation/mechanics revisions; changing persistent semantics requires explicit
 migration, not silently rewriting history. This admits no extinction exemption,
 automatic replenishment mode or claim of unbounded compute/storage.
+
+**Accepted live-settings policy:** ecological rules may change during play through
+explicit, authorized and recorded revisions governing future evolution, not resets
+of existing state. Preserve individuals, population/source accounts and history.
+Each admitted change has an effective simulation boundary and a validated policy
+for in-flight work and offscreen catch-up; it cannot retroactively apply new rules,
+duplicate progress, reroll settled opportunities or restore extinct populations.
+Unsupported changes are rejected or deferred. Specific knobs/defaults and their
+transition policies require further design; no live-settings API is claimed.
 
 Keep realized truth, subjective uncertainty, evolving physical risk and sampled
 choices distinct. Save/load, offscreen catch-up and refinement preserve committed

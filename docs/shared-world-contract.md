@@ -128,9 +128,19 @@ population geography. See the
 **Accepted world direction:** support indefinitely expanding geography and explicit
 world settings, not mandatory finite maps. Expansion is distinct from inexhaustible
 species sources: full extinction must remain possible. Source scope, setting names,
-defaults and permitted live changes need further design. Persistent settings are
-code-validated and revisioned; they cannot silently rewrite history or reseed it.
+defaults and the specific live-adjustable settings need further design. Persistent
+settings are code-validated and revisioned; they cannot silently rewrite history or reseed it.
 See [world expansion and settings](world/world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings).
+
+**Accepted live-settings policy:** ecological rules may change prospectively through
+explicit, authorized and recorded revisions. Existing individuals, population
+accounts and committed history are preserved; changed settings do not refill
+sources, resurrect extinct species or rewrite generated places. Each setting needs
+a validated transition for in-flight work and an effective simulation boundary,
+including offscreen catch-up. Unsupported changes are rejected or deferred.
+Concrete settings and transition choices remain open. See
+[live ecological settings](world/world-identity-and-context.md#accepted-decision-prospective-live-ecological-settings)
+and [transition boundaries](world/time-and-persistence.md#live-rule-transition-boundaries).
 
 A creature's creation record establishes its identity, organism definition,
 developmental stage, admitted biological attributes, body and initial context.
