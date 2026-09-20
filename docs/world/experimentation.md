@@ -91,11 +91,17 @@ combustion, pressure, fracture, chemistry, ecology and seasons at once.
 
 ### Next work remains design-only
 
-Write three contrasting player journeys before implementing a new system:
+The [three worked journeys](experimentation-journeys.md) now explore these
+contrasting paths as a design-only proposal, not measured evidence:
 
 1. A correct hypothesis supported by a controlled comparison.
 2. A plausible wrong hypothesis distinguished from the actual cause by evidence.
 3. A transfer problem applying the discovery to an unfamiliar arrangement.
+
+They use warm/cold solid comparisons to examine a covering's effect on thermal
+exchange, challenge the idea that it creates heat, and test transfer to keeping
+a cold object cool. Apparatus, measurement and calibration still need decisions;
+no thermal mechanism or fixture-specific outcome is admitted by the draft.
 
 For each, identify the player's choice, existing physical structure, actor
 knowledge, supported mechanism, persistent changes, available evidence and any
