@@ -26,3 +26,6 @@ playtests/friction.md
 .claude/worktrees/
 # the development loop's working files: prompts sent, replies, attempts, journal, lock
 .sdlc/
+
+# Reproducible thermal enumeration output; summary findings are tracked separately.
+validation/thermal-learning/runs/

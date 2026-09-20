@@ -7,8 +7,8 @@
     "node": ">=22.18"
   },
   "scripts": {
-    "typecheck": "pnpm -r typecheck",
-    "test": "vitest run",
+    "typecheck": "pnpm -r typecheck && tsc --noEmit -p validation/thermal-learning/tsconfig.json",
+    "test": "vitest run && node --test packages/core/test/thermal/physics.node.test.ts packages/core/test/thermal/integration.node.test.ts packages/core/test/thermal/sweep.node.test.ts packages/terminal/test/thermal.node.test.ts packages/terminal/test/thermal-journal.node.test.ts packages/terminal/test/thermal-surface.node.test.ts packages/terminal/test/thermal-validation.node.test.ts",
     "test:watch": "vitest",
     "lint": "biome check .",
     "format": "biome check --write .",
