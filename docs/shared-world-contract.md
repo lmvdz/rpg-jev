@@ -212,6 +212,14 @@ this document does not introduce an independent hidden RNG per module.
 
 ## 5. Composition, environment and changing structure
 
+**Accepted Q018 foundation:** material-bearing parts and typed physical relationships
+underlie objects and creatures represented as assemblies, not named interaction
+recipes. Material definitions, actual portions, parts, assemblies, couplings and
+active processes have distinct responsibilities; this does not prescribe a table
+per concept. Bodies and accounted bulk environments share the same exchange
+boundaries. See the [foundation decision](world/composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships).
+Concrete geometry, units and first admitted channels remain open.
+
 Retain the distinction between the physical graph and rule graph. Assemblies
 contain actual material; coatings, wraps and joints are not free modifiers.
 Contacts expose admitted channels such as thermal transfer or force transmission.

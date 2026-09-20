@@ -12,6 +12,41 @@ as a new authority nor claims the isolated thermal spike is production physics.
 The answer must include evolving structure, not just numeric properties on a
 fixed object. But unrestricted generated equations are not an acceptable shortcut.
 
+## Accepted Q018 foundation: parts and typed relationships
+
+Material-bearing parts and typed physical relationships are the foundation.
+Recognizable objects and creatures are assemblies over that substrate, not the
+units that own special-case interaction rules. This accepts the representation
+direction; concrete fields, geometry precision, units and initial channels remain
+open under Q018.
+
+| Concept | Responsibility |
+| --- | --- |
+| Material definition | Versioned code-calibrated properties for admitted mechanisms |
+| Material portion | Actual quantity and instance state, including owned resource budgets |
+| Part | Physically meaningful structure/region with placement and declared geometric detail |
+| Assembly | Targeting/movement grouping of parts without duplicate mass or energy |
+| Interface or coupling | Typed relationship through which supported force, heat or material exchange occurs |
+| Active process | Admitted ongoing interaction with inputs, progress, accounts and stopping conditions |
+
+These are semantic responsibilities, not six required tables or finalized types.
+Membership and physical coupling are different relationships. Derived assembly
+mass or capability may be cached, but cannot advance independently of its sources.
+Multiple channels can share participants without sharing coefficients or creating
+independent copies of the same resource.
+
+Bodies participate through this substrate; embodiment connects physical exchange
+to admitted reserves and functions. Air, water and other bulk environments may use
+accounted regions/reservoirs instead of rigid-object representations. An external
+boundary assumption is explicit, not a free source hidden in an object behavior.
+
+TypeSafe/Jev interprets an attempted arrangement through admitted choices; code
+determines whether it occurs and what all applicable mechanisms do. Coarse parts
+remain valid within their declared support. Refinement preserves quantities and
+history; missing representation/mechanics is not filled with a plausible result.
+No thermal, respiratory or mechanical channel is certified by accepting this
+foundation. Their schemas, calibrations and coupled evidence still need admission.
+
 ## Ownership and interfaces
 
 Composition owns material portions, stored physical quantities, contacts, damage

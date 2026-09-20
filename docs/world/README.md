@@ -12,7 +12,8 @@ persistent simulation afterward and explicitly revised extinction scope.
 Q062 records the accepted six-layer variation model; Q061 retains concrete
 variant-schema and admission questions. The
 [next discussion is Q018](questions.md#next-question-q018):
-the minimum physical representation for parts, contacts and coarse objects.
+geometry and spatial precision. Its parts-and-typed-relationships foundation is
+accepted; concrete fields, units and initial channels remain open.
 
 | Module | Design question |
 | --- | --- |

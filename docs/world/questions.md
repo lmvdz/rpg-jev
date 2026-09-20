@@ -40,8 +40,14 @@ No new integrated W0–W8 capability is marked implemented and verified here.
 
 ## Next question: Q018
 
-**What minimum physical representation supports distinct parts and contacts
-without requiring every object or body to be modeled at maximum detail?**
+**Which geometry and spatial precision should the accepted parts-and-relationships
+foundation represent first?**
+
+The [Q018 foundation](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships)
+is accepted: material-bearing parts and typed couplings underlie assemblies.
+Material definitions, portions, parts, assemblies, couplings and processes have
+distinct responsibilities; bodies and bulk environments share accounted exchanges.
+This settles the direction, not concrete schema fields, geometry, units or channels.
 
 Assess a coherent coupled representation, not isolated subsystems. The spontaneous
 sword/ground/exertion example probes contact, support, work, body demand and thermal
@@ -103,7 +109,7 @@ These record the recent agreed direction. None implies a complete entity runtime
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
 | Q017 | Do we retain compositional physics rather than named encounter recipes? | Decided | Yes; physical/rule graphs, conservation and C gates remain foundational; [physical contract](../compositional-causality.md#what-is-abstracted) |
-| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Physical state distinctions](composition-and-processes.md#state-design-what-must-not-collapse) and [composition rule](../shared-world-contract.md#standing-design-rule-examples-test-composition); units, precision, reusable channels and cross-module coupling, not an example-specific action |
+| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Parts/relationships foundation accepted](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships); concrete geometry, fields, units and channels remain open; apply the [composition rule](../shared-world-contract.md#standing-design-rule-examples-test-composition) across modules |
 | Q019 | How are simultaneous physical transfers allocated from shared budgets? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); consistent read state, allocation and boundary settlement; coordinate Q045/Q050 |
 | Q020 | How do damage, fracture and attachment changes alter topology? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); first admitted mechanisms with material/energy-preserving transitions |
 | Q021 | Which current matter processes migrate first, through which adapters? | Open | [Physical open decisions](composition-and-processes.md#evidence-and-open-decisions); mechanism-to-current-row compatibility map, not a second production engine |

@@ -956,6 +956,14 @@ answer is not proof of correct intent or physics. Distinguish ambiguity from
 missing support, and test unfamiliar combinations instead of encoding named
 scenarios. This neither expands the Jev catalog nor claims new mechanics work.
 
+**Accepted Q018 foundation:** material-bearing parts and typed physical relationships
+form the substrate; recognizable objects and creatures are assemblies over it,
+not special-case behavior owners. Distinguish material definitions, portions,
+parts, assemblies, couplings and active processes without prescribing tables.
+Bodies and bulk environmental reservoirs use shared accounted exchanges.
+Geometry precision, units, concrete schemas and initial channels remain open;
+this agreement is not implementation completion.
+
 An NPC is a persistent participant in the same world as the player. Its initial
 body, biological attributes, relationships and history must be seeded coherently,
 not independently rolled into contradictory facts. Its intentions use its own
