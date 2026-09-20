@@ -9,8 +9,10 @@ Use the [numbered question register](questions.md) to track decided, open,
 measurement-dependent and deferred questions separately from implementation
 evidence. Q009 now permits fresh seeded population sources in new regions, with
 persistent simulation afterward and explicitly revised extinction scope.
-The [next discussion is Q061](questions.md#next-question-q061):
-technically distinct variants versus individual traits and community identity.
+Q062 records the accepted six-layer variation model; Q061 retains concrete
+variant-schema and admission questions. The
+[next discussion is Q018](questions.md#next-question-q018):
+the minimum physical representation for parts, contacts and coarse objects.
 
 | Module | Design question |
 | --- | --- |

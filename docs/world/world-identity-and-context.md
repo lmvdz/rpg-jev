@@ -173,6 +173,48 @@ The minimum species/variant schema, meaningful distinction criteria, inheritance
 reproductive compatibility and variant admission workflow remain open (Q061).
 No genetics, evolution or hybridization system is implied by this direction.
 
+## Accepted model: six causes of variation
+
+Environment can shape both founding variation and subsequent individual change
+through admitted mechanisms. A biome label is not an outcome selector or an
+instant variant replacement. Keep six layers distinct:
+
+| Layer | What it records | Authority / boundary |
+| --- | --- | --- |
+| Founding characteristics | Initial admitted body/capability profile and realized variation | Versioned construction with coherent habitat/context assumptions, not proof of inherited adaptation |
+| Developmental changes | Persistent effects of growth, nutrition and developmental exposure | Embodiment processes with history and resource accounts |
+| Acclimatization and conditioning | Changes from sustained exposure or activity, with declared persistence/reversibility | Embodiment under admitted timescales, not a generic adaptation bonus |
+| Current condition | Temperature, hydration, hunger, fatigue, wetness and injury as supported | Physical/body state; persistent injury is not necessarily a founding trait |
+| Learned behavior and culture | Acquired knowledge, practices and affiliations | Memory, intention and social records, not automatic biological differences |
+| Population composition | Which individuals, traits and lifecycle stages are actually present | Population/relationship accounts changed by admitted entry, migration, survival and reproduction |
+
+The environment supplies conditions; bodies supply capacities; activities create
+demand; accumulated history can change capacities. Temperature, oxygen availability,
+water, food, light, terrain and hazards are candidate causal inputs where modeled.
+Equipment and shelter modify exposure through actual physical relationships.
+Social practices can change exposure or nutrition without changing biological
+identity. Player interventions use those same mechanisms.
+
+Variation within a population remains possible. Shared environmental causes can
+correlate traits but must not force every individual into one identical preset.
+Each supported change identifies its causal inputs, owning state, admitted rule
+revision, timescale and any costs; rendering cannot invent an adaptation.
+A pattern may justify a variant definition under Q061's eventual admission rules,
+but the label never overrides the individual's actual state or replaces its history.
+
+Moving a wolf to high altitude changes local exposure, not its founding profile.
+Respiratory performance depends on admitted atmospheric conditions, bodily capacity
+and exertion. Later acclimatization, developmental differences and learned pacing
+remain separate possible causes. Survival changing a population's composition is
+not the same as directly improving each survivor. Inheritance or multi-generation
+adaptation requires separately admitted mechanisms; seeded founding profiles alone
+do not establish that evolution occurred.
+
+Respiration, temperature, nutrition, movement and senses are candidate first
+domains for demonstrating this model, not newly certified capabilities. Concrete
+schemas, calibrations and supported transitions remain Q023–Q027 and Q061.
+Genetics, disease and evolutionary systems are not implicitly admitted.
+
 ## Accepted direction: expanding geography and world settings
 
 Indefinitely expanding, progressively generated geography is an intended world

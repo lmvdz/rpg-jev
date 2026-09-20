@@ -136,6 +136,16 @@ established identities or losses. Schema, distinction criteria and compatibility
 remain Q061; no genetics/evolution system is implied. See
 [species variants](world/world-identity-and-context.md#accepted-direction-technically-distinct-species-variants).
 
+**Accepted variation model (Q062):** separate founding characteristics,
+developmental changes, acclimatization/conditioning, current condition, learned
+behavior/culture and population composition. Environment can shape initialization
+and later change through admitted mechanisms; body capacities, activity demand
+and exposure history determine effects, not biome/variant names. Population
+selection is not automatic individual improvement. No genetics, disease or
+evolutionary system is implied. See the
+[six-layer model](world/world-identity-and-context.md#accepted-model-six-causes-of-variation)
+and [embodiment boundary](world/embodiment.md#environmental-variation-and-exposure-history).
+
 **Accepted world direction:** support indefinitely expanding geography and explicit
 world settings, not mandatory finite maps. New-region initialization is distinct
 from refilling established sources. Source detail, setting names,

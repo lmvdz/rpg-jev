@@ -34,10 +34,10 @@ No new integrated W0–W8 capability is marked implemented and verified here.
 - Counts describe this inventory, not engineering effort or percent completion.
   Related rows differ in size and can depend on each other.
 
-## Next question: Q061
+## Next question: Q018
 
-**What makes a technically distinct species variant different from an individual
-trait or a community affiliation?**
+**What minimum physical representation supports distinct parts and contacts
+without requiring every object or body to be modeled at maximum detail?**
 
 Q009 is now decided: genuinely new regions may initialize fresh seeded population
 sources without a finite world-wide founding inventory. Once established, sources
@@ -51,12 +51,13 @@ generation may appear elsewhere after all established populations disappear.
 Local losses and ended individual/community identities remain persistent. This
 is an explicit decision revision, not completion of the old finite-source proposal.
 
-The user also accepted technically distinct species variants. Q061 records the
-remaining schema/admission question rather than assuming every visible difference,
-faction or injury defines a new variant. Distinct profiles must use admitted
-properties and preserve identity/history boundaries. No inheritance or genetics
-mechanism has been selected. After this focused distinction, prefer moving to
-Q018's physical representation rather than exhausting ecological tuning.
+The user accepted technically distinct species variants and the six-layer causal
+variation model (Q062): founding traits, development, acclimatization/conditioning,
+current condition, learning/culture and population composition. Environment can
+affect initialization and later change through admitted mechanisms, not preset
+swaps. Q061 retains the concrete variant schema/admission work; Q023–Q027 retain
+physiological choices and calibration. No inheritance/genetics system was selected.
+Move to Q018's physical representation rather than exhausting ecological tuning.
 
 ## Accepted cross-module decisions
 
@@ -172,14 +173,16 @@ Q001 already records the accepted shared-runtime architecture.
 | Q059 | How are uncertainty, withheld causes, staleness and degraded output represented? | Open | [Honest explanations](presentation-and-explanation.md#honest-explanations) and [failure cases](presentation-and-explanation.md#staleness-replay-and-failure-cases); non-leaking projections and deterministic fallbacks |
 | Q060 | Do supported cues help players predict unfamiliar consequences? | Needs measurement | [Presentation evidence](presentation-and-explanation.md#open-decisions-and-implementation-evidence); wolf/non-wolf rendered fixtures, legibility evidence and multiplayer leakage tests |
 
-## Newly identified follow-up
+## Variation follow-ups and decisions
 
-Appended without renumbering prior questions, following the explicit variant
-direction accepted alongside Q009's revision.
+Appended without renumbering prior questions. Q061 tracks concrete representation
+and admission; Q062 separately records the accepted causal model, not completion
+of those schema/mechanics choices.
 
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
-| Q061 | How are species groupings and technically distinct variants represented and admitted? | Open | [Variant direction](world-identity-and-context.md#accepted-direction-technically-distinct-species-variants); meaningful distinction criteria, stable/versioned identity, admitted properties, population scope and compatibility boundaries without assuming genetics or equating culture with biology |
+| Q061 | How are species groupings and technically distinct variants represented and admitted? | Open | [Variant direction](world-identity-and-context.md#accepted-direction-technically-distinct-species-variants); Q062 settles the causal-layer distinction, while schema, definition-admission criteria, identity and compatibility remain open |
+| Q062 | Which causal layers explain environmentally influenced variation? | Decided | [Six-layer model](world-identity-and-context.md#accepted-model-six-causes-of-variation); founding traits, development, acclimatization/conditioning, current condition, learning/culture and population composition; admitted mechanisms connect environment/history to changes, not labels or assumed evolution |
 
 ## Implementation evidence
 
@@ -199,7 +202,7 @@ Do not mark an entire module verified because one fixture passes.
 
 ## Progress snapshot
 
-The register contains **61 questions**: **15 decided**, **39 open**,
+The register contains **62 questions**: **16 decided**, **39 open**,
 **5 needing measurement**, and **2 deferred**. These counts are a discussion
 inventory, not a completion percentage. None of the nine shared modules is claimed
 complete. C0's existing narrow completion is tracked separately above.

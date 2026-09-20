@@ -53,6 +53,34 @@ Initialization validates reserves, body condition and any summary of prior
 activity together. Migration preserves an injured creature's condition instead
 of rebuilding a healthy default body from the latest definition.
 
+## Environmental variation and exposure history
+
+The accepted [six-layer variation model](world-identity-and-context.md#accepted-model-six-causes-of-variation)
+distinguishes founding profile, development, acclimatization/conditioning, current
+condition, learning/culture and population composition. Embodiment owns admitted
+bodily changes, not every layer. It references physical accounts and emits eligible
+own-body evidence without directly rewriting memories, affiliations or population
+identity.
+
+A lasting trait change needs supported causal inputs, duration/progress semantics,
+limits and any resource costs. Moving regions does not swap the organism's profile.
+Record or summarize exposure history sufficiently for the admitted update rule;
+repeated observation and save/load cannot repeatedly award the same adaptation.
+Reversibility is declared per mechanism, not assumed for every acquired trait.
+
+For the mountain-wolf fixture, pressure and oxygen availability are environmental
+inputs, not a "mountain" bonus. Under an admitted respiratory model, supply relative
+to exertion demand affects supported capabilities. Immediate limitation, later
+acclimatization and developmental history are different transitions. Cold, shelter
+and nutrition may interact only through their admitted couplings.
+
+Required W1/W2/W6 evidence separates matched founding profiles with different
+exposure histories, and different profiles under the same current exposure.
+Test movement between environments, equipment-mediated exposure, save/load and
+whole/split advancement within declared tolerances. Renaming the biome or variant
+without changing causal inputs must not change results. These are acceptance
+requirements, not claims that respiration or adaptation is implemented.
+
 ## Lifecycle: ingestion is not nourishment by decree
 
 1. Action execution validates access and consumes/transfers an actual food portion.

@@ -1010,6 +1010,16 @@ Names do not determine physical or behavioral outcomes; new variants cannot
 reset established populations or histories. Q061 covers the schema and admission
 criteria; this does not admit generated laws, genetics or new judgment families.
 
+**Accepted variation model (Q062):** distinguish founding characteristics,
+developmental changes, acclimatization/conditioning, current condition, learned
+behavior/culture and population composition. Environment shapes initial variation
+and subsequent change only through admitted mechanisms with causal inputs,
+timescales and accounts. Moving regions does not replace a body profile; equipment
+and shelter affect actual exposure. Variant labels describe supported differences,
+not outcome exceptions. Population composition changing through survival is not
+automatic improvement of survivors. Genetics, disease and multi-generation
+adaptation require separate admission; no such implementation is implied here.
+
 **Accepted world direction:** indefinitely expanding geography and configurable
 world rules are intended capabilities, not mandatory finite maps. Geographic
 expansion can initialize additional population sources under Q009, not refill
