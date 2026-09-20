@@ -979,7 +979,17 @@ player return do not create replacements; no hidden population floor or guarante
 respawn timer applies. Migration/reintroduction debit actual sources, reproduction
 needs eligible surviving sources, and establishment still requires suitable
 conditions. Dormant individuals count; absence of sightings does not prove
-extinction. Global-extinction safeguards and exact recovery mechanics remain open.
+extinction. Exact recovery mechanics remain open.
+
+**Accepted full-extinction rule:** species can become fully extinct across the
+world's declared population scope; no guaranteed refuge or hidden replacement
+source prevents it. All active, dormant, coarse and admitted viable reproductive
+sources must be exhausted. Ordinary migration, reproduction or reintroduction
+then cannot restore them. Exploration and later region/definition generation must
+respect committed extinction rather than mint new stock. Global source accounting,
+including ungenerated regions, must distinguish unresolved from zero. Extinction
+is world truth, not automatically player/NPC knowledge. Scope details and any
+exceptional restoration policy require separate design; none is admitted here.
 
 Keep realized truth, subjective uncertainty, evolving physical risk and sampled
 choices distinct. Save/load, offscreen catch-up and refinement preserve committed

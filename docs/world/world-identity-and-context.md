@@ -91,9 +91,40 @@ replacements. None of these opportunities guarantees successful establishment.
 Habitat restoration can improve eligibility but does not itself supply creatures.
 Exact source boundaries, migration eligibility, reproductive conditions and
 recovery times remain admission work; no food-web or population solver is claimed.
-This is a local-recovery decision, not a settled global-extinction, protected-refuge
-or administrator-reset policy. Those safeguards need their own explicit decisions,
-not invisible exceptions to ordinary spawning.
+The full-extinction decision below extends this rule across the world. Specific
+refuge designs and administrator-reset policy still need explicit decisions, not
+invisible exceptions to ordinary spawning.
+
+## Accepted decision: full extinction is possible
+
+A species can become fully extinct within the world's declared population scope.
+No guaranteed surviving refuge, minimum population or hidden replacement source
+prevents that outcome. Independent populations and geographic barriers may make
+extinction difficult, but cannot silently make it impossible.
+
+Full extinction requires exhausting all actual sources in that scope, including
+explicit active/dormant individuals, coarse populations and any admitted viable
+reproductive stages. Zero adults or zero sightings alone is insufficient.
+An isolated surviving population prevents full extinction even if it cannot
+currently replenish another region.
+
+Once all sources are gone, ordinary migration, reproduction and reintroduction
+cannot restore the species. Time, exploration, save/load and habitat restoration
+do not supply new individuals. Later region generation must honor committed
+population history rather than initialize replacement stock for an extinct species.
+Renaming a definition or changing its version cannot bypass that history.
+
+This requires defining the world's population scope and how ungenerated regions
+and external sources are accounted for. If those sources are genuinely unresolved,
+the engine cannot claim proven full extinction merely because generated regions
+are empty. A coarse source inventory can cover unexplored territory without
+creating every individual or revealing that inventory to players.
+
+Authoritative extinction and an observer's belief remain distinct. Confirming the
+world condition does not automatically announce it to players or NPCs.
+No resurrection, protected-species exception, cross-world import or administrative
+reset mechanic is admitted by this decision; any future exception must be explicit
+and versioned rather than disguised as ordinary recovery.
 
 ## Ownership and interfaces
 
@@ -208,6 +239,8 @@ Theft changes possession, not mass or every observer's belief about ownership.
 | W1/W6 | Exhaust all local sources and isolate the region; time, reload, player return and habitat restoration alone preserve absence |
 | W1/W5 | Restore a real migration route or reintroduce individuals; source is debited, identity/accounting persists, and establishment still checks eligibility |
 | W3/W7 | Failed searches do not assert authoritative extinction or disclose hidden survivors |
+| W1/W6 | Exhaust every source in a declared scope; exploration, reload and definition-version changes cannot recreate an extinct species |
+| W1/W3 | A surviving dormant/coarse population or admitted viable reproductive stage prevents full extinction without becoming observer knowledge |
 | C6/W6 | Split, detach, archive, refine and migrate without dangling references, resource duplication or latent rerolls |
 | W8 | Rename/reorder proposals and test bounded cyclic relationships and missing definitions |
 
@@ -221,3 +254,5 @@ Tests must include exhaustion, birth/death accounting and continuously observed
 placement, not merely a reproducible random spawn.
 Recovery tests must distinguish an empty active view from actual local extinction,
 and opportunity to recover from guaranteed recovery.
+Define global population scope and ungenerated/external source accounting before
+claiming a full-extinction detector; test unresolved sources separately from zero.

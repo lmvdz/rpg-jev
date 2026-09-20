@@ -109,8 +109,18 @@ floor or guaranteed respawn timer applies. Migration and reintroduction debit
 real sources; reproduction requires surviving eligible sources. Restoring a
 route or habitat enables recovery only when its other prerequisites exist.
 Count dormant and coarse populations too: unseen does not mean extinct.
-Global-extinction safeguards remain undecided. See the
+See the
 [local-extinction decision](world/world-identity-and-context.md#accepted-decision-local-extinction-and-causal-recovery).
+
+**Accepted full-extinction rule:** a species can lose every actual source in the
+world's declared population scope, with no guaranteed refuge or hidden replacement.
+Ordinary recovery is then impossible. Later exploration or definition changes
+cannot recreate stock contrary to committed history. Count dormant/coarse sources
+and admitted viable reproductive stages; unresolved ungenerated/external sources
+are not zero. The authoritative condition is not automatic observer knowledge.
+Population scope and source accounting still require design; no exceptional
+restoration mechanic is admitted. See the
+[full-extinction decision](world/world-identity-and-context.md#accepted-decision-full-extinction-is-possible).
 
 A creature's creation record establishes its identity, organism definition,
 developmental stage, admitted biological attributes, body and initial context.
