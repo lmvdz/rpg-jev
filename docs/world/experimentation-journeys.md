@@ -263,6 +263,30 @@ the player predicts an outcome.
 | Stable physical properties, evidence separate from truth, memory of comparisons | Knowledge/history drafts; inspection cannot reroll the material |
 | Meaningful non-scripted application and evidence of transfer | Q060; human learning evidence still required |
 
+### Geometry questions exposed by the journeys
+
+The subsequently accepted
+[hierarchical frames and frame-change invariant](composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes)
+remain binding. These are requirements to compare candidate geometry under Q018,
+not a selected shape palette or coordinate schema:
+
+- A block needs enough stored extent and exposed surface/interface information
+  to derive its admitted thermal approximation, not only an assembly label.
+- A covering needs meaningful thickness, coverage and interfaces on its sides;
+  a gap or bypass cannot vanish into a whole-object "insulated" flag.
+- A probe needs a supported accessible contact site and accounted loading; a
+  decorative probe mesh does not create a measurement capability.
+- The stronger transfer variant needs a distinct support contact the player
+  can inspect and potentially alter, not a named task-specific exception.
+- Re-expressing either setup in different region/local/part frames must not
+  alter its result. Moving it to a genuinely warmer room can. Addressing cells
+  are not thermal barriers or permission to settle an interface twice.
+
+Simple solids plus explicit layers/interfaces may suffice; these examples do
+not establish support for arbitrary cavities, deformation, fluids or fracture.
+The shape palette, contact approximation and precision must be assessed together
+with the measurement/error requirements, rather than chosen from visual appeal.
+
 Before a future playtest, validate and freeze the physical fixture and measurement
 conditions independently of player predictions. Do not tune a result after seeing
 which hypothesis the player offers. A physically non-diagnostic fixture must be
