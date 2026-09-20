@@ -244,6 +244,14 @@ versioned migrations, not relabeling old state. Aggregate game signals are not
 automatically physical quantities. Calibration and numerical precision remain
 open. See [unit semantics](world/composition-and-processes.md#accepted-q018-units-si-internally).
 
+**Accepted Q018 coordinates:** use hierarchical region/chunk addresses, local 3D
+metre coordinates and part-relative frames. A frame change alone preserves physical
+outcomes within declared tolerances, identities, generation history and observer
+knowledge. It is not actual movement into different conditions. Cell boundaries
+do not interrupt shared physical interactions or duplicate ownership. Numeric
+formats, cell dimensions, transforms, error budgets and moving-frame semantics
+remain open. See the [coordinate invariant](world/composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes).
+
 Retain the distinction between the physical graph and rule graph. Assemblies
 contain actual material; coatings, wraps and joints are not free modifiers.
 Contacts expose admitted channels such as thermal transfer or force transmission.

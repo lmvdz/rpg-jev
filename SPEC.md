@@ -994,6 +994,15 @@ explicit code-owned calibration/conversion or versioned migration; they are not
 silently reinterpreted. Using SI does not certify formulas or calibrations, nor
 make aggregate stamina/belief signals physical quantities. Precision remains open.
 
+**Accepted Q018 coordinates and invariant:** hierarchical region/chunk addresses,
+local 3D metre coordinates and part-relative frames organize physical placement.
+Changing coordinate frames alone must preserve physical outcomes within declared
+tolerances, identity, generation history and observer knowledge; actual movement
+into different conditions is a separate event. Coordinate cells are not physical
+barriers or automatic simulation authorities. Cross-boundary interactions must
+remain coherent and settle once. Address/numeric formats, cell sizes, transforms
+and error budgets remain open and need tests, including moving frames and replay.
+
 An NPC is a persistent participant in the same world as the player. Its initial
 body, biological attributes, relationships and history must be seeded coherently,
 not independently rolled into contradictory facts. Its intentions use its own

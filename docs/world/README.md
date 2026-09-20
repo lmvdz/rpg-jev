@@ -12,9 +12,10 @@ persistent simulation afterward and explicitly revised extinction scope.
 Q062 records the accepted six-layer variation model; Q061 retains concrete
 variant-schema and admission questions. The
 [next discussion is Q018](questions.md#next-question-q018):
-concrete geometry and precision. Parts/typed relationships, structure-first
-compound geometry and SI physical units are accepted; shape palette, fields,
-calibration/adapters, approximation transfers and initial channels remain open.
+shape vocabulary and detail needed by the design-only player journeys.
+Parts/typed relationships, structure-first compound geometry, SI units and
+hierarchical coordinates/frame invariance are accepted; shape palette, fields,
+precision, calibration/adapters, transforms and initial channels remain open.
 
 The [experimentation-first research record](experimentation.md) captures the
 parallel engine exploration, cross-review revisions and accepted Q063 player

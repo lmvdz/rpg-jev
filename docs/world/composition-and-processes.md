@@ -123,6 +123,48 @@ checks include unit-boundary conversions, compatible cross-module exchanges and
 unchanged simulation results when only display units change. This is a design
 decision, not a conversion of current runtime data.
 
+## Accepted Q018 coordinates: hierarchical frames and invariant changes
+
+Use a region/chunk address for large-scale location, local 3D metre coordinates
+for nearby physics, and part-relative positions/orientations inside assemblies,
+rather than one enormous global floating-point position for every detail.
+The concrete address type, cell size, numeric precision, axes and transform schema
+remain open; indefinite exploration is not a promise of unbounded numeric values.
+
+**Invariant:** changing coordinate frames alone must not change physical outcomes,
+entity identity, generation history or observer knowledge. Re-express the same
+physical state within declared numerical tolerances; do not teleport, introduce
+impulses, reset process progress, lose contacts or alter material/energy accounts.
+This is distinct from actual movement into different terrain or environmental
+conditions, which can legitimately change outcomes.
+
+World identity/context remains the authority for placement and frame references;
+physical geometry and spatial indexes derive from or reference that placement.
+Frames have stable identity and revisioned transforms. Hierarchical parentage is
+acyclic even when physical contacts form cycles. Reparenting and moving frames
+need declared position/orientation/velocity conversions before support is claimed.
+Renderer origin shifts cannot mutate authoritative coordinates.
+
+Coordinate cells organize representation, not physical laws or automatic simulation
+ownership. Cross-cell contacts and observations still use shared mechanisms, with
+each interaction settled once. Cell addresses, generation-region identity and
+scheduling partitions need not coincide. Crossing or reindexing cannot create a
+second owner, reroll population initialization or invalidate a remembered place.
+Authoritative placement and index/subscription transitions must remain coherent.
+
+Before choosing numeric types or dimensions, declare a positional/orientational
+error budget tied to supported contact features and operations. Test repeated
+conversions, negative addresses, representable limits and large multi-cell objects.
+Bound frame depth and query fan-out; overflow or unresolved dependencies need an
+explicit fallback rather than wrapped coordinates or silently omitted contacts.
+
+C3/C4/C6 and W0/W3/W5/W6 evidence must cover equivalent frame representations,
+contacts across cell boundaries, repeated crossings/reparenting, distant equivalent
+setups, and save/replay. In distant-setup comparisons, hold relevant physical and
+environmental inputs equivalent; do not mistake a real environmental change for
+a coordinate error. Precision, concurrency and moving-frame correctness remain
+evidence requirements, not capabilities established by this architecture decision.
+
 ## Ownership and interfaces
 
 Composition owns material portions, stored physical quantities, contacts, damage
