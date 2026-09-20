@@ -219,6 +219,11 @@ not automatically erase unrelated constituent material.
 
 ## Alternatives and tradeoffs
 
+The [Q018 representation comparison](representation-options.md) examines contact
+networks, detailed geometry and a hybrid stored-structure approach against the
+experimentation journeys. Its recommendation and candidate boundary/measurement
+models are for discussion, not accepted schemas or certified mechanisms.
+
 **Object-level modifiers versus explicit portions/interfaces.**
 Modifiers are compact but cannot account for finite coatings or distinguish hot
 blade from cool handle. Recommend explicit portions only at consequential

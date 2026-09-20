@@ -301,6 +301,8 @@ open. Proposed outcomes in this document are not collected evidence.
 
 The next discussion should choose the observation method and the concrete
 thermal/contact subset under Q018, then challenge these journeys with alternatives.
+The [representation comparison](representation-options.md) works through three
+approaches and their consequences for covered, uncovered and bypass-contact setups.
 This draft does not authorize implementation or broaden the study into every
 mechanism mentioned by the earlier agent reports. Major renderer design remains
 deferred; no particular interface, art style or camera is selected.
