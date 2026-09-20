@@ -38,10 +38,17 @@ No new integrated W0–W8 capability is marked implemented and verified here.
   they do not authorize named features or new judgment families. Keep semantic
   interpretation, code-owned resolution and missing support distinct.
 
-## Next question: Q018
+## Next question: Q064
 
-**Which shape vocabulary and geometric detail do the next design-only player
-journeys require from the accepted foundation?**
+**Which common interaction contract supports physical, bodily, informational and
+intentional change without erasing their domain-specific meaning?**
+
+The accepted next step is the [cross-domain review](interaction-contract.md),
+not selecting architecture from the thermal journeys. Its proposed envelope,
+lifecycle and six probes are design drafts; Q064 remains open until their
+cross-module responsibilities and gaps have been reviewed. No first mechanism set
+or concrete geometry palette is selected. Q063's learning goal remains accepted;
+the preserved player journeys become later validation work.
 
 The [Q018 foundation](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships)
 is accepted: material-bearing parts and typed couplings underlie assemblies.
@@ -59,9 +66,9 @@ the unit choice does not establish numerical accuracy or physical realism.
 [Hierarchical coordinates and frame invariance](composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes)
 are accepted: frame changes alone preserve physical outcomes, identities,
 generation history and knowledge. Numeric formats, dimensions, transform details
-and error budgets remain open. Follow Q063's
-[design-only journeys](experimentation.md#next-work-remains-design-only) to assess
-candidate geometry before selecting a concrete palette or claiming implementation.
+and error budgets remain open. Review the common contract first, then assess
+candidate geometry and mechanism scope. Q063's journeys can test learning after
+that selection; they do not establish an architectural foundation or capability.
 
 Assess a coherent coupled representation, not isolated subsystems. The spontaneous
 sword/ground/exertion example probes contact, support, work, body demand and thermal
@@ -88,7 +95,7 @@ current condition, learning/culture and population composition. Environment can
 affect initialization and later change through admitted mechanisms, not preset
 swaps. Q061 retains the concrete variant schema/admission work; Q023–Q027 retain
 physiological choices and calibration. No inheritance/genetics system was selected.
-Move to Q018's physical representation rather than exhausting ecological tuning.
+Q064 now precedes further Q018 choices rather than extending ecological tuning.
 
 ## Accepted cross-module decisions
 
@@ -123,7 +130,7 @@ These record the recent agreed direction. None implies a complete entity runtime
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
 | Q017 | Do we retain compositional physics rather than named encounter recipes? | Decided | Yes; physical/rule graphs, conservation and C gates remain foundational; [physical contract](../compositional-causality.md#what-is-abstracted) |
-| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Parts/relationships](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships), [structure-first geometry](composition-and-processes.md#accepted-q018-approach-structure-before-approximation), [SI units](composition-and-processes.md#accepted-q018-units-si-internally) and [hierarchical frames/invariance](composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes) accepted; palette, fields, precision, adapters, transforms and channels remain open, guided by Q063 journeys |
+| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Parts/relationships](composition-and-processes.md#accepted-q018-foundation-parts-and-typed-relationships), [structure-first geometry](composition-and-processes.md#accepted-q018-approach-structure-before-approximation), [SI units](composition-and-processes.md#accepted-q018-units-si-internally) and [hierarchical frames/invariance](composition-and-processes.md#accepted-q018-coordinates-hierarchical-frames-and-invariant-changes) accepted; palette, fields, precision, adapters, transforms and channels remain open; Q064's cross-domain review comes first |
 | Q019 | How are simultaneous physical transfers allocated from shared budgets? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); consistent read state, allocation and boundary settlement; coordinate Q045/Q050 |
 | Q020 | How do damage, fracture and attachment changes alter topology? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); first admitted mechanisms with material/energy-preserving transitions |
 | Q021 | Which current matter processes migrate first, through which adapters? | Open | [Physical open decisions](composition-and-processes.md#evidence-and-open-decisions); mechanism-to-current-row compatibility map, not a second production engine |
@@ -225,6 +232,15 @@ of the Q060 evidence or selection of Q018's concrete mechanisms.
 | --- | --- | --- | --- |
 | Q063 | Which player loop and first learning milestone guide the next engine exploration? | Decided | [Experimentation-first direction](experimentation.md#accepted-player-loop): hypothesize, intervene, observe, transfer; a player learns a general rule and uses it creatively in an unfamiliar situation. Exact study domain, pacing, protocol and success thresholds remain open; no implementation claimed |
 
+## Cross-domain foundation review
+
+The user selected this review as the immediate next step. That sequencing decision
+does not approve the proposed envelope or resolve its schema choices.
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q064 | Which common interaction contract composes across domains without conflating them? | Open | [Draft contract and probes](interaction-contract.md); review references, roles, authority, state/read dependencies, domain effects, time, commit and evidence handoffs across the probes; record gaps before selecting concrete geometry or first mechanisms |
+
 ## Implementation evidence
 
 Evidence here is inherited and scoped, not newly established by making this list.
@@ -243,7 +259,7 @@ Do not mark an entire module verified because one fixture passes.
 
 ## Progress snapshot
 
-The register contains **63 questions**: **17 decided**, **39 open**,
+The register contains **64 questions**: **17 decided**, **40 open**,
 **5 needing measurement**, and **2 deferred**. These counts are a discussion
 inventory, not a completion percentage. None of the nine shared modules is claimed
 complete. C0's existing narrow completion is tracked separately above.

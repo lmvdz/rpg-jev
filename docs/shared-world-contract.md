@@ -31,6 +31,12 @@ the cross-review and distinguishes this accepted goal from proposed domains,
 pacing and study methods. It does not replace the shared proving fixture or
 C/W gates, close Q018, or claim a measured learning result.
 
+**Accepted immediate priority:** review the
+[common interaction contract](world/interaction-contract.md) across domains before
+selecting geometry and a first mechanism set. The thermal journeys remain later
+validation proposals, not the foundation. Q063's learning goal and all module
+ownership remain intact; Q064's draft envelope and probes are not accepted APIs.
+
 ## 2. Shared invariants
 
 1. There is one authoritative world. Players, NPCs and environmental processes

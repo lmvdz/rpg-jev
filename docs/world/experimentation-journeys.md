@@ -7,6 +7,11 @@ This is a **design-only worked proposal** for the accepted
 It is not an implemented encounter, an admitted thermal/measurement mechanism,
 a measured result, or a change to Q018. Q060 still needs learning evidence.
 
+**Sequencing update:** the [common interaction-contract review](interaction-contract.md)
+comes first. These journeys are preserved for later evaluation, not selected as
+the foundation or a required first domain. Revise or replace them after the
+cross-domain representation and mechanism review.
+
 Heat, contact and insulation remain a candidate first domain. These journeys ask
 whether one small family of mechanisms could support a correct hypothesis, an
 informative mistake and transfer to an unfamiliar problem. They are alternative
@@ -299,8 +304,8 @@ baseline knowledge and cue-only success must be distinguished from acquired
 transfer. Participant count, comparison design, scoring and pass threshold remain
 open. Proposed outcomes in this document are not collected evidence.
 
-The next discussion should choose the observation method and the concrete
-thermal/contact subset under Q018, then challenge these journeys with alternatives.
+After Q064's cross-domain review, any use of these journeys still requires choosing
+the observation method and an admitted mechanism subset, then testing alternatives.
 This draft does not authorize implementation or broaden the study into every
 mechanism mentioned by the earlier agent reports. Major renderer design remains
 deferred; no particular interface, art style or camera is selected.
