@@ -410,6 +410,11 @@ does not establish correct perception or behavior.
 Steps are evidence dependencies, not permission to bypass SPEC milestone order.
 Physics work remains necessary throughout; cognition does not substitute for it.
 
+The [numbered question register](world/questions.md) inventories these and the
+module-specific decisions, with stable IDs, discussion status and separate
+implementation evidence. It is an index of the existing contracts, not a new
+source of requirements or a claim that decided questions are implemented.
+
 Before implementation, resolve and record:
 
 - Which first organism capabilities, senses and environmental approximations are

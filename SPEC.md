@@ -942,6 +942,11 @@ including ownership, lifecycle, alternatives/tradeoffs, failure handling and
 acceptance evidence. The shared contract remains the cross-module agreement;
 module recommendations do not independently change it or admit new mechanics.
 
+The [question register](docs/world/questions.md) tracks existing decisions and
+open questions by stable ID across all nine modules. Discussion status and
+implementation evidence are separate; the register does not ratify draft
+recommendations or replace the contracts it links.
+
 An NPC is a persistent participant in the same world as the player. Its initial
 body, biological attributes, relationships and history must be seeded coherently,
 not independently rolled into contradictory facts. Its intentions use its own

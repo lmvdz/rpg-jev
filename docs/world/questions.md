@@ -1,0 +1,196 @@
+# Shared world question register
+
+This is a discussion and evidence index, not another architecture specification.
+It inventories questions already present in the [module drafts](README.md) and
+[shared contract](../shared-world-contract.md). SPEC remains the source of truth;
+the linked module owns each question's reasoning and eventual answer.
+Creating this register does not accept provisional recommendations, add features,
+change milestone order or certify implementation.
+
+## Status and maintenance
+
+Two different kinds of progress must stay separate:
+
+| Discussion status | Meaning |
+| --- | --- |
+| Decided | An accepted contract answers this question at its stated scope; narrower implementation choices may remain open |
+| Open | A choice or concrete contract is still needed; a draft recommendation is not approval |
+| Needs measurement | Existing requirements need experimental evidence before calibration or a capacity claim |
+| Deferred | Not admitted to the current scope; reopening needs an explicit scope decision, not an assumption that it will ship |
+
+Delivery is tracked separately in the [evidence ledger](#implementation-evidence).
+**Implemented and verified** requires a pinned implementation and relevant gate
+evidence; a decided row, document review or green repository check is insufficient.
+No new integrated W0–W8 capability is marked implemented and verified here.
+
+- IDs are stable. Append new questions; never renumber existing ones to conceal
+  scope changes. Split a question with new IDs and preserve its original context.
+- Discuss one question at a time. Record its answer in the owning module and
+  update the shared contract/SPEC when an interface or rule changes.
+- Update the row and linked evidence in the same logical change. Reopening a
+  decided question must name the changed assumption and affected contracts.
+- Keep measurements and deferred follow-ups out of the immediate conversational
+  queue unless they block the question being discussed.
+- Counts describe this inventory, not engineering effort or percent completion.
+  Related rows differ in size and can depend on each other.
+
+## Next question: Q009
+
+**How are finite, accountable species sources represented across indefinitely
+expanding geography?**
+
+Constraints already decided: persistent individuals, accounted entry, no hidden
+respawn source, possible extinction of both rare and widespread species, expanding
+terrain and prospective versioned setting changes.
+
+An answer must identify where founding stock comes from, how ungenerated territory
+is accounted for, and why continued exploration cannot supply that same species
+forever. It must distinguish unknown source state from exhausted source state.
+It need not choose reproduction rates, full biology or every spawn eligibility
+parameter; those are Q010–Q011 and embodiment follow-ups.
+
+No solution is selected by this register. Compare candidate source models against
+the same traces: concurrent exploration, migration, source exhaustion, a genuinely
+unresolved population, full extinction followed by exploration, and save/replay.
+After this source-model discussion, prefer moving to the physical representation
+questions rather than exhausting ecological tuning. Dependencies stay explicit.
+
+## Accepted cross-module decisions
+
+These record the recent agreed direction. None implies a complete entity runtime.
+
+| ID | Question | Status | Answer / source |
+| --- | --- | --- | --- |
+| Q001 | Does each entity need its own continuously running machine? | Decided | Persistent state and bounded event-driven work share a runtime; [runtime decision](time-and-persistence.md#accepted-decision-logical-entity-runtimes) |
+| Q002 | Must every creature exist individually at region generation? | Decided | No; rule-driven entry draws from accounted sources; [population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry) |
+| Q003 | Does distance or reactivation replace an established creature? | Decided | No; individuals persist, activation is not creation, migration preserves identity; [population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry) |
+| Q004 | Does an isolated depleted region automatically recover? | Decided | No; recovery needs admitted causal sources and conditions; [local extinction](world-identity-and-context.md#accepted-decision-local-extinction-and-causal-recovery) |
+| Q005 | Can both rare and widespread species become fully extinct? | Decided | Yes; no guaranteed refuge or hidden replacement, and unseen is not extinct; [full extinction](world-identity-and-context.md#accepted-decision-full-extinction-is-possible) |
+| Q006 | Must geography be finite to support accounting? | Decided | Indefinitely expanding geography is an intended capability; source scope remains Q009; [world expansion](world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings) |
+| Q007 | Are world rules configurable? | Decided | Yes, with code-validated revisioned semantics; actual settings remain Q015; [world settings](world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings) |
+| Q008 | May ecological rules change while the world runs? | Decided | Yes, explicitly and prospectively without resetting history; transition details remain Q054; [live settings](world-identity-and-context.md#accepted-decision-prospective-live-ecological-settings) |
+
+## World identity and context
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q009 | What population-source model reconciles endless geography and full extinction? | Open | [Expansion requirement](world-identity-and-context.md#accepted-direction-expanding-geography-and-world-settings); source-accounting model passing the traces above |
+| Q010 | What does coarse population state represent, distinct from habitat capacity and body resources? | Open | [Population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry); source units, cohorts/viable stages where needed, and explicit/coarse transfer invariants |
+| Q011 | Which conditions, opportunities and replenishment mechanisms govern entry? | Open | [Population entry](world-identity-and-context.md#accepted-decision-accounted-population-entry); supported inputs, timing/draw identity, migration/birth boundaries and no repeated-evaluation exploit |
+| Q012 | How are coherent individuals/groups constructed atomically and retried? | Open | [Initialization](world-identity-and-context.md#coherent-initialization-not-attribute-confetti); allocation IDs, constraint/fan-out bounds and initialization accounts |
+| Q013 | How are identity, world placement/containment and relationship transitions represented? | Open | [Lifecycle](world-identity-and-context.md#lifecycle-and-identity-decisions) and [spatial alternatives](world-identity-and-context.md#alternatives-and-tradeoffs); coordinate/containment schema and conversion precision, relationship lifetimes, split/detach/rebuild lineage and ownership versus possession |
+| Q014 | When may individual state retire, archive or refine? | Open | [Evidence questions](world-identity-and-context.md#evidence-and-open-decisions); retention/refinement rules preserving references, quantities and history |
+| Q015 | Which settings, bounds, defaults and caller permissions are supported? | Open | [Live settings](world-identity-and-context.md#accepted-decision-prospective-live-ecological-settings); concrete validated catalogue and authorization rules, with Q054 transitions |
+| Q016 | Are exceptional restoration, protected-species or administrator-reset mechanics admitted? | Deferred | [Full-extinction boundary](world-identity-and-context.md#accepted-decision-full-extinction-is-possible); none admitted; requires explicit scope/ruleset decision before design |
+
+## Composition and processes
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q017 | Do we retain compositional physics rather than named encounter recipes? | Decided | Yes; physical/rule graphs, conservation and C gates remain foundational; [physical contract](../compositional-causality.md#what-is-abstracted) |
+| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Physical state distinctions](composition-and-processes.md#state-design-what-must-not-collapse); units, representation precision and supported channels |
+| Q019 | How are simultaneous physical transfers allocated from shared budgets? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); consistent read state, allocation and boundary settlement; coordinate Q045/Q050 |
+| Q020 | How do damage, fracture and attachment changes alter topology? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); first admitted mechanisms with material/energy-preserving transitions |
+| Q021 | Which current matter processes migrate first, through which adapters? | Open | [Physical open decisions](composition-and-processes.md#evidence-and-open-decisions); mechanism-to-current-row compatibility map, not a second production engine |
+| Q022 | What error, event and work bounds can the integrated physical model support? | Needs measurement | [Numerical limits](composition-and-processes.md#budgets-numerical-limits-and-fallback); predeclared tolerances, budget and partition tests on admitted domains |
+
+## Embodiment
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q023 | Which body reserves/functions are authoritative and which signals are derived? | Open | [Body ownership](embodiment.md#ownership-and-interfaces); first organism functions, anatomy resolution and no duplicate physical/physiological budget |
+| Q024 | How does actual intake become nourishment and waste? | Open | [Ingestion lifecycle](embodiment.md#lifecycle-ingestion-is-not-nourishment-by-decree); supported conversion/delay and exactly-once accounting |
+| Q025 | How do exposure, damage, impairment and recovery relate? | Open | [Injury and recovery](embodiment.md#injury-exposure-and-recovery); supported mappings, capability constraints and interruption semantics |
+| Q026 | Which own-body sensations can enter subjective decisions directly? | Open | [Body ownership](embodiment.md#ownership-and-interfaces); admitted internal senses, authorized capability view and hidden-impairment twins |
+| Q027 | What physiological calibration is justified for the admitted functions? | Needs measurement | [Body evidence](embodiment.md#evidence-and-unresolved-decisions); declared assumptions and directional tests before tuning, not invented biological precision |
+
+## Perception and evidence
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q028 | Can agents read hidden truth or privileged provenance as knowledge? | Decided | No; evidence and subjective identity are separately authorized; [provenance boundary](perception-and-evidence.md#provenance-has-two-audiences) |
+| Q029 | Which first senses and environmental/geometric approximations are supported? | Open | [Perception questions](perception-and-evidence.md#admission-evidence-and-open-questions); channel definitions, capability/exposure requirements and unsupported cases |
+| Q030 | How is continuous detection distinguished from duplicate delivery or repeated rolls? | Open | [Perception lifecycle](perception-and-evidence.md#lifecycle-and-difficult-boundaries); interval semantics and delivery identity, paired with Q047 |
+| Q031 | What evidence supports negative searches and recognition? | Open | [Perception questions](perception-and-evidence.md#admission-evidence-and-open-questions); coverage, precision and identity limits without absence/omniscience shortcuts |
+| Q032 | How can observations correlate across modalities without leaking hidden identity? | Open | [Provenance boundary](perception-and-evidence.md#provenance-has-two-audiences); permitted handle/equality semantics and adversarial correlation tests |
+| Q033 | What detection/query/fan-out limits preserve useful evidence at bounded cost? | Needs measurement | [Perception bounds](perception-and-evidence.md#invariants-costs-and-honest-fallbacks); crowded-source workloads and honest fallback evidence |
+
+## Knowledge and memory
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q034 | How does richer evidence map to existing M2 claims? | Open | [M2 compatibility](knowledge-and-memory.md#preserve-rather-than-stretch-m2); explicit precision/provenance adapters and compatibility fixtures |
+| Q035 | How do retrieval, forgetting, stale validity and inaccessible memory differ? | Open | [Memory lifecycle](knowledge-and-memory.md#lifecycle-and-edge-cases); bounded recall policy that never updates remembered locations from hidden truth |
+| Q036 | How are dependent reports distinguished from independent corroboration? | Open | [Memory questions](knowledge-and-memory.md#admission-evidence-and-open-questions); source-dependence policy compatible with M2's settled belief rules |
+| Q037 | Which memory records must stay accessible to current commitments? | Open | [Memory questions](knowledge-and-memory.md#admission-evidence-and-open-questions); retention/hot/archive mapping and preserved learned time; coordinate Q053 |
+
+## Motivation and intention
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q038 | Does an intention guarantee an outcome or get rerolled every tick? | Decided | Neither; persistent reasons authorize attempts, with event-driven reconsideration; [shared intention contract](../shared-world-contract.md#8-motivation-intentions-and-choice) |
+| Q039 | Which admitted routine/choice policy supports the first animal fixture? | Open | [Agency questions](motivation-and-intention.md#admission-evidence-and-open-questions); adapter/policy evidence preserving current Jev roles, not assumed animal intelligence |
+| Q040 | How do schedules, promises and intention state share authority? | Open | [Schedule interaction](motivation-and-intention.md#lifecycle-and-schedule-interaction); compatibility map preserving existing priority and fuse semantics |
+| Q041 | Which conditions stop execution immediately versus trigger subjective reconsideration? | Open | [Schedule interaction](motivation-and-intention.md#lifecycle-and-schedule-interaction); capability-loss, hidden-target and urgent-evidence cases without information leaks |
+| Q042 | Which failure/reconsideration policy and hysteresis avoid oscillation, stale retries and repeated chance exploits? | Open | [Agency questions](motivation-and-intention.md#admission-evidence-and-open-questions) and [bounds](motivation-and-intention.md#invariants-cost-and-degraded-behavior); choose the policy, then measure continuity/candidate/reconsideration workloads to set limits |
+| Q043 | May new judgment families or unrestricted planners be introduced by these drafts? | Deferred | [Agency scope](motivation-and-intention.md#status-and-purpose); M2 catalog stays frozen; separate admission required, no new family authorized |
+
+## Action execution
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q044 | Do players and NPCs use the same attempt/resolution boundary? | Decided | Yes; subjective options, truth-based execution, one commit authority and shared physical accounts; [shared action contract](../shared-world-contract.md#9-attempts-transactions-and-feedback) |
+| Q045 | What are atomic attempt boundaries, conflict/retry semantics and RNG ordering? | Open | [Execution questions](action-execution.md#decisions-still-requiring-evidence); race fixtures, reference validation and logged-draw ownership; coordinate Q019/Q050 |
+| Q046 | Which interval actions and failures spend what time/effort? | Open | [Execution lifecycle](action-execution.md#interfaces-and-lifecycle); admitted progress/interruption costs without refunds or duplicate debits |
+| Q047 | What durable protocol hands outcome opportunities to detection and learning? | Open | [Execution lifecycle](action-execution.md#interfaces-and-lifecycle); event-time context, exactly-once effects and crash-boundary tests with Q030/Q053 |
+
+## Time and persistence
+
+Q001 already records the accepted shared-runtime architecture.
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q048 | May replay rerun models or reinterpret history under current rules? | Decided | No; committed effects/decisions/draws and pinned revisions are authoritative; [persistence contract](time-and-persistence.md#persistence-and-recovery) |
+| Q049 | What does freezing a region mean for its effective time and later entry? | Open | [Freeze/resume](time-and-persistence.md#freeze-overload-and-resumption); preserve SPEC §11 ordering and prove absence → overload → return behavior |
+| Q050 | How are dependency frontiers and simultaneous boundaries ordered/published? | Open | [Advancement interface](time-and-persistence.md#advancement-interface-and-lifecycle); consistent dependent state and race fixtures; coordinate Q019/Q045 |
+| Q051 | When is schedule location lookup valid versus requiring embodied travel? | Open | [Kinds of time work](time-and-persistence.md#different-kinds-of-time-work); preserve SPEC §7 without bypassing blocked routes or injured bodies |
+| Q052 | Which offscreen interactions admit summaries, and under which error contracts? | Open | [Catch-up limits](time-and-persistence.md#catch-up-and-summary-limits); selected operators, shared-source settlement and detailed-reference comparisons |
+| Q053 | What checkpoint, archival and migration protocols preserve the complete causal chain? | Open | [Recovery requirements](time-and-persistence.md#unresolved-decisions-and-required-evidence); concrete schema/protocol and crash tests; existing S0 archive policy remains binding |
+| Q054 | How does each live-adjustable setting transition in-flight and offscreen work? | Open | [Live transitions](time-and-persistence.md#live-rule-transition-boundaries); per-setting policy at an effective simulation boundary, no historical reinterpretation |
+| Q055 | What capacity, fairness, latency and storage budgets support the shared runtime? | Needs measurement | [Runtime decision](time-and-persistence.md#accepted-decision-logical-entity-runtimes) and [time bounds](time-and-persistence.md#invariants-budgets-and-fallback); sleeping/active/dense and clustered/dispersed-player workloads |
+
+## Presentation and explanation
+
+| ID | Question | Status | Source / what closes it |
+| --- | --- | --- | --- |
+| Q056 | May player-facing explanation reveal privileged world truth? | Decided | No; render authorized evidence, keep privileged diagnostics separate; [explanation boundary](presentation-and-explanation.md#player-facing-why-versus-privileged-diagnostics) |
+| Q057 | Who can inspect privileged causes, and through which surfaces? | Open | [Presentation questions](presentation-and-explanation.md#open-decisions-and-implementation-evidence); authorization model across UI, subscriptions, diagnostics and errors |
+| Q058 | Does historical explanation use then-known or now-known evidence? | Open | [Presentation questions](presentation-and-explanation.md#open-decisions-and-implementation-evidence); explicit supported view(s), labels and history-preservation tests |
+| Q059 | How are uncertainty, withheld causes, staleness and degraded output represented? | Open | [Honest explanations](presentation-and-explanation.md#honest-explanations) and [failure cases](presentation-and-explanation.md#staleness-replay-and-failure-cases); non-leaking projections and deterministic fallbacks |
+| Q060 | Do supported cues help players predict unfamiliar consequences? | Needs measurement | [Presentation evidence](presentation-and-explanation.md#open-decisions-and-implementation-evidence); wolf/non-wolf rendered fixtures, legibility evidence and multiplayer leakage tests |
+
+## Implementation evidence
+
+Evidence here is inherited and scoped, not newly established by making this list.
+
+| Scope | Delivery status | Evidence and limits |
+| --- | --- | --- |
+| Production C0 exposure/event correction | Implemented and verified for the narrow correction | [C0 report](../c0-exposure.md) and [combined integration](../integration-status.md#verification); not arbitrary generated-row composition or full material accounts |
+| Isolated thermal composition proof | Partial evidence for C1–C4 | [Spike evidence](../compositional-causality.md#evidence-from-the-isolated-proof); not production bodies, perception, latent state or persistence |
+| SpacetimeDB infrastructure | Partial evidence for Q001/Q048/Q055 | [S0 findings](../../spikes/s0-spacetimedb/FINDINGS.md#verdict); measured queues, transactions, subscriptions and storage, not complete entity capacity |
+| Existing M2 systems | Existing baseline, not certification of richer modules | [SPEC minds](../../SPEC.md#6-npc-minds) and [catalog](../../SPEC.md#14-jev-question-design-rules); richer adapters/policies still need compatibility and admission |
+| Shared integrated W0–W8 contract | Not verified | [Required gates](../shared-world-contract.md#13-acceptance-gates); no module-wide completion inferred from current test counts |
+
+When a question's selected implementation passes its required evidence, add a
+scoped record here with revision/test references and link it from the question.
+Do not mark an entire module verified because one fixture passes.
+
+## Progress snapshot
+
+The initial register contains **60 questions**: **14 decided**, **39 open**,
+**5 needing measurement**, and **2 deferred**. These counts are a discussion
+inventory, not a completion percentage. None of the nine shared modules is claimed
+complete. C0's existing narrow completion is tracked separately above.
+
+Update the counts when rows change; retain the distinction between decision and
+delivery. The external Claude Doc remains unsynchronized with repository decisions.

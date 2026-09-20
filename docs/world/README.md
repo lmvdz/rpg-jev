@@ -5,6 +5,11 @@ The [shared contract](../shared-world-contract.md) is the cross-module agreement
 These dedicated files are **draft designs for discussion**, not implemented APIs,
 admitted mechanics or a promise that every suggested mechanism will ship.
 
+Use the [numbered question register](questions.md) to track decided, open,
+measurement-dependent and deferred questions separately from implementation
+evidence. The [next discussion is Q009](questions.md#next-question-q009):
+accountable species sources across expanding geography.
+
 | Module | Design question |
 | --- | --- |
 | [World identity and context](world-identity-and-context.md) | What persists through creation, movement, separation, refinement and death? |
