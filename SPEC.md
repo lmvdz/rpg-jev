@@ -947,6 +947,15 @@ open questions by stable ID across all nine modules. Discussion status and
 implementation evidence are separate; the register does not ratify draft
 recommendations or replace the contracts it links.
 
+**Standing design rule:** spontaneous examples test composable primitives, not
+bespoke actions or outcome recipes. For Q018 and later questions, identify reusable
+state, admitted typed interpretation, code-owned execution and cross-module
+coupling. TypeSafe/Jev resolves meaning through existing admitted closed choices;
+code owns physical mechanisms, arithmetic and simultaneous effects. A valid typed
+answer is not proof of correct intent or physics. Distinguish ambiguity from
+missing support, and test unfamiliar combinations instead of encoding named
+scenarios. This neither expands the Jev catalog nor claims new mechanics work.
+
 An NPC is a persistent participant in the same world as the player. Its initial
 body, biological attributes, relationships and history must be seeded coherently,
 not independently rolled into contradictory facts. Its intentions use its own

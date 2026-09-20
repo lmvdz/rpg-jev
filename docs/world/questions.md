@@ -33,11 +33,22 @@ No new integrated W0–W8 capability is marked implemented and verified here.
   queue unless they block the question being discussed.
 - Counts describe this inventory, not engineering effort or percent completion.
   Related rows differ in size and can depend on each other.
+- Apply the [composition test](README.md#apply-the-composition-test-to-every-question)
+  to Q018 and every subsequent answer. Examples exercise general mechanisms;
+  they do not authorize named features or new judgment families. Keep semantic
+  interpretation, code-owned resolution and missing support distinct.
 
 ## Next question: Q018
 
 **What minimum physical representation supports distinct parts and contacts
 without requiring every object or body to be modeled at maximum detail?**
+
+Assess a coherent coupled representation, not isolated subsystems. The spontaneous
+sword/ground/exertion example probes contact, support, work, body demand and thermal
+state; it does not require a sword-dragging action or an exhaustive scripted chain.
+Identify the reusable primitives and admitted interpretation path, then test their
+composition on unrelated objects/actors. Q018 remains open until its schema and
+supported channels are chosen; recognizing the example's meaning does not close it.
 
 Q009 is now decided: genuinely new regions may initialize fresh seeded population
 sources without a finite world-wide founding inventory. Once established, sources
@@ -92,7 +103,7 @@ These record the recent agreed direction. None implies a complete entity runtime
 | ID | Question | Status | Source / what closes it |
 | --- | --- | --- | --- |
 | Q017 | Do we retain compositional physics rather than named encounter recipes? | Decided | Yes; physical/rule graphs, conservation and C gates remain foundational; [physical contract](../compositional-causality.md#what-is-abstracted) |
-| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Physical state distinctions](composition-and-processes.md#state-design-what-must-not-collapse); units, representation precision and supported channels |
+| Q018 | What minimal parts, contacts, geometry and quantity schema supports the first integrated slice? | Open | [Physical state distinctions](composition-and-processes.md#state-design-what-must-not-collapse) and [composition rule](../shared-world-contract.md#standing-design-rule-examples-test-composition); units, precision, reusable channels and cross-module coupling, not an example-specific action |
 | Q019 | How are simultaneous physical transfers allocated from shared budgets? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); consistent read state, allocation and boundary settlement; coordinate Q045/Q050 |
 | Q020 | How do damage, fracture and attachment changes alter topology? | Open | [Process lifecycle](composition-and-processes.md#lifecycle-across-changing-topology); first admitted mechanisms with material/energy-preserving transitions |
 | Q021 | Which current matter processes migrate first, through which adapters? | Open | [Physical open decisions](composition-and-processes.md#evidence-and-open-decisions); mechanism-to-current-row compatibility map, not a second production engine |

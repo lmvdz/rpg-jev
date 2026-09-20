@@ -45,6 +45,30 @@ evidence, not maximizing the number of hidden variables.
 8. All work has explicit bounds and an honest fallback. Unsupported interactions
    are not filled in with plausible-sounding success.
 
+### Standing design rule: examples test composition
+
+For Q018 and subsequent questions, spontaneous scenarios test the expressiveness
+of reusable primitives; they are not instructions to add a named action, outcome
+recipe or fixture-specific rule. A closed vocabulary of primitives can support
+unanticipated combinations without enumerating every scenario.
+
+TypeSafe/Jev interprets meaning through admitted closed, code-built choices with
+none; code validates compatible arguments and relationships, then resolves all
+applicable admitted mechanisms through shared state and accounts. A judge does
+not choose a single physical consequence when several mechanisms apply, perform
+their arithmetic or invent missing physics. Typed output alone establishes neither
+correct interpretation nor causal correctness. Existing parsing and judgment-family
+boundaries remain binding; this rule adds no new family or runtime capability.
+
+Each proposed answer must identify reusable state/primitives, semantic interpretation,
+execution/commit ownership and cross-module couplings. Separate ambiguous intent
+from missing mechanics: clarify the former; expose the latter rather than narrate
+success. A regression fixture may name a sword or wolf, but acceptance also needs
+renames, changed materials/contacts and unfamiliar combinations of the same rules.
+Minimum detail means the smallest coherent coupled model for supported interactions,
+not disconnected thermal, respiratory or mechanical demonstrations that cannot
+compose. Quantitative support still requires its own admitted mechanisms and tests.
+
 ## 3. Modules and authority
 
 These are logical boundaries, not a requirement for one package per row.

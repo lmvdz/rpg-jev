@@ -39,6 +39,24 @@ authority for physical depth and C0–C8. Its module file discusses integration 
 tradeoffs rather than replacing it. W0–W8 apply across the full shared contract.
 Passing a module test cannot certify an untested handoff to another module.
 
+### Apply the composition test to every question
+
+The [standing design rule](../shared-world-contract.md#standing-design-rule-examples-test-composition)
+applies to Q018 and all later discussions. For each candidate answer, ask:
+
+1. What reusable state, primitives and relationships make the example expressible?
+2. Which admitted typed choices interpret intent, and which code owns execution,
+   arithmetic, simultaneous consequences and commit?
+3. What other modules must share state for the interaction to remain coherent?
+4. Does the rule survive renamed entities, substituted properties and unfamiliar
+   combinations, without a new scenario branch?
+5. Is a failure ambiguous meaning or an unsupported mechanism, and is that
+   distinction reported honestly?
+
+Examples can become regression fixtures, never a mandate for bespoke mechanics.
+Do not use a successful typed parse as proof that the physical model is correct
+or promote an illustrative sequence into a required named feature.
+
 ## Cross-module questions to resolve together
 
 - **Identity versus recognition:** world IDs join true records, but an observer
