@@ -119,7 +119,10 @@ cannot recreate stock contrary to committed history. Count dormant/coarse source
 and admitted viable reproductive stages; unresolved ungenerated/external sources
 are not zero. The authoritative condition is not automatic observer knowledge.
 Population scope and source accounting still require design; no exceptional
-restoration mechanic is admitted. See the
+restoration mechanic is admitted. Both rare local species and widespread species
+can become fully extinct; actual population structure determines difficulty, not
+an exemption for common species. This does not settle world extent or upfront
+versus progressive population geography. See the
 [full-extinction decision](world/world-identity-and-context.md#accepted-decision-full-extinction-is-possible).
 
 A creature's creation record establishes its identity, organism definition,

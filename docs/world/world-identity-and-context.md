@@ -102,6 +102,15 @@ No guaranteed surviving refuge, minimum population or hidden replacement source
 prevents that outcome. Independent populations and geographic barriers may make
 extinction difficult, but cannot silently make it impossible.
 
+This applies to both rare, geographically limited species and widespread species
+such as wolves. Rarity or commonness grants no extinction exemption. Difficulty
+follows from actual distribution, numbers, surviving sources and admitted recovery
+mechanisms, not a species-label protection flag. A widespread species may be
+extremely difficult to eliminate, but its ungenerated territory cannot serve as
+an inexhaustible replacement source that makes the accepted outcome impossible.
+This does not select a finite map, upfront population geography or bounded-range
+generation scheme; those remain separate world-design decisions.
+
 Full extinction requires exhausting all actual sources in that scope, including
 explicit active/dormant individuals, coarse populations and any admitted viable
 reproductive stages. Zero adults or zero sightings alone is insufficient.
@@ -240,6 +249,7 @@ Theft changes possession, not mass or every observer's belief about ownership.
 | W1/W5 | Restore a real migration route or reintroduce individuals; source is debited, identity/accounting persists, and establishment still checks eligibility |
 | W3/W7 | Failed searches do not assert authoritative extinction or disclose hidden survivors |
 | W1/W6 | Exhaust every source in a declared scope; exploration, reload and definition-version changes cannot recreate an extinct species |
+| W1/W6 | Apply the same extinction rule to a limited-range fixture and a widespread multi-region fixture; commonness introduces no protected floor |
 | W1/W3 | A surviving dormant/coarse population or admitted viable reproductive stage prevents full extinction without becoming observer knowledge |
 | C6/W6 | Split, detach, archive, refine and migrate without dangling references, resource duplication or latent rerolls |
 | W8 | Rename/reorder proposals and test bounded cyclic relationships and missing definitions |

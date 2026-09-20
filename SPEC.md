@@ -990,6 +990,10 @@ respect committed extinction rather than mint new stock. Global source accountin
 including ungenerated regions, must distinguish unresolved from zero. Extinction
 is world truth, not automatically player/NPC knowledge. Scope details and any
 exceptional restoration policy require separate design; none is admitted here.
+The rule applies to both rare limited-range species and widespread species.
+Distribution, numbers and surviving sources determine difficulty; commonness
+does not confer immunity. This does not decide world extent or when population
+geography is generated.
 
 Keep realized truth, subjective uncertainty, evolving physical risk and sampled
 choices distinct. Save/load, offscreen catch-up and refinement preserve committed
