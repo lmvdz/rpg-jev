@@ -18,6 +18,8 @@ import { GlyphBatch } from "./glyph/batch.ts";
 import { glyphOfChar } from "./glyph/font.ts";
 import { INK, PALETTE_HEX } from "./palette.ts";
 import type { ActRequest } from "./play/act-request.ts";
+import { mountFood } from "./play/food-panel.ts";
+import { FoodSession } from "./play/food-session.ts";
 import { matterPort } from "./play/matter-port.ts";
 import { type MountedPlay, mountPlay } from "./play/pointer.ts";
 import { StatusDisplay } from "./play/status.ts";
@@ -25,6 +27,7 @@ import { WorldLink } from "./play/world-link.ts";
 import { noticed, perform, type WorldPort } from "./play/world-port.ts";
 import { StandInBody } from "./scene/body.ts";
 import { Drift } from "./scene/drift.ts";
+import { foodGrid } from "./scene/food.ts";
 import { scorchAround, standInGround } from "./scene/ground.ts";
 import { Walker } from "./scene/walker.ts";
 import { ChunkManager } from "./terrain/chunks.ts";
@@ -117,15 +120,18 @@ interface App {
   /** The hour of the day, 0 to 24, and how many hours pass in a second. */
   hour: number;
   hoursPerSecond: number;
+  food: FoodSession | null;
 }
 
-function build(loaded: LoadedWorld, query: URLSearchParams): App {
+function build(loaded: LoadedWorld, query: URLSearchParams, food: FoodSession | null = null): App {
   const canvas = need<HTMLCanvasElement>("#view");
   const { grid, objects: placed, start } = loaded.content;
   const renderer = new Renderer(canvas);
   const camera = new Camera();
-  if (query.has("study")) camera.settings.distance = 64;
-  const stress = query.has("stress");
+  // Leave room for the shared clearing beside the food panel.
+  if (food) camera.settings.distance = 44;
+  if (!food && query.has("study")) camera.settings.distance = 64;
+  const stress = !food && query.has("stress");
   if (stress) {
     // The R1 gate's worst case: every tile and every glyph on screen at once.
     camera.settings.distance = 560;
@@ -158,7 +164,7 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
     grid.contains(x, z) && !kindAt(grid.kindAt(x, z)).liquid && (living?.free(x, z) ?? true);
   const tiles = grid.width * grid.depth;
   const world: App["world"] = {
-    port: things ? matterPort(things, { tiles, seed: 1, canStand }) : null,
+    port: things && !food ? matterPort(things, { tiles, seed: 1, canStand }) : null,
   };
   // Where the world's changes arrive. Until a world is attached nothing is known of any
   // element but what its things already carry, so nothing can be created.
@@ -201,7 +207,7 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
     session: new EditorSession({ grid, objects }),
     goal: vec3.fromValues(walker.x, walker.y, walker.z),
     stats: { fps: 0, cpuMs: 0, gpuMs: null, benchMs: null, waiting: 0 },
-    editing: query.has("edit"),
+    editing: !food && query.has("edit"),
     night: false,
     yawGoal: 0,
     last: performance.now(),
@@ -218,11 +224,12 @@ function build(loaded: LoadedWorld, query: URLSearchParams): App {
     play: null,
     body: new StandInBody(),
     status: null,
-    drift: things ? new Drift(things, 1) : null,
+    drift: things && !food ? new Drift(things, 1) : null,
     driftAt: 0,
     // A grown world starts late in the afternoon, so its first dusk is a minute away.
-    hour: things ? 17 : 12,
-    hoursPerSecond: things ? 1 / 12 : 0,
+    hour: things && !food ? 17 : 12,
+    hoursPerSecond: things && !food ? 1 / 12 : 0,
+    food,
   };
 }
 
@@ -273,6 +280,13 @@ function mountEditing(app: App): { panel: EditorPanel; editor: MountedEditor } {
   return { panel, editor };
 }
 
+function controlHint(app: App): string {
+  if (app.food)
+    return "tap arrows: one turn  click: walk  right-click: actions  q/e: turn  -/=: zoom";
+  if (app.editing) return "EDITING   tab: play";
+  return "arrows walk  q/e turn  -/= zoom  tab: edit";
+}
+
 function writeHud(app: App): void {
   const { stats, renderer, canvas } = app;
   // The timer query stretches with the GPU's clock state and its other work: a hint, not a measure.
@@ -284,7 +298,7 @@ function writeHud(app: App): void {
     `measured: ${bench}   at ${canvas.width}x${canvas.height}`,
     `${terrain.chunksDrawn} chunks   ${terrain.triangles} tris   ${app.batch.count} glyphs`,
     app.chunks.waiting > 0 ? `building ${app.chunks.waiting} chunks` : app.note,
-    app.editing ? "EDITING   tab: play" : "arrows walk  q/e turn  -/= zoom  tab: edit",
+    controlHint(app),
   ].join("\n");
 }
 
@@ -332,6 +346,18 @@ function bindKeys(app: App, panel: EditorPanel, editor: MountedEditor): void {
   window.addEventListener("keydown", (event) => {
     const key = event.key.toLowerCase();
     const chord = event.ctrlKey || event.metaKey;
+    if (app.food && key === "tab") return;
+    if (event.target instanceof HTMLButtonElement && (key === " " || key === "enter")) return;
+    if (app.food && event.repeat) return;
+    if (app.food && chord && key === "s") {
+      event.preventDefault();
+      // The visible Save session button owns snapshot feedback as well as IO.
+      const save = [...document.querySelectorAll<HTMLButtonElement>(".food-panel button")].find(
+        (button) => button.textContent === "Save session",
+      );
+      save?.click();
+      return;
+    }
     const steps = app.editing
       ? rover.press.bind(rover)
       : (k: string) => walker.press(k, camera.settings.yaw);
@@ -402,10 +428,11 @@ function frame(app: App, editor: MountedEditor, now: number): void {
   app.last = now;
   const began = performance.now();
 
-  walker.update(dt, camera.settings.yaw);
+  const suspended = app.food && (app.food.paused || document.hidden);
+  if (!suspended) walker.update(dt, camera.settings.yaw);
   batch.move(0, walker.x, walker.y, walker.z);
   // The hero's body is the world's when there is one; the stand-in tires and hungers otherwise.
-  const lived = app.world.port?.body?.();
+  const lived = app.food?.view.body ?? app.world.port?.body?.();
   const moving = walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5;
   if (!lived) app.body.update(dt, moving);
   app.status?.update(lived ?? app.body.view);
@@ -443,85 +470,109 @@ function frame(app: App, editor: MountedEditor, now: number): void {
 }
 
 const query = new URLSearchParams(location.search);
-loadWorld(query).then((loaded) => {
-  const app = build(loaded, query);
-  const { panel, editor } = mountEditing(app);
-  bindKeys(app, panel, editor);
-  app.status = new StatusDisplay();
-  const acts: ActRequest[] = [];
-  Object.assign(window, { __acts: acts });
-  app.play = mountPlay({
-    canvas: app.canvas,
-    camera: app.camera,
-    grid: app.session.world.grid,
-    walker: app.walker,
-    living: app.living,
-    glyphs: app.renderer.atmosphere,
-    motions: app.renderer.motions,
-    slotAt: (tile) => app.objects.slotAt(tile),
-    glyphAt: (tile) => app.objects.at(tile),
-    playing: () => !app.editing,
-    say: (text) => {
-      app.note = text;
-      writeHud(app);
-    },
-    // A stand-in for an act: the hero lunges at the thing, the thing shakes, and what comes off
-    // a thing of its element when it is struck is played once. How hard is the world's to say.
-    // It takes the path a resolved act will take (`play/world-link.ts`), with no changes to apply.
-    reach: (tile) => {
-      const actorTile = app.walker.tile;
-      const now = app.last / 1000;
-      app.link.show({ process: "force", actorTile, tile, level: STRIKE_LEVEL, now }, []);
-    },
-    world: () => app.world.port,
-    // A menu row's answers need no judge: they go to the world now and the outcome is shown.
-    intend: (request, answers, tile) => {
-      // Where the hero stands and the hour are the client's, and the world senses by them.
-      const standing = { where: [app.walker.tileX, app.walker.tileZ] as const, hour: app.hour };
-      const at = { actorTile: app.walker.tile, targetTile: tile, now: app.last / 1000, standing };
-      const said = perform(app.world.port, app.link, request, answers, at);
-      // What the hero is aware of now, as the world sensed it at the end of the act.
-      // A thing on the map is called what the map calls it; anything else, what its element is called.
-      const called = (source: string) => app.living?.thing(app.living.indexOf(source))?.name;
-      const sensed = app.world.port?.aware?.() ?? [];
-      const aware = sensed.map((one) => ({ ...one, name: called(one.source) ?? one.name }));
-      const notices = noticed(aware);
-      app.note = notices ? `${said}  |  ${notices}` : said;
-      writeHud(app);
-    },
-    // A typed line needs a judge to answer its questions, and none is attached, so the request is kept where
-    // a judge or a test can take it (`__acts`), and the HUD says what was handed over.
-    act: (request) => {
-      acts.push(request);
-      const { line, inReach } = request.state;
-      app.note = `"${line}" is ready for the judge: ${inReach.length} things in reach, ${request.questions.length} questions. No world is attached yet to resolve it.`;
-      writeHud(app);
-      console.log("act request", request);
-    },
-  });
-  // Handles for driving the page from a script: nothing in the client reads them.
-  Object.assign(window, {
-    __stats: app.stats,
-    __renderer: app.renderer,
-    __session: app.session,
-    __walker: app.walker,
-    __births: app.births.log,
-    __shots: app.shots,
-    __link: app.link,
-    __world: app.world,
-    // Another world can be attached from a script, for a test or a stand-in.
-    __attachWorld: (port: WorldPort) => {
-      app.world.port = port;
-    },
-    __living: app.living,
-    __ground: app.ground,
-    __chunks: app.chunks,
-  });
-  app.camera.snapTo(app.goal);
-  // One closure for the life of the page: the frame itself allocates nothing.
-  const tick = (now: number) => {
-    frame(app, editor, now);
+const food = query.has("food") ? new FoodSession() : null;
+const loading: Promise<LoadedWorld> = food
+  ? Promise.resolve({
+      name: "shared-food",
+      from: food.notice,
+      content: { grid: foodGrid(), objects: [], start: [...food.view.where] },
+      things: [],
+    })
+  : loadWorld(query);
+loading
+  .then((loaded) => {
+    const app = build(loaded, query, food);
+    const { panel, editor } = mountEditing(app);
+    bindKeys(app, panel, editor);
+    app.status = new StatusDisplay();
+    const acts: ActRequest[] = [];
+    Object.assign(window, { __acts: acts });
+    const foodControls =
+      food && app.living
+        ? mountFood(food, app.walker, app.living, (text) => {
+            app.note = text;
+            writeHud(app);
+          })
+        : null;
+    app.play = mountPlay({
+      canvas: app.canvas,
+      camera: app.camera,
+      grid: app.session.world.grid,
+      walker: app.walker,
+      living: app.living,
+      glyphs: app.renderer.atmosphere,
+      motions: app.renderer.motions,
+      slotAt: (tile) => app.objects.slotAt(tile),
+      glyphAt: (tile) => app.objects.at(tile),
+      playing: () => !app.editing,
+      ...(foodControls ? { rows: foodControls.rows, discrete: true } : {}),
+      say: (text) => {
+        app.note = text;
+        writeHud(app);
+      },
+      // A stand-in for an act: the hero lunges at the thing, the thing shakes, and what comes off
+      // a thing of its element when it is struck is played once. How hard is the world's to say.
+      // It takes the path a resolved act will take (`play/world-link.ts`), with no changes to apply.
+      reach: (tile) => {
+        const actorTile = app.walker.tile;
+        const now = app.last / 1000;
+        app.link.show({ process: "force", actorTile, tile, level: STRIKE_LEVEL, now }, []);
+      },
+      world: () => app.world.port,
+      // A menu row's answers need no judge: they go to the world now and the outcome is shown.
+      intend: (request, answers, tile) => {
+        // Where the hero stands and the hour are the client's, and the world senses by them.
+        const standing = { where: [app.walker.tileX, app.walker.tileZ] as const, hour: app.hour };
+        const at = { actorTile: app.walker.tile, targetTile: tile, now: app.last / 1000, standing };
+        const said = perform(app.world.port, app.link, request, answers, at);
+        // What the hero is aware of now, as the world sensed it at the end of the act.
+        // A thing on the map is called what the map calls it; anything else, what its element is called.
+        const called = (source: string) => app.living?.thing(app.living.indexOf(source))?.name;
+        const sensed = app.world.port?.aware?.() ?? [];
+        const aware = sensed.map((one) => ({ ...one, name: called(one.source) ?? one.name }));
+        const notices = noticed(aware);
+        app.note = notices ? `${said}  |  ${notices}` : said;
+        writeHud(app);
+      },
+      // A typed line needs a judge to answer its questions, and none is attached, so the request is kept where
+      // a judge or a test can take it (`__acts`), and the HUD says what was handed over.
+      act: (request) => {
+        acts.push(request);
+        const { line, inReach } = request.state;
+        app.note = `"${line}" is ready for the judge: ${inReach.length} things in reach, ${request.questions.length} questions. No world is attached yet to resolve it.`;
+        writeHud(app);
+        console.log("act request", request);
+      },
+    });
+    // Handles for driving the page from a script: nothing in the client reads them.
+    Object.assign(window, {
+      __stats: app.stats,
+      __renderer: app.renderer,
+      __session: app.session,
+      __walker: app.walker,
+      __births: app.births.log,
+      __shots: app.shots,
+      __link: app.link,
+      __world: app.world,
+      // Another world can be attached from a script, for a test or a stand-in.
+      __attachWorld: (port: WorldPort) => {
+        app.world.port = port;
+      },
+      __living: app.living,
+      __ground: app.ground,
+      __chunks: app.chunks,
+    });
+    // Public projection only: ordinary food play never publishes its core snapshot.
+    if (food) Object.defineProperty(window, "__food", { get: () => food.view });
+    app.camera.snapTo(app.goal);
+    // One closure for the life of the page: the frame itself allocates nothing.
+    const tick = (now: number) => {
+      frame(app, editor, now);
+      requestAnimationFrame(tick);
+    };
     requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-});
+  })
+  .catch((error: unknown) => {
+    need<HTMLPreElement>("#hud").textContent = `The client could not start: ${String(error)}`;
+    console.error(error);
+  });

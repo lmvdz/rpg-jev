@@ -170,6 +170,29 @@
         background: #2a2d3c;
         color: #e8a23a;
       }
+      .food-panel {
+        position: fixed;
+        right: 8px;
+        top: 8px;
+        width: min(320px, 38vw);
+        max-height: calc(100vh - 32px);
+        overflow: auto;
+        padding: 10px;
+        color: #e8e4d4;
+        background: rgba(13, 14, 20, 0.9);
+        font: 12px/1.45 ui-monospace, Consolas, monospace;
+      }
+      .food-panel h2 { font-size: 14px; }
+      .food-panel button {
+        margin: 3px;
+        padding: 6px;
+        color: inherit;
+        background: #2a2d3c;
+        border: 1px solid #5a5f6e;
+        cursor: pointer;
+      }
+      .food-panel pre { white-space: pre-wrap; }
+      .food-failure { color: #ffba86; border: 1px solid; padding: 6px; }
     </style>
   </head>
   <body>

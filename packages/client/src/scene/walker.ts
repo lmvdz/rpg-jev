@@ -48,6 +48,12 @@ export class Walker {
   readonly #blocked: Blocked;
   readonly #held = new Set<string>();
   #path: number[] = [];
+  /** Optional authoritative admission, called before any visual destination changes. */
+  commitStep: ((x: number, z: number) => boolean) | null = null;
+
+  get busy(): boolean {
+    return !this.#arrived() || this.#path.length > 0;
+  }
 
   constructor(grid: TileGrid, tileX: number, tileZ: number, blocked: Blocked = NOTHING_BLOCKS) {
     this.#grid = grid;
@@ -82,9 +88,12 @@ export class Walker {
   /** True when the key is a movement key. A key takes over from any path being walked. */
   press(key: string, yaw: number): boolean {
     if (!(key in MOVES)) return false;
+    if (this.commitStep && this.busy) return true;
     this.#held.add(key);
     this.#path = [];
     if (this.#arrived()) this.#stepByKeys(yaw);
+    // Authoritative play advances by commands, never by how many frames a key is held.
+    if (this.commitStep) this.#held.clear();
     return true;
   }
 
@@ -102,6 +111,8 @@ export class Walker {
   }
 
   canEnter(tileX: number, tileZ: number): boolean {
+    if (this.commitStep && Math.abs(tileX - this.tileX) + Math.abs(tileZ - this.tileZ) !== 1)
+      return false;
     return canStep(this.#grid, this.#blocked, this.tileX, this.tileZ, tileX, tileZ);
   }
 
@@ -134,7 +145,7 @@ export class Walker {
     const x = next % this.#grid.width;
     const z = Math.floor(next / this.#grid.width);
     const adjacent = Math.max(Math.abs(x - this.tileX), Math.abs(z - this.tileZ)) === 1;
-    if (adjacent && this.canEnter(x, z)) {
+    if (adjacent && this.canEnter(x, z) && (!this.commitStep || this.commitStep(x, z))) {
       this.tileX = x;
       this.tileZ = z;
     } else {
@@ -163,6 +174,7 @@ export class Walker {
     for (const [stepX, stepZ] of tries) {
       if (stepX === 0 && stepZ === 0) continue;
       if (!this.canEnter(this.tileX + stepX, this.tileZ + stepZ)) continue;
+      if (this.commitStep && !this.commitStep(this.tileX + stepX, this.tileZ + stepZ)) return;
       this.tileX += stepX;
       this.tileZ += stepZ;
       return;

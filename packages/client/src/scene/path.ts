@@ -80,6 +80,7 @@ export function findPath(
   from: number,
   to: number,
   maxVisited = 40_000,
+  cardinal = false,
 ): number[] | null {
   if (from === to || to < 0) return null;
   const beside = !standable(grid, blocked, to % grid.width, Math.floor(to / grid.width));
@@ -96,6 +97,7 @@ export function findPath(
     cameFrom: new Int32Array(count).fill(-1),
     done: new Uint8Array(count),
     frontier: new Frontier(score),
+    cardinal,
   };
   search.cost[from] = 0;
   search.frontier.push(from);
@@ -123,6 +125,7 @@ interface Search {
   cameFrom: Int32Array;
   done: Uint8Array;
   frontier: Frontier;
+  cardinal: boolean;
 }
 
 /** Offers each neighbour a tile can step to, where this way to it is the cheapest yet. */
@@ -131,6 +134,7 @@ function expand(search: Search, tile: number): void {
   const x = tile % grid.width;
   const z = Math.floor(tile / grid.width);
   for (const [dx, dz] of NEIGHBOURS) {
+    if (search.cardinal && dx !== 0 && dz !== 0) continue;
     if (!canStep(grid, search.blocked, x, z, x + dx, z + dz)) continue;
     const next = grid.index(x + dx, z + dz);
     const reached = (cost[tile] ?? 0) + (dx !== 0 && dz !== 0 ? DIAGONAL : 1);

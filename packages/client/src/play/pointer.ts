@@ -43,6 +43,9 @@ export interface PlayHost {
   world(): WorldPort | null;
   /** The player chose a menu row: answers built by code, to go the way a judge's answers will. */
   intend(request: ActRequest, answers: Answers, tileIndex: number): void;
+  /** A bounded code-owned mode can supply its own actions without a free-form judge. */
+  rows?(tileIndex: number): MenuRow[];
+  discrete?: boolean;
 }
 
 export interface MountedPlay {
@@ -50,7 +53,7 @@ export interface MountedPlay {
   track(time: number): readonly [number, number, number, number] | null;
 }
 
-interface MenuRow {
+export interface MenuRow {
   label(): string;
   run(): void;
 }
@@ -91,6 +94,20 @@ function lineBox(menu: HTMLDivElement, close: () => void, send: (line: string) =
   });
 }
 
+function fillMenu(menu: HTMLDivElement, rows: MenuRow[], close: () => void): void {
+  menu.replaceChildren();
+  for (const row of rows) {
+    const button = document.createElement("button");
+    // Names are generated text: set as text, never as markup.
+    button.textContent = row.label();
+    button.addEventListener("click", () => {
+      close();
+      row.run();
+    });
+    menu.append(button);
+  }
+}
+
 export function mountPlay(host: PlayHost): MountedPlay {
   const { canvas, camera, grid, walker, living } = host;
   const blocked: Blocked = living ? living.blocks : NOTHING_BLOCKS;
@@ -116,12 +133,13 @@ export function mountPlay(host: PlayHost): MountedPlay {
 
   /** `quietly` while the button is held: the mouse crosses many tiles it cannot reach on its way. */
   const walkTo = (index: number, quietly = false): void => {
+    if (host.discrete && walker.busy) return;
     target = index;
-    const path = findPath(grid, blocked, walker.tile, index);
+    const path = findPath(grid, blocked, walker.tile, index, 40_000, host.discrete);
     if (path) walker.follow(path);
     else if (!quietly) host.say("there is no way there");
     // Already beside it and it cannot be stood on: the hero has reached for it.
-    if (path?.length === 0) reachFor(host, requestFor("", report(index)), index);
+    if (path?.length === 0 && !host.discrete) reachFor(host, requestFor("", report(index)), index);
   };
 
   const requestFor = (line: string, at: TileReport): ActRequest =>
@@ -145,15 +163,21 @@ export function mountPlay(host: PlayHost): MountedPlay {
         label: () => `look at ${at.thing?.name ?? "the ground"}`,
         run: () => host.say(describeTile(grid, at).join("  |  ")),
       },
+      ...(host.rows?.(at.index) ?? []),
       ...intentsFor(request, host.world()?.compiled ?? []).map((intent) => ({
         label: () => intent.label,
         run: () => host.intend(request, intent.answers, at.index),
       })),
-      {
-        // The open door: whatever the player can put into words, aimed at this tile.
-        label: () => (at.thing ? `do something with ${at.thing.name}...` : "do something here..."),
-        run: () => askForLine(at),
-      },
+      ...(host.discrete
+        ? []
+        : [
+            {
+              // The open door: whatever the player can put into words, aimed at this tile.
+              label: () =>
+                at.thing ? `do something with ${at.thing.name}...` : "do something here...",
+              run: () => askForLine(at),
+            },
+          ]),
     ];
   };
 
@@ -166,17 +190,7 @@ export function mountPlay(host: PlayHost): MountedPlay {
 
   const openMenu = (index: number): void => {
     const at = report(index);
-    menu.replaceChildren();
-    for (const row of rowsFor(at)) {
-      const button = document.createElement("button");
-      // Names are generated text: set as text, never as markup.
-      button.textContent = row.label();
-      button.addEventListener("click", () => {
-        closeMenu();
-        row.run();
-      });
-      menu.append(button);
-    }
+    fillMenu(menu, rowsFor(at), closeMenu);
     menu.style.left = `${mouse.left}px`;
     menu.style.top = `${mouse.top}px`;
     menu.style.display = "block";
@@ -199,7 +213,7 @@ export function mountPlay(host: PlayHost): MountedPlay {
     const wasOpen = menu.style.display !== "none";
     closeMenu();
     if (event.button !== 0 || wasOpen || hover < 0) return;
-    steering = true;
+    steering = !host.discrete;
     walkTo(hover);
   });
   window.addEventListener("mouseup", () => {

@@ -91,6 +91,19 @@ export class LivingThings {
     return this.#gone.has(index) ? null : (this.#things[index] ?? null);
   }
 
+  /** Replaces a small observer projection; absent objects leave no stale pick targets. */
+  replace(things: readonly ThingView[]): void {
+    for (let index = 0; index < this.#things.length; index++) this.remove(index);
+    this.#things.length = 0;
+    this.#gone.clear();
+    this.#unlooked.clear();
+    // The object layer has one glyph per tile. Last visible occupant wins;
+    // the complete projected contents remain available to the action menu.
+    const byTile = new Map<number, ThingView>();
+    for (const thing of things) byTile.set(this.#grid.index(thing.x, thing.z), thing);
+    for (const thing of byTile.values()) this.add({ ...thing, states: { ...thing.states } });
+  }
+
   /** A thing has come into being. One thing to a tile: -1 if its tile is taken or off the map. */
   add(thing: ThingView): number {
     if (!this.#grid.contains(thing.x, thing.z)) return -1;
