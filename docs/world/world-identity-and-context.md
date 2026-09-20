@@ -66,6 +66,35 @@ relationships, memories and history. Retirement and archival need explicit
 lifecycle rules; distance alone does not erase the individual. These decisions
 define the contract, not an implemented spawn system or a measured population cap.
 
+## Accepted decision: local extinction and causal recovery
+
+Local depletion can become local extinction. If a regional population has no
+survivors or unrepresented stock and no reachable source of new individuals,
+it remains absent indefinitely until an admitted process changes that situation.
+Elapsed time, suitable habitat, available capacity or a player returning cannot
+recreate it. There is no hidden population floor or guaranteed replacement timer.
+
+Extinction is an authoritative population condition, not "nothing is currently
+visible." Count explicit active and dormant individuals and the coarse regional
+source consistently. A player's unsuccessful search or belief in extinction does
+not erase undiscovered survivors. Conversely, an exhausted source cannot be
+reinitialized as unexplored stock to avoid a committed extinction.
+
+Recovery needs a source and conditions permitting establishment. Migration
+transfers individuals or accounted population from a real source; repeated
+arrivals can deplete that source too. Reproduction needs surviving eligible
+reproductive sources and its admitted lifecycle; empty habitat cannot reproduce.
+Reopening a route enables migration only if a reachable source actually exists.
+Player reintroduction transfers existing individuals rather than spawning free
+replacements. None of these opportunities guarantees successful establishment.
+
+Habitat restoration can improve eligibility but does not itself supply creatures.
+Exact source boundaries, migration eligibility, reproductive conditions and
+recovery times remain admission work; no food-web or population solver is claimed.
+This is a local-recovery decision, not a settled global-extinction, protected-refuge
+or administrator-reset policy. Those safeguards need their own explicit decisions,
+not invisible exceptions to ordinary spawning.
+
 ## Ownership and interfaces
 
 | Record | Authority | Not an independent source of truth |
@@ -176,6 +205,9 @@ Theft changes possession, not mass or every observer's belief about ownership.
 | W0/W1/W5 | Concurrent spawn opportunities share one source; groups cannot overdraw it; activation and migration never duplicate individuals |
 | W1/W3 | Shared family facts remain consistent; changing hidden location does not update an agent's memories |
 | W1/W6 | Revisit, extra observers, save/load and reordered evaluations do not reset settled opportunities or explicit dormant individuals |
+| W1/W6 | Exhaust all local sources and isolate the region; time, reload, player return and habitat restoration alone preserve absence |
+| W1/W5 | Restore a real migration route or reintroduce individuals; source is debited, identity/accounting persists, and establishment still checks eligibility |
+| W3/W7 | Failed searches do not assert authoritative extinction or disclose hidden survivors |
 | C6/W6 | Split, detach, archive, refine and migrate without dangling references, resource duplication or latent rerolls |
 | W8 | Rename/reorder proposals and test bounded cyclic relationships and missing definitions |
 
@@ -187,3 +219,5 @@ Define regional source units, replenishment mechanisms, eligibility inputs,
 opportunity timing and retirement policy before implementing population entry.
 Tests must include exhaustion, birth/death accounting and continuously observed
 placement, not merely a reproducible random spawn.
+Recovery tests must distinguish an empty active view from actual local extinction,
+and opportunity to recover from guaranteed recovery.

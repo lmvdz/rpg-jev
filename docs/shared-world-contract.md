@@ -102,6 +102,16 @@ explicit rather than distance-based erasure. Source calibration and lifecycle
 details remain open in the
 [population-entry contract](world/world-identity-and-context.md#accepted-decision-accounted-population-entry).
 
+**Accepted local-recovery rule:** a locally extinct population with no reachable
+source stays absent indefinitely until an admitted process changes the situation.
+Time, habitat capacity and player return alone cannot replenish it; no hidden
+floor or guaranteed respawn timer applies. Migration and reintroduction debit
+real sources; reproduction requires surviving eligible sources. Restoring a
+route or habitat enables recovery only when its other prerequisites exist.
+Count dormant and coarse populations too: unseen does not mean extinct.
+Global-extinction safeguards remain undecided. See the
+[local-extinction decision](world/world-identity-and-context.md#accepted-decision-local-extinction-and-causal-recovery).
+
 A creature's creation record establishes its identity, organism definition,
 developmental stage, admitted biological attributes, body and initial context.
 Pack membership, offspring, territory, recent activity and current needs must

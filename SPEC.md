@@ -972,6 +972,15 @@ not distance-based identity erasure. See the
 [population-entry contract](docs/world/world-identity-and-context.md#accepted-decision-accounted-population-entry)
 for boundaries and still-open calibration/lifecycle questions.
 
+**Accepted local-recovery rule:** local extinction is possible, and a population
+with no survivors, unrepresented stock or reachable source remains absent until
+an admitted process changes that situation. Habitat capacity, elapsed time and
+player return do not create replacements; no hidden population floor or guaranteed
+respawn timer applies. Migration/reintroduction debit actual sources, reproduction
+needs eligible surviving sources, and establishment still requires suitable
+conditions. Dormant individuals count; absence of sightings does not prove
+extinction. Global-extinction safeguards and exact recovery mechanics remain open.
+
 Keep realized truth, subjective uncertainty, evolving physical risk and sampled
 choices distinct. Save/load, offscreen catch-up and refinement preserve committed
 state and causes. Code owns arithmetic, time, effect validation and resource
