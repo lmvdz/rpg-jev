@@ -3,8 +3,8 @@
  * JSON entry per line (SPEC.md section 13); resuming replays it and calls no
  * model.
  */
-import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { parseLog, serializeLog } from "@rpg-jev/core";
 import { Game } from "@rpg-jev/inn";
 import {
@@ -16,6 +16,7 @@ import {
   Recorder,
   ResilientJudge,
 } from "@rpg-jev/jev";
+import { writeSave } from "./save.ts";
 
 export const ROOT = join(import.meta.dirname, "..", "..", "..");
 
@@ -54,17 +55,16 @@ export function openSession(options: SessionOptions): Session {
   const path = options.savePath;
   const resumed = Boolean(path && !options.fresh && existsSync(path));
   // A night that is started over is set aside, not lost: every played night is a playtest,
-  // and `pnpm friction` reads them all.
-  if (path && options.fresh && existsSync(path))
-    renameSync(path, path.replace(/.jsonl$/, `.${statSync(path).mtimeMs.toFixed(0)}.jsonl`));
+  // and `pnpm friction` reads them all. Opening a session alone never moves a save.
+  let archive = Boolean(path && options.fresh && existsSync(path));
   const game =
     resumed && path
       ? Game.resume(parseLog(readFileSync(path, "utf8")), resilient)
       : Game.start(options.seed, resilient);
   const save = () => {
     if (!path) return;
-    mkdirSync(dirname(path), { recursive: true });
-    writeFileSync(path, `${serializeLog(game.log)}\n`);
+    writeSave(path, `${serializeLog(game.log)}\n`, archive);
+    archive = false;
   };
   return { game, meter, resilient, recorder, resumed, live, save };
 }
