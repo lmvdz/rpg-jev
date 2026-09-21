@@ -54,6 +54,42 @@ Generative calls go through one routing seam. M3 starts with a fixed two-model r
 
 Later optimization: logged Jev judgments become training data for small classical models that take over the hottest tier 1 calls.
 
+### Local predictive world-model spike
+
+`spikes/jepa-world-model` investigates a local, action-conditioned predictive model
+using JEPA-Anything's Orthogonal Predictive Factorization (OPF). This is a
+measurement spike, not a fifth authoritative tier or a replacement for Jev.
+The initial domain is structured witnessed-theft scenarios in the inn, with a
+small supervised baseline trained on the same data. It adds no Jev question
+family and does not unblock M3, M4 or renderer work gated by M0 and S0.
+
+- **Authority stays unchanged.** Predictions are shadow observations only.
+  They cannot select live actions, create effects, advance time, write beliefs,
+  or consume the world's RNG. Legal options, including `none`, come from code.
+  Model distributions and predicted outcomes are not committed facts or causal
+  explanations; the event log remains the source of actual causes.
+- **Knowledge boundary.** Inputs contain only structured information available
+  to the acting NPC. No raw player text or world-global hidden facts enter this
+  spike. Predicted outcomes are readouts, never facts fed back as observations.
+- **Evidence boundary.** Synthetic labels test the learning pipeline against an
+  explicit toy simulator, not social realism or agreement with Jev. Branches
+  from one episode stay in one dataset split. An action-conditioned predictor
+  is not evidence of real causal identification.
+- **Deployment.** Training and inference support CPU and explicit CUDA selection,
+  targeting a local RTX 4070 Ti and manually provisioned Lambda GPUs. There is
+  no automatic provisioning, data upload or network dependency during inference.
+  Python/PyTorch is an isolated research exception to the TypeScript stack;
+  `packages/core` stays pure TypeScript and gains no Python or GPU dependency.
+- **Promotion gate.** Compare the supervised baseline and JEPA model on held-out
+  choice/outcome quality, generalization, and measured batch-one p50/p95 latency
+  and memory on the target hardware. Real decision data and reviewed behavioral
+  tests are required before considering runtime authority. Any replacement for
+  Jev requires a separate spec decision, logging/replay design and fallback.
+
+Upstream ships no pretrained RPG weights. Checkpoints are locally trained,
+versioned artifacts; no GPU performance or gameplay-quality claim follows from
+the presence of this spike.
+
 ## 4. World state
 
 One authoritative server holds the world: a SpacetimeDB module written in TypeScript, pending spike S0. Reducers are the only write path, and they cannot call a model or the network. The world is an append-only event log plus the tables projected from it. Players, NPCs and the author thread all change the world through the same path.

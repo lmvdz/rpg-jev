@@ -23,6 +23,8 @@ importers:
 
   packages/core: {}
 
+  spikes/jepa-world-model: {}
+
   spikes/m0-jev:
     dependencies:
       '@typesafe-ai/sdk':

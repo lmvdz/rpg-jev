@@ -18,3 +18,12 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# local world-model research environments and artifacts
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+spikes/jepa-world-model/artifacts/
+spikes/jepa-world-model/runs/
+spikes/jepa-world-model/data/

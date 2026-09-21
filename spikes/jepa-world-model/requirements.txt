@@ -1,0 +1,2 @@
+torch>=2.6,<3
+jepa-anything-core @ git+https://github.com/Gen-Verse/JEPA-Anything.git@c6e6c88f3ef75a4ce7acd660d6fa5779d995512c#subdirectory=jepa-anything-core

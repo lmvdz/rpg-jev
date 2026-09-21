@@ -11,6 +11,14 @@ Repo scaffold only. Two spikes gate everything else:
 - [spikes/m0-jev](spikes/m0-jev): does Jev judge social fiction the way people do? Done: three of four tests pass and the fourth misses narrowly. See the [findings](spikes/m0-jev/FINDINGS.md).
 - [spikes/s0-spacetimedb](spikes/s0-spacetimedb): does SpacetimeDB hold as the world server?
 
+An independent [local world-model spike](spikes/jepa-world-model/README.md)
+compares JEPA-Anything predictive training with a supervised baseline on
+structured NPC scenarios. It supports CPU and CUDA runs (local RTX 4070 Ti or
+manually provisioned Lambda GPUs). This is shadow-only research: it neither
+replaces Jev nor writes simulation state, and synthetic results do not establish
+gameplay quality. Its Python dependencies and validation commands are separate
+from the TypeScript game; see the spike README.
+
 ## Layout
 
 ```
