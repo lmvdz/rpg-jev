@@ -6,6 +6,11 @@
 
 A persistent multiplayer RPG whose world keeps its own agenda: NPCs, quests, rumors and events evolve from cause and effect, not scripts. Jev (TypeSafe's System One model) makes every in-world decision. Claude runs on a background thread as the world's author. Code owns rules, numbers and state.
 
+The long-term goal is independently operated, sovereign worlds and portable
+characters, **RPG first**, not a federation platform in search of a game.
+Section 23 defines the boundaries and staged delivery gates; it does not replace
+the causal-world design or the playable milestones.
+
 **Pillars**
 
 - **Decisions, not scripts.** Every NPC choice, quest guard and consequence is a typed Jev judgment over a closed, code-built option set.
@@ -56,7 +61,7 @@ Later optimization: logged Jev judgments become training data for small classica
 
 ## 4. World state
 
-One authoritative server holds the world: a SpacetimeDB module written in TypeScript, pending spike S0. Reducers are the only write path, and they cannot call a model or the network. The world is an append-only event log plus the tables projected from it. Players, NPCs and the author thread all change the world through the same path.
+One authoritative server holds each world: a SpacetimeDB module written in TypeScript, conditionally accepted by spike S0 (section 15). Reducers are the only write path, and they cannot call a model or the network. The world is an append-only event log plus the tables projected from it. Players, NPCs and the author thread all change the world through the same path.
 
 ```mermaid
 flowchart LR
@@ -590,6 +595,17 @@ Six milestones, each playable or measurable on its own. The proposal inbox has t
 
 If M2 is not fun, live generation will not fix it, so M2 is the real gate.
 
+**Current integrated baseline:** work continues from `implementation/shared-food`,
+not the old `main` baseline. The dated entries below are historical evidence,
+not a current assertion that S0 is unrun or the core/inn exist only on `poc`.
+M0 is closed; S0 is conditionally closed with all three obligations in section 15:
+bounded ordered debt draining, an archive worker from the start, and caller checks
+on non-player reducers. Core and inn PoC code is implemented; M2's fun gate has
+not passed. Local matter, thermal and shared-food implementations (sections
+19, 21 and 22) are not the hosted authoritative multiplayer runtime and do not
+close M3–M5. The integrated-GPU renderer gate below remains open.
+Section 23's world-delivery gates follow M5 rather than bypassing these gates.
+
 **Status, 2026-09-17.** M0 is closed. M1 and M2 exist as a proof of concept on the `poc` branch: `packages/core`, `packages/jev`, `packages/inn` and `packages/terminal`, with `pnpm play` and `pnpm demo`. World state is in process, shaped for the port: state changes only through validated effects, decisions are made on a snapshot and committed with precondition checks, and the tables follow section 4. Of the M2 list, handwritten proposals are not built (the proposal inbox belongs with the author thread) and there is no prose model (M2 prose is templates). `docs/poc-report.md` says what was verified, what it cost, and whether it is fun. S0 has not run.
 
 **Status, 2026-09-18.** Since the report, four playtests by a person were turned into general mechanisms and not special cases: means and ends (section 4), speech and forcing things as deeds on the one witness path, role powers, dispositions (section 9), a live terminal that shows who is thinking, and the playtest loop with its method (section 13), which is designed and switched off. `pnpm check` now also enforces a strict lint, coverage tests over classes (every verb, thing, deed, voice, activity and disposition is complete), and a ratchet on character names in engine code. S0 ran the same day and SpacetimeDB holds, with three conditions (section 15). Both spikes now have numbers, so the order of work no longer blocks M3, M4 or renderer steps beyond R2; whether M2 is fun enough to build on is still the real gate.
@@ -613,6 +629,9 @@ The renderer needs neither Jev nor Claude, so it runs in parallel and meets the 
 ## 17. Open questions
 
 These are unverified or undecided. Each names what settles it.
+
+The long-term world-operation and portability decisions are tracked separately
+in section 23.5; recommendations there are not approvals.
 
 - [ ] Does Jev's distribution behave like human judgment on social fiction? The claim that Jev is built as a generalized-distribution decision engine comes from us, not the docs. Settled by M0 tests 1 to 3.
 - [ ] Can one distribution stand for a crowd's split of opinion? Settled by M0.
@@ -1183,3 +1202,174 @@ server-owned and independent of player input; menus, hidden tabs and disconnects
 must not pause the shared world. Returning observes current authoritative state,
 not a restored personal snapshot.
 The external Claude Doc has not been verified or synchronized.
+
+## 23. Sovereign worlds and portable characters
+
+**Adopted long-term boundaries, not implementation completion.** People should
+be able to operate distinctive worlds independently and, by mutual agreement,
+bring a character to another world. The RPG and its learnable causal world come
+first. Sections 1–22 remain in force, including improvement loops, compositional
+causality, embodied agents, conservation, knowledge isolation and replay.
+This section adds a delivery plan, not authorization to implement every stage.
+The integrated shared-food baseline is retained; no reset to old `main` is implied.
+
+### 23.1 Authority and execution boundaries
+
+- **One authoritative host per world.** The host admits players, resolves actions,
+  advances shared time and commits its own world state. Another world, a client,
+  a communications service or a transport cannot write that state. Sovereignty
+  does not require a global authority, global clock or shared database. Operating
+  or joining a world must not require an rpg-jev-operated directory, account
+  service or control plane; configured providers and relays may still be needed.
+- **Pure core, explicit adapters.** Simulation rules remain independent of
+  hosting, networking, storage and model-provider I/O. Adapters supply validated
+  inputs; code owns numbers, legal actions, permissions, effects and state.
+  The browser remains the primary client; a native-only path cannot satisfy
+  the delivery gates.
+- **Existing model constitution.** Keep `jev-1.13.0` pinned and M2 limited to
+  its eight admitted families (section 14). Generative work never blocks play.
+  Judgments, RNG and committed effects are logged for replay, not re-inferred.
+  Imported, generated and player-written text is untrusted data, never
+  instructions, criteria, executable mechanics or configuration.
+- **Separate extension surfaces.** Content fills admitted schemas; operator
+  policy selects validated permissions/settings; a Jev profile is a versioned,
+  reviewed judgment configuration; executable mods change code. These are not
+  interchangeable merely because they can be packaged as files or JSON.
+  Importing a character, visiting a world or downloading a package never
+  automatically executes downloaded code. Mechanics/profile changes still
+  require the review, tests and migration boundaries of sections 20–22.
+
+### 23.2 Identity, projections and the world contract
+
+Keep six concepts distinct: **identity** is a principal whose control can be
+proved; **player** is a participant/account under local policy; **character** is
+a persistent fictional participant; **world** is an authoritative simulation
+with its own identity and history; **endpoint** has a network identity distinct
+from its mutable address; **session** is temporary authenticated access. A key, account name,
+character name, URL or live connection cannot silently stand for all six.
+Custody, recovery, binding and delegation mechanisms remain decisions, not
+consequences of choosing a transport.
+
+Portability transfers a **bounded, allowlisted character projection**, not an
+arbitrary save, database dump or trusted prompt. Exclude hidden NPC knowledge,
+other players' private data, credentials and unrestricted model inputs.
+Separate identity, history, beliefs, mechanical knowledge, capabilities and
+possessions; admission of one never implies admission of the others. Imported
+references and dates retain their source-world context, not a guessed local
+binding. Human knowledge cannot be erased; knowledge restrictions govern
+character beliefs and mechanically available actions, not metagaming.
+The receiving world validates
+schema, size, references, supported capabilities and permissions before admission.
+Source attribution and provenance remain attached to imported identity, history
+and beliefs. An authenticated source proves attribution, not that a foreign
+claim is true locally, that an NPC knows it, or that an imported capability is
+allowed. Local truth and observer knowledge retain the boundaries in sections
+4, 12 and 22.
+
+A **versioned world contract** binds admission, import, export, privacy and
+lifecycle together. It declares supported schemas/capabilities, projection
+bounds, mappings and exclusions, local authority, visibility, retention,
+revocation, departure, recovery and treatment of returned records. Before
+transfer, a player sees a preview of what will be disclosed, retained, rejected
+or transformed and gives explicit consent. A changed contract cannot silently
+reuse consent for a broader transfer. Consent and admission bind to the exact
+contract revision and export actually committed. A revision change before
+commit requires renewed validation and consent or visible rejection; it cannot
+silently change an existing session's permissions or departure rights.
+Unknown schemas or capabilities are
+rejected, not guessed at or silently activated; compatible migrations must be
+explicit, validated and versioned.
+
+**Recommended first visit mode — not approved:** copy-based visits carrying only
+admitted identity, history and beliefs. The source save remains intact; the
+destination grants local capabilities and equipment under its own rules.
+Departure can produce an attributed visit record for explicit source-side
+admission, not automatic overwrite of source history or truth. This avoids
+requiring cross-host exclusive ownership for the first visit, but permits
+parallel character copies and needs an explicit policy for divergent histories.
+Neither this recommendation nor portable identity authorizes progression,
+currency, equipment or exclusive-asset transfer.
+
+### 23.3 Failures, trust and transport
+
+The contract must define a durable visit/transfer lifecycle with stable operation
+IDs, scoped authorization and recorded outcomes. Required invariants:
+
+- Retries and duplicate messages cannot create a second admission, grant,
+  import or visit record for the same operation. Reusing an ID with different
+  contents is rejected; transport delivery alone is not a state commit.
+- Crashes at each lifecycle boundary recover from durable records. After a lost
+  acknowledgement, querying or retrying reconciles the original outcome rather
+  than starting a fresh transfer. A timeout means **outcome unknown**, not proof
+  that the remote world failed or rolled back.
+- Revocation has an explicit effective boundary, invalidates the relevant
+  future authorization and defines treatment of in-flight work and sessions.
+  Old requests cannot resurrect revoked access. Revocation does not uncommit
+  history or prove that a remote operator erased previously disclosed data.
+- Each host validates and commits locally under its pinned contract. No
+  cross-world atomic transaction, exactly-once network delivery, trustworthy
+  foreign progression or global uniqueness is assumed. Exclusive ownership
+  and rollback recovery need the separate W4 decision.
+
+These guarantees bound cooperative implementations; they cannot stop a
+malicious operator from fabricating history, modifying its server, copying
+exports or retaining disclosed data. Signatures authenticate provenance, not
+honesty. Consent must explain those limits; remote erasure cannot be promised
+as a technical guarantee.
+
+**Transport is unresolved.** The existing SpacetimeDB SDK remains the measured
+baseline. Iroh is only a candidate for comparison on the same browser/host
+workflows: connectivity, relay dependence, latency, reconnect/failure behavior,
+bandwidth, blocked direct paths, operational cost and deployment/security burden.
+Declare supported environments and budgets before measuring, and verify current
+browser restrictions rather than assuming direct UDP support. It already uses QUIC; this is
+not a proposal to add QUIC to it. Browser restrictions on direct networking mean
+native SDK results alone are insufficient evidence. Select no replacement
+without measured benefit and a working primary-browser path.
+
+Matrix may optionally carry communications or discovery hints. It is never
+world authority, identity/visit authorization by itself, the simulation log or
+a required dependency for playing or operating a world. Communications outages
+must not stop local authoritative play.
+
+### 23.4 Delivery gates
+
+These are **section 23 world-delivery W1–W5**, distinct from the existing
+section 22/shared-world-contract W0–W8 proving-fixture gates. References must name
+the gate set. Neither set replaces M0–M5, R0–R4 or C0–C8. All five delivery
+gates below are open; passing a test is evidence, not approval of an unresolved
+product or trust decision.
+
+| Gate | Scope and prerequisite | Required exit evidence |
+| --- | --- | --- |
+| W1 — Independent hosting | After M5: one operator can run a complete authoritative world without the development checkout or another world | A second operator follows documented setup on a clean machine; a real browser joins and plays; server/worker configuration and provider credentials stay under operator control; backup/restore, restart, disconnect and model/author outages are exercised without corrupting history or blocking the admitted degraded play path. Record platforms, performance and operating costs. |
+| W2 — Distinctive worlds | After W1: two independently operated worlds are meaningfully different RPGs through admitted content, policy and Jev profiles, not forks with hidden exceptions | Validate both worlds' definitions, permissions and pinned revisions; reject invalid configuration and unauthorized changes; reproduce saves under pinned dependencies. Profiles require section 14 criteria, examples, paraphrase and knowledge-isolation regressions. Playtest distinctive choices and causal consequences; demonstrate independent operation and recovery. No generated laws or executable imports are smuggled in as content. |
+| W3 — First character visits | After W2 and explicit approval of identity, world-contract and visitor-mode decisions | A two-host browser visit with preview/consent, bounded imports, local permissions and attributed return evidence; tests of incompatible schemas/capabilities, forged/oversized input, privacy/knowledge leakage, duplicate/reordered messages, retry, crash, lost acknowledgement, timeout and revocation. Verify source-save behavior and history policy for the approved mode. |
+| W4 — Trusted progression and exclusive assets | After W3, separately approved; not a consequence of a successful copy visit | Explicit trust/admission rules for progression and, separately, exclusive assets; adversarial tests for duplication, divergent histories, partitions, dishonest hosts, backup rollback and recovery. State who bears losses and what cannot be guaranteed. No universal economy or scarcity promise without this evidence and approval. |
+| W5 — Executable extensions | After W3 and separate explicit execution/security/migration approval, independent of W4; content support alone does not admit mods | Define permissions, isolation, signing/provenance, dependency handling, resource budgets and operator consent; test hostile code and failed upgrades, deterministic/replay compatibility, migrations, rollback and disable/recovery. Download never implies execute. |
+
+### 23.5 Decision register
+
+The boundaries above are adopted. The choices below remain **unresolved** until
+their named gates and explicit review; a recommendation is not a default silently
+promoted to policy. Record the chosen option, alternatives, evidence, approval
+and contract/version consequences when each is settled.
+
+| Decision | Status / what must be settled | Decision deadline |
+| --- | --- | --- |
+| Platform and performance budgets | Host OS/runtime support, browser/device matrix, world capacity, latency, storage and cost budgets; S0 loopback and discrete-GPU results are not deployment evidence | Before W1 implementation and measurement; revise before measuring W2/W3 workloads |
+| Provider terms and payment | Lawful hosting/use, subscription versus API terms, credentials, quotas, billing responsibility and outage budgets; the historical Claude CLI choice is not approval to serve others under a personal subscription | Before serving others at M5; verify at W1 |
+| Transport | Retain SDK or justify a measured alternative, including browser and relay constraints; Iroh remains a candidate | W1 baseline; explicit review before any W3 replacement |
+| Identity custody and recovery | Principal/account/character/world bindings, delegation, key storage, recovery, rotation and compromised credentials | Before W3 implementation approval |
+| Visit mode | Copy, exclusive transfer or another bounded mode; source continuity and divergent-history semantics. Copy-based identity/history/belief visits are recommended, not approved | Before W3 implementation approval |
+| Consent and retention | Preview granularity, visibility, sensitive claims, retention/deletion policy, revocation and honest disclosure of remote-erasure limits | Before W3 implementation approval |
+| Contract changes | Negotiation, compatibility, version pinning, re-consent, migrations and in-flight lifecycle handling on upgrade | Before W3 implementation approval |
+| Progression trust | Which hosts/claims are trusted for which rewards; validation, rejection and accountability | Separate W4 approval |
+| Scarcity and rollback | Exclusive ownership authority, duplication/partition policy, backup rollback, reconciliation and loss allocation | Separate W4 approval |
+| Executable mods | Distribution and execution trust, sandbox/permissions, budgets, dependencies, replay and migration/recovery policy | Separate W5 approval |
+
+**Documentation synchronization:** this change reconciles the repository
+`SPEC.md` only. Sections 20–22 already exist and remain in place. The external
+living Claude Doc has not been verified or synchronized; that work remains
+outstanding. Documentation does not authorize publication, deployment, code
+changes or bypassing any milestone or decision gate.
