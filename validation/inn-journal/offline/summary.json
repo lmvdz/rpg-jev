@@ -1,0 +1,31 @@
+{
+  "mode": "offline",
+  "model": null,
+  "node": "v25.8.2",
+  "platform": "win32",
+  "inputs": [
+    "help",
+    "journal",
+    "go kitchen",
+    "search coat",
+    "examine markers",
+    "notes",
+    "take iron key",
+    "go cellar",
+    "search barrel",
+    "take ledger",
+    "examine apron",
+    "journal",
+    "quit"
+  ],
+  "journalChecks": 3,
+  "jevDecisions": 0,
+  "cachedDecisions": 0,
+  "fallbackDecisions": 7,
+  "inputTokens": 0,
+  "listPriceUsd": 0,
+  "journalCalls": 0,
+  "journalEffects": 0,
+  "replayAndResumeEqual": true,
+  "humanPlaytest": false
+}

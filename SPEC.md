@@ -167,6 +167,14 @@ Players and NPCs are both actors, and both produce the same structure: `Action{a
 - A rate-limit or outage response falls back to the deterministic matcher alone.
 - Thresholds are tuned on real transcripts, not guessed.
 
+**Player recall (M2):** `journal`, `notes` and `leads` render only the player's
+stored beliefs, with their recorded source, code-owned credence and account time.
+Location accounts remain stale reports, never live tracking. Reading costs no
+game time, RNG draw or model call and commits no effect; the command is logged
+like `look`. It does not expose NPC-private beliefs, schedules, debts or rumor
+lineage. This is a view of already-earned knowledge, not a new memory-acquisition
+system or proof that the inn is fun. Evidence: `validation/inn-journal/README.md`.
+
 **NPC action choice**
 
 - Code lists the NPC's legal actions from its FSM node, location and schedule. Feasibility is code's job: M0 showed Jev gives "keep the purse secretly" 0.47 while the owner is watching. Options that observed facts rule out are pruned or restated before Jev sees them. Restating that option raised `return_it` from 0.47 to 0.60, against 0.90 from the reference panel, so pruning helps and does not close the gap.

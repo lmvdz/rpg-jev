@@ -1,0 +1,31 @@
+{
+  "mode": "live",
+  "model": "jev-1.13.0",
+  "node": "v25.8.2",
+  "platform": "win32",
+  "inputs": [
+    "help",
+    "journal",
+    "go kitchen",
+    "search coat",
+    "examine markers",
+    "notes",
+    "take iron key",
+    "go cellar",
+    "search barrel",
+    "take ledger",
+    "examine apron",
+    "journal",
+    "quit"
+  ],
+  "journalChecks": 3,
+  "jevDecisions": 5,
+  "cachedDecisions": 0,
+  "fallbackDecisions": 0,
+  "inputTokens": 5612,
+  "listPriceUsd": 0.00023570400000000002,
+  "journalCalls": 0,
+  "journalEffects": 0,
+  "replayAndResumeEqual": true,
+  "humanPlaytest": false
+}

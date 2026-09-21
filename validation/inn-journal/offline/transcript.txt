@@ -1,0 +1,150 @@
+
+(The judge is unreachable: no TYPESAFE_API_KEY, or --offline. The inn runs on its routines.)
+
+THE GILDED CARP
+
+You came in out of the rain this afternoon, paid for a bed, and slept. When you came down at
+dusk the ford had gone under and the mood in the common room had gone with it. The inn's
+account ledger is missing from the office. The crown's assessor arrives at first light to
+read it, and an inn that cannot show its ledger is taxed at his pleasure.
+
+Nobody has said it to your face yet. But you were the only stranger in the house, and the
+innkeeper has not taken her eyes off you since you sat down.
+
+(Type help for commands. Plain verbs always work; anything else, say it as you would.)
+
+The common room: a low ceiling black with smoke, a long bar, a hearth losing its fight with the damp. Rain ticks at the shutters. The office door stands beside the stairs, an arch leads to the kitchen, and the yard door rattles in its frame.
+Mara is here, tending the bar.
+You see a pewter tankard and a heel of bread.
+From here: the kitchen, the stable yard and the office (locked).
+
+> help
+
+Plain commands always work: look, go <room>, take <thing>, drop <thing>, examine <thing>,
+search <thing>, unlock <room> with <key>, give <thing> to <name>, show <thing> to <name>,
+talk to <name>, ask <name> about <name or thing>, attack <name>, wait [minutes], inventory, journal.
+journal (also notes or leads) recalls only what you learned, who told you, and last-known whereabouts.
+Examine evidence, review your journal, then show what you carry or discuss what you learned.
+Anything else, say it as you would: tell mara I never touched her ledger; ask tobin what he
+saw at dusk; offer tobin my silver if he will talk to mara; accuse odo of taking the ledger.
+Debug: why <name> walks the causes behind what someone believes and does. quit saves and leaves.
+Anything can be tried on anything: eat the bread, sit by the fire, kick the table. What a thing is decides
+what happens. why <thing> says what it is for.
+If the game got your last line wrong, type huh (or huh <what you meant>): it goes in the playtest log.
+
+> journal
+
+YOUR JOURNAL — 19:00
+Your character's knowledge, not a verdict on what really happened.
+No clues recorded yet. Examine things and listen to people to learn more.
+Compare accounts, examine evidence, then show what you carry or discuss what you learned.
+Reading your journal takes no game time.
+
+> go kitchen
+
+The kitchen is all heat and onions. A pot the size of a font hangs over the hearth. A coat hangs on a peg, and beside the cellar door there is a hook for keys. A back door gives onto the yard.
+Odo is here, cooking at the hearth.
+You see the iron key, the brass key and an onion.
+From here: the common room, the stable yard and the cellar (locked).
+
+> search coat
+
+Odo's coat, good cloth gone shiny at the elbows.
+In the inside pocket, something clicks like teeth.
+You find the gambling markers.
+Odo says, grinning, still cooking at the hearth: "Funny thing. I saw it myself: you went through my coat just now. I only mention it."
+
+> examine markers
+
+Six clay gambling markers from a river boat, each scratched with a sum and the initials O.B. Together they come to more than a cook earns in a year.
+
+> notes
+
+YOUR JOURNAL — 19:08
+Your character's knowledge, not a verdict on what really happened.
+- Odo owes money to river gamblers.
+  You witnessed this; your character is certain of it.
+- You went through Odo's coat (account of 19:02).
+  Odo told you; your character thinks it likely.
+Compare accounts, examine evidence, then show what you carry or discuss what you learned.
+Reading your journal takes no game time.
+
+> take iron key
+
+You take the iron key.
+
+> go cellar
+
+The iron key turns. The door is unlocked.
+Cold, and the smell of earth and old beer. Casks line one wall, sacks the other. A flour barrel stands at the foot of the steps.
+From here: the kitchen.
+
+> search barrel
+
+A flour barrel, lid askew. The flour inside has been disturbed and patted flat again.
+You push your arm in to the elbow. Your fingers close on oilcloth: a bundle, buried deep.
+You find the ledger and the floury apron.
+
+> take ledger
+
+You take the ledger.
+
+> examine apron
+
+A cook's apron, stiff with flour. The initials O.B. are stitched inside the hem. The ledger was wrapped in it.
+
+> journal
+
+YOUR JOURNAL — 19:18
+Your character's knowledge, not a verdict on what really happened.
+- You found the ledger in the cellar (account of 19:15).
+  You witnessed this; your character is certain of it.
+- Odo owes money to river gamblers.
+  You witnessed this; your character is certain of it.
+- Odo is the owner of the floury apron the ledger came wrapped in: his initials are stitched in the hem.
+  You witnessed this; your character is certain of it.
+- You went through Odo's coat (account of 19:02).
+  Odo told you; your character thinks it likely.
+Compare accounts, examine evidence, then show what you carry or discuss what you learned.
+Reading your journal takes no game time.
+
+> quit
+
+
+
+
+Saved. The log is the save: pnpm play resumes it.
+
+
+--- OFFLINE RESUME ---
+
+(The judge is unreachable: no TYPESAFE_API_KEY, or --offline. The inn runs on its routines.)
+
+(Resumed from the log at 19:18. No model was asked anything.)
+
+
+Cold, and the smell of earth and old beer. Casks line one wall, sacks the other. A flour barrel stands at the foot of the steps.
+You see the floury apron.
+From here: the kitchen.
+
+> journal
+
+YOUR JOURNAL — 19:18
+Your character's knowledge, not a verdict on what really happened.
+- You found the ledger in the cellar (account of 19:15).
+  You witnessed this; your character is certain of it.
+- Odo owes money to river gamblers.
+  You witnessed this; your character is certain of it.
+- Odo is the owner of the floury apron the ledger came wrapped in: his initials are stitched in the hem.
+  You witnessed this; your character is certain of it.
+- You went through Odo's coat (account of 19:02).
+  Odo told you; your character thinks it likely.
+Compare accounts, examine evidence, then show what you carry or discuss what you learned.
+Reading your journal takes no game time.
+
+> quit
+
+
+
+
+Saved. The log is the save: pnpm play resumes it.

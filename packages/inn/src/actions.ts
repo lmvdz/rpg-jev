@@ -27,6 +27,7 @@ import {
   TOBINS_DEBT,
 } from "./content.ts";
 import type { Game } from "./game.ts";
+import { renderJournal } from "./journal.ts";
 import { type Action, BACK, COINS, HELP, isVisible } from "./parser.ts";
 import { describeRoom, lookAtItem, lookAtPerson, lookAtRoom } from "./prose.ts";
 import { sceneSlice } from "./slices.ts";
@@ -34,20 +35,26 @@ import { greetOnEntry, owe, playerSpeaks, reactToDeed } from "./talk.ts";
 import { renderWhy } from "./whytext.ts";
 import { clockWords, theirOf } from "./words.ts";
 
+/** Plain observations share one zero-time path; adding a view adds no mechanic. */
+const READ_ONLY = {
+  look: (g) => g.say(describeRoom(g.world)),
+  inventory,
+  journal: (g) => g.say(renderJournal(g.world)),
+  help: (g) => g.say(HELP),
+  quit: () => undefined,
+} satisfies Partial<Record<Action["verb"], (g: Game) => void>>;
+
+function isReadOnly(action: Action): action is Extract<Action, { verb: keyof typeof READ_ONLY }> {
+  return Object.hasOwn(READ_ONLY, action.verb);
+}
+
 /** Performs the action and returns how many minutes it took. Zero means no time passed. */
 export async function performAction(g: Game, action: Action, root: LogId): Promise<number> {
+  if (isReadOnly(action)) {
+    READ_ONLY[action.verb](g);
+    return 0;
+  }
   switch (action.verb) {
-    case "look":
-      g.say(describeRoom(g.world));
-      return 0;
-    case "inventory":
-      inventory(g);
-      return 0;
-    case "help":
-      g.say(HELP);
-      return 0;
-    case "quit":
-      return 0;
     case "why": {
       const report = why(g.world, g.log, action.npc, PLAYER);
       g.say(

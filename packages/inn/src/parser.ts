@@ -24,6 +24,7 @@ export type Request = (typeof REQUESTS)[number];
 export type Action =
   | { verb: "look" }
   | { verb: "inventory" }
+  | { verb: "journal" }
   | { verb: "help" }
   | { verb: "quit" }
   | { verb: "why"; npc: string }
@@ -254,6 +255,7 @@ const RULES: [RegExp, (m: RegExpMatchArray, scope: Scope, world: World) => Match
     /^(i|inv|inventory|pack|(?:(?:check|look in|search|open) )?(?:my |the )?(?:pockets?|backpack|pack|bag|purse|inventory))$/,
     () => ({ kind: "action", action: { verb: "inventory" } }),
   ],
+  [/^(?:read )?(journal|notes|leads)$/, () => ({ kind: "action", action: { verb: "journal" } })],
   [/^(help|\?|commands)$/, () => ({ kind: "action", action: { verb: "help" } })],
   [/^(q|quit|exit)$/, () => ({ kind: "action", action: { verb: "quit" } })],
   [
@@ -531,7 +533,9 @@ export function askable(world: World): Named[] {
 export const HELP = [
   "Plain commands always work: look, go <room>, take <thing>, drop <thing>, examine <thing>,",
   "search <thing>, unlock <room> with <key>, give <thing> to <name>, show <thing> to <name>,",
-  "talk to <name>, ask <name> about <name or thing>, attack <name>, wait [minutes], inventory.",
+  "talk to <name>, ask <name> about <name or thing>, attack <name>, wait [minutes], inventory, journal.",
+  "journal (also notes or leads) recalls only what you learned, who told you, and last-known whereabouts.",
+  "Examine evidence, review your journal, then show what you carry or discuss what you learned.",
   "Anything else, say it as you would: tell mara I never touched her ledger; ask tobin what he",
   "saw at dusk; offer tobin my silver if he will talk to mara; accuse odo of taking the ledger.",
   "Debug: why <name> walks the causes behind what someone believes and does. quit saves and leaves.",
