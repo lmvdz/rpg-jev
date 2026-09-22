@@ -92,4 +92,5 @@ for await (const line of rl) {
 session.save();
 console.log("\nSaved. The log is the save: pnpm play resumes it.\n");
 rl.close();
-process.exit(0);
+// Let pending output and network-handle cleanup finish. Forced process.exit()
+// can truncate output and hit libuv's closing-handle assertion on Windows.

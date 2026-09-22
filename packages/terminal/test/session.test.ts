@@ -13,6 +13,7 @@ import {
   writeSync,
 } from "node:fs";
 import { join, relative } from "node:path";
+import { pathToFileURL } from "node:url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { openSession, ROOT } from "../src/session.ts";
 
@@ -156,10 +157,11 @@ it("refuses to replace a night when its required archive cannot be created", () 
   expect(readdirSync(directory)).toHaveLength(2);
 });
 
-function play(input: string, extra: string[] = []) {
+function play(input: string, extra: string[] = [], nodeOptions: string[] = []) {
   return spawnSync(
     process.execPath,
     [
+      ...nodeOptions,
       join(ROOT, "packages/terminal/src/play.ts"),
       "--offline",
       "--plain",
@@ -170,6 +172,20 @@ function play(input: string, extra: string[] = []) {
     { cwd: ROOT, input, encoding: "utf8", timeout: 10_000 },
   );
 }
+
+it("quitting allows the event loop to finish before the CLI exits", () => {
+  const preload = join(directory, "shutdown.mjs");
+  writeFileSync(
+    preload,
+    'process.once("beforeExit", () => setImmediate(() => console.log("SHUTDOWN_DRAINED")));\n',
+  );
+  const result = play("quit\n", ["--new"], ["--import", pathToFileURL(preload).href]);
+  expect(result.error).toBeUndefined();
+  expect(result.status, result.stderr).toBe(0);
+  expect(result.stdout).toContain("Saved. The log is the save");
+  expect(result.stdout).toContain("SHUTDOWN_DRAINED");
+  expect(session(1, false).resumed).toBe(true);
+});
 
 it("the actual CLI saves, resumes, and archives restarted nights offline", () => {
   const first = play("go kitchen\nquit\n", ["--new", "--seed=7"]);
