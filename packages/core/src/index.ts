@@ -11,6 +11,7 @@ export * as matter from "./matter/index.ts";
 export * from "./needs.ts";
 export * from "./persuade.ts";
 export * from "./preconditions.ts";
+export * from "./proposals.ts";
 export { Rng, type RngState } from "./rng.ts";
 export * from "./schedule.ts";
 export * from "./types.ts";
