@@ -29,6 +29,9 @@ importers:
       gl-matrix:
         specifier: ^3.4.4
         version: 3.4.4
+      spacetimedb:
+        specifier: 2.10.1
+        version: 2.10.1
     devDependencies:
       vite:
         specifier: ^8.3.0
@@ -57,6 +60,15 @@ importers:
       '@typesafe-ai/sdk':
         specifier: ^0.6.0
         version: 0.6.0
+
+  packages/server:
+    dependencies:
+      '@rpg-jev/core':
+        specifier: workspace:*
+        version: link:../core
+      spacetimedb:
+        specifier: 2.10.1
+        version: 2.10.1
 
   packages/terminal:
     dependencies:

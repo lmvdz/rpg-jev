@@ -13,13 +13,17 @@
     "test:watch": "vitest",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:shared",
+    "test:shared": "node --test packages/core/test/matter/shared.node.test.ts packages/client/test/shared-movement.native.test.mjs packages/server/test/scripts.node.test.ts validation/shared-world/replay.test.mjs",
     "check:unrecorded": "pnpm lint && pnpm typecheck && vitest run --exclude \"**/recorded.test.ts\"",
     "play": "pnpm --filter @rpg-jev/terminal run play",
     "demo": "pnpm --filter @rpg-jev/terminal run demo",
     "friction": "pnpm --filter @rpg-jev/terminal run friction",
     "sdlc": "pnpm --filter @rpg-jev/terminal run sdlc",
-    "client": "pnpm --filter @rpg-jev/client run dev"
+    "client": "pnpm --filter @rpg-jev/client run dev",
+    "world:server": "pnpm --filter @rpg-jev/server run start",
+    "world:publish": "pnpm --filter @rpg-jev/server run publish",
+    "world:archive": "pnpm --filter @rpg-jev/server run archive"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",

@@ -49,10 +49,13 @@ export class Walker {
   readonly #held = new Set<string>();
   #path: number[] = [];
   /** Optional authoritative admission, called before any visual destination changes. */
-  commitStep: ((x: number, z: number) => boolean) | null = null;
+  commitStep: ((x: number, z: number) => boolean | Promise<boolean>) | null = null;
+  #pending: { x: number; z: number } | null = null;
+  /** Rejections must be reported by the owner, not lost in an animation frame. */
+  onStepError: (error: unknown) => void = (error) => console.error(error);
 
   get busy(): boolean {
-    return !this.#arrived() || this.#path.length > 0;
+    return this.#pending !== null || !this.#arrived() || this.#path.length > 0;
   }
 
   constructor(grid: TileGrid, tileX: number, tileZ: number, blocked: Blocked = NOTHING_BLOCKS) {
@@ -76,6 +79,7 @@ export class Walker {
 
   /** Puts the hero on a tile at once. */
   jumpToTile(tileX: number, tileZ: number): void {
+    this.#pending = null;
     this.tileX = tileX;
     this.tileZ = tileZ;
     this.x = tileX + 0.5;
@@ -83,6 +87,16 @@ export class Walker {
     this.y = groundHeight(this.#grid, this.x, this.z);
     this.#held.clear();
     this.#path = [];
+  }
+
+  /** Accepted steps glide; unsolicited corrections cancel queued input and snap. */
+  reconcile(tileX: number, tileZ: number): void {
+    if (this.#pending?.x === tileX && this.#pending.z === tileZ) {
+      this.tileX = tileX;
+      this.tileZ = tileZ;
+    } else if (tileX !== this.tileX || tileZ !== this.tileZ) {
+      this.jumpToTile(tileX, tileZ);
+    }
   }
 
   /** True when the key is a movement key. A key takes over from any path being walked. */
@@ -107,6 +121,7 @@ export class Walker {
 
   /** Sends the hero along a path, as `findPath` gives it. */
   follow(path: readonly number[]): void {
+    if (this.#pending) return;
     this.#path = [...path];
   }
 
@@ -124,8 +139,10 @@ export class Walker {
     if (gap <= Math.max(reach, 0)) {
       this.x = goalX;
       this.z = goalZ;
-      if (this.#path.length > 0) this.#stepAlongPath();
-      else if (this.#held.size > 0) this.#stepByKeys(yaw);
+      if (!this.#pending) {
+        if (this.#path.length > 0) this.#stepAlongPath();
+        else if (this.#held.size > 0) this.#stepByKeys(yaw);
+      }
     } else {
       this.x += ((goalX - this.x) / gap) * reach;
       this.z += ((goalZ - this.z) / gap) * reach;
@@ -145,11 +162,35 @@ export class Walker {
     const x = next % this.#grid.width;
     const z = Math.floor(next / this.#grid.width);
     const adjacent = Math.max(Math.abs(x - this.tileX), Math.abs(z - this.tileZ)) === 1;
-    if (adjacent && this.canEnter(x, z) && (!this.commitStep || this.commitStep(x, z))) {
-      this.tileX = x;
-      this.tileZ = z;
+    if (adjacent && this.canEnter(x, z)) {
+      this.#admit(x, z);
     } else {
       this.#path = [];
+    }
+  }
+
+  #admit(x: number, z: number): void {
+    const pending = { x, z };
+    this.#pending = pending;
+    const finish = (accepted: boolean) => {
+      if (this.#pending !== pending) return;
+      this.#pending = null;
+      if (accepted) {
+        this.tileX = x;
+        this.tileZ = z;
+      } else this.#path = [];
+    };
+    try {
+      const result = this.commitStep?.(x, z) ?? true;
+      if (typeof result === "boolean") finish(result);
+      else
+        void result.then(finish, (error: unknown) => {
+          finish(false);
+          this.onStepError(error);
+        });
+    } catch (error) {
+      finish(false);
+      this.onStepError(error);
     }
   }
 
@@ -174,9 +215,7 @@ export class Walker {
     for (const [stepX, stepZ] of tries) {
       if (stepX === 0 && stepZ === 0) continue;
       if (!this.canEnter(this.tileX + stepX, this.tileZ + stepZ)) continue;
-      if (this.commitStep && !this.commitStep(this.tileX + stepX, this.tileZ + stepZ)) return;
-      this.tileX += stepX;
-      this.tileZ += stepZ;
+      this.#admit(this.tileX + stepX, this.tileZ + stepZ);
       return;
     }
   }

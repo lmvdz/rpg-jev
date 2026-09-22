@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/results", "!**/labels", "!demo"]
+    "includes": ["**", "!**/results", "!**/labels", "!demo", "!packages/client/src/shared_bindings"]
   },
   "formatter": {
     "indentStyle": "space",

@@ -22,10 +22,13 @@ import { mountFood } from "./play/food-panel.ts";
 import { FoodSession } from "./play/food-session.ts";
 import { matterPort } from "./play/matter-port.ts";
 import { type MountedPlay, mountPlay } from "./play/pointer.ts";
+import { connectShared } from "./play/shared-connection.ts";
+import { SharedPlay } from "./play/shared-play.ts";
 import { StatusDisplay } from "./play/status.ts";
 import { WorldLink } from "./play/world-link.ts";
 import { noticed, perform, type WorldPort } from "./play/world-port.ts";
 import { StandInBody } from "./scene/body.ts";
+import { buildClearing } from "./scene/clearing.ts";
 import { Drift } from "./scene/drift.ts";
 import { foodGrid } from "./scene/food.ts";
 import { scorchAround, standInGround } from "./scene/ground.ts";
@@ -121,17 +124,21 @@ interface App {
   hour: number;
   hoursPerSecond: number;
   food: FoodSession | null;
+  sharedMode: boolean;
+  shared: SharedPlay | null;
 }
 
 function build(loaded: LoadedWorld, query: URLSearchParams, food: FoodSession | null = null): App {
+  const sharedMode = query.has("shared");
+  const localMode = !(food || sharedMode);
   const canvas = need<HTMLCanvasElement>("#view");
   const { grid, objects: placed, start } = loaded.content;
   const renderer = new Renderer(canvas);
   const camera = new Camera();
   // Leave room for the shared clearing beside the food panel.
   if (food) camera.settings.distance = 44;
-  if (!food && query.has("study")) camera.settings.distance = 64;
-  const stress = !food && query.has("stress");
+  if (localMode && query.has("study")) camera.settings.distance = 64;
+  const stress = localMode && query.has("stress");
   if (stress) {
     // The R1 gate's worst case: every tile and every glyph on screen at once.
     camera.settings.distance = 560;
@@ -164,7 +171,7 @@ function build(loaded: LoadedWorld, query: URLSearchParams, food: FoodSession | 
     grid.contains(x, z) && !kindAt(grid.kindAt(x, z)).liquid && (living?.free(x, z) ?? true);
   const tiles = grid.width * grid.depth;
   const world: App["world"] = {
-    port: things && !food ? matterPort(things, { tiles, seed: 1, canStand }) : null,
+    port: things && localMode ? matterPort(things, { tiles, seed: 1, canStand }) : null,
   };
   // Where the world's changes arrive. Until a world is attached nothing is known of any
   // element but what its things already carry, so nothing can be created.
@@ -207,7 +214,7 @@ function build(loaded: LoadedWorld, query: URLSearchParams, food: FoodSession | 
     session: new EditorSession({ grid, objects }),
     goal: vec3.fromValues(walker.x, walker.y, walker.z),
     stats: { fps: 0, cpuMs: 0, gpuMs: null, benchMs: null, waiting: 0 },
-    editing: !food && query.has("edit"),
+    editing: localMode && query.has("edit"),
     night: false,
     yawGoal: 0,
     last: performance.now(),
@@ -224,12 +231,14 @@ function build(loaded: LoadedWorld, query: URLSearchParams, food: FoodSession | 
     play: null,
     body: new StandInBody(),
     status: null,
-    drift: things && !food ? new Drift(things, 1) : null,
+    drift: things && localMode ? new Drift(things, 1) : null,
     driftAt: 0,
     // A grown world starts late in the afternoon, so its first dusk is a minute away.
     hour: things && !food ? 17 : 12,
-    hoursPerSecond: things && !food ? 1 / 12 : 0,
+    hoursPerSecond: things && localMode ? 1 / 12 : 0,
     food,
+    sharedMode,
+    shared: null,
   };
 }
 
@@ -281,6 +290,8 @@ function mountEditing(app: App): { panel: EditorPanel; editor: MountedEditor } {
 }
 
 function controlHint(app: App): string {
+  if (app.sharedMode)
+    return "LOCAL SHARED SERVER · tap arrows: step · click: walk · right-click: actions";
   if (app.food)
     return "tap arrows: one turn  click: walk  right-click: actions  q/e: turn  -/=: zoom";
   if (app.editing) return "EDITING   tab: play";
@@ -297,15 +308,39 @@ function writeHud(app: App): void {
     `${stats.fps.toFixed(0)} fps   cpu ${stats.cpuMs.toFixed(2)} ms   gpu timer ${gpu}`,
     `measured: ${bench}   at ${canvas.width}x${canvas.height}`,
     `${terrain.chunksDrawn} chunks   ${terrain.triangles} tris   ${app.batch.count} glyphs`,
-    app.chunks.waiting > 0 ? `building ${app.chunks.waiting} chunks` : app.note,
+    app.chunks.waiting > 0 && !app.sharedMode ? `building ${app.chunks.waiting} chunks` : app.note,
     controlHint(app),
   ].join("\n");
 }
 
-function bindKeys(app: App, panel: EditorPanel, editor: MountedEditor): void {
+/** Shared play never permits editor shortcuts or local time manipulation. */
+function sharedKeyBlocked(app: App, event: KeyboardEvent): boolean {
+  if (!app.sharedMode) return false;
+  const key = event.key.toLowerCase();
+  if (key === "tab" || key === "t" || ((event.ctrlKey || event.metaKey) && key === "s")) {
+    event.preventDefault();
+    return true;
+  }
+  return event.repeat || !app.shared?.ready;
+}
+
+function foodSaveShortcut(app: App, event: KeyboardEvent): boolean {
+  if (!(app.food && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s"))
+    return false;
+  event.preventDefault();
+  // The visible Save session button owns snapshot feedback as well as IO.
+  const save = [...document.querySelectorAll<HTMLButtonElement>(".food-panel button")].find(
+    (button) => button.textContent === "Save session",
+  );
+  save?.click();
+  return true;
+}
+
+function bindKeys(app: App, panel: EditorPanel | null, editor: MountedEditor | null): void {
   const { camera, renderer, rover, walker, session } = app;
   const keys: Readonly<Record<string, () => void>> = {
     tab: () => {
+      if (!panel) return;
       app.editing = !app.editing;
       panel.visible = app.editing;
       rover.releaseAll();
@@ -346,22 +381,15 @@ function bindKeys(app: App, panel: EditorPanel, editor: MountedEditor): void {
   window.addEventListener("keydown", (event) => {
     const key = event.key.toLowerCase();
     const chord = event.ctrlKey || event.metaKey;
+    if (sharedKeyBlocked(app, event)) return;
     if (app.food && key === "tab") return;
-    if (event.target instanceof HTMLButtonElement && (key === " " || key === "enter")) return;
+    if (event.target instanceof HTMLButtonElement && [" ", "enter"].includes(key)) return;
     if (app.food && event.repeat) return;
-    if (app.food && chord && key === "s") {
-      event.preventDefault();
-      // The visible Save session button owns snapshot feedback as well as IO.
-      const save = [...document.querySelectorAll<HTMLButtonElement>(".food-panel button")].find(
-        (button) => button.textContent === "Save session",
-      );
-      save?.click();
-      return;
-    }
+    if (foodSaveShortcut(app, event)) return;
     const steps = app.editing
       ? rover.press.bind(rover)
       : (k: string) => walker.press(k, camera.settings.yaw);
-    if ((!chord && steps(key)) || (app.editing && editor.key(event))) {
+    if ((!chord && steps(key)) || (app.editing && editor?.key(event))) {
       event.preventDefault();
       return;
     }
@@ -406,9 +434,9 @@ function liven(app: App, now: number, dt: number): void {
   const moving = walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5;
   if (moving) emitters.add(walker.x, walker.y, walker.z, EFFECTS.dust);
   app.shots.emit(emitters, now / 1000);
-  if (!(app.living && app.drift)) return;
+  if (!app.living) return;
   app.living.emit(emitters);
-  if (now - app.driftAt > 400) {
+  if (app.drift && now - app.driftAt > 400) {
     app.driftAt = now;
     const changed = app.drift.step();
     app.living.redraw(changed);
@@ -421,7 +449,7 @@ function liven(app: App, now: number, dt: number): void {
   app.living.shine(app.renderer.lights);
 }
 
-function frame(app: App, editor: MountedEditor, now: number): void {
+function frame(app: App, editor: MountedEditor | null, now: number): void {
   const { walker, rover, camera, renderer, batch, goal, stats, session } = app;
   // The first timestamp can be earlier than the clock read at load.
   const dt = Math.min(Math.max((now - app.last) / 1000, 0), 0.1);
@@ -432,14 +460,14 @@ function frame(app: App, editor: MountedEditor, now: number): void {
   if (!suspended) walker.update(dt, camera.settings.yaw);
   batch.move(0, walker.x, walker.y, walker.z);
   // The hero's body is the world's when there is one; the stand-in tires and hungers otherwise.
-  const lived = app.food?.view.body ?? app.world.port?.body?.();
+  const lived = app.shared?.view?.body ?? app.food?.view.body ?? app.world.port?.body?.();
   const moving = walker.x !== walker.tileX + 0.5 || walker.z !== walker.tileZ + 0.5;
-  if (!lived) app.body.update(dt, moving);
+  if (!(lived || app.sharedMode)) app.body.update(dt, moving);
   app.status?.update(lived ?? app.body.view);
   if (app.editing) {
     rover.update(dt, camera.settings.yaw, camera.settings.distance);
     vec3.set(goal, rover.x, rover.y, rover.z);
-    editor.track();
+    editor?.track();
   } else {
     vec3.set(goal, walker.x, walker.y, walker.z);
   }
@@ -454,7 +482,12 @@ function frame(app: App, editor: MountedEditor, now: number): void {
   renderer.setCursor(app.editing ? session.cursor() : pointed);
   renderer.draw(camera, batch, now / 1000);
 
-  if (app.changedAt > 0 && began - app.changedAt > DRAFT_AFTER_MS && !session.busy) {
+  if (
+    !app.sharedMode &&
+    app.changedAt > 0 &&
+    began - app.changedAt > DRAFT_AFTER_MS &&
+    !session.busy
+  ) {
     app.changedAt = 0;
     keepDraft(app.name, content(app));
     app.note = `${app.name}: unsaved copy kept in this browser (ctrl s saves it to the repository)`;
@@ -470,23 +503,45 @@ function frame(app: App, editor: MountedEditor, now: number): void {
 }
 
 const query = new URLSearchParams(location.search);
-const food = query.has("food") ? new FoodSession() : null;
-const loading: Promise<LoadedWorld> = food
-  ? Promise.resolve({
+const sharedMode = query.has("shared");
+const food = !sharedMode && query.has("food") ? new FoodSession() : null;
+function initialWorld(): Promise<LoadedWorld> {
+  if (sharedMode) {
+    const clearing = buildClearing(1);
+    return Promise.resolve({
+      name: "local-shared-server",
+      from: "Local shared server · connecting; input disabled until the host responds",
+      content: { grid: clearing.grid, objects: [], start: clearing.start },
+      things: [],
+    });
+  }
+  if (food) {
+    return Promise.resolve({
       name: "shared-food",
       from: food.notice,
       content: { grid: foodGrid(), objects: [], start: [...food.view.where] },
       things: [],
-    })
-  : loadWorld(query);
-loading
+    });
+  }
+  return loadWorld(query);
+}
+initialWorld()
   .then((loaded) => {
     const app = build(loaded, query, food);
-    const { panel, editor } = mountEditing(app);
+    const { panel, editor } = sharedMode ? { panel: null, editor: null } : mountEditing(app);
     bindKeys(app, panel, editor);
     app.status = new StatusDisplay();
+    if (sharedMode && app.living) {
+      app.shared = new SharedPlay(app.walker, app.living, connectShared, (text) => {
+        app.note = text;
+        writeHud(app);
+      });
+      app.world.port = app.shared.port;
+      window.addEventListener("pagehide", () => app.shared?.close());
+      Object.defineProperty(window, "__sharedView", { get: () => app.shared?.view ?? null });
+    }
     const acts: ActRequest[] = [];
-    Object.assign(window, { __acts: acts });
+    if (!sharedMode) Object.assign(window, { __acts: acts });
     const foodControls =
       food && app.living
         ? mountFood(food, app.walker, app.living, (text) => {
@@ -504,7 +559,8 @@ loading
       motions: app.renderer.motions,
       slotAt: (tile) => app.objects.slotAt(tile),
       glyphAt: (tile) => app.objects.at(tile),
-      playing: () => !app.editing,
+      playing: () => !app.editing && (!sharedMode || app.shared?.ready === true),
+      ...(sharedMode ? { discrete: true } : {}),
       ...(foodControls ? { rows: foodControls.rows, discrete: true } : {}),
       say: (text) => {
         app.note = text;
@@ -514,6 +570,7 @@ loading
       // a thing of its element when it is struck is played once. How hard is the world's to say.
       // It takes the path a resolved act will take (`play/world-link.ts`), with no changes to apply.
       reach: (tile) => {
+        if (sharedMode) return;
         const actorTile = app.walker.tile;
         const now = app.last / 1000;
         app.link.show({ process: "force", actorTile, tile, level: STRIKE_LEVEL, now }, []);
@@ -521,6 +578,10 @@ loading
       world: () => app.world.port,
       // A menu row's answers need no judge: they go to the world now and the outcome is shown.
       intend: (request, answers, tile) => {
+        if (app.shared) {
+          void app.shared.act(request, answers);
+          return;
+        }
         // Where the hero stands and the hour are the client's, and the world senses by them.
         const standing = { where: [app.walker.tileX, app.walker.tileZ] as const, hour: app.hour };
         const at = { actorTile: app.walker.tile, targetTile: tile, now: app.last / 1000, standing };
@@ -545,23 +606,24 @@ loading
       },
     });
     // Handles for driving the page from a script: nothing in the client reads them.
-    Object.assign(window, {
-      __stats: app.stats,
-      __renderer: app.renderer,
-      __session: app.session,
-      __walker: app.walker,
-      __births: app.births.log,
-      __shots: app.shots,
-      __link: app.link,
-      __world: app.world,
-      // Another world can be attached from a script, for a test or a stand-in.
-      __attachWorld: (port: WorldPort) => {
-        app.world.port = port;
-      },
-      __living: app.living,
-      __ground: app.ground,
-      __chunks: app.chunks,
-    });
+    if (!sharedMode)
+      Object.assign(window, {
+        __stats: app.stats,
+        __renderer: app.renderer,
+        __session: app.session,
+        __walker: app.walker,
+        __births: app.births.log,
+        __shots: app.shots,
+        __link: app.link,
+        __world: app.world,
+        // Another world can be attached from a script, for a test or a stand-in.
+        __attachWorld: (port: WorldPort) => {
+          app.world.port = port;
+        },
+        __living: app.living,
+        __ground: app.ground,
+        __chunks: app.chunks,
+      });
     // Public projection only: ordinary food play never publishes its core snapshot.
     if (food) Object.defineProperty(window, "__food", { get: () => food.view });
     app.camera.snapTo(app.goal);
