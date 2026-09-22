@@ -20,7 +20,7 @@ Use the `typesafe:typesafe-ai` skill for any Jev work and read the live docs at 
 
 ## Order of work
 
-Spikes M0 and S0 come first. Do not start the village, the author thread or renderer steps beyond R2 until both have numbers.
+M2 is the real gate: if it is not fun, live generation will not fix it (`SPEC.md` section 16). M0 and S0 both have numbers.
 
 ## Commands
 
@@ -34,4 +34,4 @@ Spikes M0 and S0 come first. Do not start the village, the author thread or rend
 - Add a package only when its milestone starts.
 - The lint is strict on purpose and `pnpm check` fails on it: no function over 25 cognitive complexity or 120 lines, no nested ternaries, no `any`, no non-null assertions, nothing unused. A `switch` over kinds that grows with every kind is the shape to replace with a table of handlers. Do not add `biome-ignore`; restructure. Read `.claude/skills/world-design/SKILL.md` before changing how the inn behaves: engine code must not gain character names (a test ratchets the count), and coverage tests in `packages/inn/test/coverage.test.ts` require every verb, thing, deed, voice and activity to be complete.
 - Never write keys into the repo. `.env` is git-ignored and holds `TYPESAFE_API_KEY`.
-- Do not use an Anthropic API key. Generative calls go through the Claude CLI on the subscription login.
+- Do not use an Anthropic API key. Claude calls go through the Claude CLI on the subscription login; the development loop (`pnpm sdlc`) reaches its models through the router named in `playtests/loop.json`.
