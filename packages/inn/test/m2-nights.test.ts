@@ -31,6 +31,15 @@ describe.each(["m2/before", "m2-proposals/nights"])("recorded nights: %s", (coll
     expect(game.over).toBe(true);
     expect(game.world.machines.quest?.node).toBe(ending);
     expect(transcript.join("\n")).toContain("***");
+    expect(game.ending()).toContain("not what your character has seen or heard");
+    if (route === "witness") {
+      expect(game.world.actors.mara?.room).not.toBe(game.playerRoom);
+      expect(game.ending()).not.toMatch(/says|pours|across the bar/);
+    }
+    if (route === "evidence") {
+      expect(game.world.items.ledger?.at).toEqual({ holder: "player" });
+      expect(game.ending()).toContain("You still carry the ledger");
+    }
     const beforeResume = judge.hits;
     const resumed = Game.resume(log, judge);
     expect(resumed.world).toEqual(game.world);

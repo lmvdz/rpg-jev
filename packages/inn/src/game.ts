@@ -44,6 +44,7 @@ import {
   NEED_RATES,
   NPCS,
   PLAYER,
+  TRACKED,
   WRONGDOING,
 } from "./content.ts";
 import { type Action, type Matched, match, resolveAnswer } from "./parser.ts";
@@ -81,10 +82,10 @@ function wantedStance(mood: number, d: Actor["drives"]): string {
   return d.trust >= 0.75 ? "loyal" : "curious";
 }
 
-/** Which ending key the resolved quest maps to, by whether the ledger is in hand or with Mara. */
-function resolvedKey(carried: boolean, withMara: boolean): string {
-  if (carried) return "resolved_in_hand";
-  return withMara ? "resolved" : "resolved_no_ledger";
+/** Both successful outcomes report present custody, never a historical return flag. */
+function custodyEndingKey(quest: string, carried: boolean, returned: boolean): string {
+  if (carried) return `${quest}_in_hand`;
+  return returned ? quest : `${quest}_no_ledger`;
 }
 
 export class Game {
@@ -657,21 +658,16 @@ export class Game {
 
   ending(): string | null {
     const quest = this.world.machines.quest?.node;
-    if (quest === "resolved") {
-      const where = this.world.items.ledger?.at;
-      const carried = Boolean(where && "holder" in where && where.holder === PLAYER);
-      const withMara = this.world.machines.ledger_fate?.node === "returned";
-      return ENDINGS[resolvedKey(carried, withMara)] ?? null;
+    if (quest === "resolved" || (quest === "cleared" && this.world.clock >= MIDNIGHT)) {
+      const at = this.world.items.ledger?.at;
+      const carried = Boolean(at && "holder" in at && at.holder === PLAYER);
+      const returned = Boolean(at && "holder" in at && at.holder === TRACKED.ledger?.owner);
+      return ENDINGS[custodyEndingKey(quest, carried, returned)] ?? null;
     }
     if (quest === "condemned") return ENDINGS.condemned ?? null;
     if (quest === "thrown_out") return ENDINGS.thrown_out ?? null;
     if (this.world.clock < MIDNIGHT) return null;
-    if (quest !== "cleared") return ENDINGS.midnight ?? null;
-    const at = this.world.items.ledger?.at;
-    const inHand = Boolean(at && "holder" in at && at.holder === PLAYER);
-    const returned = this.world.machines.ledger_fate?.node === "returned";
-    if (inHand) return ENDINGS.cleared_in_hand ?? null;
-    return (returned ? ENDINGS.cleared : ENDINGS.cleared_no_ledger) ?? null;
+    return ENDINGS.midnight ?? null;
   }
 
   maraIsHere(): boolean {

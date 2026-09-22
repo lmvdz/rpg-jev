@@ -401,23 +401,31 @@ export function departure(world: World, npc: string, to: string, activity: strin
   return `${world.actors[npc]?.name ?? npc} goes out toward ${world.rooms[to]?.name ?? "elsewhere"}${how}.`;
 }
 
-export const ENDINGS: Record<string, string> = {
+/** Out-of-scene summaries: quest state is not a speech, move, promise or handover. */
+const OUTCOMES: Record<string, string> = {
   resolved:
-    'Mara stands a long moment with the ledger under her hand. "Two years," she says, to nobody. Then, to you: "I had the wrong one. I don\'t say that often, so hear it once: I\'m sorry." She pours two measures of the good brandy and pushes one across the bar. In the morning the assessor will read an honest book, and the Carp will need a new cook.\n\n*** You are cleared, and she knows who did it. ***',
+    "Night outcome: Mara no longer takes you for the thief and is satisfied that Odo took the ledger. The ledger is in her possession.\n\n*** You are cleared, and she knows who did it. ***",
   resolved_in_hand:
-    'You take the ledger out of your pack and put it on the bar. Mara stands a long moment with her hand flat on it. "Two years," she says, to nobody. Then, to you: "I had the wrong one. I don\'t say that often, so hear it once: I\'m sorry." She pours two measures of the good brandy and pushes one across the bar. In the morning the assessor will read an honest book, and the Carp will need a new cook.\n\n*** You are cleared, and she knows who did it. ***',
+    "Night outcome: Mara no longer takes you for the thief and is satisfied that Odo took the ledger. You still carry the ledger; clearing your name has not handed it over.\n\n*** You are cleared, and she knows who did it. ***",
   resolved_no_ledger:
-    'Mara sits down slowly on the stool behind the bar. "Two years he ate at my table," she says. "And I looked at you." She does not say she is sorry; she pours two measures of the good brandy and pushes one across, which from her is the same thing. The ledger is gone and the assessor will do as he likes in the morning. But she knows who, and it was not you.\n\n*** You are cleared, and she knows who did it. The ledger is lost. ***',
+    "Night outcome: Mara no longer takes you for the thief and is satisfied that Odo took the ledger. Neither you nor Mara has the ledger in hand. Its recovery is a separate matter.\n\n*** You are cleared, and she knows who did it. ***",
   cleared_in_hand:
-    'Midnight. Mara bars the door. "It wasn\'t you," she says. You take the ledger out of your pack and put it on the bar between you, and for a while neither of you says anything at all. "You had it," she says at last. "And you stayed." She slides it under the bar, where she can feel it with her knee.\n\n*** You are cleared, and the ledger is back where it belongs. ***',
+    "Night outcome, at midnight: Mara no longer takes you for the thief, but the culprit is unsettled. You still carry the ledger; clearing your name has not handed it over.\n\n*** You are cleared. ***",
   cleared_no_ledger:
-    'Midnight. Mara bars the door and sits down heavily by the dead hearth. "It wasn\'t you," she says. "I know that much. It doesn\'t give me my ledger." At first light the assessor will set the tax as he pleases. She does not ask you to leave, and she does not ask you to stay.\n\n*** You are cleared. The ledger is still missing. ***',
+    "Night outcome, at midnight: Mara no longer takes you for the thief, but the culprit is unsettled. Neither you nor Mara has the ledger in hand. Its recovery is a separate matter.\n\n*** You are cleared. ***",
   cleared:
-    'Midnight. Mara bars the door. "It wasn\'t you," she says, turning the ledger over in her hands. "I\'d like to know who. But it wasn\'t you." She nods at the stairs. "Your bed\'s paid for. Sleep."\n\n*** You are cleared. She never learned who took it. ***',
+    "Night outcome, at midnight: Mara no longer takes you for the thief, but the culprit is unsettled. The ledger is in her possession.\n\n*** You are cleared. She never learned who took it. ***",
   condemned:
-    'Mara sends Tobin out into the rain with a lantern and a message for the constable at the mill. "You\'ll stay where I can see you until he comes," she says, and sets a stool by the door with a cudgel across her knees. It is a long night.\n\n*** You are taken for the thief. ***',
+    "Night outcome: Mara's verdict has gone against you. This is what she believes, not proof of what happened.\n\n*** You are taken for the thief. ***",
   thrown_out:
-    "The door of the Gilded Carp closes behind you, and the bar drops across it. The rain does not care what you did or did not take. Somewhere behind you a ledger is still missing, and now it is nobody's problem but theirs.\n\n*** You are out in the rain. ***",
+    "Night outcome: you have been thrown out of the Gilded Carp. That settles your welcome, not who took the ledger.\n\n*** You are out in the rain. ***",
   midnight:
-    "Midnight. Mara bars the door without looking at you. Nothing is settled. At first light the assessor comes, and she will have only her suspicions to show him, and you.\n\n*** The night ends with you still under suspicion. ***",
+    "Night outcome, at midnight: your name has not been cleared. Suspicion is not proof, but the night has run out.\n\n*** The night ends with you still under suspicion. ***",
 };
+
+export const ENDINGS: Record<string, string> = Object.fromEntries(
+  Object.entries(OUTCOMES).map(([key, text]) => [
+    key,
+    `Epilogue — a world-state summary, not what your character has seen or heard.\n\n${text}`,
+  ]),
+);
