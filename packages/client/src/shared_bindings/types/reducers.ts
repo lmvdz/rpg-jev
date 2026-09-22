@@ -9,10 +9,12 @@ import { type Infer as __Infer } from "spacetimedb";
 import ArchiveThroughReducer from "../archive_through_reducer.ts";
 import CommandReducer from "../command_reducer.ts";
 import JoinReducer from "../join_reducer.ts";
+import ObserveReducer from "../observe_reducer.ts";
 import RegisterArchiverReducer from "../register_archiver_reducer.ts";
 
 export type ArchiveThroughParams = __Infer<typeof ArchiveThroughReducer>;
 export type CommandParams = __Infer<typeof CommandReducer>;
 export type JoinParams = __Infer<typeof JoinReducer>;
+export type ObserveParams = __Infer<typeof ObserveReducer>;
 export type RegisterArchiverParams = __Infer<typeof RegisterArchiverReducer>;
 

@@ -1,7 +1,10 @@
 import { matter } from "@rpg-jev/core";
 import { ScheduleAt } from "spacetimedb";
 import { SenderError, t } from "spacetimedb/server";
-import { project, shouldPublishTick } from "./projection.ts";
+import { encodeSharedView } from "../../../client/src/play/shared-wire.ts";
+import { encodeEvent } from "./event-codec.ts";
+import { isObserving, observesUntil, VIEW_LEASE_MICROS } from "./observers.ts";
+import { prepareProjection, shouldPublishTick } from "./projection.ts";
 import { type Ctx, db, timer } from "./tables.ts";
 import { admitActor, initialWorld, MAX_PLAYERS, terrainAllows } from "./world.ts";
 
@@ -24,17 +27,20 @@ function current(ctx: Ctx) {
 function refresh(ctx: Ctx, state: matter.SharedState, revision: number, scheduled = false): void {
   const generation = current(ctx).generation;
   const pauseReason = ctx.db.event.count() >= HOT_LIMIT ? "archive-backlog" : null;
+  const projectFor = prepareProjection(state);
   for (const player of ctx.db.player.iter()) {
+    if (!isObserving(player.viewUntilMicros, ctx.timestamp.microsSinceUnixEpoch)) continue;
     const previous = ctx.db.viewer.identity.find(player.identity);
-    const view = { ...project(state, player.actor, revision, player.seq), generation, pauseReason };
-    if (scheduled && previous && !shouldPublishTick(JSON.parse(previous.json), view)) continue;
+    const view = { ...projectFor(player.actor, revision, player.seq), generation, pauseReason };
+    const json = encodeSharedView(view);
+    if (scheduled && previous && !shouldPublishTick(previous.json, json)) continue;
     const row = {
       identity: player.identity,
       seq: player.seq,
       ok: player.ok,
       reason: player.reason,
       command: player.command,
-      json: JSON.stringify(view),
+      json,
     };
     if (previous) ctx.db.viewer.identity.update(row);
     else ctx.db.viewer.insert(row);
@@ -48,16 +54,18 @@ function commit(ctx: Ctx, step: matter.SharedStep, kind: string, command = ""): 
     seq: 0n,
     reader: row.archiver,
     generation: row.generation,
-    payload: JSON.stringify({
-      version: 1,
-      revision,
-      kind,
-      command,
-      changes: step.changes,
-      draws: step.draws,
-      rng: step.state.rng,
-      tick: step.state.tick,
-    }),
+    payload: encodeEvent(
+      JSON.stringify({
+        version: 1,
+        revision,
+        kind,
+        command,
+        changes: step.changes,
+        draws: step.draws,
+        rng: step.state.rng,
+        tick: step.state.tick,
+      }),
+    ),
   });
   ctx.db.worldState.id.update({ ...row, revision, json: JSON.stringify(step.state) });
   refresh(ctx, step.state, revision, kind === "tick");
@@ -78,7 +86,7 @@ export const init = db.init((ctx) => {
     seq: 0n,
     reader: ctx.sender,
     generation: ctx.databaseIdentity.toHexString(),
-    payload: JSON.stringify({ version: 1, kind: "initial", state }),
+    payload: encodeEvent(JSON.stringify({ version: 1, kind: "initial", state })),
   });
   ctx.db.timer.insert({ id: 0n, scheduledAt: ScheduleAt.interval(500_000n) });
 });
@@ -86,7 +94,12 @@ export const init = db.init((ctx) => {
 export const join = db.reducer((ctx) => {
   const row = current(ctx);
   const state: matter.SharedState = JSON.parse(row.json);
-  if (ctx.db.player.identity.find(ctx.sender)) {
+  const existing = ctx.db.player.identity.find(ctx.sender);
+  if (existing) {
+    ctx.db.player.identity.update({
+      ...existing,
+      viewUntilMicros: observesUntil(ctx.timestamp.microsSinceUnixEpoch),
+    });
     refresh(ctx, state, row.revision);
     return;
   }
@@ -104,8 +117,20 @@ export const join = db.reducer((ctx) => {
     reason: "joined",
     lastMicros: 0n,
     lastRevision: row.revision + 1,
+    viewUntilMicros: observesUntil(ctx.timestamp.microsSinceUnixEpoch),
   });
   commit(ctx, admitActor(state, actor), "join", actor);
+});
+
+/** Renew interest in projections only; this cannot admit, move or advance an actor. */
+export const observe = db.reducer((ctx) => {
+  const player = ctx.db.player.identity.find(ctx.sender);
+  if (!player) throw new SenderError("Join the world first");
+  const now = ctx.timestamp.microsSinceUnixEpoch;
+  if (player.viewUntilMicros > now + VIEW_LEASE_MICROS - 2_000_000n) return;
+  ctx.db.player.identity.update({ ...player, viewUntilMicros: observesUntil(now) });
+  const row = current(ctx);
+  refresh(ctx, JSON.parse(row.json), row.revision);
 });
 
 function execute(state: matter.SharedState, actor: string, payload: string): matter.SharedStep {
@@ -179,6 +204,7 @@ export const command = db.reducer(
       reason: result.reason,
       lastMicros: ctx.timestamp.microsSinceUnixEpoch,
       lastRevision: result.ok ? row.revision + 1 : player.lastRevision,
+      viewUntilMicros: observesUntil(ctx.timestamp.microsSinceUnixEpoch),
     });
     if (result.ok) commit(ctx, result, "command", `${player.actor}:${seq}:${payload}`);
     else refresh(ctx, state, row.revision);

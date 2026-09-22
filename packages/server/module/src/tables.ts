@@ -23,6 +23,7 @@ const player = table(
     reason: t.string(),
     lastMicros: t.i64(),
     lastRevision: t.u32().default(0),
+    viewUntilMicros: t.i64().default(0n),
   },
 );
 const viewer = table(

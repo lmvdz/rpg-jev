@@ -25,13 +25,18 @@ type Visible = (source: {
 // The HUD displays whole percentages; sub-pixel need drift is not public detail.
 const meterLevel = (value: number) => Math.round(Math.max(0, Math.min(1, value)) * 100) / 100;
 
-/** Quiet ticks need no full snapshot; send a clock heartbeat at least every two ticks. */
-export function shouldPublishTick(previous: SharedView, next: SharedView): boolean {
+/**
+ * Compare host-authored encoded snapshots without expanding their dictionaries.
+ * These inputs are produced by the bounded encoder, not accepted from clients.
+ */
+export function shouldPublishTick(previousJson: string, nextJson: string): boolean {
+  const previous: { wire?: number; revision: number; tick: number } = JSON.parse(previousJson);
+  const next: { wire?: number; revision: number; tick: number } = JSON.parse(nextJson);
+  if (previous.wire !== next.wire) return true;
   if (next.tick - previous.tick >= 2) return true;
-  return (
-    JSON.stringify({ ...previous, revision: next.revision, tick: next.tick }) !==
-    JSON.stringify(next)
-  );
+  previous.revision = next.revision;
+  previous.tick = next.tick;
+  return JSON.stringify(previous) !== nextJson;
 }
 
 function creatures(
@@ -39,13 +44,16 @@ function creatures(
   actor: string,
   visible: Visible,
   elements: Record<string, ElementView>,
+  prepared: ReadonlyMap<matter.Element, ElementView>,
 ): ThingView[] {
   const things: ThingView[] = [];
   for (const body of Object.values(world.bodies)) {
     if (body.id === actor || !body.where || !visible(body)) continue;
     const element = world.elements[body.element ?? ""];
     if (!element) continue;
-    elements[element.id] = elementView(element);
+    const presentation = prepared.get(element);
+    if (!presentation) throw new Error("Missing prepared creature element");
+    elements[element.id] = presentation;
     things.push({
       id: body.id,
       element: element.id,
@@ -60,48 +68,85 @@ function creatures(
   return things;
 }
 
-export function project(
+interface Surface {
+  place: string;
+  where: readonly [number, number];
+  thing: ThingView;
+  element?: matter.Element;
+}
+
+/** Prepare only for this immutable refresh snapshot; the returned function still filters each observer. */
+export function prepareProjection(
+  state: matter.SharedState,
+): (actor: string, revision: number, sequence: number) => SharedView {
+  const { world } = state;
+  const held = new Set(Object.values(world.bodies).flatMap((body) => body.holds ?? []));
+  const prepared = new Map(
+    Object.values(world.elements).map((element) => [element, elementView(element)] as const),
+  );
+  const surfaces: Surface[] = [];
+  for (const thing of Object.values(world.things)) {
+    if (!thing.where || held.has(thing.id)) continue;
+    const element = world.elements[thing.element];
+    if (!element) continue;
+    const authored = lookOf(thing.id);
+    surfaces.push({
+      place: thing.place,
+      where: thing.where,
+      element,
+      thing: {
+        id: thing.id,
+        element: element.id,
+        name: authored?.name ?? element.name,
+        kind: element.kind,
+        solid: (element.props.size ?? 0) >= 4,
+        x: thing.where[0],
+        z: thing.where[1],
+        states: shownOf({
+          element: thing.element,
+          state: thing.state,
+          blaze: matter.blaze(world, thing),
+        }),
+      },
+    });
+  }
+  // Static scenery with no admitted matter row remains visible scenery, not an executable thing.
+  for (const thing of clearing.things) {
+    if (world.elements[thing.element]) continue;
+    surfaces.push({ place: "clearing", where: [thing.x, thing.z], thing });
+  }
+  return (actor, revision, sequence) =>
+    projectPrepared(state, actor, revision, sequence, surfaces, prepared);
+}
+
+function projectPrepared(
   state: matter.SharedState,
   actor: string,
   revision: number,
   sequence: number,
+  surfaces: readonly Surface[],
+  prepared: ReadonlyMap<matter.Element, ElementView>,
 ): SharedView {
   const { world } = state;
   const hero = world.bodies[actor];
   if (!hero?.where) throw new Error("Admitted player has no position");
   const visible: Visible = (source) =>
     source.place === hero.place && matter.reaches(world, hero, source, "sight", 5) > 0;
-  const held = new Set(Object.values(world.bodies).flatMap((body) => body.holds ?? []));
   const things: ThingView[] = [];
   const elements: Record<string, ElementView> = {};
-  for (const thing of Object.values(world.things)) {
-    if (!thing.where || held.has(thing.id) || !visible(thing)) continue;
-    const element = world.elements[thing.element];
-    if (!element) continue;
-    elements[element.id] = elementView(element);
-    const authored = lookOf(thing.id);
+  for (const surface of surfaces) {
+    if (!visible(surface)) continue;
+    if (surface.element) {
+      const presentation = prepared.get(surface.element);
+      if (!presentation) throw new Error("Missing prepared material element");
+      elements[surface.element.id] = presentation;
+    }
     things.push({
-      id: thing.id,
-      element: element.id,
-      name: authored?.name ?? element.name,
-      kind: element.kind,
-      solid: (element.props.size ?? 0) >= 4,
-      x: thing.where[0],
-      z: thing.where[1],
-      states: shownOf({
-        element: thing.element,
-        state: thing.state,
-        blaze: matter.blaze(world, thing),
-      }),
+      ...surface.thing,
+      ...(surface.element ? { states: { ...surface.thing.states } } : {}),
     });
   }
-  // Static scenery with no admitted matter row remains visible scenery, not an executable thing.
-  for (const thing of clearing.things) {
-    if (world.elements[thing.element] || !visible({ place: "clearing", where: [thing.x, thing.z] }))
-      continue;
-    things.push({ ...thing });
-  }
-  things.push(...creatures(world, actor, visible, elements));
+  things.push(...creatures(world, actor, visible, elements, prepared));
   return {
     actor,
     revision,
@@ -110,7 +155,12 @@ export function project(
     seed: SEED,
     position: [...hero.where],
     things,
-    elements,
+    elements: Object.fromEntries(
+      Object.entries(elements).map(([id, element]) => [
+        id,
+        { ...element, baseline: { ...element.baseline } },
+      ]),
+    ),
     body: {
       meters: [
         { id: "health", label: "health", level: meterLevel(hero.health / 5), ink: INK.ember },
@@ -132,4 +182,14 @@ export function project(
     compiled: matter.COMPILED.filter((id) => id !== "X7"),
     sought: Object.keys(world.places[hero.place]?.abundance ?? {}),
   };
+}
+
+/** Single-observer compatibility entry point; refresh loops should prepare once for all observers. */
+export function project(
+  state: matter.SharedState,
+  actor: string,
+  revision: number,
+  sequence: number,
+): SharedView {
+  return prepareProjection(state)(actor, revision, sequence);
 }

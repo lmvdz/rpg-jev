@@ -27,6 +27,7 @@ export const Player = __t.object("Player", {
   reason: __t.string(),
   lastMicros: __t.i64(),
   lastRevision: __t.u32(),
+  viewUntilMicros: __t.i64(),
 });
 export type Player = __Infer<typeof Player>;
 

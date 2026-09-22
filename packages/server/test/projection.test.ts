@@ -1,5 +1,6 @@
 import { matter } from "@rpg-jev/core";
 import { describe, expect, it } from "vitest";
+import { encodeSharedView } from "../../client/src/play/shared-wire.ts";
 import { project, shouldPublishTick } from "../module/src/projection.ts";
 import { admitActor, initialWorld, terrainAllows } from "../module/src/world.ts";
 
@@ -7,8 +8,14 @@ describe("hosted clearing projection", () => {
   it("suppresses quiet tick snapshots but preserves heartbeat, presentation and control changes", () => {
     const state = admitActor(initialWorld(), "player-1").state;
     const view = { ...project(state, "player-1", 1, 0), generation: "first", pauseReason: null };
-    expect(shouldPublishTick(view, { ...view, revision: 2, tick: 1 })).toBe(false);
-    expect(shouldPublishTick(view, { ...view, revision: 3, tick: 2 })).toBe(true);
+    const encoded = encodeSharedView(view);
+    expect(shouldPublishTick(encoded, encodeSharedView({ ...view, revision: 2, tick: 1 }))).toBe(
+      false,
+    );
+    expect(shouldPublishTick(encoded, encodeSharedView({ ...view, revision: 3, tick: 2 }))).toBe(
+      true,
+    );
+    expect(shouldPublishTick(JSON.stringify(view), encoded)).toBe(true);
     for (const change of [
       { generation: "second" },
       { pauseReason: "archive-backlog" },
@@ -16,7 +23,7 @@ describe("hosted clearing projection", () => {
       { position: [1, 1] as [number, number] },
       { things: [] },
     ])
-      expect(shouldPublishTick(view, { ...view, ...change })).toBe(true);
+      expect(shouldPublishTick(encoded, encodeSharedView({ ...view, ...change }))).toBe(true);
     const hero = state.world.bodies["player-1"];
     if (!hero) throw new Error("missing traveller");
     hero.needs.hunger = (hero.needs.hunger ?? 0) + 0.001;

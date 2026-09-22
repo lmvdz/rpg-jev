@@ -37,6 +37,7 @@ import {
 import ArchiveThroughReducer from "./archive_through_reducer.ts";
 import CommandReducer from "./command_reducer.ts";
 import JoinReducer from "./join_reducer.ts";
+import ObserveReducer from "./observe_reducer.ts";
 import RegisterArchiverReducer from "./register_archiver_reducer.ts";
 
 // Import all procedure arg schemas
@@ -78,6 +79,7 @@ const reducersSchema = __reducers(
   __reducerSchema("archive_through", ArchiveThroughReducer),
   __reducerSchema("command", CommandReducer),
   __reducerSchema("join", JoinReducer),
+  __reducerSchema("observe", ObserveReducer),
   __reducerSchema("register_archiver", RegisterArchiverReducer),
 );
 
