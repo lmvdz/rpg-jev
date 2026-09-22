@@ -1,0 +1,16 @@
+{
+  "name": "@rpg-jev/predictor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "generate": "node scripts/generate.ts"
+  },
+  "dependencies": {
+    "@rpg-jev/core": "workspace:*"
+  }
+}

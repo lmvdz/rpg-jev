@@ -61,6 +61,12 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
 
+  packages/predictor:
+    dependencies:
+      '@rpg-jev/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/server:
     dependencies:
       '@rpg-jev/core':

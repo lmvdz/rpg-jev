@@ -156,7 +156,7 @@ export function thingFeatures(world: MatterWorld, thing: Thing): number[] {
   ];
 }
 
-function placeFeatures(world: MatterWorld, thing: Thing): number[] {
+export function placeFeatures(world: MatterWorld, thing: Thing): number[] {
   const place = world.places[thing.place];
   return [
     level(place?.temperature ?? 2),
@@ -168,7 +168,7 @@ function placeFeatures(world: MatterWorld, thing: Thing): number[] {
   ];
 }
 
-function actFeatures(act: ActView, role: Role): number[] {
+export function actFeatures(act: ActView, role: Role): number[] {
   return [
     ...oneHot(PROCESSES, act.process),
     ...oneHot(ROLES, role),
