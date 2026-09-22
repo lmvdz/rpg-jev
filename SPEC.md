@@ -845,6 +845,19 @@ J1 is run once on the selected checkpoints.
     split repeated 20 times, with AdamW at lr 3e-4. The epoch with the lowest
     validation NLL is kept.
   - J3 compares v1 and v2 once on (a), (b) and (c).
+- **Status, 2026-09-22** (`docs/jepa-proof/REPORT.md`).
+  - J1 fails on one check. JEPA reaches 91.9% top-1 on the withheld families
+    (majority 76.95%) with 0.035% envelope rejection, but its Brier score is
+    0.1354 against the supervised baseline's 0.1197. R1 (capacity) also fails
+    (0.1206 against 0.1121).
+    R2 (data diversity) is still training.
+  - J2 fails. At 2,008 things on a 100 ms tick the authority manages 1.7 ticks
+    a second, scoring p95 is 11 ms, every tick falls back on the deadline, and
+    acknowledgement p95 is 1,270 ms. With the model off, acknowledgement p95
+    is still 1,040 ms.
+  - J3 fails: the gap set gains 4.6 points, not 10.
+  - J4 awaits strangers; the kit is `docs/jepa-proof/FUN-TEST.md`.
+  - Every world stays off by default.
 - **If J1 fails**, at most two principled remedies are tried: more data
   diversity, model capacity, or relational structure. Each is written into
   `docs/jepa-proof/REMEDIES.md` before it runs. After that the failure is
