@@ -1,0 +1,13 @@
+{
+  "note": "Reference, not the J2 gate: the same core commit and TypeScript runtime run in Node 25.8.2 (V8 with JIT) outside SpacetimeDB, on the hosted clearing grown to 1,999 things, live mode, 1/600-minute ticks, 300 ticks back to back, release checkpoint 76b094f2dc1a1521. Script: scratch livebench (sharedTick + rankedSettle + scorerOf).",
+  "things": 1999,
+  "ticks": 300,
+  "tickP50Ms": 235.1,
+  "tickP95Ms": 266.8,
+  "scoringP50Ms": 7.4,
+  "scoringP95Ms": 9.9,
+  "agreementWithEngine": 1.0,
+  "draws": 599705,
+  "scored": 1968,
+  "cached": 597737
+}
