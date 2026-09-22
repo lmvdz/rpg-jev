@@ -1,0 +1,93 @@
+{
+  "version": "jepa-sealed-v1",
+  "sealed_at": "2026-09-22T20:24:31.236Z",
+  "dataset": "H:/rpg-jev.worktrees/jepa-data/v2",
+  "generator_commit": "96262debc39ad8a26ab0fbed68110434e0b93429",
+  "observation": "jepa-observation-v1",
+  "outcomes": "jepa-outcomes-v1",
+  "scenario": "jepa-scenario-v2",
+  "scenes": 1200000,
+  "split_rule": "sha256(String(seed))[0..4] BE % 100: <5 val, <10 a, else train; family: b; gap: gap",
+  "open": {
+    "train": {
+      "samples": 2870397,
+      "files": {
+        "rows.f16": "c5916298c2cf6f1b1c5fc5a0b095e8daffbb1a60c32c0e879f1848d0cc398ac5",
+        "idx.i32": "1afd2210d3686904a1aec3d7335e1601b08326a32294eb6259c3a4d14902c9d7",
+        "cat.u8": "1932ffff7ec3c6971c2b0ed7192053ab605b504508c40d9e87dbd418dc9810e8",
+        "num.f16": "20b5534fe8bffb33c667d74b67a51cb5b72f9faa67ec33787ac512abe1f1ccab",
+        "meta.u32": "4edc8c4a37d93da91f5d0e4717c646e32dd3de29d48cf45a6f9873a8a7b4e2d7"
+      }
+    },
+    "val": {
+      "samples": 158673,
+      "files": {
+        "rows.f16": "ca5a587e76ce2812d713ff11ac84febe8ae0d0fb794af46f268b31cca2582652",
+        "idx.i32": "3fa1506b7a5b0a0d067bf748d81344691fc8c0d38e7e494b61bb1d3ee7f25b33",
+        "cat.u8": "237ff1093e5f03835746c44e5078cf8ae611194d06cad7b37bb544dd7769af8f",
+        "num.f16": "c604798c70ec4e6b55c5a6a00aeeacd26231108b44c0b4e77f5187fe208608cb",
+        "meta.u32": "1151ea04dced001c51bf29690afef28d0874adef99ed8511f970bd44c8e736e4"
+      }
+    }
+  },
+  "sealed": {
+    "a": {
+      "scenes": 39411,
+      "samples": 159810,
+      "files": {
+        "rows.f16": "f61fe1ecf444cefb736d6acc7e3749121c00a074e39136f4c31f689f5ebdd7d1",
+        "idx.i32": "06e99b263e686cf91d4dfbbb86569277834663a0bbaca04722b2fb68edd5338e",
+        "cat.u8": "b8d96701475241e72d210e0e4fc33b956719bb515abef57eb6f01ce8e6cb1806",
+        "num.f16": "1ba957062ba1ac29a3414a4b117161b4247ab00c6ac20118a455c9036de3dcd5",
+        "meta.u32": "5db5dd72088818b0600f2a71b1635efcaf3c3fe37bab6829c20494b444789dae"
+      }
+    },
+    "b": {
+      "scenes": 211659,
+      "samples": 892054,
+      "files": {
+        "rows.f16": "a2b09cead63907496aa769b8f421e56f9055e1d1facd350cb97feef4bc875266",
+        "idx.i32": "31672aad2291a9d7ef8c2fb9365611231be66cf313300e3388798f55d46a5ad3",
+        "cat.u8": "21eaa82af60cb560b12d0d703bdeeface762ea9bad58ffee0db62b97b72419e8",
+        "num.f16": "b6258659d810eb0cc395644c7c1393e28ad5e759d567ab898b3616f53bd50de3",
+        "meta.u32": "56d59aa5b5bf0c24e5e9eeca9aab36b45d9113c75d4584c3678e6eb98164c6c6"
+      }
+    },
+    "gap": {
+      "scenes": 200895,
+      "samples": 746510,
+      "files": {
+        "rows.f16": "341a511872e063a8a404aa0769473a2b4775cd5ed77400a02a2c6e38faaa2fb3",
+        "idx.i32": "8d0458dd88930c0ad1b144009545cb18cea851eb7a28f9ed4f1bd5cb254b3ea2",
+        "cat.u8": "a41fdfc60253044bc5a32f3be354c9a7ecc5fcdd2c4968d7204d4aa46209a2cb",
+        "num.f16": "de57946c5051a22e4db9e58f780ed7e42d41eaeec43f7983d3d3a9b7041cad26",
+        "meta.u32": "4f2cb6411bb5a76c1f5d533fb07600d2eddc93db97cc4ef5af6db3a9a0e1e20c"
+      }
+    },
+    "c": {
+      "scenes": 283,
+      "samples": 1029,
+      "files": {
+        "rows.f16": "1c6359003644cd624d1dab31a0a389f4dd637935ea5923459d70bb8398c85877",
+        "idx.i32": "7eb21e4192434df1ed99ab742c99a088770f97a585bcbdf1dc8d91f1eed842e5",
+        "cat.u8": "538b47cdfae57aac0d65bb5af830cf021286c1399ce898c5159cb027bc505488",
+        "num.f16": "b7cc475df09c5fb99c42ecda7a39751fc9aaedf70ec6e8a1688cc0cce321cbb2",
+        "meta.u32": "22a84361e738feabe31fe78de652d5f72bdbed0a574222441da509b5d466f0e5",
+        "labels.json": "c8edf45d5092687fb866c1ee6b5a063806e5b8fff3eda560db9b9e96fc6e8806"
+      }
+    },
+    "c-claude": {
+      "scenes": 300,
+      "samples": 1102,
+      "files": {
+        "rows.f16": "3564d4c8c473d9b4da1e94f0f52151f59392c271bd7a97dfc8a7b9b9cc8c0821",
+        "idx.i32": "0c658282e29514bcd207addbeb5d69178b2e34c6ed59fc09910ab331a18c03d8",
+        "cat.u8": "1b12f399023c0413ecf6efe963df72776e26937d5608931e8c1e8546c9258a0c",
+        "num.f16": "fe945e2e13dc4835159386c626d0f74f2bbad78a36b8cabee64ed09ddc6e6648",
+        "meta.u32": "5ebc79e1da27c0aef9aade0fc2ca61e40d5cbbacd0750ad96c7fc6025fde88fc",
+        "labels.json": "133cb4b6b6713cac6dbffeff95f87c32f98a61121a61c10247926eb1ffaf34e0"
+      }
+    }
+  },
+  "rule": "No training, selection or tuning code may read a sealed file. train/gate.py opens them once, at the gate run."
+}
