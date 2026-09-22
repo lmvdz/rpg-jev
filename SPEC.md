@@ -665,10 +665,39 @@ not a current assertion that S0 is unrun or the core/inn exist only on `poc`.
 M0 is closed; S0 is conditionally closed with all three obligations in section 15:
 bounded ordered debt draining, an archive worker from the start, and caller checks
 on non-player reducers. Core and inn PoC code is implemented; the new browser
-open-world M2 acceptance has not passed. Local matter, thermal and shared-food implementations (sections
-19, 21 and 22) are not the hosted authoritative multiplayer runtime and do not
-close M3–M5. The integrated-GPU renderer gate below remains open.
+open-world M2 acceptance has not passed. Local matter, thermal and shared-food
+fixtures remain distinct from the new bounded shared-clearing host described
+below. Neither those fixtures nor this partial multiplayer integration close
+M3–M5. The integrated-GPU renderer gate below remains open.
 Section 23's world-delivery gates follow M5 rather than bypassing these gates.
+
+**Shared browser integration, 2026-09-22:** at the owner's request for actual
+multiplayer in the open world, `packages/server` now hosts the existing generated
+clearing in SpacetimeDB 2.10.1. `?shared` clients submit intent and render
+sender-filtered projections; they do not run local simulation or choose RNG.
+This admits a narrow ordinal-matter authority boundary, not the general Q064
+interaction envelope or a Q018 geometry decision. The host commits `Body.where`,
+physical changes, perception and draws; the renderer owns path intent and
+interpolation. Current-state validation, not a stale client projection, decides
+reach and possession.
+
+One scheduled reducer applies bounded passive drift and ordered autonomous
+opportunities independently of player commands. An owner-authorized archive
+worker flushes events before hot-row deletion; a bounded backlog visibly pauses
+the world rather than losing history. Exact generation/sequence/payload receipts
+prevent a retry or another tab's command from being reported as a second success.
+The host database preserves identities and receipts across restart; the event
+archive alone is only simulation-replay evidence, not complete host restoration.
+
+Two actual browser sessions have moved in the same world, performed a generic
+physical action and reloaded; live protocol checks cover caller isolation,
+invalid intents, retries, idle time and host restart. This is loopback-only,
+eight lifetime anonymous admissions, not internet-ready hosting, persistent
+account identity, unlimited scale, full M5 debt/cost validation or M2 human
+playability acceptance. Performance is an independent gate with a predeclared
+250 ms acknowledgement p95 budget; measured results and remaining failures are
+recorded in `validation/shared-world/README.md`. Iroh, Matrix, JEPA runtime
+prediction, authoring and portability are not implemented by this slice.
 
 **M2 proposal follow-through:** the approved handwritten admission → scheduled
 consequence → replay path is implemented in the optional supper night described

@@ -1,6 +1,6 @@
 # rpg-jev
 
-An RPG being built toward persistent, independently operated worlds and portable characters. Code owns rules, numbers and state; [TypeSafe Jev](https://docs.typesafe.ai) judges bounded social choices. The playable inn is currently local and single-player. Live background authoring, hosted multiplayer and character travel are later milestones, not implemented features. The browser remains the primary-client direction; its WebGL2 renderer currently has separate local-world fixtures.
+An RPG being built toward persistent, independently operated worlds and portable characters. Code owns rules, numbers and state; [TypeSafe Jev](https://docs.typesafe.ai) judges bounded social choices. The browser now has a bounded shared clearing backed by a local authoritative SpacetimeDB host. Live background authoring, internet-ready independent hosting and character travel remain unimplemented. The terminal inn is a historical single-player fixture.
 
 **[SPEC.md](SPEC.md) is the source of truth** for the design, the stack and the milestones.
 
@@ -27,12 +27,28 @@ pnpm install
 pnpm client
 ```
 
-Open `http://localhost:5174/` for the seeded landscape and world-interaction
-renderer, or `http://localhost:5174/?food` for the bounded authoritative
-movement/resource/save demonstration. Neither should be mistaken for the
-finished open-world slice; connecting existing capabilities into a persistent
-browser world is the active work. JEPA's research status is distinct from
-implemented runtime behavior.
+Open `http://localhost:5174/` for the local seeded landscape, or `?food` for
+the earlier bounded resource fixture. For the **shared browser world**, install
+SpacetimeDB CLI **2.10.1**, then use separate terminals:
+
+```sh
+pnpm world:server    # keep running: loopback host, persistent local database
+pnpm world:publish   # once, or after module changes; never deletes world data
+pnpm world:archive   # keep running: durable archive before hot-row deletion
+pnpm client
+```
+
+Open `http://localhost:5174/?shared` in two independent browser sessions.
+Move with the keyboard and use the right-click world menu. The host validates
+actions, advances the world without player input, and preserves the world
+across host restarts. Reload preserves your actor within that browser session.
+
+This is a measured local multiplayer foundation, **not the finished open-world
+game**. It has eight lifetime admission slots, session-scoped anonymous identity,
+and no remote deployment or account recovery. See
+[hosting, recovery and limits](packages/server/README.md) and
+[verification evidence](validation/shared-world/README.md).
+JEPA, Iroh and Matrix are not runtime dependencies of this slice.
 
 ## Run the terminal regression fixture
 
@@ -77,13 +93,14 @@ packages/jev       the judge port: the eight question families, the slice compil
 packages/inn       the Gilded Carp: content, parser, slices, the game engine, prose templates
 packages/terminal  pnpm play, pnpm demo, and the route harness
 packages/client    WebGL2 glyph renderer, grown clearing, world editor and visual study
+packages/server    authoritative shared clearing, loopback hosting and durable archive worker
 spikes/            experiments that answer one question each
 demo/              the recorded demo: transcript, costs, recordings for the offline tests, routes
 docs/              the world bible and the PoC report
 SPEC.md            architecture spec
 ```
 
-Packages planned in the spec (`server`, `author`) are added when their milestone starts, not before.
+The planned `author` package remains deferred until its milestone starts.
 
 ## Commands
 

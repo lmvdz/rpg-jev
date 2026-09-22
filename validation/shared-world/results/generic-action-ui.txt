@@ -1,0 +1,13 @@
+231 fps   cpu 0.14 ms   gpu timer ~0.1 ms
+measured: press b   at 1280x800
+8 chunks   22756 tris   1409 glyphs
+Local shared server · Connected: the host committed your action.
+LOCAL SHARED SERVER · tap arrows: step · click: walk · right-click: actions
+health
+100
+fed
+80
+stamina
+100
+coin
+12

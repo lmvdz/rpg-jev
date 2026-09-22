@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "ok": true,
+  "scope": "simulation-replay-only",
+  "generation": "c2000d3e8f03364aca0e9c229fb55bf8945a14ab2387282f83c2c1091d2f0fbd",
+  "bytes": 935804159,
+  "appendedDuringRead": false,
+  "archiveSha256": "217ca2e6745aaa4ecb98c6cc9ce96f583c16d7de2b606eb2749e63ccfcc6ba9a",
+  "events": 2159,
+  "counts": {
+    "initial": 1,
+    "join": 8,
+    "command": 105,
+    "tick": 2045
+  },
+  "firstSequence": "1",
+  "lastSequence": "20595",
+  "revision": 2158,
+  "tick": 2045,
+  "rng": [
+    -1464441224,
+    -1031623402,
+    1129800461,
+    22
+  ],
+  "stateSha256": "770e2206f8afc4c760bdb84528feab1c970fe45dd6c8ea346fa22b6828830678",
+  "limits": {
+    "bytes": 1073741824,
+    "lineBytes": 1048576,
+    "events": 1000000,
+    "stateBytes": 16777216,
+    "depth": 64,
+    "milliseconds": 60000
+  },
+  "checks": [
+    "initial-structure",
+    "increasing-sequence-and-contiguous-revision",
+    "change-application",
+    "world-references",
+    "recorded-rng-draws",
+    "tick-progression"
+  ],
+  "limitations": [
+    "The initial snapshot is structurally checked, not authenticated against a trusted seed.",
+    "Current events contain no later snapshots or state hashes to compare against replay.",
+    "Does not rerun infer, resolve, sensing, terrain legality or command authorization.",
+    "Does not restore admission, identity, private command receipts, timers or archive acknowledgements.",
+    "A complete contiguous prefix does not prove the archive includes the host's latest event."
+  ]
+}

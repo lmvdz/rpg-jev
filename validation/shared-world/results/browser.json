@@ -1,0 +1,29 @@
+{
+  "environment": {
+    "node": "v25.8.2",
+    "platform": "win32",
+    "browser": "Chrome headless/WebGL2"
+  },
+  "actors": [
+    "player-5",
+    "player-6"
+  ],
+  "movement": {
+    "from": [
+      48,
+      51
+    ],
+    "to": [
+      49,
+      51
+    ]
+  },
+  "commandAckMs": [
+    1358.4688000000006
+  ],
+  "independentClock": true,
+  "genericMenuAction": true,
+  "reloadIdentityAndPosition": true,
+  "browserErrors": [],
+  "humanPlaytest": false
+}
