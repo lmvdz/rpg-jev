@@ -23,7 +23,9 @@ the causal-world design or the playable milestones.
 
 - A generative model in the play loop. No player input ever waits on Claude.
 - Free-form LLM agents as NPCs. Illegal world states must be unrepresentable.
-- A commercial game engine or realistic graphics. The look is 3D glyphs drawn by our own small renderer (section 19).
+- Realistic graphics now. The look is 3D glyphs drawn by our own small renderer (section 19).
+
+**The glyph client is a proving ground, not a commitment** (2026-09-22, milestone J). A commercial engine client, for example Unreal, may come later. So the server, the matter engine and any world model observe engine-agnostic state (things, their states and relations such as in, on, touching and near with a distance), never grid cells or pixels, and world outcomes are decided only on the server. A client, glyph or otherwise, draws projections and decides nothing. The renderer is the one part not expected to carry over.
 
 **Decided so far:** TypeScript everywhere, `@typesafe-ai/sdk`, project at `H:\rpg-jev`. The initial proof of concept was a terminal inn against live Jev. The active playable target is now the browser open world, built on the world engine and WebGL2 glyph renderer; section 16 records the owner's delivery-priority correction. Section 18 has the full stack.
 
@@ -31,7 +33,7 @@ the causal-world design or the playable milestones.
 
 Every subsystem obeys these ten rules. A design that breaks one is wrong, however clever.
 
-1. **Propose, ratify, commit.** Generative models propose. Jev ratifies. Only code writes world state.
+1. **Propose, ratify, commit.** Generative models propose. Jev ratifies. Only code writes world state. A learned world model (the JEPA tier, section 3) only ranks: code lists the physically legal outcomes of each affected thing, always including "nothing happens"; the model scores them; code draws one with the seeded RNG, applies every number and commits. The draw, the hash of the candidate set and the model checkpoint's id are logged, so replay never runs the model.
 2. **No model can stop play.** No player action waits on a generative call. Common verbs are parsed in code. If Jev or the author thread is down, the game degrades (section 11) but keeps running.
 3. **Every number lives in code.** HP, gold, time, distance, counts, dice. Jev judges meaning only; code states ratios in words when Jev needs them.
 4. **Closed sets only.** Jev chooses among options that code generated from the current world. Every set includes a "none of these" option.
@@ -52,8 +54,9 @@ Four tiers, matched to the reasoning each job needs. Most runtime work is tier 0
 | 1 | Jev (`jev-1.13.0`, pinned) | About 100 ms claimed; measured in M0 | The eight admitted question families (section 14). New families still need their separate approval and validation; changing the playable target does not expand this catalog |
 | 2 | Small generative model | About 1 s | Rendering speech acts as prose for a watching player, barks, rumor wording, compressing the log for the author digest |
 | 3 | Large model (Claude) | Seconds to minutes | World arc authoring and re-authoring, new event and quest templates composed from existing effect kinds |
+| W | JEPA world model (a pinned, versioned checkpoint run in TypeScript inside the server tick) | Per-tick scoring p95 ≤ 5 ms (gate J2) | Ranks code-built candidate outcomes for each thing an act or a tick affects. It never writes, never sees a grid or pixels, and never runs on replay. If it misses its deadline, the tick takes the code engine's outcome and logs that it did (rule 2). Live only behind a per-world flag, and only after milestone J's gates |
 
-The mental model is dual-process: Jev is each NPC's gut instinct, Claude is slow imagination, code is physics. Jev's weak spots (arithmetic, counting, multi-step inference) are the same ones human intuition has, and all three are assigned to code.
+The mental model is dual-process: Jev is each NPC's gut instinct, Claude is slow imagination, code is physics. The JEPA tier is learned intuition about physics: it may prefer one legal outcome over another, but the set of legal outcomes, and every number in them, is code's. Jev's weak spots (arithmetic, counting, multi-step inference) are the same ones human intuition has, and all three are assigned to code.
 
 Generative calls go through one routing seam. M3 starts with a fixed two-model rule; Switchyard's Jev cost policy is switched on behind the same seam once the inbox has produced outcome labels (section 18).
 
@@ -641,7 +644,9 @@ and measured gates.
 JEPA is a parallel world-model research track, not permission to replace
 code-owned simulation or to treat predictions as committed truth. Its measured
 role and integration boundary must be explicit; browser gameplay cannot depend
-on an unvalidated model or a blocking training/generative call.
+on an unvalidated model or a blocking training/generative call. Milestone J
+(below) is where that role is measured. The model only ranks code-built
+candidates, and it is live only behind a per-world flag that is off by default.
 
 | # | Milestone | Proves | Done when |
 | --- | --- | --- | --- |
@@ -652,12 +657,147 @@ on an unvalidated model or a blocking training/generative call.
 | M3 | Author thread | A living world without blocking play | Claude fills the inbox on triggers; arc object advances and survives a derailment; game runs with the thread killed |
 | M4 | A village | Emergence and damping | About 30 NPCs, vacancies filled, a market that can die, level of detail and catch-up |
 | M5 | Multiplayer | The shared world holds | Server with per-location writers, 2+ players, per-actor debts, cost per player-hour within estimate |
+| J | JEPA proof | A learned world model can rank physical outcomes in real time, compose to unseen interactions and improve from play, without breaking rules 1–10 | Gates J1–J4 below each have a measured result and a pass or fail (`docs/jepa-proof/REPORT.md`) |
 
 If the browser world's core play is not worthwhile, live generation will not
 fix it. That experience is now M2's real gate. The original terminal-inn checklist
 (bible, parser, three NPCs, eight families, guarded quest, debts/rumors, stale
 claims, conversation, combat stub and handwritten proposals) is retained as
 historical implementation evidence, not the next product assignment.
+
+### Milestone J: JEPA proof
+
+Added 2026-09-22 by the brief in `docs/jepa-proof/GOAL.md`. It proves or
+disproves a real-time JEPA world model in the 2D sandbox, cheaply, with
+everything except rendering built to carry over to another client. The
+thresholds and definitions below were written **before any sealed data was
+generated**. From here they may be tightened and never loosened; a change is
+dated here with its reason. Everything is measured and reported in
+`docs/jepa-proof/REPORT.md`, with raw results under `validation/jepa-proof/`.
+
+**The shape (decisions 1–7 of the brief).** Each act or tick, code lists the
+physically legal outcomes of every affected thing (the envelope), always
+including "nothing happens". The model scores them. Code draws one with the
+seeded RNG, applies every number and commits. The draw, the candidate set's
+hash and the checkpoint id are logged, and replay reads the log (rules 1, 3, 4,
+9). The model observes things, their states and relations (in, contains, on,
+touching, near, with a distance), never tiles or pixels. World outcomes are
+decided only in `packages/server`. If the model misses its deadline, the tick
+takes the code engine's outcome and logs that it did (rule 2). The model is
+live only behind a per-world flag, off by default.
+
+**The outcome vocabulary (code, versioned as `jepa-outcomes-v1`).** An outcome
+is one class on each of eight channels of a thing's state:
+
+| Channel | Classes | Read from |
+| --- | --- | --- |
+| heat | cooler, same, warmer | `temperature` |
+| wet | drier, same, wetter | `wetness` |
+| fire | same, lit, out | `burning` null or not |
+| whole | same, damaged | `integrity` |
+| coat | same, gained, lost | `coating` and its amount |
+| rot | less, same, more | `contamination` |
+| rust | same, more | `corrosion` |
+| amount | same, less, gone | `amount`, and whether the thing still exists |
+
+A level counts as moved when it changes by more than 0.05. "Nothing happens" is
+"same" on every channel. The full vocabulary is the product of the channels,
+5,832 outcomes. Magnitudes are never the model's: when the chosen class on a
+channel is the class the code engine reached, code applies the engine's value;
+otherwise it applies the code-owned canonical step for that class.
+
+**The envelope.** A pure core function from (world, act or tick) to, for each
+affected thing, the legal subset of the vocabulary, including "nothing
+happens". It encodes physical preconditions only (for example, nothing lights
+without effective flammability and a flame or scorching heat within contact,
+what is not burning cannot go out, and what has no coating cannot lose one). It
+must contain the code engine's own outcome for every transition the generator
+produces; a property test holds that over the training seeds, and coverage on
+each sealed set is reported. Commit checks invariants after every draw:
+levels in range, no amount grows except by creation, one place for each thing,
+nothing burns without fuel and flammability, and the chosen outcome is a
+member of the logged candidate set.
+
+**The data.** A seeded scenario generator on the code engine produces at least
+1,000,000 labelled transitions, where a transition is one act or tick on one
+generated scene, labelled for each affected thing. Splits come from SHA-256 of
+the scene seed. Before any training, these sets are sealed, written to files,
+and their SHA-256 recorded in `validation/jepa-proof/sealed.json`. No training,
+selection or tuning code may read a sealed file. The gate run reads each one
+once.
+
+- **(a) familiar:** 5% of transitions from families seen in training.
+- **(b) withheld families**, defined by code predicates and removed from
+  training and validation entirely:
+  - B1 **heat × liquid:** a heat act whose source or target is a liquid.
+  - B2 **containment × fire:** any act or tick in which a burning thing is
+    inside a container, or is put into or taken out of one.
+  - B3 **force × fire:** a strike whose instrument or patient is burning.
+- **(c) the gap set:** acts the code admits and declines to model. The act is
+  force, soak or coat, the parties are present and distinct, the exposure is
+  nonzero, and the engine answers `nothing`. Examples are a strike on a liquid,
+  a "soak" with what does not wet, and a "coat" with what does not spread.
+  These are removed from engine training, because the engine's "nothing" there
+  is an absence of a rule, not a label. Each is labelled offline:
+  1. Claude, through the CLI, proposes one outcome per affected thing, chosen
+     from the envelope's candidates.
+  2. Code validates it against the envelope and the invariants.
+  3. Jev checks it through the admitted `believe_claim` family exactly as built
+     in `packages/jev/src/families.ts`. A code-built practical listener hears
+     the code-rendered claim from a traveller, and both wordings are asked.
+     Eight control claims (four true, four false) must land on the right side
+     of 0.5, or the batch counts as unratified.
+
+  The primary (c) is the labels whose mean belief over the two wordings is
+  ≥ 0.60. The Claude-only labels are reported beside it, clearly marked. A
+  dedicated `ratify_physical_outcome` family is a proposal awaiting the owner
+  (section 23.5). The budget is at most $1.00 of Jev spend for the whole
+  milestone.
+
+**The models.** Both arms share one relational backbone. It encodes a thing,
+up to eight related things (relation, distance, their states), the place and
+the act (process, the thing's role in it, and the act's code-stated numbers).
+Both arms also share one factorised readout: a logit per channel class, where
+an outcome's score is the sum of its channels' logits and a softmax runs over
+the envelope's candidates.
+
+- The **supervised baseline** reads out from an action-conditioned trunk.
+- The **JEPA arm** follows Gen-Verse JEPA-Anything, pinned at upstream
+  `c6e6c88f3ef75a4ce7acd660d6fa5779d995512c`:
+  - K = 4 factor predictors `q_k(z_c, act)` feed the upstream pseudoinverse
+    synthesis before the readout.
+  - The EMA target encoder (momentum 0.996) encodes the thing's observation
+    after the transition. The stop-gradient sits on its output only.
+  - The loss is `L = CE_readout + L_OPF`. `L_OPF` is the upstream factor MSE
+    plus Gram 0.10, factor activity 0.05 and encoder activity 0.02.
+
+The arms are capacity-matched within 10% of parameters. AdamW runs at lr 1e-3
+with batch 1,024, and each arm uses seeds 17, 29 and 43. Each run keeps the
+epoch with the lowest validation NLL. The checkpoint that is integrated is the
+JEPA seed with the lowest validation NLL. Both arms export to one TypeScript
+runtime (JSON weights, a manifest SHA pin, parity with PyTorch within 1e-5).
+J1 is run once on the selected checkpoints.
+
+**Gates.**
+
+| Gate | Passes when |
+| --- | --- |
+| J1 Composition | On (b), averaged over the three seeds: JEPA top-1 agreement with the teacher label ≥ 70%, JEPA Brier score lower than the supervised baseline's, and the envelope rejecting the JEPA model's top choice over the full vocabulary in < 5% of transitions. (a) and (c) are reported separately, with each set's majority-outcome rate for context |
+| J2 Real-time | Local SpacetimeDB 2.10.1 standalone on this machine. 8 connected Node SDK clients each send one seeded command a second for 5 minutes. The world holds ≥ 2,000 things, every one scored every tick, on a 100 ms tick. Per-tick model scoring p95 ≤ 5 ms, command acknowledgement p95 ≤ 250 ms (call to the client seeing its own sequence), and fallback rate < 1% of ticks at a 10 ms scoring deadline |
+| J3 Improves from play | v2, trained on v1's data plus labels from scripted and randomised play on the live flag, beats v1 on (c) by ≥ 10 points of top-1 agreement, with no drop greater than 1 point on (a) or (b). The play labels come from outside the model: envelope rejections, broken invariants, low-confidence transitions (top probability < 0.5) labelled by the engine where it answers, and gap transitions labelled as for (c). Play transitions whose input hash matches a sealed (c) input are dropped |
+| J4 Fun | At least 5 strangers play the fun-test kit's 20-minute session, and at least 3 of them say, unprompted, that they would play again. Run by people, not by the agent |
+
+- **J1 metrics.** Top-1 is the argmax over the envelope's candidates, and a
+  label outside the envelope counts as a miss. Brier is the sum over candidates
+  of (p − y)², averaged over transitions.
+- **J2 timing.** Scoring time is read from the host's monotonic clock inside
+  the reducer if the module runtime has one. Otherwise it is read from a Node
+  harness running the same code on the logged ticks, and that substitution is
+  reported.
+- **If J1 fails**, at most two principled remedies are tried: more data
+  diversity, model capacity, or relational structure. Each is written into
+  `docs/jepa-proof/REMEDIES.md` before it runs. After that the failure is
+  reported with its evidence. The sealed sets are never used to choose.
 
 **Current integrated baseline:** work continues from `implementation/shared-food`,
 not the old `main` baseline. The dated entries below are historical evidence,
@@ -1488,6 +1628,12 @@ and contract/version consequences when each is settled.
 | Progression trust | Which hosts/claims are trusted for which rewards; validation, rejection and accountability | Separate W4 approval |
 | Scarcity and rollback | Exclusive ownership authority, duplication/partition policy, backup rollback, reconciliation and loss allocation | Separate W4 approval |
 | Executable mods | Distribution and execution trust, sandbox/permissions, budgets, dependencies, replay and migration/recovery policy | Separate W5 approval |
+| JEPA ranks, code commits | **Decided by the owner (brief, 2026-09-22).** Code builds each affected thing's legal outcome set including none. The model scores. Code draws, applies numbers and commits. Draw, candidate hash and checkpoint are logged; replay never runs the model | Closed |
+| Engine-agnostic observation | **Decided by the owner (brief).** Things, states and relations with distances, never grid cells or pixels, so a later engine client uses the same model and server | Closed |
+| One authority | **Decided by the owner (brief).** `packages/server` on SpacetimeDB 2.10.1. Runtimes in Delta worktrees are sources to port from | Closed |
+| Base-model teachers | **Decided by the owner (brief).** The code engine through a seeded generator. For what code declines to model: Claude proposes, Jev checks, code validates. Never the model's own outputs | Closed |
+| `ratify_physical_outcome` family | **Proposal, awaiting the owner.** A Noul family for "does this outcome of this act follow in the everyday physical world", with criteria, `not_for`, examples and a paraphrase test (`docs/jepa-proof/family-proposal.md`). Until approved, milestone J checks labels only through the admitted `believe_claim` family with a code-built listener, and reports Claude-only labels beside them | Before J labels are used for anything beyond the proof |
+| JEPA live in a world | Which worlds turn the flag on, which checkpoint each pins, and the gate an upgrade passes (J1 and J3 on the sealed sets, no regression on the others) | After milestone J's report |
 
 **Documentation synchronization:** this change reconciles the repository
 `SPEC.md` only. Sections 20–22 already exist and remain in place. The external
