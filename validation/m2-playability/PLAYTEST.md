@@ -1,9 +1,15 @@
 # M2: is the inn worth building on?
 
-This is the remaining **human** gate, not another automated test result.
+**Historical fixture exercise:** the owner subsequently replaced this
+inn-centric gate with the browser open-world target in SPEC §16. This document
+is retained for testing the inn; completing it is no longer required before
+working on the world renderer, world engine or JEPA research.
+
+This was the remaining **human** inn gate, not another automated test result.
 The technical checklist, complete-night recordings and scheduled proposals
-exist. M3 authoring and subsequent world delivery remain gated on the inn being
-worth playing (SPEC §16).
+exist. At the time, M3 authoring and subsequent world delivery were gated on the
+inn being worth playing. The browser gate in current SPEC §16 supersedes that
+requirement.
 
 ## Play without reading a route
 

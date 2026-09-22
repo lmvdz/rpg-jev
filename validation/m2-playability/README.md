@@ -1,5 +1,9 @@
 # M2 investigation affordance and truthful endings
 
+**Historical inn slice:** the owner has since moved the active M2 target to the
+browser open world (SPEC §16). The evidence below remains valid for the inn, but
+its human playtest is no longer a prerequisite for open-world development.
+
 **M2 remains unaccepted pending human playability feedback.** This change closes
 specific investigation and presentation defects, not the sovereign-world roadmap.
 See [the playtest](PLAYTEST.md) for the next required evidence.

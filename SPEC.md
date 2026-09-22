@@ -25,7 +25,7 @@ the causal-world design or the playable milestones.
 - Free-form LLM agents as NPCs. Illegal world states must be unrepresentable.
 - A commercial game engine or realistic graphics. The look is 3D glyphs drawn by our own small renderer (section 19).
 
-**Decided so far:** TypeScript everywhere, `@typesafe-ai/sdk`, project at `H:\rpg-jev`. The first playable slice is a terminal game set in one inn, run against the live Jev API. The main client is a browser WebGL2 glyph renderer. Section 18 has the full stack.
+**Decided so far:** TypeScript everywhere, `@typesafe-ai/sdk`, project at `H:\rpg-jev`. The initial proof of concept was a terminal inn against live Jev. The active playable target is now the browser open world, built on the world engine and WebGL2 glyph renderer; section 16 records the owner's delivery-priority correction. Section 18 has the full stack.
 
 ## 2. Constitutional rules
 
@@ -49,7 +49,7 @@ Four tiers, matched to the reasoning each job needs. Most runtime work is tier 0
 | Tier | Engine | Latency | Jobs |
 | --- | --- | --- | --- |
 | 0 | Code | Microseconds | Numbers, needs decay, schedule execution, invariants, precondition checks, conflict resolution, seeded RNG, habit counters, common-verb parsing, ranking by stored keys, gap simulation, conversation turn-taking |
-| 1 | Jev (`jev-1.13.0`, pinned) | About 100 ms claimed; measured in M0 | The eight M2 question families (section 14). Backlog families are added one at a time after the inn works |
+| 1 | Jev (`jev-1.13.0`, pinned) | About 100 ms claimed; measured in M0 | The eight admitted question families (section 14). New families still need their separate approval and validation; changing the playable target does not expand this catalog |
 | 2 | Small generative model | About 1 s | Rendering speech acts as prose for a watching player, barks, rumor wording, compressing the log for the author digest |
 | 3 | Large model (Claude) | Seconds to minutes | World arc authoring and re-authoring, new event and quest templates composed from existing effect kinds |
 
@@ -622,25 +622,50 @@ If S0 fails, the fallback is a Node server with embedded SurrealDB. Table schema
 
 Six milestones, each playable or measurable on its own. The proposal inbox has the same format whether a handwritten file or the live author feeds it, so the author thread plugs in at M3 with no redesign.
 
+**Owner-approved priority correction:** build the browser open-world RPG, not
+more terminal-inn features. The owner explicitly replaced the inn-centric
+playability gate with exploring and living in the browser world, and identified
+the world engine, renderer and JEPA research as the relevant ongoing work.
+The inn remains a regression/research fixture; its unresolved subjective
+acceptance is not a prerequisite for browser-world development. This does not
+declare either the inn or the open world complete.
+
+The next implementation must connect existing world capabilities into that
+playable surface, not create another isolated puzzle or merely enlarge/relabel
+the food demo. Preserve freely chosen movement and activities, persistent
+consequences, autonomous inhabitants and the experimentation-first direction
+in section 22. A bounded connected region can prove these before an extensive
+world does. Exact unsupported mechanics still require their normal admission
+and measured gates.
+
+JEPA is a parallel world-model research track, not permission to replace
+code-owned simulation or to treat predictions as committed truth. Its measured
+role and integration boundary must be explicit; browser gameplay cannot depend
+on an unvalidated model or a blocking training/generative call.
+
 | # | Milestone | Proves | Done when |
 | --- | --- | --- | --- |
 | M0 | Jev spike | Jev judges social fiction like people do | Four tests have a go or no-go |
 | S0 | SpacetimeDB spike | The world server and worker loop hold | Checklist in section 15 passes, or the fallback is chosen |
 | M1 | Core engine | The constitutional rules hold in code | Event log, effects with validation, seeded RNG, fake Jev, replay test passes |
-| M2 | One inn, terminal, single player | The play loop is fun on Jev alone | One-page world bible first; two-stage parser; 3 NPCs with minds and schedules; the eight question families; 1 quest with semantic guards; debts and rumors among the 3; an NPC citing a stale claim; conversation scheduler; combat stub; handwritten proposals |
+| M2 | Browser open-world vertical slice | Exploring, acting and learning in the world is worth playing | Freely traverse a connected landscape; choose activities rather than follow one required quest; interact with finite resources and autonomous inhabitants through code-owned state; save/resume consequential state; verify the browser workflow and obtain human playability acceptance |
 | M3 | Author thread | A living world without blocking play | Claude fills the inbox on triggers; arc object advances and survives a derailment; game runs with the thread killed |
 | M4 | A village | Emergence and damping | About 30 NPCs, vacancies filled, a market that can die, level of detail and catch-up |
 | M5 | Multiplayer | The shared world holds | Server with per-location writers, 2+ players, per-actor debts, cost per player-hour within estimate |
 
-If M2 is not fun, live generation will not fix it, so M2 is the real gate.
+If the browser world's core play is not worthwhile, live generation will not
+fix it. That experience is now M2's real gate. The original terminal-inn checklist
+(bible, parser, three NPCs, eight families, guarded quest, debts/rumors, stale
+claims, conversation, combat stub and handwritten proposals) is retained as
+historical implementation evidence, not the next product assignment.
 
 **Current integrated baseline:** work continues from `implementation/shared-food`,
 not the old `main` baseline. The dated entries below are historical evidence,
 not a current assertion that S0 is unrun or the core/inn exist only on `poc`.
 M0 is closed; S0 is conditionally closed with all three obligations in section 15:
 bounded ordered debt draining, an archive worker from the start, and caller checks
-on non-player reducers. Core and inn PoC code is implemented; M2's fun gate has
-not passed. Local matter, thermal and shared-food implementations (sections
+on non-player reducers. Core and inn PoC code is implemented; the new browser
+open-world M2 acceptance has not passed. Local matter, thermal and shared-food implementations (sections
 19, 21 and 22) are not the hosted authoritative multiplayer runtime and do not
 close M3–M5. The integrated-GPU renderer gate below remains open.
 Section 23's world-delivery gates follow M5 rather than bypassing these gates.
@@ -652,8 +677,9 @@ Offline and live terminal continuation plus complete recorded nights provide
 evidence. Numbered journal accounts now support deterministic conversations,
 and terminal epilogues report actual state rather than inventing scene actions.
 `validation/m2-playability/README.md` records the live save/continuation evidence
-and a recovered Windows CLI shutdown failure. M2's human playability acceptance
-remains open; its spoiler-light exercise is `validation/m2-playability/PLAYTEST.md`.
+and a recovered Windows CLI shutdown failure. The old inn playability exercise
+at `validation/m2-playability/PLAYTEST.md` remains available as a fixture;
+it is no longer the current delivery gate.
 
 **Status, 2026-09-17.** M0 is closed. M1 and M2 exist as a proof of concept on the `poc` branch: `packages/core`, `packages/jev`, `packages/inn` and `packages/terminal`, with `pnpm play` and `pnpm demo`. World state is in process, shaped for the port: state changes only through validated effects, decisions are made on a snapshot and committed with precondition checks, and the tables follow section 4. Of the M2 list, handwritten proposals are not built (the proposal inbox belongs with the author thread) and there is no prose model (M2 prose is templates). `docs/poc-report.md` says what was verified, what it cost, and whether it is fun. S0 has not run.
 
@@ -663,7 +689,9 @@ remains open; its spoiler-light exercise is `validation/m2-playability/PLAYTEST.
 
 **Renderer track**
 
-The renderer needs neither Jev nor Claude, so it runs in parallel and meets the main track at M4, when the village needs a map.
+The renderer needs neither Jev nor Claude. Its existing technical gates remain,
+but it now supplies the active M2 browser play surface rather than waiting until
+M4 to meet the game. The integrated-GPU measurement gate is not waived.
 
 | # | Step | Done when |
 | --- | --- | --- |

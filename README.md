@@ -6,14 +6,35 @@ An RPG being built toward persistent, independently operated worlds and portable
 
 ## Status
 
-There is a playable proof of concept: one night at an inn, in a terminal, against live Jev. **[docs/poc-report.md](docs/poc-report.md)** says whether it is fun, what was verified, and what it costs.
+**Active target: the browser open-world RPG.** Build on the existing renderer,
+physical-world engine and JEPA research, not further terminal-inn features.
+The current browser scenes are partial implementations, not yet the accepted
+persistent open-world game. [SPEC §16](SPEC.md#16-milestones) records this change
+of delivery priority and preserves the technical and research gates.
+
+The terminal inn is an earlier playable proof of concept and regression fixture.
+**[docs/poc-report.md](docs/poc-report.md)** records its historical findings.
 
 - [spikes/m0-jev](spikes/m0-jev): does Jev judge social fiction the way people do? Done: three of four tests pass and the fourth misses narrowly. See the [findings](spikes/m0-jev/FINDINGS.md).
 - [spikes/m2-families](spikes/m2-families): are speech-act choice, distortion choice and accept-offer usable? Done: yes, with conditions. See the [findings](spikes/m2-families/FINDINGS.md).
 - [spikes/s0-spacetimedb](spikes/s0-spacetimedb): scoped infrastructure measurements completed; see the [qualified findings](spikes/s0-spacetimedb/FINDINGS.md), not a full-world capacity claim.
 - [Thermal engineering validation](validation/thermal-learning/AUTOMATION.md): deterministic enumeration covers 5,509 arrangements and 24,553 probe placements, with numerical and shared-settlement probes. The bench is a development fixture, not the next player exercise. Results select finite warmth allocation for an inn sleeping place as the next interaction to develop; that interaction is not yet implemented.
 
-## Play it
+## Run the browser world
+
+```sh
+pnpm install
+pnpm client
+```
+
+Open `http://localhost:5174/` for the seeded landscape and world-interaction
+renderer, or `http://localhost:5174/?food` for the bounded authoritative
+movement/resource/save demonstration. Neither should be mistaken for the
+finished open-world slice; connecting existing capabilities into a persistent
+browser world is the active work. JEPA's research status is distinct from
+implemented runtime behavior.
+
+## Run the terminal regression fixture
 
 Needs Node 22.18 or newer and pnpm 11. Put `TYPESAFE_API_KEY=...` in `.env` (git-ignored). Without a key the game still runs, on code's fallbacks.
 
@@ -42,9 +63,9 @@ real food in the room. Pending events survive quitting; resume with
 are unchanged. [Proposal evidence and limits](validation/m2-proposals/README.md)
 distinguish this M2 content path from the still-unbuilt live author thread.
 
-The remaining M2 gate is whether the inn is worth playing. See the
-[spoiler-light playtest](validation/m2-playability/PLAYTEST.md); automated route
-completion is not a substitute for that human judgment.
+The [inn playtest](validation/m2-playability/PLAYTEST.md) remains available for
+that fixture. It no longer blocks browser open-world work. Human acceptance of
+the browser experience, not an inn verdict, is the current playability gate.
 
 ## Layout
 
