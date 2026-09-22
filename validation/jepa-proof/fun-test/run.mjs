@@ -6,7 +6,7 @@
  * It starts (or reuses) a local SpacetimeDB host on port 3088, publishes the module to a new
  * database for this session, sets the world's JEPA mode, runs the archive worker (the archive
  * is the session's recording), and serves the browser client. Open the printed address. Stop
- * with Ctrl+C; the recording stays in packages/server/.stdb/instances/3088/.
+ * with Ctrl+C; the recording stays in packages/server/.stdb/archive/.
  */
 import { spawn, spawnSync } from "node:child_process";
 import path from "node:path";

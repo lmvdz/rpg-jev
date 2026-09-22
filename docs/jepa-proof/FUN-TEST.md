@@ -28,17 +28,18 @@ every stranger: each world admits eight players in its whole life, and a fresh
 world means every stranger starts in the same place. Stop with Ctrl+C when the
 session is over.
 
-The recording is the archive file in `packages/server/.stdb/instances/3088/`
+The recording is the archive file in `packages/server/.stdb/archive/`
 named after the session's database. It holds every command and every tick,
 and replays offline with `validation/shared-world/replay.mjs`. Keep it with
 the session's questionnaire.
 
 About the model: in live mode the model ranks physical outcomes each tick and
-code commits them. At the clearing's size the model does not finish inside its
-10 ms deadline in the SpacetimeDB module (see `REPORT.md`, J2), so almost every
-tick falls back to the code engine and logs that it did. The game plays the
-same either way. What J4 measures is whether the world is worth playing, not
-the model.
+code commits them. At the clearing's size the model often misses its 10 ms
+deadline in the SpacetimeDB module. At the kit's 500 ms tick, 891 of 2,000
+ticks committed the model's outcomes in a test run, and the rest fell back to
+the code engine and logged that they did (see `REPORT.md`). The model agrees
+with the engine on nearly every draw, so the game plays the same either way.
+What J4 measures is whether the world is worth playing, not the model.
 
 ## The session (20 minutes)
 

@@ -1,0 +1,5 @@
+{
+  "note": "Counted from the decoded archives (scratch count-v2.ts)",
+  "fun-smoke1 (500 ms tick, live, 1,405 things)": {"events": 2012, "version2": 2000, "liveCommitted": 891, "deadlineFallback": 1109, "draws": 1252980, "chosenOtherThanNothing": 1183, "replay": "ok"},
+  "rpg-jepa (J2 world, 100 ms tick, 2,008 things)": {"events": 38545, "version2": 3514, "liveCommitted": 0, "deadlineFallback": 3514}
+}

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "ok": true,
+  "scope": "simulation-replay-only",
+  "generation": "c200c0a8906393e8bb5bd5deb07a0d4858593921143a2520ba17dcc00f004700",
+  "bytes": 79335721,
+  "appendedDuringRead": false,
+  "archiveSha256": "4d4c36253bd90060419d3e8b366b6a3dba9c9c3bd827f3fa70b3c96e344a5428",
+  "events": 2012,
+  "counts": {
+    "initial": 1,
+    "join": 4,
+    "command": 5,
+    "tick": 2002,
+    "populate": 0
+  },
+  "storage": {
+    "payloadBytes": 263011259,
+    "decodedPayloadBytes": 749425574,
+    "compactEvents": 2012,
+    "compactPayloadBytes": 263011259,
+    "compactDecodedBytes": 749425574,
+    "archivedPayloadBytes": 79063196,
+    "gzipEvents": 2012
+  },
+  "firstSequence": "1",
+  "lastSequence": "2012",
+  "revision": 2011,
+  "tick": 2002,
+  "rng": [
+    -1093595185,
+    1380289211,
+    290528692,
+    1252996
+  ],
+  "stateSha256": "6e6272a1def8e681f849a9cb46377132a19c219ac463b29978b67d7c0e5da451",
+  "limits": {
+    "bytes": 1073741824,
+    "lineBytes": 1048576,
+    "events": 1000000,
+    "stateBytes": 16777216,
+    "depth": 64,
+    "milliseconds": 60000
+  },
+  "checks": [
+    "initial-structure",
+    "increasing-sequence-and-contiguous-revision",
+    "change-application",
+    "world-references",
+    "recorded-rng-draws",
+    "tick-progression"
+  ],
+  "limitations": [
+    "The initial snapshot is structurally checked, not authenticated against a trusted seed.",
+    "Current events contain no later snapshots or state hashes to compare against replay.",
+    "Does not rerun infer, resolve, sensing, terrain legality or command authorization.",
+    "Does not restore admission, identity, private command receipts, timers or archive acknowledgements.",
+    "A complete contiguous prefix does not prove the archive includes the host's latest event."
+  ]
+}
