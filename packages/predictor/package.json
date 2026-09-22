@@ -11,6 +11,7 @@
     "generate": "node scripts/generate.ts"
   },
   "dependencies": {
-    "@rpg-jev/core": "workspace:*"
+    "@rpg-jev/core": "workspace:*",
+    "@rpg-jev/jev": "workspace:*"
   }
 }

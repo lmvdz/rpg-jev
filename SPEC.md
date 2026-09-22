@@ -754,6 +754,17 @@ once.
   (section 23.5). The budget is at most $1.00 of Jev spend for the whole
   milestone.
 
+  **Instrument change, 2026-09-22, on development seeds before any (c) label
+  existed.** With the claim heard "from a traveller", the admitted family
+  measured distrust of strangers, not physics. Obviously true claims ("nothing
+  happens" to an untouched bystander) scored 0.32–0.41, and 1 of 37 claims
+  passed. The claim now comes "from a friend they trust, who watched it
+  happen", which is the family's own example of a true case. The controls still
+  split 8 of 8. On the same development scenes 36 of 37 claims then passed. In
+  this use the judge discriminates clear falsehoods but not subtle claims about
+  abstract materials, so it is a weak ratifier here. The report states this
+  with the two label sets side by side.
+
 **The models.** Both arms share one relational backbone. It encodes a thing,
 up to eight related things (relation, distance, their states), the place and
 the act (process, the thing's role in it, and the act's code-stated numbers).
@@ -808,6 +819,20 @@ J1 is run once on the selected checkpoints.
      - a coat whose substance does not spread (`COAT_SPREADS` declines).
 
      A weak blow that "barely marks it" is a physical answer, not a gap.
+- **Tick durations, 2026-09-22, before any training or sealing record.** Play
+  ticks are 100 ms and 0.5 s, but the generator's stretches of time ran from
+  1 to 240 minutes. On development seeds a 100 ms drift moves no gradual level
+  past the 0.05 threshold (temperature at most 0.034). It does make
+  instantaneous events: a flame with no air or nothing to burn goes out. Stretches
+  of 1/600 and 1/120 of a minute were added (`jepa-scenario-v2`). This leaves
+  every non-tick scene, and so the gap pool, unchanged.
+- **Training-loss clarification, 2026-09-22.** This was fixed on validation data
+  during a one-epoch smoke run, before any real training or gate run. `CE_readout`
+  is each channel's softmax over all its classes. Only ranking masks to the
+  envelope. With a masked training softmax, classes the envelope forbids get no
+  gradient, and the envelope rejected the unmasked top choice on 84% of
+  validation transitions. With the full softmax it rejected 0.04%, with no loss
+  of top-1. Both arms use the same loss.
 - **If J1 fails**, at most two principled remedies are tried: more data
   diversity, model capacity, or relational structure. Each is written into
   `docs/jepa-proof/REMEDIES.md` before it runs. After that the failure is

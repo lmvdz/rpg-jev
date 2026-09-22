@@ -66,6 +66,9 @@ importers:
       '@rpg-jev/core':
         specifier: workspace:*
         version: link:../core
+      '@rpg-jev/jev':
+        specifier: workspace:*
+        version: link:../jev
 
   packages/server:
     dependencies:
