@@ -75,7 +75,12 @@ function append(w: Writer, c: Chunk): void {
 }
 
 /** Run chunks on worker threads; hand each result on in chunk order, so output is deterministic. */
-function runChunks(scenes: number, size: number, onChunk: (parts: Record<Split, Chunk>) => void) {
+function runChunks(
+  first: number,
+  scenes: number,
+  size: number,
+  onChunk: (parts: Record<Split, Chunk>) => void,
+) {
   const chunks = Math.ceil(scenes / size);
   const done = new Map<number, Record<Split, Chunk>>();
   let next = 0;
@@ -98,7 +103,7 @@ function runChunks(scenes: number, size: number, onChunk: (parts: Record<Split, 
       }
       const id = next++;
       running++;
-      const range = { from: id * size, to: Math.min(scenes, (id + 1) * size) };
+      const range = { from: first + id * size, to: first + Math.min(scenes, (id + 1) * size) };
       const worker = new Worker(new URL(import.meta.url), { workerData: range });
       worker.once("message", (parts: Record<Split, Chunk>) => {
         done.set(id, parts);
@@ -114,7 +119,12 @@ function runChunks(scenes: number, size: number, onChunk: (parts: Record<Split, 
   });
 }
 
-function writeManifest(outDir: string, scenes: number, writers: Record<Split, Writer>): void {
+function writeManifest(
+  outDir: string,
+  first: number,
+  scenes: number,
+  writers: Record<Split, Writer>,
+): void {
   const splits = Object.fromEntries(
     SPLITS.map((split) => {
       const w = writers[split];
@@ -129,7 +139,7 @@ function writeManifest(outDir: string, scenes: number, writers: Record<Split, Wr
   const manifest = {
     version: "jepa-dataset-v1",
     scenes,
-    seeds: [0, scenes],
+    seeds: [first, first + scenes],
     observation: jepa.OBSERVATION_VERSION,
     outcomes: jepa.OUTCOMES_VERSION,
     scenario: jepa.SCENARIO_VERSION,
@@ -153,17 +163,19 @@ function writeManifest(outDir: string, scenes: number, writers: Record<Split, Wr
 
 async function main(): Promise<void> {
   const scenes = Number(arg("scenes", "1200000"));
+  // Seeds [from, from + scenes): fresh seeds for more data under the same split rule.
+  const first = Number(arg("from", "0"));
   const outDir = arg("out", "H:/rpg-jev.worktrees/jepa-data/v1");
   const writers = Object.fromEntries(SPLITS.map((s) => [s, writerFor(outDir, s)]));
   const bySplit = writers as Record<Split, Writer>;
-  await runChunks(scenes, 10_000, (parts) => {
+  await runChunks(first, scenes, 10_000, (parts) => {
     for (const split of SPLITS) append(bySplit[split], parts[split]);
   });
   const ends = SPLITS.flatMap((s) =>
     FILES.map((f) => new Promise<void>((r) => bySplit[s].streams[f].end(() => r()))),
   );
   await Promise.all(ends);
-  writeManifest(outDir, scenes, bySplit);
+  writeManifest(outDir, first, scenes, bySplit);
 }
 
 if (isMainThread) await main();
