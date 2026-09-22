@@ -1,11 +1,10 @@
 import { spawn } from "node:child_process";
 import { mkdirSync } from "node:fs";
 import { constants } from "node:os";
-import { join } from "node:path";
-import { HOST, isMain, SERVER_DIR, spacetimeCli } from "./cli.ts";
+import { DATA_DIR, HOST, isMain, spacetimeCli } from "./cli.ts";
 
 export function startLocal(): void {
-  const dataDir = join(SERVER_DIR, ".stdb", "data");
+  const dataDir = DATA_DIR;
   mkdirSync(dataDir, { recursive: true });
   const child = spawn(
     spacetimeCli(),

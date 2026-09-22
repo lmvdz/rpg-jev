@@ -24,6 +24,39 @@ that is the same identity, not another player. Use a separate browser profile
 when testing distinct identities. Tokens are credentials: do not copy them into
 issues, screenshots, archives or commits.
 
+### Explicit host selection
+
+Defaults retain the original endpoint, database and `.stdb/data` directory.
+Set `RPG_WORLD_PORT` and `RPG_WORLD_DATABASE` on **all three** host/publish/archive
+commands to select another local instance. Nondefault ports store standalone
+data separately under `.stdb/instances/<port>/data`; two servers never share the
+same data directory implicitly. Listen addresses remain loopback-only.
+
+Build or serve the matching browser with `VITE_WORLD_SERVER` and
+`VITE_WORLD_DATABASE`. These are operator build configuration, not query-string
+or imported-character settings. The endpoint must be a WebSocket origin without
+embedded credentials, path, query or fragment. Non-loopback origins require
+`wss`. Invalid configuration fails the client build/start rather than connecting
+silently to the default world. Tokens and pending commands are scoped to the
+canonical endpoint plus database.
+
+For example, in a POSIX shell:
+
+```sh
+RPG_WORLD_PORT=3058 RPG_WORLD_DATABASE=my-world pnpm world:server
+RPG_WORLD_PORT=3058 RPG_WORLD_DATABASE=my-world pnpm world:publish
+RPG_WORLD_PORT=3058 RPG_WORLD_DATABASE=my-world pnpm world:archive
+VITE_WORLD_SERVER=ws://127.0.0.1:3058 VITE_WORLD_DATABASE=my-world pnpm client
+```
+
+In PowerShell, set `$env:RPG_WORLD_PORT='3058'` and
+`$env:RPG_WORLD_DATABASE='my-world'` in each host terminal; use the corresponding
+`$env:VITE_WORLD_SERVER`/`$env:VITE_WORLD_DATABASE` settings for the client.
+Never put secrets in `VITE_` variables: they are public browser configuration.
+Configurable secure endpoints are not a TLS deployment, account-recovery or
+clean-machine hosting claim. Do not expose the development Vite/editor server
+as a production service.
+
 Keyboard movement waits for the host's accepted position. Right-click exposes
 the existing compiled physical interactions, including searching for materials.
 There is no client-side resolution, RNG, editor or time cheat in shared mode.
@@ -44,6 +77,12 @@ checks; refusal never grants an effect.
   legacy simulation minute of passive drift and one ordered opportunity for
   each autonomous body. Player activity does not grant extra NPC turns.
   This is not measured wall-clock catch-up or an offline scheduler.
+- View publication has a separate 15-second interest lease. The browser renews
+  every five seconds; admitted callers can renew only their own interest.
+  Disconnected characters remain in the simulation and retain admission and
+  receipts. Expiring a view does not expire a character. Idle live clients
+  continue receiving clock heartbeats; stale/failed transport reconnects without
+  assuming an unacknowledged command failed.
 - World/player/timer tables are private. Viewer rows are sender-filtered.
   Event rows are visible only to the registered archive worker. Clients receive
   discrete visible surfaces and their own whole-percent HUD meters, not hidden
@@ -62,6 +101,11 @@ both sides; this does not select the future geometry/parts representation.
 The owner-authorized worker appends generation-scoped events to
 `.stdb/archive/rpg-open-world-<generation>.jsonl`, flushes them with `fsync`,
 then acknowledges deletion of the corresponding hot database rows.
+Event payloads may use a versioned event-local dictionary; the worker may store
+them as `gzip-base64-v1` when smaller. Both codecs are lossless and legacy rows
+remain readable. Gzip is not confidentiality or authentication. Inflation is
+bounded during decompression; malformed encodings, CRC errors and invalid UTF-8
+fail closed. Unpaired UTF-16 surrogate payloads remain raw to preserve identity.
 Restart/reconnect deduplicates exact event payloads. It never acknowledges a
 failed write, mismatched payload, unknown frontier or another generation.
 
@@ -81,9 +125,10 @@ Startup reads records incrementally. Limits are explicit: 1 MiB per JSON record,
 The digest index still grows to that limit; this is not indefinite archival.
 Generation IDs isolate database recreations, not arbitrary rollback of the same
 generation. There is no claimed archive/directory power-loss transaction.
-The measured validation archive reached roughly 0.94 GB in 2,159 events:
-quiet passive drift records remain expensive. Do not run this host indefinitely
-as if an archival compaction/cost gate had passed.
+The original validation archive reached roughly 0.94 GB in 2,159 events.
+The new representative dictionary-plus-gzip row uses 3.106% of the original
+event bytes, but storage still grows with every committed tick. Do not run this
+host indefinitely as if retention/operating-cost gates had passed.
 
 Simulation-event replay does **not** reconstruct private authentication bindings
 or rejected-command receipts. Ordinary restart recovery uses the durable

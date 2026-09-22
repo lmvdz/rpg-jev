@@ -10,6 +10,7 @@ import {
   writeSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
+import { decodeArchivePayload, encodeArchivePayload } from "./archive-payload.ts";
 import { DATABASE, HTTP_URL, isMain, SERVER_DIR, spacetime, WS_URL } from "./cli.ts";
 
 export type ArchiveRow = { generation: string; seq: bigint; payload: string };
@@ -50,7 +51,8 @@ function parseRecord(bytes: Uint8Array, generation: string): ArchiveRow {
     throw new Error("Invalid archive row.");
   const seq = BigInt(row.seq);
   if (seq.toString() !== row.seq) throw new Error("Invalid archive sequence.");
-  return { generation, seq, payload: row.payload };
+  const encoding = "encoding" in row ? row.encoding : undefined;
+  return { generation, seq, payload: decodeArchivePayload({ payload: row.payload, encoding }) };
 }
 
 /**
@@ -145,11 +147,9 @@ export class ArchiveJournal {
         return a.seq > b.seq ? 1 : 0;
       });
       for (const row of sorted) {
-        if (typeof row.payload !== "string" || row.payload.length > MAX_ARCHIVE_LINE_BYTES) {
-          throw new Error("Archive payload limit exceeded.");
-        }
+        const stored = encodeArchivePayload(row.payload);
         const bytes = Buffer.from(
-          `${JSON.stringify({ generation: row.generation, seq: row.seq.toString(), payload: row.payload })}\n`,
+          `${JSON.stringify({ generation: row.generation, seq: row.seq.toString(), ...stored })}\n`,
         );
         if (bytes.length - 1 > MAX_ARCHIVE_LINE_BYTES)
           throw new Error("Archive line limit exceeded.");

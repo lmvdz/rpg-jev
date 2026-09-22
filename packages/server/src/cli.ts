@@ -2,13 +2,25 @@ import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { localTarget } from "./target.ts";
 
 /** This workflow is deliberately local, regardless of CLI default configuration. */
-export const HOST = "127.0.0.1:3057";
-export const HTTP_URL = `http://${HOST}`;
-export const WS_URL = `ws://${HOST}`;
-export const DATABASE = "rpg-open-world";
+const target = localTarget(process.env);
+export const HOST = target.host;
+export const HTTP_URL = target.http;
+export const WS_URL = target.ws;
+export const DATABASE = target.database;
 export const SERVER_DIR = resolve(import.meta.dirname, "..");
+export const DATA_DIR = join(SERVER_DIR, ...target.dataPath);
+export const RUNTIME_DIR = join(SERVER_DIR, ...target.dataPath.slice(0, -1));
+
+/** Validation credentials never cross endpoint/database boundaries. */
+export function protocolTokenPath(label: string): string {
+  if (!/^[AB]$/.test(label)) throw new Error("Unknown validation identity");
+  const legacy = HOST === "127.0.0.1:3057" && DATABASE === "rpg-open-world";
+  const name = legacy ? `protocol-${label}.token` : `protocol-${DATABASE}-${label}.token`;
+  return join(RUNTIME_DIR, name);
+}
 
 export function spacetimeCli(): string {
   if (process.env.SPACETIME_CLI) return process.env.SPACETIME_CLI;
