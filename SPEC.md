@@ -782,7 +782,7 @@ J1 is run once on the selected checkpoints.
 
 | Gate | Passes when |
 | --- | --- |
-| J1 Composition | On (b), averaged over the three seeds: JEPA top-1 agreement with the teacher label ≥ 70%, JEPA Brier score lower than the supervised baseline's, and the envelope rejecting the JEPA model's top choice over the full vocabulary in < 5% of transitions. (a) and (c) are reported separately, with each set's majority-outcome rate for context |
+| J1 Composition | On (b), averaged over the three seeds: JEPA top-1 agreement with the teacher label ≥ 70% and above (b)'s majority-outcome rate, JEPA Brier score lower than the supervised baseline's, and the envelope rejecting the JEPA model's top choice over the full vocabulary in < 5% of transitions. (a) and (c) are reported separately, with each set's majority-outcome rate for context |
 | J2 Real-time | Local SpacetimeDB 2.10.1 standalone on this machine. 8 connected Node SDK clients each send one seeded command a second for 5 minutes. The world holds ≥ 2,000 things, every one scored every tick, on a 100 ms tick. Per-tick model scoring p95 ≤ 5 ms, command acknowledgement p95 ≤ 250 ms (call to the client seeing its own sequence), and fallback rate < 1% of ticks at a 10 ms scoring deadline |
 | J3 Improves from play | v2, trained on v1's data plus labels from scripted and randomised play on the live flag, beats v1 on (c) by ≥ 10 points of top-1 agreement, with no drop greater than 1 point on (a) or (b). The play labels come from outside the model: envelope rejections, broken invariants, low-confidence transitions (top probability < 0.5) labelled by the engine where it answers, and gap transitions labelled as for (c). Play transitions whose input hash matches a sealed (c) input are dropped |
 | J4 Fun | At least 5 strangers play the fun-test kit's 20-minute session, and at least 3 of them say, unprompted, that they would play again. Run by people, not by the agent |
@@ -794,6 +794,20 @@ J1 is run once on the selected checkpoints.
   the reducer if the module runtime has one. Otherwise it is read from a Node
   harness running the same code on the logged ticks, and that substitution is
   reported.
+- **Tightened 2026-09-22, before any dataset was generated.** Both changes
+  came from engine runs on a disjoint development seed range (≥ 3,000,000,000),
+  never on dataset seeds.
+  1. "Nothing happens" is about 70% of thing-transitions, so 70% top-1 alone
+     could be passed by a model that never predicts a change. J1 now also
+     requires top-1 above (b)'s majority-outcome rate.
+  2. Set (c)'s "the engine answers `nothing`" is narrowed to the processes'
+     domain gates, which is what its examples meant:
+     - a strike in which the instrument or the patient flows (the engine's
+       "nothing comes of it");
+     - a soak whose liquid does not wet (`SOAK_WETS` declines);
+     - a coat whose substance does not spread (`COAT_SPREADS` declines).
+
+     A weak blow that "barely marks it" is a physical answer, not a gap.
 - **If J1 fails**, at most two principled remedies are tried: more data
   diversity, model capacity, or relational structure. Each is written into
   `docs/jepa-proof/REMEDIES.md` before it runs. After that the failure is
