@@ -1,0 +1,155 @@
+{"kind":"init","seed":1,"content":"gilded-carp-1","id":0,"t":1140,"cause":null}
+{"kind":"input","text":"go kitchen","via":"parsed","action":{"verb":"go","room":"kitchen"},"id":1,"t":1140,"cause":null}
+{"kind":"effect","effect":{"kind":"move","actor":"player","to":"kitchen"},"id":2,"t":1140,"cause":1}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"player","predicate":"is_in","place":"kitchen","when":1140,"severity":1,"origin":2,"id":"c_df528f244f"},"credence":1,"source":{"kind":"witnessed"}},"id":3,"t":1140,"cause":2}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"player","predicate":"is_in","place":"kitchen","when":1140,"severity":1,"origin":2,"id":"c_df528f244f"},"credence":1,"source":{"kind":"witnessed"}},"id":4,"t":1140,"cause":2}
+{"kind":"decision","requestId":"3257e13e72419727.e91cfc098526c789","sliceHash":"3257e13e72419727","source":"jev","answers":{"opens_odo":{"type":"choice","choice":"greet","confidence":0.38,"probabilities":{"greet":0.54,"accuse:c_a957973a24":0.27,"tell:c_0da7288b16":0.02,"none_of_these":0.17}}},"inputTokens":910,"latencyMs":396,"id":5,"t":1140,"cause":2}
+{"kind":"draw","purpose":"odo opens","value":0.11025513336062431,"rng":[-48049390,-282600232,-1622693073,17],"id":6,"t":1140,"cause":5}
+{"kind":"effect","effect":{"kind":"queue_speech","intent":{"id":"s0_1_odo","speaker":"odo","listener":"player","act":"accuse","topic":{"kind":"claim","id":"c_a957973a24"},"priority":1,"createdBeat":0,"cause":5}},"id":7,"t":1140,"cause":5}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":8,"t":1140,"cause":1}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":9,"t":1142,"cause":1}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s0_1_odo","speaker":"odo","listener":"player","act":"accuse","topic":{"kind":"claim","id":"c_a957973a24"},"priority":1,"createdBeat":0,"cause":5}},"id":10,"t":1142,"cause":5}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"player","claim":{"subject":"player","predicate":"was_near","place":"office","when":1110,"severity":1,"origin":null,"id":"c_a957973a24"},"credence":0.7,"source":{"kind":"told","from":"odo"}},"id":11,"t":1142,"cause":10}
+{"kind":"input","text":"take iron key","via":"parsed","action":{"verb":"take","item":"iron_key"},"id":12,"t":1142,"cause":null}
+{"kind":"effect","effect":{"kind":"transfer","item":"iron_key","to":{"holder":"player"}},"id":13,"t":1142,"cause":12}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"severity":1,"subject":"player","predicate":"took","object":"iron_key","place":"kitchen","when":1142,"origin":13,"id":"c_385ed1746c"},"credence":1,"source":{"kind":"witnessed"}},"id":14,"t":1142,"cause":13}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"odo","drive":"suspicion","delta":0.05},"id":15,"t":1142,"cause":13}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"odo","drive":"trust","delta":-0.05},"id":16,"t":1142,"cause":13}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"stance","npc":"odo","toward":"player"},"to":"wary"},"id":17,"t":1142,"cause":13}
+{"kind":"decision","requestId":"d100ac2cde30c2f5.1a055521d2dc01c0","sliceHash":"d100ac2cde30c2f5","source":"jev","answers":{"stake_odo":{"type":"noul","noul":0.91},"interject_odo":{"type":"choice","choice":"accuse:c_385ed1746c","confidence":0.55,"probabilities":{"threaten":0.04,"none_of_these":0.26,"accuse:c_385ed1746c":0.7}}},"inputTokens":1112,"latencyMs":292,"id":18,"t":1142,"cause":13}
+{"kind":"draw","purpose":"odo stake","value":0.9230146396439523,"rng":[-279949514,-1719335769,1379834096,18],"id":19,"t":1142,"cause":18}
+{"kind":"draw","purpose":"odo interjects","value":0.5345051249023527,"rng":[-1714829787,-466395024,-1495295038,19],"id":20,"t":1142,"cause":18}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"report_odo_c_385ed1746c","cause":18,"stakeholder":"odo","kind":"report","magnitude":1,"fuse":{"due":1162,"expires":1262},"status":"pending","data":{"claim":"c_385ed1746c","to":"mara"}}},"id":21,"t":1142,"cause":18}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s1_2_odo","speaker":"odo","listener":"player","act":"accuse","topic":{"kind":"claim","id":"c_385ed1746c"},"priority":2,"createdBeat":1,"cause":18}},"id":22,"t":1142,"cause":18}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"player","claim":{"severity":1,"subject":"player","predicate":"took","object":"iron_key","place":"kitchen","when":1142,"origin":13,"id":"c_385ed1746c"},"credence":0.7,"source":{"kind":"told","from":"odo"}},"id":23,"t":1142,"cause":22}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":1},"id":24,"t":1142,"cause":12}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.006},"id":25,"t":1143,"cause":12}
+{"kind":"input","text":"go cellar","via":"parsed","action":{"verb":"go","room":"cellar"},"id":26,"t":1143,"cause":null}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"machine","id":"cellar_door"},"to":"unlocked"},"id":27,"t":1143,"cause":26}
+{"kind":"effect","effect":{"kind":"move","actor":"player","to":"cellar"},"id":28,"t":1143,"cause":26}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"odo","claim":"c_df528f244f","credence":0},"id":29,"t":1143,"cause":28}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"player","predicate":"is_in","place":"cellar","when":1143,"severity":1,"origin":28,"id":"c_54cff36fe0"},"credence":1,"source":{"kind":"witnessed"}},"id":30,"t":1143,"cause":28}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"severity":2,"subject":"player","predicate":"was_near","place":"cellar","motive":"with_the_key","when":1143,"origin":28,"id":"c_cb1a79db3c"},"credence":1,"source":{"kind":"witnessed"}},"id":31,"t":1143,"cause":28}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"odo","drive":"suspicion","delta":0.1},"id":32,"t":1143,"cause":28}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"odo","drive":"trust","delta":-0.05},"id":33,"t":1143,"cause":28}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"report_odo_c_cb1a79db3c","cause":28,"stakeholder":"odo","kind":"report","magnitude":2,"fuse":{"due":1151,"expires":1263},"status":"pending","data":{"claim":"c_cb1a79db3c","to":"mara"}}},"id":34,"t":1143,"cause":28}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":35,"t":1143,"cause":26}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":36,"t":1145,"cause":26}
+{"kind":"input","text":"search barrel","via":"parsed","action":{"verb":"examine","target":"barrel"},"id":37,"t":1145,"cause":null}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"machine","id":"barrel_search"},"to":"searched"},"id":38,"t":1145,"cause":37}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":4},"id":39,"t":1145,"cause":37}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.024},"id":40,"t":1149,"cause":37}
+{"kind":"input","text":"take ledger","via":"parsed","action":{"verb":"take","item":"ledger"},"id":41,"t":1149,"cause":null}
+{"kind":"effect","effect":{"kind":"transfer","item":"ledger","to":{"holder":"player"}},"id":42,"t":1149,"cause":41}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"machine","id":"ledger_fate"},"to":"found"},"id":43,"t":1149,"cause":42}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"player","claim":{"severity":1,"subject":"player","predicate":"found","object":"ledger","place":"cellar","when":1149,"origin":42,"id":"c_59a086e699"},"credence":1,"source":{"kind":"witnessed"}},"id":44,"t":1149,"cause":42}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":1},"id":45,"t":1149,"cause":41}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.006},"id":46,"t":1150,"cause":41}
+{"kind":"input","text":"take apron","via":"parsed","action":{"verb":"take","item":"apron"},"id":47,"t":1150,"cause":null}
+{"kind":"effect","effect":{"kind":"transfer","item":"apron","to":{"holder":"player"}},"id":48,"t":1150,"cause":47}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":1},"id":49,"t":1150,"cause":47}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.006},"id":50,"t":1151,"cause":47}
+{"kind":"effect","effect":{"kind":"add_commitment","npc":"odo","entry":{"id":"reporting_28","activity":"reporting","at_location":"common_room","at":1151,"until":1159,"cause":null}},"id":51,"t":1151,"cause":28}
+{"kind":"effect","effect":{"kind":"move","actor":"odo","to":"common_room","activity":"reporting"},"id":52,"t":1151,"cause":51}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"odo","predicate":"is_in","place":"common_room","when":1151,"severity":1,"origin":52,"id":"c_48e5176e8b"},"credence":1,"source":{"kind":"witnessed"}},"id":53,"t":1151,"cause":52}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"mara","predicate":"is_in","place":"common_room","when":1151,"severity":1,"origin":52,"id":"c_c404f65da2"},"credence":1,"source":{"kind":"witnessed"}},"id":54,"t":1151,"cause":52}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"report_odo_c_cb1a79db3c","status":"fired"},"id":55,"t":1151,"cause":28}
+{"kind":"stimulus","what":"gossip","data":{"pair":"mara+odo","claim":"c_cb1a79db3c"},"id":56,"t":1151,"cause":28}
+{"kind":"decision","requestId":"596742685d2cd1bb.467bfff90bea83a3","sliceHash":"596742685d2cd1bb","source":"jev","answers":{"version":{"type":"choice","choice":"exaggerate_severity","confidence":0.53,"probabilities":{"drop_motive":0.01,"keep_quiet":0.01,"swap_culprit":0.01,"faithful":0.35,"exaggerate_severity":0.62}},"stake":{"type":"noul","noul":0.93}},"inputTokens":1564,"latencyMs":175,"id":57,"t":1151,"cause":56}
+{"kind":"draw","purpose":"odo retells","value":0.4921440277248621,"rng":[-465471040,-572753454,-162397541,20],"id":58,"t":1151,"cause":57}
+{"kind":"draw","purpose":"mara stake","value":0.7582695274613798,"rng":[-575498258,-1461577869,362593766,21],"id":59,"t":1151,"cause":57}
+{"kind":"decision","requestId":"7a1b8fd066cde69c.1c5d51c996791310","sliceHash":"7a1b8fd066cde69c","source":"jev","answers":{"believes":{"type":"noul","noul":0.63}},"inputTokens":876,"latencyMs":184,"id":60,"t":1151,"cause":57}
+{"kind":"draw","purpose":"mara believes","value":0.5257062590681016,"rng":[-1464441224,-1031623402,1129800461,22],"id":61,"t":1151,"cause":60}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"severity":3,"subject":"player","predicate":"was_near","place":"cellar","motive":"with_the_key","when":1143,"origin":28,"derivedFrom":"c_cb1a79db3c","distortion":"exaggerate_severity","id":"c_4191fd81df"},"credence":0.75,"source":{"kind":"told","from":"odo"}},"id":62,"t":1151,"cause":60}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"face_mara_c_4191fd81df","cause":60,"stakeholder":"mara","kind":"face_stranger","magnitude":3,"fuse":{"due":1151,"expires":1271},"status":"pending","data":{"claim":"c_4191fd81df"}}},"id":63,"t":1151,"cause":60}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"mara","drive":"suspicion","delta":0.15000000000000002},"id":64,"t":1151,"cause":60}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"mara","drive":"trust","delta":-0.05},"id":65,"t":1151,"cause":60}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s6_3_odo","speaker":"odo","listener":"mara","act":"tell","topic":{"kind":"claim","id":"c_4191fd81df"},"priority":3,"createdBeat":6,"cause":57}},"id":66,"t":1151,"cause":57}
+{"kind":"input","text":"go kitchen","via":"parsed","action":{"verb":"go","room":"kitchen"},"id":67,"t":1151,"cause":null}
+{"kind":"effect","effect":{"kind":"move","actor":"player","to":"kitchen"},"id":68,"t":1151,"cause":67}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":69,"t":1151,"cause":67}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":70,"t":1153,"cause":67}
+{"kind":"input","text":"search coat","via":"parsed","action":{"verb":"examine","target":"coat"},"id":71,"t":1153,"cause":null}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"machine","id":"coat_search"},"to":"searched"},"id":72,"t":1153,"cause":71}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":4},"id":73,"t":1153,"cause":71}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.024},"id":74,"t":1157,"cause":71}
+{"kind":"input","text":"take markers","via":"parsed","action":{"verb":"take","item":"markers"},"id":75,"t":1157,"cause":null}
+{"kind":"effect","effect":{"kind":"transfer","item":"markers","to":{"holder":"player"}},"id":76,"t":1157,"cause":75}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":1},"id":77,"t":1157,"cause":75}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.006},"id":78,"t":1158,"cause":75}
+{"kind":"input","text":"go common room","via":"parsed","action":{"verb":"go","room":"common_room"},"id":79,"t":1158,"cause":null}
+{"kind":"effect","effect":{"kind":"move","actor":"player","to":"common_room"},"id":80,"t":1158,"cause":79}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_df528f244f","credence":0},"id":81,"t":1158,"cause":80}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"player","predicate":"is_in","place":"common_room","when":1158,"severity":1,"origin":80,"id":"c_df095ba8aa"},"credence":1,"source":{"kind":"witnessed"}},"id":82,"t":1158,"cause":80}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"odo","claim":"c_54cff36fe0","credence":0},"id":83,"t":1158,"cause":80}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"player","predicate":"is_in","place":"common_room","when":1158,"severity":1,"origin":80,"id":"c_df095ba8aa"},"credence":1,"source":{"kind":"witnessed"}},"id":84,"t":1158,"cause":80}
+{"kind":"decision","requestId":"d5ba09bfec754fc7.ad1f81543b9c9524","sliceHash":"d5ba09bfec754fc7","source":"jev","answers":{"opens_mara":{"type":"choice","choice":"ask_dusk","confidence":0.23,"probabilities":{"ask_dusk":0.42,"none_of_these":0.34,"greet":0.18,"accuse:c_4191fd81df":0.06}}},"inputTokens":831,"latencyMs":166,"id":85,"t":1158,"cause":80}
+{"kind":"draw","purpose":"mara opens","value":0.4188396716490388,"rng":[-1025250240,1578269557,-857637232,23],"id":86,"t":1158,"cause":85}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s9_4_mara","speaker":"mara","listener":"player","act":"ask","topic":{"kind":"request","id":"dusk"},"priority":1,"createdBeat":9,"cause":85}},"id":87,"t":1158,"cause":85}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":88,"t":1158,"cause":79}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":89,"t":1160,"cause":79}
+{"kind":"effect","effect":{"kind":"move","actor":"odo","to":"kitchen","activity":"cooking"},"id":90,"t":1160,"cause":79}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_48e5176e8b","credence":0},"id":91,"t":1160,"cause":90}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"odo","predicate":"is_in","place":"kitchen","when":1160,"severity":1,"origin":90,"id":"c_c5159ae3ef"},"credence":1,"source":{"kind":"witnessed"}},"id":92,"t":1160,"cause":90}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"face_mara_c_4191fd81df","status":"fired"},"id":93,"t":1160,"cause":60}
+{"kind":"decision","requestId":"ff9ccb4f0b2ca3fc.bff4ce8c41d91231","sliceHash":"ff9ccb4f0b2ca3fc","source":"jev","answers":{"raises":{"type":"choice","choice":"ask","confidence":0.58,"probabilities":{"none_of_these":0.11,"ask":0.72,"accuse":0.17}}},"inputTokens":841,"latencyMs":119,"id":94,"t":1160,"cause":60}
+{"kind":"draw","purpose":"mara raises it","value":0.12875984888523817,"rng":[1581085256,871199504,-217054213,24],"id":95,"t":1160,"cause":94}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s10_5_mara","speaker":"mara","listener":"player","act":"accuse","topic":{"kind":"claim","id":"c_4191fd81df"},"priority":3,"createdBeat":10,"cause":94}},"id":96,"t":1160,"cause":94}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"player","claim":{"severity":3,"subject":"player","predicate":"was_near","place":"cellar","motive":"with_the_key","when":1143,"origin":28,"derivedFrom":"c_cb1a79db3c","distortion":"exaggerate_severity","id":"c_4191fd81df"},"credence":0.7,"source":{"kind":"told","from":"mara"}},"id":97,"t":1160,"cause":96}
+{"kind":"stimulus","what":"parse","data":{},"id":98,"t":1160,"cause":null}
+{"kind":"decision","requestId":"c613558c176b0b11.5e5152596cc727de","sliceHash":"c613558c176b0b11","source":"jev","answers":{"mode":{"type":"choice","choice":"in_story","confidence":0.99,"probabilities":{"to_the_system":0,"none_of_these":0,"in_story":1}},"verb":{"type":"choice","choice":"tell","confidence":0.99,"probabilities":{"take":0,"attack":0,"drop":0,"remark":0,"request":0.01,"greet":0,"offer":0,"examine":0,"use":0,"tell":0.99,"go":0,"give":0,"none_of_these":0,"promise":0,"show":0,"wait":0,"accuse":0,"insult":0,"ask":0,"threaten":0}},"target":{"type":"choice","choice":"mara","confidence":1,"probabilities":{"yard":0,"absent:odo":0,"mara":1,"bench":0,"none_of_these":0,"table":0,"markers":0,"kitchen":0,"iron_key":0,"absent:tobin":0,"tankard":0,"bread":0,"apron":0,"office":0,"coins":0,"ledger":0,"hearth":0}},"item":{"type":"choice","choice":"none_of_these","confidence":0.64,"probabilities":{"none_of_these":0.68,"table":0,"bread":0,"markers":0,"ledger":0.32,"iron_key":0,"tankard":0,"apron":0,"coins":0,"bench":0,"hearth":0}},"states":{"type":"choice","choice":"claim:c_59a086e699","confidence":1,"probabilities":{"none_of_these":0,"claim:c_4191fd81df":0,"claim:c_59a086e699":1,"alibi":0,"claim:c_385ed1746c":0,"blame:mara":0,"deny":0,"blame:tobin":0,"blame:odo":0,"claim:c_a957973a24":0}},"asks_about":{"type":"choice","choice":"none_of_these","confidence":0.92,"probabilities":{"where:mara":0,"about:pot":0,"about:markers":0,"about:strongbox":0,"about:bread":0,"about:apron":0,"about:ledger":0.07,"about:hearth":0,"about:tobin":0,"about:latch":0,"about:mara":0,"about:odo":0,"about:onion":0,"about:iron_key":0,"none_of_these":0.93,"about:coat":0,"about:straw":0,"about:table":0,"about:bench":0,"about:barrel":0,"about:tonight":0,"about:tankard":0,"about:brass_key":0,"where:odo":0,"where:tobin":0,"source:c_a957973a24":0,"source:c_385ed1746c":0,"source:c_4191fd81df":0}},"request":{"type":"choice","choice":"speak_to_mara","confidence":0.88,"probabilities":{"speak_to_mara":0.91,"none_of_these":0.09,"confess":0,"keep_quiet":0}}},"inputTokens":3642,"latencyMs":163,"id":99,"t":1160,"cause":98}
+{"kind":"input","text":"tell mara I found her ledger buried in the flour barrel in the cellar","via":"parsed","action":{"verb":"say","act":"tell","to":"mara","topic":{"kind":"claim","id":"c_59a086e699"},"item":null,"request":"speak_to_mara"},"id":100,"t":1160,"cause":null}
+{"kind":"decision","requestId":"a9cfa280d8730ac5.c717ab3420aa9ca4","sliceHash":"a9cfa280d8730ac5","source":"jev","answers":{"believes":{"type":"noul","noul":0.17},"reply_if_believes":{"type":"choice","choice":"ask_how","confidence":0.46,"probabilities":{"none_of_these":0.04,"refuse":0.02,"ask_how":0.59,"tell:c_4191fd81df":0.35}},"reply_if_doubts":{"type":"choice","choice":"ask_vouch","confidence":0.49,"probabilities":{"ask_vouch":0.66,"refuse":0.07,"none_of_these":0.27}}},"inputTokens":1371,"latencyMs":142,"id":101,"t":1160,"cause":100}
+{"kind":"draw","purpose":"mara believes","value":0.5709670446813107,"rng":[871663017,-1953487917,296306544,25],"id":102,"t":1160,"cause":101}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"severity":1,"subject":"player","predicate":"found","object":"ledger","place":"cellar","when":1149,"origin":42,"id":"c_59a086e699"},"credence":0.2,"source":{"kind":"told","from":"player"}},"id":103,"t":1160,"cause":101}
+{"kind":"draw","purpose":"mara reply","value":0.748118018032983,"rng":[-1948914750,-1628208400,-1383670083,26],"id":104,"t":1160,"cause":101}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":105,"t":1160,"cause":100}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":106,"t":1163,"cause":100}
+{"kind":"input","text":"show apron to mara","via":"parsed","action":{"verb":"show","item":"apron","to":"mara"},"id":107,"t":1163,"cause":null}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"odo","predicate":"apron_is_odos","when":1110,"severity":1,"origin":null,"id":"c_526e9c91e7"},"credence":0.9,"source":{"kind":"shown","from":"player"}},"id":108,"t":1163,"cause":107}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"has_it_out_mara_odo","cause":107,"stakeholder":"mara","kind":"react","magnitude":3,"fuse":{"due":1175,"expires":1295},"status":"pending","data":{"disposition":"has_it_out","subject":"odo","claim":"c_526e9c91e7"}}},"id":109,"t":1163,"cause":107}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_4191fd81df","credence":0.45},"id":110,"t":1163,"cause":107}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_a957973a24","credence":0.42},"id":111,"t":1163,"cause":107}
+{"kind":"decision","requestId":"c1eb5219460426ff.5fbcb5b518f24f28","sliceHash":"c1eb5219460426ff","source":"jev","answers":{"reply":{"type":"choice","choice":"ask_where_from","confidence":0.58,"probabilities":{"promise_confront":0.26,"refuse":0.03,"none_of_these":0.03,"ask_where_from":0.6799999999999999}}},"inputTokens":985,"latencyMs":153,"id":112,"t":1163,"cause":107}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"severity":1,"subject":"player","predicate":"showed","object":"apron","to":"mara","when":1163,"origin":107,"id":"c_14d47dcd3f"},"credence":1,"source":{"kind":"witnessed"}},"id":113,"t":1163,"cause":112}
+{"kind":"draw","purpose":"mara reply","value":0.1671361206099391,"rng":[-1631782095,431871141,41885607,27],"id":114,"t":1163,"cause":112}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s11_6_mara","speaker":"mara","listener":"player","act":"ask","topic":{"kind":"request","id":"where_from"},"priority":3,"createdBeat":11,"cause":112}},"id":115,"t":1163,"cause":112}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":116,"t":1163,"cause":107}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":117,"t":1166,"cause":107}
+{"kind":"effect","effect":{"kind":"move","actor":"tobin","to":"kitchen","activity":"eating"},"id":118,"t":1166,"cause":107}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"tobin","predicate":"is_in","place":"kitchen","when":1166,"severity":1,"origin":118,"id":"c_6cc7489d76"},"credence":1,"source":{"kind":"witnessed"}},"id":119,"t":1166,"cause":118}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"tobin","claim":{"subject":"odo","predicate":"is_in","place":"kitchen","when":1166,"severity":1,"origin":118,"id":"c_a779a7a5f5"},"credence":1,"source":{"kind":"witnessed"}},"id":120,"t":1166,"cause":118}
+{"kind":"stimulus","what":"gossip","data":{"pair":"odo+tobin","claim":"c_cb1a79db3c"},"id":121,"t":1166,"cause":107}
+{"kind":"decision","requestId":"2b5e52f4ea2b02a5.ae203e9ca12ea29d","sliceHash":"2b5e52f4ea2b02a5","source":"jev","answers":{"version":{"type":"choice","choice":"exaggerate_severity","confidence":0.62,"probabilities":{"faithful":0.28,"exaggerate_severity":0.7,"drop_motive":0.01,"swap_culprit":0,"keep_quiet":0.01}},"stake":{"type":"noul","noul":0.87}},"inputTokens":1566,"latencyMs":154,"id":122,"t":1166,"cause":121}
+{"kind":"draw","purpose":"odo retells","value":0.7206239665392786,"rng":[431032911,376970463,-1386537004,28],"id":123,"t":1166,"cause":122}
+{"kind":"draw","purpose":"tobin stake","value":0.18812795216217637,"rng":[376643793,406068852,717148845,29],"id":124,"t":1166,"cause":122}
+{"kind":"decision","requestId":"ad5b82a401d2c7fa.bd74cf80c94d037c","sliceHash":"ad5b82a401d2c7fa","source":"jev","answers":{"believes":{"type":"noul","noul":0.27}},"inputTokens":876,"latencyMs":182,"id":125,"t":1166,"cause":122}
+{"kind":"draw","purpose":"tobin believes","value":0.18223949568346143,"rng":[406324347,-2135594987,-2075355332,30],"id":126,"t":1166,"cause":125}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"tobin","claim":{"severity":2,"subject":"player","predicate":"was_near","place":"cellar","motive":"with_the_key","when":1143,"origin":28,"id":"c_cb1a79db3c"},"credence":0.75,"source":{"kind":"told","from":"odo"}},"id":127,"t":1166,"cause":125}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"face_tobin_c_cb1a79db3c","cause":125,"stakeholder":"tobin","kind":"face_stranger","magnitude":2,"fuse":{"due":1166,"expires":1286},"status":"pending","data":{"claim":"c_cb1a79db3c"}}},"id":128,"t":1166,"cause":125}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"tobin","drive":"suspicion","delta":0.1},"id":129,"t":1166,"cause":125}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"tobin","drive":"trust","delta":-0.05},"id":130,"t":1166,"cause":125}
+{"kind":"stimulus","what":"guard","data":{"slice":"4bc9c1ec4cc0fd5c"},"id":131,"t":1166,"cause":107}
+{"kind":"decision","requestId":"4bc9c1ec4cc0fd5c.21c2201b5a41ff04","sliceHash":"4bc9c1ec4cc0fd5c","source":"jev","answers":{"guard_a":{"type":"noul","noul":0.36},"guard_b":{"type":"noul","noul":0.33},"culprit_a":{"type":"noul","noul":0.53},"culprit_b":{"type":"noul","noul":0.59}},"inputTokens":1004,"latencyMs":142,"id":132,"t":1166,"cause":131}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s12_7_odo","speaker":"odo","listener":"tobin","act":"tell","topic":{"kind":"claim","id":"c_cb1a79db3c"},"priority":3,"createdBeat":12,"cause":122}},"id":133,"t":1166,"cause":122}
+{"kind":"input","text":"show markers to mara","via":"parsed","action":{"verb":"show","item":"markers","to":"mara"},"id":134,"t":1166,"cause":null}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"odo","predicate":"gambles","when":720,"severity":2,"origin":null,"id":"c_3068b4b77f"},"credence":0.9,"source":{"kind":"shown","from":"player"}},"id":135,"t":1166,"cause":134}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_4191fd81df","credence":0.27},"id":136,"t":1166,"cause":134}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_a957973a24","credence":0.25},"id":137,"t":1166,"cause":134}
+{"kind":"decision","requestId":"b7623671d5b933b9.cc3804c5a69575e2","sliceHash":"b7623671d5b933b9","source":"jev","answers":{"reply":{"type":"choice","choice":"none_of_these","confidence":0.13,"probabilities":{"refuse":0.19,"none_of_these":0.42,"promise_confront":0.39}}},"inputTokens":997,"latencyMs":172,"id":138,"t":1166,"cause":134}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"severity":1,"subject":"player","predicate":"showed","object":"markers","to":"mara","when":1166,"origin":134,"id":"c_fd7caf6128"},"credence":1,"source":{"kind":"witnessed"}},"id":139,"t":1166,"cause":138}
+{"kind":"draw","purpose":"mara reply","value":0.5973728108219802,"rng":[-2131414367,-1498328804,-2139228608,31],"id":140,"t":1166,"cause":138}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s12_8_mara","speaker":"mara","listener":"player","act":"promise","topic":{"kind":"request","id":"confront:odo"},"priority":3,"createdBeat":12,"cause":138}},"id":141,"t":1166,"cause":138}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":142,"t":1166,"cause":134}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":-0.12},"id":143,"t":1169,"cause":134}
+{"kind":"stimulus","what":"guard","data":{"slice":"f4f032d9d8a0d959"},"id":144,"t":1169,"cause":134}
+{"kind":"decision","requestId":"f4f032d9d8a0d959.21c2201b5a41ff04","sliceHash":"f4f032d9d8a0d959","source":"jev","answers":{"guard_a":{"type":"noul","noul":0.64},"guard_b":{"type":"noul","noul":0.62},"culprit_a":{"type":"noul","noul":0.68},"culprit_b":{"type":"noul","noul":0.73}},"inputTokens":1003,"latencyMs":178,"id":145,"t":1169,"cause":144}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"machine","id":"quest"},"to":"resolved"},"id":146,"t":1169,"cause":145}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_39ad7425bc","credence":0},"id":147,"t":1169,"cause":146}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"mara_search","status":"cancelled"},"id":148,"t":1169,"cause":146}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"mara_verdict","status":"cancelled"},"id":149,"t":1169,"cause":146}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"mara","drive":"suspicion","delta":-0.3},"id":150,"t":1169,"cause":146}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"mara","drive":"trust","delta":0.3},"id":151,"t":1169,"cause":146}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"mara","drive":"suspicion","delta":-0.3},"id":152,"t":1169,"cause":146}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"mara","drive":"trust","delta":0.2},"id":153,"t":1169,"cause":146}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"stance","npc":"mara","toward":"player"},"to":"curious"},"id":154,"t":1169,"cause":146}

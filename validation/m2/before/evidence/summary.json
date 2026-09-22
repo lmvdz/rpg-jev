@@ -1,0 +1,22 @@
+{
+  "route": "evidence",
+  "seed": 1,
+  "model": "jev-1.13.0",
+  "node": "v25.8.2",
+  "platform": "win32",
+  "over": true,
+  "quest": "resolved",
+  "clock": 1169,
+  "label": "total",
+  "calls": 14,
+  "fallbacks": 0,
+  "cached": 0,
+  "questions": 31,
+  "inputTokens": 17578,
+  "latencyMs": 2618,
+  "usd": 0.0007382760000000001,
+  "unparsed": 0,
+  "nonemptyTurns": 13,
+  "failures": 0,
+  "humanPlaytest": false
+}

@@ -1,0 +1,761 @@
+{
+  "seed": 1,
+  "inputs": [
+    "tell mara I never touched her ledger",
+    "tell mara I was sitting right here in the common room at dusk",
+    "tell mara it was odo who took it",
+    "wait 10",
+    "talk to mara",
+    "wait 60",
+    "wait 60",
+    "wait 60",
+    "wait 60",
+    "wait 60"
+  ],
+  "recordings": {
+    "351be0a9272dce35.e10074f425a4303d": {
+      "answers": {
+        "mode": {
+          "type": "choice",
+          "choice": "in_story",
+          "confidence": 0.99,
+          "probabilities": { "in_story": 1, "none_of_these": 0, "to_the_system": 0 }
+        },
+        "verb": {
+          "type": "choice",
+          "choice": "tell",
+          "confidence": 1,
+          "probabilities": {
+            "remark": 0,
+            "ask": 0,
+            "wait": 0,
+            "go": 0,
+            "threaten": 0,
+            "give": 0,
+            "take": 0,
+            "none_of_these": 0,
+            "use": 0,
+            "request": 0,
+            "show": 0,
+            "drop": 0,
+            "tell": 1,
+            "promise": 0,
+            "greet": 0,
+            "attack": 0,
+            "accuse": 0,
+            "examine": 0,
+            "offer": 0,
+            "insult": 0
+          }
+        },
+        "target": {
+          "type": "choice",
+          "choice": "mara",
+          "confidence": 1,
+          "probabilities": {
+            "absent:tobin": 0,
+            "yard": 0,
+            "tankard": 0,
+            "office": 0,
+            "hearth": 0,
+            "table": 0,
+            "mara": 1,
+            "kitchen": 0,
+            "bread": 0,
+            "absent:odo": 0,
+            "bench": 0,
+            "none_of_these": 0,
+            "coins": 0
+          }
+        },
+        "item": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 1,
+          "probabilities": {
+            "bread": 0,
+            "tankard": 0,
+            "hearth": 0,
+            "table": 0,
+            "bench": 0,
+            "none_of_these": 1,
+            "coins": 0
+          }
+        },
+        "states": {
+          "type": "choice",
+          "choice": "deny",
+          "confidence": 0.98,
+          "probabilities": {
+            "alibi": 0,
+            "deny": 0.98,
+            "none_of_these": 0.02,
+            "blame:odo": 0,
+            "blame:tobin": 0,
+            "blame:mara": 0
+          }
+        },
+        "asks_about": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.97,
+          "probabilities": {
+            "about:bench": 0,
+            "about:tankard": 0,
+            "about:ledger": 0.03,
+            "about:odo": 0,
+            "about:tobin": 0,
+            "about:brass_key": 0,
+            "about:bread": 0,
+            "about:iron_key": 0,
+            "about:straw": 0,
+            "about:latch": 0,
+            "about:barrel": 0,
+            "where:odo": 0,
+            "none_of_these": 0.97,
+            "about:hearth": 0,
+            "about:pot": 0,
+            "about:mara": 0,
+            "about:strongbox": 0,
+            "about:onion": 0,
+            "about:table": 0,
+            "where:mara": 0,
+            "about:tonight": 0,
+            "where:tobin": 0,
+            "about:coat": 0
+          }
+        },
+        "request": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.34,
+          "probabilities": {
+            "speak_to_mara": 0.46,
+            "keep_quiet": 0.01,
+            "none_of_these": 0.51,
+            "confess": 0.02
+          }
+        }
+      },
+      "inputTokens": 3137,
+      "latencyMs": 214
+    },
+    "98efed55c7739688.b6dda5cbf18096aa": {
+      "answers": {
+        "reply": {
+          "type": "choice",
+          "choice": "ask_dusk",
+          "confidence": 0.61,
+          "probabilities": {
+            "accuse:c_39ad7425bc": 0.21,
+            "refuse": 0.02,
+            "ask_dusk": 0.71,
+            "none_of_these": 0.06
+          }
+        }
+      },
+      "inputTokens": 834,
+      "latencyMs": 138
+    },
+    "73d7141ae8a4900d.7c274e9fadffd517": {
+      "answers": {
+        "mode": {
+          "type": "choice",
+          "choice": "in_story",
+          "confidence": 0.98,
+          "probabilities": { "in_story": 0.99, "none_of_these": 0, "to_the_system": 0.01 }
+        },
+        "verb": {
+          "type": "choice",
+          "choice": "tell",
+          "confidence": 0.99,
+          "probabilities": {
+            "greet": 0,
+            "offer": 0,
+            "ask": 0,
+            "take": 0,
+            "tell": 1,
+            "wait": 0,
+            "attack": 0,
+            "request": 0,
+            "promise": 0,
+            "insult": 0,
+            "give": 0,
+            "remark": 0,
+            "go": 0,
+            "none_of_these": 0,
+            "use": 0,
+            "examine": 0,
+            "show": 0,
+            "drop": 0,
+            "accuse": 0,
+            "threaten": 0
+          }
+        },
+        "target": {
+          "type": "choice",
+          "choice": "mara",
+          "confidence": 1,
+          "probabilities": {
+            "absent:tobin": 0,
+            "mara": 1,
+            "office": 0,
+            "table": 0,
+            "tankard": 0,
+            "coins": 0,
+            "bread": 0,
+            "yard": 0,
+            "bench": 0,
+            "kitchen": 0,
+            "none_of_these": 0,
+            "hearth": 0,
+            "absent:odo": 0
+          }
+        },
+        "item": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.98,
+          "probabilities": {
+            "none_of_these": 0.99,
+            "hearth": 0,
+            "bread": 0,
+            "bench": 0.01,
+            "tankard": 0,
+            "table": 0,
+            "coins": 0
+          }
+        },
+        "states": {
+          "type": "choice",
+          "choice": "alibi",
+          "confidence": 1,
+          "probabilities": {
+            "none_of_these": 0,
+            "claim:c_39ad7425bc": 0,
+            "deny": 0,
+            "blame:odo": 0,
+            "blame:mara": 0,
+            "alibi": 1,
+            "blame:tobin": 0
+          }
+        },
+        "asks_about": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.99,
+          "probabilities": {
+            "about:odo": 0,
+            "about:tonight": 0,
+            "about:straw": 0,
+            "about:barrel": 0,
+            "source:c_39ad7425bc": 0,
+            "about:table": 0,
+            "about:tobin": 0,
+            "about:coat": 0,
+            "about:bread": 0,
+            "where:tobin": 0,
+            "about:bench": 0,
+            "where:mara": 0,
+            "about:iron_key": 0,
+            "about:hearth": 0,
+            "about:ledger": 0,
+            "about:brass_key": 0,
+            "about:mara": 0.01,
+            "none_of_these": 0.99,
+            "about:latch": 0,
+            "about:tankard": 0,
+            "about:pot": 0,
+            "about:onion": 0,
+            "about:strongbox": 0,
+            "where:odo": 0
+          }
+        },
+        "request": {
+          "type": "choice",
+          "choice": "speak_to_mara",
+          "confidence": 0.74,
+          "probabilities": {
+            "none_of_these": 0.17,
+            "keep_quiet": 0,
+            "speak_to_mara": 0.8,
+            "confess": 0.02
+          }
+        }
+      },
+      "inputTokens": 3206,
+      "latencyMs": 180
+    },
+    "c83e68ed188b0a26.9359264441fc75c2": {
+      "answers": {
+        "believes": { "type": "noul", "noul": 0.09 },
+        "reply_if_believes": {
+          "type": "choice",
+          "choice": "ask_how",
+          "confidence": 0.26,
+          "probabilities": {
+            "ask_how": 0.44,
+            "tell:c_39ad7425bc": 0.32,
+            "none_of_these": 0.16,
+            "refuse": 0.08
+          }
+        },
+        "reply_if_doubts": {
+          "type": "choice",
+          "choice": "ask_vouch",
+          "confidence": 0.74,
+          "probabilities": { "ask_vouch": 0.83, "none_of_these": 0.16, "refuse": 0.01 }
+        }
+      },
+      "inputTokens": 1368,
+      "latencyMs": 150
+    },
+    "8f714085ed264075.7c274e9fadffd517": {
+      "answers": {
+        "mode": {
+          "type": "choice",
+          "choice": "in_story",
+          "confidence": 0.99,
+          "probabilities": { "none_of_these": 0, "to_the_system": 0, "in_story": 1 }
+        },
+        "verb": {
+          "type": "choice",
+          "choice": "accuse",
+          "confidence": 0.97,
+          "probabilities": {
+            "accuse": 0.98,
+            "ask": 0,
+            "drop": 0,
+            "attack": 0,
+            "threaten": 0,
+            "insult": 0,
+            "examine": 0,
+            "remark": 0,
+            "none_of_these": 0,
+            "promise": 0,
+            "offer": 0,
+            "show": 0,
+            "give": 0,
+            "go": 0,
+            "request": 0,
+            "use": 0,
+            "wait": 0,
+            "tell": 0.02,
+            "take": 0,
+            "greet": 0
+          }
+        },
+        "target": {
+          "type": "choice",
+          "choice": "mara",
+          "confidence": 1,
+          "probabilities": {
+            "none_of_these": 0,
+            "coins": 0,
+            "yard": 0,
+            "bread": 0,
+            "absent:odo": 0,
+            "tankard": 0,
+            "office": 0,
+            "hearth": 0,
+            "absent:tobin": 0,
+            "mara": 1,
+            "table": 0,
+            "bench": 0,
+            "kitchen": 0
+          }
+        },
+        "item": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 1,
+          "probabilities": {
+            "none_of_these": 1,
+            "coins": 0,
+            "hearth": 0,
+            "bread": 0,
+            "table": 0,
+            "tankard": 0,
+            "bench": 0
+          }
+        },
+        "states": {
+          "type": "choice",
+          "choice": "blame:odo",
+          "confidence": 1,
+          "probabilities": {
+            "none_of_these": 0,
+            "blame:odo": 1,
+            "alibi": 0,
+            "blame:mara": 0,
+            "deny": 0,
+            "claim:c_39ad7425bc": 0,
+            "blame:tobin": 0
+          }
+        },
+        "asks_about": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.99,
+          "probabilities": {
+            "about:onion": 0,
+            "where:odo": 0,
+            "source:c_39ad7425bc": 0,
+            "about:straw": 0,
+            "about:iron_key": 0,
+            "about:pot": 0,
+            "about:tankard": 0,
+            "about:ledger": 0,
+            "about:barrel": 0,
+            "about:odo": 0.01,
+            "about:coat": 0,
+            "none_of_these": 0.99,
+            "about:table": 0,
+            "about:bread": 0,
+            "about:strongbox": 0,
+            "about:tobin": 0,
+            "about:mara": 0,
+            "about:tonight": 0,
+            "about:brass_key": 0,
+            "about:hearth": 0,
+            "about:bench": 0,
+            "where:tobin": 0,
+            "about:latch": 0,
+            "where:mara": 0
+          }
+        },
+        "request": {
+          "type": "choice",
+          "choice": "speak_to_mara",
+          "confidence": 0.86,
+          "probabilities": {
+            "none_of_these": 0.1,
+            "speak_to_mara": 0.9,
+            "keep_quiet": 0,
+            "confess": 0
+          }
+        }
+      },
+      "inputTokens": 3201,
+      "latencyMs": 162
+    },
+    "9a2f63661acad9b2.34f86550a99f3c16": {
+      "answers": {
+        "believes": { "type": "noul", "noul": 0.14 },
+        "reply_if_believes": {
+          "type": "choice",
+          "choice": "promise_confront",
+          "confidence": 0.27,
+          "probabilities": {
+            "ask_how": 0.39,
+            "promise_confront": 0.45,
+            "none_of_these": 0.05,
+            "refuse": 0.11
+          }
+        },
+        "reply_if_doubts": {
+          "type": "choice",
+          "choice": "ask_how",
+          "confidence": 0.62,
+          "probabilities": { "ask_how": 0.75, "none_of_these": 0.13, "refuse": 0.12 }
+        }
+      },
+      "inputTokens": 1372,
+      "latencyMs": 133
+    },
+    "91bb4df0b90e21d5.1353797a922e8ad8": {
+      "answers": {
+        "reply": {
+          "type": "choice",
+          "choice": "ask_dusk",
+          "confidence": 0.48,
+          "probabilities": { "ask_dusk": 0.6, "greet": 0.21, "none_of_these": 0.14, "refuse": 0.05 }
+        }
+      },
+      "inputTokens": 900,
+      "latencyMs": 175
+    },
+    "50914741aa38b1bf.99110e993886e73e": {
+      "answers": {
+        "version": {
+          "type": "choice",
+          "choice": "exaggerate_severity",
+          "confidence": 0.6,
+          "probabilities": {
+            "exaggerate_severity": 0.7,
+            "swap_culprit": 0,
+            "faithful": 0.3,
+            "keep_quiet": 0
+          }
+        },
+        "stake": { "type": "noul", "noul": 0.85 }
+      },
+      "inputTokens": 1452,
+      "latencyMs": 121
+    },
+    "072b4a510bc409b2.bd74cf80c94d037c": {
+      "answers": { "believes": { "type": "noul", "noul": 0.29 } },
+      "inputTokens": 868,
+      "latencyMs": 190
+    },
+    "fac62ee280946cb3.61c5dd53b878a0e6": {
+      "answers": {
+        "version": {
+          "type": "choice",
+          "choice": "faithful",
+          "confidence": 0.91,
+          "probabilities": {
+            "exaggerate_severity": 0.04,
+            "faithful": 0.93,
+            "keep_quiet": 0.02,
+            "swap_culprit": 0
+          }
+        },
+        "stake": { "type": "noul", "noul": 0.9 }
+      },
+      "inputTokens": 1498,
+      "latencyMs": 124
+    },
+    "e196ce041224ddbc.bd74cf80c94d037c": {
+      "answers": { "believes": { "type": "noul", "noul": 0.5 } },
+      "inputTokens": 890,
+      "latencyMs": 219
+    },
+    "6cbd72812b421372.f7bdfc69437ab7ed": {
+      "answers": {
+        "opens_tobin": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.73,
+          "probabilities": { "greet": 0.13, "none_of_these": 0.87 }
+        }
+      },
+      "inputTokens": 780,
+      "latencyMs": 129
+    },
+    "4dbfd824f760c184.e91cfc098526c789": {
+      "answers": {
+        "opens_odo": {
+          "type": "choice",
+          "choice": "greet",
+          "confidence": 0.17,
+          "probabilities": {
+            "greet": 0.38,
+            "tell:c_0da7288b16": 0.03,
+            "accuse:c_a957973a24": 0.31,
+            "none_of_these": 0.28
+          }
+        }
+      },
+      "inputTokens": 915,
+      "latencyMs": 151
+    },
+    "5820376ee3e888a9.f2002d25b114dadb": {
+      "answers": {
+        "version": {
+          "type": "choice",
+          "choice": "faithful",
+          "confidence": 0.86,
+          "probabilities": {
+            "swap_culprit": 0.02,
+            "faithful": 0.89,
+            "keep_quiet": 0.03,
+            "exaggerate_severity": 0.06
+          }
+        },
+        "stake": { "type": "noul", "noul": 0.91 }
+      },
+      "inputTokens": 1582,
+      "latencyMs": 390
+    },
+    "83d41b7ff45442ed.12d28c9774774b94": {
+      "answers": { "believes": { "type": "noul", "noul": 0.37 } },
+      "inputTokens": 973,
+      "latencyMs": 165
+    },
+    "8d65d48c949c8c62.8402d65d4da69f99": {
+      "answers": {
+        "opens_odo": {
+          "type": "choice",
+          "choice": "accuse:c_a957973a24",
+          "confidence": 0.48,
+          "probabilities": {
+            "greet": 0.2,
+            "accuse:c_a957973a24": 0.61,
+            "tell:c_0da7288b16": 0.02,
+            "none_of_these": 0.17
+          }
+        },
+        "opens_tobin": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.71,
+          "probabilities": { "greet": 0.14, "none_of_these": 0.86 }
+        }
+      },
+      "inputTokens": 1381,
+      "latencyMs": 148
+    },
+    "591eb66da42cee9e.1313f53aa64f3c48": {
+      "answers": {
+        "act": {
+          "type": "choice",
+          "choice": "search_person",
+          "confidence": 0.45,
+          "probabilities": { "none_of_these": 0.32, "search_person": 0.64, "let_it_lie": 0.04 }
+        }
+      },
+      "inputTokens": 895,
+      "latencyMs": 130
+    },
+    "98b96c1cbe1f1abe.21c2201b5a41ff04": {
+      "answers": {
+        "guard_a": { "type": "noul", "noul": 0.56 },
+        "guard_b": { "type": "noul", "noul": 0.5 },
+        "culprit_a": { "type": "noul", "noul": 0.16 },
+        "culprit_b": { "type": "noul", "noul": 0.18 }
+      },
+      "inputTokens": 966,
+      "latencyMs": 160
+    },
+    "bbd133ebae2f22f1.660118477fcb1f8e": {
+      "answers": {
+        "act": {
+          "type": "choice",
+          "choice": "let_it_lie",
+          "confidence": 0.79,
+          "probabilities": {
+            "none_of_these": 0,
+            "tell_the_house": 0.08,
+            "tell_the_accused": 0.08,
+            "let_it_lie": 0.84
+          }
+        }
+      },
+      "inputTokens": 884,
+      "latencyMs": 184
+    },
+    "c5e020a8932c9079.35561623aa238546": {
+      "answers": {
+        "version": {
+          "type": "choice",
+          "choice": "faithful",
+          "confidence": 0.83,
+          "probabilities": {
+            "faithful": 0.87,
+            "swap_culprit": 0,
+            "exaggerate_severity": 0.11,
+            "keep_quiet": 0.02
+          }
+        },
+        "stake": { "type": "noul", "noul": 0.87 }
+      },
+      "inputTokens": 1582,
+      "latencyMs": 146
+    },
+    "29bcf89566c98e85.bd74cf80c94d037c": {
+      "answers": { "believes": { "type": "noul", "noul": 0.78 } },
+      "inputTokens": 920,
+      "latencyMs": 165
+    },
+    "edcc114c72bfd8b9.f7bdfc69437ab7ed": {
+      "answers": {
+        "opens_tobin": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.69,
+          "probabilities": { "greet": 0.16, "none_of_these": 0.84 }
+        }
+      },
+      "inputTokens": 811,
+      "latencyMs": 154
+    },
+    "33ab105d3592a49e.66ad64087831f385": {
+      "answers": {
+        "act": {
+          "type": "choice",
+          "choice": "destroy",
+          "confidence": 0.72,
+          "probabilities": { "none_of_these": 0.05, "let_it_lie": 0.13, "destroy": 0.81 }
+        }
+      },
+      "inputTokens": 891,
+      "latencyMs": 157
+    },
+    "d4de4e4fccd2579f.981e7f2093345fce": {
+      "answers": {
+        "version": {
+          "type": "choice",
+          "choice": "faithful",
+          "confidence": 0.87,
+          "probabilities": {
+            "exaggerate_severity": 0.07,
+            "keep_quiet": 0.02,
+            "swap_culprit": 0.01,
+            "faithful": 0.9
+          }
+        },
+        "stake": { "type": "noul", "noul": 0.9 }
+      },
+      "inputTokens": 1628,
+      "latencyMs": 154
+    },
+    "8748066e57ece519.12d28c9774774b94": {
+      "answers": { "believes": { "type": "noul", "noul": 0.5 } },
+      "inputTokens": 1016,
+      "latencyMs": 145
+    },
+    "0b3b00a47e5d4f78.78673e192ee21cda": {
+      "answers": {
+        "version": {
+          "type": "choice",
+          "choice": "faithful",
+          "confidence": 0.86,
+          "probabilities": {
+            "faithful": 0.9,
+            "swap_culprit": 0.01,
+            "exaggerate_severity": 0.06,
+            "keep_quiet": 0.03
+          }
+        },
+        "stake": { "type": "noul", "noul": 0.9 }
+      },
+      "inputTokens": 1555,
+      "latencyMs": 183
+    },
+    "d6df29ac40430e2c.bd74cf80c94d037c": {
+      "answers": { "believes": { "type": "noul", "noul": 0.3 } },
+      "inputTokens": 938,
+      "latencyMs": 184
+    },
+    "2b61f3244e5fe0c8.1271f2d69db4b7a1": {
+      "answers": {
+        "opens_tobin": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.79,
+          "probabilities": { "greet": 0.14, "accuse:c_39ad7425bc": 0, "none_of_these": 0.86 }
+        }
+      },
+      "inputTokens": 866,
+      "latencyMs": 165
+    },
+    "b7a15ea14cc8fb13.2e7614522d996d66": {
+      "answers": {
+        "act": {
+          "type": "choice",
+          "choice": "none_of_these",
+          "confidence": 0.46,
+          "probabilities": {
+            "let_it_lie": 0.02,
+            "throw_out": 0.02,
+            "none_of_these": 0.6,
+            "hand_to_law": 0.36
+          }
+        }
+      },
+      "inputTokens": 973,
+      "latencyMs": 219
+    }
+  }
+}

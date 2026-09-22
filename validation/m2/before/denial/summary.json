@@ -1,0 +1,22 @@
+{
+  "route": "denial",
+  "seed": 1,
+  "model": "jev-1.13.0",
+  "node": "v25.8.2",
+  "platform": "win32",
+  "over": true,
+  "quest": "condemned",
+  "clock": 1412,
+  "label": "total",
+  "calls": 29,
+  "fallbacks": 0,
+  "cached": 0,
+  "questions": 61,
+  "inputTokens": 38282,
+  "latencyMs": 4935,
+  "usd": 0.0016078440000000002,
+  "unparsed": 0,
+  "nonemptyTurns": 10,
+  "failures": 0,
+  "humanPlaytest": false
+}

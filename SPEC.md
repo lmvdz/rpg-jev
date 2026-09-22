@@ -1365,6 +1365,7 @@ and contract/version consequences when each is settled.
 
 | Decision | Status / what must be settled | Decision deadline |
 | --- | --- | --- |
+| M2 handwritten-proposal approval | Section 16 requires proposals, but automatic author ratification is not among the eight M2 families. Recommendation awaiting approval: person-approved checked-in proposals, code validation and generic scheduled execution using existing effects, hard-precondition rechecks and logged replay. Alternatively explicitly defer this requirement to M3; do not claim it is already implemented. Evidence: `validation/m2/README.md` | Before implementing or closing M2's proposal gate |
 | Platform and performance budgets | Host OS/runtime support, browser/device matrix, world capacity, latency, storage and cost budgets; S0 loopback and discrete-GPU results are not deployment evidence | Before W1 implementation and measurement; revise before measuring W2/W3 workloads |
 | Provider terms and payment | Lawful hosting/use, subscription versus API terms, credentials, quotas, billing responsibility and outage budgets; the historical Claude CLI choice is not approval to serve others under a personal subscription | Before serving others at M5; verify at W1 |
 | Transport | Retain SDK or justify a measured alternative, including browser and relay constraints; Iroh remains a candidate | W1 baseline; explicit review before any W3 replacement |
