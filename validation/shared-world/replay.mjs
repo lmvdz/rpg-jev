@@ -209,6 +209,8 @@ const changeFields = {
   signal: ["place", "channel", "strength"],
   percept: ["body", "aware"],
   settle: ["place", "element", "minutes", "found"],
+  // Milestone J: what was in a container that is gone falls out where it stood.
+  enclose: ["thing", "place"],
   nothing: [],
 };
 const changeKeys = Object.fromEntries(
@@ -216,7 +218,7 @@ const changeKeys = Object.fromEntries(
     kind,
     keySchema(
       ["kind", "because", "note", ...fields],
-      kind === "signal" ? ["quiet", "source"] : ["quiet"],
+      { signal: ["quiet", "source"], enclose: ["quiet", "where"] }[kind] ?? ["quiet"],
     ),
   ]),
 );
@@ -228,7 +230,7 @@ function validateChange(c, world) {
     "invalid-change-metadata",
   );
   if ("body" in c) check(own(world.bodies, c.body), "missing-change-body");
-  if (["state", "consume", "carried"].includes(c.kind))
+  if (["state", "consume", "carried", "enclose"].includes(c.kind))
     check(own(world.things, c.thing), "missing-change-thing");
   if ("place" in c) check(own(world.places, c.place), "missing-change-place");
   switch (c.kind) {
@@ -256,6 +258,9 @@ function validateChange(c, world) {
       break;
     case "carried":
       check(tile(c.where), "invalid-tile");
+      break;
+    case "enclose":
+      if ("where" in c) check(tile(c.where), "invalid-tile");
       break;
     case "signal":
       check(
@@ -301,8 +306,12 @@ function replayChanges(world, changes, started) {
 }
 
 function replayStep(state, event, revision, started) {
-  keys(event, ["version", "revision", "kind", "command", "changes", "draws", "rng", "tick"]);
-  check(["join", "command", "tick"].includes(event.kind), "invalid-event-kind");
+  // Version 2 carries milestone J's commit notes; replay applies the logged changes, never the model.
+  const fields = ["version", "revision", "kind", "command", "changes", "draws", "rng", "tick"];
+  keys(event, event.version === 2 ? [...fields, "jepa"] : fields);
+  if (event.version === 2)
+    check(Array.isArray(event.jepa) && event.jepa.length > 0, "invalid-jepa-notes");
+  check(["join", "command", "tick", "populate"].includes(event.kind), "invalid-event-kind");
   check(event.revision === revision + 1 && event.revision <= 0xffffffff, "revision-gap-or-order");
   check(text(event.command), "invalid-command-metadata");
   check(Array.isArray(event.changes) && Array.isArray(event.draws), "invalid-event-arrays");
@@ -315,7 +324,9 @@ function replayStep(state, event, revision, started) {
       "rng-draw-mismatch",
     );
   equal(rng.state, event.rng, "rng-state-mismatch");
-  if (event.kind !== "command") check(event.draws.length === 0, "unexpected-draws");
+  // A live milestone J tick draws from the world RNG, and every draw is checked above.
+  const liveTick = event.kind === "tick" && event.version === 2;
+  if (event.kind !== "command" && !liveTick) check(event.draws.length === 0, "unexpected-draws");
   if (event.kind === "tick") check(event.command === "", "unexpected-tick-command");
   const world = replayChanges(state.world, event.changes, started);
   const next = { ...state, world, rng: event.rng, tick: event.tick };
@@ -365,7 +376,7 @@ export function verifyArchive(file) {
     sequence = 0n,
     revision = 0,
     events = 0;
-  const counts = { initial: 0, join: 0, command: 0, tick: 0 };
+  const counts = { initial: 0, join: 0, command: 0, tick: 0, populate: 0 };
   const storage = {
     payloadBytes: 0,
     decodedPayloadBytes: 0,
@@ -408,7 +419,7 @@ export function verifyArchive(file) {
       const event = eventPayload(decodeArchivePayload(row), storage);
       storage.archivedPayloadBytes += Buffer.byteLength(row.payload);
       if (row.encoding !== undefined) storage.gzipEvents++;
-      check(event.version === 1, "unsupported-event-version");
+      check(event.version === 1 || event.version === 2, "unsupported-event-version");
       if (state) {
         state = replayStep(state, event, revision, started);
         revision = event.revision;

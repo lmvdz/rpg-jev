@@ -3,10 +3,11 @@ import { encodeSharedView } from "@rpg-jev/core/world";
 import { ScheduleAt } from "spacetimedb";
 import { SenderError, t } from "spacetimedb/server";
 import { encodeEvent } from "./event-codec.ts";
+import { clock, compactNote, isMode, rankedFor } from "./jepa.ts";
 import { isObserving, observesUntil, VIEW_LEASE_MICROS } from "./observers.ts";
 import { prepareProjection, shouldPublishTick } from "./projection.ts";
 import { type Ctx, db, timer } from "./tables.ts";
-import { admitActor, initialWorld, MAX_PLAYERS, terrainAllows } from "./world.ts";
+import { admitActor, initialWorld, MAX_PLAYERS, populated, terrainAllows } from "./world.ts";
 
 export default db;
 export const privateViews = db.clientVisibilityFilter.sql(
@@ -50,22 +51,24 @@ function refresh(ctx: Ctx, state: matter.SharedState, revision: number, schedule
 function commit(ctx: Ctx, step: matter.SharedStep, kind: string, command = ""): void {
   const row = current(ctx);
   const revision = row.revision + 1;
+  const base = {
+    revision,
+    kind,
+    command,
+    changes: step.changes,
+    draws: step.draws,
+    rng: step.state.rng,
+    tick: step.state.tick,
+  };
+  // Version 2 carries milestone J's commit notes: what the model chose, never re-run on replay.
+  const event = step.notes?.length
+    ? { version: 2, ...base, jepa: step.notes.map(compactNote) }
+    : { version: 1, ...base };
   ctx.db.event.insert({
     seq: 0n,
     reader: row.archiver,
     generation: row.generation,
-    payload: encodeEvent(
-      JSON.stringify({
-        version: 1,
-        revision,
-        kind,
-        command,
-        changes: step.changes,
-        draws: step.draws,
-        rng: step.state.rng,
-        tick: step.state.tick,
-      }),
-    ),
+    payload: encodeEvent(JSON.stringify(event)),
   });
   ctx.db.worldState.id.update({ ...row, revision, json: JSON.stringify(step.state) });
   refresh(ctx, step.state, revision, kind === "tick");
@@ -88,7 +91,40 @@ export const init = db.init((ctx) => {
     generation: ctx.databaseIdentity.toHexString(),
     payload: encodeEvent(JSON.stringify({ version: 1, kind: "initial", state })),
   });
-  ctx.db.timer.insert({ id: 0n, scheduledAt: ScheduleAt.interval(500_000n) });
+  ctx.db.timer.insert({ id: 0n, scheduledAt: ScheduleAt.interval(DEFAULT_TICK_MICROS) });
+  ctx.db.jepaConfig.insert({ id: 0, mode: "off", tickMicros: DEFAULT_TICK_MICROS });
+});
+
+const DEFAULT_TICK_MICROS = 500_000n;
+
+/** This world's milestone J mode and tick; a world published before J has none and is off. */
+function jepaConfig(ctx: Ctx) {
+  const row = ctx.db.jepaConfig.id.find(0);
+  const mode = row && isMode(row.mode) ? row.mode : "off";
+  return { mode, tickMicros: row?.tickMicros ?? DEFAULT_TICK_MICROS };
+}
+
+/** Owner only: turn the model off, to shadow or live, and set the tick (50 ms to 2 s). */
+export const configureJepa = db.reducer(
+  { mode: t.string(), tickMicros: t.u64() },
+  (ctx, { mode, tickMicros }) => {
+    if (!ctx.sender.equals(current(ctx).owner)) throw new SenderError("Owner only");
+    if (!isMode(mode)) throw new SenderError("Unknown mode");
+    if (tickMicros < 50_000n || tickMicros > 2_000_000n) throw new SenderError("Tick out of range");
+    const row = { id: 0, mode, tickMicros };
+    if (ctx.db.jepaConfig.id.find(0)) ctx.db.jepaConfig.id.update(row);
+    else ctx.db.jepaConfig.insert(row);
+    for (const timerRow of ctx.db.timer.iter()) ctx.db.timer.id.delete(timerRow.id);
+    ctx.db.timer.insert({ id: 0n, scheduledAt: ScheduleAt.interval(tickMicros) });
+  },
+);
+
+/** Owner only: grow the world to `total` things (J2's load), as a logged event like any other. */
+export const populate = db.reducer({ total: t.u32(), seed: t.u32() }, (ctx, { total, seed }) => {
+  if (!ctx.sender.equals(current(ctx).owner)) throw new SenderError("Owner only");
+  if (total > 5000) throw new SenderError("At most 5,000 things");
+  const state: matter.SharedState = JSON.parse(current(ctx).json);
+  commit(ctx, populated(state, total, seed), "populate", `${total}:${seed}`);
 });
 
 export const join = db.reducer((ctx) => {
@@ -133,7 +169,12 @@ export const observe = db.reducer((ctx) => {
   refresh(ctx, JSON.parse(row.json), row.revision);
 });
 
-function execute(state: matter.SharedState, actor: string, payload: string): matter.SharedStep {
+function execute(
+  state: matter.SharedState,
+  actor: string,
+  payload: string,
+  settle: matter.Settle,
+): matter.SharedStep {
   const reject = (reason: string): matter.SharedStep => ({
     state,
     ok: false,
@@ -170,6 +211,7 @@ function execute(state: matter.SharedState, actor: string, payload: string): mat
     command.answers as Record<string, string>,
     command.operands as Record<string, string>,
     (from, to) => terrainAllows(state.world, from, to, false),
+    settle,
   );
 }
 
@@ -193,9 +235,10 @@ export const command = db.reducer(
     else if (ctx.db.event.count() >= HOT_LIMIT) reason = "archive-backlog";
     else if (ctx.timestamp.microsSinceUnixEpoch - player.lastMicros < 50_000n)
       reason = "rate-limited";
+    const ranked = rankedFor(jepaConfig(ctx).mode);
     const result = reason
       ? { state, ok: false, reason, changes: [], draws: [] }
-      : execute(state, player.actor, payload);
+      : execute(state, player.actor, payload, ranked.settle);
     ctx.db.player.identity.update({
       ...player,
       seq,
@@ -214,18 +257,55 @@ export const command = db.reducer(
 export const advance = db.reducer({ onSchedule: timer }, { timer: timer.rowType }, (ctx) => {
   if (!ctx.sender.equals(ctx.databaseIdentity)) throw new SenderError("Scheduler only");
   if (ctx.db.event.count() >= HOT_LIMIT) return;
+  const started = clock();
   const state: matter.SharedState = JSON.parse(current(ctx).json);
   const actors = Object.keys(state.world.bodies)
     .filter((id) => !id.startsWith("player-"))
     .sort();
+  const config = jepaConfig(ctx);
+  const ranked = rankedFor(config.mode);
+  // Passive time is as long as the tick, in game minutes.
+  const minutes = Number(config.tickMicros) / 60_000_000;
   const step = matter.sharedTick(
     state,
     actors,
     (from, to) => terrainAllows(state.world, from, to),
-    1 / 120,
+    minutes,
+    ranked.settle,
   );
   commit(ctx, step, "tick");
+  telemetry(ctx, config.mode, step, ranked.finish(), clock() - started);
 });
+
+const RING = 4096;
+
+/** Milestone J telemetry: timings and counts only, a ring of the latest ticks. */
+function telemetry(
+  ctx: Ctx,
+  mode: string,
+  step: matter.SharedStep,
+  t: { scoringMs: number; scored: number; cached: number },
+  tickMs: number,
+): void {
+  const note = step.notes?.[0] as
+    | { record: { fallback: string }; agreed: number; things: number }
+    | undefined;
+  const row = {
+    slot: step.state.tick % RING,
+    tick: step.state.tick,
+    mode,
+    things: Object.keys(step.state.world.things).length,
+    scoringMicros: Math.round(t.scoringMs * 1000),
+    tickMicros: Math.round(tickMs * 1000),
+    fallback: note?.record.fallback ?? "off",
+    agreed: note?.agreed ?? 0,
+    draws: step.draws.length,
+    scored: t.scored,
+    cached: t.cached,
+  };
+  if (ctx.db.jepaTick.slot.find(row.slot)) ctx.db.jepaTick.slot.update(row);
+  else ctx.db.jepaTick.insert(row);
+}
 
 export const registerArchiver = db.reducer({ identity: t.identity() }, (ctx, { identity }) => {
   const row = current(ctx);

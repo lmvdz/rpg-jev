@@ -26,19 +26,24 @@ FACTORS = 4
 FACTOR_DIM = LATENT // FACTORS
 TRUNK = 64
 FACTOR_HIDDEN = 20
+# Pre-registered sizes (docs/jepa-proof/REMEDIES.md): R1 widens both arms, capacity-matched.
+SIZES = {
+    "base": {"latent": 32, "hidden": 64, "factors": 4, "trunk": 64, "factor_hidden": 20},
+    "large": {"latent": 64, "hidden": 128, "factors": 8, "trunk": 128, "factor_hidden": 20},
+}
 UPSTREAM = "c6e6c88f3ef75a4ce7acd660d6fa5779d995512c"
 
 
 class Encoder(nn.Module):
     """A thing, its place and the act, plus a sum over up to eight related things."""
 
-    def __init__(self) -> None:
+    def __init__(self, latent: int = LATENT, hidden: int = HIDDEN) -> None:
         super().__init__()
-        self.self1 = nn.Linear(THING + PLACE + ACT, HIDDEN)
-        self.self2 = nn.Linear(HIDDEN, LATENT)
-        self.neighbour = nn.Linear(NEIGHBOUR, LATENT)
-        self.combine1 = nn.Linear(2 * LATENT, LATENT)
-        self.combine2 = nn.Linear(LATENT, LATENT)
+        self.self1 = nn.Linear(THING + PLACE + ACT, hidden)
+        self.self2 = nn.Linear(hidden, latent)
+        self.neighbour = nn.Linear(NEIGHBOUR, latent)
+        self.combine1 = nn.Linear(2 * latent, latent)
+        self.combine2 = nn.Linear(latent, latent)
 
     def forward(self, obs: torch.Tensor) -> torch.Tensor:
         head = obs[:, : THING + PLACE + ACT]
@@ -56,12 +61,14 @@ def act_of(obs: torch.Tensor) -> torch.Tensor:
 class Supervised(nn.Module):
     arm = "supervised"
 
-    def __init__(self) -> None:
+    def __init__(self, size: str = "base") -> None:
         super().__init__()
-        self.encoder = Encoder()
-        self.trunk1 = nn.Linear(LATENT + ACT, TRUNK)
-        self.trunk2 = nn.Linear(TRUNK, LATENT)
-        self.readout = nn.Linear(LATENT, CLASSES)
+        c = SIZES[size]
+        self.size = size
+        self.encoder = Encoder(c["latent"], c["hidden"])
+        self.trunk1 = nn.Linear(c["latent"] + ACT, c["trunk"])
+        self.trunk2 = nn.Linear(c["trunk"], c["latent"])
+        self.readout = nn.Linear(c["latent"], CLASSES)
 
     def logits(self, obs: torch.Tensor) -> torch.Tensor:
         z = self.encoder(obs)
@@ -79,16 +86,19 @@ class Supervised(nn.Module):
 class Jepa(nn.Module):
     arm = "jepa"
 
-    def __init__(self, momentum: float = 0.996) -> None:
+    def __init__(self, momentum: float = 0.996, size: str = "base") -> None:
         super().__init__()
-        self.encoder = Encoder()
+        c = SIZES[size]
+        self.size = size
+        latent, factors = c["latent"], c["factors"]
+        self.encoder = Encoder(latent, c["hidden"])
         self.target = copy.deepcopy(self.encoder)
         self.target.requires_grad_(False)
         self.momentum = momentum
-        self.heads1 = nn.ModuleList(nn.Linear(LATENT + ACT, FACTOR_HIDDEN) for _ in range(FACTORS))
-        self.heads2 = nn.ModuleList(nn.Linear(FACTOR_HIDDEN, FACTOR_DIM) for _ in range(FACTORS))
-        self.opf = OrthogonalFactorProjection(LATENT, FACTORS, FACTOR_DIM, learnable=True)
-        self.readout = nn.Linear(LATENT, CLASSES)
+        self.heads1 = nn.ModuleList(nn.Linear(latent + ACT, c["factor_hidden"]) for _ in range(factors))
+        self.heads2 = nn.ModuleList(nn.Linear(c["factor_hidden"], latent // factors) for _ in range(factors))
+        self.opf = OrthogonalFactorProjection(latent, factors, latent // factors, learnable=True)
+        self.readout = nn.Linear(latent, CLASSES)
 
     def factors(self, z: torch.Tensor, act: torch.Tensor) -> torch.Tensor:
         x = torch.cat([z, act], dim=-1)
@@ -148,8 +158,8 @@ def parameters(model: nn.Module) -> int:
     return sum(p.numel() for p in model.parameters() if p.requires_grad and id(p) not in skip)
 
 
-def build(arm: str) -> nn.Module:
-    return Jepa() if arm == "jepa" else Supervised()
+def build(arm: str, size: str = "base") -> nn.Module:
+    return Jepa(size=size) if arm == "jepa" else Supervised(size=size)
 
 
 assert OBS == THING + PLACE + ACT + N * NEIGHBOUR

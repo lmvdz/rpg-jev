@@ -3,6 +3,7 @@
     "strict": true,
     "skipLibCheck": true,
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "target": "ESNext",
     "lib": ["ES2023", "DOM"],
     "module": "ESNext",

@@ -33,6 +33,7 @@ def main() -> None:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--extra", nargs="*", default=[], help="extra open splits to train on (post-training)")
     ap.add_argument("--repeat", type=int, default=1, help="how many times each extra split is repeated")
+    ap.add_argument("--size", choices=["base", "large"], default="base")
     ap.add_argument("--init", type=Path, default=None, help="start from this run's checkpoint (post-training)")
     args = ap.parse_args()
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -42,7 +43,7 @@ def main() -> None:
         extras = [(load_split(args.data, name, device), args.repeat) for name in args.extra]
         train = concat([(train, 1), *extras])
     val = load_split(args.data, "val", device)
-    model = build(args.arm).to(device)
+    model = build(args.arm, args.size).to(device)
     if args.init is not None:
         model.load_state_dict(torch.load(args.init / "model.pt", weights_only=True)["state"])
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
@@ -71,12 +72,13 @@ def main() -> None:
             best = (metrics["nll"], copy.deepcopy(model.state_dict()), epoch)
     args.out.mkdir(parents=True, exist_ok=True)
     checkpoint = args.out / "model.pt"
-    torch.save({"arm": args.arm, "seed": args.seed, "state": best[1]}, checkpoint)
+    torch.save({"arm": args.arm, "seed": args.seed, "size": args.size, "state": best[1]}, checkpoint)
     digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
     manifest = json.loads((args.data / "manifest.json").read_text())
     summary = {
         "arm": args.arm,
         "seed": args.seed,
+        "size": args.size,
         "best_epoch": best[2],
         "val": history[best[2]],
         "history": history,

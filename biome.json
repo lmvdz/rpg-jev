@@ -6,7 +6,15 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/results", "!**/labels", "!demo", "!packages/client/src/shared_bindings"]
+    "includes": [
+      "**",
+      "!**/results",
+      "!**/labels",
+      "!demo",
+      "!packages/client/src/shared_bindings",
+      "!packages/predictor/checkpoints",
+      "!packages/server/bindings"
+    ]
   },
   "formatter": {
     "indentStyle": "space",

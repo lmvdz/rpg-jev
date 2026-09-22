@@ -5,12 +5,9 @@
  * file under the server package for an import specifier that reaches into
  * `packages/client`, so a stray import cannot creep back in unnoticed.
  *
- * One narrow exception: `spacetime generate` writes the SpacetimeDB row
- * bindings for its own client connection into `packages/client/src/shared_bindings`
- * (`packages/server/src/publish.ts`), and the archive worker decodes archived
- * rows with those same generated types (`packages/server/src/archive.ts`).
- * That is a codegen destination, not world or protocol logic, and moving it
- * is a separate concern from this refactor.
+ * `spacetime generate` writes the module's row bindings into both packages
+ * (`packages/server/src/publish.ts`); the server's own tools read the copy in
+ * `packages/server/bindings`, so there is no exception.
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
@@ -21,7 +18,6 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const SERVER_DIR = join(HERE, "..");
 const ROOTS = ["module/src", "src", "test"];
 const IMPORT_SPECIFIER = /(?:\bfrom\s*|\bimport\s*\(\s*)["']([^"']+)["']/g;
-const ALLOWED_CLIENT_IMPORT = /shared_bindings/;
 
 function tsFiles(dir: string): string[] {
   const out: string[] = [];
@@ -38,9 +34,7 @@ function clientImports(file: string): string[] {
   const specifiers: string[] = [];
   for (const match of source.matchAll(IMPORT_SPECIFIER)) {
     const specifier = match[1] ?? "";
-    if (specifier.includes("/client/") && !ALLOWED_CLIENT_IMPORT.test(specifier)) {
-      specifiers.push(specifier);
-    }
+    if (specifier.includes("/client/")) specifiers.push(specifier);
   }
   return specifiers;
 }

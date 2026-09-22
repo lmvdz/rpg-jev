@@ -27,7 +27,7 @@ FAMILIES = {1: "B1", 2: "B2", 3: "B3"}
 
 def load_run(run: Path, device: str) -> torch.nn.Module:
     saved = torch.load(run / "model.pt", weights_only=True, map_location=device)
-    model = build(saved["arm"]).to(device)
+    model = build(saved["arm"], saved.get("size", "base")).to(device)
     model.load_state_dict(saved["state"])
     return model
 

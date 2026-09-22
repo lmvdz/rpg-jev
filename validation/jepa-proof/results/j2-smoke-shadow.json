@@ -1,0 +1,1358 @@
+{
+  "gate": "J2",
+  "started": "2026-09-22T20:31:04.886Z",
+  "environment": {
+    "node": "v25.8.2",
+    "host": "ws://127.0.0.1:3077",
+    "database": "rpg-jepa",
+    "spacetimedb": "2.10.1 standalone, loopback",
+    "platform": "win32 x64"
+  },
+  "config": {
+    "seconds": 20,
+    "mode": "shadow",
+    "clients": 8,
+    "things": 2000,
+    "tickMicros": 100000
+  },
+  "thresholds": {
+    "scoringP95Ms": 5,
+    "ackP95Ms": 250,
+    "fallbackRate": 0.01,
+    "deadlineMs": 10
+  },
+  "commands": [
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 5110.5259,
+      "ms": 414.77019999999993,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "B",
+      "kind": "act",
+      "at": 5239.7605,
+      "ms": 423.40579999999954,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 5366.2235,
+      "ms": 344.4903999999997,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 5483.3114,
+      "ms": 370.08410000000003,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "act",
+      "at": 5618.1158,
+      "ms": 803.2574000000004,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 5744.9762,
+      "ms": 712.6284999999998,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 5861.9219,
+      "ms": 732.5072999999993,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 5993.6778,
+      "ms": 725.7902999999997,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 6118.5772,
+      "ms": 640.1795000000002,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 6245.2404,
+      "ms": 648.9290000000001,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 6369.7923,
+      "ms": 1026.3192,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 6495.2641,
+      "ms": 941.6481999999996,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 6618.7934,
+      "ms": 946.4541000000008,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 6743.5383,
+      "ms": 860.1327000000001,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 6866.5779,
+      "ms": 774.8715000000002,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "H",
+      "kind": "act",
+      "at": 7005.9983,
+      "ms": 753.2927,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "act",
+      "at": 7131.8016,
+      "ms": 749.5880999999999,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 7256.8701,
+      "ms": 659.9903999999997,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 7406.3951,
+      "ms": 957.4513000000006,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 7510.7797,
+      "ms": 890.0011999999997,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 7617.1744,
+      "ms": 822.5457999999999,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 7742.0154,
+      "ms": 849.6967000000004,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 7873.9206,
+      "ms": 754.0592999999999,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 8005.9335,
+      "ms": 749.9734999999991,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 8131.8877,
+      "ms": 746.3658999999998,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 8259.1783,
+      "ms": 659.8371999999999,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 8408.0104,
+      "ms": 977.6269000000011,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 8522.7231,
+      "ms": 904.8621000000003,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "act",
+      "at": 8617.1462,
+      "ms": 924.3359,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 8742.6022,
+      "ms": 921.3039000000008,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "act",
+      "at": 8886.506,
+      "ms": 894.4426000000003,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "act",
+      "at": 9021.9671,
+      "ms": 883.0941999999995,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "act",
+      "at": 9144.1752,
+      "ms": 871.6884000000009,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 9271.2115,
+      "ms": 786.8005000000012,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 9412.4121,
+      "ms": 1144.419100000001,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 9537.2704,
+      "ms": 1140.2255999999998,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 9631.5355,
+      "ms": 1088.4230000000007,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 9756.2986,
+      "ms": 1090.422199999999,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 9897.3597,
+      "ms": 1068.0865999999987,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "act",
+      "at": 10022.7133,
+      "ms": 1058.552600000001,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 10145.1305,
+      "ms": 975.9829000000009,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 10285.1079,
+      "ms": 958.6582999999991,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 10564.4328,
+      "ms": 1165.4951999999994,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 10684.9074,
+      "ms": 1084.575999999999,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 10738.2644,
+      "ms": 1070.1933000000008,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 10854.9632,
+      "ms": 1078.3451999999997,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 10973.3609,
+      "ms": 1080.7993000000006,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 11100.6113,
+      "ms": 1099.0537999999997,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 11148.3584,
+      "ms": 1184.6754,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "act",
+      "at": 11287.2872,
+      "ms": 1167.0792999999994,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "act",
+      "at": 11738.8059,
+      "ms": 1214.7567,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 11787.3254,
+      "ms": 1287.7196000000004,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 11819.1107,
+      "ms": 1293.8508000000002,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 11942.1883,
+      "ms": 1289.7700999999997,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 12068.0424,
+      "ms": 1287.0263999999988,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 12208.0467,
+      "ms": 1266.1975999999995,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 12341.8617,
+      "ms": 1169.020700000001,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 12461.6734,
+      "ms": 1089.5498000000007,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 12960.6849,
+      "ms": 1134.7670999999991,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 13082.9447,
+      "ms": 1046.7281000000003,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "act",
+      "at": 13129.4632,
+      "ms": 1110.83,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 13253.8422,
+      "ms": 1104.9490000000005,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 13378.5891,
+      "ms": 1016.3147000000008,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "H",
+      "kind": "act",
+      "at": 13486.946,
+      "ms": 1023.5692999999992,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 13517.4644,
+      "ms": 1109.501699999999,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 13567.7057,
+      "ms": 1099.8796999999995,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 14102.985,
+      "ms": 1047.3876999999993,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "act",
+      "at": 14145.1709,
+      "ms": 1116.8454000000002,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 14249.5874,
+      "ms": 1048.7911999999997,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 14368.2105,
+      "ms": 968.099400000001,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 14414.2945,
+      "ms": 1035.3397000000004,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 14519.1168,
+      "ms": 970.2990000000009,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 14635.6957,
+      "ms": 979.2660999999989,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 14674.5924,
+      "ms": 1054.5631000000012,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "act",
+      "at": 15157.106,
+      "ms": 1072.7829000000002,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 15285.6944,
+      "ms": 1065.8197,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "act",
+      "at": 15315.4993,
+      "ms": 1148.0119000000013,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 15378.3627,
+      "ms": 1118.7271999999994,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 15458.6727,
+      "ms": 1153.6543999999994,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 15519.0977,
+      "ms": 1132.0674999999992,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 15641.2334,
+      "ms": 1048.3459999999995,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 15736.982,
+      "ms": 989.9828999999991,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 16236.6972,
+      "ms": 934.7918000000009,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 16360.4445,
+      "ms": 923.9354000000003,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "act",
+      "at": 16471.3465,
+      "ms": 921.6833000000006,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 16515.9537,
+      "ms": 994.9256000000023,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 16619.5409,
+      "ms": 929.7377000000015,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 16671.2829,
+      "ms": 918.3636000000006,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 16701.8217,
+      "ms": 1006.2348999999995,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 16748.3063,
+      "ms": 998.6549999999988,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 17250.9227,
+      "ms": 923.4802000000018,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 17360.7564,
+      "ms": 950.8266000000003,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 17486.5843,
+      "ms": 944.987000000001,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 17519.4489,
+      "ms": 1031.218499999999,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 17626.3551,
+      "ms": 961.1699999999983,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 17674.6063,
+      "ms": 957.2785000000003,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 17716.5382,
+      "ms": 1030.0637000000024,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 17757.57,
+      "ms": 1027.4676,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 18254.4756,
+      "ms": 928.6188999999977,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 18365.782,
+      "ms": 855.3127000000022,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 18489.3587,
+      "ms": 870.977899999998,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 18557.3094,
+      "ms": 923.4102000000021,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 18628.3992,
+      "ms": 977.043099999999,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "act",
+      "at": 18675.1951,
+      "ms": 1044.1316000000006,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "act",
+      "at": 18755.4122,
+      "ms": 1070.3497000000025,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 18799.8995,
+      "ms": 1154.084600000002,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 19268.4535,
+      "ms": 1164.3932999999997,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "act",
+      "at": 19366.9414,
+      "ms": 1186.9177000000018,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 19489.7082,
+      "ms": 1104.437399999999,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 19568.5692,
+      "ms": 1065.349299999998,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 19631.5627,
+      "ms": 1117.065300000002,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 19726.9047,
+      "ms": 1059.5944999999992,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "A",
+      "kind": "act",
+      "at": 19832.181,
+      "ms": 1079.159499999998,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 19962.4829,
+      "ms": 1006.2389000000003,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "act",
+      "at": 20439.9445,
+      "ms": 1015.7642999999989,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 20561.7248,
+      "ms": 930.3849999999984,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "act",
+      "at": 20602.3695,
+      "ms": 1010.3133999999991,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 20650.6419,
+      "ms": 1078.7191999999995,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "act",
+      "at": 20756.2313,
+      "ms": 1088.7019,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 20808.5012,
+      "ms": 1071.9626000000026,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "A",
+      "kind": "act",
+      "at": 20920.085,
+      "ms": 1080.7034999999996,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 20981.3303,
+      "ms": 1055.2343999999975,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "act",
+      "at": 21462.1723,
+      "ms": 1111.3174,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 21563.4347,
+      "ms": 1051.1591999999982,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 21620.5876,
+      "ms": 1032.2574000000022,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 21736.27,
+      "ms": 955.094000000001,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 21862.0951,
+      "ms": 867.1511000000028,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "H",
+      "kind": "act",
+      "at": 21891.1412,
+      "ms": 952.515000000003,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 22007.9836,
+      "ms": 874.160100000001,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 22046.087,
+      "ms": 876.4304000000011,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 22581.1815,
+      "ms": 808.0611000000026,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "act",
+      "at": 22628.205,
+      "ms": 872.2285999999986,
+      "outcome": "accepted"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 22660.5878,
+      "ms": 877.445499999998,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 22735.8653,
+      "ms": 930.7874999999985,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "act",
+      "at": 22863.8384,
+      "ms": 919.4169999999976,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 22895.7515,
+      "ms": 925.1140000000014,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 23024.1181,
+      "ms": 920.6058000000012,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 23054.9122,
+      "ms": 1007.3644999999997,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 23588.6562,
+      "ms": 975.1826999999976,
+      "outcome": "accepted"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 23635.752,
+      "ms": 963.5105999999978,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 23660.2134,
+      "ms": 1053.6378000000004,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "act",
+      "at": 23747.1002,
+      "ms": 1089.1671999999999,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "act",
+      "at": 23870.4473,
+      "ms": 1084.8233,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "act",
+      "at": 23901.8323,
+      "ms": 1169.9255000000012,
+      "outcome": "accepted"
+    },
+    {
+      "client": "A",
+      "kind": "move",
+      "at": 24026.4002,
+      "ms": 1165.0724999999984,
+      "outcome": "accepted"
+    },
+    {
+      "client": "B",
+      "kind": "move",
+      "at": 24070.2884,
+      "ms": 1236.0105999999978,
+      "outcome": "accepted"
+    },
+    {
+      "client": "C",
+      "kind": "move",
+      "at": 24595.8194,
+      "ms": 1086.505000000001,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "D",
+      "kind": "move",
+      "at": 24642.1869,
+      "ms": 1081.1880999999994,
+      "outcome": "invalid-step"
+    },
+    {
+      "client": "E",
+      "kind": "move",
+      "at": 24724.581,
+      "ms": 1130.0275000000001,
+      "outcome": "accepted"
+    },
+    {
+      "client": "F",
+      "kind": "move",
+      "at": 24844.5479,
+      "ms": 1124.7454999999973,
+      "outcome": "accepted"
+    },
+    {
+      "client": "G",
+      "kind": "move",
+      "at": 24973.177,
+      "ms": 1114.9032000000007,
+      "outcome": "accepted"
+    },
+    {
+      "client": "H",
+      "kind": "move",
+      "at": 25081.497,
+      "ms": 1043.9213000000018,
+      "outcome": "invalid-step"
+    }
+  ],
+  "errors": [],
+  "ticks": [
+    {
+      "tick": 559,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 12000,
+      "tickMicros": 384000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 32,
+      "cached": 640
+    },
+    {
+      "tick": 560,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 397000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 1,
+      "cached": 671
+    },
+    {
+      "tick": 561,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 12000,
+      "tickMicros": 389000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 35,
+      "cached": 669
+    },
+    {
+      "tick": 562,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 398000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 1,
+      "cached": 703
+    },
+    {
+      "tick": 563,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 347000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 1,
+      "cached": 671
+    },
+    {
+      "tick": 564,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 20000,
+      "tickMicros": 365000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 0,
+      "cached": 256
+    },
+    {
+      "tick": 565,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 364000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 4,
+      "cached": 668
+    },
+    {
+      "tick": 566,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 385000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 2,
+      "cached": 670
+    },
+    {
+      "tick": 567,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 393000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 3,
+      "cached": 701
+    },
+    {
+      "tick": 568,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 13000,
+      "tickMicros": 353000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 32,
+      "cached": 704
+    },
+    {
+      "tick": 569,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 372000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 1,
+      "cached": 735
+    },
+    {
+      "tick": 570,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 319000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 33,
+      "cached": 735
+    },
+    {
+      "tick": 571,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 384000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 5,
+      "cached": 699
+    },
+    {
+      "tick": 572,
+      "mode": "shadow",
+      "things": 2007,
+      "scoringMicros": 11000,
+      "tickMicros": 353000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 3,
+      "cached": 765
+    },
+    {
+      "tick": 573,
+      "mode": "shadow",
+      "things": 2008,
+      "scoringMicros": 11000,
+      "tickMicros": 358000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 7,
+      "cached": 729
+    },
+    {
+      "tick": 574,
+      "mode": "shadow",
+      "things": 2008,
+      "scoringMicros": 11000,
+      "tickMicros": 360000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 1,
+      "cached": 703
+    },
+    {
+      "tick": 575,
+      "mode": "shadow",
+      "things": 2008,
+      "scoringMicros": 11000,
+      "tickMicros": 382000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 1,
+      "cached": 735
+    },
+    {
+      "tick": 576,
+      "mode": "shadow",
+      "things": 2008,
+      "scoringMicros": 11000,
+      "tickMicros": 349000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 0,
+      "cached": 736
+    },
+    {
+      "tick": 577,
+      "mode": "shadow",
+      "things": 2008,
+      "scoringMicros": 11000,
+      "tickMicros": 370000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 3,
+      "cached": 669
+    },
+    {
+      "tick": 578,
+      "mode": "shadow",
+      "things": 2008,
+      "scoringMicros": 11000,
+      "tickMicros": 337000,
+      "fallback": "deadline",
+      "agreed": 0,
+      "draws": 0,
+      "scored": 3,
+      "cached": 701
+    }
+  ],
+  "results": {
+    "commands": 152,
+    "accepted": 92,
+    "outcomes": {
+      "invalid-step": 60,
+      "accepted": 92
+    },
+    "ackP50Ms": 1044.1316000000006,
+    "ackP95Ms": 1236.0105999999978,
+    "ticks": 20,
+    "ticksPerSecond": 1,
+    "thingsScored": 2007,
+    "scoringP50Ms": 11,
+    "scoringP95Ms": 13,
+    "tickP50Ms": 365,
+    "tickP95Ms": 397,
+    "fallbackRate": 1
+  },
+  "pass": {
+    "scoring": false,
+    "ack": false,
+    "fallback": false,
+    "things": true,
+    "all": false
+  }
+}

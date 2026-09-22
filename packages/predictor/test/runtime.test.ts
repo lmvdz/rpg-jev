@@ -44,11 +44,13 @@ describe("runtime parity with PyTorch", () => {
     };
     const obs = parity.observations.map((o) => Float64Array.from(o));
     let t = 0;
-    const late = scorerOf(model, { deadlineMs: 5, now: () => (t += 1) });
+    // Each reading of this clock is 10 ms later: the first check is already past the deadline.
+    const late = scorerOf(model, { deadlineMs: 5, now: () => (t += 10) });
     expect(late(obs, [])).toBeNull();
     const ok = scorerOf(model, { deadlineMs: 1e9, now: () => 0 });
     ok(obs, []);
+    const before = ok.stats.cached;
     ok(obs, []);
-    expect(ok.stats.cached).toBe(obs.length);
+    expect(ok.stats.cached - before).toBe(obs.length);
   });
 });

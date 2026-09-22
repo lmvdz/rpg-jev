@@ -1,6 +1,14 @@
 /** The existing seeded clearing, hosted rather than reconstructed from client commands. */
-import { matter } from "@rpg-jev/core";
-import { buildClearing, canStep, glyphOfChar, INK, seedMatterWorld } from "@rpg-jev/core/world";
+import { matter, Rng } from "@rpg-jev/core";
+import {
+  buildClearing,
+  canStep,
+  glyphOfChar,
+  INK,
+  NOTHING_BLOCKS,
+  seedMatterWorld,
+  standable,
+} from "@rpg-jev/core/world";
 
 export const SEED = 1;
 export const MAX_PLAYERS = 8;
@@ -112,4 +120,49 @@ export function admitActor(state: matter.SharedState, actor: string): matter.Sha
 
 export function lookOf(id: string) {
   return scenery.get(id);
+}
+
+/**
+ * Milestone J's load (J2): grow the world to `total` things on open tiles, from elements it
+ * already holds, never bodies. Seeded, so the same call grows the same things; logged as an event.
+ */
+export function populated(
+  state: matter.SharedState,
+  total: number,
+  seed: number,
+): matter.SharedStep {
+  const rng = Rng.fromSeed(seed);
+  const world = state.world;
+  const kinds = Object.values(world.elements).filter(
+    (e) => !e.body && e.kind !== "creature" && e.kind !== "person" && e.id !== "hand",
+  );
+  const taken = new Set(
+    Object.values(world.things).flatMap((t) => (t.where ? [`${t.where[0]},${t.where[1]}`] : [])),
+  );
+  const changes: matter.Change[] = [];
+  let count = Object.keys(world.things).length;
+  for (let tries = 0; count < total && tries < total * 50 && kinds.length > 0; tries++) {
+    const x = Math.floor(rng.next() * clearing.grid.width);
+    const z = Math.floor(rng.next() * clearing.grid.depth);
+    const element = kinds[Math.floor(rng.next() * kinds.length)];
+    if (!element || taken.has(`${x},${z}`) || !standable(clearing.grid, NOTHING_BLOCKS, x, z))
+      continue;
+    taken.add(`${x},${z}`);
+    const thing: matter.Thing = {
+      id: `extra-${count}`,
+      element: element.id,
+      place: "clearing",
+      where: [x, z],
+      state: { ...matter.FRESH, wetness: element.moist ?? 0 },
+    };
+    changes.push({ kind: "create", thing, because: ["J2"], note: "", quiet: true });
+    count++;
+  }
+  return {
+    state: { ...state, world: matter.apply(world, changes) },
+    ok: true,
+    reason: "populated",
+    changes,
+    draws: [],
+  };
 }

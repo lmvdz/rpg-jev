@@ -18,7 +18,7 @@ from pathlib import Path
 import torch
 
 from data import CHANNEL_SIZES, OFFSETS, load_split, observe
-from model import ACT, FACTOR_DIM, FACTORS, HIDDEN, LATENT, UPSTREAM, build
+from model import ACT, SIZES, UPSTREAM, build
 
 RUNTIME_VERSION = "jepa-runtime-v1"
 
@@ -41,7 +41,7 @@ def main() -> None:
     args = ap.parse_args()
     saved = torch.load(args.run / "model.pt", weights_only=True)
     summary = json.loads((args.run / "summary.json").read_text())
-    model = build(saved["arm"]).double()
+    model = build(saved["arm"], saved.get("size", "base")).double()
     model.load_state_dict(saved["state"])
     model.eval()
     enc = model.encoder
@@ -54,7 +54,8 @@ def main() -> None:
     }
     if saved["arm"] == "jepa":
         basis = model.opf.analysis_basis().detach().double()
-        synthesis = torch.linalg.pinv(basis.reshape(LATENT, LATENT))
+        latent = basis.shape[-1]
+        synthesis = torch.linalg.pinv(basis.reshape(latent, latent))
         folded = model.readout.weight.detach().double() @ synthesis
         layers["heads1"] = [layer(h) for h in model.heads1]
         layers["heads2"] = [layer(h) for h in model.heads2]
@@ -68,7 +69,7 @@ def main() -> None:
         "arm": saved["arm"],
         "observation": summary["dataset"]["observation"],
         "outcomes": summary["dataset"]["outcomes"],
-        "dims": {"latent": LATENT, "hidden": HIDDEN, "act": ACT, "factors": FACTORS, "factorDim": FACTOR_DIM},
+        "dims": (lambda c: {"latent": c["latent"], "hidden": c["hidden"], "act": ACT, "factors": c["factors"], "factorDim": c["latent"] // c["factors"]})(SIZES[saved.get("size", "base")]),
         "layers": layers,
         "provenance": {
             "checkpoint_sha256": summary["checkpoint_sha256"],

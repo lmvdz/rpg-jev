@@ -75,6 +75,9 @@ importers:
       '@rpg-jev/core':
         specifier: workspace:*
         version: link:../core
+      '@rpg-jev/predictor':
+        specifier: workspace:*
+        version: link:../predictor
       spacetimedb:
         specifier: 2.10.1
         version: 2.10.1

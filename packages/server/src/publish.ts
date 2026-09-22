@@ -59,6 +59,8 @@ export function publishLocal(): void {
     "--yes",
   ]);
   installBindings(staging, join(SERVER_DIR, "..", "client", "src", "shared_bindings"));
+  // The server's own tools (the archive worker) read its bindings from the server package.
+  installBindings(staging, join(SERVER_DIR, "bindings"));
   console.log("Published locally without deleting data; shared TypeScript bindings updated.");
 }
 
