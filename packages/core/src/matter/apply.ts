@@ -5,92 +5,125 @@
  */
 import type { Change, MatterWorld } from "./types.ts";
 
+type Table = "things" | "bodies" | "places";
+
+/** One invocation owns its copies; records within them remain immutable. */
+class Draft {
+  world: MatterWorld;
+  readonly original: MatterWorld;
+
+  constructor(world: MatterWorld) {
+    this.world = world;
+    this.original = world;
+  }
+
+  table<K extends Table>(key: K): MatterWorld[K] {
+    if (this.world === this.original) this.world = { ...this.world };
+    if (this.world[key] === this.original[key]) {
+      this.world[key] = { ...this.world[key] };
+    }
+    return this.world[key];
+  }
+
+  put<K extends Table>(table: K, id: string, value: MatterWorld[K][string]): void {
+    // Like a computed spread property, this also treats "__proto__" as an id.
+    Object.defineProperty(this.table(table), id, {
+      value,
+      enumerable: true,
+      configurable: true,
+      writable: true,
+    });
+  }
+}
+
 type Applier<K extends Change["kind"]> = (
-  world: MatterWorld,
+  draft: Draft,
   change: Extract<Change, { kind: K }>,
-) => MatterWorld;
+) => void;
 
 const APPLIERS: { [K in Change["kind"]]: Applier<K> } = {
-  state: (world, c) => {
-    const thing = world.things[c.thing];
-    if (!thing) return world;
+  state: (draft, c) => {
+    const thing = draft.world.things[c.thing];
+    if (!thing) return;
     const next = { ...thing, state: { ...thing.state, ...c.set } };
-    return { ...world, things: { ...world.things, [c.thing]: next } };
+    draft.put("things", c.thing, next);
   },
-  body: (world, c) => {
-    const body = world.bodies[c.body];
-    if (!body) return world;
-    return { ...world, bodies: { ...world.bodies, [c.body]: { ...body, ...c.set } } };
+  body: (draft, c) => {
+    const body = draft.world.bodies[c.body];
+    if (!body) return;
+    draft.put("bodies", c.body, { ...body, ...c.set });
   },
-  wound: (world, c) => {
-    const body = world.bodies[c.body];
-    if (!body) return world;
+  wound: (draft, c) => {
+    const body = draft.world.bodies[c.body];
+    if (!body) return;
     const next = { ...body, wounds: [...body.wounds, c.wound] };
-    return { ...world, bodies: { ...world.bodies, [c.body]: next } };
+    draft.put("bodies", c.body, next);
   },
-  treat: (world, c) => {
-    const body = world.bodies[c.body];
-    if (!body) return world;
+  treat: (draft, c) => {
+    const body = draft.world.bodies[c.body];
+    if (!body) return;
     const wounds = body.wounds.map((w, i) => (i === c.index ? { ...w, ...c.set } : w));
-    return { ...world, bodies: { ...world.bodies, [c.body]: { ...body, wounds } } };
+    draft.put("bodies", c.body, { ...body, wounds });
   },
   // A born thing takes its id from the world's counter, so it can never overwrite another.
-  create: (world, c) => {
+  create: (draft, c) => {
+    const world = draft.world;
     const id = c.thing.id in world.things ? `${c.thing.id}.${world.next}` : c.thing.id;
-    const things = { ...world.things, [id]: { ...c.thing, id } };
-    return { ...world, things, next: world.next + 1 };
+    draft.put("things", id, { ...c.thing, id });
+    draft.world.next = world.next + 1;
   },
-  consume: (world, c) => {
-    const thing = world.things[c.thing];
-    if (!(thing && Number.isFinite(c.amount)) || c.amount <= 0) return world;
+  consume: (draft, c) => {
+    const thing = draft.world.things[c.thing];
+    if (!(thing && Number.isFinite(c.amount)) || c.amount <= 0) return;
     const left = thing.state.amount - c.amount;
     if (left > 0) {
       const next = { ...thing, state: { ...thing.state, amount: left } };
-      return { ...world, things: { ...world.things, [c.thing]: next } };
+      draft.put("things", c.thing, next);
+      return;
     }
-    const { [c.thing]: _gone, ...things } = world.things;
-    const bodies = Object.fromEntries(
-      Object.entries(world.bodies).map(([id, body]) => [
-        id,
-        (body.holds ?? []).includes(c.thing)
-          ? { ...body, holds: body.holds?.filter((held) => held !== c.thing) ?? [] }
-          : body,
-      ]),
-    );
-    return { ...world, things, bodies };
+    delete draft.table("things")[c.thing];
+    // Deletion historically copies bodies even if nobody held the thing.
+    for (const [id, body] of Object.entries(draft.table("bodies"))) {
+      if ((body.holds ?? []).includes(c.thing)) {
+        draft.put("bodies", id, {
+          ...body,
+          holds: body.holds?.filter((held) => held !== c.thing) ?? [],
+        });
+      }
+    }
   },
   // What is held goes where its holder goes.
-  carried: (world, c) => {
-    const thing = world.things[c.thing];
-    if (!thing) return world;
-    return { ...world, things: { ...world.things, [c.thing]: { ...thing, where: c.where } } };
+  carried: (draft, c) => {
+    const thing = draft.world.things[c.thing];
+    if (!thing) return;
+    draft.put("things", c.thing, { ...thing, where: c.where });
   },
   // A signal is heard or not by whoever is sensing; it leaves no state of its own here.
-  signal: (world) => world,
+  signal: () => undefined,
   // Sensing writes what a body is aware of, and nothing else.
-  percept: (world, c) => {
-    const body = world.bodies[c.body];
-    if (!body) return world;
-    return { ...world, bodies: { ...world.bodies, [c.body]: { ...body, aware: c.aware } } };
+  percept: (draft, c) => {
+    const body = draft.world.bodies[c.body];
+    if (!body) return;
+    draft.put("bodies", c.body, { ...body, aware: c.aware });
   },
-  settle: (world, c) => {
-    const place = world.places[c.place];
-    if (!place) return world;
+  settle: (draft, c) => {
+    const place = draft.world.places[c.place];
+    if (!place) return;
     const before = place.searched[c.element] ?? { minutes: 0, found: 0 };
     const searched = {
       ...place.searched,
       [c.element]: { minutes: before.minutes + c.minutes, found: before.found + c.found },
     };
-    return { ...world, places: { ...world.places, [c.place]: { ...place, searched } } };
+    draft.put("places", c.place, { ...place, searched });
   },
-  nothing: (world) => world,
+  nothing: () => undefined,
 };
 
 export function apply(world: MatterWorld, changes: readonly Change[]): MatterWorld {
-  let next = world;
+  const draft = new Draft(world);
   for (const change of changes) {
     const applier = APPLIERS[change.kind] as Applier<typeof change.kind>;
-    next = applier(next, change);
+    applier(draft, change);
   }
-  return next;
+  return draft.world;
 }
