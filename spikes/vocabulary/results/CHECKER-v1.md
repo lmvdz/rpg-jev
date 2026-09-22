@@ -31,4 +31,4 @@ Write one JSON array, one object per scenario, in the scenario file's order:
 
 ## Version 1 notes
 
-VOCABULARY.md is now version 1. Read its section 0 (five principles), section 7 (modifier rules M1 to M6) and section 8 (asked for and not granted) with care. Something listed in section 8 as not granted is still a `fail` or `partial` if the scenario's outcome turns on it: do not excuse it. A general physical rule that the process definitions state (evaporation leaves what was dissolved; embers relight when air returns; wet cloth loses heat faster) is NOT a reaction: only record under `reactions` what no stated rule gives.
+VOCABULARY.md is version 1. Read its section 0 (five principles), section 7 (modifier rules M1 to M6) and section 8 (asked for and not granted) with care. Something listed in section 8 as not granted is still a `fail` or `partial` if the scenario's outcome turns on it: do not excuse it. A general physical rule that the process definitions state (evaporation leaves what was dissolved; embers relight when air returns; wet cloth loses heat faster) is NOT a reaction: only record under `reactions` what no stated rule gives.
