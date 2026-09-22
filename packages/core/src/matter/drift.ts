@@ -5,6 +5,7 @@
  * (graph/drift-rules.ts) carried out by one kernel (graph/kernel.ts); no rule is a function.
  */
 import { apply } from "./apply.ts";
+import { enclosure } from "./contain.ts";
 import { faded } from "./deeds.ts";
 import { DRIFT_AFTER, DRIFT_BEFORE, DRIFT_DERIVED, DRIFT_DURING } from "./graph/drift-rules.ts";
 import { grownFor } from "./graph/grown.ts";
@@ -159,7 +160,12 @@ export function drift(world: MatterWorld, act: DriftAct): Change[] {
     // Short steps near at hand, longer ones across a long gap: a year unwatched is a few
     // thousand steps, not a hundred thousand. A step never straddles an event.
     const span = Math.max(1e-6, Math.min(left, nextEvent(at), Math.max(STEP, left / 500)));
-    const made = step(at, span);
+    const drifted = step(at, span);
+    at = apply(at, drifted);
+    // What is held in a container meets it: nothing at all when no container holds anything.
+    const held = enclosure(at, span);
+    at = apply(at, held);
+    const made = [...drifted, ...held];
     for (const change of made) {
       if (change.kind !== "state") continue;
       const ids = because.get(change.thing) ?? new Set<string>();
@@ -171,7 +177,6 @@ export function drift(world: MatterWorld, act: DriftAct): Change[] {
       const key = `${change.source ?? change.place}:${change.channel}`;
       if ((given.get(key)?.strength ?? 0) < change.strength) given.set(key, change);
     }
-    at = apply(at, made);
     left -= span;
   }
   // Said once: what is different now, not what each step did (report.ts); and what was given

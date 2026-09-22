@@ -22,6 +22,15 @@ export {
   NONE,
   UNSEEN,
 } from "./compile.ts";
+export { type ConductAct, capacityOf, conduct, kelvinOf, levelOfKelvin } from "./conduct.ts";
+export {
+  type ContainAct,
+  containerOf,
+  contentsOf,
+  enclosure,
+  interiorOf,
+  sealed,
+} from "./contain.ts";
 export { DEEDS, type Deed, deedsOf, faded, felt } from "./deeds.ts";
 export { feeds, preyTo, relish } from "./diet.ts";
 export type { DriftAct } from "./drift.ts";

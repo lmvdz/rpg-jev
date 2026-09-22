@@ -78,6 +78,20 @@ const APPLIERS: { [K in Change["kind"]]: Applier<K> } = {
     };
     return { ...world, places: { ...world.places, [c.place]: { ...place, searched } } };
   },
+  // Added with containment: no earlier semantics to freeze, so these follow the production rows.
+  enclose: (world, c) => {
+    const thing = world.things[c.thing];
+    if (!thing) return world;
+    const next = { ...thing, place: c.place, ...(c.where ? { where: c.where } : {}) };
+    return { ...world, things: { ...world.things, [c.thing]: next } };
+  },
+  room: (world, c) => ({ ...world, places: { ...world.places, [c.place.id]: c.place } }),
+  energy: (world, c) => {
+    const thing = world.things[c.thing];
+    if (!thing?.si) return world;
+    const next = { ...thing, si: { ...thing.si, energyJ: c.energyJ } };
+    return { ...world, things: { ...world.things, [c.thing]: next } };
+  },
   nothing: (world) => world,
 };
 

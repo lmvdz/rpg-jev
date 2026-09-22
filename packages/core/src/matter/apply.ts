@@ -82,6 +82,14 @@ const APPLIERS: { [K in Change["kind"]]: Applier<K> } = {
       return;
     }
     delete draft.table("things")[c.thing];
+    // What was in a container that is gone falls out where it stood (contain.ts).
+    const inside = `${c.thing}.inside`;
+    for (const held of Object.values(draft.world.things)) {
+      if (held.place !== inside) continue;
+      const out = { ...held, place: thing.place };
+      if (thing.where) out.where = thing.where;
+      draft.put("things", held.id, out);
+    }
     // Deletion historically copies bodies even if nobody held the thing.
     for (const [id, body] of Object.entries(draft.table("bodies"))) {
       if ((body.holds ?? []).includes(c.thing)) {
@@ -115,6 +123,21 @@ const APPLIERS: { [K in Change["kind"]]: Applier<K> } = {
       [c.element]: { minutes: before.minutes + c.minutes, found: before.found + c.found },
     };
     draft.put("places", c.place, { ...place, searched });
+  },
+  enclose: (draft, c) => {
+    const thing = draft.world.things[c.thing];
+    if (!thing) return;
+    const next = { ...thing, place: c.place };
+    if (c.where) next.where = c.where;
+    draft.put("things", c.thing, next);
+  },
+  room: (draft, c) => {
+    draft.put("places", c.place.id, c.place);
+  },
+  energy: (draft, c) => {
+    const thing = draft.world.things[c.thing];
+    if (!thing?.si) return;
+    draft.put("things", c.thing, { ...thing, si: { ...thing.si, energyJ: c.energyJ } });
   },
   nothing: () => undefined,
 };

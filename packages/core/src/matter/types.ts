@@ -201,6 +201,18 @@ export interface Thing {
   /** Where in the place, in tiles. Absent is right here: nothing built before positions changes. */
   where?: readonly [number, number];
   state: ThingState;
+  /** SI heat, for the solid-contact mechanics (conduct.ts). Absent: ordinal heat only. */
+  si?: SolidHeat;
+}
+
+/** A lumped solid in SI units (mechanics `solid-contact-v1`), or a probe docked to one. */
+export interface SolidHeat {
+  massKg: number;
+  specificHeatJPerKgK: number;
+  conductivityWPerMK: number;
+  energyJ: number;
+  /** A probe: its own capacity and conductance, and the thing it is held against. */
+  probe?: { capacityJPerK: number; conductanceWPerK: number; target: string | null };
 }
 
 /** B3. */
@@ -338,6 +350,12 @@ export type Change = (
   | { kind: "signal"; place: string; channel: Channel; strength: number; source?: string }
   | { kind: "percept"; body: string; aware: Record<string, Percept> }
   | { kind: "settle"; place: string; element: string; minutes: number; found: number }
+  /** R2: a thing goes into or out of a container, whose inside is a place (contain.ts). */
+  | { kind: "enclose"; thing: string; place: string; where?: readonly [number, number] }
+  /** A place row is written whole: the inside of a container, made or closed off. */
+  | { kind: "room"; place: Place }
+  /** SI heat held by a thing, in joules (conduct.ts). */
+  | { kind: "energy"; thing: string; energyJ: number }
   | { kind: "nothing" }
 ) & {
   because: string[];

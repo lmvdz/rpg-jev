@@ -4,26 +4,15 @@
  * Tick is a choice boundary, not seconds: no drift, thermal work or offline catch-up.
  */
 import { apply } from "./apply.ts";
-import { ingest } from "./body.ts";
-import { feeds } from "./diet.ts";
+import { type FoodAct, type FoodAction, foodAct } from "./food.ts";
 import { routine } from "./intents.ts";
-import { able, move, take } from "./living.ts";
+import { PROCESSES } from "./resolve.ts";
 import { perceive } from "./sense.ts";
-import {
-  type MatterTerrain,
-  nextTile,
-  openTile,
-  type Tile,
-  tileDistance,
-  tileReach,
-} from "./session-terrain.ts";
+import { type MatterTerrain, nextTile, type Tile, tileReach } from "./session-terrain.ts";
 import { assertSession } from "./session-validation.ts";
 import type { Body, Change, MatterWorld } from "./types.ts";
 
-export type MatterAction =
-  | { kind: "move"; to: Tile }
-  | { kind: "take" | "drop" | "eat"; thing: string }
-  | { kind: "wait" };
+export type MatterAction = FoodAction;
 
 export interface MatterCommand {
   actor: string;
@@ -59,49 +48,17 @@ export function createMatterSession(input: MatterSessionInput): MatterSession {
   return { ...session, world: apply(session.world, perceive(session.world, [])) };
 }
 
-function attempt(session: MatterSession, actor: string, action: MatterAction): Change[] | null {
-  const { world, terrain } = session;
-  const body = world.bodies[actor];
-  if (!body?.where || body.health <= 0 || body.attention === "asleep") return null;
-  if (action.kind === "wait") return [];
-  if (action.kind === "move") {
-    const speed = able(world, body).speed;
-    if (
-      !openTile(terrain, action.to) ||
-      tileDistance(body.where, action.to) !== 1 ||
-      !Number.isFinite(speed) ||
-      speed <= 0
-    )
-      return null;
-    // Supply enough stride to reach the adjacent tile exactly even under roundoff.
-    return move(world, {
-      process: "move",
-      body: actor,
-      to: action.to,
-      minutes: 2 / (speed * 4),
-    });
-  }
-  const thing = world.things[action.thing];
-  const held = (body.holds ?? []).includes(action.thing);
-  if (
-    !(
-      thing?.where &&
-      tileReach(terrain, body.where, thing.where) &&
-      (held || body.aware?.[thing.id])
-    )
-  )
-    return null;
-  if (action.kind === "eat") {
-    if ((body.needs.hunger ?? 0) <= 0 || (feeds(world, body, thing.element).hunger ?? 0) <= 0)
-      return null;
-    return ingest(world, { process: "ingest", body: actor, thing: thing.id, amount: 1 });
-  }
-  return take(world, {
-    process: "take",
-    body: actor,
-    thing: thing.id,
-    ...(action.kind === "drop" ? { drop: true as const } : {}),
-  });
+/** A command is a matter act run through the one process table, or nothing. */
+export function attempt(
+  session: MatterSession,
+  actor: string,
+  action: MatterAction,
+): Change[] | null {
+  const act = foodAct(session.world, session.terrain, actor, action);
+  if (act === null) return null;
+  if (act === "wait") return [];
+  const process = PROCESSES[act.process] as (world: MatterWorld, act: FoodAct) => Change[];
+  return process(session.world, act);
 }
 
 function reachableAwareness(session: MatterSession, body: Body, from: Tile) {
