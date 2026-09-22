@@ -70,14 +70,35 @@ def j1(data: Path, runs: Path, device: str) -> dict:
     return {"gate": "J1", "pass": all(checks.values()), "checks": checks, "means": means, "runs": per_run}
 
 
+def j3(data: Path, v1: Path, v2: Path, device: str) -> dict:
+    """v2 beats v1 on (c) by >= 10 points of top-1, and drops no more than 1 point on (a) or (b)."""
+    splits = {name: load_split(data, name, device, gate="J3") for name in ("a", "b", "c", "c-claude")}
+    before = measure(load_run(v1, device), splits)
+    after = measure(load_run(v2, device), splits)
+    delta = {name: after[name]["top1"] - before[name]["top1"] for name in splits}
+    checks = {
+        "c improves by >= 10 points": delta["c"] >= 0.10,
+        "a drops <= 1 point": delta["a"] >= -0.01,
+        "b drops <= 1 point": delta["b"] >= -0.01,
+    }
+    return {"gate": "J3", "pass": all(checks.values()), "checks": checks, "delta_top1": delta, "v1": before, "v2": after}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--gate", choices=["J1"], required=True)
+    ap.add_argument("--gate", choices=["J1", "J3"], required=True)
     ap.add_argument("--data", type=Path, required=True)
-    ap.add_argument("--runs", type=Path, required=True)
+    ap.add_argument("--runs", type=Path, help="J1: the directory of the six runs")
+    ap.add_argument("--v1", type=Path, help="J3: the integrated checkpoint's run")
+    ap.add_argument("--v2", type=Path, help="J3: the post-trained run")
     ap.add_argument("--out", type=Path, required=True)
     args = ap.parse_args()
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    if args.gate == "J3":
+        result = j3(args.data, args.v1, args.v2, device)
+        args.out.write_text(json.dumps(result, indent=2))
+        print(json.dumps({k: result[k] for k in ("gate", "pass", "checks", "delta_top1")}, indent=2))
+        return
     result = j1(args.data, args.runs, device)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2))
