@@ -28,7 +28,24 @@ export function saveBench(store: Store, path: string): void {
   // The host holds the session lock. A failed write must not truncate the last save.
   const pending = `${path}.pending`;
   writeFileSync(pending, `${serializeLog(store.log)}\n`, { mode: 0o600, flag: "wx" });
-  renameSync(pending, path);
+  for (let retry = 0; ; retry++) {
+    try {
+      renameSync(pending, path);
+      return;
+    } catch (error) {
+      // Windows readers/scanners can briefly deny replacement after the write closes.
+      // Retry only publication, at most six attempts / 620ms of requested waits.
+      // A persistent permission failure still throws; keep both old save and pending.
+      const code = (error as NodeJS.ErrnoException).code;
+      if (
+        process.platform !== "win32" ||
+        !["EPERM", "EACCES", "EBUSY"].includes(code ?? "") ||
+        retry === 5
+      )
+        throw error;
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 20 * 2 ** retry);
+    }
+  }
 }
 
 export function interact(store: Store, actor: string, request: Request) {

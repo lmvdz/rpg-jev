@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import fs, { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { syncBuiltinESMExports } from "node:module";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -10,6 +11,90 @@ import { view } from "../../core/src/thermal/attempt.ts";
 import { journal } from "../src/thermal-journal.ts";
 import { BenchPlayer } from "../src/thermal-player.ts";
 import { interact, loadBench, resumeBench, saveBench, startBench } from "../src/thermal-session.ts";
+
+for (const scenario of [
+  { platform: "win32", code: "EPERM", failures: 2, attempts: 3, succeeds: true },
+  { platform: "win32", code: "EPERM", failures: 5, attempts: 6, succeeds: true },
+  { platform: "win32", code: "EACCES", failures: 1, attempts: 2, succeeds: true },
+  { platform: "win32", code: "EBUSY", failures: 1, attempts: 2, succeeds: true },
+  { platform: "win32", code: "EPERM", failures: 6, attempts: 6, succeeds: false },
+  { platform: "win32", code: "EACCES", failures: 6, attempts: 6, succeeds: false },
+  { platform: "win32", code: "EBUSY", failures: 6, attempts: 6, succeeds: false },
+  { platform: "win32", code: "EIO", failures: 1, attempts: 1, succeeds: false },
+  { platform: "win32", code: "ENOENT", failures: 1, attempts: 1, succeeds: false },
+  { platform: "linux", code: "EPERM", failures: 1, attempts: 1, succeeds: false },
+]) {
+  test(`save publication: ${scenario.platform} ${scenario.code}, ${scenario.failures} failures`, (t) => {
+    const directory = mkdtempSync(join(tmpdir(), "thermal-publication-"));
+    const path = join(directory, "bench.jsonl");
+    const pending = `${path}.pending`;
+    const platform = Object.getOwnPropertyDescriptor(process, "platform");
+    assert.ok(platform);
+    try {
+      const store = startBench();
+      saveBench(store, path);
+      const previous = readFileSync(path, "utf8");
+      interact(store, "ada", {
+        requestId: "wait",
+        expectedRevision: 0,
+        operation: { kind: "wait" },
+      });
+      const next = `${serializeLog(store.log)}\n`;
+      const failure = Object.assign(new Error("injected publication failure"), {
+        code: scenario.code,
+      });
+      const rename = fs.renameSync;
+      let attempts = 0;
+      const waits: number[] = [];
+      Object.defineProperty(process, "platform", { value: scenario.platform });
+      t.mock.method(
+        Atomics,
+        "wait",
+        (_array: Int32Array, _index: number, _value: number, timeout: number) => {
+          waits.push(timeout);
+          return "timed-out";
+        },
+      );
+      t.mock.method(fs, "renameSync", (from: string, to: string) => {
+        attempts++;
+        assert.equal(from, pending);
+        assert.equal(to, path);
+        assert.equal(readFileSync(path, "utf8"), previous);
+        assert.equal(readFileSync(pending, "utf8"), next);
+        if (attempts <= scenario.failures) throw failure;
+        rename(from, to);
+      });
+      syncBuiltinESMExports();
+      if (scenario.succeeds) {
+        saveBench(store, path);
+        assert.equal(readFileSync(path, "utf8"), next);
+        assert.deepEqual(loadBench(path).world, store.world);
+        assert.equal(existsSync(pending), false);
+      } else {
+        assert.throws(
+          () => saveBench(store, path),
+          (error) => error === failure,
+        );
+        assert.equal(readFileSync(path, "utf8"), previous);
+        assert.equal(readFileSync(pending, "utf8"), next);
+        // A later save must not overwrite the retained staging file, either.
+        assert.throws(() => saveBench(store, path), { code: "EEXIST" });
+        assert.equal(readFileSync(path, "utf8"), previous);
+        assert.equal(readFileSync(pending, "utf8"), next);
+      }
+      assert.equal(attempts, scenario.attempts);
+      assert.deepEqual(
+        waits,
+        Array.from({ length: scenario.attempts - 1 }, (_, index) => 20 * 2 ** index),
+      );
+    } finally {
+      Object.defineProperty(process, "platform", platform);
+      t.mock.restoreAll();
+      syncBuiltinESMExports();
+      rmSync(directory, { recursive: true });
+    }
+  });
+}
 
 test("terminal session saves actual JSONL, reloads and returns original private evidence", () => {
   const directory = mkdtempSync(join(tmpdir(), "thermal-save-"));
