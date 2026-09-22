@@ -833,6 +833,18 @@ J1 is run once on the selected checkpoints.
   gradient, and the envelope rejected the unmasked top choice on 84% of
   validation transitions. With the full softmax it rejected 0.04%, with no loss
   of top-1. Both arms use the same loss.
+- **J3 procedure.** Pre-registered 2026-09-22, before any post-training run or
+  J1 result.
+  - v1 is the JEPA seed selected for integration.
+  - Play is 2,000 sessions of 12 steps on the live settle, which is the code
+    path the server runs. One session in five is scripted on the starting
+    pool's own elements. The rest are randomised worlds from seeds
+    ≥ 5,000,000,000.
+  - Gap signals are labelled as for (c), up to 600 scenes.
+  - v2 is v1 fine-tuned for 3 epochs on train ∪ post ∪ post-gap, each post
+    split repeated 20 times, with AdamW at lr 3e-4. The epoch with the lowest
+    validation NLL is kept.
+  - J3 compares v1 and v2 once on (a), (b) and (c).
 - **If J1 fails**, at most two principled remedies are tried: more data
   diversity, model capacity, or relational structure. Each is written into
   `docs/jepa-proof/REMEDIES.md` before it runs. After that the failure is

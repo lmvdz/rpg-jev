@@ -17,7 +17,7 @@ from pathlib import Path
 
 import torch
 
-from data import load_split, observe, observe_after
+from data import concat, load_split, observe, observe_after
 from metrics import evaluate
 from model import UPSTREAM, build, parameters
 
@@ -31,13 +31,20 @@ def main() -> None:
     ap.add_argument("--batch", type=int, default=1024)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--out", type=Path, required=True)
-    ap.add_argument("--extra", type=Path, nargs="*", default=[], help="extra open training splits (post-training)")
+    ap.add_argument("--extra", nargs="*", default=[], help="extra open splits to train on (post-training)")
+    ap.add_argument("--repeat", type=int, default=1, help="how many times each extra split is repeated")
+    ap.add_argument("--init", type=Path, default=None, help="start from this run's checkpoint (post-training)")
     args = ap.parse_args()
     device = "cuda" if torch.cuda.is_available() else "cpu"
     torch.manual_seed(args.seed)
     train = load_split(args.data, "train", device)
+    if args.extra:
+        extras = [(load_split(args.data, name, device), args.repeat) for name in args.extra]
+        train = concat([(train, 1), *extras])
     val = load_split(args.data, "val", device)
     model = build(args.arm).to(device)
+    if args.init is not None:
+        model.load_state_dict(torch.load(args.init / "model.pt", weights_only=True)["state"])
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
     order = torch.Generator(device="cpu").manual_seed(args.seed)
     history = []
@@ -78,7 +85,7 @@ def main() -> None:
         "upstream_revision": UPSTREAM,
         "torch": torch.__version__,
         "dataset": {"observation": manifest["observation"], "outcomes": manifest["outcomes"], "train_rows": manifest["splits"]["train"]["files"]["rows.f16"]},
-        "hyper": {"epochs": args.epochs, "batch": args.batch, "lr": args.lr},
+        "hyper": {"epochs": args.epochs, "batch": args.batch, "lr": args.lr, "extra": args.extra, "repeat": args.repeat, "init": str(args.init) if args.init else None},
     }
     (args.out / "summary.json").write_text(json.dumps(summary, indent=2))
     print(json.dumps({"done": args.arm, "seed": args.seed, "best_epoch": best[2], "val_nll": best[0], "params": summary["parameters"]}))

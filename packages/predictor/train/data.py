@@ -31,7 +31,7 @@ AT_REST_ACT = torch.zeros(ACT)
 AT_REST_ACT[0] = 1.0  # process.tick
 AT_REST_ACT[7] = 1.0  # role.bystander (after the seven processes)
 
-SEALED = {"a", "b", "gap", "c"}
+SEALED = {"a", "b", "gap", "c", "c-claude"}
 
 
 class SealedError(RuntimeError):
@@ -61,10 +61,10 @@ class Split:
 
 def load_split(root: Path, name: str, device: str, gate: str | None = None) -> Split:
     """Load one split. A sealed split needs ``gate`` (the gate id), and only the gate run passes it."""
-    if name in SEALED and gate is None:
-        raise SealedError(f"split {name!r} is sealed; only the gate run may open it")
     manifest = json.loads((root / "manifest.json").read_text())
     info = manifest["splits"][name]
+    if (name in SEALED or info["sealed"]) and gate is None:
+        raise SealedError(f"split {name!r} is sealed; only the gate run may open it")
     folder = root / ("sealed" if info["sealed"] else "open") / name
     samples = info["samples"]
     rows = np.fromfile(folder / "rows.f16", dtype=np.float16).reshape(-1, 2 * THING + 1)
@@ -126,3 +126,20 @@ def observe_after(split: Split, index: torch.Tensor) -> torch.Tensor:
     dist = num[:, 12 + ACT + N : 12 + ACT + 2 * N]
     nb = _neighbours(split, idx[:, 1 + N : 1 + 2 * N], cat[:, 2 * N : 3 * N], dist, None, after)
     return torch.cat([self_row, place, act, nb], dim=-1)
+
+
+def concat(parts: list[tuple[Split, int]]) -> Split:
+    """Several splits as one, each repeated ``times``; row indices are shifted to match."""
+    rows, idx, cat, num, legal, seed = [], [], [], [], [], []
+    offset = 0
+    for split, times in parts:
+        shifted = torch.where(split.idx >= 0, split.idx + offset, split.idx)
+        rows.append(split.rows)
+        for _ in range(times):
+            idx.append(shifted)
+            cat.append(split.cat)
+            num.append(split.num)
+            legal.append(split.legal)
+            seed.append(split.seed)
+        offset += split.rows.shape[0]
+    return Split("+".join(s.name for s, _ in parts), torch.cat(rows), torch.cat(idx), torch.cat(cat), torch.cat(num), torch.cat(legal), torch.cat(seed))

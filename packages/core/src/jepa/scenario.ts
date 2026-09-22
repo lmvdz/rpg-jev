@@ -392,3 +392,15 @@ export function scenario(seed: number): Scenario {
     if (act && view) return { seed, world, act, view };
   }
 }
+
+/**
+ * Another act on a world that already exists, as the generator would draw it: what a player
+ * does next in a randomised play session (milestone J, P7). Null when nothing fits this draw.
+ */
+export function actFor(world: MatterWorld, seed: number): { act: Act; view: ActView } | null {
+  const d = new Draw(Rng.fromSeed(seed));
+  const ids = Object.keys(world.things).sort();
+  const act = ACTS[d.pick(MIX)](d, world, ids);
+  const view = act && viewOf(act);
+  return act && view ? { act, view } : null;
+}
