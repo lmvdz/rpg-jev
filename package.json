@@ -23,7 +23,8 @@
     "client": "pnpm --filter @rpg-jev/client run dev",
     "world:server": "pnpm --filter @rpg-jev/server run start",
     "world:publish": "pnpm --filter @rpg-jev/server run publish",
-    "world:archive": "pnpm --filter @rpg-jev/server run archive"
+    "world:archive": "pnpm --filter @rpg-jev/server run archive",
+    "jepa:fun-test": "node validation/jepa-proof/fun-test/run.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",
