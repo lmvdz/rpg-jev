@@ -5,14 +5,15 @@ import { CachingJudge, RecordedJudge, type Recordings } from "@rpg-jev/jev";
 import { describe, expect, it } from "vitest";
 import { Game } from "../src/game.ts";
 
-const evidence = join(import.meta.dirname, "../../../validation/m2/before");
 interface Night {
   seed: number;
+  content?: string;
   inputs: string[];
   recordings: Recordings;
 }
 
-describe("complete live-recorded M2 nights", () => {
+describe.each(["m2/before", "m2-proposals/nights"])("recorded nights: %s", (collection) => {
+  const evidence = join(import.meta.dirname, "../../../validation", collection);
   it.each([
     ["evidence", "resolved"],
     ["witness", "resolved"],
@@ -22,7 +23,7 @@ describe("complete live-recorded M2 nights", () => {
     const night = JSON.parse(readFileSync(join(directory, "recordings.json"), "utf8")) as Night;
     const log = parseLog(readFileSync(join(directory, "log.jsonl"), "utf8"));
     const judge = new RecordedJudge(night.recordings);
-    const game = Game.start(night.seed, new CachingJudge(judge));
+    const game = Game.start(night.seed, new CachingJudge(judge), night.content);
     const transcript: string[] = [];
     for (const text of night.inputs) transcript.push(...(await game.turn(text)));
     expect(judge.misses).toEqual([]);

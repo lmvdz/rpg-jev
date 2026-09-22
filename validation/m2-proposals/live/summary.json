@@ -1,0 +1,17 @@
+{
+  "mode": "live",
+  "content": "gilded-carp-1+handwritten-1",
+  "model": "jev-1.13.0",
+  "platform": "win32",
+  "node": "v25.8.2",
+  "pendingAcrossExit": 3,
+  "firedAtExactDueTimes": 3,
+  "admissionCountAfterResume": 3,
+  "consumedServedBread": true,
+  "hiddenKitchenEventNotRendered": true,
+  "replayEqual": true,
+  "jevDecisions": 1,
+  "fallbackDecisions": 0,
+  "inputTokens": 835,
+  "humanPlaytest": false
+}

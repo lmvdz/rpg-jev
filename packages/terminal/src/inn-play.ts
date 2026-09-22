@@ -6,6 +6,7 @@
  * pnpm play --cost     show calls, tokens and latency after each action
  * pnpm play --fast     no pauses before people speak
  * pnpm play --plain    no live status line either: each turn prints as one block
+ * pnpm play --handwritten --new  the checked-in supper proposals, in a versioned night
  */
 import { join } from "node:path";
 import { createInterface } from "node:readline/promises";
@@ -19,6 +20,7 @@ const session = openSession({
   fresh: flag("new"),
   offline: flag("offline"),
   record: false,
+  handwritten: flag("handwritten"),
 });
 const { game, meter } = session;
 
@@ -43,6 +45,10 @@ if (!session.live)
   console.log(
     "\n(The judge is unreachable: no TYPESAFE_API_KEY, or --offline. The inn runs on its routines.)",
   );
+if (!session.resumed && flag("handwritten"))
+  print([
+    "(Handwritten supper night: the staff are about to set out food and drink. You are hungry.)",
+  ]);
 if (session.resumed) {
   print([
     `(Resumed from the log at ${clockWords(game.world.clock)}. No model was asked anything.)`,

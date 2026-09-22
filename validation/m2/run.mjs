@@ -5,6 +5,7 @@ import { join, resolve } from "node:path";
 import { serializeLog } from "../../packages/core/src/log.ts";
 import { ROUTES } from "../../packages/inn/src/demo-script.ts";
 import { Game } from "../../packages/inn/src/game.ts";
+import { HANDWRITTEN_CONTENT_VERSION } from "../../packages/inn/src/proposal-content.ts";
 import {
   CachingJudge,
   LiveJudge,
@@ -16,6 +17,11 @@ import {
 
 assert(process.env.TYPESAFE_API_KEY, "supply the key in the process environment");
 assert(process.argv[2], "usage: run.mjs <new-output-directory>");
+assert(
+  process.argv[3] === undefined || process.argv[3] === "handwritten",
+  "the only optional content selector is handwritten",
+);
+const content = process.argv[3] === "handwritten" ? HANDWRITTEN_CONTENT_VERSION : undefined;
 const output = resolve(process.argv[2]);
 mkdirSync(resolve(output, ".."), { recursive: true });
 mkdirSync(output);
@@ -33,7 +39,7 @@ for (const route of ["evidence", "witness", "denial"]) {
   const recorder = new Recorder(bounded);
   const meter = new Meter(recorder);
   const resilient = new ResilientJudge(new CachingJudge(meter));
-  const game = Game.start(1, resilient);
+  const game = Game.start(1, resilient, content);
   const inputs = [];
   const transcript = [...game.intro(), ""];
   const script = [...ROUTES[route], ...Array.from({ length: 8 }, () => "wait 60")];
@@ -48,6 +54,7 @@ for (const route of ["evidence", "witness", "denial"]) {
   const summary = {
     route,
     seed: 1,
+    content: game.log[0].content,
     model: MODEL,
     node: process.version,
     platform: process.platform,
@@ -66,7 +73,7 @@ for (const route of ["evidence", "witness", "denial"]) {
   writeFileSync(join(dir, "log.jsonl"), `${serializeLog(game.log)}\n`);
   writeFileSync(
     join(dir, "recordings.json"),
-    `${JSON.stringify({ seed: 1, inputs, recordings: recorder.recordings })}\n`,
+    `${JSON.stringify({ seed: 1, ...(content ? { content } : {}), inputs, recordings: recorder.recordings })}\n`,
   );
   writeFileSync(join(dir, "summary.json"), `${JSON.stringify(summary, null, 2)}\n`);
   summaries.push(summary);

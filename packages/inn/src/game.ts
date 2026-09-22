@@ -39,7 +39,6 @@ import {
   C_TOBIN_OWES,
   CONTENT_VERSION,
   IMPLICATES,
-  initialWorld,
   MARA,
   MIDNIGHT,
   NEED_RATES,
@@ -48,6 +47,8 @@ import {
   WRONGDOING,
 } from "./content.ts";
 import { type Action, type Matched, match, resolveAnswer } from "./parser.ts";
+import { admitSupper, HANDWRITTEN_CONTENT_VERSION, worldForContent } from "./proposal-content.ts";
+import { hasDueProposal, proposalStep } from "./proposals.ts";
 import { arrival, departure, describeRoom, ENDINGS, INTRO, renderTurn } from "./prose.ts";
 import { considerReacting, lapse } from "./reactions.ts";
 import { afterSpeech, judgeParse, npcArrives } from "./talk.ts";
@@ -114,9 +115,10 @@ export class Game {
     this.judge = judge;
   }
 
-  static start(seed: number, judge: Judge): Game {
-    const game = new Game(new Store(initialWorld(seed)), judge);
-    game.store.append({ kind: "init", seed, content: CONTENT_VERSION }, null);
+  static start(seed: number, judge: Judge, content = CONTENT_VERSION): Game {
+    const game = new Game(new Store(worldForContent(seed, content)), judge);
+    game.store.append({ kind: "init", seed, content }, null);
+    if (content === HANDWRITTEN_CONTENT_VERSION) admitSupper(game.store);
     return game;
   }
 
@@ -124,9 +126,10 @@ export class Game {
   static resume(log: LogEntry[], judge: Judge): Game {
     const init = log[0];
     if (init?.kind !== "init") throw new Error("a saved log starts with an init entry");
-    if (init.content !== CONTENT_VERSION)
-      throw new Error(`save is for ${init.content}, this build is ${CONTENT_VERSION}`);
-    const game = new Game(new Store(replay(initialWorld(init.seed), log), log), judge);
+    const game = new Game(
+      new Store(replay(worldForContent(init.seed, init.content), log), log),
+      judge,
+    );
     game.#speechCount = log.filter((e) => e.kind === "effect" && e.effect.kind === "say").length;
     game.over = game.ending() !== null;
     return game;
@@ -551,7 +554,9 @@ export class Game {
   async pass(minutes: number, cause: LogId): Promise<void> {
     let left = minutes;
     while (left > 0 && !this.ending()) {
-      const step = Math.min(10, left);
+      if (hasDueProposal(this.world)) await runAgenda(this, cause);
+      if (this.ending()) break;
+      const step = proposalStep(this.world, Math.min(10, left));
       left -= step;
       this.commit({ kind: "advance_clock", minutes: step }, cause);
       this.feelNeeds(step, cause);

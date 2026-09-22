@@ -24,9 +24,17 @@ pnpm play --new      # start over (the old night is kept for `pnpm friction`); -
 pnpm play --cost     # show calls, tokens and latency after each action
 pnpm play --offline  # play with the judge unreachable
 pnpm play --fast     # no pauses before people speak; --plain prints each turn as one block
+pnpm play --new --handwritten --save=supper  # the versioned, checked-in scheduled-proposal night
 ```
 
 Plain verbs always work (`look`, `go kitchen`, `take iron key`, `search barrel`, `talk to mara`, `show apron to mara`). Anything else, say it as you would: `tell mara I found her ledger in the cellar`, `ask tobin what he saw at dusk`. `why mara` walks the causes behind what someone believes. The event log in `saves/` is the save.
+
+The handwritten night starts you hungry while the staff hold the supper items.
+Try `wait 3`, `take bread`, then `eat bread`: a queued, validated proposal places
+real food in the room. Pending events survive quitting; resume with
+`pnpm play --save=supper`, without the start flag. Standard nights and old saves
+are unchanged. [Proposal evidence and limits](validation/m2-proposals/README.md)
+distinguish this M2 content path from the still-unbuilt live author thread.
 
 ## Layout
 

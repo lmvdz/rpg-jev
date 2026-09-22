@@ -15,6 +15,7 @@ import {
   expiredDebts,
   feasibleDistortions,
   type LogId,
+  PROPOSAL_DEBT_KIND,
   sameMatter,
 } from "@rpg-jev/core";
 import {
@@ -42,6 +43,7 @@ import {
   WRONGDOING,
 } from "./content.ts";
 import type { Game } from "./game.ts";
+import { cancelScheduled, fireProposal } from "./proposals.ts";
 import { goTo, react } from "./reactions.ts";
 import { guardSlice, rankedBeliefs, sceneSlice, standing, trustIn } from "./slices.ts";
 import { guarded, keptBack } from "./talk.ts";
@@ -52,7 +54,7 @@ const GOSSIP_COOLDOWN = 35;
 
 export async function runAgenda(g: Game, cause: LogId): Promise<void> {
   for (const debt of expiredDebts(g.world))
-    g.commit({ kind: "settle_debt", id: debt.id, status: "cancelled" }, debt.cause ?? cause);
+    cancelScheduled(g, debt, debt.cause ?? cause, "execution window expired");
   // What comes due because of what just happened is due now too: a consequence with no
   // delay lands in the same pass. Each debt is tried once a pass, so one that is waiting
   // for its moment (someone to share a room with) cannot hold the pass up.
@@ -329,12 +331,13 @@ const DEBT_HANDLERS: Record<
   testify: (g, debt, cause) => carryTale(g, debt, cause),
   face_stranger: (g, debt, cause) => handleFaceStranger(g, debt, cause),
   react: (g, debt, cause) => react(g, debt, cause),
+  [PROPOSAL_DEBT_KIND]: (g, debt) => fireProposal(g, debt),
 };
 
 async function fire(g: Game, debt: Debt, cause: LogId): Promise<void> {
   const who = g.world.actors[debt.stakeholder];
   if (!(who?.alive && who.present)) {
-    settle(g, debt, cause, "cancelled");
+    cancelScheduled(g, debt, cause, "stakeholder is dead or absent");
     return;
   }
   const handler = DEBT_HANDLERS[debt.kind];

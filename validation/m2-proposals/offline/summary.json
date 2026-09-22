@@ -1,0 +1,17 @@
+{
+  "mode": "offline",
+  "content": "gilded-carp-1+handwritten-1",
+  "model": null,
+  "platform": "win32",
+  "node": "v25.8.2",
+  "pendingAcrossExit": 3,
+  "firedAtExactDueTimes": 3,
+  "admissionCountAfterResume": 3,
+  "consumedServedBread": true,
+  "hiddenKitchenEventNotRendered": true,
+  "replayEqual": true,
+  "jevDecisions": 0,
+  "fallbackDecisions": 1,
+  "inputTokens": 0,
+  "humanPlaytest": false
+}

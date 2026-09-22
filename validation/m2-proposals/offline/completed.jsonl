@@ -1,0 +1,47 @@
+{"kind":"init","seed":1,"content":"gilded-carp-1+handwritten-1","id":0,"t":1140,"cause":null}
+{"kind":"stimulus","what":"proposal:admitted","data":{"debtId":"proposal:supper-bread","fingerprint":"edc6a526d75f2450"},"id":1,"t":1140,"cause":0}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"proposal:supper-bread","kind":"proposal","cause":1,"stakeholder":"mara","magnitude":1,"fuse":{"due":1143,"expires":1144},"status":"pending","data":{"proposal":"{\"version\":1,\"id\":\"supper-bread\",\"template\":\"set-out-item-1\",\"slots\":{\"server\":{\"kind\":\"actor\",\"id\":\"mara\"},\"item\":{\"kind\":\"item\",\"id\":\"bread\"},\"room\":{\"kind\":\"room\",\"id\":\"common_room\"}},\"effects\":[{\"kind\":\"transfer\",\"item\":\"bread\",\"to\":{\"room\":\"common_room\"}}],\"preconditions\":[{\"kind\":\"alive\",\"actor\":\"mara\"},{\"kind\":\"in_room\",\"actor\":\"mara\",\"room\":\"common_room\"},{\"kind\":\"holds\",\"actor\":\"mara\",\"item\":\"bread\"}],\"fuse\":{\"due\":1143,\"expires\":1144},\"prose\":\"Mara sets out a heel of bread within reach.\"}","context":"{\"room\":\"common_room\",\"stakeholder\":\"mara\"}","fingerprint":"edc6a526d75f2450"}}},"id":2,"t":1140,"cause":1}
+{"kind":"stimulus","what":"proposal:admitted","data":{"debtId":"proposal:supper-onion","fingerprint":"df58034c6ef51ead"},"id":3,"t":1140,"cause":0}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"proposal:supper-onion","kind":"proposal","cause":3,"stakeholder":"odo","magnitude":1,"fuse":{"due":1144,"expires":1145},"status":"pending","data":{"proposal":"{\"version\":1,\"id\":\"supper-onion\",\"template\":\"set-out-item-1\",\"slots\":{\"server\":{\"kind\":\"actor\",\"id\":\"odo\"},\"item\":{\"kind\":\"item\",\"id\":\"onion\"},\"room\":{\"kind\":\"room\",\"id\":\"kitchen\"}},\"effects\":[{\"kind\":\"transfer\",\"item\":\"onion\",\"to\":{\"room\":\"kitchen\"}}],\"preconditions\":[{\"kind\":\"alive\",\"actor\":\"odo\"},{\"kind\":\"in_room\",\"actor\":\"odo\",\"room\":\"kitchen\"},{\"kind\":\"holds\",\"actor\":\"odo\",\"item\":\"onion\"}],\"fuse\":{\"due\":1144,\"expires\":1145},\"prose\":\"Odo sets out an onion within reach.\"}","context":"{\"room\":\"kitchen\",\"stakeholder\":\"odo\"}","fingerprint":"df58034c6ef51ead"}}},"id":4,"t":1140,"cause":3}
+{"kind":"stimulus","what":"proposal:admitted","data":{"debtId":"proposal:supper-tankard","fingerprint":"5a1c1c6ddbdf9d41"},"id":5,"t":1140,"cause":0}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"proposal:supper-tankard","kind":"proposal","cause":5,"stakeholder":"mara","magnitude":1,"fuse":{"due":1146,"expires":1147},"status":"pending","data":{"proposal":"{\"version\":1,\"id\":\"supper-tankard\",\"template\":\"set-out-item-1\",\"slots\":{\"server\":{\"kind\":\"actor\",\"id\":\"mara\"},\"item\":{\"kind\":\"item\",\"id\":\"tankard\"},\"room\":{\"kind\":\"room\",\"id\":\"common_room\"}},\"effects\":[{\"kind\":\"transfer\",\"item\":\"tankard\",\"to\":{\"room\":\"common_room\"}}],\"preconditions\":[{\"kind\":\"alive\",\"actor\":\"mara\"},{\"kind\":\"in_room\",\"actor\":\"mara\",\"room\":\"common_room\"},{\"kind\":\"holds\",\"actor\":\"mara\",\"item\":\"tankard\"}],\"fuse\":{\"due\":1146,\"expires\":1147},\"prose\":\"Mara sets out a pewter tankard within reach.\"}","context":"{\"room\":\"common_room\",\"stakeholder\":\"mara\"}","fingerprint":"5a1c1c6ddbdf9d41"}}},"id":6,"t":1140,"cause":5}
+{"kind":"input","text":"take bread","via":"unparsed","action":{"message":"You see nothing like that to take."},"id":7,"t":1140,"cause":null}
+{"kind":"input","text":"wait 2","via":"parsed","action":{"verb":"wait","minutes":2},"id":8,"t":1140,"cause":null}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":9,"t":1140,"cause":8}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":10,"t":1142,"cause":8}
+{"kind":"input","text":"quit","via":"parsed","action":{"verb":"quit"},"id":11,"t":1142,"cause":null}
+{"kind":"input","text":"look","via":"parsed","action":{"verb":"look"},"id":12,"t":1142,"cause":null}
+{"kind":"input","text":"wait 1","via":"parsed","action":{"verb":"wait","minutes":1},"id":13,"t":1142,"cause":null}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":1},"id":14,"t":1142,"cause":13}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.006},"id":15,"t":1143,"cause":13}
+{"kind":"stimulus","what":"proposal:fired","data":{"debtId":"proposal:supper-bread"},"id":16,"t":1143,"cause":1}
+{"kind":"effect","effect":{"kind":"transfer","item":"bread","to":{"room":"common_room"}},"id":17,"t":1143,"cause":16}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"proposal:supper-bread","status":"fired"},"id":18,"t":1143,"cause":16}
+{"kind":"input","text":"take bread","via":"parsed","action":{"verb":"take","item":"bread"},"id":19,"t":1143,"cause":null}
+{"kind":"effect","effect":{"kind":"transfer","item":"bread","to":{"holder":"player"}},"id":20,"t":1143,"cause":19}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":1},"id":21,"t":1143,"cause":19}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.006},"id":22,"t":1144,"cause":19}
+{"kind":"stimulus","what":"proposal:fired","data":{"debtId":"proposal:supper-onion"},"id":23,"t":1144,"cause":3}
+{"kind":"effect","effect":{"kind":"transfer","item":"onion","to":{"room":"kitchen"}},"id":24,"t":1144,"cause":23}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"proposal:supper-onion","status":"fired"},"id":25,"t":1144,"cause":23}
+{"kind":"input","text":"eat bread","via":"parsed","action":{"verb":"attempt","how":"eat","target":{"id":"bread","place":"item"}},"id":26,"t":1144,"cause":null}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"player","need":"hunger","delta":-0.25},"id":27,"t":1144,"cause":26}
+{"kind":"effect","effect":{"kind":"transfer","item":"bread","to":{"room":"ashes"}},"id":28,"t":1144,"cause":26}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":29,"t":1144,"cause":26}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":30,"t":1146,"cause":26}
+{"kind":"stimulus","what":"proposal:fired","data":{"debtId":"proposal:supper-tankard"},"id":31,"t":1146,"cause":5}
+{"kind":"effect","effect":{"kind":"transfer","item":"tankard","to":{"room":"common_room"}},"id":32,"t":1146,"cause":31}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"proposal:supper-tankard","status":"fired"},"id":33,"t":1146,"cause":31}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":34,"t":1146,"cause":26}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":35,"t":1149,"cause":26}
+{"kind":"input","text":"talk to mara","via":"parsed","action":{"verb":"say","act":"greet","to":"mara","topic":{"kind":"none"},"item":null,"request":null},"id":36,"t":1149,"cause":null}
+{"kind":"decision","requestId":"302c0dfe1ea6cc66.3443de9754fe034f","sliceHash":"302c0dfe1ea6cc66","source":"fallback","answers":{"reply":{"type":"choice","choice":"greet","confidence":1,"probabilities":{"greet":1,"accuse:c_39ad7425bc":0,"ask_dusk":0,"refuse":0,"none_of_these":0}}},"inputTokens":0,"latencyMs":0,"id":37,"t":1149,"cause":36}
+{"kind":"draw","purpose":"mara reply","value":0.11025513336062431,"rng":[-48049390,-282600232,-1622693073,17],"id":38,"t":1149,"cause":37}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s5_1_mara","speaker":"mara","listener":"player","act":"greet","topic":{"kind":"none"},"priority":3,"createdBeat":5,"cause":37}},"id":39,"t":1149,"cause":37}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":40,"t":1149,"cause":36}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":41,"t":1152,"cause":36}
+{"kind":"input","text":"wait 3","via":"parsed","action":{"verb":"wait","minutes":3},"id":42,"t":1152,"cause":null}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":43,"t":1152,"cause":42}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":44,"t":1155,"cause":42}
+{"kind":"input","text":"inventory","via":"parsed","action":{"verb":"inventory"},"id":45,"t":1155,"cause":null}
+{"kind":"input","text":"quit","via":"parsed","action":{"verb":"quit"},"id":46,"t":1155,"cause":null}

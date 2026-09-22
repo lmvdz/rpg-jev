@@ -6,7 +6,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseLog, serializeLog } from "@rpg-jev/core";
-import { Game } from "@rpg-jev/inn";
+import { Game, HANDWRITTEN_CONTENT_VERSION } from "@rpg-jev/inn";
 import {
   CachingJudge,
   type Judge,
@@ -36,6 +36,7 @@ export interface SessionOptions {
   fresh: boolean;
   offline: boolean;
   record: boolean;
+  handwritten?: boolean;
 }
 
 export function openSession(options: SessionOptions): Session {
@@ -60,7 +61,11 @@ export function openSession(options: SessionOptions): Session {
   const game =
     resumed && path
       ? Game.resume(parseLog(readFileSync(path, "utf8")), resilient)
-      : Game.start(options.seed, resilient);
+      : Game.start(
+          options.seed,
+          resilient,
+          options.handwritten ? HANDWRITTEN_CONTENT_VERSION : undefined,
+        );
   const save = () => {
     if (!path) return;
     writeSave(path, `${serializeLog(game.log)}\n`, archive);

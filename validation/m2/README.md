@@ -4,6 +4,11 @@
 milestone. It identifies an unimplemented acceptance requirement and records
 complete playthroughs of the existing investigation before further gameplay work.
 
+**Follow-through:** the owner subsequently approved the person-ratified boundary.
+That proposal requirement is now implemented and verified in the
+[handwritten-proposal slice](../m2-proposals/README.md). The `before/` collection
+and original decision analysis below are retained as historical evidence.
+
 ## Current gate inventory
 
 | M2 requirement | Actual status |
@@ -17,7 +22,7 @@ complete playthroughs of the existing investigation before further gameplay work
 | Debts, rumors and distorted/stale claims | Implemented; causal/game tests and recorded demo |
 | Conversation scheduler and combat stub | Implemented; timing/game tests and recorded combat coda |
 | Judge outage and save/resume | Implemented; offline tests and previous real CLI validation |
-| **Handwritten proposals** | **Unimplemented.** SPEC §16 requires them; the PoC report says they were deferred to M3 |
+| **Handwritten proposals** | **Implemented after this audit.** See `validation/m2-proposals/README.md`; the prior deferral is superseded by the owner's approval |
 | **Worth playing** | **Unaccepted.** Automated routes are not a cold human playtest |
 
 ## Complete live nights
@@ -59,7 +64,7 @@ Ending narration also describes handling the ledger without a corresponding
 terminal transfer in the evidence-route save. These are open findings, not fixed
 by the prior journal or save work.
 
-## Decision blocking handwritten proposals
+## Historical decision that blocked handwritten proposals
 
 SPEC §16 requires handwritten proposals, §10 specifies proposals with effects,
 hard preconditions and fuses, and §14 freezes M2 to eight question families.
@@ -67,7 +72,7 @@ None of those families ratifies author canon, plausibility or soft freshness.
 The later improvement-loop design says proposals are read by a person while
 those ratification families remain unavailable.
 
-**Recommended M2 boundary, awaiting approval:** proposals are person-approved,
+**M2 boundary recommended here and subsequently approved:** proposals are person-approved,
 checked-in content. Code validates the structured form and existing effect
 vocabulary, records admission, schedules through one generic debt handler,
 re-checks hard preconditions at execution, and logs acceptance or rejection for
@@ -80,10 +85,8 @@ and cannot honestly be slipped into one of the existing eight. Merely applying
 a file at startup would not demonstrate the required fuse/revalidation path and
 is not a substitute for this gate.
 
-No proposal implementation or approval is claimed here. After this boundary is
-settled, the next implementation is the proposal admission → scheduled
-consequence → replay slice, followed by the remaining player-facing blockers and
-human acceptance—not M3.
+The implementation and its new evidence are in `validation/m2-proposals/README.md`.
+The remaining work is player-facing blockers and human acceptance—not M3.
 
 ## Reproduce
 

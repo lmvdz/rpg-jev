@@ -401,6 +401,26 @@ Jev sits on both sides of Claude: it ranks what goes into the digest and ratifie
 - Accepted templates join a pool keyed by situation type, shared across saves and players. Selection counts are logged; never-picked templates are culled.
 - When the pool has a good fit, no generation happens. A poor fit uses the best available or an authored fallback, and queues a background generation.
 
+**Approved M2 boundary, implemented:** handwritten proposals are checked-in,
+person-approved content, not automatically ratified model output. The version-1
+filled shape adds an `id` and `version` to the proposal above; trusted code fills
+typed entity slots and effects. Code checks schema/bounds, scope, hard
+preconditions and the entire effect sequence before admission and again when due.
+One `proposal` debt kind carries the immutable filled payload and its fingerprint
+through the existing ledger. Admission, firing, rejection and cancellation are
+logged; settled retries cannot repeat effects or prose. It introduces no effect
+kind, Jev family, template-selection judgment or live author process.
+
+The `--handwritten --new` inn variant demonstrates three filled instances of one
+set-out-item template. It uses content version `gilded-carp-1+handwritten-1`;
+standard saves retain `gilded-carp-1`. Resume uses the saved content version and
+pending payload, never re-admits current source content or re-infers history.
+Long waits stop at proposal deadlines; already-due work is drained before the
+clock advances. Proposal prose is display-only and shown only in its scope room.
+This bounded path is not the future untrusted author inbox: automatic canon,
+plausibility and soft-freshness ratification still require their later gates.
+Validation and limits: `validation/m2-proposals/README.md`.
+
 **Triggers, not a hot loop:** event queue low, in-game day rollover, arc stage transition, a player action Jev scores as changing the world's situation, a broken quest.
 
 **Budget and failure**
@@ -613,6 +633,12 @@ not passed. Local matter, thermal and shared-food implementations (sections
 19, 21 and 22) are not the hosted authoritative multiplayer runtime and do not
 close M3–M5. The integrated-GPU renderer gate below remains open.
 Section 23's world-delivery gates follow M5 rather than bypassing these gates.
+
+**M2 proposal follow-through:** the approved handwritten admission → scheduled
+consequence → replay path is implemented in the optional supper night described
+in section 10. The historical deferral below no longer describes this requirement.
+Offline and live terminal continuation plus complete recorded nights provide
+evidence; M2's human playability acceptance remains open.
 
 **Status, 2026-09-17.** M0 is closed. M1 and M2 exist as a proof of concept on the `poc` branch: `packages/core`, `packages/jev`, `packages/inn` and `packages/terminal`, with `pnpm play` and `pnpm demo`. World state is in process, shaped for the port: state changes only through validated effects, decisions are made on a snapshot and committed with precondition checks, and the tables follow section 4. Of the M2 list, handwritten proposals are not built (the proposal inbox belongs with the author thread) and there is no prose model (M2 prose is templates). `docs/poc-report.md` says what was verified, what it cost, and whether it is fun. S0 has not run.
 
@@ -1365,7 +1391,7 @@ and contract/version consequences when each is settled.
 
 | Decision | Status / what must be settled | Decision deadline |
 | --- | --- | --- |
-| M2 handwritten-proposal approval | Section 16 requires proposals, but automatic author ratification is not among the eight M2 families. Recommendation awaiting approval: person-approved checked-in proposals, code validation and generic scheduled execution using existing effects, hard-precondition rechecks and logged replay. Alternatively explicitly defer this requirement to M3; do not claim it is already implemented. Evidence: `validation/m2/README.md` | Before implementing or closing M2's proposal gate |
+| M2 handwritten-proposal approval | Approved by the owner in this thread and implemented: person-approved checked-in proposals, code validation, generic scheduled execution using existing effects, hard-precondition rechecks and logged replay. No automatic Jev ratification or new family. Evidence: `validation/m2-proposals/README.md` | This decision is closed; overall M2 playability acceptance remains open |
 | Platform and performance budgets | Host OS/runtime support, browser/device matrix, world capacity, latency, storage and cost budgets; S0 loopback and discrete-GPU results are not deployment evidence | Before W1 implementation and measurement; revise before measuring W2/W3 workloads |
 | Provider terms and payment | Lawful hosting/use, subscription versus API terms, credentials, quotas, billing responsibility and outage budgets; the historical Claude CLI choice is not approval to serve others under a personal subscription | Before serving others at M5; verify at W1 |
 | Transport | Retain SDK or justify a measured alternative, including browser and relay constraints; Iroh remains a candidate | W1 baseline; explicit review before any W3 replacement |

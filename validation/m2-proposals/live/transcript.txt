@@ -1,0 +1,109 @@
+
+(Handwritten supper night: the staff are about to set out food and drink. You are hungry.)
+
+
+THE GILDED CARP
+
+You came in out of the rain this afternoon, paid for a bed, and slept. When you came down at
+dusk the ford had gone under and the mood in the common room had gone with it. The inn's
+account ledger is missing from the office. The crown's assessor arrives at first light to
+read it, and an inn that cannot show its ledger is taxed at his pleasure.
+
+Nobody has said it to your face yet. But you were the only stranger in the house, and the
+innkeeper has not taken her eyes off you since you sat down.
+
+(Type help for commands. Plain verbs always work; anything else, say it as you would.)
+
+The common room: a low ceiling black with smoke, a long bar, a hearth losing its fight with the damp. Rain ticks at the shutters. The office door stands beside the stairs, an arch leads to the kitchen, and the yard door rattles in its frame.
+Mara is here, tending the bar.
+From here: the kitchen, the stable yard and the office (locked).
+
+> take bread
+
+You see nothing like that to take.
+
+> wait 2
+
+You wait. (19:02)
+
+> quit
+
+
+
+
+Saved. The log is the save: pnpm play resumes it.
+
+
+--- RESUME PENDING ---
+
+(Resumed from the log at 19:02. No model was asked anything.)
+
+
+The common room: a low ceiling black with smoke, a long bar, a hearth losing its fight with the damp. Rain ticks at the shutters. The office door stands beside the stairs, an arch leads to the kitchen, and the yard door rattles in its frame.
+Mara is here, tending the bar.
+From here: the kitchen, the stable yard and the office (locked).
+
+> wait 1
+
+You wait. (19:03)
+Mara sets out a heel of bread within reach.
+
+> take bread
+
+You take a heel of bread.
+
+> eat bread
+
+You eat. It is hot, or near enough, and it is enough.
+Mara sets out a pewter tankard within reach.
+
+> talk to mara
+
+You greet Mara.
+Mara says: "Where were you at dusk? And do not tell me about the rain."
+
+wait 3
+
+You wait. (19:15)
+
+inventory
+
+You are carrying 12 silver. It is 19:15.
+
+quit
+
+
+
+
+Saved. The log is the save: pnpm play resumes it.
+
+
+--- OFFLINE RESUME SETTLED ---
+
+(The judge is unreachable: no TYPESAFE_API_KEY, or --offline. The inn runs on its routines.)
+
+(Resumed from the log at 19:15. No model was asked anything.)
+
+
+The common room: a low ceiling black with smoke, a long bar, a hearth losing its fight with the damp. Rain ticks at the shutters. The office door stands beside the stairs, an arch leads to the kitchen, and the yard door rattles in its frame.
+Mara is here, tending the bar.
+You see a pewter tankard.
+From here: the kitchen, the stable yard and the office (locked).
+
+> look
+
+The common room: a low ceiling black with smoke, a long bar, a hearth losing its fight with the damp. Rain ticks at the shutters. The office door stands beside the stairs, an arch leads to the kitchen, and the yard door rattles in its frame.
+Mara is here, tending the bar.
+You see a pewter tankard.
+From here: the kitchen, the stable yard and the office (locked).
+
+> inventory
+
+You are carrying 12 silver. It is 19:15.
+
+> quit
+
+
+
+
+Saved. The log is the save: pnpm play resumes it.

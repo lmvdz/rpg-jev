@@ -1,0 +1,23 @@
+{
+  "route": "evidence",
+  "seed": 1,
+  "content": "gilded-carp-1+handwritten-1",
+  "model": "jev-1.13.0",
+  "node": "v25.8.2",
+  "platform": "win32",
+  "over": true,
+  "quest": "resolved",
+  "clock": 1169,
+  "label": "total",
+  "calls": 13,
+  "fallbacks": 0,
+  "cached": 0,
+  "questions": 30,
+  "inputTokens": 16569,
+  "latencyMs": 2852,
+  "usd": 0.000695898,
+  "unparsed": 0,
+  "nonemptyTurns": 13,
+  "failures": 0,
+  "humanPlaytest": false
+}
