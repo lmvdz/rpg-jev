@@ -9,7 +9,7 @@ import { search } from "./body.ts";
 import { type Answers, BARE_HANDS, COMPILED, compile, NONE, UNSEEN } from "./compile.ts";
 import { routine } from "./intents.ts";
 import { able } from "./living.ts";
-import { type Act, resolve } from "./resolve.ts";
+import { type Act, type Outcome, resolve } from "./resolve.ts";
 import { perceive } from "./sense.ts";
 import { type Tile, tileDistance } from "./session-terrain.ts";
 import type { Body, Change, MatterWorld } from "./types.ts";
@@ -34,7 +34,30 @@ export interface SharedStep {
   /** Authoritative log data, not an observer-safe public projection. */
   changes: Change[];
   draws: number[];
+  /** What a settle other than the engine logged (milestone J's commit records). */
+  notes?: unknown[];
 }
+
+/** What settling one act produced: the outcome, the RNG after it, its draws, and a log note. */
+export interface Settled {
+  outcome: Outcome;
+  rng: RngState;
+  draws: number[];
+  note?: unknown;
+}
+
+/**
+ * How an act becomes changes. The code engine by default. A world may instead rank physical
+ * outcomes with a learned model (milestone J, SPEC section 16), which draws from the world's
+ * RNG, reports its draws and leaves a note to log; replay reads the log, never the model.
+ */
+export type Settle = (world: MatterWorld, act: Act, rng: RngState) => Settled;
+
+export const ENGINE: Settle = (world, act, rng) => ({
+  outcome: resolve(world, act),
+  rng,
+  draws: [],
+});
 
 export function createSharedState(world: MatterWorld, seed: number): SharedState {
   // The shared host persists this JSON envelope. Use its same representation in
@@ -80,15 +103,23 @@ function available(world: MatterWorld, body: Body, id: string, canStep: CanStep)
   );
 }
 
-function commit(state: SharedState, act: Act, rng = state.rng, draws: number[] = []): SharedStep {
-  const outcome = resolve(state.world, act);
+function commit(
+  state: SharedState,
+  act: Act,
+  rng = state.rng,
+  draws: number[] = [],
+  settle: Settle = ENGINE,
+): SharedStep {
+  const settled = settle(state.world, act, rng);
+  const outcome = settled.outcome;
   if (outcome.changes.some((c) => c.kind === "nothing")) return rejected(state, "unavailable");
   return {
-    state: { ...state, world: outcome.world, rng },
+    state: { ...state, world: outcome.world, rng: settled.rng },
     ok: true,
     reason: "accepted",
     changes: outcome.changes,
-    draws,
+    draws: [...draws, ...settled.draws],
+    ...(settled.note === undefined ? {} : { notes: [settled.note] }),
   };
 }
 
@@ -193,6 +224,7 @@ export function sharedAct(
   answers: Record<string, string>,
   operands: Record<string, string>,
   canStep: CanStep,
+  settle: Settle = ENGINE,
 ): SharedStep {
   const body = actorOf(state, actor);
   if (!body?.where) return rejected(state, "actor-unavailable");
@@ -238,7 +270,7 @@ export function sharedAct(
       draws,
     };
   }
-  return commit(state, act, rng.state, draws);
+  return commit(state, act, rng.state, draws, settle);
 }
 
 function opportunity(next: SharedState, id: string, canStep: CanStep): SharedStep | undefined {
@@ -282,6 +314,7 @@ export function sharedTick(
   autonomousIds: readonly string[],
   canStep: CanStep,
   minutes = 0,
+  settle: Settle = ENGINE,
 ): SharedStep {
   if (
     !Array.isArray(autonomousIds) ||
@@ -296,10 +329,15 @@ export function sharedTick(
   if (state.tick >= Number.MAX_SAFE_INTEGER) return rejected(state, "tick-limit");
   let next = state;
   const changes: Change[] = [];
+  const draws: number[] = [];
+  const notes: unknown[] = [];
   if (minutes > 0) {
-    const drift = resolve(next.world, { process: "drift", minutes });
-    next = { ...next, world: drift.world };
-    changes.push(...drift.changes);
+    // Passive time is the one step a world may rank with a learned model (milestone J).
+    const drift = settle(next.world, { process: "drift", minutes }, next.rng);
+    next = { ...next, world: drift.outcome.world, rng: drift.rng };
+    changes.push(...drift.outcome.changes);
+    draws.push(...drift.draws);
+    if (drift.note !== undefined) notes.push(drift.note);
   }
   for (const id of autonomousIds) {
     const result = opportunity(next, id, canStep);
@@ -313,6 +351,7 @@ export function sharedTick(
     ok: true,
     reason: "accepted",
     changes,
-    draws: [],
+    draws,
+    ...(notes.length > 0 ? { notes } : {}),
   };
 }

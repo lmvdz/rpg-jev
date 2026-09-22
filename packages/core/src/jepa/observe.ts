@@ -234,17 +234,32 @@ export function relatedTo(
   return found.slice(0, NEIGHBOURS);
 }
 
-function neighbourFeatures(world: MatterWorld, related: Related, role: Role): number[] {
+/** A thing's own row, by any means that gives what `thingFeatures` gives (a memo, per act). */
+export type Features = (thing: Thing) => readonly number[];
+
+function neighbourHead(related: Related, role: Role): number[] {
   return [
     1,
     ...oneHot(RELATIONS, related.relation),
     Math.min(1, related.distance / NEAR),
     ...oneHot(ROLES, role),
-    ...thingFeatures(world, related.thing),
   ];
 }
 
 const EMPTY_NEIGHBOUR: readonly number[] = NEIGHBOUR_FEATURES.map(() => 0);
+
+/** Each thing's row computed once for one world: many observations share their neighbours. */
+export function featureMemo(world: MatterWorld): Features {
+  const memo = new Map<string, readonly number[]>();
+  return (thing) => {
+    let row = memo.get(thing.id);
+    if (!row) {
+      row = thingFeatures(world, thing);
+      memo.set(thing.id, row);
+    }
+    return row;
+  };
+}
 
 /** The observation of one thing under one act, flat, `OBSERVATION_WIDTH` long. */
 export function observe(
@@ -252,6 +267,7 @@ export function observe(
   thing: Thing,
   act: ActView,
   related: readonly Related[] = relatedTo(world, thing, act.roles),
+  features: Features = (t) => thingFeatures(world, t),
 ): Float64Array {
   const out = new Float64Array(OBSERVATION_WIDTH);
   let at = 0;
@@ -259,12 +275,51 @@ export function observe(
     out.set(values, at);
     at += values.length;
   };
-  write(thingFeatures(world, thing));
+  write(features(thing));
   write(placeFeatures(world, thing));
   write(actFeatures(act, act.roles[thing.id] ?? "bystander"));
   for (let i = 0; i < NEIGHBOURS; i++) {
     const r = related[i];
-    write(r ? neighbourFeatures(world, r, act.roles[r.thing.id] ?? "bystander") : EMPTY_NEIGHBOUR);
+    if (!r) {
+      write(EMPTY_NEIGHBOUR);
+      continue;
+    }
+    write(neighbourHead(r, act.roles[r.thing.id] ?? "bystander"));
+    write(features(r.thing));
   }
   return out;
+}
+
+/**
+ * What might be related to each thing, found through an index by place and tile rather than
+ * by scanning the world: the things within `NEAR` tiles in its place, the things without a
+ * tile in its place, its container and what it contains. `relatedTo` sorts, so the answer is
+ * the same as a full scan (a test holds it).
+ */
+export function neighbourhood(world: MatterWorld): (thing: Thing) => Thing[] {
+  const byTile = new Map<string, Thing[]>();
+  const byPlace = new Map<string, Thing[]>();
+  const untiled = new Map<string, Thing[]>();
+  const push = (map: Map<string, Thing[]>, key: string, t: Thing) => {
+    const list = map.get(key);
+    if (list) list.push(t);
+    else map.set(key, [t]);
+  };
+  for (const t of Object.values(world.things)) {
+    push(byPlace, t.place, t);
+    if (t.where) push(byTile, `${t.place}|${t.where[0]}|${t.where[1]}`, t);
+    else push(untiled, t.place, t);
+  }
+  return (thing) => {
+    const out: Thing[] = [...(byPlace.get(`${thing.id}.inside`) ?? [])];
+    const container = containerOf(world, thing);
+    if (container) out.push(container);
+    if (!thing.where) return [...new Set([...out, ...(byPlace.get(thing.place) ?? [])])];
+    out.push(...(untiled.get(thing.place) ?? []));
+    const [x, z] = thing.where;
+    for (let dx = -NEAR; dx <= NEAR; dx++)
+      for (let dz = -NEAR; dz <= NEAR; dz++)
+        out.push(...(byTile.get(`${thing.place}|${x + dx}|${z + dz}`) ?? []));
+    return [...new Set(out)];
+  };
 }

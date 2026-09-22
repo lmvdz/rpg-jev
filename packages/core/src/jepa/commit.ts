@@ -15,7 +15,14 @@ import type { Change, MatterWorld, Thing, ThingState } from "../matter/types.ts"
 import { clamp, FRESH } from "../matter/types.ts";
 import type { Rng } from "../rng.ts";
 import { candidateHash, isLegal, type Legal, legal } from "./envelope.ts";
-import { type ActView, observe, type Related, relatedTo } from "./observe.ts";
+import {
+  type ActView,
+  featureMemo,
+  neighbourhood,
+  observe,
+  type Related,
+  relatedTo,
+} from "./observe.ts";
 import {
   CHANNELS,
   CLASS_OFFSETS,
@@ -322,18 +329,20 @@ export interface Prepared {
 }
 
 /** Everything the model is shown for one act: the affected things, in id order. */
-export function prepare(
-  world: MatterWorld,
-  view: ActView,
-  near: (thing: Thing) => Iterable<Thing> = () => Object.values(world.things),
-): Prepared {
+export function prepare(world: MatterWorld, view: ActView): Prepared {
   const things = Object.values(world.things).sort((a, b) => (a.id < b.id ? -1 : 1));
-  const related = things.map((t) => relatedTo(world, t, view.roles, near(t)));
+  const near = neighbourhood(world);
+  // The act's parties are always candidates: the act brings them into contact.
+  const parties = Object.keys(view.roles).flatMap((id) => world.things[id] ?? []);
+  const features = featureMemo(world);
+  const related = things.map((t) =>
+    relatedTo(world, t, view.roles, new Set([...near(t), ...parties])),
+  );
   return {
     things,
     related,
     legal: things.map((t, i) => legal(world, t, view, related[i])),
-    observations: things.map((t, i) => observe(world, t, view, related[i])),
+    observations: things.map((t, i) => observe(world, t, view, related[i], features)),
   };
 }
 
@@ -357,11 +366,10 @@ export function commit(
   scorer: Scorer | null,
   rng: Rng,
   checkpoint: string,
-  near?: (thing: Thing) => Iterable<Thing>,
 ): Committed {
   const engine = resolve(world, act);
   if (!scorer) return engineOnly(engine, checkpoint, "off");
-  const prepared = prepare(world, view, near);
+  const prepared = prepare(world, view);
   const scores = scorer(prepared.observations, prepared.legal);
   if (!scores || scores.length !== prepared.things.length)
     return engineOnly(engine, checkpoint, "deadline");

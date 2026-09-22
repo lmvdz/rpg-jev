@@ -113,7 +113,10 @@ const RULES: Record<(typeof CHANNELS)[number]["name"], Record<string, (c: Contex
     less: (c) => c.thing.state.contamination > 0,
   },
   rust: {
-    more: (c) => effective(c.world, c.thing).corrodibility > 0,
+    // A coat that keeps the weather off can come off in the same stretch: the stuff beneath counts.
+    more: (c) =>
+      effective(c.world, c.thing).corrodibility > 0 ||
+      (c.world.elements[c.thing.element]?.props.corrodibility ?? 0) > 0,
   },
   amount: {
     less: (c) => consumable(c) || isLiquid(c.world, c.thing),

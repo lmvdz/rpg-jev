@@ -23,7 +23,7 @@ import {
 import { Rng } from "../rng.ts";
 import type { ActView, Role } from "./observe.ts";
 
-export const SCENARIO_VERSION = "jepa-scenario-v1";
+export const SCENARIO_VERSION = "jepa-scenario-v2";
 
 export interface Scenario {
   seed: number;
@@ -241,7 +241,8 @@ const spreads = (w: MatterWorld) => (id: string) =>
 const solid = (w: MatterWorld) => (id: string) => !formOf(w, id).includes("liquid");
 
 const ACTS: Record<ActView["process"], ActMaker> = {
-  tick: (d) => ({ process: "drift", minutes: d.pick([1, 5, 15, 30, 60, 240]) }),
+  // Play ticks are a tenth or a half of a second: the model must know how little they change.
+  tick: (d) => ({ process: "drift", minutes: d.pick([1 / 600, 1 / 120, 1, 5, 15, 30, 60, 240]) }),
   heat: (d, _w, ids) => {
     const p = two(d, ids);
     return (

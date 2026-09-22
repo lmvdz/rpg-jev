@@ -60,6 +60,9 @@ export type { MatterTerrain, Tile } from "./session-terrain.ts";
 export {
   type CanStep,
   createSharedState,
+  ENGINE,
+  type Settle,
+  type Settled,
   type SharedState,
   type SharedStep,
   sharedAct,

@@ -5,3 +5,4 @@ export * from "./families.ts";
 export * from "./observe.ts";
 export * from "./outcomes.ts";
 export * from "./scenario.ts";
+export * from "./settle.ts";
