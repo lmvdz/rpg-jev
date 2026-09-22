@@ -1,0 +1,50 @@
+
+(The judge is unreachable: no TYPESAFE_API_KEY, or --offline. The inn runs on its routines.)
+
+(Resumed from the log at 19:17. No model was asked anything.)
+
+
+The kitchen is all heat and onions. A pot the size of a font hangs over the hearth. A coat hangs on a peg, and beside the cellar door there is a hook for keys. A back door gives onto the yard.
+Odo is here, cooking at the hearth.
+You see the iron key, the brass key, the gambling markers and an onion.
+From here: the common room, the stable yard and the cellar (locked).
+
+> go common room
+
+The common room: a low ceiling black with smoke, a long bar, a hearth losing its fight with the damp. Rain ticks at the shutters. The office door stands beside the stairs, an arch leads to the kitchen, and the yard door rattles in its frame.
+Mara is here, tending the bar.
+You see a pewter tankard.
+From here: the kitchen, the stable yard and the office (locked).
+Odo comes in from the kitchen, come to tell Mara something.
+Odo says to Mara, grinning: "Well now. I saw it myself: the stranger ransacked my coat a short while ago, friend."
+
+> tell mara about note 2
+
+You tell Mara that Odo owes money to river gamblers.
+Mara opens her mouth, but Odo cuts in first. Odo says, not grinning now: "Careful. Knives are sharp in a kitchen, and floors are slippery."
+Mara says: "No. And don't ask me twice."
+
+> ask mara about note 2
+
+You ask Mara whether Odo owes money to river gamblers.
+Mara says: "I've nothing to say to you about that."
+
+> journal
+
+YOUR JOURNAL — 19:25
+Your character's knowledge, not a verdict on what really happened.
+- [note 1] You went through Odo's coat (account of 19:11).
+  Odo told you; your character thinks it likely.
+- [note 2] Odo owes money to river gamblers.
+  You witnessed this; your character is certain of it.
+Compare accounts, examine evidence, then show what you carry or discuss what you learned.
+With someone present: tell <name> about note <number>, or ask <name> about note <number>.
+Note numbers stay the same as you learn more; discussing an account does not prove it true.
+Reading your journal takes no game time.
+
+> quit
+
+
+
+
+Saved. The log is the save: pnpm play resumes it.

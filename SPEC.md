@@ -175,6 +175,16 @@ like `look`. It does not expose NPC-private beliefs, schedules, debts or rumor
 lineage. This is a view of already-earned knowledge, not a new memory-acquisition
 system or proof that the inn is fun. Evidence: `validation/inn-journal/README.md`.
 
+**Acting on recall (M2):** journal accounts have stable player-local note numbers
+in first-acquisition order. `tell <name> about note <number>` and
+`ask <name> about note <number>` deterministically resolve a current player-held
+claim and a present listener. Malformed or unavailable references fail without
+inference or a turn. Valid speech uses ordinary conversation time and existing
+judgments; a note is not proof and cannot force acceptance. Asking mentions an
+account, rather than asserting its deed occurred. The local save retains the
+belief-edge history that preserves these numbers; later archival must retain
+that mapping. This is not a character-export schema.
+
 **NPC action choice**
 
 - Code lists the NPC's legal actions from its FSM node, location and schedule. Feasibility is code's job: M0 showed Jev gives "keep the purse secretly" 0.47 while the owner is watching. Options that observed facts rule out are pruned or restated before Jev sees them. Restating that option raised `return_it` from 0.47 to 0.60, against 0.90 from the reference panel, so pruning helps and does not close the gap.
@@ -286,6 +296,7 @@ A quest is a state machine whose steps advance when a described condition holds,
 - **A hard precondition in code.** The guard is not asked until the NPC holds at least one belief that points away from the accused. It saves calls and makes "flips on the first plausible sentence" impossible by construction.
 - **NPCs act on what they believe.** A guard about a belief is only reachable if believing leads somewhere. Mara, told that something went down to the cellar, goes to look; told that someone is implicated, she has it out with them. Both are debts with short fuses (section 9), and both were needed before a witness could clear the player. She goes to look even when she only half credits a trusted first-hand report, because checking costs less than believing; without that, one unlucky believe draw ended the witness route.
 - **Roles, not individuals.** A quest refers to "the town smith", whoever holds that role now. Pinning an NPC in place is forbidden.
+- **Resolution is not a staged scene.** A belief guard may resolve while its holder is elsewhere. The inn's terminal ending is an explicitly out-of-scene outcome summary, not dialogue the player overheard. It does not invent movement, service, promises or item transfers. Both successful endings report current item custody, not a historical return flag; clearing a name does not hand over evidence. Scene actions still require their ordinary effects and preconditions. This presentation-only rule preserves recorded decisions and saved effect logs.
 - **Broken quests are rewritten.** If a quest-giver dies or a step becomes impossible, the quest goes to the author thread for re-authoring or retirement.
 
 **The world arc**
@@ -638,7 +649,11 @@ Section 23's world-delivery gates follow M5 rather than bypassing these gates.
 consequence → replay path is implemented in the optional supper night described
 in section 10. The historical deferral below no longer describes this requirement.
 Offline and live terminal continuation plus complete recorded nights provide
-evidence; M2's human playability acceptance remains open.
+evidence. Numbered journal accounts now support deterministic conversations,
+and terminal epilogues report actual state rather than inventing scene actions.
+`validation/m2-playability/README.md` records the live save/continuation evidence
+and a recovered Windows CLI shutdown failure. M2's human playability acceptance
+remains open; its spoiler-light exercise is `validation/m2-playability/PLAYTEST.md`.
 
 **Status, 2026-09-17.** M0 is closed. M1 and M2 exist as a proof of concept on the `poc` branch: `packages/core`, `packages/jev`, `packages/inn` and `packages/terminal`, with `pnpm play` and `pnpm demo`. World state is in process, shaped for the port: state changes only through validated effects, decisions are made on a snapshot and committed with precondition checks, and the tables follow section 4. Of the M2 list, handwritten proposals are not built (the proposal inbox belongs with the author thread) and there is no prose model (M2 prose is templates). `docs/poc-report.md` says what was verified, what it cost, and whether it is fun. S0 has not run.
 

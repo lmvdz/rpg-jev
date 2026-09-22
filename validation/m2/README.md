@@ -61,8 +61,11 @@ fixed. No provider call is made by the three new complete-night replay tests.
 The transcripts reproduce known playability weaknesses: the witness route needs
 repeated questions and its climax occurs while the innkeeper is elsewhere.
 Ending narration also describes handling the ledger without a corresponding
-terminal transfer in the evidence-route save. These are open findings, not fixed
-by the prior journal or save work.
+terminal transfer in the evidence-route save. The original recordings retain
+these findings. The later [ending fix](ENDINGS.md) removes false staging and
+reports real custody; it does not claim to solve offstage agency or pacing.
+The [actionable journal](../m2-playability/README.md) adds a deterministic route
+from earned evidence to conversation.
 
 ## Historical decision that blocked handwritten proposals
 

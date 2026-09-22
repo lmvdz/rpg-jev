@@ -1,6 +1,6 @@
 # rpg-jev
 
-A persistent multiplayer RPG whose world keeps its own agenda. [TypeSafe Jev](https://docs.typesafe.ai) makes every in-world decision, Claude authors the world on a background thread, and code owns rules, numbers and state. The main client is a browser WebGL2 renderer that draws glyphs on real 3D terrain.
+An RPG being built toward persistent, independently operated worlds and portable characters. Code owns rules, numbers and state; [TypeSafe Jev](https://docs.typesafe.ai) judges bounded social choices. The playable inn is currently local and single-player. Live background authoring, hosted multiplayer and character travel are later milestones, not implemented features. The browser remains the primary-client direction; its WebGL2 renderer currently has separate local-world fixtures.
 
 **[SPEC.md](SPEC.md) is the source of truth** for the design, the stack and the milestones.
 
@@ -29,12 +29,22 @@ pnpm play --new --handwritten --save=supper  # the versioned, checked-in schedul
 
 Plain verbs always work (`look`, `go kitchen`, `take iron key`, `search barrel`, `talk to mara`, `show apron to mara`). Anything else, say it as you would: `tell mara I found her ledger in the cellar`, `ask tobin what he saw at dusk`. `why mara` walks the causes behind what someone believes. The event log in `saves/` is the save.
 
+`journal` recalls your character's earned accounts with stable note numbers and
+sources. Use `tell mara about note 1` or `ask mara about note 1` when she is present.
+These are ordinary conversation actions, not automatic persuasion or evidence
+handovers. `why <name>` is an omniscient developer tool, not the player's journal.
+Endings explicitly distinguish an out-of-scene epilogue from witnessed events.
+
 The handwritten night starts you hungry while the staff hold the supper items.
 Try `wait 3`, `take bread`, then `eat bread`: a queued, validated proposal places
 real food in the room. Pending events survive quitting; resume with
 `pnpm play --save=supper`, without the start flag. Standard nights and old saves
 are unchanged. [Proposal evidence and limits](validation/m2-proposals/README.md)
 distinguish this M2 content path from the still-unbuilt live author thread.
+
+The remaining M2 gate is whether the inn is worth playing. See the
+[spoiler-light playtest](validation/m2-playability/PLAYTEST.md); automated route
+completion is not a substitute for that human judgment.
 
 ## Layout
 

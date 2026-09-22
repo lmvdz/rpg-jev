@@ -1,0 +1,86 @@
+
+(Handwritten supper night: the staff are about to set out food and drink. You are hungry.)
+
+
+THE GILDED CARP
+
+You came in out of the rain this afternoon, paid for a bed, and slept. When you came down at
+dusk the ford had gone under and the mood in the common room had gone with it. The inn's
+account ledger is missing from the office. The crown's assessor arrives at first light to
+read it, and an inn that cannot show its ledger is taxed at his pleasure.
+
+Nobody has said it to your face yet. But you were the only stranger in the house, and the
+innkeeper has not taken her eyes off you since you sat down.
+
+(Type help for commands. Plain verbs always work; anything else, say it as you would.)
+
+The common room: a low ceiling black with smoke, a long bar, a hearth losing its fight with the damp. Rain ticks at the shutters. The office door stands beside the stairs, an arch leads to the kitchen, and the yard door rattles in its frame.
+Mara is here, tending the bar.
+From here: the kitchen, the stable yard and the office (locked).
+
+> help
+
+Plain commands always work: look, go <room>, take <thing>, drop <thing>, examine <thing>,
+search <thing>, unlock <room> with <key>, give <thing> to <name>, show <thing> to <name>,
+talk to <name>, ask <name> about <name or thing>, attack <name>, wait [minutes], inventory, journal.
+journal (also notes or leads) recalls only what you learned, who told you, and last-known whereabouts.
+Use its stable numbers: tell <name> about note <number>, or ask <name> about note <number>.
+Examine evidence, review your journal, then show what you carry or discuss what you learned.
+Anything else, say it as you would: tell mara I never touched her ledger; ask tobin what he
+saw at dusk; offer tobin my silver if he will talk to mara; accuse odo of taking the ledger.
+Debug: why <name> walks the causes behind what someone believes and does. quit saves and leaves.
+Anything can be tried on anything: eat the bread, sit by the fire, kick the table. What a thing is decides
+what happens. why <thing> says what it is for.
+If the game got your last line wrong, type huh (or huh <what you meant>): it goes in the playtest log.
+
+> wait 3
+
+You wait. (19:03)
+Mara sets out a heel of bread within reach.
+
+> take bread
+
+You take a heel of bread.
+
+> eat bread
+
+You eat. It is hot, or near enough, and it is enough.
+Mara sets out a pewter tankard within reach.
+
+> go kitchen
+
+The kitchen is all heat and onions. A pot the size of a font hangs over the hearth. A coat hangs on a peg, and beside the cellar door there is a hook for keys. A back door gives onto the yard.
+Odo is here, cooking at the hearth.
+You see the iron key, the brass key and an onion.
+From here: the common room, the stable yard and the cellar (locked).
+Odo says, grinning, still cooking at the hearth: "Funny thing. I say you were hanging about the office at dusk. I only mention it."
+
+search coat
+
+Odo's coat, good cloth gone shiny at the elbows.
+In the inside pocket, something clicks like teeth.
+You find the gambling markers.
+
+examine markers
+
+Six clay gambling markers from a river boat, each scratched with a sum and the initials O.B. Together they come to more than a cook earns in a year.
+
+journal
+
+YOUR JOURNAL — 19:17
+Your character's knowledge, not a verdict on what really happened.
+- [note 1] You were hanging about the office (account of 18:30).
+  Odo told you; your character thinks it likely.
+- [note 2] Odo owes money to river gamblers.
+  You witnessed this; your character is certain of it.
+Compare accounts, examine evidence, then show what you carry or discuss what you learned.
+With someone present: tell <name> about note <number>, or ask <name> about note <number>.
+Note numbers stay the same as you learn more; discussing an account does not prove it true.
+Reading your journal takes no game time.
+
+quit
+
+
+
+
+Saved. The log is the save: pnpm play resumes it.

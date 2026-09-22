@@ -1,0 +1,37 @@
+{
+  "mode": "offline",
+  "model": null,
+  "node": "v25.8.2",
+  "platform": "win32",
+  "inputs": [
+    "help",
+    "wait 3",
+    "take bread",
+    "eat bread",
+    "go kitchen",
+    "search coat",
+    "examine markers",
+    "journal",
+    "quit",
+    "go common room",
+    "tell mara about note 2",
+    "ask mara about note 2",
+    "journal",
+    "quit"
+  ],
+  "note": 2,
+  "claim": "c_3068b4b77f",
+  "jevDecisions": 0,
+  "fallbackDecisions": 8,
+  "inputTokens": 0,
+  "listPriceUsd": 0,
+  "budget": {
+    "maxLiveDecisions": 40,
+    "maxCostUsd": 0.01,
+    "cliTimeoutMs": 90000
+  },
+  "deterministicNoteActions": 2,
+  "stableReferencesAcrossResume": true,
+  "replayAndResumeEqual": true,
+  "humanPlaytest": false
+}

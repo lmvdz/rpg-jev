@@ -1,0 +1,15 @@
+{
+  "status": 3221226505,
+  "signal": null,
+  "commands": [
+    "help",
+    "wait 3",
+    "take bread",
+    "eat bread",
+    "go kitchen",
+    "search coat",
+    "examine markers",
+    "journal",
+    "quit"
+  ]
+}

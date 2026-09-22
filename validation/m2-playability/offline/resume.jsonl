@@ -1,0 +1,111 @@
+{"kind":"init","seed":1,"content":"gilded-carp-1+handwritten-1","id":0,"t":1140,"cause":null}
+{"kind":"stimulus","what":"proposal:admitted","data":{"debtId":"proposal:supper-bread","fingerprint":"edc6a526d75f2450"},"id":1,"t":1140,"cause":0}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"proposal:supper-bread","kind":"proposal","cause":1,"stakeholder":"mara","magnitude":1,"fuse":{"due":1143,"expires":1144},"status":"pending","data":{"proposal":"{\"version\":1,\"id\":\"supper-bread\",\"template\":\"set-out-item-1\",\"slots\":{\"server\":{\"kind\":\"actor\",\"id\":\"mara\"},\"item\":{\"kind\":\"item\",\"id\":\"bread\"},\"room\":{\"kind\":\"room\",\"id\":\"common_room\"}},\"effects\":[{\"kind\":\"transfer\",\"item\":\"bread\",\"to\":{\"room\":\"common_room\"}}],\"preconditions\":[{\"kind\":\"alive\",\"actor\":\"mara\"},{\"kind\":\"in_room\",\"actor\":\"mara\",\"room\":\"common_room\"},{\"kind\":\"holds\",\"actor\":\"mara\",\"item\":\"bread\"}],\"fuse\":{\"due\":1143,\"expires\":1144},\"prose\":\"Mara sets out a heel of bread within reach.\"}","context":"{\"room\":\"common_room\",\"stakeholder\":\"mara\"}","fingerprint":"edc6a526d75f2450"}}},"id":2,"t":1140,"cause":1}
+{"kind":"stimulus","what":"proposal:admitted","data":{"debtId":"proposal:supper-onion","fingerprint":"df58034c6ef51ead"},"id":3,"t":1140,"cause":0}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"proposal:supper-onion","kind":"proposal","cause":3,"stakeholder":"odo","magnitude":1,"fuse":{"due":1144,"expires":1145},"status":"pending","data":{"proposal":"{\"version\":1,\"id\":\"supper-onion\",\"template\":\"set-out-item-1\",\"slots\":{\"server\":{\"kind\":\"actor\",\"id\":\"odo\"},\"item\":{\"kind\":\"item\",\"id\":\"onion\"},\"room\":{\"kind\":\"room\",\"id\":\"kitchen\"}},\"effects\":[{\"kind\":\"transfer\",\"item\":\"onion\",\"to\":{\"room\":\"kitchen\"}}],\"preconditions\":[{\"kind\":\"alive\",\"actor\":\"odo\"},{\"kind\":\"in_room\",\"actor\":\"odo\",\"room\":\"kitchen\"},{\"kind\":\"holds\",\"actor\":\"odo\",\"item\":\"onion\"}],\"fuse\":{\"due\":1144,\"expires\":1145},\"prose\":\"Odo sets out an onion within reach.\"}","context":"{\"room\":\"kitchen\",\"stakeholder\":\"odo\"}","fingerprint":"df58034c6ef51ead"}}},"id":4,"t":1140,"cause":3}
+{"kind":"stimulus","what":"proposal:admitted","data":{"debtId":"proposal:supper-tankard","fingerprint":"5a1c1c6ddbdf9d41"},"id":5,"t":1140,"cause":0}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"proposal:supper-tankard","kind":"proposal","cause":5,"stakeholder":"mara","magnitude":1,"fuse":{"due":1146,"expires":1147},"status":"pending","data":{"proposal":"{\"version\":1,\"id\":\"supper-tankard\",\"template\":\"set-out-item-1\",\"slots\":{\"server\":{\"kind\":\"actor\",\"id\":\"mara\"},\"item\":{\"kind\":\"item\",\"id\":\"tankard\"},\"room\":{\"kind\":\"room\",\"id\":\"common_room\"}},\"effects\":[{\"kind\":\"transfer\",\"item\":\"tankard\",\"to\":{\"room\":\"common_room\"}}],\"preconditions\":[{\"kind\":\"alive\",\"actor\":\"mara\"},{\"kind\":\"in_room\",\"actor\":\"mara\",\"room\":\"common_room\"},{\"kind\":\"holds\",\"actor\":\"mara\",\"item\":\"tankard\"}],\"fuse\":{\"due\":1146,\"expires\":1147},\"prose\":\"Mara sets out a pewter tankard within reach.\"}","context":"{\"room\":\"common_room\",\"stakeholder\":\"mara\"}","fingerprint":"5a1c1c6ddbdf9d41"}}},"id":6,"t":1140,"cause":5}
+{"kind":"input","text":"help","via":"parsed","action":{"verb":"help"},"id":7,"t":1140,"cause":null}
+{"kind":"input","text":"wait 3","via":"parsed","action":{"verb":"wait","minutes":3},"id":8,"t":1140,"cause":null}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":9,"t":1140,"cause":8}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":10,"t":1143,"cause":8}
+{"kind":"stimulus","what":"proposal:fired","data":{"debtId":"proposal:supper-bread"},"id":11,"t":1143,"cause":1}
+{"kind":"effect","effect":{"kind":"transfer","item":"bread","to":{"room":"common_room"}},"id":12,"t":1143,"cause":11}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"proposal:supper-bread","status":"fired"},"id":13,"t":1143,"cause":11}
+{"kind":"input","text":"take bread","via":"parsed","action":{"verb":"take","item":"bread"},"id":14,"t":1143,"cause":null}
+{"kind":"effect","effect":{"kind":"transfer","item":"bread","to":{"holder":"player"}},"id":15,"t":1143,"cause":14}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":1},"id":16,"t":1143,"cause":14}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.006},"id":17,"t":1144,"cause":14}
+{"kind":"stimulus","what":"proposal:fired","data":{"debtId":"proposal:supper-onion"},"id":18,"t":1144,"cause":3}
+{"kind":"effect","effect":{"kind":"transfer","item":"onion","to":{"room":"kitchen"}},"id":19,"t":1144,"cause":18}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"proposal:supper-onion","status":"fired"},"id":20,"t":1144,"cause":18}
+{"kind":"input","text":"eat bread","via":"parsed","action":{"verb":"attempt","how":"eat","target":{"id":"bread","place":"item"}},"id":21,"t":1144,"cause":null}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"player","need":"hunger","delta":-0.25},"id":22,"t":1144,"cause":21}
+{"kind":"effect","effect":{"kind":"transfer","item":"bread","to":{"room":"ashes"}},"id":23,"t":1144,"cause":21}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":24,"t":1144,"cause":21}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":25,"t":1146,"cause":21}
+{"kind":"stimulus","what":"proposal:fired","data":{"debtId":"proposal:supper-tankard"},"id":26,"t":1146,"cause":5}
+{"kind":"effect","effect":{"kind":"transfer","item":"tankard","to":{"room":"common_room"}},"id":27,"t":1146,"cause":26}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"proposal:supper-tankard","status":"fired"},"id":28,"t":1146,"cause":26}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":29,"t":1146,"cause":21}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":30,"t":1149,"cause":21}
+{"kind":"input","text":"go kitchen","via":"parsed","action":{"verb":"go","room":"kitchen"},"id":31,"t":1149,"cause":null}
+{"kind":"effect","effect":{"kind":"move","actor":"player","to":"kitchen"},"id":32,"t":1149,"cause":31}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"player","predicate":"is_in","place":"kitchen","when":1149,"severity":1,"origin":32,"id":"c_63a15491ef"},"credence":1,"source":{"kind":"witnessed"}},"id":33,"t":1149,"cause":32}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"player","predicate":"is_in","place":"kitchen","when":1149,"severity":1,"origin":32,"id":"c_63a15491ef"},"credence":1,"source":{"kind":"witnessed"}},"id":34,"t":1149,"cause":32}
+{"kind":"decision","requestId":"3257e13e72419727.e91cfc098526c789","sliceHash":"3257e13e72419727","source":"fallback","answers":{"opens_odo":{"type":"choice","choice":"none_of_these","confidence":1,"probabilities":{"greet":0,"accuse:c_a957973a24":0,"tell:c_0da7288b16":0,"none_of_these":1}}},"inputTokens":0,"latencyMs":0,"id":35,"t":1149,"cause":32}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":36,"t":1149,"cause":31}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":37,"t":1151,"cause":31}
+{"kind":"input","text":"search coat","via":"parsed","action":{"verb":"examine","target":"coat"},"id":38,"t":1151,"cause":null}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"machine","id":"coat_search"},"to":"searched"},"id":39,"t":1151,"cause":38}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"severity":2,"subject":"player","predicate":"searched","object":"coat","when":1151,"origin":39,"id":"c_4d61dec5d3"},"credence":1,"source":{"kind":"witnessed"}},"id":40,"t":1151,"cause":39}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"odo","drive":"suspicion","delta":0.1},"id":41,"t":1151,"cause":39}
+{"kind":"effect","effect":{"kind":"shift_drive","npc":"odo","drive":"trust","delta":-0.05},"id":42,"t":1151,"cause":39}
+{"kind":"effect","effect":{"kind":"set_node","target":{"type":"stance","npc":"odo","toward":"player"},"to":"wary"},"id":43,"t":1151,"cause":39}
+{"kind":"decision","requestId":"c816f5d313411792.247c55ab599cf563","sliceHash":"c816f5d313411792","source":"fallback","answers":{"stake_odo":{"type":"noul","noul":0.2},"interject_odo":{"type":"choice","choice":"accuse:c_4d61dec5d3","confidence":1,"probabilities":{"accuse:c_4d61dec5d3":1,"threaten":0,"none_of_these":0}}},"inputTokens":0,"latencyMs":0,"id":44,"t":1151,"cause":39}
+{"kind":"draw","purpose":"odo stake","value":0.11025513336062431,"rng":[-48049390,-282600232,-1622693073,17],"id":45,"t":1151,"cause":44}
+{"kind":"draw","purpose":"odo interjects","value":0.9230146396439523,"rng":[-279949514,-1719335769,1379834096,18],"id":46,"t":1151,"cause":44}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"report_odo_c_4d61dec5d3","cause":44,"stakeholder":"odo","kind":"report","magnitude":2,"fuse":{"due":1159,"expires":1271},"status":"pending","data":{"claim":"c_4d61dec5d3","to":"mara"}}},"id":47,"t":1151,"cause":44}
+{"kind":"effect","effect":{"kind":"queue_speech","intent":{"id":"s5_1_odo","speaker":"odo","listener":"player","act":"accuse","topic":{"kind":"claim","id":"c_4d61dec5d3"},"priority":1,"createdBeat":5,"cause":44}},"id":48,"t":1151,"cause":44}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":4},"id":49,"t":1151,"cause":38}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.024},"id":50,"t":1155,"cause":38}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s5_1_odo","speaker":"odo","listener":"player","act":"accuse","topic":{"kind":"claim","id":"c_4d61dec5d3"},"priority":1,"createdBeat":5,"cause":44}},"id":51,"t":1155,"cause":44}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"player","claim":{"severity":2,"subject":"player","predicate":"searched","object":"coat","when":1151,"origin":39,"id":"c_4d61dec5d3"},"credence":0.7,"source":{"kind":"told","from":"odo"}},"id":52,"t":1155,"cause":51}
+{"kind":"input","text":"examine markers","via":"parsed","action":{"verb":"examine","target":"markers"},"id":53,"t":1155,"cause":null}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"player","claim":{"subject":"odo","predicate":"gambles","when":720,"severity":2,"origin":null,"id":"c_3068b4b77f"},"credence":1,"source":{"kind":"witnessed"}},"id":54,"t":1155,"cause":53}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":55,"t":1155,"cause":53}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":56,"t":1157,"cause":53}
+{"kind":"input","text":"journal","via":"parsed","action":{"verb":"journal"},"id":57,"t":1157,"cause":null}
+{"kind":"input","text":"quit","via":"parsed","action":{"verb":"quit"},"id":58,"t":1157,"cause":null}
+{"kind":"input","text":"look","via":"parsed","action":{"verb":"look"},"id":59,"t":1157,"cause":null}
+{"kind":"input","text":"go common room","via":"parsed","action":{"verb":"go","room":"common_room"},"id":60,"t":1157,"cause":null}
+{"kind":"effect","effect":{"kind":"move","actor":"player","to":"common_room"},"id":61,"t":1157,"cause":60}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"odo","claim":"c_63a15491ef","credence":0},"id":62,"t":1157,"cause":61}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"player","predicate":"is_in","place":"common_room","when":1157,"severity":1,"origin":61,"id":"c_4453d9c765"},"credence":1,"source":{"kind":"witnessed"}},"id":63,"t":1157,"cause":61}
+{"kind":"effect","effect":{"kind":"update_credence","holder":"mara","claim":"c_63a15491ef","credence":0},"id":64,"t":1157,"cause":61}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"player","predicate":"is_in","place":"common_room","when":1157,"severity":1,"origin":61,"id":"c_4453d9c765"},"credence":1,"source":{"kind":"witnessed"}},"id":65,"t":1157,"cause":61}
+{"kind":"decision","requestId":"0e5e3bac97e4ee9e.fc82be77035a891e","sliceHash":"0e5e3bac97e4ee9e","source":"fallback","answers":{"opens_mara":{"type":"choice","choice":"none_of_these","confidence":1,"probabilities":{"greet":0,"accuse:c_39ad7425bc":0,"ask_dusk":0,"none_of_these":1}}},"inputTokens":0,"latencyMs":0,"id":66,"t":1157,"cause":61}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":2},"id":67,"t":1157,"cause":60}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.012},"id":68,"t":1159,"cause":60}
+{"kind":"effect","effect":{"kind":"add_commitment","npc":"odo","entry":{"id":"reporting_44","activity":"reporting","at_location":"common_room","at":1159,"until":1167,"cause":null}},"id":69,"t":1159,"cause":44}
+{"kind":"effect","effect":{"kind":"move","actor":"odo","to":"common_room","activity":"reporting"},"id":70,"t":1159,"cause":69}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"odo","predicate":"is_in","place":"common_room","when":1159,"severity":1,"origin":70,"id":"c_6566cf52e4"},"credence":1,"source":{"kind":"witnessed"}},"id":71,"t":1159,"cause":70}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"subject":"mara","predicate":"is_in","place":"common_room","when":1159,"severity":1,"origin":70,"id":"c_a3cfad8f7d"},"credence":1,"source":{"kind":"witnessed"}},"id":72,"t":1159,"cause":70}
+{"kind":"effect","effect":{"kind":"settle_debt","id":"report_odo_c_4d61dec5d3","status":"fired"},"id":73,"t":1159,"cause":44}
+{"kind":"stimulus","what":"gossip","data":{"pair":"mara+odo","claim":"c_4d61dec5d3"},"id":74,"t":1159,"cause":44}
+{"kind":"decision","requestId":"9e2bd5f507918478.84f3077dda7378ac","sliceHash":"9e2bd5f507918478","source":"fallback","answers":{"version":{"type":"choice","choice":"exaggerate_severity","confidence":1,"probabilities":{"faithful":0,"exaggerate_severity":1,"swap_culprit":0,"keep_quiet":0}},"stake":{"type":"noul","noul":0.8}},"inputTokens":0,"latencyMs":0,"id":75,"t":1159,"cause":74}
+{"kind":"draw","purpose":"odo retells","value":0.5345051249023527,"rng":[-1714829787,-466395024,-1495295038,19],"id":76,"t":1159,"cause":75}
+{"kind":"draw","purpose":"mara stake","value":0.4921440277248621,"rng":[-465471040,-572753454,-162397541,20],"id":77,"t":1159,"cause":75}
+{"kind":"decision","requestId":"b5e57c8530c013ce.1c5d51c996791310","sliceHash":"b5e57c8530c013ce","source":"fallback","answers":{"believes":{"type":"noul","noul":0.7}},"inputTokens":0,"latencyMs":0,"id":78,"t":1159,"cause":75}
+{"kind":"draw","purpose":"mara believes","value":0.7582695274613798,"rng":[-575498258,-1461577869,362593766,21],"id":79,"t":1159,"cause":78}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"severity":3,"subject":"player","predicate":"searched","object":"coat","when":1151,"origin":39,"derivedFrom":"c_4d61dec5d3","distortion":"exaggerate_severity","id":"c_421761115b"},"credence":0.2,"source":{"kind":"told","from":"odo"}},"id":80,"t":1159,"cause":78}
+{"kind":"decision","requestId":"b5dbbe641f35a55b.fc82be77035a891e","sliceHash":"b5dbbe641f35a55b","source":"fallback","answers":{"opens_mara":{"type":"choice","choice":"none_of_these","confidence":1,"probabilities":{"greet":0,"accuse:c_39ad7425bc":0,"ask_dusk":0,"none_of_these":1}}},"inputTokens":0,"latencyMs":0,"id":81,"t":1159,"cause":60}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s8_2_odo","speaker":"odo","listener":"mara","act":"tell","topic":{"kind":"claim","id":"c_421761115b"},"priority":3,"createdBeat":8,"cause":75}},"id":82,"t":1159,"cause":75}
+{"kind":"input","text":"tell mara about note 2","via":"parsed","action":{"verb":"say","act":"tell","to":"mara","topic":{"kind":"claim","id":"c_3068b4b77f"},"item":null,"request":null},"id":83,"t":1159,"cause":null}
+{"kind":"decision","requestId":"5006f4fdf048ff53.895a5634624d6172","sliceHash":"5006f4fdf048ff53","source":"fallback","answers":{"believes":{"type":"noul","noul":0.275},"reply_if_believes":{"type":"choice","choice":"ask_how","confidence":1,"probabilities":{"ask_how":1,"promise_confront":0,"refuse":0,"none_of_these":0}},"reply_if_doubts":{"type":"choice","choice":"refuse","confidence":1,"probabilities":{"accuse:c_39ad7425bc":0,"refuse":1,"ask_how":0,"none_of_these":0}},"stake_odo":{"type":"noul","noul":0.8},"interject_odo":{"type":"choice","choice":"threaten","confidence":1,"probabilities":{"threaten":1,"none_of_these":0}}},"inputTokens":0,"latencyMs":0,"id":84,"t":1159,"cause":83}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"severity":2,"subject":"player","predicate":"accused","object":"ledger","to":"odo","when":1159,"origin":83,"id":"c_a81cf241fc"},"credence":1,"source":{"kind":"witnessed"}},"id":85,"t":1159,"cause":84}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"odo","claim":{"severity":2,"subject":"player","predicate":"accused","object":"ledger","to":"odo","when":1159,"origin":83,"id":"c_a81cf241fc"},"credence":1,"source":{"kind":"witnessed"}},"id":86,"t":1159,"cause":84}
+{"kind":"draw","purpose":"mara believes","value":0.5257062590681016,"rng":[-1464441224,-1031623402,1129800461,22],"id":87,"t":1159,"cause":84}
+{"kind":"effect","effect":{"kind":"add_claim","holder":"mara","claim":{"subject":"odo","predicate":"gambles","when":720,"severity":2,"origin":null,"id":"c_3068b4b77f"},"credence":0.2,"source":{"kind":"told","from":"player"}},"id":88,"t":1159,"cause":84}
+{"kind":"draw","purpose":"mara reply","value":0.4188396716490388,"rng":[-1025250240,1578269557,-857637232,23],"id":89,"t":1159,"cause":84}
+{"kind":"draw","purpose":"odo stake","value":0.12875984888523817,"rng":[1581085256,871199504,-217054213,24],"id":90,"t":1159,"cause":84}
+{"kind":"draw","purpose":"odo interjects","value":0.5709670446813107,"rng":[871663017,-1953487917,296306544,25],"id":91,"t":1159,"cause":84}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"retaliate_odo_c_a81cf241fc","cause":84,"stakeholder":"odo","kind":"retaliate","magnitude":2,"fuse":{"due":1167,"expires":1279},"status":"pending","data":{"claim":"c_a81cf241fc","to":"mara"}}},"id":92,"t":1159,"cause":84}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s8_4_odo","speaker":"odo","listener":"player","act":"threaten","topic":{"kind":"none"},"priority":2,"createdBeat":8,"cause":84}},"id":93,"t":1159,"cause":84}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s8_3_mara","speaker":"mara","listener":"player","act":"refuse","topic":{"kind":"none"},"priority":3,"createdBeat":8,"cause":84}},"id":94,"t":1159,"cause":84}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":95,"t":1159,"cause":83}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":96,"t":1162,"cause":83}
+{"kind":"input","text":"ask mara about note 2","via":"parsed","action":{"verb":"say","act":"ask","to":"mara","topic":{"kind":"claim","id":"c_3068b4b77f"},"item":null,"request":null},"id":97,"t":1162,"cause":null}
+{"kind":"decision","requestId":"392bba3d2711abeb.5a6bf1b17962224f","sliceHash":"392bba3d2711abeb","source":"fallback","answers":{"reply":{"type":"choice","choice":"refuse","confidence":1,"probabilities":{"tell:c_3068b4b77f":0,"tell:c_a81cf241fc":0,"refuse":1,"ask_why":0,"none_of_these":0}},"stake_odo":{"type":"noul","noul":0.8}},"inputTokens":0,"latencyMs":0,"id":98,"t":1162,"cause":97}
+{"kind":"draw","purpose":"mara reply","value":0.748118018032983,"rng":[-1948914750,-1628208400,-1383670083,26],"id":99,"t":1162,"cause":98}
+{"kind":"draw","purpose":"odo stake","value":0.1671361206099391,"rng":[-1631782095,431871141,41885607,27],"id":100,"t":1162,"cause":98}
+{"kind":"effect","effect":{"kind":"create_debt","debt":{"id":"report_odo_c_3068b4b77f","cause":98,"stakeholder":"odo","kind":"report","magnitude":2,"fuse":{"due":1170,"expires":1282},"status":"pending","data":{"claim":"c_3068b4b77f","to":"mara"}}},"id":101,"t":1162,"cause":98}
+{"kind":"effect","effect":{"kind":"say","intent":{"id":"s9_5_mara","speaker":"mara","listener":"player","act":"refuse","topic":{"kind":"none"},"priority":3,"createdBeat":9,"cause":98}},"id":102,"t":1162,"cause":98}
+{"kind":"effect","effect":{"kind":"advance_clock","minutes":3},"id":103,"t":1162,"cause":97}
+{"kind":"effect","effect":{"kind":"shift_need","npc":"tobin","need":"hunger","delta":0.018000000000000002},"id":104,"t":1165,"cause":97}
+{"kind":"effect","effect":{"kind":"move","actor":"tobin","to":"kitchen","activity":"eating"},"id":105,"t":1165,"cause":97}
+{"kind":"input","text":"journal","via":"parsed","action":{"verb":"journal"},"id":106,"t":1165,"cause":null}
+{"kind":"input","text":"quit","via":"parsed","action":{"verb":"quit"},"id":107,"t":1165,"cause":null}
+{"kind":"input","text":"look","via":"parsed","action":{"verb":"look"},"id":108,"t":1165,"cause":null}
+{"kind":"input","text":"journal","via":"parsed","action":{"verb":"journal"},"id":109,"t":1165,"cause":null}
+{"kind":"input","text":"quit","via":"parsed","action":{"verb":"quit"},"id":110,"t":1165,"cause":null}

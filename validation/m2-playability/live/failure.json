@@ -1,0 +1,10 @@
+{
+  "mode": "live",
+  "status": 3221226505,
+  "phase": "discovery",
+  "node": "v25.8.2",
+  "platform": "win32",
+  "outcome": "Windows child process terminated with 0xC0000409 before the harness collected the first save.",
+  "limitation": "The initial harness did not preserve failed child output or its disposable save. Provider activity and progress for this attempt are unknown; no gameplay or cost result is claimed.",
+  "followup": "Failure artifacts are now retained. Any retry uses a separate directory rather than overwriting this failed attempt."
+}

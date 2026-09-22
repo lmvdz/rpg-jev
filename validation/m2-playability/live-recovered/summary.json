@@ -1,0 +1,38 @@
+{
+  "mode": "live",
+  "model": "jev-1.13.0",
+  "node": "v25.8.2",
+  "platform": "win32",
+  "recoveredDiscovery": "validation\\m2-playability\\live-retry",
+  "inputs": [
+    "help",
+    "wait 3",
+    "take bread",
+    "eat bread",
+    "go kitchen",
+    "search coat",
+    "examine markers",
+    "journal",
+    "quit",
+    "go common room",
+    "tell mara about note 2",
+    "ask mara about note 2",
+    "journal",
+    "quit"
+  ],
+  "note": 2,
+  "claim": "c_3068b4b77f",
+  "jevDecisions": 7,
+  "fallbackDecisions": 0,
+  "inputTokens": 7507,
+  "listPriceUsd": 0.00031529400000000003,
+  "budget": {
+    "maxLiveDecisions": 40,
+    "maxCostUsd": 0.01,
+    "cliTimeoutMs": 90000
+  },
+  "deterministicNoteActions": 2,
+  "stableReferencesAcrossResume": true,
+  "replayAndResumeEqual": true,
+  "humanPlaytest": false
+}

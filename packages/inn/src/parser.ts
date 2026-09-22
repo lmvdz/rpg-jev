@@ -8,6 +8,7 @@
  */
 import { FORCE_VERBS, NEED_VERBS, type SpeechAct, type World } from "@rpg-jev/core";
 import { C_TOBIN_OWES, NPCS, ODO, PLAYER } from "./content.ts";
+import { journalEntries } from "./journal.ts";
 
 export type PlayerTopic =
   | { kind: "claim"; id: string }
@@ -480,11 +481,44 @@ function goTo(phrase: string, scope: Scope): Matched {
   return { kind: "error", message: "You can't go that way." };
 }
 
+/** Read the numeric reference before normalisation can strip signs or punctuation. */
+function journalSpeech(text: string, scope: Scope, world: World): Matched | null {
+  const m = text
+    .trim()
+    .match(/^(?:please\s+)?(tell|ask)\s+(.+?)\s+about\s+(?:(?:the|my)\s+)?note(.*)$/is);
+  if (!m) return null;
+  const phrase = m[3] ?? "";
+  const entry = /^\s+[1-9]\d*\s*$/.test(phrase)
+    ? journalEntries(world).find((e) => e.note === Number(phrase))
+    : undefined;
+  if (!entry)
+    return {
+      kind: "error",
+      message: "That is not a current journal note. Read journal to see your numbered accounts.",
+    };
+  return pick(
+    normalise(m[2] ?? ""),
+    scope.people,
+    "speak to",
+    missingPerson(m[2] ?? "", world),
+    (to) => ({
+      verb: "say",
+      act: m[1]?.toLowerCase() === "ask" ? "ask" : "tell",
+      to,
+      topic: { kind: "claim", id: entry.claim.id },
+      item: null,
+      request: null,
+    }),
+  );
+}
+
 /** Bare room names and "ask X about Y" with an obvious Y are handled after the verb rules. */
 export function match(text: string, world: World): Matched {
   const input = normalise(text);
   if (input === "") return { kind: "error", message: "Say what you do." };
   const scope = scopeOf(world);
+  const note = journalSpeech(text, scope, world);
+  if (note) return note;
   for (const [pattern, build] of RULES) {
     const m = input.match(pattern);
     if (m) return build(m, scope, world);
@@ -535,6 +569,7 @@ export const HELP = [
   "search <thing>, unlock <room> with <key>, give <thing> to <name>, show <thing> to <name>,",
   "talk to <name>, ask <name> about <name or thing>, attack <name>, wait [minutes], inventory, journal.",
   "journal (also notes or leads) recalls only what you learned, who told you, and last-known whereabouts.",
+  "Use its stable numbers: tell <name> about note <number>, or ask <name> about note <number>.",
   "Examine evidence, review your journal, then show what you carry or discuss what you learned.",
   "Anything else, say it as you would: tell mara I never touched her ledger; ask tobin what he",
   "saw at dusk; offer tobin my silver if he will talk to mara; accuse odo of taking the ledger.",

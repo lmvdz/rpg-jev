@@ -807,7 +807,7 @@ function askClause(g: Game, npc: string, topic: PlayerTopic, asserted: Claim | n
   if (topic.kind === "entity" && topic.id !== npc && topic.id !== "tonight")
     return `about ${nameOf(g.world, topic.id)}`;
   if (topic.kind === "claim" && asserted)
-    return `whether ${claimClause(g.world, asserted, { listener: npc })}`;
+    return `whether ${claimClause(g.world, asserted, { listener: PLAYER })}`;
   return "what they know";
 }
 
@@ -928,13 +928,13 @@ function narrateAct(
     return g.happened({ subject: PLAYER, predicate: "insulted", to: npc, severity: 1 }, root);
   }
   if (action.act === "remark") g.say(`You say your piece to ${name}.`);
+  else if (action.act === "ask") g.say(`You ask ${name} ${askClause(g, npc, topic, asserted)}.`);
   else if (asserted && !shown) {
     // Narration addresses the player, so the player is "you" and the listener is named.
     const clause = claimClause(g.world, asserted, { listener: PLAYER });
     const face = asserted.subject === npc;
     g.say(face ? `You say it to ${name}'s face: ${clause}.` : `You tell ${name} that ${clause}.`);
   } else if (action.act === "greet") g.say(`You greet ${name}.`);
-  else if (action.act === "ask") g.say(`You ask ${name} ${askClause(g, npc, topic, asserted)}.`);
   return event;
 }
 
@@ -1168,7 +1168,10 @@ export async function playerSpeaks(
   const { asserted, shown } = built;
   let event = narrateAct(g, action, npc, name, topic, asserted, shown, built.event, root);
   const toFace =
-    asserted !== null && asserted.subject === npc && WRONGDOING.includes(asserted.predicate);
+    action.act !== "ask" &&
+    asserted !== null &&
+    asserted.subject === npc &&
+    WRONGDOING.includes(asserted.predicate);
   if (
     asserted &&
     asserted.subject !== PLAYER &&
@@ -1200,7 +1203,8 @@ export async function playerSpeaks(
     toFace,
     root,
   );
-  const noticed = event ?? asserted;
+  // A question mentions an account; it does not report its subject's deed as fact.
+  const noticed = event ?? (action.act === "ask" ? null : asserted);
   const bystanders = noticed ? addBystanders(g, others, noticed, setup.parts, setup.questions) : [];
   const slice = compileSlice(sceneSlice, { world: g.world, parts: setup.parts });
   const present = [npc, ...others].map((n) => ({
