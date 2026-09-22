@@ -1,7 +1,7 @@
 import { matter } from "@rpg-jev/core";
+import { encodeSharedView } from "@rpg-jev/core/world";
 import { ScheduleAt } from "spacetimedb";
 import { SenderError, t } from "spacetimedb/server";
-import { encodeSharedView } from "../../../client/src/play/shared-wire.ts";
 import { encodeEvent } from "./event-codec.ts";
 import { isObserving, observesUntil, VIEW_LEASE_MICROS } from "./observers.ts";
 import { prepareProjection, shouldPublishTick } from "./projection.ts";

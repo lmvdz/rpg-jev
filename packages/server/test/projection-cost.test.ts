@@ -1,6 +1,6 @@
 import { performance } from "node:perf_hooks";
+import { decodeSharedView, encodeSharedView } from "@rpg-jev/core/world";
 import { expect, it } from "vitest";
-import { decodeSharedView, encodeSharedView } from "../../client/src/play/shared-wire.ts";
 import { project } from "../module/src/projection.ts";
 import { admitActor, initialWorld } from "../module/src/world.ts";
 

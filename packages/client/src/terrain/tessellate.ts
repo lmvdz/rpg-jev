@@ -7,6 +7,7 @@
  * (`TileGrid.region`), and reads nothing else: a chunk's mesh cannot depend on
  * which chunks exist around it, which is where seams come from.
  */
+import { cornerHeights, groundHeight } from "@rpg-jev/core/world";
 import { DIR_X, DIR_Z, LEVEL, NO_INK, SHAPE, type TileGrid } from "./grid.ts";
 import { kindAt } from "./kinds.ts";
 
@@ -17,8 +18,6 @@ export const TESSELLATION_BORDER = 2;
 export const VERTEX_BYTES = 20;
 export const FLAG_LIQUID = 1;
 
-const HOLE_DROP = 12 * LEVEL;
-const LIQUID_DROP = 0.3 * LEVEL;
 const WALL_FOOT_SHADE = 140;
 const CORNER_SHADE_STEP = 38;
 const VOID_INK = 0;
@@ -37,38 +36,12 @@ export interface ChunkMesh {
 const CORNER_X = [0, 1, 1, 0] as const;
 const CORNER_Z = [0, 0, 1, 1] as const;
 
-/** Heights of a tile's four corners in world units, written into `out`. */
-export function cornerHeights(grid: TileGrid, x: number, z: number, out: Float32Array): void {
-  const base = grid.heightAt(x, z) * LEVEL;
-  const shape = grid.shapeAt(x, z);
-  if (shape === SHAPE.hole) {
-    out.fill(base - HOLE_DROP);
-    return;
-  }
-  out.fill(kindAt(grid.kindAt(x, z)).liquid ? base - LIQUID_DROP : base);
-  if (shape === SHAPE.flat) return;
-  const d = shape - SHAPE.slantN;
-  const high = Math.max(base, grid.heightAt(x + (DIR_X[d] ?? 0), z + (DIR_Z[d] ?? 0)) * LEVEL);
-  out[d] = high;
-  out[(d + 1) % 4] = high;
-}
-
-const groundScratch = new Float32Array(4);
-
 /**
- * Height of the walkable surface at a point, from the same corner heights
- * the mesh is built from, so what stands on the ground and the ground agree.
+ * Heights of a tile's four corners and the ground height at a point: shared
+ * with the host (`@rpg-jev/core/world`) so the stepping rule and this mesh
+ * never disagree about where the ground is.
  */
-export function groundHeight(grid: TileGrid, x: number, z: number): number {
-  const tx = Math.floor(x);
-  const tz = Math.floor(z);
-  cornerHeights(grid, tx, tz, groundScratch);
-  const fx = x - tx;
-  const fz = z - tz;
-  const north = (groundScratch[0] ?? 0) * (1 - fx) + (groundScratch[1] ?? 0) * fx;
-  const south = (groundScratch[3] ?? 0) * (1 - fx) + (groundScratch[2] ?? 0) * fx;
-  return north * (1 - fz) + south * fz;
-}
+export { cornerHeights, groundHeight };
 
 class MeshWriter {
   #floats: Float32Array;

@@ -5,6 +5,7 @@
  * It is a test card, not the game's world: that will be painted in the editor.
  */
 import { Rng } from "@rpg-jev/core/rng";
+import { makeNoise } from "@rpg-jev/core/world";
 import { GLYPH_SWAYS, type GlyphLook } from "../glyph/batch.ts";
 import { glyphOfChar, glyphOfExtra } from "../glyph/font.ts";
 import { INK } from "../palette.ts";
@@ -37,28 +38,6 @@ const KIND = {
   boards: kindIndex("boards"),
   forest: kindIndex("forest"),
 };
-
-/** Smooth noise in [0, 1) from a lattice of random values, summed over octaves. */
-export function makeNoise(rng: Rng): (x: number, z: number) => number {
-  const size = 64;
-  const lattice = new Float32Array(size * size);
-  for (let i = 0; i < lattice.length; i++) lattice[i] = rng.next();
-  const at = (x: number, z: number) => lattice[(z & (size - 1)) * size + (x & (size - 1))] ?? 0;
-  const smooth = (t: number) => t * t * (3 - 2 * t);
-  const octave = (x: number, z: number) => {
-    const x0 = Math.floor(x);
-    const z0 = Math.floor(z);
-    const fx = smooth(x - x0);
-    const fz = smooth(z - z0);
-    const north = at(x0, z0) * (1 - fx) + at(x0 + 1, z0) * fx;
-    const south = at(x0, z0 + 1) * (1 - fx) + at(x0 + 1, z0 + 1) * fx;
-    return north * (1 - fz) + south * fz;
-  };
-  return (x, z) =>
-    octave(x / 48, z / 48) * 0.55 +
-    octave(x / 19 + 7, z / 19 + 3) * 0.28 +
-    octave(x / 7 + 13, z / 7 + 29) * 0.17;
-}
 
 function kindForLevel(level: number, wooded: boolean): number {
   if (level <= 0) return KIND.water;

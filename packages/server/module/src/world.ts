@@ -1,10 +1,6 @@
 /** The existing seeded clearing, hosted rather than reconstructed from client commands. */
 import { matter } from "@rpg-jev/core";
-import { glyphOfChar } from "../../../client/src/glyph/font.ts";
-import { INK } from "../../../client/src/palette.ts";
-import { buildClearing } from "../../../client/src/scene/clearing.ts";
-import { seedMatterWorld } from "../../../client/src/scene/matter-seed.ts";
-import { canStep } from "../../../client/src/scene/steps.ts";
+import { buildClearing, canStep, glyphOfChar, INK, seedMatterWorld } from "@rpg-jev/core/world";
 
 export const SEED = 1;
 export const MAX_PLAYERS = 8;

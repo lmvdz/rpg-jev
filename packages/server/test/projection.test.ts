@@ -1,6 +1,6 @@
 import { matter } from "@rpg-jev/core";
+import { encodeSharedView } from "@rpg-jev/core/world";
 import { describe, expect, it } from "vitest";
-import { encodeSharedView } from "../../client/src/play/shared-wire.ts";
 import { project, shouldPublishTick } from "../module/src/projection.ts";
 import { admitActor, initialWorld, terrainAllows } from "../module/src/world.ts";
 

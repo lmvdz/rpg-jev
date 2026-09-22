@@ -1,9 +1,12 @@
 /** Frozen pre-preparation projector: independent oracle for the refresh optimization. */
 import { matter } from "@rpg-jev/core";
-import { INK } from "../../client/src/palette.ts";
-import type { SharedView } from "../../client/src/play/shared-types.ts";
-import { type ElementView, shownOf } from "../../client/src/play/world-link.ts";
-import type { ThingView } from "../../client/src/view/things.ts";
+import {
+  type ElementView,
+  INK,
+  type SharedView,
+  shownOf,
+  type ThingView,
+} from "@rpg-jev/core/world";
 import { clearing, lookOf, SEED } from "../module/src/world.ts";
 
 const meterLevel = (value: number) => Math.round(Math.max(0, Math.min(1, value)) * 100) / 100;

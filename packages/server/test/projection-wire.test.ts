@@ -1,6 +1,5 @@
+import { decodeSharedView, encodeSharedView, sharedThings } from "@rpg-jev/core/world";
 import { describe, expect, it } from "vitest";
-import { sharedThings } from "../../client/src/play/shared-types.ts";
-import { decodeSharedView, encodeSharedView } from "../../client/src/play/shared-wire.ts";
 import { project, shouldPublishTick } from "../module/src/projection.ts";
 import { admitActor, initialWorld } from "../module/src/world.ts";
 

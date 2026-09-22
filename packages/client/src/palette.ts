@@ -1,8 +1,13 @@
 /**
  * The 16-entry palette (SPEC.md section 19). Everything drawn is coloured by
- * an index into it, so one uniform upload recolours the world.
+ * an index into it, so one uniform upload recolours the world. The name to
+ * index table is a closed-set id (`@rpg-jev/core/world`), so the world
+ * package can hand out a colour by name without knowing a hex value; this
+ * file only draws the hex colours, keyed by that same table.
  */
-export const PALETTE_SIZE = 16;
+import { INK, type Ink, PALETTE_SIZE } from "@rpg-jev/core/world";
+
+export { INK, type Ink, PALETTE_SIZE };
 
 export const PALETTE_HEX = [
   "#0d0e14", // 0 void
@@ -22,27 +27,6 @@ export const PALETTE_HEX = [
   "#e8a23a", // 14 lamp
   "#7a4a8c", // 15 violet
 ] as const;
-
-export const INK = {
-  void: 0,
-  slate: 1,
-  stone: 2,
-  ash: 3,
-  bone: 4,
-  earth: 5,
-  wood: 6,
-  sand: 7,
-  pine: 8,
-  grass: 9,
-  leaf: 10,
-  deep: 11,
-  water: 12,
-  ember: 13,
-  lamp: 14,
-  violet: 15,
-} as const;
-
-export type Ink = (typeof INK)[keyof typeof INK];
 
 /** Flat RGB floats in [0, 1], ready for `uniform3fv`. */
 export function paletteToFloats(hex: readonly string[] = PALETTE_HEX): Float32Array {

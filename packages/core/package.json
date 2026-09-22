@@ -5,7 +5,10 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./rng": "./src/rng.ts"
+    "./rng": "./src/rng.ts",
+    "./world": "./src/world/index.ts",
+    "./jepa": "./src/jepa/index.ts",
+    "./matter": "./src/matter/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json"

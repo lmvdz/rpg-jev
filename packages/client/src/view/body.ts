@@ -2,27 +2,13 @@
  * What the status display is handed about a body: meters and counts, as rows.
  * The client knows no need by name. Which needs a body has is the world's
  * business (spikes/vocabulary, B1 needs and B2 health), and a new one is one
- * more row, shown with no change here.
+ * more row, shown with no change here. The shape moved to
+ * `packages/core/src/world/shared-view.ts` so the host's projection can build
+ * it without depending on the client package.
  */
-export interface Meter {
-  id: string;
-  label: string;
-  /** 0 empty to 1 full. */
-  level: number;
-  /** Palette index of the bar. */
-  ink: number;
-}
+import type { BodyView, Count, Meter } from "@rpg-jev/core/world";
 
-export interface Count {
-  id: string;
-  label: string;
-  value: number;
-}
-
-export interface BodyView {
-  meters: Meter[];
-  counts: Count[];
-}
+export type { BodyView, Count, Meter };
 
 /** Below this a meter is shown as urgent. */
 export const LOW = 0.25;

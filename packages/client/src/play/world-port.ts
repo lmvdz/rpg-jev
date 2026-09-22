@@ -7,10 +7,13 @@
  * business. Only code writes world state (rule 1): the client hands over
  * answers chosen from closed sets and draws what comes back.
  */
+import type { Aware } from "@rpg-jev/core/world";
 import type { BodyView } from "../view/body.ts";
 import { type ActRequest, type Answers, REACH } from "./act-request.ts";
 import { answersFit } from "./intents.ts";
 import type { After, ElementView, WorldChange, WorldLink } from "./world-link.ts";
+
+export type { Aware };
 
 export interface Outcome {
   /** The world's name for the process that was resolved (`force`, `soak`...). */
@@ -36,15 +39,6 @@ export interface Outcome {
 export interface Standing {
   where: readonly [number, number];
   hour: number;
-}
-
-/** One thing the actor is aware of now: what it came from, by which channel, how strongly. */
-export interface Aware {
-  source: string;
-  /** The source's name: generated text, set as text only. */
-  name: string;
-  channel: string;
-  strength: number;
 }
 
 export interface WorldPort {

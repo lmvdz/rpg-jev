@@ -3,7 +3,33 @@
  * three cells, top row first, "#" for ink. The symbols are the game's actors
  * and props, so every printable ASCII character is drawn, and no two glyphs
  * are alike (a test holds both).
+ *
+ * The atlas index of a glyph is a closed-set id (`@rpg-jev/core/world`), so a
+ * born look can name a glyph without the world package knowing a pixel mask.
+ * This file only draws the masks, in that same order; a test checks they agree.
  */
+import {
+  EXTRA_GLYPHS,
+  EXTRA_NAMES,
+  type ExtraGlyph,
+  FIRST_CHAR,
+  GLYPH_COUNT,
+  glyphOfChar,
+  glyphOfExtra,
+  LAST_CHAR,
+} from "@rpg-jev/core/world";
+
+export {
+  EXTRA_GLYPHS,
+  EXTRA_NAMES,
+  type ExtraGlyph,
+  FIRST_CHAR,
+  GLYPH_COUNT,
+  glyphOfChar,
+  glyphOfExtra,
+  LAST_CHAR,
+};
+
 export const GLYPH_W = 3;
 export const GLYPH_H = 5;
 
@@ -106,10 +132,11 @@ const ASCII: Readonly<Record<string, string>> = {
 };
 
 /**
- * Silhouettes that no ASCII character draws well. They follow "~" in the atlas.
- * Append only: saved worlds and born looks store these atlas indices.
+ * Silhouettes that no ASCII character draws well. They follow "~" in the
+ * atlas, in `EXTRA_NAMES` order (`@rpg-jev/core/world`): the closed set of
+ * ids is pinned there, and a test checks this object has exactly those keys.
  */
-const EXTRA = {
+const EXTRA: Readonly<Record<ExtraGlyph, string>> = {
   tree: ".#. ### ### .#. .#.",
   pine: ".#. .#. ### ### .#.",
   bush: "... .#. ### ### ...",
@@ -121,28 +148,7 @@ const EXTRA = {
   mushroom: ".#. ### ### .#. ###",
   tool: "### ##. .#. .#. .#.",
   creature: "#.# ### .#. ### #.#",
-} as const;
-
-export type ExtraGlyph = keyof typeof EXTRA;
-
-export const FIRST_CHAR = 32;
-export const LAST_CHAR = 126;
-const EXTRA_NAMES = Object.keys(EXTRA) as ExtraGlyph[];
-/** The props by name: a closed set a look can be chosen from. */
-export const EXTRA_GLYPHS: readonly ExtraGlyph[] = EXTRA_NAMES;
-
-export const GLYPH_COUNT = LAST_CHAR - FIRST_CHAR + 1 + EXTRA_NAMES.length;
-
-/** Atlas index of a printable ASCII character; "?" stands in for anything else. */
-export function glyphOfChar(char: string): number {
-  const code = char.codePointAt(0) ?? 0;
-  if (code < FIRST_CHAR || code > LAST_CHAR) return "?".charCodeAt(0) - FIRST_CHAR;
-  return code - FIRST_CHAR;
-}
-
-export function glyphOfExtra(name: ExtraGlyph): number {
-  return LAST_CHAR - FIRST_CHAR + 1 + EXTRA_NAMES.indexOf(name);
-}
+};
 
 /** The rows of every glyph in atlas order. */
 export function glyphRows(): string[][] {

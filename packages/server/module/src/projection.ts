@@ -1,9 +1,12 @@
 /** Per-viewer surface projection. Never serialize another body's needs, memory or intentions. */
 import { matter } from "@rpg-jev/core";
-import { INK } from "../../../client/src/palette.ts";
-import type { SharedView } from "../../../client/src/play/shared-types.ts";
-import { type ElementView, shownOf } from "../../../client/src/play/world-link.ts";
-import type { ThingView } from "../../../client/src/view/things.ts";
+import {
+  type ElementView,
+  INK,
+  type SharedView,
+  shownOf,
+  type ThingView,
+} from "@rpg-jev/core/world";
 import { clearing, lookOf, SEED } from "./world.ts";
 
 function elementView(element: matter.Element): ElementView {
