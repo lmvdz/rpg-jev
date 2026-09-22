@@ -48,6 +48,15 @@ export {
   stepMatterSession,
 } from "./session.ts";
 export type { MatterTerrain, Tile } from "./session-terrain.ts";
+export {
+  type CanStep,
+  createSharedState,
+  type SharedState,
+  type SharedStep,
+  sharedAct,
+  sharedMove,
+  sharedTick,
+} from "./shared.ts";
 export { sliceFor } from "./slice.ts";
 export type { CoatAct, SoakAct } from "./soak.ts";
 export * from "./types.ts";

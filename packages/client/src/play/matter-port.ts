@@ -13,6 +13,7 @@
 import { matter } from "@rpg-jev/core";
 import { Rng } from "@rpg-jev/core/rng";
 import { INK } from "../palette.ts";
+import { seedMatterWorld } from "../scene/matter-seed.ts";
 import type { BodyView } from "../view/body.ts";
 import { checkLook } from "../view/look-birth.ts";
 import type { ThingView } from "../view/things.ts";
@@ -23,79 +24,8 @@ import type { Outcome, Standing, WorldPort } from "./world-port.ts";
 const PLACE = "clearing";
 const ACTOR = "hero";
 const HANDS = "hands";
-/** What can be found here by looking, as the place's latent abundance (a Score per element). */
-const ABUNDANCE = { stone: 2, flint: 1, branch: 3, berries: 1 };
-/** How many tiles make one patch of ground a person goes over in half an hour: the place's extent. */
-const TILES_PER_PATCH = 40;
 /** From this size up a thing fills its tile (P2). */
 const FILLS_TILE = 4;
-
-/** The engine's state for a thing as the client first shows it: fresh, then what can be seen. */
-function stateOf(thing: ThingView, element: matter.Element): matter.ThingState {
-  const { temperature, amount, wetness, integrity, contamination, corrosion } = thing.states;
-  return {
-    ...matter.FRESH,
-    // What is fresh is not bone dry: whether it rots or burns depends on it.
-    wetness: wetness ?? element.moist ?? matter.FRESH.wetness,
-    ...(temperature === undefined ? {} : { temperature }),
-    ...(amount === undefined ? {} : { amount }),
-    ...(integrity === undefined ? {} : { integrity }),
-    ...(contamination === undefined ? {} : { contamination }),
-    ...(corrosion === undefined ? {} : { corrosion }),
-  };
-}
-
-function worldFrom(things: readonly ThingView[], tiles: number): matter.MatterWorld {
-  const extent = Math.max(1, Math.round(tiles / TILES_PER_PATCH));
-  const place = matter.placeOf(PLACE, { abundance: ABUNDANCE, extent });
-  const world = matter.worldOf(matter.POOL, [place]);
-  for (const thing of things) {
-    const element = world.elements[thing.element];
-    if (!element) {
-      // The pool has no creatures yet: one on the map brings a row made from what it is like.
-      if (thing.kind === "creature") embody(world, thing);
-      continue;
-    }
-    const state = stateOf(thing, element);
-    // Positions are the client's: sensing needs to know how far off a thing is.
-    const where = [thing.x, thing.z] as const;
-    const made = { id: thing.id, element: thing.element, place: PLACE, state, where };
-    // A fire is not an element: it is fuel, burning, for as long as there is of it.
-    world.things[thing.id] = (thing.states.burning ?? 0) > 0 ? matter.alight(world, made) : made;
-  }
-  world.things[HANDS] = { id: HANDS, element: "hand", place: PLACE, state: { ...matter.FRESH } };
-  world.bodies[ACTOR] = { ...WHOLE, id: ACTOR, needs: { hunger: 1, rest: 1, warmth: 0 } };
-  return world;
-}
-
-/** A body as it is whole and well. */
-const WHOLE = { place: PLACE, health: 5, wounds: [], sickness: 0, sickensIn: 0 };
-
-/**
- * A creature on the map becomes a body of the world, so that it notices and
- * acts. Its row is a stand-in made from the thing's own kind, forms and
- * baseline levels, naming nothing: the small are quick and keen-nosed, the
- * heavy are strong. Born rows will replace it.
- */
-function embody(world: matter.MatterWorld, thing: ThingView): void {
-  const mass = Math.min(Math.max(Math.round(thing.baseline?.mass ?? 2), 0), 5);
-  world.elements[thing.element] ??= {
-    id: thing.element,
-    name: thing.name,
-    kind: "creature",
-    forms: [],
-    props: { mass, size: mass, hardness: thing.baseline?.hardness ?? 1 },
-    body: { strength: mass, speed: 5 - mass, sight: 2, hearing: 3, smell: 5 - mass },
-  };
-  world.bodies[thing.id] = {
-    ...WHOLE,
-    id: thing.id,
-    element: thing.element,
-    where: [thing.x, thing.z],
-    // Hungry enough to go looking: a creature at rest on a full belly shows nothing.
-    needs: { hunger: 3, rest: 0 },
-  };
-}
 
 /** The ids of the things a change is about. What happened to them is read off the world, not the change. */
 function touchedBy(change: matter.Change): string[] {
@@ -230,7 +160,7 @@ export interface MatterPortOptions {
 export function matterPort(things: readonly ThingView[], options: MatterPortOptions): MatterPort {
   const rng = Rng.fromSeed(options.seed);
   const canStand = options.canStand ?? (() => true);
-  let world = worldFrom(things, options.tiles);
+  let world = seedMatterWorld(things, options.tiles);
   const draws: MatterPort["draws"] = [];
   const status: BodyView = { meters: [], counts: [] };
   const hero = world.bodies[ACTOR];

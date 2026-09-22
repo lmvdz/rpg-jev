@@ -177,8 +177,11 @@ export function forceFrom(onThing: Grown, onBody: Grown) {
     const worn = wornBy(world, body?.wears);
     const changes: Change[] = [];
     if (body) {
-      const arm = worn ? { arm: partyOf(world, worn) } : {};
-      const parties = { tgt: fleshParty(world, body), tool: partyOf(world, tool), ...arm };
+      const parties: Record<string, ReturnType<typeof partyOf>> = {
+        tgt: fleshParty(world, body),
+        tool: partyOf(world, tool),
+      };
+      if (worn) parties.arm = partyOf(world, worn);
       changes.push(...run(ON_BODY, envOf(world, parties, 0, actOf(act))));
     }
     if (worn) changes.push(...strike(world, act, tool, worn));
