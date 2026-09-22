@@ -79,7 +79,7 @@ export class SharedPlay {
           this.#online = false;
           walker.jumpToTile(walker.tileX, walker.tileZ);
         }
-        say(`Local shared server · ${message}`);
+        say(`Shared world · ${message}`);
       },
     );
   }

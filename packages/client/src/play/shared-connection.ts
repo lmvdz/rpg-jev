@@ -1,11 +1,16 @@
 /** Browser transport only: commands out, caller-filtered host projections in. */
+import { OBSERVE_INTERVAL_MS, VIEW_LEASE_MICROS } from "../../../server/module/src/observers.ts";
 import { DbConnection } from "../shared_bindings/index.ts";
 import type { Answers } from "./act-request.ts";
+import { sharedTarget } from "./shared-target.ts";
 import type { SharedConnection, SharedView } from "./shared-types.ts";
+import { decodeSharedView } from "./shared-wire.ts";
 
-const URI = "ws://127.0.0.1:3057";
-const DATABASE = "rpg-open-world";
-const KEY = `rpg-jev.shared.v1:${URI}:${DATABASE}`;
+const {
+  uri: URI,
+  database: DATABASE,
+  storageKey: KEY,
+} = sharedTarget(import.meta.env?.VITE_WORLD_SERVER, import.meta.env?.VITE_WORLD_DATABASE);
 interface Request {
   generation: string;
   seq: number;
@@ -24,7 +29,10 @@ class Connection implements SharedConnection {
   #identity = "";
   #pending: Pending | null = null;
   #closed = false;
+  #attempt = 0;
   #timer: ReturnType<typeof setTimeout> | null = null;
+  #heartbeat: ReturnType<typeof setInterval> | null = null;
+  #lastViewAt = 0;
   #delay = 250;
   #sentSequence = 0;
   readonly #onView: (view: SharedView) => void;
@@ -38,7 +46,8 @@ class Connection implements SharedConnection {
 
   #connect(): void {
     if (this.#closed) return;
-    this.#onStatus("Connecting to the local shared world…");
+    const attempt = ++this.#attempt;
+    this.#onStatus("Connecting to the shared world…");
     try {
       this.#conn = DbConnection.builder()
         .withUri(URI)
@@ -46,20 +55,26 @@ class Connection implements SharedConnection {
         .withCompression("none")
         .withToken(sessionStorage.getItem(`${KEY}:token`) ?? undefined)
         .onConnect((conn, identity, token) => {
+          if (this.#closed || attempt !== this.#attempt) {
+            conn.disconnect();
+            return;
+          }
           this.#identity = identity.toHexString();
           this.#sentSequence = 0;
           sessionStorage.setItem(`${KEY}:token`, token);
           this.#delay = 250;
-          conn.db.viewer.onInsert(() => this.#read());
-          conn.db.viewer.onUpdate(() => this.#read());
+          conn.db.viewer.onInsert(() => this.#read(conn));
+          conn.db.viewer.onUpdate(() => this.#read(conn));
           conn
             .subscriptionBuilder()
             .onApplied(() => {
-              this.#read();
+              if (this.#closed || this.#conn !== conn) return;
               void conn.reducers
                 .join({})
                 .then(() => {
-                  this.#read();
+                  if (this.#closed || this.#conn !== conn) return;
+                  this.#read(conn);
+                  this.#startHeartbeat(conn);
                   if (
                     this.#pending &&
                     this.#pending.request.seq === (this.#view?.sequence ?? -1) + 1
@@ -67,13 +82,18 @@ class Connection implements SharedConnection {
                     this.#send(this.#pending.request);
                 })
                 .catch((error: unknown) => {
+                  if (this.#closed || this.#conn !== conn) return;
                   this.#onStatus(`Connection error: admission refused (${String(error)})`);
                 });
             })
-            .onError(() => this.#reconnect("subscription failed"))
+            .onError(() => {
+              if (!this.#closed && this.#conn === conn) this.#reconnect("subscription failed");
+            })
             .subscribe(["SELECT * FROM viewer"]);
         })
-        .onConnectError(() => this.#reconnect("host unavailable"))
+        .onConnectError(() => {
+          if (!this.#closed && attempt === this.#attempt) this.#reconnect("host unavailable");
+        })
         .onDisconnect((conn) => {
           if (this.#conn === conn) this.#reconnect("connection lost");
         })
@@ -85,6 +105,7 @@ class Connection implements SharedConnection {
 
   #reconnect(reason: string): void {
     if (this.#closed || this.#timer !== null) return;
+    this.#stopHeartbeat();
     this.#view = null;
     this.#onStatus(`Disconnected: ${reason}. Reconnecting; pending commands will be reconciled.`);
     this.#timer = setTimeout(() => {
@@ -97,15 +118,47 @@ class Connection implements SharedConnection {
     this.#delay = Math.min(5000, this.#delay * 2);
   }
 
-  #read(): void {
-    const row = [...(this.#conn?.db.viewer.iter() ?? [])].find(
+  #startHeartbeat(conn: DbConnection): void {
+    if (this.#closed || this.#conn !== conn) return;
+    this.#stopHeartbeat();
+    this.#heartbeat = setInterval(() => {
+      if (this.#closed || this.#conn !== conn) return;
+      if (this.#view && Date.now() - this.#lastViewAt > Number(VIEW_LEASE_MICROS / 1000n)) {
+        this.#reconnect("view heartbeat timed out");
+        return;
+      }
+      void conn.reducers.observe({}).catch(() => {
+        if (!this.#closed && this.#conn === conn) this.#reconnect("observation renewal failed");
+      });
+    }, OBSERVE_INTERVAL_MS);
+  }
+
+  #stopHeartbeat(): void {
+    if (this.#heartbeat !== null) clearInterval(this.#heartbeat);
+    this.#heartbeat = null;
+  }
+
+  #read(conn: DbConnection): void {
+    if (this.#closed || this.#conn !== conn) return;
+    const row = [...conn.db.viewer.iter()].find(
       (entry) => entry.identity.toHexString() === this.#identity,
     );
     if (!row) return;
-    const view: SharedView = JSON.parse(row.json);
+    let view: SharedView;
+    try {
+      view = decodeSharedView(row.json);
+    } catch (error) {
+      this.#view = null;
+      this.#onStatus(`Connection error: invalid shared snapshot (${String(error)})`);
+      this.#pending?.reject(new Error("Invalid shared snapshot; command outcome is unknown."));
+      this.#pending = null;
+      return;
+    }
     if (view.generation !== this.#view?.generation) this.#sentSequence = 0;
     this.#view = view;
+    this.#lastViewAt = Date.now();
     this.#onView(view);
+    if (this.#closed || this.#conn !== conn) return;
     if (view.pauseReason)
       this.#onStatus(
         `Connection error: host paused (${view.pauseReason}); restore the archive worker.`,
@@ -190,12 +243,13 @@ class Connection implements SharedConnection {
     if (this.#sentSequence === request.seq) return;
     this.#sentSequence = request.seq;
     void conn.reducers.command(request).catch((error: unknown) => {
+      if (this.#closed || this.#conn !== conn) return;
       if (!conn.isActive) {
         this.#reconnect("command acknowledgement lost");
         return;
       }
       const pending = this.#pending;
-      if (pending?.request.seq !== request.seq) return;
+      if (pending?.request !== request) return;
       this.#pending = null;
       this.#sentSequence = 0;
       sessionStorage.removeItem(`${KEY}:pending`);
@@ -232,9 +286,14 @@ class Connection implements SharedConnection {
 
   close(): void {
     this.#closed = true;
+    this.#attempt++;
+    this.#stopHeartbeat();
     if (this.#timer !== null) clearTimeout(this.#timer);
     this.#pending?.reject(new Error("Disconnected; saved command will reconcile on reconnect"));
-    this.#conn?.disconnect();
+    this.#pending = null;
+    const conn = this.#conn;
+    this.#conn = null;
+    conn?.disconnect();
   }
 }
 

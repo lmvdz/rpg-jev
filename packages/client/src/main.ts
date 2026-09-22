@@ -290,8 +290,7 @@ function mountEditing(app: App): { panel: EditorPanel; editor: MountedEditor } {
 }
 
 function controlHint(app: App): string {
-  if (app.sharedMode)
-    return "LOCAL SHARED SERVER · tap arrows: step · click: walk · right-click: actions";
+  if (app.sharedMode) return "SHARED WORLD · tap arrows: step · click: walk · right-click: actions";
   if (app.food)
     return "tap arrows: one turn  click: walk  right-click: actions  q/e: turn  -/=: zoom";
   if (app.editing) return "EDITING   tab: play";
@@ -510,7 +509,7 @@ function initialWorld(): Promise<LoadedWorld> {
     const clearing = buildClearing(1);
     return Promise.resolve({
       name: "local-shared-server",
-      from: "Local shared server · connecting; input disabled until the host responds",
+      from: "Shared world · connecting; input disabled until the host responds",
       content: { grid: clearing.grid, objects: [], start: clearing.start },
       things: [],
     });

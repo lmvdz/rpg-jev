@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig, loadEnv, type Plugin } from "vite";
+import { sharedTarget } from "./src/play/shared-target.ts";
 
 const WORLDS = join(import.meta.dirname, "public", "worlds");
 const MAX_BYTES = 16 * 1024 * 1024;
@@ -55,8 +56,13 @@ function saveWorlds(): Plugin {
   };
 }
 
-export default defineConfig({
-  plugins: [saveWorlds()],
-  server: { port: 5174, strictPort: true },
-  worker: { format: "es" },
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "VITE_");
+  // Reject bad operator configuration before starting or producing a client.
+  sharedTarget(env.VITE_WORLD_SERVER, env.VITE_WORLD_DATABASE);
+  return {
+    plugins: [saveWorlds()],
+    server: { port: 5174, strictPort: true },
+    worker: { format: "es" },
+  };
 });
