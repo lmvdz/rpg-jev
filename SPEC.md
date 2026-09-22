@@ -588,7 +588,7 @@ If M2 is not fun, live generation will not fix it, so M2 is the real gate.
 
 **Status, 2026-09-18.** Since the report, four playtests by a person were turned into general mechanisms and not special cases: means and ends (section 4), speech and forcing things as deeds on the one witness path, role powers, dispositions (section 9), a live terminal that shows who is thinking, and the playtest loop with its method (section 13), which is designed and switched off. `pnpm check` now also enforces a strict lint, coverage tests over classes (every verb, thing, deed, voice, activity and disposition is complete), and a ratchet on character names in engine code. S0 ran the same day and SpacetimeDB holds, with three conditions (section 15). Both spikes now have numbers, so the order of work no longer blocks M3, M4 or renderer steps beyond R2; whether M2 is fun enough to build on is still the real gate.
 
-**Order of work:** M0 and S0 run first. The village, the author thread and renderer steps beyond R2 do not start until both spikes have numbers.
+**Order of work:** M0 and S0 came first, and both have numbers. What gates the village and the author thread is whether M2 is fun.
 
 **Renderer track**
 

@@ -154,21 +154,17 @@ the shape to stop:
   arm. The deep version builds the option list from what the deed cost the listener (the
   needs graph: an insult costs company, a blow costs safety) and what the listener's role
   permits. When you touch `replies()`, do not add an arm; propose the generator.
-- **A debt handler with a name in it.** `agenda.ts` used to hold one function per thing a
-  character did (Mara's searches, confrontations, verdict and answer to a brawl; Odo's
-  checking, burning and panic; Tobin's conscience), each added after a playtest showed a gap.
-  They are gone. The class is "someone does something about what they believe or intend", and
-  its deep version is `reactions.ts` (the pipeline) over `repertoire.ts` (what a person can
-  do, one row each) over `DISPOSITIONS` in content. If an NPC should do something new: first
-  try a new disposition using existing reactions; then a new reaction row that names nobody;
-  never a new debt kind with a handler. Rows work from what the person believes, not from
-  what is true, and a row that cannot be done returns no offer instead of refusing.
-- **A fix that only works because the old code cheated.** The named handlers let someone
-  "tell" a person in another room and let one function do three things in one instant. Made
-  honest, the same behaviour took three agenda passes and a walk, and two quest routes stopped
-  working until the general rules were fixed (what comes due now fires now; a new errand
-  supersedes the old one). When a generalisation changes timing, measure the routes before
-  believing it.
+- **A debt handler with a name in it.** The class is "someone does something about what they
+  believe or intend", and its deep version is `reactions.ts` (the pipeline) over
+  `repertoire.ts` (what a person can do, one row each) over `DISPOSITIONS` in content. If an
+  NPC should do something new: first try a new disposition using existing reactions; then a new
+  reaction row that names nobody; never a new debt kind with a handler, because each such
+  handler is a special case whose siblings the next playtest finds. Rows work from what the
+  person believes, not from what is true, and a row that cannot be done returns no offer
+  instead of refusing.
+- **A fix that only works because the code cheats.** A handler that lets someone "tell" a
+  person in another room, or do three things in one instant, makes routes pass that the general
+  rules would not. When a generalisation changes timing, measure the routes before believing it.
 - **`SPECIAL` lines keyed by request id** in `prose.ts` are fine as content but the keys are
   invented one at a time. The class is "prose keyed to cause"; a deep version keys on the
   cause's predicate and the speaker's role.
