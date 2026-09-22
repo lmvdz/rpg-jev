@@ -1,0 +1,33 @@
+{
+  "environment": {
+    "node": "v25.8.2",
+    "platform": "win32",
+    "browser": "Chrome headless/WebGL2"
+  },
+  "actors": [
+    "player-7",
+    "player-8"
+  ],
+  "target": {
+    "uri": "ws://127.0.0.1:3057",
+    "database": "rpg-open-world"
+  },
+  "movement": {
+    "from": [
+      55,
+      41
+    ],
+    "to": [
+      55,
+      42
+    ]
+  },
+  "commandAckMs": [
+    462.0580000000009
+  ],
+  "independentClock": true,
+  "genericMenuAction": true,
+  "reloadIdentityAndPosition": true,
+  "browserErrors": [],
+  "humanPlaytest": false
+}

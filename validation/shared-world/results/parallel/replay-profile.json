@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "ok": false,
+  "scope": "simulation-replay-only",
+  "failure": "time-limit",
+  "progress": {
+    "events": 4585,
+    "revision": 4583,
+    "tick": 4395
+  }
+}

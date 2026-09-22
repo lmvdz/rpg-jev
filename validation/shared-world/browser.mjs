@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { sharedTarget } from "../../packages/client/src/play/shared-target.ts";
+import { DATABASE, protocolTokenPath, WS_URL } from "../../packages/server/src/cli.ts";
 
 const [browserPath, outputPath, mode] = process.argv.slice(2);
 assert(browserPath && outputPath, "Usage: browser.mjs <chrome executable> <new scratch directory>");
@@ -14,6 +16,7 @@ const errors = [];
 const browsers = [];
 const connections = [];
 const tokens = [];
+const target = sharedTarget(WS_URL, DATABASE);
 function redact(text) {
   let safe = text;
   for (const token of tokens) safe = safe.replaceAll(token, "[credential]");
@@ -29,7 +32,12 @@ const vite = spawn(
     "5178",
     "--strictPort",
   ],
-  { cwd: path.join(root, "packages/client"), stdio: "inherit", windowsHide: true },
+  {
+    cwd: path.join(root, "packages/client"),
+    stdio: "inherit",
+    windowsHide: true,
+    env: { ...process.env, VITE_WORLD_SERVER: target.uri, VITE_WORLD_DATABASE: target.database },
+  },
 );
 
 async function until(read, label, timeout = 30_000) {
@@ -116,13 +124,10 @@ async function browser(label) {
   await cdp.call("Runtime.enable");
   await cdp.call("Page.enable");
   if (mode) {
-    const token = await readFile(
-      path.join(root, `packages/server/.stdb/protocol-${label}.token`),
-      "utf8",
-    );
+    const token = await readFile(protocolTokenPath(label), "utf8");
     tokens.push(token);
     await cdp.call("Page.addScriptToEvaluateOnNewDocument", {
-      source: `if (location.origin === "http://127.0.0.1:5178") sessionStorage.setItem("rpg-jev.shared.v1:ws://127.0.0.1:3057:rpg-open-world:token", ${JSON.stringify(token)});`,
+      source: `if (location.origin === "http://127.0.0.1:5178") sessionStorage.setItem(${JSON.stringify(`${target.storageKey}:token`)}, ${JSON.stringify(token)});`,
     });
   }
   await cdp.call("Emulation.setDeviceMetricsOverride", {
@@ -241,6 +246,7 @@ try {
       browser: "Chrome headless/WebGL2",
     },
     actors: [initialA.actor, initialB.actor],
+    target: { uri: target.uri, database: target.database },
     movement: { from: initialA.position, to: currentA.position },
     commandAckMs: latency,
     independentClock: true,

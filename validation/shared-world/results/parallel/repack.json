@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "complete": true,
+  "candidateOnly": true,
+  "source": "H:\\rpg-jev\\.delta\\worktrees\\4pqj9bqztm8q\\rpg-jev\\packages\\server\\.stdb\\archive\\rpg-open-world-c2000d3e8f03364aca0e9c229fb55bf8945a14ab2387282f83c2c1091d2f0fbd.jsonl",
+  "target": "H:\\rpg-jev\\.delta\\worktrees\\4pqj9bqztm8q\\rpg-jev\\packages\\server\\.stdb\\repacked\\retained.jsonl",
+  "partial": "H:\\rpg-jev\\.delta\\worktrees\\4pqj9bqztm8q\\rpg-jev\\packages\\server\\.stdb\\repacked\\retained.jsonl.partial",
+  "events": 5312,
+  "beforeBytes": 1108100191,
+  "afterBytes": 55938008,
+  "milliseconds": 20606.5902,
+  "generation": "c2000d3e8f03364aca0e9c229fb55bf8945a14ab2387282f83c2c1091d2f0fbd",
+  "firstSequence": "1",
+  "lastSequence": "45347",
+  "logicalRowsSha256": "ee44ab1694894ab8758e502f3546a3c8e9cd539318ac711b08ab5a8997a1110a"
+}

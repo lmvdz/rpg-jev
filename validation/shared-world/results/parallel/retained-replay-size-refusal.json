@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "ok": false,
+  "scope": "simulation-replay-only",
+  "failure": "archive-size-limit"
+}

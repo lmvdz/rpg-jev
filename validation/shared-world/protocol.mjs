@@ -2,7 +2,7 @@
  * Real local protocol checks. Only --restart-owned-host restarts the local validation host.
  * Usage (Node >=22.18, workspace dependencies installed):
  *   node validation/shared-world/protocol.mjs <NEW-output-directory>
- * Requires parent-owned ws://127.0.0.1:3057/rpg-open-world and its archiver.
+ * Requires a parent-owned local host and archiver (RPG_WORLD_PORT/DATABASE).
  * Two anonymous admissions persist on the host (there is no leave reducer).
  * Local test tokens stay in gitignored .stdb files, never in evidence reports.
  */
@@ -12,6 +12,20 @@ import { existsSync, openSync, readFileSync, writeFileSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
+import { decodeSharedView } from "../../packages/client/src/play/shared-wire.ts";
+import {
+  OBSERVE_INTERVAL_MS,
+  VIEW_LEASE_MICROS,
+} from "../../packages/server/module/src/observers.ts";
+import {
+  DATA_DIR,
+  DATABASE,
+  HOST,
+  HTTP_URL,
+  protocolTokenPath,
+  RUNTIME_DIR,
+  WS_URL,
+} from "../../packages/server/src/cli.ts";
 
 const args = process.argv.slice(2);
 assert(
@@ -26,8 +40,8 @@ const report = {
   version: 1,
   started: new Date().toISOString(),
   node: process.version,
-  host: "ws://127.0.0.1:3057",
-  database: "rpg-open-world",
+  host: WS_URL,
+  database: DATABASE,
   target: { acceptedSamples: 24, p95Ms: 250 },
   checks: [],
   commands: [],
@@ -87,7 +101,7 @@ function own(client) {
   );
   assert.equal(rows[0].identity.toHexString(), client.identity);
   assert.equal([...client.db.db.event.iter()].length, 0, "event RLS leaked rows");
-  const view = JSON.parse(rows[0].json);
+  const view = decodeSharedView(rows[0].json);
   assert.equal(view.sequence, rows[0].seq);
   return { ...rows[0], view };
 }
@@ -141,7 +155,7 @@ async function fresh(client, payload, label) {
   throw new Error(`${label}: exhausted 8 explicitly recorded stale-view retries`);
 }
 async function sql(client, query) {
-  const response = await fetch("http://127.0.0.1:3057/v1/database/rpg-open-world/sql", {
+  const response = await fetch(`${HTTP_URL}/v1/database/${DATABASE}/sql`, {
     method: "POST",
     headers: { Authorization: `Bearer ${client.token}`, "Content-Type": "text/plain" },
     body: query,
@@ -162,10 +176,7 @@ try {
     let db;
     // Local-issued credentials stay in gitignored operational storage, never
     // in the report. Re-running validation must not consume new admission slots.
-    const tokenPath = path.resolve(
-      import.meta.dirname,
-      `../../packages/server/.stdb/protocol-${label}.token`,
-    );
+    const tokenPath = protocolTokenPath(label.startsWith("A") ? "A" : "B");
     const token =
       savedToken ?? (existsSync(tokenPath) ? readFileSync(tokenPath, "utf8") : undefined);
     const connected = new Promise((resolve, reject) => {
@@ -201,6 +212,12 @@ try {
       await bounded(db.reducers.join({}), `${label} join`);
       await until(() => [...db.db.viewer.iter()].length > 0, `${label} own viewer`);
       admission.after = snapshot(own(client));
+      client.heartbeat = setInterval(() => {
+        if (client.db.isActive)
+          void client.db.reducers.observe({}).catch((error) => {
+            report.observations.push({ label, heartbeatError: clean(error) });
+          });
+      }, OBSERVE_INTERVAL_MS);
     } catch (error) {
       admission.error = clean(error);
       throw error;
@@ -364,39 +381,49 @@ try {
     }
     return { before, after };
   });
+  await check(
+    "expired projection interest does not pause simulation or revoke admission",
+    async () => {
+      clearInterval(b.heartbeat);
+      await sleep(Number(VIEW_LEASE_MICROS / 1000n) + 1500);
+      const quiet = snapshot(own(b));
+      const active = snapshot(own(a));
+      await sleep(1500);
+      assert.equal(own(b).view.tick, quiet.tick);
+      assert(own(a).view.tick > active.tick);
+      await bounded(b.db.reducers.observe({}), "renew expired observation");
+      await until(() => own(b).view.tick > quiet.tick, "fresh observation after renewal");
+      assert.equal(own(b).view.actor, quiet.actor);
+      assert.equal(own(b).seq, quiet.sequence);
+      return { expired: quiet, renewed: snapshot(own(b)), admissionPreserved: true };
+    },
+  );
   if (args[1] === "--restart-owned-host") {
     await check(
       "host restart preserves admitted identities, positions and command sequences",
       async () => {
-        const { spacetimeCli, SERVER_DIR } = await import("../../packages/server/src/cli.ts");
+        const { spacetimeCli } = await import("../../packages/server/src/cli.ts");
         const before = [a, b].map((client) => snapshot(own(client)));
         a.db.disconnect();
         b.db.disconnect();
-        const pidPath = path.join(SERVER_DIR, ".stdb/server.pid");
+        const pidPath = path.join(RUNTIME_DIR, "server.pid");
         const pid = Number(readFileSync(pidPath, "utf8"));
         assert(Number.isSafeInteger(pid) && pid > 0, "invalid owned host PID");
         if (process.platform === "win32")
           execFileSync("taskkill.exe", ["/PID", String(pid), "/T", "/F"], { stdio: "ignore" });
         else process.kill(pid, "SIGTERM");
         await sleep(1000);
-        const fd = openSync(path.join(SERVER_DIR, ".stdb/server.log"), "a");
+        const fd = openSync(path.join(RUNTIME_DIR, "server.log"), "a");
         const host = spawn(
           spacetimeCli(),
-          [
-            "start",
-            "--listen-addr",
-            "127.0.0.1:3057",
-            "--data-dir",
-            path.join(SERVER_DIR, ".stdb/data"),
-            "--non-interactive",
-          ],
+          ["start", "--listen-addr", HOST, "--data-dir", DATA_DIR, "--non-interactive"],
           { stdio: ["ignore", fd, fd], detached: true },
         );
         writeFileSync(pidPath, String(host.pid));
         host.unref();
         for (let retry = 0; retry < 100; retry++) {
           try {
-            if ((await fetch("http://127.0.0.1:3057/v1/ping")).ok) break;
+            if ((await fetch(`${HTTP_URL}/v1/ping`)).ok) break;
           } catch {
             /* The restarted host is not listening yet. */
           }
@@ -438,6 +465,7 @@ try {
   process.exitCode = 1;
 } finally {
   for (const client of clients) {
+    if (client.heartbeat) clearInterval(client.heartbeat);
     try {
       client.db.disconnect();
     } catch {

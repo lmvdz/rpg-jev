@@ -699,6 +699,20 @@ playability acceptance. Performance is an independent gate with a predeclared
 recorded in `validation/shared-world/README.md`. Iroh, Matrix, JEPA runtime
 prediction, authoring and portability are not implemented by this slice.
 
+**Parallel operational follow-through:** lossless public snapshot dictionaries,
+refresh-local presentation preparation and caller-owned projection-interest
+leases reduce redundant publication without removing disconnected characters or
+stopping their simulation. The retained eight-admission/two-active-client world
+now passes the unchanged 250 ms protocol gate at 188.148 ms p95; the single cold
+browser movement measurement is still 462 ms. Exact event dictionaries and
+bounded per-record gzip reduce the representative archived row to 3.106% of
+original event bytes, without dropping effects or changing replay. These are
+measured improvements, not unlimited retention or a complete W1 claim.
+`validation/shared-world/PARALLEL.md` retains unsuccessful measurements, current
+identity/recovery decisions and the JEPA/runtime handoff. Operator-selected
+endpoint configuration is implemented; publishing outside loopback and choosing
+identity custody, visitor consent or retention policy remain separate approvals.
+
 **M2 proposal follow-through:** the approved handwritten admission → scheduled
 consequence → replay path is implemented in the optional supper night described
 in section 10. The historical deferral below no longer describes this requirement.

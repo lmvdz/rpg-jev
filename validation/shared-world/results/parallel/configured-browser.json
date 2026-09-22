@@ -1,0 +1,33 @@
+{
+  "environment": {
+    "node": "v25.8.2",
+    "platform": "win32",
+    "browser": "Chrome headless/WebGL2"
+  },
+  "actors": [
+    "player-1",
+    "player-2"
+  ],
+  "target": {
+    "uri": "ws://127.0.0.1:3058",
+    "database": "rpg-parallel-check"
+  },
+  "movement": {
+    "from": [
+      48,
+      45
+    ],
+    "to": [
+      49,
+      45
+    ]
+  },
+  "commandAckMs": [
+    206.3815999999997
+  ],
+  "independentClock": true,
+  "genericMenuAction": true,
+  "reloadIdentityAndPosition": true,
+  "browserErrors": [],
+  "humanPlaytest": false
+}

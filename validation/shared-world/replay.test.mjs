@@ -7,6 +7,8 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { apply } from "../../packages/core/src/matter/apply.ts";
 import { Rng } from "../../packages/core/src/rng.ts";
+import { EVENT_CODEC_LIMITS, encodeEvent } from "../../packages/server/module/src/event-codec.ts";
+import { encodeArchivePayload } from "../../packages/server/src/archive-payload.ts";
 import { LIMITS, verifyArchive } from "./replay.mjs";
 
 const generation = "a".repeat(64);
@@ -156,6 +158,56 @@ test("reserved auto-increment gaps after host restart do not imply missing revis
     });
     writeFileSync(file, encode(rows));
     assert.throws(() => verifyArchive(file), /revision-gap-or-order/);
+  }));
+
+test("mixed legacy and compact events replay identically and reject unknown codec versions", () =>
+  temporary((file) => {
+    const rows = fixture();
+    alter(rows, 1, (event) => {
+      event.changes = Array.from({ length: 12 }, (_, i) => ({
+        ...event.changes[0],
+        set: { where: [i, 0] },
+        note: "recorded cause ".repeat(30),
+      }));
+    });
+    writeFileSync(file, encode(rows));
+    const legacy = verifyArchive(file);
+    rows[1].payload = encodeEvent(rows[1].payload);
+    const compact = JSON.parse(rows[1].payload);
+    assert(Array.isArray(compact), "fixture must exercise compact transport");
+    writeFileSync(file, encode(rows));
+    const restored = verifyArchive(file);
+    assert.equal(restored.stateSha256, legacy.stateSha256);
+    assert.equal(restored.revision, legacy.revision);
+    assert.equal(restored.storage.compactEvents, 1);
+    assert.equal(legacy.storage.compactEvents, 0);
+    assert(restored.storage.compactPayloadBytes < restored.storage.compactDecodedBytes);
+    assert.equal(restored.storage.decodedPayloadBytes, legacy.storage.payloadBytes);
+    rows[1] = { ...rows[1], ...encodeArchivePayload(rows[1].payload) };
+    writeFileSync(file, encode(rows));
+    const archived = verifyArchive(file);
+    assert.equal(archived.storage.gzipEvents, 1);
+    assert.equal(archived.stateSha256, legacy.stateSha256);
+    assert(archived.storage.archivedPayloadBytes < restored.storage.archivedPayloadBytes);
+    delete rows[1].encoding;
+    compact[1] = 999;
+    rows[1].payload = JSON.stringify(compact);
+    writeFileSync(file, encode(rows));
+    assert.throws(() => verifyArchive(file), /event codec payload/);
+  }));
+
+test("the single-parse legacy path retains unsafe-key, depth and value-count bounds", () =>
+  temporary((file) => {
+    const rows = fixture();
+    for (const [payload, reason] of [
+      ['{"constructor":{}}', /unsafe-key/],
+      [`${'{"x":'.repeat(65)}0${"}".repeat(65)}`, /json-depth-limit/],
+      [JSON.stringify({ x: Array(EVENT_CODEC_LIMITS.visits + 1).fill(0) }), /json-value-limit/],
+    ]) {
+      const initial = { ...rows[0], ...encodeArchivePayload(payload) };
+      writeFileSync(file, encode([initial]));
+      assert.throws(() => verifyArchive(file), reason);
+    }
   }));
 
 const corruptions = {

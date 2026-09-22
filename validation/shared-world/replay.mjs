@@ -11,6 +11,8 @@ import { pathToFileURL } from "node:url";
 import { isDeepStrictEqual } from "node:util";
 import { apply } from "../../packages/core/src/matter/apply.ts";
 import { Rng } from "../../packages/core/src/rng.ts";
+import { decodeEvent, EVENT_CODEC_LIMITS } from "../../packages/server/module/src/event-codec.ts";
+import { decodeArchivePayload } from "../../packages/server/src/archive-payload.ts";
 
 export const LIMITS = Object.freeze({
   bytes: 1024 * 1024 * 1024,
@@ -20,7 +22,9 @@ export const LIMITS = Object.freeze({
   depth: 64,
   milliseconds: 60_000,
 });
-class VerificationError extends Error {}
+class VerificationError extends Error {
+  progress;
+}
 const check = (ok, code) => {
   if (!ok) throw new VerificationError(code);
 };
@@ -30,29 +34,34 @@ const text = (v) => typeof v === "string";
 const strings = (v) => Array.isArray(v) && v.every(text);
 const tile = (v) => Array.isArray(v) && v.length === 2 && v.every(Number.isSafeInteger);
 const own = (map, id) => text(id) && Object.hasOwn(map, id);
-const keys = (v, required, optional = []) => {
-  check(object(v), "invalid-object");
-  check(
-    required.every((k) => Object.hasOwn(v, k)),
-    "missing-field",
-  );
-  check(
-    Object.keys(v).every((k) => [...required, ...optional].includes(k)),
-    "unknown-field",
-  );
+const keySchema = (required, optional = []) => {
+  const allowed = new Set([...required, ...optional]);
+  return (v) => {
+    check(object(v), "invalid-object");
+    check(
+      required.every((k) => Object.hasOwn(v, k)),
+      "missing-field",
+    );
+    check(
+      Object.keys(v).every((k) => allowed.has(k)),
+      "unknown-field",
+    );
+  };
 };
+const keys = (v, required, optional = []) => keySchema(required, optional)(v);
 const equal = (a, b, code) => check(isDeepStrictEqual(a, b), code);
 const digest = (v) => createHash("sha256").update(JSON.stringify(v)).digest("hex");
 
 // Reject non-finite numbers, prototype-shaped keys and pathological nesting even
 // in parts of the vocabulary that apply does not inspect.
-function safeJSON(value, depth = 0) {
+function safeJSON(value, depth = 0, budget = { visits: 0 }) {
   check(depth <= LIMITS.depth, "json-depth-limit");
+  check(++budget.visits <= EVENT_CODEC_LIMITS.visits, "json-value-limit");
   if (typeof value === "number") check(Number.isFinite(value), "nonfinite-number");
   if (value && typeof value === "object") {
-    for (const [key, child] of Object.entries(value)) {
-      check(!["__proto__", "constructor", "prototype"].includes(key), "unsafe-key");
-      safeJSON(child, depth + 1);
+    for (const key of Object.keys(value)) {
+      check(key !== "__proto__" && key !== "constructor" && key !== "prototype", "unsafe-key");
+      safeJSON(value[key], depth + 1, budget);
     }
   }
 }
@@ -87,9 +96,11 @@ const stateNumbers = [
   "flaw",
   "temper",
 ];
+const stateFields = [...stateNumbers, "wetWith", "burning", "coating", "set"];
+const fullStateKeys = keySchema(stateFields);
+const patchStateKeys = keySchema([], stateFields);
 function thingState(state, partial = false) {
-  const fields = [...stateNumbers, "wetWith", "burning", "coating", "set"];
-  keys(state, partial ? [] : fields, partial ? fields : []);
+  (partial ? patchStateKeys : fullStateKeys)(state);
   for (const field of stateNumbers)
     if (field in state) check(Number.isFinite(state[field]), "invalid-thing-state");
   if ("set" in state) check(typeof state.set === "boolean", "invalid-thing-state");
@@ -147,8 +158,9 @@ function body(value, partial = false) {
     check(["alert", "distracted", "asleep"].includes(value.attention), "invalid-attention");
   if ("aware" in value) check(object(value.aware), "invalid-percepts");
 }
+const thingKeys = keySchema(["id", "element", "place", "state"], ["where"]);
 function thing(value, world) {
-  keys(value, ["id", "element", "place", "state"], ["where"]);
+  thingKeys(value);
   check(
     text(value.id) && own(world.elements, value.element) && own(world.places, value.place),
     "invalid-thing-reference",
@@ -199,13 +211,18 @@ const changeFields = {
   settle: ["place", "element", "minutes", "found"],
   nothing: [],
 };
+const changeKeys = Object.fromEntries(
+  Object.entries(changeFields).map(([kind, fields]) => [
+    kind,
+    keySchema(
+      ["kind", "because", "note", ...fields],
+      kind === "signal" ? ["quiet", "source"] : ["quiet"],
+    ),
+  ]),
+);
 function validateChange(c, world) {
   check(object(c) && Object.hasOwn(changeFields, c.kind), "invalid-change-kind");
-  keys(
-    c,
-    ["kind", "because", "note", ...changeFields[c.kind]],
-    c.kind === "signal" ? ["quiet", "source"] : ["quiet"],
-  );
+  changeKeys[c.kind](c);
   check(
     strings(c.because) && text(c.note) && (!("quiet" in c) || c.quiet === true),
     "invalid-change-metadata",
@@ -306,6 +323,39 @@ function replayStep(state, event, revision, started) {
   return next;
 }
 
+const REPLAY_CHECKS = [
+  "initial-structure",
+  "increasing-sequence-and-contiguous-revision",
+  "change-application",
+  "world-references",
+  "recorded-rng-draws",
+  "tick-progression",
+];
+const REPLAY_LIMITATIONS = [
+  "The initial snapshot is structurally checked, not authenticated against a trusted seed.",
+  "Current events contain no later snapshots or state hashes to compare against replay.",
+  "Does not rerun infer, resolve, sensing, terrain legality or command authorization.",
+  "Does not restore admission, identity, private command receipts, timers or archive acknowledgements.",
+  "A complete contiguous prefix does not prove the archive includes the host's latest event.",
+];
+
+function eventPayload(payload, storage) {
+  // Legacy events are already JSON objects. Our bounded parser below performs
+  // the finite-value/depth/shape checks, so do not parse that same object twice.
+  check(Buffer.byteLength(payload) <= EVENT_CODEC_LIMITS.bytes, "event-size-limit");
+  const decoded = payload.trimStart().startsWith("{") ? payload : decodeEvent(payload);
+  const storedBytes = Buffer.byteLength(payload);
+  const decodedBytes = Buffer.byteLength(decoded);
+  storage.payloadBytes += storedBytes;
+  storage.decodedPayloadBytes += decodedBytes;
+  if (decoded !== payload) {
+    storage.compactEvents++;
+    storage.compactPayloadBytes += storedBytes;
+    storage.compactDecodedBytes += decodedBytes;
+  }
+  return parse(decoded);
+}
+
 export function verifyArchive(file) {
   const started = Date.now();
   const fd = openSync(file, "r");
@@ -316,6 +366,15 @@ export function verifyArchive(file) {
     revision = 0,
     events = 0;
   const counts = { initial: 0, join: 0, command: 0, tick: 0 };
+  const storage = {
+    payloadBytes: 0,
+    decodedPayloadBytes: 0,
+    compactEvents: 0,
+    compactPayloadBytes: 0,
+    compactDecodedBytes: 0,
+    archivedPayloadBytes: 0,
+    gzipEvents: 0,
+  };
   const hash = createHash("sha256");
   try {
     const before = fstatSync(fd);
@@ -335,7 +394,7 @@ export function verifyArchive(file) {
         throw new VerificationError("invalid-utf8");
       }
       const row = parse(decoded);
-      keys(row, ["generation", "seq", "payload"]);
+      keys(row, ["generation", "seq", "payload"], ["encoding"]);
       check(text(row.generation) && /^[0-9a-f]{64}$/.test(row.generation), "invalid-generation");
       generation ??= row.generation;
       check(row.generation === generation, "mixed-generations");
@@ -346,7 +405,9 @@ export function verifyArchive(file) {
       check(BigInt(row.seq) > sequence && BigInt(row.seq) <= 0xffffffffffffffffn, "sequence-order");
       sequence = BigInt(row.seq);
       check(text(row.payload), "invalid-payload");
-      const event = parse(row.payload);
+      const event = eventPayload(decodeArchivePayload(row), storage);
+      storage.archivedPayloadBytes += Buffer.byteLength(row.payload);
+      if (row.encoding !== undefined) storage.gzipEvents++;
       check(event.version === 1, "unsupported-event-version");
       if (state) {
         state = replayStep(state, event, revision, started);
@@ -400,6 +461,7 @@ export function verifyArchive(file) {
       archiveSha256: hash.digest("hex"),
       events,
       counts,
+      storage,
       firstSequence,
       lastSequence: sequence.toString(),
       revision,
@@ -407,22 +469,13 @@ export function verifyArchive(file) {
       rng: state.rng,
       stateSha256: digest(state),
       limits: LIMITS,
-      checks: [
-        "initial-structure",
-        "increasing-sequence-and-contiguous-revision",
-        "change-application",
-        "world-references",
-        "recorded-rng-draws",
-        "tick-progression",
-      ],
-      limitations: [
-        "The initial snapshot is structurally checked, not authenticated against a trusted seed.",
-        "Current events contain no later snapshots or state hashes to compare against replay.",
-        "Does not rerun infer, resolve, sensing, terrain legality or command authorization.",
-        "Does not restore admission, identity, private command receipts, timers or archive acknowledgements.",
-        "A complete contiguous prefix does not prove the archive includes the host's latest event.",
-      ],
+      checks: [...REPLAY_CHECKS],
+      limitations: [...REPLAY_LIMITATIONS],
     };
+  } catch (error) {
+    if (error instanceof VerificationError)
+      error.progress = { events, revision, tick: state?.tick ?? null };
+    throw error;
   } finally {
     closeSync(fd);
   }
@@ -450,6 +503,7 @@ function main() {
         ok: false,
         scope: "simulation-replay-only",
         failure: error instanceof VerificationError ? error.message : "archive-verification-failed",
+        progress: error instanceof VerificationError ? error.progress : undefined,
       };
       process.exitCode = 1;
     }
