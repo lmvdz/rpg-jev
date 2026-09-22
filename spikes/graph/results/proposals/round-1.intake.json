@@ -1,0 +1,128 @@
+{
+ "round": "round-1",
+ "threshold": 0.6,
+ "processes": {
+  "drift": {
+   "derivedProblems": [],
+   "rules": [
+    {
+     "id": "mildew",
+     "says": "What drinks water and is left damp where there is air goes musty, even when little about it feeds rot; without something perishable in it, it goes no further than musty",
+     "problems": [],
+     "judged": {
+      "v0": 0.54,
+      "v1": 0.67,
+      "mean": 0.61
+     },
+     "accepted": true
+    },
+    {
+     "id": "rot-weakens",
+     "says": "Rot eats what it grows in: once living contamination is far gone in something perishable, the thing softens and falls apart, faster the more perishable, warm and damp it is, and not at all while it is dry or frozen",
+     "problems": [],
+     "judged": {
+      "v0": 0.78,
+      "v1": 0.86,
+      "mean": 0.82
+     },
+     "accepted": true
+    }
+   ]
+  },
+  "heat": {
+   "derivedProblems": [],
+   "rules": [
+    {
+     "id": "overheated",
+     "says": "Held scorching hot for too long, a solid that can melt takes a hidden flaw, by the minutes it spends that hot",
+     "problems": [],
+     "judged": {
+      "v0": 0.4,
+      "v1": 0.57,
+      "mean": 0.49
+     },
+     "accepted": false
+    },
+    {
+     "id": "parched",
+     "says": "What has drunk water and is dried fast, too close to strong heat, comes out stiff and cracked, by how much water was driven out of it and how close it lay; dried gently at a distance it does not",
+     "problems": [],
+     "judged": {
+      "v0": 0.71,
+      "v1": 0.85,
+      "mean": 0.78
+     },
+     "accepted": true
+    }
+   ]
+  }
+ },
+ "controls": [
+  {
+   "says": "A thin thing heats through sooner than a thick one of the same material",
+   "truth": true,
+   "v0": 0.92,
+   "v1": 0.94,
+   "mean": 0.93,
+   "right": true
+  },
+  {
+   "says": "Something that dissolves readily, packed around food, draws the water out of it",
+   "truth": true,
+   "v0": 0.7,
+   "v1": 0.76,
+   "mean": 0.73,
+   "right": true
+  },
+  {
+   "says": "A fire with no air goes out",
+   "truth": true,
+   "v0": 0.94,
+   "v1": 0.95,
+   "mean": 0.95,
+   "right": true
+  },
+  {
+   "says": "What is tough takes a blow that would shatter what is brittle",
+   "truth": true,
+   "v0": 0.86,
+   "v1": 0.84,
+   "mean": 0.85,
+   "right": true
+  },
+  {
+   "says": "What is soaked through catches fire more readily than what is dry",
+   "truth": false,
+   "v0": 0.05,
+   "v1": 0.04,
+   "mean": 0.05,
+   "right": true
+  },
+  {
+   "says": "Cold makes meat rot faster than warmth does",
+   "truth": false,
+   "v0": 0.03,
+   "v1": 0.03,
+   "mean": 0.03,
+   "right": true
+  },
+  {
+   "says": "A keen edge grows keener the more hard things it cuts",
+   "truth": false,
+   "v0": 0.04,
+   "v1": 0.05,
+   "mean": 0.05,
+   "right": true
+  },
+  {
+   "says": "Oil poured on iron makes it rust faster in the rain",
+   "truth": false,
+   "v0": 0.09,
+   "v1": 0.1,
+   "mean": 0.1,
+   "right": true
+  }
+ ],
+ "tokens": 11498,
+ "usd": 0.0005
+}

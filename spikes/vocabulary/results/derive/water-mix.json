@@ -1,0 +1,122 @@
+[
+  {
+    "id": "water-01",
+    "status": "unbuilt",
+    "needs": ["contents (S8) in a hollow thing", "leak through seams: R6 access and P10 porosity against a liquid", "move (X1) over a distance", "wear by rubbing on a body (X7, P14) making a wound"],
+    "note": "The outcome turns on a boot holding and losing water while it is carried, and on chafing. The only part in reach is that soak wets the leather (to 3.4 of 5), which is right and is not the scenario."
+  },
+  {
+    "id": "water-02",
+    "status": "unbuilt",
+    "needs": ["contents (S8)", "move (X1)", "place slope and footing", "a stumble as a drawn event", "spill from an open rim"],
+    "note": "Nothing in the engine carries a volume over terrain. Place rows have no slope or footing."
+  },
+  {
+    "id": "water-03",
+    "status": "partly",
+    "needs": ["evaporation: a drift that takes from a liquid's own amount, reading temperature, wind, air moisture and open surface (R6)", "solutes and mixtures, so that what was dissolved stays behind as a residue (E3)"],
+    "note": "The drying rate does read its conditions: a wet skin loses wetness more than 1.5 times faster on a hot, dry, breezy ridge than in still mild air. But six hours on the ridge leaves a liquid's amount exactly as it was: drift dries wetness out of things and has no rate for the liquid itself, though evaporate is listed under X7."
+  },
+  {
+    "id": "water-04",
+    "status": "rule_error",
+    "needs": ["places changing (E13): rain filling a streambed and standing water arriving in a hollow", "a moisture of its own for things like meat, so dryness can mean something"],
+    "note": "Derives: bedding in a flooded hollow overnight soaks past 4, takes most of a sunny day to dry (still above 2 after two hours, under 1 by sixteen), and carries contamination and scent afterward. RULE ERROR in drift.ts, the contamination drift: `damp = 0.4 + 0.6 * wetness / 5` keeps 40% of the rate at wetness 0, so bedding of perishability 1 kept dry indoors reaches contamination 2.5 in a week and 5 (the maximum) within a month. The vocabulary (S9, S11) says dryness slows or stops rot; the general rule is that growth should fall toward zero as the thing's moisture does, with any floor coming from the thing's own moisture and not from a constant."
+  },
+  {
+    "id": "water-05",
+    "status": "partly",
+    "needs": ["creature choices and their routine form (principle 4)", "move (X1): wading", "a suspension: force on a soft bottom putting sediment and its S9 into the water (mixture)", "settling as a drift", "thirst in the needs graph (B1): the shared water row has to serve hunger"],
+    "note": "Only the last clause is in reach and it derives: water carrying contamination 2 goes down with no sign, sickens after a delay of more than an hour and costs health later, and clean water does not. Stirring up and settling are not in the engine, and 'the dog is no longer thirsty' cannot be written because Need has no thirst."
+  },
+  {
+    "id": "water-06",
+    "status": "unbuilt",
+    "needs": ["buoyancy (P11) against mass and displaced volume: float or sink under X1 or Load", "composites: a raft joined from logs and rope (X5, R4)", "move (X1)", "contents or R3 for the stones riding on it"],
+    "note": "P11 is a property no rule reads. Load is in reach and says the lashed logs hold the stones, which is true of breaking and says nothing of floating, so it is not wrong, only beside the point."
+  },
+  {
+    "id": "water-07",
+    "status": "partly",
+    "needs": ["move (X1) and flow strength against grip (contested hold)", "contents (S8) and R6: a pack that is not waterproof", "a modifier from wetness to integrity or to what a thing serves, for things that are soft, absorbent and not tough"],
+    "note": "Derives: a loaf under river water soaks to 4.2 and M1 takes its hardness and toughness to near 0. Does not derive: that it is ruined. Its integrity stays 5 and it feeds exactly as well as a fresh loaf; three hours in cold water add almost no contamination. The stumble and the pack being swept off are unbuilt."
+  },
+  {
+    "id": "water-08",
+    "status": "covered",
+    "needs": [],
+    "note": "batch-a.test.ts: boiling clears contamination and leaves taint."
+  },
+  {
+    "id": "water-09",
+    "status": "unbuilt",
+    "needs": ["move (X1): dropping, overbalancing, falling", "the air need and drowning (B1)", "place depth", "sense (X8): an adult hearing a splash", "creature choices", "fatigue"],
+    "note": "Nothing here is matter against matter; it is bodies, places and senses."
+  },
+  {
+    "id": "water-10",
+    "status": "covered",
+    "needs": [],
+    "note": "batch-a.test.ts: water-10 (amount against fuel) and fire-08 (the steam scald, as it.fails)."
+  },
+  {
+    "id": "mix-01",
+    "status": "rule_error",
+    "needs": ["a coat with a state of its own (temperature, set), so M2 and M5 reach it", "M6 lending bulk properties (hardness, flexibility) from a set coat", "a surface on bodies, so a gummy coat transfers to hands"],
+    "note": "Derives: the rope takes the tar, the pot has less, the rope is sticky through M6, sheds water (wetness 1 against 4.2 bare) and water does not lift the tar. Does not derive: cooling makes it no less gummy and no stiffer. RULE ERROR 1, `coat` in soak.ts: it never reads the substance, so a cold hard block of tar (temperature 1, melting near 4) coats the rope at the same 0.7 coverage as hot tar, and so would a stone. General rule: only what is liquid, softened near its melts-at, or granular can become a coat, with coverage and bond scaled by its stickiness. RULE ERROR 2, shared with mix-02: S2 wetness has no substance, so a rope dipped in tar through `soak` is 'wet' at 4.2, M1 in effective.ts takes its flammability from 3 to 0, and it will not light where bare rope does. General rule: wetness must carry what the liquid is, and M1 and the drifts must read that liquid's properties (flammability, oiliness) rather than assume water."
+  },
+  {
+    "id": "mix-02",
+    "status": "rule_error",
+    "needs": ["friction lent by a coat (M6)", "a ceiling on a coat's amount from the size of the target, with the excess created as run-off (E3)", "dust as a place state, and a drift by which a sticky surface gathers grit (M6 says it, no rule does it)", "a moving joint making sound from friction"],
+    "note": "Derives: a light coat takes, halves corrodibility and more, and uses oil. Does not derive: the squeal quietening (friction is not in M6's SURFACE list), run-off, grime. RULE ERROR 1, `coat` in soak.ts: a new coat replaces the old one outright, so 0.2 of oil followed by 0.1 more leaves 0.1 on the hinge and the first coat leaves the world; a coat of another substance erases it the same way. General rule: coats of the same element add up to what the surface can hold, and a second substance makes a mixture or a layer. RULE ERROR 2, `soak` in soak.ts with the corrosion drift in drift.ts: oil poured over iron sets wetness 1 like water, and the rust rule reads only wetness, so oiling by pouring rusts the hinge (2.00 to 2.05 before it 'dries') where oiling by coating protects it. Same root as mix-01: wetness has no substance."
+  },
+  {
+    "id": "mix-03",
+    "status": "covered",
+    "needs": [],
+    "note": "batch-a.test.ts: mix-03 and tool-04."
+  },
+  {
+    "id": "mix-04",
+    "status": "covered",
+    "needs": ["bond that reads what the coat is"],
+    "note": "Covered in batch-a.test.ts, but that test sets the mud's bond to 0 and the blood's to 3 by hand. I added one test for the case it steps round, because the scenario says the mud had dried. RULE ERROR, the bond drift in drift.ts: bond rises with the target's absorbency alone, so mud left a day on cloth reaches bond 5 and plain water cannot lift it (power 5 minus bond 5 is under 3.5): dried mud and dried blood behave identically, which is the opposite of the scenario. General rule: bond should rise with the coat's own stickiness and perishability and be resisted by its solubility and granular form, and wash power should add the coat's solubility (P12)."
+  },
+  {
+    "id": "mix-05",
+    "status": "unbuilt",
+    "needs": ["dissolving and filtering (X4 with P12 and P10): water taking salts out of ash", "mixtures with amounts", "a reaction pool for substances that makes a new instance (E3) under heat, with a ratio", "cure as a drift that lowers noxiousness and raises hardness over days"],
+    "note": "In reach only trivially: soak wets the ash and consumes the water, and nothing is made. REACTIONS in force.ts holds two rows for blows and none for substances."
+  },
+  {
+    "id": "mix-06",
+    "status": "partly",
+    "needs": ["a property of salt that says it slows contamination (the same gap as food-03)", "coverage reaching the contamination rate", "a coat that draws moisture out (osmosis)", "detail inside one instance: section 8, not granted"],
+    "note": "Derives: meat in a humid shed is past contamination 3 and smells stronger within three days, and a thin hurried rub covers less (0.45) than a careful one (1.0). Does not derive: salted meat spoils exactly as fast as unsalted, because the drift reads only a coat's cleansing and potency, as a yes or no at 3, and ignores coverage. The one unsalted fold is ruled out by section 8."
+  },
+  {
+    "id": "mix-07",
+    "status": "unbuilt",
+    "needs": ["creature feeling and choices: startle (B6, X8)", "move (X1)", "force on a liquid making a spray that lands on what is near (R1)", "an open container and R6"],
+    "note": "The only part in reach would be coat(mud, grain), and there the mix-09 rule error applies: coverage ignores amount, so a splash would cover 70% of the sack rather than its top layer."
+  },
+  {
+    "id": "mix-08",
+    "status": "partly",
+    "needs": ["join (X5) making R4 with a strength, and Load on the joint", "wash reading the liquid's temperature against the coat's melts-at (M2 on a coat) and the coat's solubility (P12)"],
+    "note": "With the glue line written as a coat on the handle: it bonds into the wood over days (bond above 3) and cold water does not shift it, which derives. Hot dishwater does not shift it either: `wash` in soak.ts reads oiliness, cleansing and bond and nothing else. The joint itself, and the bowl dropping, need R4. Note that the vocabulary's P23 anchor lists glue as setting for good, and M5 says wetness no longer undoes what has set, which this scenario contradicts for hide glue."
+  },
+  {
+    "id": "mix-09",
+    "status": "rule_error",
+    "needs": ["a yield on crushing: `produces` on a row, and force releasing it (E3)", "soak leaving the liquid's substance behind as a coat", "a surface on bodies, for stained hands", "spray reaching what hangs near (R1)"],
+    "note": "Derives: berries crush to pieces under a stone; juice applied as a coat bonds into linen in half a day and plain water never lifts it. Does not derive: soaking the cloth in the juice (the scenario's own verb) leaves no coat, so it dries clean. Soapy water would lift the set stain, which the scenario says never washes out; not tested, since no soap is in the scenario. RULE ERROR, `coat` in soak.ts: coverage is `0.5 + care * 0.15 - haste * 0.05`, from manner alone, so 0.01 of juice flung with no care and all haste still covers 0.25 of a shirt, and 0.7 by default. General rule: coverage is bounded by amount against the target's size, and manner only decides how evenly that is spread."
+  },
+  {
+    "id": "mix-10",
+    "status": "covered",
+    "needs": [],
+    "note": "batch-a.test.ts: mix-10, as it.fails."
+  }
+]

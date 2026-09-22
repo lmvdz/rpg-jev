@@ -1,0 +1,412 @@
+[
+  {
+    "id": "daily-01",
+    "domain": "daily",
+    "who": "An old sheepdog kept by a hill farmer",
+    "place": "The stone pen at first light, the gate swung back the way it is every morning.",
+    "present": ["the farmer standing by the gate with a stick", "about thirty sheep still bunched in the corner of the field", "a young dog new to the flock this year, hanging back unsure"],
+    "factors": [
+      { "kind": "habit", "fact": "The dog has driven this same flock to this same gate at this same hour for six years." },
+      { "kind": "what it can still do", "fact": "Its hips are stiffening and it tires after a short run now." },
+      { "kind": "what someone just did", "fact": "The farmer has already whistled the two short notes that mean 'bring them in'." },
+      { "kind": "a rival", "fact": "The young dog is circling wide and confusing the sheep instead of holding them." },
+      { "kind": "weather", "fact": "A cold wind is pushing the sheep toward the far hedge instead of the gate." },
+      { "kind": "what it is owed", "fact": "The dog gets fed only after the flock is penned, not before." }
+    ],
+    "does": { "verb": "circles the flock and pushes it toward the gate", "toward": "the sheep", "how": "low and steady" },
+    "could_also": [
+      { "verb": "snaps at the young dog to drive it off", "toward": "the young dog" },
+      { "verb": "lies down and lets the wind hold the sheep back", "toward": "nothing" },
+      { "verb": "barks at the farmer for help", "toward": "the farmer" }
+    ],
+    "would_not": [
+      { "verb": "chases the sheep in a wide gallop", "toward": "the sheep", "why": "its hips cannot take a hard run and a scattered flock is worse than a slow one" },
+      { "verb": "ignores the whistle and rests", "toward": "nothing", "why": "six years of habit and an empty belly both pull it toward the gate" }
+    ],
+    "then": "The flock bunches and moves through the gate in a ragged line; the farmer shuts it behind them and drops a bowl of food by the wall.",
+    "why": "The habit of years and the promise of food both point the same way, toward the gate. The stiff hips only mean the dog goes slow and wide rather than not at all, and the young dog's clumsiness is a nuisance to correct, not a reason to stop.",
+    "turns_on": "whether the young dog is helping or hindering"
+  },
+  {
+    "id": "daily-02",
+    "domain": "daily",
+    "who": "A short-haired cat that lives half in and half out of a cottage",
+    "place": "The cottage doorstep in the late afternoon, the door left ajar as it always is at this hour.",
+    "present": ["the woman of the house sitting inside mending cloth by the window", "a bowl of milk set out on the step this morning, now empty", "a strange dog sniffing along the lane wall outside"],
+    "factors": [
+      { "kind": "a bond", "fact": "The cat comes back to this doorstep every evening because the woman feeds it and lets it doze by the fire." },
+      { "kind": "a threat", "fact": "The strange dog has stopped at the end of the lane and is looking toward the cottage." },
+      { "kind": "custom", "fact": "The cat has slept on the sill by the fire every night this month." },
+      { "kind": "a need", "fact": "It has not eaten since morning and the milk bowl is dry." },
+      { "kind": "what it fears", "fact": "It was cornered by a dog in the yard last spring and still keeps clear of strange dogs." },
+      { "kind": "where it is at home", "fact": "The house is the one place the dog cannot easily follow it." }
+    ],
+    "does": { "verb": "slips inside through the ajar door", "toward": "the cottage", "how": "quick, low" },
+    "could_also": [
+      { "verb": "waits on the step for the dog to pass", "toward": "the dog" },
+      { "verb": "cries at the window for the milk bowl to be filled", "toward": "the woman" },
+      { "verb": "climbs the wall out of the dog's reach", "toward": "the wall" }
+    ],
+    "would_not": [
+      { "verb": "goes to investigate the dog", "toward": "the dog", "why": "it learned once already what a cornering dog costs and will not risk it for curiosity" },
+      { "verb": "stays on the open step and waits", "toward": "nothing", "why": "an open step is no safer than the lane once the dog decides to come closer" }
+    ],
+    "then": "It curls on the sill inside and watches the lane through the window until the dog wanders off, then goes back out for the milk.",
+    "why": "The old fright about being cornered outweighs both hunger and curiosity. The house is the nearest safe place and the door is open, so it takes the safe way rather than facing the dog or waiting to see what it does.",
+    "turns_on": "whether the dog keeps coming or wanders off"
+  },
+  {
+    "id": "daily-03",
+    "domain": "daily",
+    "who": "A donkey kept by a household to carry water from the well",
+    "place": "The yard beside the well at midday, the same two clay jars strapped to its back as every day.",
+    "present": ["the boy who leads it, already impatient to get back to his own games", "another household's mule waiting its turn at the well", "the well rope, frayed near the top"],
+    "factors": [
+      { "kind": "habit", "fact": "It has walked this same round trip to the well twice a day for years." },
+      { "kind": "what it can still do", "fact": "Its legs are sound but it tires in the midday heat." },
+      { "kind": "what someone just did", "fact": "The boy has already tugged the lead rope twice, harder than usual." },
+      { "kind": "a need", "fact": "The jars are only half full because the frayed rope slowed the filling." },
+      { "kind": "what it is owed", "fact": "It gets water and shade only once both jars are home." },
+      { "kind": "rank", "fact": "The other household's mule is bigger and pushes ahead at the well mouth." }
+    ],
+    "does": { "verb": "waits its turn at the well without contesting it", "toward": "the mule", "how": "patient" },
+    "could_also": [
+      { "verb": "balks at the second tug of the rope", "toward": "the boy" },
+      { "verb": "pushes past the mule to drink first", "toward": "the mule" },
+      { "verb": "lies down in the shade until the heat passes", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "kicks at the mule to force its way to the well", "toward": "the mule", "why": "the mule is bigger and a fight costs more than a short wait costs" },
+      { "verb": "refuses to move at all", "toward": "nothing", "why": "the promise of water and shade at the end of the trip still outweighs the heat and the tugging" }
+    ],
+    "then": "It waits until the mule finishes, drinks its fill from the trough, and plods back home with the half-full jars once the boy has cooled off.",
+    "why": "Rank at the well is not worth contesting against a bigger animal. The habit of the round trip and the water waiting at the end keep it moving despite the heat and the boy's impatience.",
+    "turns_on": "how much bigger the other animal at the well is"
+  },
+  {
+    "id": "daily-04",
+    "domain": "daily",
+    "who": "A widow who keeps a few hens and comes to market most weeks",
+    "place": "The market square on an ordinary trading day, her basket holding six eggs and a handful of herbs.",
+    "present": ["other sellers with fuller stalls of vegetables and cloth", "a neighbour she owes a small debt to, browsing nearby", "a boy calling out prices for someone else's stall"],
+    "factors": [
+      { "kind": "habit", "fact": "She comes to market on this day every week whether she has much to sell or not." },
+      { "kind": "what it is owed", "fact": "She owes the neighbour a debt from the winter and has been avoiding her." },
+      { "kind": "a need", "fact": "Six eggs and some herbs will barely cover the cost of the walk in." },
+      { "kind": "custom", "fact": "Market day is also when she hears the week's news and sees who is well." },
+      { "kind": "rank", "fact": "Her stall is a bare corner while others have full tables." },
+      { "kind": "boredom", "fact": "Staying home all week with only the hens for company wears on her." }
+    ],
+    "does": { "verb": "sets out her small basket and calls out prices like the others", "toward": "the passing crowd", "how": "plain, unhurried" },
+    "could_also": [
+      { "verb": "lingers near friends to talk instead of selling", "toward": "the other sellers" },
+      { "verb": "leaves early once the eggs are sold", "toward": "nothing" },
+      { "verb": "avoids the corner near the neighbour", "toward": "the neighbour" }
+    ],
+    "would_not": [
+      { "verb": "stays home instead of coming to market", "toward": "nothing", "why": "the company and the news of market day matter to her as much as the few coins the eggs bring" },
+      { "verb": "seeks out the neighbour to repay the debt on the spot", "toward": "the neighbour", "why": "she has nothing to repay it with today and would rather avoid the talk than confess that" }
+    ],
+    "then": "She sells the eggs by midday, trades the herbs for a bit of thread, and stays on to talk until the square empties, keeping clear of the neighbour's corner.",
+    "why": "The thin basket is not the point of coming. The routine and the company outweigh the small takings, while the unpaid debt makes her steer around one particular corner of the square rather than face it.",
+    "turns_on": "whether the neighbour comes over and asks about the debt directly"
+  },
+  {
+    "id": "daily-05",
+    "domain": "daily",
+    "who": "A crow that forages around the back of a row of houses",
+    "place": "The alley behind the houses in the early morning, rubbish set out for collection as it is every few days.",
+    "present": ["a covered bin it has raided before", "a dog tied near one doorway, usually asleep at this hour", "two younger crows watching from a rooftop"],
+    "factors": [
+      { "kind": "what it knows", "fact": "It was hit with a thrown stone the last time it tipped this same bin over." },
+      { "kind": "a need", "fact": "It has not found food yet this morning." },
+      { "kind": "what it can still do", "fact": "It can pry a loose lid off without tipping the whole bin." },
+      { "kind": "a threat", "fact": "The dog is asleep but stirs at sudden noise." },
+      { "kind": "custom", "fact": "Scraps are usually left loose near the doorstep on this street instead, easier to reach." },
+      { "kind": "rank", "fact": "The younger crows will take whatever it leaves behind." }
+    ],
+    "does": { "verb": "picks at the loose scraps near the doorstep instead of the bin", "toward": "the scraps", "how": "quiet" },
+    "could_also": [
+      { "verb": "tips the bin over anyway", "toward": "the bin" },
+      { "verb": "waits on the roof for the younger crows to try first", "toward": "the younger crows" },
+      { "verb": "moves to another alley entirely", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "tips the covered bin over in the open", "toward": "the bin", "why": "the last time it did that a stone came at it, and it has not forgotten" },
+      { "verb": "wakes the dog by working close to the doorway", "toward": "the dog", "why": "a startled dog is a worse risk than a slower meal" }
+    ],
+    "then": "It gets a beakful of scraps quietly, and the younger crows drop down to pick over what is left once it moves off.",
+    "why": "The stone-throw is a single bad memory strong enough to rule out the bin entirely. The looser scraps by the doorstep offer nearly as much food for far less risk, so it takes the safer, slower way.",
+    "turns_on": "whether the bin is covered or the scraps are left loose that day"
+  },
+  {
+    "id": "daily-06",
+    "domain": "daily",
+    "who": "A goose in a flock resting partway along its autumn migration",
+    "place": "A wide marsh at dusk, good feeding after two days of poor ground behind them.",
+    "present": ["the rest of the flock settling in for the night", "a lead bird that has already started calling to move on at first light", "a smaller flock further along the marsh feeding undisturbed"],
+    "factors": [
+      { "kind": "the season", "fact": "The days are shortening and the cold is already a week early this year." },
+      { "kind": "a need", "fact": "This marsh has more food than anywhere the flock has found in days." },
+      { "kind": "custom", "fact": "The flock always moves at the lead bird's call, not by vote." },
+      { "kind": "what it can still do", "fact": "It is tired enough that another full day's flight without good feeding would cost it badly." },
+      { "kind": "rank", "fact": "It is not the lead bird and has never broken from the flock's call before." }
+    ],
+    "does": { "verb": "feeds through the night and falls in with the flock at first light", "toward": "the flock", "how": "unhesitating" },
+    "could_also": [
+      { "verb": "stays behind alone to feed longer", "toward": "nothing" },
+      { "verb": "tries to lead the flock to stay another day", "toward": "the flock" },
+      { "verb": "moves to join the smaller flock instead", "toward": "the smaller flock" }
+    ],
+    "would_not": [
+      { "verb": "breaks off alone to keep feeding", "toward": "nothing", "why": "a single goose alone on the ground is far more exposed than one in the flock, whatever the feeding is like" },
+      { "verb": "challenges the lead bird's call", "toward": "the lead bird", "why": "it has never led and the flock does not follow a bird that has not earned it" }
+    ],
+    "then": "It eats as much as it can through the night and lifts off with the rest of the flock at the lead bird's call, leaving the good feeding behind.",
+    "why": "The pull of the season and the safety of following one caller outweigh the good feeding here. A goose that lingers alone risks far more than it gains from a longer meal.",
+    "turns_on": "whether the lead bird calls to move at first light"
+  },
+  {
+    "id": "daily-07",
+    "domain": "daily",
+    "who": "A farmer's son given the job of mending a fence",
+    "place": "The lower pasture on a warm afternoon, a plank broken loose in one part of the fence.",
+    "present": ["his father working further off in the top field, out of easy sight", "two friends passing along the lane calling for him to come fish", "the family's few sheep grazing near the gap"],
+    "factors": [
+      { "kind": "what it is owed", "fact": "His father will check the fence this evening and expects it done." },
+      { "kind": "a want", "fact": "His friends are going to the river and will not wait long." },
+      { "kind": "what it can still do", "fact": "He has the tools at hand and the mend is a short job, maybe half an hour." },
+      { "kind": "what someone just did", "fact": "A sheep has already found the gap and wandered halfway through it." },
+      { "kind": "custom", "fact": "He has been scolded before for leaving jobs half done to go play." }
+    ],
+    "does": { "verb": "fixes the loose plank before going anywhere", "toward": "the fence", "how": "quick, a little rushed" },
+    "could_also": [
+      { "verb": "chases the sheep back in first and mends the gap after", "toward": "the sheep" },
+      { "verb": "leaves the fence and goes with his friends", "toward": "his friends" },
+      { "verb": "calls out to his friends to wait while he works", "toward": "his friends" }
+    ],
+    "would_not": [
+      { "verb": "ignores the wandering sheep to run off", "toward": "the sheep", "why": "a lost sheep is a worse evening than a short wait, and he has already been caught doing this once" },
+      { "verb": "leaves the plank loose and mends it after the river", "toward": "the fence", "why": "his father checks this evening and a job put off risks being caught out again" }
+    ],
+    "then": "He drives the sheep back through the gap, nails the plank fast, and jogs to catch up with his friends before they reach the river.",
+    "why": "The short time the mend takes and the memory of an earlier scolding make finishing worth more than the risk of missing his friends, especially with a sheep already loose through the gap.",
+    "turns_on": "whether the sheep has already gotten through the gap"
+  },
+  {
+    "id": "daily-08",
+    "domain": "daily",
+    "who": "A bear that has fed well through a long autumn",
+    "place": "A stretch of forest above a river in the last mild days before the cold sets in hard.",
+    "present": ["a late run of fish still moving up the shallow river", "a hollow under a fallen tree it has used before", "a younger bear working the same stretch of river this year"],
+    "factors": [
+      { "kind": "the season", "fact": "The nights are colder each day and the ground will freeze within the week." },
+      { "kind": "a need", "fact": "It has put on enough fat to see out the winter already." },
+      { "kind": "a rival", "fact": "The younger bear is taking more of the fish each day it stays." },
+      { "kind": "what it knows", "fact": "It has used the same den under the fallen tree for several winters and knows it holds through the cold." },
+      { "kind": "what it can still do", "fact": "It is slower now than a month ago and less inclined to contest fish with a hungrier, quicker rival." }
+    ],
+    "does": { "verb": "settles into the den under the fallen tree", "toward": "the den", "how": "unhurried" },
+    "could_also": [
+      { "verb": "stays another few days to take more fish", "toward": "the river" },
+      { "verb": "drives the younger bear off the stretch of river first", "toward": "the younger bear" },
+      { "verb": "looks for a different den site this year", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "keeps fishing until the ground freezes", "toward": "the river", "why": "it already has fat enough for winter and the cold is close enough that waiting risks being caught out" },
+      { "verb": "fights the younger bear for the last of the fish", "toward": "the younger bear", "why": "it has already eaten enough and a fight costs more than the extra fish are worth this late" }
+    ],
+    "then": "It beds down under the fallen tree as the first hard frost comes, leaving the last of the river's fish to the younger bear.",
+    "why": "With enough fat already stored, the pull of the season toward a den it knows is stronger than a few more days' fishing. A fight over fish it does not need against a hungrier rival is not worth the cost.",
+    "turns_on": "whether it has already put on enough fat for the winter"
+  },
+  {
+    "id": "daily-09",
+    "domain": "daily",
+    "who": "A carpenter's apprentice partway through his training",
+    "place": "The workshop on an ordinary morning, a stack of chair legs waiting to be planed smooth, the same job as yesterday and the day before.",
+    "present": ["the master carpenter working at the far bench", "a new tool, a curved drawknife, left out that the apprentice has never used", "a half-finished chair from a paying order due this week"],
+    "factors": [
+      { "kind": "a want", "fact": "The new drawknife looks far more interesting than another morning of plain planing." },
+      { "kind": "what it is owed", "fact": "The chair order is due this week and the master is counting on the legs being finished." },
+      { "kind": "boredom", "fact": "He has planed chair legs nearly every morning for the past month." },
+      { "kind": "what it can still do", "fact": "He has never used a drawknife and would likely spoil wood learning it without guidance." },
+      { "kind": "rank", "fact": "The master decides what tools he is ready for, not the apprentice himself." }
+    ],
+    "does": { "verb": "keeps planing the chair legs", "toward": "the chair legs", "how": "dutiful, a little sullen" },
+    "could_also": [
+      { "verb": "asks the master to show him the drawknife once the legs are done", "toward": "the master" },
+      { "verb": "tries the drawknife quietly on scrap wood", "toward": "the drawknife" },
+      { "verb": "slows his pace on the planing to make the morning pass", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "picks up the drawknife to use on the order wood", "toward": "the drawknife", "why": "an unpracticed hand on paying order wood would cost the master money and would not be forgiven" },
+      { "verb": "abandons the legs to ask about the tool right away", "toward": "the master", "why": "the order is due this week and the master expects the legs finished before anything else" }
+    ],
+    "then": "He finishes the chair legs by midday and, once the master is free, asks whether he might try the drawknife on a scrap piece.",
+    "why": "Curiosity about the new tool is real but the order is owed and the master's say controls what tools he is trusted with. The boring, necessary job comes first and the curiosity waits for a proper opening.",
+    "turns_on": "whether the order is due soon or there is time to spare"
+  },
+  {
+    "id": "daily-10",
+    "domain": "daily",
+    "who": "A hen in a household flock partway through her yearly moult",
+    "place": "The henyard in early autumn, feathers thinning and new ones just coming in, the same coop as always.",
+    "present": ["the rest of the flock foraging actively across the yard", "the housewife who feeds them, scattering grain as usual", "a cat dozing on the fence rail nearby"],
+    "factors": [
+      { "kind": "a need", "fact": "Growing new feathers costs her more than usual and she tires quickly." },
+      { "kind": "habit", "fact": "She has always kept close to the flock's foraging rather than resting apart." },
+      { "kind": "what it can still do", "fact": "She cannot fly or run far while so many feathers are missing." },
+      { "kind": "a threat", "fact": "The cat has caught weaker birds before when they strayed from the flock." },
+      { "kind": "the season", "fact": "The moult always comes at this time of year and always slows her down for a few weeks." }
+    ],
+    "does": { "verb": "stays near the coop and rests instead of foraging with the flock", "toward": "the coop", "how": "quiet, still" },
+    "could_also": [
+      { "verb": "forages slowly at the edge of the flock", "toward": "the flock" },
+      { "verb": "pecks at the scattered grain without moving far", "toward": "the grain" },
+      { "verb": "tries to keep pace with the flock as usual", "toward": "the flock" }
+    ],
+    "would_not": [
+      { "verb": "ranges out from the flock alone to forage", "toward": "nothing", "why": "half-feathered and slow, she would be the easiest bird in the yard for the cat to catch alone" },
+      { "verb": "pushes to keep up with the flock's usual pace", "toward": "the flock", "why": "the moult has already cost her the strength for it this year, same as every year" }
+    ],
+    "then": "She stays close to the coop picking at what grain lands nearest her until the worst of the moult passes and her new feathers fill in.",
+    "why": "The yearly moult always costs her strength and speed the same way. With the cat nearby, staying close and still costs less than trying to keep the flock's pace while exposed.",
+    "turns_on": "how far along the moult is"
+  },
+  {
+    "id": "daily-11",
+    "domain": "daily",
+    "who": "A farmhand sent to fetch water for the animals' trough",
+    "place": "The yard well at dawn, the usual bucket found cracked along one side overnight.",
+    "present": ["the farmer waiting to water the cattle before the day's work", "a smaller pail normally used for milk, sitting empty nearby", "the cracked bucket, still holding water if not jostled"],
+    "factors": [
+      { "kind": "what it is owed", "fact": "The cattle need watering before they are put to the plough this morning." },
+      { "kind": "what it can still do", "fact": "The cracked bucket still holds water if carried level and slow." },
+      { "kind": "a tool", "fact": "The milk pail is sound but holds less than half what the bucket does." },
+      { "kind": "what someone just did", "fact": "The farmer has already called out asking why the water is not yet drawn." },
+      { "kind": "habit", "fact": "Fetching water this way, bucket after bucket, is the same task done every morning." }
+    ],
+    "does": { "verb": "uses the cracked bucket anyway, carrying it slow and level", "toward": "the bucket", "how": "careful" },
+    "could_also": [
+      { "verb": "makes several trips with the smaller milk pail instead", "toward": "the milk pail" },
+      { "verb": "asks the farmer for a replacement bucket first", "toward": "the farmer" },
+      { "verb": "waters the trough halfway and reports the crack", "toward": "the farmer" }
+    ],
+    "would_not": [
+      { "verb": "carries the cracked bucket at a normal quick pace", "toward": "the bucket", "why": "jostling it would split the crack further and lose most of the water, defeating the trip" },
+      { "verb": "stops to fetch a replacement bucket before starting", "toward": "nothing", "why": "the cattle are wanted at the plough soon and the cracked bucket still works if handled right" }
+    ],
+    "then": "He makes two careful, slow trips with the cracked bucket, gets the trough filled in time, and mentions the crack to the farmer afterward.",
+    "why": "The cattle are needed soon, so finding a replacement first would cost more time than making do with the tool at hand. Carrying it carefully, though slower and more awkward than usual, gets the water there in time.",
+    "turns_on": "whether a sound bucket is easily on hand"
+  },
+  {
+    "id": "daily-12",
+    "domain": "daily",
+    "who": "A household cat well past its kitten years",
+    "place": "The main room of the cottage in the evening, the family settling by the fire as they do every night.",
+    "present": ["the old woman of the house in her usual chair by the fire", "a mouse rustling faintly behind the grain sacks in the corner", "the family dog already asleep on the hearth stone"],
+    "factors": [
+      { "kind": "custom", "fact": "The cat has ended nearly every evening curled on the old woman's lap for years." },
+      { "kind": "a need", "fact": "It caught and ate well earlier in the day and is not hungry now." },
+      { "kind": "what it can still do", "fact": "It still hunts mice readily when it is hungry or when one is careless enough to be caught easily." },
+      { "kind": "a bond", "fact": "The old woman calls it up to her lap the moment it comes near her chair." },
+      { "kind": "habit", "fact": "The mouse behind the sacks has been heard most evenings this week without being caught." }
+    ],
+    "does": { "verb": "goes to the old woman's lap and settles there", "toward": "the old woman", "how": "unhurried" },
+    "could_also": [
+      { "verb": "stalks toward the grain sacks to investigate the rustling", "toward": "the mouse" },
+      { "verb": "curls up on the warm hearth stone instead", "toward": "the hearth" },
+      { "verb": "paces near the sacks before giving up and coming to the lap", "toward": "the mouse" }
+    ],
+    "would_not": [
+      { "verb": "hunts the mouse in earnest tonight", "toward": "the mouse", "why": "it already ate well today and the mouse is not worth the effort while it is not hungry" },
+      { "verb": "pushes the dog off the warm hearth stone", "toward": "the dog", "why": "the lap is the customary place and not worth a scrap with the dog over a spot it does not need" }
+    ],
+    "then": "It settles on her lap for the evening while the mouse goes on rustling behind the sacks, uncaught again.",
+    "why": "With its hunger already satisfied, the nightly habit of the lap and the bond with the old woman outweigh idle curiosity about a mouse. Chasing it would cost effort for no real need tonight.",
+    "turns_on": "whether it is hungry"
+  },
+  {
+    "id": "daily-13",
+    "domain": "daily",
+    "who": "A working sheepdog on a hill farm",
+    "place": "The hillside at midday, a stray ewe wandered off from the flock toward a steep gully.",
+    "present": ["the flock grazing calmly on the near slope", "the farmer out of sight, working at the far end of the hill", "the stray ewe picking her way along the gully edge"],
+    "factors": [
+      { "kind": "what it can still do", "fact": "The dog worked hard all morning bringing the flock up the hill and is winded." },
+      { "kind": "what it is owed", "fact": "Fetching strays back is its job whether it is tired or not." },
+      { "kind": "a threat", "fact": "The gully edge is loose stone and a fall there could hurt the ewe badly." },
+      { "kind": "custom", "fact": "It has always gone after a stray on its own without waiting for a whistle." },
+      { "kind": "what someone just did", "fact": "No whistle or call has come from the farmer, who has not seen the stray yet." }
+    ],
+    "does": { "verb": "gets up and goes after the stray ewe", "toward": "the stray ewe", "how": "steady, unhurried" },
+    "could_also": [
+      { "verb": "barks to draw the farmer's attention first", "toward": "the farmer" },
+      { "verb": "rests a little longer before going", "toward": "nothing" },
+      { "verb": "circles wide to block the gully edge before pushing her back", "toward": "the stray ewe" }
+    ],
+    "would_not": [
+      { "verb": "stays resting and lets the ewe wander", "toward": "nothing", "why": "a stray near loose stone left too long is a farm's loss, and fetching strays is the dog's job with or without a whistle" },
+      { "verb": "rushes straight at the ewe", "toward": "the stray ewe", "why": "a sudden rush near the loose gully edge could startle her into the fall it is trying to prevent" }
+    ],
+    "then": "It works its way around behind the ewe and eases her back from the gully edge toward the flock, then lies back down once she has rejoined the others.",
+    "why": "Tiredness alone does not excuse the job when a stray is heading toward real danger and no one else has seen her yet. The loose stone means it moves carefully rather than fast.",
+    "turns_on": "how close the stray ewe is to the dangerous edge"
+  },
+  {
+    "id": "daily-14",
+    "domain": "daily",
+    "who": "A trader's mule that hauls goods to market",
+    "place": "A fork in the road just outside town on market morning, the usual route blocked by a fallen cart being cleared.",
+    "present": ["the trader leading it, tugging toward the unfamiliar side road", "a knot of people and animals backed up at the blockage", "the familiar road ahead, plainly blocked"],
+    "factors": [
+      { "kind": "habit", "fact": "It has taken the same road to market every week for years and knows every turn of it." },
+      { "kind": "what someone just did", "fact": "The trader is pulling firmly on the lead toward the side road." },
+      { "kind": "what it knows", "fact": "It has never gone down the side road and does not know what is along it." },
+      { "kind": "a need", "fact": "The load on its back is heavy and it would rather not stand idle in the crowd either." },
+      { "kind": "a bond", "fact": "The trader has led it well and safely for years without steering it wrong." }
+    ],
+    "does": { "verb": "balks briefly, then follows the trader down the side road", "toward": "the trader", "how": "reluctant" },
+    "could_also": [
+      { "verb": "plants its feet and refuses to move at all", "toward": "nothing" },
+      { "verb": "tries to push forward into the blocked crowd instead", "toward": "the crowd" },
+      { "verb": "stands and waits for the blockage to clear", "toward": "nothing" }
+    ],
+    "would_not": [
+      { "verb": "pushes into the stalled crowd to force the familiar road", "toward": "the crowd", "why": "there is no way through a blocked road no matter how well it knows it" },
+      { "verb": "pulls free of the trader to refuse the unknown road entirely", "toward": "the trader", "why": "years of being led safely by the same hand outweigh its wariness of an unfamiliar road" }
+    ],
+    "then": "After a short standoff it follows the trader down the side road, ears back, and settles once the road proves ordinary enough.",
+    "why": "The unfamiliar road unsettles it and pulls against the pull of habit toward the known way. Trust built over years of being led safely wins out over wariness of the unknown, especially with the familiar road plainly not an option.",
+    "turns_on": "whether the trader insists or lets it stand"
+  },
+  {
+    "id": "daily-15",
+    "domain": "daily",
+    "who": "A farmhand during the village's harvest week",
+    "place": "The edge of the shared wheat field on a clear afternoon, most of the village turned out to bring it in before the weather breaks.",
+    "present": ["neighbours working the rows together, cutting and binding sheaves", "his own small vegetable patch, unweeded and needing attention, out of sight past the trees", "a foreman calling for more hands on the far row"],
+    "factors": [
+      { "kind": "the season", "fact": "Rain is expected within a day or two and the wheat must be in before then." },
+      { "kind": "what it is owed", "fact": "Every household owes labour to the shared harvest in return for help with their own crops later." },
+      { "kind": "a need", "fact": "His own vegetable patch is going to seed and needs weeding soon or the crop will suffer." },
+      { "kind": "custom", "fact": "Harvest week always comes before any private chore, by long-standing agreement among the households." },
+      { "kind": "what someone just did", "fact": "The foreman has just called out for more hands on the unfinished row." }
+    ],
+    "does": { "verb": "joins the row the foreman is calling for", "toward": "the wheat field", "how": "prompt" },
+    "could_also": [
+      { "verb": "slips off to weed his own patch instead", "toward": "his vegetable patch" },
+      { "verb": "works his own row at half effort while watching the weather", "toward": "the wheat field" },
+      { "verb": "asks another neighbour to cover for him briefly", "toward": "a neighbour" }
+    ],
+    "would_not": [
+      { "verb": "leaves the shared field to tend his own patch first", "toward": "his vegetable patch", "why": "the rain will ruin the whole village's wheat if it is not in first, and the custom of harvest week before private chores is not his alone to break" },
+      { "verb": "ignores the foreman's call and rests", "toward": "nothing", "why": "the weather will not wait, and the shared debt of labour is owed now, not later" }
+    ],
+    "then": "He works the row until the wheat is in ahead of the rain, and turns to his own neglected patch only once the harvest is finished.",
+    "why": "The threat of rain and the long-standing custom of shared labour before private chores both outweigh the pull of his own neglected patch. The patch can wait a little longer than the wheat can.",
+    "turns_on": "how close the rain is"
+  }
+]

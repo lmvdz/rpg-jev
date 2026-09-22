@@ -1,0 +1,142 @@
+[
+ {
+  "group": "outside",
+  "act": "a heron preens its feathers",
+  "top": "none_of_these",
+  "p": 0.68,
+  "none": 0.68
+ },
+ {
+  "group": "outside",
+  "act": "a child builds a little dam of pebbles for fun",
+  "top": "none_of_these",
+  "p": 0.9,
+  "none": 0.9
+ },
+ {
+  "group": "outside",
+  "act": "two fox cubs tumble and play-fight",
+  "top": "none_of_these",
+  "p": 0.57,
+  "none": 0.57
+ },
+ {
+  "group": "outside",
+  "act": "an old man sings to himself while he works",
+  "top": "carry_on",
+  "p": 0.37,
+  "none": 0.29
+ },
+ {
+  "group": "outside",
+  "act": "a widow weeps",
+  "top": "none_of_these",
+  "p": 0.91,
+  "none": 0.91
+ },
+ {
+  "group": "outside",
+  "act": "a smith hammers a horseshoe into shape",
+  "top": "none_of_these",
+  "p": 0.7,
+  "none": 0.7
+ },
+ {
+  "group": "outside",
+  "act": "a woman prays",
+  "top": "none_of_these",
+  "p": 0.63,
+  "none": 0.63
+ },
+ {
+  "group": "outside",
+  "act": "a cat grooms",
+  "top": "help",
+  "p": 0.99,
+  "none": 0.01
+ },
+ {
+  "group": "outside",
+  "act": "a boy counts his coins twice",
+  "top": "none_of_these",
+  "p": 0.95,
+  "none": 0.95
+ },
+ {
+  "group": "outside",
+  "act": "a weaver mends a torn net",
+  "top": "help",
+  "p": 0.81,
+  "none": 0.18
+ },
+ {
+  "group": "outside",
+  "act": "a crow drops a nut on the stones to crack it",
+  "top": "none_of_these",
+  "p": 0.71,
+  "none": 0.71
+ },
+ {
+  "group": "outside",
+  "act": "a drunk man laughs at nothing",
+  "top": "none_of_these",
+  "p": 0.67,
+  "none": 0.67
+ },
+ {
+  "group": "outside",
+  "act": "a girl draws in the dust with a stick",
+  "top": "none_of_these",
+  "p": 0.99,
+  "none": 0.99
+ },
+ {
+  "group": "outside",
+  "act": "a bear scratches its back on a tree",
+  "top": "none_of_these",
+  "p": 0.75,
+  "none": 0.75
+ },
+ {
+  "group": "outside",
+  "act": "a farmer sows barley",
+  "top": "none_of_these",
+  "p": 0.79,
+  "none": 0.79
+ },
+ {
+  "group": "outside",
+  "act": "a dog digs a hole for no reason",
+  "top": "none_of_these",
+  "p": 0.86,
+  "none": 0.86
+ },
+ {
+  "group": "inside",
+  "act": "a fox slinks off into the brush",
+  "top": "keep_away",
+  "p": 0.57,
+  "none": 0
+ },
+ {
+  "group": "inside",
+  "act": "a trader swears the cracked pot is sound",
+  "top": "deceive",
+  "p": 1,
+  "none": 0
+ },
+ {
+  "group": "inside",
+  "act": "a mare puts herself between the wolf and her foal",
+  "top": "guard",
+  "p": 1,
+  "none": 0
+ },
+ {
+  "group": "inside",
+  "act": "a boy begs the miller for a little flour",
+  "top": "ask",
+  "p": 1,
+  "none": 0
+ }
+]

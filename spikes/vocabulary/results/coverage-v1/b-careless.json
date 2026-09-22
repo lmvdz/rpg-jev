@@ -1,0 +1,79 @@
+[
+  {
+    "id": "careless-01",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["P6", "S3"], "effects": ["E1:S4", "E3"] },
+      { "process": "X7", "uses": ["S1", "S3"], "effects": [] },
+      { "process": "X1", "uses": ["place:wind", "R7"], "effects": ["E5", "E3"] },
+      { "process": "X3", "uses": ["P6", "S2"], "effects": ["E1:S3"] },
+      { "process": "X7", "uses": ["place:wind", "S14"], "effects": ["E1:S14", "E4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "careless-05",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["S1", "place:flow"], "effects": ["E1:S4"] },
+      { "process": "Load", "uses": ["P1", "S4"], "effects": ["E1:S4"] },
+      { "process": "Load", "uses": ["S4", "S15"], "effects": ["E1:S4"] },
+      { "process": "X1", "uses": ["R2"], "effects": ["E5", "E2:B3"] },
+      { "process": "X3", "uses": ["S1"], "effects": ["E2:B1"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "malice-02",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["P6", "S1"], "effects": ["E1:S3"] },
+      { "process": "X7", "uses": ["place:wind", "S14"], "effects": ["E1:S14", "E9"] },
+      { "process": "X7", "uses": ["R1", "place:wind"], "effects": ["E1:R1"] },
+      { "process": "X4", "uses": ["S3"], "effects": ["E1:S3"] },
+      { "process": "X7", "uses": ["S14"], "effects": ["E4", "E8"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "malice-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X9", "uses": ["R9"], "effects": ["E7"] },
+      { "process": "X1", "uses": ["R2"], "effects": ["E6:R2"] },
+      { "process": "X10", "uses": [], "effects": ["E8"] },
+      { "process": "X8", "uses": ["B7", "R8"], "effects": ["E11", "E8"] },
+      { "process": "X8", "uses": ["S4", "R10"], "effects": ["E11", "E8"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "malice-05",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["R1"], "effects": ["E5"] },
+      { "process": "X4", "uses": ["B1"], "effects": ["E4"] },
+      { "process": "X7", "uses": ["B1"], "effects": ["E2:B2"] },
+      { "process": "X7", "uses": ["B1", "B2"], "effects": ["E1:B2"] },
+      { "process": "X7", "uses": ["B2"], "effects": ["E2:B2"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "body", "what": "permanent condition loss after severe deprivation", "why": "B2 health tracks a current level that recovers; the outcome needs a lastingly lower baseline after the goat recovers from near-starvation, which no stated recovery rule provides." }
+    ],
+    "lost": "the goat's permanently reduced condition after recovering is asserted, not derived from any rule; ordinary recovery is otherwise assumed to return fully.",
+    "named_rule": null
+  }
+]

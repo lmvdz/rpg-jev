@@ -1,0 +1,96 @@
+[
+  {
+    "id": "food-01",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["P15", "S9", "S1", "S2"], "effects": ["E1:S9"] },
+      { "process": "X6", "uses": ["B1", "S9", "P20"], "effects": ["E2:B1", "E4", "E10"] },
+      { "process": "X6", "uses": ["B4", "S9"], "effects": ["E2:B4", "E2:B1"] }
+    ],
+    "reactions": ["S9(rotten, eaten) + X6's fused B4 course -> E2:B1: the illness's vomiting and cramps also drain the thirst need, not only hunger, now that thirst is its own need in B1"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "food-03",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "S5"], "effects": ["E4", "E3"] },
+      { "process": "X4", "uses": ["P9", "S7"], "effects": ["E1:S2", "E1:S7"] },
+      { "process": "X7", "uses": ["S9", "S7"], "effects": ["E1:S9"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "internal residue vs. coverage", "why": "actor care (principle 5) can plausibly leave a scrap of gut behind on a carelessly gutted fish, but whether the salt coating then reaches or misses that one internal pocket on one fish among many is exactly the within-instance coverage detail section 8 says is deliberately not granted, since coverage is one number" }
+    ],
+    "lost": "why this one fish rots invisibly under salt that cured the rest of the catch depends on salt failing to reach one internal spot on that instance; coverage being a single number per instance cannot single that spot out from the rest of the same fish",
+    "named_rule": null
+  },
+  {
+    "id": "food-08",
+    "verdict": "full",
+    "steps": [
+      { "process": "X6", "uses": ["B1"], "effects": ["E2:B1", "E4"] },
+      { "process": "X7", "uses": ["S9"], "effects": ["E2:B4", "E2:B1"] }
+    ],
+    "reactions": ["R7(flow=0, stagnant place) under X7 -> E1:S9: still water breeds contamination that moving water would not, general to any standing water place, not this pond specifically"],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "body-01",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["P3", "S5"], "effects": ["E2:B3"] },
+      { "process": "X5", "uses": ["P13", "P14", "P5"], "effects": ["E6:R4", "E2:B3"] },
+      { "process": "X1", "uses": ["R4"], "effects": ["E6:R4", "E2:B3"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "body-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["P4", "R1"], "effects": ["E2:B3", "E2:B2"] },
+      { "process": "X5", "uses": ["P3", "P5", "R4"], "effects": ["E6:R4", "E2:B3"] },
+      { "process": "X7", "uses": ["B3"], "effects": ["E2:B3"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "body-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X7", "uses": ["B3", "S9"], "effects": ["E2:B3"] },
+      { "process": "X5", "uses": ["P18"], "effects": ["E2:B3", "E2:B4"] },
+      { "process": "X7", "uses": ["B4"], "effects": ["E2:B4"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "body-07",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X7", "uses": ["B1"], "effects": ["E2:B1"] },
+      { "process": "X7", "uses": ["B1"], "effects": ["E2:B8"] },
+      { "process": "X1", "uses": ["B1"], "effects": ["E2:B7"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "body", "what": "collapse/unconscious state", "why": "no B-id names loss of consciousness; B7's alert/distracted/asleep/dormant and B8's dazzled/deafened/numb/lame/winded neither one covers a heat-and-dehydration collapse, so the scenario's 'gains collapsed, loses consciousness' has nowhere clean to land" }
+    ],
+    "lost": "thirst is now its own need so the fluid loss driving the dizziness is trackable, but the collapse into unconsciousness itself has no matching body condition; it can only be approximated by stretching B7's dormant tag or reading B2 health as empty",
+    "named_rule": null
+  }
+]

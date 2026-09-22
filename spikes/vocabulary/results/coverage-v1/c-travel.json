@@ -1,0 +1,221 @@
+[
+  {
+    "id": "travel-01",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X1", "uses": ["Load", "P14", "S2", "R2", "place:footing"], "effects": ["E6:R2", "E1:S14"] },
+      { "process": "X1", "uses": ["P14", "S2", "haste"], "effects": ["E1:S14", "E2:B1"] },
+      { "process": "X5", "uses": ["R3", "P4", "P5", "care"], "effects": ["E6:R3", "E2:B1"] },
+      { "process": "X1", "uses": ["R3", "R4", "care", "haste"], "effects": ["E6:R4(break)", "E4:left boot", "E2:B1"] }
+    ],
+    "reactions": [
+      "P13 + S2 under X1 with high haste -> E1: resistance (stuck-ness) increases (sinks deeper); under X1 with low haste and R3 support -> E1: resistance decreases (frees leg): the stated friction/footing rule is static and does not by itself give a direction-dependent response to how the force is applied"
+    ],
+    "missing": [
+      { "kind": "property", "what": "viscosity/suction of saturated ground", "why": "no property lets soft ground's resistance to escape depend on the manner of the force applied (thrash vs steady pull), which is the scenario's whole mechanic" }
+    ],
+    "lost": "the direction-dependent resistance (struggle worsens, steady pull frees) is only expressible as an assumed reaction, not a stated rule; there is no place or material id a 'depth of sink' number is read from, only static footing and friction",
+    "named_rule": null
+  },
+  {
+    "id": "travel-02",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X1", "uses": ["P1", "place:slope"], "effects": ["E2:B8(winded)"] },
+      { "process": "X1", "uses": ["haste"], "effects": ["E2:B4(?)"] },
+      { "process": "X6", "uses": ["B1(rest)", "instrument:waterskin"], "effects": ["E2:B1", "E2:B8"] },
+      { "process": "X3", "uses": ["S1", "place:wind", "B1(warmth)"], "effects": ["E2:B1"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "place", "what": "altitude / thin air", "why": "no place property represents elevation or oxygen thinness; B4 sickness's stated causes (S9, S13, exposure, P17) don't include altitude, so climb-rate-driven altitude sickness and its relief by resting have no numeric basis" }
+    ],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-03",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5", "uses": ["P6", "X3"], "effects": ["E3:campfire", "E1:S3"] },
+      { "process": "X7", "uses": ["place:standing water", "R7"], "effects": ["E13:place"] },
+      { "process": "X8", "uses": ["E9:sound", "B7"], "effects": ["E11", "E2:B7"] },
+      { "process": "X1", "uses": ["P1", "R1"], "effects": ["E5:packs", "E4:campfire"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-04",
+    "verdict": "full",
+    "steps": [
+      { "process": "X6", "uses": ["P20(serves:drink, negative)", "P17"], "effects": ["E2:B1(thirst)", "E2:B4"] },
+      { "process": "X6", "uses": ["P20", "delay"], "effects": ["E2:B1(thirst worse)"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-05",
+    "verdict": "full",
+    "steps": [
+      { "process": "X8", "uses": ["place:abundance(latent)", "R1", "effort"], "effects": ["E11", "E8"] },
+      { "process": "X2", "uses": ["P3", "place:depth", "effort"], "effects": ["E1:place(dug)", "E2:B1"] },
+      { "process": "X3", "uses": ["S1", "B1(thirst)"], "effects": ["E2:B1"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-06",
+    "verdict": "fail",
+    "steps": [
+      { "process": "X1", "uses": ["R8", "place:featureless"], "effects": ["E1:?"] },
+      { "process": "X8", "uses": ["R1"], "effects": ["E11"] },
+      { "process": "X8", "uses": ["effort"], "effects": ["E11"] },
+      { "process": "X1", "uses": ["R8"], "effects": ["E5:move", "E2:B1"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "relation", "what": "heading / bearing drift", "why": "no relation tracks a walked direction's cumulative error without a landmark; R1 is only near/reachable/out-of-reach and R8 is about visibility, neither models walking confidently in a circle or a marker fixing a known bearing" }
+    ],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-07",
+    "verdict": "full",
+    "steps": [
+      { "process": "X8", "uses": ["E9:light(torch)", "place:light", "R8"], "effects": ["E11"] },
+      { "process": "X7", "uses": ["P6", "S3", "S14"], "effects": ["E4:torch fuel", "E1:S3"] },
+      { "process": "judgment", "uses": ["S14", "R1"], "effects": ["E11"] },
+      { "process": "X1", "uses": ["R1", "E9:light"], "effects": ["E5:move to entrance"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-08",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["R7", "place:depth", "P1"], "effects": ["E1:unsteady"] },
+      { "process": "X1", "uses": ["R7", "P1"], "effects": ["E1:footing lost"] },
+      { "process": "X1", "uses": ["body:strength"], "effects": ["E5:move to far bank"] },
+      { "process": "X1", "uses": ["R4", "R7"], "effects": ["E6:R4(break)", "E4:supply pack"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-09",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X8", "uses": ["R1", "R8", "E8"], "effects": ["E1:?"] },
+      { "process": "X3", "uses": ["S1", "place:cover(none)"], "effects": ["E2:B1", "E2:B3(sunburn)"] },
+      { "process": "X8", "uses": ["E8(credence revision)"], "effects": ["E11"] },
+      { "process": "X5", "uses": ["R5"], "effects": ["E1:S1(slows)", "E2:B1"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "property", "what": "heat shimmer / mirage", "why": "no property makes a sighted feature stay un-approachable; R1 distance and E8 credence explain uncertain sightings that resolve by getting closer, not one that structurally never closes" }
+    ],
+    "lost": "the defining trait of the mirage, that distance to it never closes no matter how far you walk toward it, has no backing rule; R1/E8 would have the player eventually arrive or clearly resolve the sighting, not remain perpetually the same distance away",
+    "named_rule": null
+  },
+  {
+    "id": "travel-10",
+    "verdict": "full",
+    "steps": [
+      { "process": "X2", "uses": ["group:count", "B6"], "effects": ["E2:B6(fear builds)"] },
+      { "process": "X2", "uses": ["R4", "body:strength"], "effects": ["E6:R4(break)", "E4:tether rope"] },
+      { "process": "X1", "uses": ["B6", "pick_action/threshold"], "effects": ["E5:move to tall grass"] },
+      { "process": "X8", "uses": ["place:light(dim)", "R1"], "effects": ["E11"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-11",
+    "verdict": "full",
+    "steps": [
+      { "process": "X1", "uses": ["place:slope", "P14", "Load"], "effects": ["E1:place(shifting)"] },
+      { "process": "X1", "uses": ["place:slope", "P1"], "effects": ["E5:move downslope"] },
+      { "process": "X2", "uses": ["effort", "care"], "effects": ["E2:B3(swollen)", "E2:B8(lame)"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-12",
+    "verdict": "partial",
+    "steps": [
+      { "process": "X4", "uses": ["place:wind", "place:flow", "R2"], "effects": ["E1:S8(swamped)"] },
+      { "process": "X2", "uses": ["R4", "place:wind"], "effects": ["E6:R4(break)", "E4:oar"] },
+      { "process": "X4", "uses": ["effort"], "effects": ["E1:S8 reduced"] },
+      { "process": "X1", "uses": ["instrument count (stretch)"], "effects": ["E1:course reduced"] }
+    ],
+    "reactions": [],
+    "missing": [
+      { "kind": "other", "what": "multi-instrument count effects", "why": "process resolution takes one instrument slot; there is no rule for how capability scales when only part of a normal set (one oar of two) remains" }
+    ],
+    "lost": "steering effectiveness with a partial instrument set (one oar instead of two) has no numeric basis; the vocabulary handles a single instrument per action, not a fractional or count-based capability loss",
+    "named_rule": null
+  },
+  {
+    "id": "travel-13",
+    "verdict": "full",
+    "steps": [
+      { "process": "Load", "uses": ["P1"], "effects": ["E1:S14(overloaded)"] },
+      { "process": "X1", "uses": ["P1", "body:strength", "place:slope"], "effects": ["E2:B1"] },
+      { "process": "judgment", "uses": ["S14", "R1"], "effects": ["E11"] },
+      { "process": "X1", "uses": ["R9"], "effects": ["E1:S14 reduced", "E5:move items to cache"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-14",
+    "verdict": "full",
+    "steps": [
+      { "process": "X3", "uses": ["S3(air/fuel)", "care"], "effects": ["E1:S3(banked)"] },
+      { "process": "X7", "uses": ["S14"], "effects": ["E4:firewood", "E1:S3(out)"] },
+      { "process": "X3", "uses": ["S1", "B1(warmth)"], "effects": ["E2:B1"] },
+      { "process": "X8", "uses": ["B7"], "effects": ["E11"] }
+    ],
+    "reactions": [],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  },
+  {
+    "id": "travel-15",
+    "verdict": "full",
+    "steps": [
+      { "process": "X5", "uses": ["P6", "E9:smoke"], "effects": ["E3:signal fire", "E9:smoke"] },
+      { "process": "X7", "uses": ["S2", "S14"], "effects": ["E4:green wood", "E9:smoke sustained"] },
+      { "process": "X8", "uses": ["R1", "R8"], "effects": ["E11(inconclusive)"] }
+    ],
+    "reactions": [
+      "S2(wet/green) + S3(burning) under X3 -> E9: heavy smoke at reduced heat: X3's stated rate covers heat flow, not combustion smoke yield from fuel wetness, so this synergy isn't given automatically"
+    ],
+    "missing": [],
+    "lost": "",
+    "named_rule": null
+  }
+]

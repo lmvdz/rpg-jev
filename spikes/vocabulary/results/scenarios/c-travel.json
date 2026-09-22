@@ -1,0 +1,282 @@
+[
+  {
+    "id": "travel-01",
+    "domain": "travel",
+    "place": "A lowland swamp threaded with narrow reed causeways between black standing pools, firm ground disguised under a skin of matted grass.",
+    "initiator": "player",
+    "lines": ["cut across the reeds to the far bank instead of the trail", "put the staff down flat and pull my leg out"],
+    "things": ["player", "swamp mud", "walking staff", "reed mat", "left boot"],
+    "outcome": "The player steps off the causeway onto what looks like solid reed but is a mud pool skinned over with grass; a leg sinks to the knee, then the thigh as they struggle. Fighting it packs the mud tighter, but laying the staff flat across the reeds and pulling steadily, without thrashing, works the leg free over several long minutes. The boot stays behind, sucked off by the mud, and is gone for good.",
+    "steps": [
+      {"process": "step", "agent": "player", "patient": "player", "instrument": null, "because": ["place is unstable", "patient is heavy"], "effects": ["patient gains sunk to the knee"], "numbers": ["how far the leg sinks before it stops"]},
+      {"process": "struggle", "agent": "player", "patient": "player", "instrument": null, "because": ["agent is panicked", "place is soft"], "effects": ["patient gains sunk deeper", "patient stamina down"], "numbers": ["how much each thrash worsens the sink"]},
+      {"process": "brace", "agent": "player", "patient": "player", "instrument": "walking staff", "because": ["instrument is rigid", "place is soft"], "effects": ["patient stamina down"], "numbers": ["how long steady pulling takes to free the leg"]},
+      {"process": "pull free", "agent": "player", "patient": "player", "instrument": "walking staff", "because": ["instrument is braced", "agent is steady"], "effects": ["patient loses stuck", "consumes left boot", "patient stamina down"], "numbers": ["odds the boot comes free with the leg"]}
+    ],
+    "latent": ["whether the mud pool is deep enough to be dangerous rather than just miserable", "a firmer path a few strides to the left that was never tried"],
+    "state_after": ["player: one boot missing, muddy to the thigh, tired", "left boot: lost in the mud", "walking staff: caked in mud"],
+    "stress": "struggling worsens a stuck state instead of fixing it, and the fix is a different action (brace and pull steady) rather than more effort",
+    "temptation": "a hardcoded 'swamp equals quicksand' trigger tied to the word swamp, instead of ground firmness as a property any place can have"
+  },
+  {
+    "id": "travel-02",
+    "domain": "travel",
+    "place": "A high mountain pass above the treeline, thin cold air, loose scree either side of the trail, the sky closer than it should be.",
+    "initiator": "player",
+    "lines": ["keep climbing toward the pass without stopping to rest", "sit down here, I can't get my breath"],
+    "things": ["player", "mountain pass", "thin air", "waterskin", "wool cloak"],
+    "outcome": "Climbing fast at altitude without pausing brings on a pounding headache, nausea and ragged breath well before the top; pushing through makes it worse rather than better. Stopping to rest and drink eases it enough to go on, but only after losing real time, and the player crests the pass later and colder than planned, with the wind picking up.",
+    "steps": [
+      {"process": "climb", "agent": "player", "patient": "player", "instrument": null, "because": ["place is high", "place is thin air"], "effects": ["patient gains breathless", "patient stamina down"], "numbers": ["how fast altitude sickness sets in versus climbing speed"]},
+      {"process": "push on", "agent": "player", "patient": "player", "instrument": null, "because": ["agent is impatient", "patient is breathless"], "effects": ["patient gains headache", "patient gains nausea", "patient stamina down"], "numbers": ["how much symptoms worsen per stretch climbed without rest"]},
+      {"process": "rest", "agent": "player", "patient": "player", "instrument": "waterskin", "because": ["patient is breathless", "place is thin air"], "effects": ["patient loses breathless", "patient stamina up"], "numbers": ["how long rest takes to bring symptoms down at this height"]},
+      {"process": "chill", "agent": "wind", "patient": "player", "instrument": null, "because": ["place is high", "patient is exposed"], "effects": ["patient gains cold", "patient warmth down"], "numbers": ["how much colder the pass gets as the day goes on"]}
+    ],
+    "latent": ["whether the player's cloak is warm enough for the top of the pass once the wind picks up"],
+    "state_after": ["player: headache easing, cold, later on the trail than planned", "wool cloak: worn, not enough alone at the top"],
+    "stress": "the fix for altitude sickness is slowing down and resting, not gear or willpower, and pushing through actively worsens it",
+    "temptation": "an altitude-sickness flag that only appears above a fixed height tied to this one pass, instead of a rate of ascent versus a body adjusting over time"
+  },
+  {
+    "id": "travel-03",
+    "domain": "travel",
+    "place": "A sea shore of packed sand backed by low dunes, the tide line marked in dried weed far up the beach, the water presently far out.",
+    "initiator": "player",
+    "lines": ["make camp here on the flat sand, it's the driest spot"],
+    "things": ["player", "sea shore", "tide", "packs", "campfire", "driftwood"],
+    "outcome": "The camp goes up on flat sand that looks dry and safe with the tide far out, but the water rises through the night and by the time the sound of it wakes the player, the packs nearest the water are already afloat and the fire is drowned. Waking in time saves the higher gear; the lower gear is soaked or gone, and the fire has to be rebuilt on drier ground.",
+    "steps": [
+      {"process": "camp", "agent": "player", "patient": "sea shore", "instrument": null, "because": ["place is dry-looking", "agent is tired"], "effects": ["creates campfire"], "numbers": ["how far up the beach the tide will reach that night"]},
+      {"process": "rise", "agent": "tide", "patient": "sea shore", "instrument": null, "because": ["agent is rising", "place is low-lying"], "effects": ["place gains flooded"], "numbers": ["how many hours until the water reaches the camp"]},
+      {"process": "wake", "agent": "player", "patient": "player", "instrument": null, "because": ["place is flooding", "agent is light sleeping"], "effects": ["player learns the tide has come in"], "numbers": ["how much time is left before the highest gear is also reached"]},
+      {"process": "carry", "agent": "player", "patient": "packs", "instrument": null, "because": ["patient is afloat", "place is flooding"], "effects": ["moves packs to dunes", "consumes campfire"], "numbers": ["how much gear is soaked or lost before it's moved"]}
+    ],
+    "latent": ["the line of dried weed higher up the beach that marks how far the tide actually reaches"],
+    "state_after": ["player: gear partly soaked, camp moved to the dunes", "campfire: drowned out", "packs: one soaked through, one saved dry"],
+    "stress": "a place's safety changes on its own over hours with nobody acting, and the only warning was a sign (the weed line) the player didn't read",
+    "temptation": "a fixed 'tide comes in at midnight' script instead of a water level that rises and falls on a cycle the player can learn to read"
+  },
+  {
+    "id": "travel-04",
+    "domain": "travel",
+    "place": "A becalmed stretch of coastline, salt flats to landward, the sea flat and undrinkable, no fresh water in sight since morning.",
+    "initiator": "player",
+    "lines": ["drink from the sea, I can't wait any longer"],
+    "things": ["player", "sea water", "waterskin", "thirst"],
+    "outcome": "Thirsty enough to gamble, the player drinks sea water straight from the shallows. It doesn't quench anything; the salt draws more water out of the body than it puts in, and within the hour the player is thirstier than before, plus queasy. It buys nothing and costs time and water the body already had.",
+    "steps": [
+      {"process": "drink", "agent": "player", "patient": "player", "instrument": "sea water", "because": ["instrument is salty", "agent is thirsty"], "effects": ["patient gains queasy", "patient hydration down"], "numbers": ["how much extra water the body loses processing the salt"]},
+      {"process": "worsen", "agent": "sea water", "patient": "player", "instrument": null, "because": ["patient is dehydrated", "agent is salty"], "effects": ["patient gains thirstier", "patient hydration down"], "numbers": ["how long until thirst is worse than before drinking"]}
+    ],
+    "latent": ["whether there was a freshwater seep further along the shore the player never walked to"],
+    "state_after": ["player: thirstier and queasy, no better off", "waterskin: still empty"],
+    "stress": "an action that looks like it solves the immediate problem (drinking something wet) actually worsens the underlying number, with nothing telling the player that at the time",
+    "temptation": "a rule specific to 'sea water' as an item that just fails to hydrate, instead of salinity as a property that makes any liquid dehydrating past a threshold"
+  },
+  {
+    "id": "travel-05",
+    "domain": "travel",
+    "place": "The edge of a desert where scrub gives way to bare stone and sand, a rumor of a spring marked by a ring of old stones somewhere ahead.",
+    "initiator": "player",
+    "lines": ["look for the spring by the stone ring", "dig where the ground looks damper"],
+    "things": ["player", "stone ring", "dry streambed", "waterskin", "sun"],
+    "outcome": "The player searches the area around the stone ring for the spring; it may have dried up years ago or never been more than a story. Digging in the dampest-looking patch of the streambed turns up damp sand but no standing water, and only after real effort and water lost sweating in the heat. Whether there is water here at all remains genuinely uncertain even after the search.",
+    "steps": [
+      {"process": "search", "agent": "player", "patient": "stone ring", "instrument": null, "because": ["place is a water source", "agent is thirsty"], "effects": ["player learns whether the spring still runs"], "numbers": ["odds the spring is still active versus long dry"]},
+      {"process": "dig", "agent": "player", "patient": "dry streambed", "instrument": null, "because": ["patient is damp", "agent is determined"], "effects": ["patient gains dug out", "player stamina down"], "numbers": ["how deep before damp sand would become standing water, if any"]},
+      {"process": "sweat", "agent": "sun", "patient": "player", "instrument": null, "because": ["place is hot", "agent is exposed"], "effects": ["patient hydration down"], "numbers": ["how much water the search itself costs versus what it might find"]}
+    ],
+    "latent": ["whether the spring is really dry or just deeper than this dig reached"],
+    "state_after": ["player: tired, thirstier, no water found yet", "dry streambed: a fresh hole dug in it", "waterskin: unchanged, still low"],
+    "stress": "a search can cost more of the resource it's trying to find than it recovers, and can end in genuine uncertainty rather than a clean yes or no",
+    "temptation": "a hidden 'water is here or not' flag on the stone ring that the search just reveals, instead of a search that costs stamina and water and can be wrong or inconclusive"
+  },
+  {
+    "id": "travel-06",
+    "domain": "travel",
+    "place": "Deep forest well past dusk, the canopy blocking the sky, the trail lost somewhere among identical trunks and drifts of dead leaves.",
+    "initiator": "player",
+    "lines": ["keep walking, the camp must be this way", "stop and look for the broken branch I marked earlier"],
+    "things": ["player", "forest", "moon", "walking staff", "broken branch marker"],
+    "outcome": "Without the sky or the trail to steer by, the player walks confidently in what turns out to be a wide circle; twenty minutes later they cross their own earlier footprints without recognizing them at first. Stopping to search for the branch they'd deliberately broken as a marker on the way in works, because it was placed for exactly this, and from it the way back is short and sure.",
+    "steps": [
+      {"process": "walk", "agent": "player", "patient": "player", "instrument": null, "because": ["place is dark", "place is featureless"], "effects": ["player loses sense of direction"], "numbers": ["how far off true the walked heading drifts per stretch"]},
+      {"process": "cross", "agent": "player", "patient": "player", "instrument": null, "because": ["place is featureless", "agent is circling"], "effects": ["player learns the trail already crossed itself"], "numbers": ["how long the circle takes to close"]},
+      {"process": "search", "agent": "player", "patient": "forest", "instrument": null, "because": ["place is dark", "agent is determined"], "effects": ["player learns the marker's direction"], "numbers": ["how long the search for the marker takes"]},
+      {"process": "follow", "agent": "player", "patient": "player", "instrument": "broken branch marker", "because": ["instrument is marked"], "effects": ["player gains a known direction", "patient stamina down"], "numbers": ["how much time was lost to the circle versus a direct route"]}
+    ],
+    "latent": ["whether the camp is actually as close as the player assumed, once a real bearing is found"],
+    "state_after": ["player: found the marker, walking a known way, tired and later than planned", "broken branch marker: found, still in place"],
+    "stress": "without a sky or landmark, a straight-feeling walk is not straight, and only a placed marker, not memory, reliably fixes it",
+    "temptation": "an 'automatically get lost in forests at night' event flag, instead of drift computed from lacking any fixed reference point, which also explains why the marker fixes it"
+  },
+  {
+    "id": "travel-07",
+    "domain": "travel",
+    "place": "A shallow limestone cave known to have been worked by miners generations back, the entrance chamber giving way to narrower dark passages.",
+    "initiator": "player",
+    "lines": ["look for anything the old miners left behind", "go further in, past where the light from the entrance reaches"],
+    "things": ["player", "cave", "torch", "miners' tool cache", "loose rock"],
+    "outcome": "Rumor holds the old miners cached tools deeper in before the vein ran out; whether that's true or a story that grew in the telling is not settled by looking. The search goes past where daylight reaches and starts eating into the torch, which burns down faster than the search takes, and the player has to decide whether to keep looking or turn back before the light runs out, finding nothing either way this time.",
+    "steps": [
+      {"process": "search", "agent": "player", "patient": "cave", "instrument": "torch", "because": ["place is dark", "agent is curious"], "effects": ["player learns nothing yet about the cache"], "numbers": ["odds the cache exists at all versus is a story"]},
+      {"process": "burn", "agent": "torch", "patient": "torch", "instrument": null, "because": ["agent is burning"], "effects": ["patient loses fuel", "consumes torch"], "numbers": ["how much torch time is left versus how far the passage goes"]},
+      {"process": "weigh", "agent": "player", "patient": "player", "instrument": "torch", "because": ["instrument is low", "place is unmapped"], "effects": ["player learns the search must end soon"], "numbers": ["how far back to the entrance versus torch time remaining"]},
+      {"process": "retreat", "agent": "player", "patient": "player", "instrument": "torch", "because": ["instrument is nearly spent"], "effects": ["player loses time", "moves player to cave entrance"], "numbers": ["how close the torch came to going out before reaching daylight"]}
+    ],
+    "latent": ["whether the cache is further down the passage the player turned back from"],
+    "state_after": ["player: back at the entrance, empty-handed, torch nearly spent", "torch: almost burned out", "miners' tool cache: still unfound, may or may not exist"],
+    "stress": "a search can be cut short by a resource (light) running out before the answer is known, leaving the question genuinely open rather than resolved",
+    "temptation": "placing the cache at a fixed room number in the cave so the search always 'works' at some depth, instead of letting the search end inconclusively when the light runs out first"
+  },
+  {
+    "id": "travel-08",
+    "domain": "travel",
+    "place": "A river swollen brown with recent rain, normally fordable at the shallows but now running fast and high over the usual crossing stones.",
+    "initiator": "player",
+    "lines": ["cross at the usual ford, the water can't be that much higher", "grab the pack before it goes under"],
+    "things": ["player", "river", "pack animal", "supply pack", "ford stones"],
+    "outcome": "The ford that's normally knee-deep is now thigh-deep and running hard; the current is stronger than it looks from the bank and it catches the pack animal mid-crossing, knocking its footing loose. The animal recovers and scrambles to the far bank, but the supply pack lashed to its side comes free in the current and is gone downstream before anyone can reach it.",
+    "steps": [
+      {"process": "cross", "agent": "pack animal", "patient": "pack animal", "instrument": null, "because": ["place is fast", "place is deep"], "effects": ["patient gains unsteady"], "numbers": ["how much the current force exceeds the ford's usual depth"]},
+      {"process": "push", "agent": "river", "patient": "pack animal", "instrument": null, "because": ["agent is fast", "patient is unsteady"], "effects": ["patient loses footing"], "numbers": ["odds the animal goes down versus recovers"]},
+      {"process": "recover", "agent": "pack animal", "patient": "pack animal", "instrument": null, "because": ["agent is strong", "agent is motivated"], "effects": ["moves pack animal to far bank"], "numbers": ["how far downstream the animal drifts before regaining footing"]},
+      {"process": "sweep", "agent": "river", "patient": "supply pack", "instrument": null, "because": ["agent is fast", "patient is loose"], "effects": ["consumes supply pack"], "numbers": ["odds the pack can be recovered downstream before it sinks or snags"]}
+    ],
+    "latent": ["whether the supply pack snags somewhere downstream where it could still be found"],
+    "state_after": ["player: safely across, shaken", "pack animal: across, wet, unsettled", "supply pack: lost downstream"],
+    "stress": "a crossing that's normally safe becomes dangerous purely because the river's state changed, with no change to the place itself, and the danger falls on the animal and cargo, not just the player",
+    "temptation": "a fixed 'ford is safe' or 'ford is dangerous' flag on this river tile, instead of current speed and depth as numbers that change with recent rain and interact with load and footing"
+  },
+  {
+    "id": "travel-09",
+    "domain": "travel",
+    "place": "A vast white salt flat at midday, heat shimmering off the crust in every direction, no shade or landmark for as far as the eye reaches.",
+    "initiator": "player",
+    "lines": ["head for the shape on the horizon, it might be higher ground", "stop, I need to get out of the sun"],
+    "things": ["player", "salt flat", "sun", "shimmer", "waterskin"],
+    "outcome": "The shape on the horizon that looked like higher ground is a heat mirage; walking toward it for the better part of an hour under the full sun brings the player no closer to it and burns through water and strength for nothing. By the time the mistake is clear, the sun has done real damage; stopping to rest in what little shade a pack can cast slows the worst of it but doesn't undo the water already sweated out.",
+    "steps": [
+      {"process": "walk", "agent": "player", "patient": "player", "instrument": null, "because": ["place is hot", "place is shimmering"], "effects": ["player loses sense of the shape as real"], "numbers": ["how long walking toward a mirage takes to become obviously futile"]},
+      {"process": "beat down", "agent": "sun", "patient": "player", "instrument": null, "because": ["place is shadeless", "agent is overhead"], "effects": ["patient hydration down", "patient gains sunburn"], "numbers": ["how fast heat and water loss build under full sun with no shade"]},
+      {"process": "realize", "agent": "player", "patient": "player", "instrument": null, "because": ["place is deceptive"], "effects": ["player learns the shape was a mirage"], "numbers": ["how much water and time were spent chasing it"]},
+      {"process": "shelter", "agent": "player", "patient": "player", "instrument": "supply pack", "because": ["instrument is shade-casting", "agent is overheated"], "effects": ["patient loses worsening heat", "patient stamina up"], "numbers": ["how much the makeshift shade slows further heat gain"]}
+    ],
+    "latent": ["whether there is any real higher ground anywhere on this flat, or whether it's featureless in every direction"],
+    "state_after": ["player: sunburned, dehydrated, resting in thin shade", "waterskin: much lower than before"],
+    "stress": "a landmark the player is navigating by can simply not be real, and nothing tells them that except failing to get closer no matter how long they walk",
+    "temptation": "a scripted 'mirage' event that triggers once and then reveals the truth, instead of heat shimmer as a standing property of hot flat ground that always distorts distant shapes"
+  },
+  {
+    "id": "travel-10",
+    "domain": "travel",
+    "place": "A high meadow at dusk, waist-high grass and standing water in the low spots, midges rising in clouds as the light fades.",
+    "initiator": "creature",
+    "lines": [],
+    "things": ["pack animal", "midges", "tether rope", "high meadow", "player"],
+    "outcome": "As dusk brings out the midges in thick clouds over the wet meadow, the tethered pack animal is bitten repeatedly and can't be reasoned with; it fights the tether hard enough to snap it and bolts into the tall grass. By the time the player realizes what's happening it's already gone from sight, and finding it again in grass this tall and light this poor is a real search with no guarantee of success before dark finishes falling.",
+    "steps": [
+      {"process": "bite", "agent": "midges", "patient": "pack animal", "instrument": null, "because": ["place is wet", "agent is swarming"], "effects": ["patient gains distressed"], "numbers": ["how many bites before the animal panics"]},
+      {"process": "fight", "agent": "pack animal", "patient": "tether rope", "instrument": null, "because": ["agent is distressed", "agent is strong"], "effects": ["consumes tether rope"], "numbers": ["how much force the tether can take before it snaps"]},
+      {"process": "bolt", "agent": "pack animal", "patient": "pack animal", "instrument": null, "because": ["patient is free", "place is grassy"], "effects": ["moves pack animal to tall grass"], "numbers": ["how far and fast a panicked animal travels before it settles"]},
+      {"process": "search", "agent": "player", "patient": "high meadow", "instrument": null, "because": ["place is grassy", "place is dim"], "effects": ["player learns whether the animal is nearby"], "numbers": ["odds of finding the animal before full dark"]}
+    ],
+    "latent": ["whether the pack animal is still close by, calmed down, or has kept running well beyond the meadow"],
+    "state_after": ["pack animal: loose somewhere in the meadow, unsettled", "tether rope: snapped", "player: searching, losing daylight"],
+    "stress": "an animal's behavior under a real stressor overrides its training and breaks equipment rated for calm conditions, and the consequence plays out with nobody having typed anything",
+    "temptation": "an 'insects annoy animals' flag on this meadow tile, instead of provocation building up as a number against a tether strength number that either holds or doesn't"
+  },
+  {
+    "id": "travel-11",
+    "domain": "travel",
+    "place": "A steep scree slope on the shoulder of a mountain, loose flat stones stacked at their angle of rest, the valley floor far below.",
+    "initiator": "player",
+    "lines": ["cross the scree slope, it's the fastest way around"],
+    "things": ["player", "scree slope", "loose stone", "ankle", "walking staff"],
+    "outcome": "Crossing loose scree shifts the stones underfoot with every step; partway across, a stone gives way under the player's weight and starts a small slide that takes several others with it. The player rides it down a short way and comes to a stop, but lands wrong on an ankle in the process, which swells and won't take full weight, a long way from anyone who could help.",
+    "steps": [
+      {"process": "cross", "agent": "player", "patient": "scree slope", "instrument": null, "because": ["patient is loose", "place is steep"], "effects": ["patient gains shifting"], "numbers": ["odds a given step triggers a slide, by slope angle"]},
+      {"process": "slide", "agent": "loose stone", "patient": "player", "instrument": null, "because": ["agent is unstable", "place is steep"], "effects": ["patient gains carried downslope"], "numbers": ["how far the slide carries the player before it stops"]},
+      {"process": "land", "agent": "player", "patient": "player", "instrument": null, "because": ["patient is off-balance", "place is uneven"], "effects": ["patient gains sprained ankle", "patient stamina down"], "numbers": ["how much walking speed and weight the ankle can take afterward"]}
+    ],
+    "latent": ["whether the slide has opened a way down that's actually faster than the intended route, ankle notwithstanding"],
+    "state_after": ["player: sprained ankle, lower on the slope than planned, far from help", "walking staff: still in hand, useful now as a crutch"],
+    "stress": "an injury with no cure on the spot persists and slows every later step rather than resolving with rest alone, in a place the player chose because it looked faster",
+    "temptation": "a fixed percentage chance of a scree-slope injury rolled once at the start of the crossing, instead of a per-step stability number tied to slope angle and stone looseness that can trigger a slide at any point"
+  },
+  {
+    "id": "travel-12",
+    "domain": "travel",
+    "place": "A small open boat well out from shore, the sky gone black to windward and the swell building faster than the coastline is getting closer.",
+    "initiator": "world",
+    "lines": ["turn for shore now, before it hits"],
+    "things": ["player", "small boat", "storm", "oar", "sea water"],
+    "outcome": "The storm outruns the turn for shore; wind and swell hit before the boat is anywhere near safe water, throwing spray and then solid water over the side faster than it can be bailed. An oar is wrenched loose and lost overboard in the worst of it, leaving the boat harder to control with only one, and the player rides out the storm bailing and steering rather than reaching shore before it breaks.",
+    "steps": [
+      {"process": "build", "agent": "storm", "patient": "small boat", "instrument": null, "because": ["agent is approaching", "place is exposed"], "effects": ["patient gains swamped"], "numbers": ["how fast the storm closes versus how fast the boat can reach shelter"]},
+      {"process": "wrench", "agent": "storm", "patient": "oar", "instrument": null, "because": ["agent is violent", "patient is loose"], "effects": ["consumes oar"], "numbers": ["odds an oar is lost per bad swell"]},
+      {"process": "bail", "agent": "player", "patient": "small boat", "instrument": null, "because": ["patient is flooding"], "effects": ["patient loses swamped", "player stamina down"], "numbers": ["how much water comes in per swell versus how much bailing removes"]},
+      {"process": "steer", "agent": "player", "patient": "small boat", "instrument": "oar", "because": ["instrument is reduced", "patient is unstable"], "effects": ["patient loses course toward shore"], "numbers": ["how much harder the boat is to steer with one oar instead of two"]}
+    ],
+    "latent": ["whether the storm is a short squall that will pass quickly or a longer blow"],
+    "state_after": ["player: exhausted, soaked, still at sea", "small boat: half full of water, harder to steer", "oar: one lost overboard"],
+    "stress": "a decision made too late doesn't get a second chance once the storm's speed has already overtaken the boat's, and equipment loss compounds the danger rather than being incidental",
+    "temptation": "a scripted storm scene that always ends with the boat reaching shore battered but safe, instead of racing speeds and equipment loss that could in principle end worse"
+  },
+  {
+    "id": "travel-13",
+    "domain": "travel",
+    "place": "A dry trail climbing steadily out of a valley, no water source for the rest of the day, everything the player owns lashed to one pack.",
+    "initiator": "player",
+    "lines": ["pack everything, I don't want to come back for it later"],
+    "things": ["player", "supply pack", "trail", "spare rope", "cooking pot"],
+    "outcome": "Loaded with everything at once, the pack is heavier than the player can carry all day at a normal pace; the climb slows early and the player tires faster than the distance covered should explain. Partway up, the choice is to keep pushing at a crawl or cache the least essential gear to collect on the way back, and caching the spare rope and pot lightens the load enough to make the climb before dark.",
+    "steps": [
+      {"process": "load", "agent": "player", "patient": "supply pack", "instrument": null, "because": ["patient is full", "agent is hasty"], "effects": ["patient gains overloaded"], "numbers": ["how much weight the pack now holds versus what the player can carry at pace"]},
+      {"process": "climb", "agent": "player", "patient": "player", "instrument": "supply pack", "because": ["instrument is overloaded", "place is steep"], "effects": ["patient stamina down"], "numbers": ["how much slower the climb goes per unit of excess weight"]},
+      {"process": "weigh", "agent": "player", "patient": "player", "instrument": null, "because": ["patient is slow"], "effects": ["player learns the load must be lightened"], "numbers": ["how much weight has to come off to make the climb before dark"]},
+      {"process": "cache", "agent": "player", "patient": "supply pack", "instrument": null, "because": ["patient is overloaded", "place is waterless"], "effects": ["patient loses overloaded", "moves spare rope to trailside cache", "moves cooking pot to trailside cache"], "numbers": ["how much lighter the pack is and how much faster the climb goes after"]}
+    ],
+    "latent": ["whether the cache will still be there undisturbed when the player comes back for it"],
+    "state_after": ["player: lighter load, back on pace, tired", "supply pack: lighter", "spare rope: left in a cache by the trail", "cooking pot: left in a cache by the trail"],
+    "stress": "weight is a number that trades directly against speed and stamina, and the honest fix is leaving things behind, not finding a way to carry it all after all",
+    "temptation": "a fixed inventory slot limit that blocks packing everything in the first place, instead of a weight number that lets the player overload and then pay for it gradually on the trail"
+  },
+  {
+    "id": "travel-14",
+    "domain": "travel",
+    "place": "An exposed hillside with no real shelter, night coming on clear and cold, a small fire the only warmth on hand.",
+    "initiator": "player",
+    "lines": ["bank the fire and sleep, it should last till morning"],
+    "things": ["player", "campfire", "firewood", "frost", "wool blanket"],
+    "outcome": "The fire is banked with what wood is on hand and left to burn low through the night; it isn't enough, and somewhere in the small hours it goes out entirely while the player sleeps through the coldest part of the night unwarmed. There's no injury and no drama in the moment, but the player wakes stiff, slow and worse rested than the hours of sleep should account for, and starts the next day's travel already behind on recovery.",
+    "steps": [
+      {"process": "bank", "agent": "player", "patient": "campfire", "instrument": "firewood", "because": ["place is cold", "patient is small"], "effects": ["patient gains banked"], "numbers": ["how many hours the banked wood will actually burn"]},
+      {"process": "burn down", "agent": "campfire", "patient": "campfire", "instrument": "firewood", "because": ["instrument is limited", "place is cold"], "effects": ["consumes firewood", "patient loses burning"], "numbers": ["how much of the night passes before the fire goes out"]},
+      {"process": "chill", "agent": "frost", "patient": "player", "instrument": null, "because": ["place is exposed", "patient is unwarmed"], "effects": ["patient warmth down", "patient stamina down"], "numbers": ["how much the cold hours after the fire dies cost against a full warm night's rest"]},
+      {"process": "wake", "agent": "player", "patient": "player", "instrument": null, "because": ["patient is stiff"], "effects": ["player learns the fire went out overnight"], "numbers": ["how much the next day's travel is slowed by the bad night"]}
+    ],
+    "latent": ["whether more wood gathered before sleeping would have lasted the whole night"],
+    "state_after": ["player: stiff, under-rested, cold", "campfire: out, cold ash", "wool blanket: damp with dew, not enough alone"],
+    "stress": "a bad night doesn't announce itself until morning, and its cost is paid the day after the mistake rather than the night of it",
+    "temptation": "a binary 'slept near a fire, yes or no' check, instead of a fuel-versus-hours number that can run out partway through the night and cost only part of its warmth"
+  },
+  {
+    "id": "travel-15",
+    "domain": "travel",
+    "place": "A bare ridge with a clear view over miles of country below, chosen because smoke from here should be visible for a long way in any direction.",
+    "initiator": "player",
+    "lines": ["build the biggest smoky fire I can, green wood on top", "keep watching the valley for any sign someone's seen it"],
+    "things": ["player", "ridge", "green wood", "signal fire", "valley"],
+    "outcome": "A fire built high and fed with green wood for smoke sends a column up that should be visible for a long way across the valley below, but whether anyone down there is looking, awake, or close enough to make sense of it is not something the player can know from the ridge. The smoke burns for as long as the wood holds out; nothing in the valley visibly changes, and by the time the wood runs low there's still no way to tell if the signal worked or simply went unseen.",
+    "steps": [
+      {"process": "build", "agent": "player", "patient": "signal fire", "instrument": "green wood", "because": ["instrument is damp", "place is high"], "effects": ["creates signal fire"], "numbers": ["how visible the smoke column is at what distance"]},
+      {"process": "burn", "agent": "signal fire", "patient": "signal fire", "instrument": "green wood", "because": ["instrument is damp"], "effects": ["consumes green wood"], "numbers": ["how long the fire keeps producing heavy smoke before the wood runs out"]},
+      {"process": "watch", "agent": "player", "patient": "valley", "instrument": null, "because": ["place is distant"], "effects": ["player learns nothing certain about the valley"], "numbers": ["odds anyone in the valley is positioned to see the smoke at all"]}
+    ],
+    "latent": ["whether anyone in the valley actually saw the smoke, noticed it, or is coming"],
+    "state_after": ["player: still alone on the ridge, watching", "signal fire: burned down to embers", "green wood: used up"],
+    "stress": "an action taken correctly and by the book can still simply fail to reach anyone, with no in-world confirmation either way, honest uncertainty rather than a guaranteed outcome",
+    "temptation": "a hidden roll that silently decides help is coming or not the moment the fire is lit, instead of leaving the outcome genuinely unresolved and dependent on whether anyone was there to see it, which the player may never learn"
+  }
+]

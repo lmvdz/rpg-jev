@@ -1,0 +1,1433 @@
+batch a: 6 files, 120 scenarios, 325 steps
+distinct: 373 properties, 191 processes, 401 effects
+
+== PROCESSES ==
+   9  cut  [folk-10, body-01, body-02, grow-06]
+   8  strike  [cold-08, tool-01, tool-02, tool-03]
+   6  eat  [beast-02, food-01, food-05, food-06]
+   5  burn  [beast-05, fire-01, fire-06, fire-10]
+   5  coat  [body-02, mix-01, mix-02, mix-06]
+   5  dry  [fire-03, cold-09, food-02, mix-03]
+   5  fall  [body-03, tool-05, build-07, build-08]
+   5  search  [find-01, find-02, find-03, find-04]
+   5  see  [beast-06, folk-01, folk-04, folk-07]
+   5  soak  [cold-05, build-05, water-04, water-07]
+   5  take  [beast-01, beast-06, folk-01, folk-08]
+   4  catch  [fire-02, fire-05, fire-09, water-10]
+   4  dig  [beast-07, beast-09, grow-05, find-05]
+   4  drink  [food-07, food-08, body-05, water-05]
+   4  fill  [fire-10, water-01, water-02, water-08]
+   4  germinate  [grow-01, grow-03, grow-05, grow-07]
+   4  rain  [cold-01, food-02, water-04, mix-03]
+   4  wade  [cold-06, cold-10, water-05, water-07]
+   3  break  [grow-08, find-02, build-07]
+   3  chill  [cold-06, body-06]
+   3  collapse  [body-07, build-04, build-10]
+   3  crack  [fire-04, cold-03, cold-05]
+   3  heat  [fire-03, fire-04, body-08]
+   3  poison  [food-05, food-06, food-07]
+   3  rot  [body-10, grow-01, grow-02]
+   3  rust  [tool-04, mix-03, mix-10]
+   3  smell  [beast-01, beast-06, beast-09]
+   3  spark  [fire-01, fire-07]
+   3  split  [cold-08, tool-02, tool-09]
+   3  tell  [folk-01, folk-05, folk-10]
+   3  throw  [beast-02, fire-06, build-09]
+   3  wait  [beast-08, grow-05, find-07]
+   2  attack  [beast-03, beast-06]
+   2  bind  [grow-06, build-01]
+   2  boil  [water-08, mix-05]
+   2  build  [cold-07, water-06]
+   2  bury  [cold-04, grow-01]
+   2  cure  [mix-05, mix-08]
+   2  douse  [fire-08, water-10]
+   2  drag  [build-01, build-02]
+   2  find  [beast-10]
+   2  freeze  [cold-03, tool-09]
+   2  gather  [fire-01, mix-02]
+   2  gnaw  [tool-05, build-06]
+   2  graze  [beast-07, grow-08]
+   2  grow  [grow-07, grow-10]
+   2  ignite  [fire-06, body-02]
+   2  leak  [cold-07, mix-10]
+   2  leave  [folk-06, water-03]
+   2  light  [fire-01, fire-02]
+   2  mould  [food-02, food-05]
+   2  prop  [build-08, build-10]
+   2  reignite  [fire-09, water-10]
+   2  scavenge  [food-09, body-10]
+   2  sicken  [food-01, food-08]
+   2  smolder  [fire-09, cold-08]
+   2  smother  [fire-02, water-10]
+   2  sow  [grow-03, grow-05]
+   2  spoil  [food-01, mix-06]
+   2  spread  [fire-02, grow-04]
+   2  startle  [beast-04, mix-07]
+   2  stumble  [body-09, water-02]
+   2  touch  [build-08, mix-01]
+   2  trample  [beast-04, grow-08]
+   2  wash  [mix-04]
+   1  accumulate  [build-10]
+   1  accuse  [folk-08]
+   1  approach  [beast-05]
+   1  avoid  [beast-05]
+   1  bait  [find-07]
+   1  bandage  [body-01]
+   1  breathe  [food-04]
+   1  breed  [beast-07]
+   1  burst  [food-09]
+   1  carry  [water-01]
+   1  cast  [find-07]
+   1  cauterize  [body-08]
+   1  chafe  [water-01]
+   1  charge  [beast-09]
+   1  chase  [beast-03]
+   1  claim  [beast-10]
+   1  compete  [grow-04]
+   1  complain  [folk-06]
+   1  cool  [water-08]
+   1  corner  [beast-03]
+   1  cough  [fire-10]
+   1  creak  [folk-02]
+   1  creep  [beast-08]
+   1  crush  [mix-09]
+   1  decay  [beast-10]
+   1  dig out  [cold-10]
+   1  digest  [food-10]
+   1  dim  [beast-05]
+   1  drain  [grow-02]
+   1  draw  [body-10]
+   1  drop  [water-09]
+   1  erode  [find-10]
+   1  evaporate  [water-03]
+   1  exhaust  [body-09]
+   1  expect  [folk-04]
+   1  expose  [find-10]
+   1  ferment  [food-09]
+   1  fever  [body-04]
+   1  flare  [fire-05]
+   1  flee  [beast-08]
+   1  flood  [water-04]
+   1  give  [folk-04]
+   1  give back  [folk-08]
+   1  glimpse  [folk-10]
+   1  glue  [mix-08]
+   1  grab  [tool-03]
+   1  graft  [grow-06]
+   1  grip  [build-07]
+   1  grope  [cold-02]
+   1  gust  [cold-02]
+   1  gut  [food-03]
+   1  hammer  [fire-04]
+   1  harden  [mix-01]
+   1  hear  [folk-02]
+   1  help  [folk-07]
+   1  hide  [folk-02]
+   1  hunt  [find-08]
+   1  infect  [body-04]
+   1  knit  [grow-06]
+   1  knock  [fire-05]
+   1  lay  [build-01]
+   1  leach  [mix-05]
+   1  lend  [folk-06]
+   1  lie  [folk-05]
+   1  load  [water-06]
+   1  lodge  [tool-07]
+   1  loosen  [tool-06]
+   1  lose  [find-09]
+   1  meet  [folk-06]
+   1  milk  [food-07]
+   1  notice  [beast-08]
+   1  offer  [folk-03]
+   1  overbalance  [water-09]
+   1  overcoat  [mix-02]
+   1  overheat  [body-07]
+   1  pass  [folk-05]
+   1  peel  [cold-07]
+   1  place  [tool-02]
+   1  pry  [build-03]
+   1  quench  [fire-04]
+   1  recognise  [folk-05]
+   1  recover  [body-05]
+   1  refuse  [folk-09]
+   1  rescue  [water-09]
+   1  retreat  [beast-02]
+   1  return  [folk-08]
+   1  salt  [food-03]
+   1  scald  [fire-08]
+   1  scoop  [cold-09]
+   1  scorch  [fire-03]
+   1  settle  [water-05]
+   1  shade  [grow-10]
+   1  shake  [build-09]
+   1  shiver  [cold-06]
+   1  sink  [water-06]
+   1  sit  [mix-10]
+   1  slip  [build-02]
+   1  slosh  [water-02]
+   1  smoke  [food-04]
+   1  snow  [cold-04]
+   1  soften  [mix-08]
+   1  sour  [cold-01]
+   1  splash  [mix-07]
+   1  splint  [body-03]
+   1  spring  [build-06]
+   1  stack  [build-04]
+   1  stir  [fire-09]
+   1  store  [food-03]
+   1  strain  [body-01]
+   1  stunt  [grow-10]
+   1  suck  [cold-10]
+   1  survive  [grow-07]
+   1  swarm  [build-09]
+   1  sweat  [body-07]
+   1  sweep  [water-07]
+   1  swell  [body-03]
+   1  thaw  [cold-03]
+   1  thresh  [grow-09]
+   1  tie  [build-02]
+   1  track  [find-09]
+   1  trade  [folk-03]
+   1  treat  [body-04]
+   1  uncover  [find-05]
+   1  walk  [cold-05]
+   1  water  [grow-02]
+   1  wring  [mix-09]
+
+== PROPERTIES ==
+  14  flammable  [beast-05, fire-01, fire-02, fire-05]
+  13  hot  [fire-03, fire-04, fire-05, fire-06]
+  10  heavy  [folk-07, cold-07, find-10, tool-05]
+  10  hungry  [beast-01, beast-02, fire-05, food-01]
+   7  wet  [fire-02, fire-03, cold-01, cold-06]
+   6  dry  [fire-01, fire-02, fire-10, food-02]
+   6  sharp  [body-01, body-02, tool-03, tool-04]
+   5  absorbent  [cold-01, build-05, water-04, water-07]
+   5  cold  [fire-04, fire-08, food-03, body-06]
+   5  damp  [fire-01, food-02, food-04, food-05]
+   5  exposed  [cold-08, food-02, body-06, grow-06]
+   5  reachable  [beast-06, folk-01, folk-05, food-05]
+   4  moist  [grow-01, grow-03, grow-07]
+   4  narrow  [beast-03, beast-04, build-01]
+   4  nearby  [beast-06, folk-01, food-09, build-04]
+   4  shallow  [beast-09, cold-06, cold-09]
+   4  soft  [beast-07, grow-01, tool-04, water-01]
+   4  strong  [beast-10, fire-02, cold-07, build-01]
+   4  thin  [cold-07, build-03, build-06, build-08]
+   3  broken  [folk-09, body-03]
+   3  close  [beast-06, beast-09, folk-02]
+   3  deep  [cold-04, cold-10, water-09]
+   3  distracted  [beast-08, folk-01, folk-10]
+   3  fragrant  [beast-01, beast-06, beast-09]
+   3  hard  [tool-01, tool-02, tool-03]
+   3  loose  [beast-09, folk-02, tool-06]
+   3  quiet  [beast-01, beast-05, folk-02]
+   3  raw  [food-01, food-03, food-04]
+   3  sealed  [food-09, grow-06]
+   3  small  [cold-02, tool-01, water-09]
+   3  splittable along the grain  [tool-02, tool-07]
+   3  steep  [beast-03, find-10, water-02]
+   3  thirsty  [food-07, food-08, water-05]
+   3  unguarded  [beast-01, beast-02, beast-06]
+   2  aged  [grow-03]
+   2  bleeding  [body-01, body-08]
+   2  cracked  [tool-02, tool-09]
+   2  desperate  [beast-03, food-10]
+   2  downwind  [beast-08, fire-02]
+   2  edible  [beast-02, beast-07]
+   2  enclosed  [food-04, tool-04]
+   2  freezing  [cold-05, tool-09]
+   2  green  [fire-07, tool-07]
+   2  hardy  [grow-04, grow-07]
+   2  liquid  [water-01, water-08]
+   2  loosely knotted  [build-02]
+   2  loud  [beast-04, beast-10]
+   2  metal  [fire-06, body-08]
+   2  open-topped  [water-01, water-02]
+   2  organic  [food-02, food-05]
+   2  present  [folk-06, folk-08]
+   2  rutted  [build-02]
+   2  shallow buried  [find-05, find-10]
+   2  standing  [food-08, grow-02]
+   2  stuck  [folk-07, cold-10]
+   2  sudden  [folk-02, fire-06]
+   2  thick  [food-04, tool-01]
+   2  trusting  [folk-05, folk-06]
+   2  uneven  [body-09, water-07]
+   2  unstable  [fire-05, body-03]
+   2  unsupported  [tool-05, build-07]
+   2  untended  [beast-05, grow-04]
+   2  visible  [beast-06, folk-05]
+   2  warm  [food-01, grow-05]
+   2  wary  [beast-02, beast-05]
+   2  watertight  [water-02, water-08]
+   2  weak  [folk-10, grow-08]
+   2  wood  [tool-05, tool-06]
+   1  above the riverbed  [build-07]
+   1  absent  [beast-07]
+   1  absorbent and the mud is wet  [mix-07]
+   1  affordable  [folk-03]
+   1  afraid  [beast-08]
+   1  aggrieved  [folk-05]
+   1  alcohol  [body-05]
+   1  alert  [beast-08]
+   1  already saturated  [mix-02]
+   1  already searched  [find-06]
+   1  asleep and not moving  [body-06]
+   1  at hand  [water-05]
+   1  available  [cold-07]
+   1  baited  [find-07]
+   1  banked under ash  [fire-09]
+   1  bare  [find-07]
+   1  been dry for weeks  [cold-09]
+   1  below freezing  [cold-03]
+   1  bold  [beast-01]
+   1  both present  [mix-10]
+   1  breathing it  [fire-10]
+   1  brief  [folk-08]
+   1  bright  [beast-05]
+   1  brittle  [tool-03]
+   1  brittle underneath  [fire-04]
+   1  burning  [fire-09]
+   1  calming  [beast-02]
+   1  capable  [folk-07]
+   1  caught by the foot  [build-06]
+   1  clear  [find-09]
+   1  close above the fire  [fire-05]
+   1  close by  [grow-10]
+   1  close enough to hear the splash  [water-09]
+   1  close to heat  [fire-01]
+   1  close to ripe  [grow-09]
+   1  close to the coals  [fire-08]
+   1  close to the fire  [fire-03]
+   1  connected  [build-09]
+   1  convinced  [folk-05]
+   1  cool  [cold-06]
+   1  cooler  [water-08]
+   1  cooler than the pot  [mix-01]
+   1  cornered  [beast-03]
+   1  cover  [beast-08]
+   1  critically low  [body-07]
+   1  crossable  [cold-06]
+   1  crowded  [beast-07]
+   1  dark  [folk-02]
+   1  dead  [beast-10]
+   1  dead flesh  [body-10]
+   1  deep, water only wets the surface  [water-10]
+   1  defensive  [beast-06]
+   1  dense  [grow-02]
+   1  dense and heavy  [water-06]
+   1  dense with stone  [find-02]
+   1  denser than water  [water-05]
+   1  dim  [beast-05]
+   1  disturbed  [build-09]
+   1  dominant  [beast-10]
+   1  drawn to rot  [body-10]
+   1  dried and set into the fibers  [mix-04]
+   1  drop nearby  [cold-02]
+   1  drunk  [body-05]
+   1  dry on top  [grow-02]
+   1  drying  [tool-06]
+   1  due for milking  [food-07]
+   1  eager to travel  [folk-06]
+   1  easy to overlook  [find-03]
+   1  eaten through the thinnest point, the seam  [mix-10]
+   1  edgeless  [tool-10]
+   1  established  [grow-10]
+   1  exerting  [body-07]
+   1  expanded  [tool-09]
+   1  expectant  [folk-04]
+   1  exposed overnight  [cold-03]
+   1  exposed to sun  [cold-03]
+   1  falling steadily  [build-10]
+   1  familiar  [folk-01]
+   1  familiar with the goods  [folk-05]
+   1  far-reaching  [beast-10]
+   1  faster growing  [grow-04]
+   1  faster than a one-handed grip can resist  [water-07]
+   1  favorable  [beast-01]
+   1  fibrous  [tool-10]
+   1  fibrous and porous  [mix-01]
+   1  fighting it  [body-04]
+   1  fleeing  [beast-03]
+   1  fragile  [beast-04]
+   1  free  [find-02]
+   1  fresh  [find-09]
+   1  freshly cut  [grow-06]
+   1  fruitful  [grow-06]
+   1  full  [grow-07]
+   1  full of sap  [fire-07]
+   1  full to the top  [cold-03]
+   1  gap in the wall  [fire-09]
+   1  gaps  [cold-07]
+   1  generous  [folk-04]
+   1  glowing  [fire-04]
+   1  gone  [beast-06]
+   1  good  [folk-01]
+   1  grazing  [food-07]
+   1  growing season  [grow-06]
+   1  handleless  [tool-08]
+   1  hanging outside  [cold-01]
+   1  hard to find  [fire-01]
+   1  healing property  [body-04]
+   1  heat-conductive  [fire-04]
+   1  heavy and mobile  [water-01]
+   1  heavy enough to shake a branch  [build-09]
+   1  held steady against the wound  [body-08]
+   1  honest  [folk-08]
+   1  hot and thirsty  [water-05]
+   1  hot enough  [body-08]
+   1  hot enough to ignite it  [water-10]
+   1  hot from the strike  [cold-08]
+   1  humid  [food-01]
+   1  in player's hands  [folk-08]
+   1  inedible  [food-10]
+   1  infected  [body-04]
+   1  inside a crack  [tool-09]
+   1  insulating  [fire-09]
+   1  iron  [tool-04]
+   1  irregular  [build-04]
+   1  knotted  [tool-07]
+   1  late  [folk-10]
+   1  left unattended  [fire-03]
+   1  left uncollected  [cold-01]
+   1  light-starved  [grow-10]
+   1  limited buoyancy  [water-06]
+   1  liquid with an open surface  [water-03]
+   1  lit elsewhere  [folk-02]
+   1  loaded  [build-07]
+   1  long  [build-01]
+   1  loose mud stirred into it  [mix-07]
+   1  loose particles, not bonded to the fabric  [mix-04]
+   1  loose underfoot  [water-02]
+   1  loosely fastened  [cold-07]
+   1  loosely wrapped  [body-01]
+   1  loosened by ploughing  [cold-10]
+   1  low  [water-09]
+   1  low narrow doorway  [fire-10]
+   1  low to the ground  [water-04]
+   1  malleable when hot  [fire-04]
+   1  mild at the edges  [grow-07]
+   1  mixed ripeness  [grow-09]
+   1  moving  [body-01]
+   1  moving about  [grow-08]
+   1  near the impact  [build-09]
+   1  needed  [folk-04]
+   1  needy  [folk-04]
+   1  no chimney  [fire-10]
+   1  no gold-bearing rock  [find-04]
+   1  no nourishment  [food-10]
+   1  not coated against moisture  [mix-03]
+   1  not enough without airflow  [mix-06]
+   1  not food  [food-10]
+   1  not frozen  [grow-05]
+   1  not sealed  [water-01]
+   1  not slept  [body-09]
+   1  not tied to the player  [water-07]
+   1  not waterproof  [water-07]
+   1  now heavier than the water it displaces  [water-06]
+   1  now still  [water-05]
+   1  nowhere to go but run off  [mix-02]
+   1  numerous  [beast-07]
+   1  nutrient rich  [grow-07]
+   1  observant  [folk-04]
+   1  open at the neck  [water-03]
+   1  open to the sky  [cold-04]
+   1  opened  [beast-10]
+   1  opportunistic  [beast-10]
+   1  organs  [food-03]
+   1  out a lantern  [folk-06]
+   1  out of reach  [build-09]
+   1  out of sight  [folk-08]
+   1  overloaded  [build-10]
+   1  path to ground  [cold-08]
+   1  perishable  [beast-10]
+   1  persistent  [grow-08]
+   1  plausible  [folk-05]
+   1  poisonous  [food-06]
+   1  polite  [folk-06]
+   1  pooled  [grow-02]
+   1  poor  [folk-10]
+   1  prepared  [grow-03]
+   1  preserving  [food-04]
+   1  protective  [beast-09]
+   1  quick  [folk-08]
+   1  raining  [cold-01]
+   1  reaching past their own balance point  [water-09]
+   1  ready  [grow-05]
+   1  resentful  [folk-09]
+   1  rich  [grow-07]
+   1  rigid  [cold-03]
+   1  rigid enough to brace  [body-03]
+   1  rotten inside  [build-07]
+   1  rotting  [body-10]
+   1  round  [build-01]
+   1  running through standing water  [mix-07]
+   1  rushed and one-handed  [body-01]
+   1  rusted metal-on-metal  [mix-02]
+   1  safe  [beast-08]
+   1  salted  [food-03]
+   1  scattered  [build-04]
+   1  scorchable  [fire-03]
+   1  scorching  [body-08]
+   1  seamed  [find-02]
+   1  severed  [build-06]
+   1  shaded  [grow-04]
+   1  shallow with a soft bottom  [water-05]
+   1  shallow-pitched  [build-10]
+   1  shared  [folk-06]
+   1  sharp-edged  [tool-07]
+   1  silty  [cold-09]
+   1  similar-looking  [folk-09]
+   1  skittish  [beast-04]
+   1  slippery when wet  [water-09]
+   1  sloped downhill  [fire-02]
+   1  sloped toward the hollow  [water-04]
+   1  slow-acting  [food-06]
+   1  snowing  [cold-04]
+   1  soaked  [fire-07]
+   1  soaked from two days of rain  [cold-10]
+   1  soft and full of colored juice  [mix-09]
+   1  soft flesh  [body-02]
+   1  softer than stone  [tool-08]
+   1  solid-looking  [build-07]
+   1  spent  [beast-05]
+   1  spoiled  [food-01]
+   1  spring  [grow-05]
+   1  stagnant  [food-08]
+   1  standing close  [fire-06]
+   1  standing water to draw  [water-02]
+   1  standing, not draining away  [water-04]
+   1  steady  [build-05]
+   1  sticky once exposed to air  [mix-02]
+   1  still caustic  [mix-05]
+   1  still hot  [water-10]
+   1  still hot enough  [fire-09]
+   1  still saturated with juice  [mix-09]
+   1  still warm and gummy  [mix-01]
+   1  still wet  [cold-06]
+   1  stone  [tool-06]
+   1  stony  [find-09]
+   1  strong for this depth  [water-07]
+   1  strong through the pass  [cold-02]
+   1  struggling  [folk-07]
+   1  sugary  [food-09]
+   1  support  [build-10]
+   1  suspicious  [folk-08]
+   1  talkative  [folk-01]
+   1  taller now  [grow-10]
+   1  tallest nearby  [cold-08]
+   1  thick sticky liquid when warm  [mix-01]
+   1  thick with smoke  [fire-10]
+   1  thin and slippery  [mix-02]
+   1  thin film  [fire-06]
+   1  thin over the current  [cold-05]
+   1  thin where the current is fast  [cold-05]
+   1  thriving  [beast-07]
+   1  tilled  [grow-01]
+   1  tired  [folk-04]
+   1  too close  [fire-09]
+   1  too deep to touch bottom and stand  [water-09]
+   1  too wet to ignite  [fire-07]
+   1  top-heavy  [build-04]
+   1  toxic  [food-05]
+   1  toxic to livestock  [food-07]
+   1  trapped  [beast-03]
+   1  turf covered  [find-01]
+   1  unattended  [folk-08]
+   1  unaware  [beast-08]
+   1  unchanged  [find-06]
+   1  uncoated on the inside  [mix-10]
+   1  under pressure  [tool-02]
+   1  under tension  [build-06]
+   1  uneven folds and creases  [mix-06]
+   1  uneven, holding moisture in pits and crevices  [mix-03]
+   1  unfenced  [food-07]
+   1  unlit  [cold-02]
+   1  unpropped  [build-08]
+   1  unpruned  [grow-10]
+   1  unreturned  [folk-06]
+   1  unshielded  [cold-02]
+   1  untouched  [food-05]
+   1  used by grouse  [build-08]
+   1  useful  [folk-03]
+   1  vague  [folk-10]
+   1  very hot  [water-08]
+   1  viable  [grow-01]
+   1  visible now  [beast-08]
+   1  vivid  [folk-09]
+   1  warm and sunny  [body-10]
+   1  warm enough  [food-09]
+   1  wary now  [folk-06]
+   1  water to draw  [water-08]
+   1  water-soluble and softens when warm and wet  [mix-08]
+   1  waterlogged  [grow-02]
+   1  well-meaning  [folk-10]
+   1  whole fruit  [grow-01]
+   1  winter  [grow-05]
+   1  wood, wood is buoyant  [water-06]
+   1  worm rich  [find-05]
+   1  young rootstock  [grow-06]
+
+== EFFECT HEADS ==
+ 171  gains  [beast-01, beast-03, beast-04, beast-05]
+ 121  loses  [beast-02, beast-03, beast-04, beast-05]
+ 104  creates  [beast-01, beast-04, beast-05, beast-06]
+  33  consumes  [beast-02, beast-05, beast-10, fire-01]
+  32  down  [beast-02, beast-05, beast-07, cold-06]
+  28  moves  [beast-02, beast-03, beast-04, beast-05]
+  25  learns  [beast-01, beast-06, beast-08, beast-09]
+  16  up  [beast-07, cold-03, cold-04, food-03]
+  14  transfers  [beast-01, beast-06, beast-10, folk-01]
+
+== EFFECTS ==
+  14  gains burning  [fire-01, fire-02, fire-05, fire-06]
+   8  gains wet  [cold-01, cold-05, cold-06, water-01]
+   8  loses wholeness  [tool-02, tool-07, tool-09, build-03]
+   7  consumes time  [find-01, find-02, find-03, find-04]
+   7  gains sick  [food-01, food-04, food-05, food-06]
+   6  creates smoke  [fire-01, fire-02, fire-07, fire-10]
+   5  fullness up  [food-10, water-01, water-02, water-04]
+   5  gains burn  [fire-06, fire-08, body-02, body-08]
+   5  gains damage  [fire-02, fire-03, fire-04, cold-08]
+   5  loses cover  [fire-09, cold-07, grow-05, find-05]
+   4  fluid down  [food-01, food-08, body-07]
+   4  fullness down  [water-01, water-02, water-03]
+   4  gains sprout  [grow-01, grow-03, grow-05, grow-07]
+   4  hunger down  [food-01, food-05, food-06, food-07]
+   4  loses moisture  [food-02, food-03, food-04, mix-06]
+   3  creates steam  [fire-04, fire-08, water-10]
+   3  gains bleeding  [body-01, body-02]
+   3  gains coating  [body-02, mix-01, mix-02]
+   3  gains fear  [beast-04, beast-08, beast-09]
+   3  gains rot  [food-01, body-10, grow-02]
+   3  gains rust  [tool-04, mix-03, mix-10]
+   3  gains wound  [beast-03, body-01, body-02]
+   3  health down  [food-06, food-07, build-07]
+   3  loses burning  [fire-02, fire-08, cold-02]
+   3  loses freshness  [cold-01, food-01, food-05]
+   3  loses piece  [find-02, tool-03, tool-06]
+   3  moves patient to soil  [grow-01, grow-03, grow-05]
+   3  quantity up  [cold-03, cold-04, food-03]
+   2  consumes dead stag  [beast-10]
+   2  creates flame  [fire-01, fire-05]
+   2  creates gap  [cold-07, grow-08]
+   2  creates puddle  [water-01, water-02]
+   2  creates smell  [body-10, mix-06]
+   2  creates spark  [fire-06, water-10]
+   2  creates spill  [fire-05, water-06]
+   2  gains binding  [build-01, build-02]
+   2  gains crack  [cold-03, cold-08]
+   2  gains distrust of player  [folk-05, folk-06]
+   2  gains heat  [body-07, body-08]
+   2  gains hot  [fire-03, fire-04]
+   2  gains ice  [cold-03, tool-09]
+   2  gains moisture  [food-02, grow-02]
+   2  gains mould  [food-02, food-05]
+   2  gains muddy  [water-05, mix-07]
+   2  gains pain  [body-03, body-08]
+   2  gains salted  [food-03, mix-06]
+   2  gains smoke  [fire-10, cold-08]
+   2  gains swelling  [body-03, body-04]
+   2  gains wetness  [tool-04, build-05]
+   2  learns carcass location  [beast-10]
+   2  learns who took the bread  [folk-01]
+   2  loses bleeding  [body-01, body-08]
+   2  loses dry  [cold-01, water-04]
+   2  loses edge  [tool-01, tool-04]
+   2  loses exposure  [grow-01, grow-06]
+   2  loses fear  [beast-02, beast-05]
+   2  loses function  [beast-04, grow-02]
+   2  loses heat  [cold-05, cold-06]
+   2  loses hot  [fire-04, water-08]
+   2  loses integrity  [fire-04, cold-05]
+   2  loses light  [grow-04, grow-10]
+   2  loses muddy  [water-05, mix-04]
+   2  loses seal  [cold-03, food-09]
+   2  loses skin  [tool-03, tool-04]
+   2  loses speed  [cold-02, cold-10]
+   2  loses wet  [fire-03, mix-03]
+   2  loses wood  [tool-05, tool-07]
+   2  quantity down  [cold-06, cold-09]
+   2  size down  [grow-04, grow-08]
+   2  weight up  [build-10, water-06]
+   1  alertness down  [body-09]
+   1  animal hunger down  [food-09]
+   1  breath down  [food-04]
+   1  consumes apple flesh  [grow-01]
+   1  consumes ash  [mix-05]
+   1  consumes berries  [mix-09]
+   1  consumes branches  [cold-07]
+   1  consumes bread  [food-05]
+   1  consumes clay jar  [food-09]
+   1  consumes fat  [mix-05]
+   1  consumes firewood  [beast-05]
+   1  consumes fish  [find-08]
+   1  consumes glue  [mix-08]
+   1  consumes green wood  [food-04]
+   1  consumes leather belt  [food-10]
+   1  consumes leaves  [cold-07]
+   1  consumes lye  [mix-05]
+   1  consumes meat  [food-01]
+   1  consumes mushrooms  [food-06]
+   1  consumes poisonous weed  [food-07]
+   1  consumes pond water  [food-08]
+   1  consumes rope  [build-01]
+   1  consumes salt  [mix-06]
+   1  consumes strip of meat  [beast-02]
+   1  consumes tar  [mix-01]
+   1  consumes tinder  [fire-01]
+   1  consumes water  [water-05]
+   1  coordination down  [body-05]
+   1  count down  [find-08]
+   1  coverage down  [beast-07]
+   1  creates alarm calls  [beast-06]
+   1  creates ash  [fire-09]
+   1  creates blackened ground  [fire-02]
+   1  creates bond  [mix-08]
+   1  creates broken branches  [build-10]
+   1  creates burrow holes  [beast-07]
+   1  creates catch  [build-08]
+   1  creates chaff  [grow-09]
+   1  creates crack  [tool-07]
+   1  creates cut wheat  [grow-09]
+   1  creates darkness  [cold-02]
+   1  creates dead rat  [food-05]
+   1  creates discovery  [find-05]
+   1  creates disturbed leaves  [beast-09]
+   1  creates draft  [fire-09]
+   1  creates drip  [mix-02]
+   1  creates drips  [cold-07]
+   1  creates empty nest  [beast-06]
+   1  creates exposed ground  [find-10]
+   1  creates exposed wood  [cold-08]
+   1  creates fallen apples  [build-09]
+   1  creates fallen trunk  [tool-05]
+   1  creates featureless drift  [cold-04]
+   1  creates firewood split  [tool-02]
+   1  creates flame line  [fire-02]
+   1  creates flash of flame  [fire-06]
+   1  creates flattened trail  [beast-04]
+   1  creates flying hammer head  [tool-06]
+   1  creates gas  [food-09]
+   1  creates goodwill between them  [folk-07]
+   1  creates graft union  [grow-06]
+   1  creates grafted tree  [grow-06]
+   1  creates grain  [grow-09]
+   1  creates hole  [cold-05]
+   1  creates juice  [mix-09]
+   1  creates leak  [cold-03]
+   1  creates lean-to shelter  [build-10]
+   1  creates light  [beast-05]
+   1  creates log span  [build-01]
+   1  creates loose block  [find-02]
+   1  creates loose stones  [build-04]
+   1  creates loud crack  [cold-08]
+   1  creates lye  [mix-05]
+   1  creates maggots  [body-10]
+   1  creates mess  [food-09]
+   1  creates milk  [food-07]
+   1  creates mineral residue  [water-03]
+   1  creates mud  [cold-09]
+   1  creates mud spray  [mix-07]
+   1  creates noise  [folk-02]
+   1  creates offal  [food-03]
+   1  creates poor air  [fire-10]
+   1  creates raft  [water-06]
+   1  creates risk to nearby dry grass  [cold-08]
+   1  creates rolling coal  [fire-09]
+   1  creates rot smell  [grow-01]
+   1  creates row  [grow-05]
+   1  creates runoff  [water-04]
+   1  creates scion  [grow-06]
+   1  creates seedling  [grow-01]
+   1  creates shade  [grow-10]
+   1  creates shelter  [cold-07]
+   1  creates smell of burnt leather  [fire-03]
+   1  creates soap paste  [mix-05]
+   1  creates soggy mass  [water-07]
+   1  creates spilled grain  [build-02]
+   1  creates splash  [water-09]
+   1  creates spoiled meat  [food-02]
+   1  creates squash  [grow-07]
+   1  creates stain  [mix-10]
+   1  creates standing water  [grow-02]
+   1  creates stone chunks  [tool-06]
+   1  creates stone flake  [tool-03]
+   1  creates stone pieces  [tool-09]
+   1  creates stone wall  [build-04]
+   1  creates stuck boot  [cold-10]
+   1  creates tension in the inn  [folk-09]
+   1  creates torn sack  [beast-01]
+   1  creates turned earth  [find-05]
+   1  creates vine  [grow-07]
+   1  creates weed growth  [grow-04]
+   1  creates wood chips  [tool-05]
+   1  creates wood shaving  [tool-07]
+   1  fear down  [beast-02]
+   1  footing down  [body-09]
+   1  free movement down  [body-03]
+   1  gains alcohol  [food-09]
+   1  gains bait  [find-07]
+   1  gains blister  [water-01]
+   1  gains blockage  [tool-05]
+   1  gains blood  [tool-03]
+   1  gains boiled  [water-08]
+   1  gains braced  [body-03]
+   1  gains broken  [mix-08]
+   1  gains broken bone  [body-03]
+   1  gains caution  [cold-02]
+   1  gains cold  [cold-05]
+   1  gains collapsed  [body-07]
+   1  gains concealment  [folk-02]
+   1  gains cough  [fire-10]
+   1  gains crush  [build-08]
+   1  gains cured  [food-04]
+   1  gains dangerous cold  [body-06]
+   1  gains deformation  [tool-08]
+   1  gains delay  [cold-10]
+   1  gains desperation  [beast-03]
+   1  gains discomfort  [food-10]
+   1  gains distance  [beast-05]
+   1  gains disturbance  [build-09]
+   1  gains dizziness  [body-07]
+   1  gains dormancy  [grow-05]
+   1  gains drowning risk  [water-09]
+   1  gains drunk  [body-05]
+   1  gains dryness  [food-02]
+   1  gains dyed  [mix-09]
+   1  gains erosion  [beast-07]
+   1  gains exhaustion  [body-09]
+   1  gains expectation of the player  [folk-04]
+   1  gains exposed  [water-03]
+   1  gains falling  [water-09]
+   1  gains fever  [body-04]
+   1  gains flame  [water-10]
+   1  gains flooded  [water-04]
+   1  gains food  [beast-01]
+   1  gains footprints  [cold-10]
+   1  gains glowing  [fire-04]
+   1  gains grime  [mix-02]
+   1  gains hard  [mix-05]
+   1  gains hardness  [fire-04]
+   1  gains headache  [body-05]
+   1  gains hole  [mix-10]
+   1  gains impact  [build-07]
+   1  gains infection  [body-04]
+   1  gains injury risk  [body-09]
+   1  gains lean  [grow-10]
+   1  gains load  [build-07]
+   1  gains minor wound  [beast-06]
+   1  gains mud coating  [cold-10]
+   1  gains murk  [cold-09]
+   1  gains musty smell  [cold-01]
+   1  gains position  [beast-08]
+   1  gains relief  [folk-07]
+   1  gains rescued  [water-09]
+   1  gains ruined  [water-07]
+   1  gains scar  [tool-01]
+   1  gains scent  [beast-10]
+   1  gains seal  [grow-06]
+   1  gains shape  [fire-04]
+   1  gains shiver  [cold-06]
+   1  gains shivering  [body-06]
+   1  gains snow cover  [cold-04]
+   1  gains soaked  [water-04]
+   1  gains splinter  [tool-07]
+   1  gains spoiled  [mix-06]
+   1  gains stained hands  [mix-09]
+   1  gains standing liquid  [mix-10]
+   1  gains startled  [mix-07]
+   1  gains sticky  [mix-01]
+   1  gains stiff  [mix-01]
+   1  gains stings  [build-09]
+   1  gains stone  [find-02]
+   1  gains suspicion of player  [folk-08]
+   1  gains tension  [build-08]
+   1  gains union  [grow-06]
+   1  gains viability  [grow-07]
+   1  gains warm  [fire-03]
+   1  gains wear  [tool-02]
+   1  gains wrapped  [body-01]
+   1  height up  [grow-10]
+   1  hunger up  [food-10]
+   1  learns a blurred sighting near the player  [folk-10]
+   1  learns a false description matching the player  [folk-10]
+   1  learns a false identity for the new arrival  [folk-09]
+   1  learns a false origin for the bundle  [folk-05]
+   1  learns cache location  [beast-09]
+   1  learns danger is near  [beast-08]
+   1  learns eggs are gone  [beast-06]
+   1  learns food is near  [beast-06]
+   1  learns location of meat  [beast-01]
+   1  learns old woman needs help  [folk-07]
+   1  learns player has the bundle  [folk-05]
+   1  learns player is in need  [folk-04]
+   1  learns player wants to trade  [folk-03]
+   1  learns sack is missing  [folk-08]
+   1  learns something is buried here  [find-05]
+   1  learns something moved nearby  [folk-02]
+   1  learns the earlier story was false  [folk-05]
+   1  learns the fire is spreading  [fire-02]
+   1  learns the player did not repay a debt  [folk-06]
+   1  learns the water needs settling  [cold-09]
+   1  learns where dry tinder is  [fire-01]
+   1  light down  [beast-05]
+   1  loses balance  [water-07]
+   1  loses bare ground  [grow-04]
+   1  loses bark  [cold-08]
+   1  loses barrier  [grow-08]
+   1  loses bend  [fire-04]
+   1  loses binding  [build-02]
+   1  loses bloodstained  [mix-04]
+   1  loses bond  [mix-08]
+   1  loses branch  [grow-06]
+   1  loses brine  [mix-10]
+   1  loses broken  [mix-08]
+   1  loses bucket  [water-09]
+   1  loses buoyancy  [water-06]
+   1  loses caustic  [mix-05]
+   1  loses coating  [mix-02]
+   1  loses comfort  [fire-10]
+   1  loses consciousness  [body-07]
+   1  loses damp  [fire-01]
+   1  loses depth  [grow-02]
+   1  loses drowning risk  [water-09]
+   1  loses drunk  [body-05]
+   1  loses dryness  [food-02]
+   1  loses dryness inside  [cold-07]
+   1  loses energy  [cold-06]
+   1  loses eyebrows  [fire-06]
+   1  loses fibers  [tool-10]
+   1  loses fit  [tool-06]
+   1  loses flame  [water-10]
+   1  loses flesh  [body-10]
+   1  loses flexibility  [fire-03]
+   1  loses floating  [water-06]
+   1  loses flow  [cold-09]
+   1  loses footing  [beast-03]
+   1  loses grip  [build-05]
+   1  loses grip on foot  [cold-10]
+   1  loses gummy  [mix-01]
+   1  loses head  [tool-06]
+   1  loses ice  [cold-03]
+   1  loses lantern  [folk-06]
+   1  loses leaves  [grow-08]
+   1  loses liquid  [cold-03]
+   1  loses lodging  [folk-09]
+   1  loses moisture fast  [fire-03]
+   1  loses most heat  [fire-09]
+   1  loses organs  [food-03]
+   1  loses pack  [water-07]
+   1  loses shape  [grow-01]
+   1  loses shivering  [body-06]
+   1  loses squeaky  [mix-02]
+   1  loses standing plants  [grow-08]
+   1  loses support  [build-08]
+   1  loses tension  [build-06]
+   1  loses thirst  [water-05]
+   1  loses topsoil  [find-10]
+   1  loses trail  [find-09]
+   1  loses unsafe  [water-08]
+   1  loses value  [fire-05]
+   1  loses vigor  [grow-10]
+   1  loses visibility  [cold-04]
+   1  loses visible fire  [water-10]
+   1  loses warmth  [body-06]
+   1  loses water  [grow-04]
+   1  loses wrapped  [body-01]
+   1  moisture up  [grow-02]
+   1  moves boar to gully end  [beast-03]
+   1  moves deer herd to treeline  [beast-04]
+   1  moves fish to barrel  [food-03]
+   1  moves fox to hedge  [beast-06]
+   1  moves goat to farmhouse  [beast-08]
+   1  moves pack to downstream rocks  [water-07]
+   1  moves patient to player  [find-02]
+   1  moves patient to threshing floor  [grow-09]
+   1  moves patient to water  [find-07]
+   1  moves peg to post  [tool-08]
+   1  moves player away from cache  [beast-09]
+   1  moves player away from town  [folk-06]
+   1  moves player past town gate  [folk-05]
+   1  moves scion to sapling  [grow-06]
+   1  moves sled along trail  [build-02]
+   1  moves stray animal to larder  [food-09]
+   1  moves strip of meat to ground near wolf  [beast-02]
+   1  moves trunks to bank  [build-01]
+   1  moves watchman to doorway  [folk-02]
+   1  moves wedge to log end  [tool-02]
+   1  moves wedge to log interior  [tool-02]
+   1  moves wildcat to closer cover  [beast-08]
+   1  moves wolves and a bear to clearing  [body-10]
+   1  moves wolves to camp edge  [beast-05]
+   1  moves wolves to clearing  [beast-10]
+   1  numbers up  [beast-07]
+   1  pain down  [body-04]
+   1  size up  [grow-07]
+   1  thirst down  [food-08]
+   1  transfers bread and cheese from farmer to player  [folk-04]
+   1  transfers bread from baker to player  [folk-01]
+   1  transfers dead stag from foxes to wolves  [beast-10]
+   1  transfers dried meat from trapper to fox  [beast-01]
+   1  transfers dye from cloth to other laundry  [mix-09]
+   1  transfers eggs from parent birds to player  [beast-06]
+   1  transfers knife from player to farmer  [folk-03]
+   1  transfers lantern from innkeeper to player  [folk-06]
+   1  transfers purse from merchant to actual thief  [folk-10]
+   1  transfers sack from cart owner to player  [folk-08]
+   1  transfers sack from player to cart owner  [folk-08]
+   1  transfers tar from rope to player's hands  [mix-01]
+   1  transfers toxin from goat to milk  [food-07]
+   1  transfers turnips from farmer to player  [folk-03]
+   1  volume up  [tool-09]
+   1  wound swelling down  [body-04]
+
+== NUMBERS ==
+beast-01: how far the scent carries, from wind strength
+beast-01: how much meat taken, from sack size
+beast-02: how far the throw lands from the wolf
+beast-02: how much distance is enough
+beast-02: how much fear drops per feeding
+beast-03: how fast the boar can outrun the player
+beast-03: how much damage from tusks
+beast-04: how far the herd runs
+beast-04: how many snares break
+beast-05: how long the wood lasts
+beast-05: how close the wolves come while fire is bright
+beast-05: how many hours until it is low
+beast-05: how close they come
+beast-06: how many eggs are taken
+beast-06: how many dive attacks land
+beast-06: how many hours until the fox arrives
+beast-07: how many rabbits added per season
+beast-07: how many weeks until grass is bare
+beast-07: how much the warren expands
+beast-08: how long it waits before moving
+beast-08: how close it gets before being noticed
+beast-08: how fast the goat can outrun the cat in the open
+beast-09: how easy the scent is to trace
+beast-09: how long digging takes
+beast-09: how close the bear was before charging
+beast-10: how many hours until scent carries far
+beast-10: how much the crows eat before others arrive
+beast-10: how many days until foxes arrive
+beast-10: how many days until wolves arrive and how long they stay
+folk-01: how many loaves taken
+folk-01: how many hours pass before they meet
+folk-02: how dark the shadow is
+folk-02: how far the sound carries
+folk-03: what the knife is worth to the farmer
+folk-03: how many turnips match the knife's worth
+folk-04: how much food is given
+folk-04: how many days since the gift
+folk-05: how convincing the story is
+folk-05: how many days pass before the owner spots it
+folk-06: how many days before the debt is noticed
+folk-06: how many days and how far the story travels
+folk-07: how long the effort takes
+folk-08: how many seconds the owner was gone
+folk-10: how much detail the witness could make out
+fire-01: how many strikes before a spark catches
+fire-01: how much moisture is in the wood
+fire-01: how long the search takes
+fire-01: how many strikes it takes
+fire-01: how long until the branches catch
+fire-01: how much heat is needed to dry them first
+fire-02: how fast the flame line spreads
+fire-02: how far it travels before help arrives
+fire-02: how much the wind speeds it
+fire-02: how much of the hedge burns
+fire-02: how long it takes several people to put out
+fire-03: how long it takes to dry at a safe distance
+fire-03: how close counts as too close
+fire-03: how long before scorching starts
+fire-03: how long unattended before damage sets in
+fire-04: how long to reach working heat
+fire-04: how hot is too hot
+fire-04: how many strikes to straighten it
+fire-04: how fast it cools
+fire-04: how brittle it becomes if it was overheated first
+fire-04: how many days pass before it is struck hard enough to fail
+fire-05: how much fat spills
+fire-05: how high the flare reaches
+fire-05: how long it lasts
+fire-05: how much of the pelt burns before it is beaten out
+fire-06: how far a spark can fly
+fire-06: how much oil is pooled
+fire-06: how quickly it catches
+fire-06: how severe the burn is
+fire-07: how many attempts before giving up
+fire-07: how wet is too wet to catch
+fire-08: how much water is needed to fully douse it
+fire-08: how close counts as too close
+fire-09: how many hours the coals stay warm under ash
+fire-09: how much ash is disturbed
+fire-09: how long after the draft before flame returns
+fire-09: how long the basket takes to burn down
+fire-10: how much smoke is made per minute of burning
+fire-10: how long before the air is bad
+fire-10: how large the doorway would need to be to vent it
+fire-10: how much smoke exposure becomes dangerous
+cold-01: how long the rain lasts
+cold-01: how wet the cloth gets
+cold-01: how many hours wet before it sours
+cold-02: how strong a gust it takes to snuff a small flame
+cold-02: how much longer the dark crossing takes
+cold-03: how cold and how long before it freezes solid
+cold-03: how much the ice expands
+cold-03: how much pressure the jug can take before it fails
+cold-03: how long it takes to thaw
+cold-04: how many days it snows
+cold-04: how deep the drift gets
+cold-04: how deep before all landmarks are gone
+cold-05: how thick the ice is versus how thick it needs to be
+cold-05: how much weight the ice fails under
+cold-05: how cold the water is
+cold-05: how fast heat is lost in it
+cold-06: how deep the water is
+cold-06: how many hours of wet walking before real chill sets in
+cold-06: how long shivering lasts once warmth returns
+cold-07: how long it takes to build
+cold-07: how thick the covering ends up
+cold-07: how much rain gets through per hour
+cold-07: how strong a gust it takes to peel a loose corner
+cold-08: how likely the tallest thing on a hilltop is struck
+cold-08: how long the split runs
+cold-08: how close the dry grass is
+cold-08: how long before following rain douses it
+cold-09: how many rainless weeks before flow stops
+cold-09: how much water remains in pools
+cold-09: how much silt is stirred up
+cold-10: how deep the mud is
+cold-10: how much force it takes to pull the boot free
+cold-10: how long it takes to free the boot
+food-01: how many hours before meat this warm and humid turns
+food-01: odds of illness from how spoiled the meat already was
+food-01: hours until symptoms show
+food-01: how severe the illness is, from how spoiled the meat was
+food-02: how many days of sun are needed to dry meat cut this thin
+food-02: how much of the drying so far the rain undoes
+food-02: how many more damp hours before mould takes hold
+food-03: how much longer gutted fish keeps than ungutted
+food-03: how much salt per fish is needed to preserve it
+food-03: how many weeks salted fish keeps in cold storage
+food-04: how much smoke a smouldering damp fire makes over a day
+food-04: how many hours of smoke cures meat this size
+food-04: how long before smoke this thick in an enclosed space sickens a person
+food-05: how many days of damp air before mould becomes visible
+food-05: odds a hungry rat eats mouldy food anyway
+food-05: how much mould toxin it takes to kill a rat, over how many days
+food-06: odds this species is the poisonous look-alike, given how common it is here
+food-06: hours until the first symptoms show
+food-06: days until the deeper harm shows
+food-07: odds a grazing animal eats the poisonous weed among the grass
+food-07: hours until the goat visibly shows illness
+food-07: how much of the toxin passes into the milk
+food-07: hours until the milk-drinkers fall ill after the goat did
+food-08: odds standing water this still carries something harmful
+food-08: hours until symptoms begin
+food-08: how much fluid is lost to the sickness afterward
+food-09: how many days of fermenting before pressure becomes a problem
+food-09: how much gas pressure the sealed jar can hold before it fails
+food-09: how far the smell draws a scavenger from
+food-10: how long the false fullness lasts before hunger returns
+food-10: odds a poorly chewed piece catches in the throat going down
+food-10: how soon real hunger returns after the false fullness fades
+body-01: how deep the cut is
+body-01: how fast it bleeds
+body-01: how well a rushed one-handed wrap holds compared to a careful one
+body-01: how much movement it takes to work a loose wrap free
+body-02: how long the oil keeps burning on the blade
+body-02: how deep the cut is
+body-02: how much heat a blade passing this fast actually transfers
+body-02: odds the brief contact is enough to catch cloth
+body-03: how hard the fall was, whether the bone snapped or only bruised
+body-03: how well an improvised splint holds compared to a proper one
+body-03: how many hours until the swelling peaks
+body-04: how many untended days before infection sets in
+body-04: how much a poultice helps against infection this advanced
+body-04: how many hours after treatment the fever still comes on
+body-05: how many cups before the player is unsteady, from how strong the wine is
+body-05: how many hours until sober
+body-05: how bad the morning-after is, from how much was drunk
+body-06: how fast body heat drops with no shelter or fire, from how cold the night is
+body-06: how many hours of exposure before shivering stops being protective and starts being a bad sign
+body-07: how much fluid is lost per hour of walking in this heat
+body-07: how many hours of this before collapse
+body-07: how close to shelter or water the player was when it happened
+body-08: how long in the fire until the blade is hot enough to cauterize
+body-08: how long the blade must stay in contact to seal the vessels
+body-08: odds of a burn infection afterward
+body-09: how many hours awake before judgment and balance start to suffer
+body-09: odds an exhausted person misjudges a step here that a rested one would not
+body-10: how many hours of warmth before the corpse turns and starts smelling
+body-10: how soon flies find a rotting carcass in the open
+body-10: how far a strong smell of rot carries and draws predators from
+grow-01: how deep it's buried
+grow-01: days until flesh breaks down
+grow-01: odds each pip survives the rot
+grow-01: weeks until sprouting
+grow-01: how many of the pips take
+grow-02: how much water the topsoil needed versus how much was given
+grow-02: how many days the water sits before it drains
+grow-02: days of waterlogging before roots die
+grow-03: how much seed sown
+grow-03: odds a seed of this age still germinates
+grow-03: how many of the row take
+grow-04: how fast weed cover grows per week untended
+grow-04: how much the cabbages' growth rate drops under weed pressure
+grow-05: depth of the row
+grow-05: how much seed sown
+grow-05: weeks of dormancy before soil warms enough
+grow-05: odds the seed survived winter dormancy intact
+grow-06: length of scion cut
+grow-06: odds the cut faces match closely enough to knit
+grow-06: how many weeks the seal must hold
+grow-06: weeks until the knit succeeds or fails
+grow-06: years until the grafted tree first bears fruit
+grow-07: odds a discarded seed survives the heap's heat
+grow-07: weeks until sprouting
+grow-07: weeks until fruit forms
+grow-07: how much compost nutrient the vine draws off
+grow-08: how many days of leaning before the fence gives
+grow-08: how much of the bed the goat eats before it's full
+grow-08: fraction of the bed trampled versus eaten
+grow-09: fraction of heads fully ripe versus still green
+grow-09: yield of usable grain versus shrunken grain
+grow-10: how much taller the hedge grows per year
+grow-10: fraction of daylight the sapling loses per year as the hedge grows
+grow-10: years before the growth gap becomes visible
+grow-10: how far behind an unshaded sapling of the same age it falls
+find-01: odds a loose stone is visible here
+find-01: how many seconds a glance takes
+find-02: odds a decent piece is visible without digging
+find-02: time spent picking a spot
+find-02: odds the block comes free clean versus cracks wrong
+find-02: effort spent swinging
+find-02: weight of the block carried
+find-03: odds of finding mushrooms per minute searched, rising with time spent
+find-03: how many mushrooms turn up for the effort spent
+find-04: time spent before giving up
+find-05: odds worms are present in this soil
+find-05: how many worms turn up per scoop
+find-05: odds any unrelated buried thing turns up while digging for something else
+find-06: odds of success on a re-search of an unchanged patch, same as the first search's remaining odds, not improved
+find-07: how much bait improves odds over an unbaited hook
+find-07: how far and where the line lands
+find-07: odds a fish bites per span of time waited
+find-07: how big a fish that bites turns out to be
+find-08: how many fish the heron takes before it moves on
+find-08: how much this lowers the odds of a catch later that day
+find-09: how far the trail can be followed per minute on good ground
+find-09: odds of picking the trail back up by casting around on ground that holds no mark
+find-10: how much topsoil washes off in one night of hard rain
+find-10: how much easier the stones are to spot now than before the rain
+tool-01: how many strikes before the edge dulls
+tool-01: how deep the cut gets
+tool-02: how many blows to drive the wedge deep enough
+tool-02: how much force clears the grain
+tool-03: odds the flake comes off clean versus the nodule shattering
+tool-03: how deep the cut is
+tool-04: how many cuts to skin it
+tool-04: how many hours of damp before rust shows
+tool-05: how many nights of gnawing before the trunk gives
+tool-05: which way it falls, how much of the stream it blocks
+tool-06: how many blows to break off a usable chunk
+tool-06: how many blows and how much drying before the head is loose
+tool-06: odds the head comes free on a given swing
+tool-07: how many passes to shape the bowl
+tool-07: odds the cut catches a knot
+tool-08: how many swings, how many miss cleanly
+tool-09: how many freeze-thaw nights before the crack widens enough
+tool-09: how wide the crack gets, how many pieces result
+tool-10: how long the sawing takes for how little result
+build-01: how long the drag takes for trunks this size
+build-01: whether the span reaches both banks
+build-01: how much rope the lashing uses, how much load the lashing holds
+build-02: how secure the knot is, from how it was tied
+build-02: how much jolting the ruts cause
+build-02: how much grain is lost
+build-03: how much force the rail can take before it fails, versus how much the boulder needs
+build-04: how tall the stack gets before it is unstable
+build-04: how far the falling stones scatter
+build-04: odds a scattering stone reaches something nearby
+build-05: how many hours of rain before the lashings loosen
+build-06: how long it takes to chew through
+build-07: odds the rot is enough to fail under this weight
+build-07: how far the fall is, how hard the landing
+build-08: how precarious the balance is, and so how light a touch trips it
+build-08: how long before something crosses the trail
+build-08: odds the fall lands on the grouse rather than beside it
+build-09: how many apples come loose
+build-09: how many wasps, how many stings before the player is clear
+build-10: how steep the pitch is
+build-10: how much snow piles up over two days
+build-10: how much weight the branches could take before failing
+water-01: how much water the boots hold before overflowing
+water-01: how much leaks per step, how far it is to camp
+water-01: how long of walking before a blister forms
+water-02: how full the bucket is filled
+water-02: odds of a slip on this slope, how much spills from the lurch
+water-02: how much sloshes out per remaining stretch of climb
+water-03: how many hours it sits like this
+water-03: how much water is lost per hour of sun, how much residue is left behind
+water-04: how much rain falls overnight, how fast the streambed fills
+water-04: how deep the water gets, how long before it reaches the tent
+water-04: how long bedding stays wet, how long it takes to dry after
+water-05: how much sediment gets stirred up
+water-05: how much the dog drinks
+water-05: how many hours before it clears again
+water-06: how many logs are needed, how long lashing takes
+water-06: how much weight the raft can carry before its waterline reaches the logs' tops
+water-06: how far across the river this happens, how deep the water is there
+water-07: odds of a stumble given current speed and depth
+water-07: how far downstream it travels before snagging
+water-07: how long submerged before the bread is inedible
+water-08: how much water the pot holds
+water-08: how long over the fire until it boils, how much boils away as steam
+water-08: how long until it is safe to drink without scalding
+water-09: how far the bucket falls before it splashes
+water-09: odds of overbalancing given rim height and the child's size
+water-09: how deep the water is, how long the child can stay afloat unaided
+water-09: how long the rescue takes, whether it is fast enough
+water-10: how much water a coal bed this size needs to fully soak, versus how much was poured
+water-10: how deep the water penetrates the coal bed
+water-10: how many hours until the embers cool below reignition, whether wind arrives before then
+water-10: how far the spark travels, how dry the grass is
+mix-01: how much tar the rope's length and thickness soak up
+mix-01: how long tar stays gummy before it sets
+mix-01: how many hours until it is fully hardened
+mix-02: how much oil the joint absorbs before it is saturated
+mix-02: how much runs off versus stays in the joint
+mix-02: how long before enough dust collects to matter
+mix-03: how much rain falls overnight
+mix-03: how long a film of moisture lingers on the metal
+mix-03: how many hours of dampness before visible rust, how much it spreads per day left uncovered
+mix-04: how much scrubbing and time gets the mud out
+mix-04: how much the stain lightens versus how much remains
+mix-05: how much lye a given amount of ash and water yields, how strong it is
+mix-05: how long boiling and stirring takes, the ratio of fat to lye needed
+mix-05: how many days curing takes before it is safe and firm to use
+mix-06: how much salt was used versus how much the meat's surface needs for full coverage
+mix-06: how much moisture remains after a day in this humidity
+mix-06: how many days before the unsalted patch turns, versus the well-salted parts
+mix-07: how far and fast the goat bolts
+mix-07: how wide the splash radius is
+mix-07: how deep into the sack the mud reaches
+mix-08: how long the glue takes to cure fully
+mix-08: how many hours to reach full strength
+mix-08: how many days after the repair this washing happens, how hot and how long submerged before it fails
+mix-09: how much juice a handful of berries yields
+mix-09: how long soaking takes for an even, deep color
+mix-09: how far flung droplets travel, how long the stain on hands or the other shirt lasts
+mix-10: how many days it sits untouched
+mix-10: how much faster salt water rusts iron than plain water, how many days to weaken the seam
+mix-10: how long it takes to fully drain through a pinhole
+
+== MALFORMED (105) ==
+folk-03 because: player wants turnips
+folk-03 because: farmer sells turnips
+fire-02 because: patient needs air
+fire-04 because: patient was overheated earlier
+fire-05 because: patient smells of food
+fire-05 effect: patient moves to coals
+fire-06 because: agent strikes hard
+fire-08 because: instrument smothers flame
+fire-09 effect: agent keeps some heat
+fire-09 because: agent blows overnight
+fire-09 because: instrument feeds combustion
+cold-03 because: agent takes more space than water
+cold-03 because: place warms by day
+cold-04 because: patient was at ground level
+cold-05 because: patient looks solid on top
+cold-05 effect: player moves onto ice
+cold-05 because: agent exceeds what thin ice bears
+cold-05 because: patient fell through
+cold-06 because: patient kept walking instead of drying off
+cold-06 because: patient lost significant heat
+cold-07 because: instrument sheds some water
+cold-08 because: patient carries the current poorly
+cold-08 because: patient's sap boils and expands
+cold-09 because: patient depends on regular rain
+cold-10 because: agent grips tightly when pulled against
+cold-10 because: player needs it to keep walking
+food-01 because: patient ate spoiled food
+food-01 because: rot carries harmful bacteria
+food-03 because: organs rot fast
+food-03 because: instrument draws out moisture
+food-04 because: damp wood smoulders instead of burning clean
+food-04 because: player stayed inside tending it
+food-05 because: rats ate enough of it
+food-06 because: patient looks edible
+food-07 because: family did not know goat was sick
+food-07 because: milk looks normal
+food-08 because: stagnant water breeds harm
+food-09 because: gas quantity up
+food-09 because: mess smells strong
+body-01 because: player's leg was in the path
+body-02 because: sword was resting in the fire
+body-02 because: burning oil-coated sword touched it while alight
+body-03 because: player lost footing
+body-03 because: broken bones swell as they bruise
+body-04 because: old wound was never cleaned
+body-04 because: old wound stayed covered and damp
+body-04 because: old wound infection quantity up
+body-05 because: player kept drinking
+body-05 because: body clears alcohol over hours
+body-06 because: player warmth quantity down
+body-06 because: cold night air exposure continuing
+body-07 because: player fluid quantity down
+body-07 because: player kept walking instead of resting
+body-07 because: player pushed past the warning signs
+body-09 because: player keeps exerting
+body-09 because: player alertness quantity down
+body-10 because: smell quantity up
+find-01 because: agent spent a glance
+find-03 because: agent spent real time
+find-07 because: place holds some fish
+build-08 because: trigger stick crosses the game trail
+water-01 because: leather stiffens when wet
+water-02 because: water shifts with movement
+water-03 because: rock sits in direct sun
+water-03 because: heat and airflow draw moisture off an exposed surface
+water-04 because: streambed channels runoff downhill
+water-04 because: camp sits below the streambed's old bank
+water-06 because: rope can bind things together
+water-06 because: logs offer only so much buoyancy
+water-08 because: fire supplies enough heat to reach a boil
+water-09 because: rope can be lowered and gripped
+water-10 because: water can smother flame
+water-10 because: embers underneath stay hot and dry
+water-10 because: wind supplies the air a smothered ember needs to flare
+mix-01 because: player handled it too soon
+mix-01 because: tar stiffens as it cools
+mix-02 because: dust settles on any sticky surface over time
+mix-03 because: tools were left outside
+mix-03 because: air alone dries slowly
+mix-03 because: iron reacts with water and air over time
+mix-03 because: tools were never dried or oiled
+mix-04 because: water can carry loose particles away
+mix-04 because: plain water alone does not break down a set stain without soap
+mix-05 because: ash holds soluble alkaline salts
+mix-05 because: water dissolves them as it passes through
+mix-05 because: fat and lye react together when heated
+mix-05 because: the reaction needs heat to proceed at a useful pace
+mix-05 because: soap must lose moisture and finish reacting to be safe and firm
+mix-06 because: salt draws moisture out of flesh by osmosis
+mix-06 because: humid air does not pull moisture out well
+mix-06 because: that patch stayed moist and under-salted
+mix-06 because: days passed at a temperature bacteria favor
+mix-07 because: goat startles easily
+mix-07 because: noise was sudden and close
+mix-07 because: sack was open and in the splash's path
+mix-08 because: hide glue bonds wood surfaces as it dries
+mix-08 because: the pieces were held together while curing
+mix-08 because: glue needs to dry out to reach full strength
+mix-09 because: crushing breaks their skins
+mix-09 because: juice carries pigment that binds to fiber
+mix-09 because: wringing flings loose droplets outward
+mix-10 because: nobody emptied the pot
+mix-10 because: brine was left standing
+mix-10 because: dissolved salt speeds the rusting reaction
+mix-10 because: a hole lets liquid through

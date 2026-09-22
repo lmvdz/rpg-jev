@@ -1,6 +1,6 @@
 # Living World RPG — Architecture Spec
 
-2026-09-17 · Living copy: https://claude.ai/code/artifact/2ccf433b-927b-427e-8a45-2135ba32a0cb
+2026-09-18 · Living copy: https://claude.ai/code/artifact/2ccf433b-927b-427e-8a45-2135ba32a0cb
 
 ## 1. Vision
 
@@ -367,7 +367,7 @@ flowchart LR
   J --> Q[Debt ledger]
 ```
 
-Jev sits on both sides of Claude: it ranks what goes into the digest and ratifies what comes out.
+Jev sits on both sides of Claude: it ranks what goes into the digest and ratifies what comes out. The edge back, from what play did with accepted content to the next proposal, is section 20.
 
 **What the author writes**
 
@@ -467,6 +467,8 @@ The event log is the save file, and replaying it never calls a model. Jev's answ
 | Parse clarification rate | Whether intent thresholds are right |
 | Tokens and calls per player-hour | Whether the cost model holds |
 | Dropped stale proposals | Whether author latency is outrunning the world |
+
+Section 20 turns these from things a person reads into inputs of two loops.
 
 **The playtest loop**
 
@@ -613,6 +615,9 @@ These are unverified or undecided. Each names what settles it.
 - [ ] Which small model renders prose, and its cost per observed scene. Not settled in M2: the PoC renders everything from templates and no model writes prose at play time. Templates were enough for three NPCs and one night; they will not be enough for a village. Moved to M3.
 - [x] Setting and tone, as a one-page world bible: `docs/world-bible.md`. The judge overruled it once (Tobin's silence, section 6), which is worth remembering when the next one is written: a bible line about what someone will not do needs a mechanism, not a trait.
 - [x] How much of an NPC's reacting is content, and how much is engine? The PoC's engine named characters: each reaction was a code path with a name in it, added after a playtest showed a gap, which is the pattern to stop. **Settled, 2026-09-18:** all of them were rebuilt as dispositions in content over one reaction pipeline (section 9), inside the existing `pick_action` and `pick_speech_act` families, so the backlog family "reactions and appraisal" (section 14) was not needed for this. The named versions were deleted. The six routes, re-measured live at ten seeds each, came out as before: evidence 9 of 10 (was 9), exposing the culprit 10 of 10 (was 10), a witness 6 of 10 (was 6, then 5; that route turns on two dice), and 0 of 10 for the bare return, denial and threats. The first re-measurement did not: the witness route fell to 0 and exposing the culprit to 2, because the named code had let people tell someone in another room and do three things in one instant, and because speaking up had been tied to a tale still being guarded. The general rules in section 9 fixed both (same-pass consequences, a new errand supersedes the old, speaking up is for someone); the route scripts were not changed. Character names in engine files went from 101 to 35, held by a ratchet test. Not settled by this: stance is still code derived from drives (appraisal stays on the backlog), and NPCs do not yet choose by the needs graph (section 4); only the player attempts things.
+- [x] Do the improvement loops' signals exist in real logs, and can a logged decision's slice be rebuilt cheaply enough to make a probe of it? Settled by the first probe sketch (section 20): the signals are there once `none` is gated on the branch code read, and a logged decision cannot be rebuilt once the code has moved on.
+- [ ] Where a request is captured for the probe set: in the decision entry, which section 13 already says holds the questions and does not, or in a file beside the save. The state is the bulk of it (about 1,250 tokens a call). Three judged lines in the one real night also have no `input` entry carrying their text. Settled before the scorer is built.
+- [ ] How much of the probe set is held out from the proposer, and who writes the expected direction of a twin. A person, at first. Settled when the scorer exists.
 - [ ] Full combat rules. M2 ships only the stub in section 5.
 - [ ] How time runs in multiplayer: real-time, world ticks, or per-location clocks. Grid movement with turns or ticks hides Jev's latency, so that is the current lean. Needed before M5.
 - [ ] How players are authenticated, and how the open player-intent reducers are rate-limited. S0 closed every other reducer to anyone but registered workers; the intents are open by design. Needed before M5.
@@ -704,3 +709,72 @@ The client reproduces the Rangedrifter technique in raw WebGL2: real 3D terrain 
 **Performance rules:** no per-frame allocation, chunk rebuilds in a Web Worker, subscription bursts applied across frames, the shader compiled at load, and buffers rebuilt on a lost context. The R1 stress test is the gate.
 
 **Reference:** the Rangedrifter development log from 2024-08 to 2025-01 covers tessellation, the shader and lighting. It will be read when R1 starts.
+
+## 20. Improvement loops
+
+Decided 2026-09-18 as a design; none of it is built. The state that Jev and the world run on improves in three layers. Each layer has its own loop, its own proposer and its own gate, and the gates get stricter going up. The loops are recursive in one sense only: what a loop lands changes what the log records, and the log is the next round's input. No model grades its own work.
+
+| Layer | What improves | Proposer | Gate | Cadence |
+| --- | --- | --- | --- | --- |
+| Content | Claims, reply repertoires, topic options, templates, descriptions against the needs graph (section 4) | Generative model, at runtime, through the proposal inbox (section 10) | Code schema and preconditions, then Jev on the structured form | Author triggers |
+| Representation | How code words state for the judge (`eventLine`, `standing`, which fields a slice carries, what is ranked in) and the wording, criteria and examples of the eight families | Generative model, offline | A probe set scored by code, then a pull request a person merges | Dev time |
+| Ontology | Effect kinds, question families, the needs graph, slice schemas' required paths | A person | This spec | Rare |
+
+Rule 8 is why content and representation are separate loops. Generated text never defines instructions or criteria at play time, so the content loop can only add structure (a claim with a subject, predicate and object from closed vocabularies), and code still renders every word the judge reads. A change to wording reaches the judge only as authored code that went through review, which is what the representation loop produces.
+
+**Signals**
+
+Every decision is logged with its full distribution, so the signals that drive both loops are computed by rule, with no model, in the same pass as `pnpm friction` (section 13).
+
+| Signal | Points at | Feeds |
+| --- | --- | --- |
+| `none_of_these` wins on `states`, `asks_about` or `request` | The player meant something the world has no claim, subject or request for | Content |
+| `none_of_these` wins on a reply or an action | An NPC had no fitting move | Content |
+| A Choice whose top two options are close, on a question that should not be contested | Overlapping options, or a slice missing the fact that separates them | Representation |
+| The two wordings of a guard disagree | Paraphrase instability, measured live on every guard call | Representation |
+| A slice field whose change never moves any answer that points at it | Dead weight: tokens and a distractor (section 14) | Representation |
+| Options and templates never picked | Culling (section 10) | Content |
+| Fallbacks, dropped decisions, slow turns | Already in the friction report | Either, by triage |
+
+A spread between two good story options is not a snag (section 14). The signal is spread where code expected none, so each question that is watched says which it is.
+
+A `none` counts only on a branch code actually read. The parse asks `states` and `asks_about` speculatively, and over 92 real decisions `none` won on them 24 and 26 times out of 26, nearly all on the branch the verb made irrelevant. Gated on the verb, what is left is real: "ask mara where did they hear that" found that nobody can be asked where a tale came from.
+
+**Representation: Jev is the instrument, code is the judge**
+
+If a generative model proposes a better wording of `npcs.mara.knows` and Jev ratifies it, the loop optimises for whatever Jev finds persuasive (section 12 already says this of proposals). So Jev never judges a representation. It is measured under it.
+
+- **A probe** is a recipe for a request, one edit that makes its twin, and what should move: the mass on a pattern over option ids (an edit can rename an option, as when a paid debt turns `confide:` into `tell:`), a direction, and a minimum size above the noise of asking the same request twice. "Tobin's debt is paid, so telling goes up" is a probe; so is every finding in `spikes/m0-jev` and `spikes/m2-families`, which were this test run once by hand with absolute expectations and no twins.
+- **The recipe rebuilds the request; it does not store it.** A seed, the inputs, and the judge's scripted answers on the way there. A stored state goes stale when a renderer changes, which is the change a probe has to survive.
+- **Two kinds of edit, and both are needed.** A world edit goes through the game's own write path, so every renderer reacts as in play; it says whether the world's change reaches the judge, but it moves several fields and the option set at once. A representation edit keeps the world and drops or swaps one path, line or renderer; it says which field did the work. Neither is a text diff. Dropping one line needs `compileSlice` to say which claim each line came from, which it does not yet.
+- **Play feeds the probe set only if requests are captured when asked.** A logged decision holds the slice hash and the answers, not the state or the questions, and replaying effects does not rebuild what an NPC hears or the option set. Re-driving the inputs works while recordings match the code (all 41 demo requests recover) and fails once the code moves on (the one real night misses at its second input). Until capture exists, probes come from the demo recipes and the spikes.
+- **A candidate** is a variant of one rendering function, one slice schema or one family's wording. The proposer sees the current code, the probes it fails, and the scores of earlier candidates. That last input is the recursion.
+- **The score is numbers, so it is code** (rule 3): how many twins move in the right direction and by enough, paraphrase shift between the two wordings, knowledge leaks across `npcs.<id>` paths (M0 test 4), and estimated tokens. A candidate is promoted only when it is no worse on any of the four and better on one.
+- **Promotion is a pull request.** It carries the scores and the re-recorded demo (section 13), and a person merges it. Old saves replay from their logs untouched (rule 9).
+- **The probe set is also the migration suite.** Section 13 says a model upgrade re-runs the spikes; the probe set is that suite, kept current by play. A probe run keys its answers by model as well as by request, which the game's request id does not do today.
+- **Probes are held out from the proposer in part.** A candidate is scored on probes the proposer never saw, or the loop fits the probe set and not the judge.
+
+**Content: closing the author thread's loop**
+
+Section 10 runs one way: log, digest, proposal, ratification, ledger. The edge back is the signal table above.
+
+```mermaid
+flowchart LR
+  L[Event log] --> S[Signals<br/>code]
+  S --> G[Gap report:<br/>what had no option]
+  G --> C[Generative model]
+  C --> X[Proposal inbox]
+  X --> K[Schema and<br/>preconditions: code]
+  K --> J[One-hop checks: Jev]
+  J --> P[Content pool]
+  P --> L
+```
+
+- **The gap report** is the content loop's digest. Code groups the inputs that ended in `none_of_these` by the question and scope they were asked in. Raw player text goes to the generative model in a labeled field and never to Jev, and what comes back is structure, so rule 8 and structured propagation (section 12) both hold.
+- **Ratification is one hop at a time**, as section 4 says of descriptions: could someone at this inn hold this claim, does it contradict something already canon. Freshness and canon checks are backlog families (section 14); until one is admitted the content loop cannot run unattended, and proposals are read by a person.
+- **The pool is measured after it grows.** A new option earns its place when the `none` rate on its question falls and it is picked. One that is never picked is culled. An option that is picked but moves the probe scores of its question the wrong way is pulled, which is why the probe set comes first.
+- **Nothing here is in the play loop** (rule 2). Both loops can be switched off and the world plays as before.
+
+**Order.** The probe set and its scorer are built first: they need no new family and no runtime generative call, they are tooling and not the author thread, and the content loop needs them to tell better from merely different. They grow out of `spikes/m2-families`, which already runs handwritten states against live Jev. The content loop arrives with M3.
+
+**First sketch, 2026-09-18** (`spikes/probe-sketch/FINDINGS.md`; 16 live calls, $0.0014). Three paired probes were run by hand in both wordings. The guard's culprit question falls from 0.56 and 0.61 to 0.06 and 0.07 when the apron lines leave the slice, with no repeat noise: the proof carries it, as it should. Tobin tells what he saw at 0.05 indebted and 0.34 once he learns the debt is paid, but dropping the debt's circumstance line alone moves nothing (0.04), so the comment in `slices.ts` that credits that line is not reproduced; the debt is also in his `knows`, which may be why. Dropping `scene.people`, `scene.things` and `scene.exits` from the parse slice, which repeat the criteria, saves 8 to 10% of tokens and flips no top choice, but `target` loses 0.12 to 0.30 to `none` every time because the instruction still says "which entry in `scene`", and "attack mara" falls from 0.98 to 0.70, under the bar for violence. A slice change and its question's wording move together or not at all. The larger parse costs are elsewhere: the verb criteria are about 1,020 tokens and the untrusted-text sentence is sent seven times.
