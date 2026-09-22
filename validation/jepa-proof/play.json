@@ -1,0 +1,26 @@
+{
+  "checkpoint": "76b094f2dc1a1521",
+  "sessions": 2000,
+  "steps": 12,
+  "signals": {
+    "rejected": 103,
+    "invariant": 4,
+    "low": 1743,
+    "gap": 3366
+  },
+  "transitions": 4882,
+  "droppedAsSealed": 0,
+  "post": {
+    "scenes": 1516,
+    "samples": 6616
+  },
+  "gapScenes": 600,
+  "gapProposalsKept": 600,
+  "gapClaims": 2775,
+  "gapRatified": 2603,
+  "controlsTrusted": true,
+  "postGap": {
+    "scenes": 467,
+    "samples": 1979
+  }
+}
