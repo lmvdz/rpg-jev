@@ -195,3 +195,26 @@ The doc remains out of sync, as it already was before this milestone, with:
 - the repository's section 16 browser-world priority correction;
 - sections 20–23 (added on other branches);
 - the dated notes and results inside milestone J.
+
+## Independent review (2026-09-22, after the gate runs)
+
+A read-only review of the whole branch found no breach of the ten
+constitutional rules, and found the report's verdicts consistent with the gate
+code. It raised three points:
+
+1. **The index was untested.** The neighbourhood index claimed equality with a
+   full scan without a test. Training observations are built by full scan and
+   the server's through the index. Now tested (`test/jepa/neighbourhood.test.ts`):
+   identical observations on 400 generated scenes (before and after their acts)
+   and on a crowded yard.
+2. **Cache collisions went unchecked.** The scorer's memory was keyed by a
+   64-bit hash with no check on a hit. Every memory now keeps its quantised
+   inputs and verifies them on each hit (`Verified` in `runtime.ts`, with a
+   test), so a collision costs a recomputation and never a wrong score. This
+   adds about 1 ms of scoring at 1,405 things in Node (p50 4.5 against 3.2 ms,
+   measured under other background load). The J2 numbers above predate this
+   change.
+3. **One replay path is only unit-tested.** The archive replay tool applies
+   logged changes and checks every draw; it never re-derives a world from a
+   commit record. So core's `replay()` is exercised only by unit tests, not
+   against a real archive. This is a design note; no defect was found.

@@ -125,19 +125,46 @@ interface Scratch {
   state: Float64Array;
   logits: Float64Array;
   /** A neighbour's own row, projected, by its quantised values: shared by every observer. */
-  rows?: Map<string, Float64Array>;
+  rows?: Verified<Float64Array>;
   /** A thing's own row through the self layer, by its quantised values. */
-  selves?: Map<string, Float64Array>;
+  selves?: Verified<Float64Array>;
 }
 
 /** Where a neighbour's own row starts inside its block (after present, relation, distance, role). */
 const NB_HEAD = NB - THING;
 
+/** A feature's level at the model's precision (features are in [0, 1]). */
+const level = (v: number): number => (v * 1024 + 0.5) | 0;
+
+/**
+ * A memory keyed by a hash of quantised inputs that keeps those inputs and checks them on every
+ * hit, so a hash collision costs a recomputation, never a wrong answer.
+ */
+export class Verified<V> {
+  readonly #entries = new Map<string, { q: Int16Array; value: V }>();
+  readonly #limit: number;
+  constructor(limit: number) {
+    this.#limit = limit;
+  }
+  get(key: string, x: Float64Array, at: number, n: number): V | undefined {
+    const entry = this.#entries.get(key);
+    if (!entry) return undefined;
+    for (let i = 0; i < n; i++) if (level(x[at + i] as number) !== entry.q[i]) return undefined;
+    return entry.value;
+  }
+  set(key: string, x: Float64Array, at: number, n: number, value: V): void {
+    if (this.#entries.size >= this.#limit) this.#entries.clear();
+    const q = new Int16Array(n);
+    for (let i = 0; i < n; i++) q[i] = level(x[at + i] as number);
+    this.#entries.set(key, { q, value });
+  }
+}
+
 function rowKey(x: Float64Array, at: number): string {
   let h1 = 0x811c9dc5;
   let h2 = 0x01000193;
   for (let i = 0; i < THING; i++) {
-    const q = Math.round((x[at + i] as number) * 1024);
+    const q = level(x[at + i] as number);
     h1 = Math.imul(h1 ^ q, 16777619);
     h2 = Math.imul(h2 ^ (q + i * 2654435761), 2246822519);
   }
@@ -150,7 +177,7 @@ function neighbourBlock(m: RuntimeModel, x: Float64Array, at: number, s: Scratch
   let row: Float64Array | undefined;
   if (s.rows) {
     const key = rowKey(x, at + NB_HEAD);
-    row = s.rows.get(key);
+    row = s.rows.get(key, x, at + NB_HEAD, THING);
     if (!row) {
       row = new Float64Array(l.rows);
       for (let r = 0; r < l.rows; r++) {
@@ -159,8 +186,7 @@ function neighbourBlock(m: RuntimeModel, x: Float64Array, at: number, s: Scratch
           sum += (l.w[r * l.cols + c] as number) * (x[at + c] as number);
         row[r] = sum;
       }
-      if (s.rows.size > 50_000) s.rows.clear();
-      s.rows.set(key, row);
+      s.rows.set(key, x, at + NB_HEAD, THING, row);
     }
   }
   for (let r = 0; r < l.rows; r++) {
@@ -200,7 +226,7 @@ function selfLayer(m: RuntimeModel, x: Float64Array, s: Scratch): void {
     return;
   }
   const key = rowKey(x, 0);
-  let own = s.selves.get(key);
+  let own = s.selves.get(key, x, 0, THING);
   if (!own) {
     own = new Float64Array(l.rows);
     for (let r = 0; r < l.rows; r++) {
@@ -208,8 +234,7 @@ function selfLayer(m: RuntimeModel, x: Float64Array, s: Scratch): void {
       for (let c = 0; c < THING; c++) sum += (l.w[r * l.cols + c] as number) * (x[c] as number);
       own[r] = sum;
     }
-    if (s.selves.size > 50_000) s.selves.clear();
-    s.selves.set(key, own);
+    s.selves.set(key, x, 0, THING, own);
   }
   for (let r = 0; r < l.rows; r++) {
     let sum = (l.b[r] as number) + (own[r] as number);
@@ -335,22 +360,24 @@ export function scorerOf(
   m: RuntimeModel,
   options: ScorerOptions,
 ): jepa.Scorer & { stats: ScorerStats } {
-  const scratch: Scratch = { ...scratchFor(m), rows: new Map(), selves: new Map() };
+  const scratch: Scratch = {
+    ...scratchFor(m),
+    rows: new Verified<Float64Array>(50_000),
+    selves: new Verified<Float64Array>(50_000),
+  };
   const quantised = new Float64Array(jepa.OBSERVATION_WIDTH);
-  const memory = new Map<string, Float64Array>();
   // The last observation and answer at each position: things come in the same order each tick.
   const slots: Float64Array[] = [];
   const answers: Float64Array[] = [];
-  const limit = options.cache ?? 20_000;
+  const memory = new Verified<Float64Array>(options.cache ?? 20_000);
   const stats: ScorerStats = { calls: 0, scored: 0, cached: 0, late: 0, lastMs: 0 };
   const lookup = (x: Float64Array): Float64Array => {
     const key = quantisedKey(x);
-    let p = memory.get(key);
+    let p = memory.get(key, x, 0, x.length);
     if (p) stats.cached++;
     else {
       p = score(m, quantise(x, quantised), scratch);
-      if (memory.size >= limit) memory.clear();
-      memory.set(key, p);
+      memory.set(key, x, 0, x.length, p);
       stats.scored++;
     }
     return p;

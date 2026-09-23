@@ -7,7 +7,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { parseModel, score, scorerOf } from "../src/runtime.ts";
+import { parseModel, score, scorerOf, Verified } from "../src/runtime.ts";
 
 const RELEASE = join(import.meta.dirname, "..", "checkpoints");
 const roots = [process.env.JEPA_RUNS, RELEASE].filter((r): r is string => !!r && existsSync(r));
@@ -52,5 +52,18 @@ describe("runtime parity with PyTorch", () => {
     const before = ok.stats.cached;
     ok(obs, []);
     expect(ok.stats.cached - before).toBe(obs.length);
+  });
+});
+
+describe("the scorer's memory", () => {
+  it("never answers for different inputs that share a key", () => {
+    const memo = new Verified<string>(10);
+    const a = Float64Array.from([0.1, 0.2, 0.3]);
+    const b = Float64Array.from([0.1, 0.2, 0.4]);
+    memo.set("same-key", a, 0, 3, "for a");
+    expect(memo.get("same-key", a, 0, 3)).toBe("for a");
+    expect(memo.get("same-key", b, 0, 3)).toBeUndefined();
+    // Inputs equal at the model's precision are the same input.
+    expect(memo.get("same-key", Float64Array.from([0.1, 0.2, 0.30001]), 0, 3)).toBe("for a");
   });
 });
