@@ -41,10 +41,12 @@ class SealedError(RuntimeError):
 @dataclass
 class Split:
     name: str
-    rows: torch.Tensor  # [R, 125] float
-    idx: torch.Tensor  # [S, 17] long
-    cat: torch.Tensor  # [S, 36] long
-    num: torch.Tensor  # [S, 56] float
+    # Kept on the device at the precision it is stored in (half floats, small integers) and
+    # widened per batch: the values are exactly those of float32/int64, in a third of the memory.
+    rows: torch.Tensor  # [R, 125] float16
+    idx: torch.Tensor  # [S, 17] int32
+    cat: torch.Tensor  # [S, 36] uint8
+    num: torch.Tensor  # [S, 56] float16
     legal: torch.Tensor  # [S, 22] bool
     seed: torch.Tensor  # [S] long
 
@@ -53,7 +55,10 @@ class Split:
         return int(self.idx.shape[0])
 
     def labels(self) -> torch.Tensor:
-        return self.cat[:, 24:32]
+        return self.cat[:, 24:32].long()
+
+    def to(self, device: str) -> "Split":
+        return Split(self.name, self.rows.to(device), self.idx.to(device), self.cat.to(device), self.num.to(device), self.legal.to(device), self.seed.to(device))
 
     def subset(self, index: torch.Tensor) -> "Split":
         return Split(self.name, self.rows, self.idx[index], self.cat[index], self.num[index], self.legal[index], self.seed[index])
@@ -76,10 +81,10 @@ def load_split(root: Path, name: str, device: str, gate: str | None = None) -> S
     t = lambda a, dt: torch.from_numpy(np.ascontiguousarray(a)).to(device=device, dtype=dt)  # noqa: E731
     return Split(
         name,
-        t(rows, torch.float32),
-        t(idx, torch.long),
-        t(cat, torch.long),
-        t(num, torch.float32),
+        t(rows, torch.float16),
+        t(idx, torch.int32),
+        t(cat, torch.uint8),
+        t(num, torch.float16),
         t(bits, torch.bool),
         t(meta[:, 1].astype(np.int64), torch.long),
     )
@@ -88,8 +93,8 @@ def load_split(root: Path, name: str, device: str, gate: str | None = None) -> S
 def _neighbours(split: Split, rows: torch.Tensor, rel: torch.Tensor, dist: torch.Tensor, role: torch.Tensor | None, part: slice) -> torch.Tensor:
     b = rows.shape[0]
     present = (rows >= 0).float().unsqueeze(-1)
-    safe = rows.clamp(min=0)
-    things = split.rows[safe][..., part] * present
+    safe = rows.clamp(min=0).long()
+    things = split.rows[safe][..., part].float() * present
     rel_hot = torch.nn.functional.one_hot(rel, RELATIONS).float() * present
     if role is None:
         role_hot = torch.zeros(b, N, ROLES, device=rows.device)
@@ -102,11 +107,11 @@ def _neighbours(split: Split, rows: torch.Tensor, rel: torch.Tensor, dist: torch
 
 def observe(split: Split, index: torch.Tensor) -> torch.Tensor:
     """The observation before the act, as ``observe`` builds it: [B, OBS]."""
-    idx = split.idx[index]
-    cat = split.cat[index]
-    num = split.num[index]
+    idx = split.idx[index].long()
+    cat = split.cat[index].long()
+    num = split.num[index].float()
     before = slice(0, THING)
-    self_row = split.rows[idx[:, 0]][:, before]
+    self_row = split.rows[idx[:, 0]][:, before].float()
     place = num[:, 0:6]
     act = num[:, 12 : 12 + ACT]
     dist = num[:, 12 + ACT : 12 + ACT + N]
@@ -116,11 +121,11 @@ def observe(split: Split, index: torch.Tensor) -> torch.Tensor:
 
 def observe_after(split: Split, index: torch.Tensor) -> torch.Tensor:
     """The thing after the act, seen at rest: the JEPA target's input. [B, OBS]."""
-    idx = split.idx[index]
-    cat = split.cat[index]
-    num = split.num[index]
+    idx = split.idx[index].long()
+    cat = split.cat[index].long()
+    num = split.num[index].float()
     after = slice(THING, 2 * THING)
-    self_row = split.rows[idx[:, 0]][:, after]
+    self_row = split.rows[idx[:, 0]][:, after].float()
     place = num[:, 6:12]
     act = AT_REST_ACT.to(idx.device).expand(idx.shape[0], ACT)
     dist = num[:, 12 + ACT + N : 12 + ACT + 2 * N]

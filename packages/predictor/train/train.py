@@ -35,13 +35,20 @@ def main() -> None:
     ap.add_argument("--repeat", type=int, default=1, help="how many times each extra split is repeated")
     ap.add_argument("--size", choices=["base", "large"], default="base")
     ap.add_argument("--init", type=Path, default=None, help="start from this run's checkpoint (post-training)")
+    ap.add_argument("--gpu-gb", type=float, default=5.0, help="hard cap on this process's GPU memory")
     args = ap.parse_args()
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    if device == "cuda":
+        # Leave the rest of the card to the operating system and other work.
+        total = torch.cuda.get_device_properties(0).total_memory
+        torch.cuda.set_per_process_memory_fraction(min(1.0, args.gpu_gb * 1024**3 / total))
     torch.manual_seed(args.seed)
-    train = load_split(args.data, "train", device)
     if args.extra:
-        extras = [(load_split(args.data, name, device), args.repeat) for name in args.extra]
-        train = concat([(train, 1), *extras])
+        # Joined in host memory, so the device never holds the parts and the whole at once.
+        extras = [(load_split(args.data, name, "cpu"), args.repeat) for name in args.extra]
+        train = concat([(load_split(args.data, "train", "cpu"), 1), *extras]).to(device)
+    else:
+        train = load_split(args.data, "train", device)
     val = load_split(args.data, "val", device)
     model = build(args.arm, args.size).to(device)
     if args.init is not None:
