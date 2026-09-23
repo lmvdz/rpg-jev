@@ -850,7 +850,12 @@ J1 is run once on the selected checkpoints.
     (majority 76.95%) with 0.035% envelope rejection, but its Brier score is
     0.1354 against the supervised baseline's 0.1197. R1 (capacity) also fails
     (0.1206 against 0.1121).
-    R2 (data diversity) is still training.
+    R2 (data diversity) passes J1 on its one run (2026-09-23): top-1 92.5%,
+    Brier 0.1268 against 0.1389, rejection 0.18%. The seed-to-seed spread of
+    Brier (0.10 to 0.16 in both arms) is wider than that margin, so this is a
+    pass by the pre-registered rule, not evidence that JEPA calibrates better.
+    Per `REMEDIES.md`, R2's JEPA is the candidate for the next integration; the
+    integrated checkpoint and J2 and J3 are unchanged.
   - J2 fails. At 2,008 things on a 100 ms tick the authority manages 1.7 ticks
     a second, scoring p95 is 11 ms, every tick falls back on the deadline, and
     acknowledgement p95 is 1,270 ms. With the model off, acknowledgement p95

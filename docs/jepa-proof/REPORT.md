@@ -2,11 +2,11 @@
 
 2026-09-22 · branch `feat/jepa-proof` · brief: [`GOAL.md`](GOAL.md) · pre-registration: `SPEC.md` section 16, "Milestone J" · raw results: [`validation/jepa-proof/`](../../validation/jepa-proof/)
 
-**Verdict: disproved as built, on three of the four measurable gates.**
+**Verdict: J1 passes on its second pre-registered remedy; J2 and J3 fail; J4 is open.**
 
 - The learned model ranks physical outcomes that the engine carries out, inside the authority, with every draw logged and replayed.
 - It composes to interaction families it never saw (91.9% top-1).
-- It is not better calibrated than a plain supervised ranker, so J1 fails. Remedy R1 did not change that; R2 was still training at this commit.
+- J1 failed on calibration (Brier) as first run, and again with remedy R1 (capacity). With remedy R2 (twice the training scenes) it passes: Brier 0.1268 against supervised 0.1389. The margin is smaller than the spread between seeds, so the honest reading is that JEPA and a supervised ranker calibrate about equally well here.
 - It does not fit a 100 ms tick at 2,000 things in SpacetimeDB's TypeScript runtime. The authority does not hold that load even with the model switched off, so J2 fails.
 - It improved from play by 4.6 points on the gap set, not 10, so J3 fails.
 - J4 (fun) needs strangers. The kit is ready.
@@ -17,14 +17,14 @@
 | --- | --- | --- | --- |
 | J1 Composition | On withheld families (b), mean of 3 seeds: JEPA top-1 ≥ 70% and above (b)'s majority rate; JEPA Brier below the supervised baseline's; envelope rejects JEPA's top choice < 5% | Top-1 91.9% (majority 76.95%); Brier 0.1354 against supervised 0.1197; rejection 0.035% | **Fail** (Brier) |
 | J1 remedy R1 (capacity) | The same, both arms widened and capacity-matched | Top-1 92.9%; Brier 0.1206 against 0.1121; rejection 0.02% | **Fail** (Brier) |
-| J1 remedy R2 (data diversity) | The same, twice the training scenes | Training at the time of this commit; result to follow in this file | **Pending** |
+| J1 remedy R2 (data diversity) | The same, twice the training scenes | Top-1 92.5% (majority 76.95%); Brier 0.1268 against 0.1389; rejection 0.18% | **Pass** |
 | J2 Real-time | 8 clients, ≥ 2,000 things, 100 ms tick: scoring p95 ≤ 5 ms, acknowledgement p95 ≤ 250 ms, fallback < 1% at a 10 ms deadline | Scoring p95 11 ms; acknowledgement p95 1,270 ms; fallback 100% of ticks; 1.7 ticks a second | **Fail** (all three) |
 | J3 Improves from play | v2 beats v1 on (c) by ≥ 10 points of top-1, with no drop > 1 point on (a) or (b) | (c) +4.6 points (39.1% → 43.6%); (a) +0.2; (b) +2.3 | **Fail** |
 | J4 Fun | ≥ 5 strangers, ≥ 3 would play again unprompted | Not run: needs people. Kit ready ([`FUN-TEST.md`](FUN-TEST.md)) | **Open** |
 
 Raw results:
 
-- J1: [`j1.json`](../../validation/jepa-proof/j1.json), [`j1-r1.json`](../../validation/jepa-proof/j1-r1.json)
+- J1: [`j1.json`](../../validation/jepa-proof/j1.json), [`j1-r1.json`](../../validation/jepa-proof/j1-r1.json), [`j1-r2.json`](../../validation/jepa-proof/j1-r2.json)
 - J2: [`j2.json`](../../validation/jepa-proof/j2.json)
 - J3: [`j3.json`](../../validation/jepa-proof/j3.json)
 - Play: [`play.json`](../../validation/jepa-proof/play.json)
@@ -53,6 +53,36 @@ What this says:
 - **The gap set is where the engine is silent.** On (c) both arms sit at the majority rate. Neither has ever seen a strike on a liquid labelled, so this is expected.
 - **The envelope is learned.** The unmasked top choice fell outside the envelope in 0.035% of (b) transitions once the training loss saw every class (SPEC section 16, training-loss note).
 - **These match the earlier Delta studies.** `OPF-RESULTS.md` and `INTERACTION-RESULTS.md` also found OPF no better than supervised on withheld composition.
+
+#### Remedy R2 (data diversity), run once on 2026-09-23
+
+Pre-registered in [`REMEDIES.md`](REMEDIES.md): 1.2M more scenes from fresh seeds, their train bucket only, every other setting unchanged. Both arms, seeds 17, 29 and 43, best validation-NLL epoch, J1 run once by the same `gate.py`. Parameters: JEPA 21,254, supervised 20,662 (within 3%).
+
+| Set | Samples | Majority | JEPA top-1 | JEPA Brier | JEPA NLL | Supervised top-1 | Supervised Brier | Supervised NLL |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| (a) familiar | 159,810 | 70.9% | 98.4% | 0.0224 | 0.041 | 98.5% | 0.0221 | 0.040 |
+| (b) withheld, all | 892,054 | 77.0% | 92.5% | **0.1268** | 0.403 | 91.8% | 0.1389 | 0.576 |
+| B1 heat × liquid | 350,825 | 71.1% | 87.2% | 0.2171 | 0.659 | 85.4% | 0.2485 | 1.038 |
+| B2 containment × fire | 335,115 | 78.9% | 96.9% | 0.0517 | 0.207 | 97.0% | 0.0502 | 0.248 |
+| B3 force × fire | 206,114 | 83.7% | 94.2% | 0.0954 | 0.283 | 94.3% | 0.0965 | 0.321 |
+| (c) gap, believed labels | 1,029 | 36.6% | 39.1% | 1.1981 | 10.27 | 39.3% | 1.1905 | 15.36 |
+| (c) gap, Claude-only labels | 1,102 | 38.4% | 40.9% | 1.1640 | 9.96 | 41.0% | 1.1569 | 14.93 |
+
+Envelope rejection of JEPA's top choice on (b): 0.18%. All four J1 checks pass.
+
+Brier on (b), seed by seed, across all three J1 runs:
+
+| Run | JEPA 17 / 29 / 43 | Supervised 17 / 29 / 43 |
+| --- | --- | --- |
+| Original | 0.147 / 0.127 / 0.132 | 0.138 / 0.108 / 0.113 |
+| R1 (capacity) | 0.141 / 0.093 / 0.128 | 0.092 / 0.125 / 0.119 |
+| R2 (data diversity) | 0.162 / 0.104 / 0.114 | 0.116 / 0.154 / 0.147 |
+
+What this says:
+
+- **J1 passes by its pre-registered rule.** No threshold, seed, epoch or setting was chosen after seeing a sealed result.
+- **The margin is inside the seed noise.** One seed's Brier moves by up to 0.05 between runs in either arm, and the supervised arm got worse with twice the data (0.1197 to 0.1389). Across the three runs neither arm is reliably better calibrated. The steady differences are that JEPA's NLL is lower on (b) and much lower on (c) (fewer confident mistakes), and that it gained most on B1, heat on a liquid (87.2% against 85.4%).
+- **Nothing downstream changes.** As `REMEDIES.md` fixed in advance, the integrated checkpoint (the original JEPA seed 43) stays in the server, and J2 and J3 were measured on it. R2's validation-selected JEPA seed (43, validation NLL 0.0403) is the candidate for the next integration.
 
 ### J2 in detail
 
@@ -153,19 +183,20 @@ Made during the milestone and recorded in `SPEC.md` section 16, each dated and e
 
 ## Still owner decisions
 
-1. **Keep JEPA, or rank with a supervised model?** On this evidence the supervised ranker is as accurate and better calibrated. The ranks-then-commits architecture works with either.
-2. **Admit `ratify_physical_outcome`?** Without it, physics labels lean on `believe_claim` with a code-built listener, which believed 94% of plausible-sounding claims.
-3. **The authority's performance path.** J2 fails with the model off. The options are:
+1. **Keep JEPA, or rank with a supervised model?** On this evidence the two are about as accurate and about as well calibrated; JEPA passed J1 only with R2's extra data, by less than the seed spread, and makes fewer confident mistakes. The ranks-then-commits architecture works with either.
+2. **Integrate R2's JEPA checkpoint?** It is the pre-registered candidate. Integrating it would need J2 and J3 re-measured on it.
+3. **Admit `ratify_physical_outcome`?** Without it, physics labels lean on `believe_claim` with a code-built listener, which believed 94% of plausible-sounding claims.
+4. **The authority's performance path.** J2 fails with the model off. The options are:
    - per-entity rows and incremental ticks instead of one world JSON row;
    - a native (Rust) module;
    - an out-of-module scorer with asynchronous scores.
 
    Each changes S0's settled design.
-4. **Which worlds may turn live mode on, and the upgrade gate a new checkpoint must pass.**
-5. **Run J4 with at least five strangers**, using the kit.
-6. **Sealed families that play cannot reach**, for any future J3-style measurement.
-7. **Merging `feat/jepa-proof`.** It has not been merged into `poc` or `main`.
-8. **Syncing the living Claude Doc with the other branches' sections** (below).
+5. **Which worlds may turn live mode on, and the upgrade gate a new checkpoint must pass.**
+6. **Run J4 with at least five strangers**, using the kit.
+7. **Sealed families that play cannot reach**, for any future J3-style measurement.
+8. **Merging `feat/jepa-proof`.** It has not been merged into `poc` or `main`.
+9. **Syncing the living Claude Doc with the other branches' sections** (below).
 
 ## Is this ready to be the world model for an Unreal client, and what would change?
 
@@ -183,7 +214,7 @@ What would have to change:
 
 1. **The authority's data model.** A 100 ms tick over 2,000+ things needs per-entity rows, a dirty set that re-observes only what changed, and projection by interest. The current shape (one world row, every thing re-observed every tick, eight full projections per commit) fails with the model off.
 2. **Where the model runs.** In SpacetimeDB's TS runtime, scoring and observation cost several times their Node figures (with the model off, 1,405 things take 65–94 ms a tick in the module; the engine's drift of the same world takes 24 ms in Node, plus 2.7 ms of JSON round-trip). A native module, or a scoring sidecar with batching and asynchronous results that the tick uses when fresh, is needed before any 3D-scale world.
-3. **What the model adds.** It must beat a supervised ranker on calibration, or be replaced by one. It must improve from play faster than 4.6 points per 467 labelled gap scenes. Both need better gap labels (a stronger ratifier) and families that stay withheld.
+3. **What the model adds.** It must beat a supervised ranker on calibration by more than seed noise (R2's pass did not), or be replaced by one. It must improve from play faster than 4.6 points per 467 labelled gap scenes. Both need better gap labels (a stronger ratifier) and families that stay withheld.
 4. **The vocabulary.** Eight sign channels over ordinal levels suit a glyph world. A 3D client wants continuous positions and contact geometry as observations, while outcomes stay classes the code realises. The envelope and commit do not need to change for that; the observation encoder and the outcome channels do.
 
 ## Documentation sync
