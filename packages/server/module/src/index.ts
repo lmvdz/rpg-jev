@@ -2,6 +2,7 @@ import { matter } from "@rpg-jev/core";
 import { encodeSharedView } from "@rpg-jev/core/world";
 import { ScheduleAt } from "spacetimedb";
 import { SenderError, t } from "spacetimedb/server";
+import { offSettle } from "./drift-cache.ts";
 import { encodeEvent } from "./event-codec.ts";
 import { clock, compactNote, isMode, rankedFor } from "./jepa.ts";
 import { isObserving, observesUntil, VIEW_LEASE_MICROS } from "./observers.ts";
@@ -264,6 +265,10 @@ export const advance = db.reducer({ onSchedule: timer }, { timer: timer.rowType 
     .sort();
   const config = jepaConfig(ctx);
   const ranked = rankedFor(config.mode);
+  // Off carries a dirty-set cache over drift (docs/authority-scale.md); the model's own modes
+  // still rank the drift step every tick, unchanged, so the cache only applies where it cannot
+  // change what gets ranked.
+  const settle = config.mode === "off" ? offSettle(current(ctx).generation) : ranked.settle;
   // Passive time is as long as the tick, in game minutes.
   const minutes = Number(config.tickMicros) / 60_000_000;
   const step = matter.sharedTick(
@@ -271,7 +276,7 @@ export const advance = db.reducer({ onSchedule: timer }, { timer: timer.rowType 
     actors,
     (from, to) => terrainAllows(state.world, from, to),
     minutes,
-    ranked.settle,
+    settle,
   );
   commit(ctx, step, "tick");
   telemetry(ctx, config.mode, step, ranked.finish(), clock() - started);
