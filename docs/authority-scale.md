@@ -195,12 +195,86 @@ Every prototype is checked against the unmodified path on the same seeded world
    it turns an exact invariant ("byte-identical") into an approximate one, which is a
    different, larger conversation with rule 9 than this spike wants to start unilaterally.
 
+## J2 after the scale fixes (post-hoc)
+
+`driftDirty` is wired into the module's `advance` reducer (`packages/server/module/src/drift-cache.ts`,
+`index.ts`), but only for the tick's passive-time drift step when a world's mode is `off`: the
+cache is a `Map<generation, DriftCache>` kept in the module's own memory, never part of
+`SharedState`, never logged, never read by replay (`validation/shared-world/replay.mjs`'s
+`replayChanges` re-derives every world from the logged `changes` arrays alone, never by calling a
+`Settle` again). `shadow` and `live` still rank the drift step with the model every tick, exactly
+as before; the cache only applies where it cannot change what gets ranked, so it is not wired
+into `jepa.rankedSettle`/`commit()`. `sensedDirty` (`sense-fast.ts`) is **not** wired in: it would
+need `resolve()` or `shared.ts`'s `commit()` to carry a cache parameter across every act, not only
+the tick's own passive-time step, which the spike itself flagged as "a small but real API change
+to a heavily tested file" (`resolve()` alone backs the bulk of `packages/core/test/matter`'s 733
+tests). Given driftDirty's measured effect below is already modest, the larger and riskier
+`sensedDirty` change was not attempted on this branch.
+
+**Evidence it is correct.** `packages/server/test/module-drift-cache.test.ts` runs the same six
+ticks of a 400-thing world three ways — the plain `matter.ENGINE` path, `offSettle` with the cache
+reset before every single tick (worst case: as if the module restarted every publish), and
+`offSettle` with the cache left warm across the whole run — and asserts all three reach the exact
+same world state at every tick, plus a second test that two different worlds' caches (different
+`generation`s) cannot see each other. `packages/server/test/authority-scale.test.ts`'s existing
+six tests (unchanged) still hold for the underlying `matter.driftDirty`/`matter.sensedDirty`
+prototypes. `validation/shared-world/replay.mjs` re-verified the archive this section's own J2
+re-run produced (2,433 events, 380 ticks, `stateSha256` `136e3878…`) and it passed
+(`{"ok":true,"scope":"simulation-replay-only"}`), which by construction cannot be affected by this
+cache: replay applies the logged `changes` directly and never calls a `Settle`.
+
+**The re-measurement.** Same procedure as J2's original run (`validation/jepa-proof/load.mjs`,
+8 clients, 2,000+ things, 100 ms tick), on a fresh port/database (`127.0.0.1:3078`,
+`rpg-jepa-scale`) so as not to collide with anything else running on this machine. Off and
+shadow are 20 s smokes as the original report ran them; live is the full 5-minute gate.
+**Measured under the same kind of background load the spike warned about**: a GPU training run
+(several `python.exe` processes) was active throughout, and overall CPU load sampled at ~31% on a
+20-logical-core machine before the run started; these are not clean-room numbers, only a
+same-machine, same-day comparison against the original J2 figures. Raw output:
+[`validation/jepa-proof/j2-scale.json`](../validation/jepa-proof/j2-scale.json) (live),
+[`results/j2-scale-smoke-off.json`](../validation/jepa-proof/results/j2-scale-smoke-off.json),
+[`results/j2-scale-smoke-shadow.json`](../validation/jepa-proof/results/j2-scale-smoke-shadow.json).
+
+| Measure | Gate threshold | Off, original | Off, now | Shadow, original (20s) | Shadow, now (20s) | Live, original (5 min, the gate) | Live, now (5 min, the gate) |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Ticks/second | — | 1.4 | 1.9 | 1.0 | 0.9 | 1.7 | 1.27 |
+| Tick p50 / p95 | — | 203 / 244 ms | 199 / 250 ms | 365 / 397 ms | 416 / 546 ms | 187 / 389 ms | 355 / 464 ms |
+| Model scoring p50 / p95 | ≤ 5 ms (p95) | — | — | 11 / 13 ms | 11 / 23 ms | 11 / 11 ms | 11 / 11 ms |
+| Deadline fallbacks | < 1% | — | — | 100% | 100% | 100% | 100% |
+| Acknowledgement p50 / p95 | ≤ 250 ms (p95) | 714 / 1,040 ms | 488 / 637 ms | 1,044 / 1,236 ms | 1,169 / 1,417 ms | 1,000 / 1,270 ms | 1,014 / 1,317 ms |
+
+Pass/fail against J2's three gated criteria, live (the gate run):
+
+| Criterion | Threshold | Original | Now |
+| --- | --- | --- | --- |
+| Scoring p95 | ≤ 5 ms | 11 ms — fail | 11 ms — fail |
+| Acknowledgement p95 | ≤ 250 ms | 1,270 ms — fail | 1,317 ms — fail |
+| Fallback rate | < 1% | 100% — fail | 100% — fail |
+| **J2 overall** | all three | **fail** | **fail** |
+
+**What this says.** Off-mode acknowledgement p95 improved (1,040 ms → 637 ms) and off-mode ticks
+per second rose (1.4 → 1.9), which is the direction `driftDirty` predicts: less rule evaluation
+per tick once a fraction of the world settles. But the improvement is far smaller than the pure
+Node spike measured (that found tick time falling 5.2x once both prototypes and the `attended()`
+fix applied). Two things explain the gap. First, this cache alone is only one of the spike's two
+prototypes — `sensedDirty` is not wired in (above), and the spike found `attended()`'s equivalence
+fix (already in production, unrelated to this change) was the larger of the two wins measured
+there. Second, and more likely dominant per `docs/jepa-proof/REPORT.md`'s own finding, the module
+still parses and stringifies the whole world as one JSON row every reducer call, and SpacetimeDB's
+TypeScript runtime was measured there at roughly 2.5x slower than Node on the same engine code;
+those costs are untouched by this change and were already flagged in this document's "what stays
+true" section as needing per-entity rows to address. **J2 still fails, on all three of its gated
+criteria, with the model on or off.** Shadow and live are within measurement noise of the original
+figures (both worse and better by turns), which is expected: this branch did not touch the model's
+own scoring or ranking path, so shadow/live's numbers should carry no systematic improvement, and
+the small movements seen are attributable to background load, not this change.
+
 ## What was not done
 
-- Not re-run against SpacetimeDB/the module: this was scoped as a pure core/Node prototype,
-  and the benchmark says so in its own header.
-- `sensedDirty` is not wired into any caller; only `attended()`'s in-place fix is on the
-  production path.
+- Not re-run against SpacetimeDB/the module before this section: the spike itself was scoped as
+  a pure core/Node prototype, and its own benchmark said so in its header.
+- `sensedDirty` is still not wired into any caller; only `attended()`'s in-place fix and (as of
+  this section) `driftDirty`'s off-mode tick wiring are on the production path.
 - Per-entity rows, native (Rust) module, and an out-of-module scorer (the three options J2's
   report already named) were not prototyped here; this doc's numbers should inform, not
   pre-empt, that choice.
