@@ -34,7 +34,7 @@ export interface Scenario {
 
 const PLACE = "site";
 
-class Draw {
+export class Draw {
   readonly rng: Rng;
   constructor(rng: Rng) {
     this.rng = rng;
