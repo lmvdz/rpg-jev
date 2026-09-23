@@ -1,5 +1,6 @@
 {
   "version": "physics-coverage-v1",
+  "generator": "v1",
   "seedRange": [
     6000000000,
     6000450000
@@ -9,6 +10,10 @@
   "cellsSampled": 7345,
   "cellUniverse": 24577,
   "neverSampled": 17232,
+  "possibleUniverse": 12769,
+  "possibleCellsSampled": 7345,
+  "neverSampledPossible": 5424,
+  "impossibleCellsSampled": 0,
   "byLabel": {
     "answered": 5469,
     "declined": 1677,

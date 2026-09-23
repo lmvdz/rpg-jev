@@ -1,0 +1,780 @@
+[
+  {
+    "key": "soak|burning|powder|scorching|wet|damaged|near",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "powder",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "near"
+    },
+    "label": "declined",
+    "count": 20,
+    "plausibility": 6,
+    "rank": 18.26713462634054,
+    "example": {
+      "seed": 6500003900,
+      "place": "temperature 0, moisture 2, wind 0",
+      "act": "Someone pours t0 over t1 (2 portions).",
+      "things": [
+        "t0: a thing (hollow; fairly heavy, very big, fairly flammable), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (granular; does not burn), scorching, wet, cracked, about 2 portions of it",
+        "t2: a material (liquid; does not burn), liquid right now; mild, about 3 portions of it",
+        "t3: a material (solid; very flammable), scorching, one portion"
+      ]
+    }
+  },
+  {
+    "key": "soak|burning|liquid|scorching|wet|damaged|near",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "near"
+    },
+    "label": "declined",
+    "count": 19,
+    "plausibility": 6,
+    "rank": 17.974393641323946,
+    "example": {
+      "seed": 6500001982,
+      "place": "temperature 3, moisture 5, wind 2",
+      "act": "Someone pours t0 over t1 (1 portions).",
+      "things": [
+        "t0: a material (granular), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; scorching, wet, cracked, about 2 portions of it",
+        "t2: a thing (hollow; does not burn), mild, one portion",
+        "t3: a material (solid; very flammable), frozen, one portion"
+      ]
+    }
+  },
+  {
+    "key": "contain|powder|burning|hot|wet|damaged|touching",
+    "cell": {
+      "process": "contain",
+      "a": "powder",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "touching"
+    },
+    "label": "only-nothing",
+    "count": 18,
+    "plausibility": 6,
+    "rank": 17.66663387499864,
+    "example": {
+      "seed": 6500008292,
+      "place": "temperature 3, moisture 4, wind 1",
+      "act": "Someone does \"put\" with container t0 and t1.",
+      "things": [
+        "t0: a material (granular; does not burn), hot, wet, cracked, about 2 portions of it",
+        "t1: a material (granular), hot, wet, on fire, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "force|burning|liquid|hot|wet|damaged|near",
+    "cell": {
+      "process": "force",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "near"
+    },
+    "label": "declined",
+    "count": 18,
+    "plausibility": 6,
+    "rank": 17.66663387499864,
+    "example": {
+      "seed": 6500010210,
+      "place": "temperature 4, moisture 5, wind 1",
+      "act": "Someone strikes t1 with t0 with a little effort, a little care, extremely haste, aimed through it.",
+      "things": [
+        "t0: a plant (solid; very flammable), hot, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|powder|burning|hot|wet|damaged|touching",
+    "cell": {
+      "process": "soak",
+      "a": "powder",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "touching"
+    },
+    "label": "declined",
+    "count": 17,
+    "plausibility": 6,
+    "rank": 17.342230547376985,
+    "example": {
+      "seed": 6500002717,
+      "place": "temperature 1, moisture 3, wind 1",
+      "act": "Someone pours t0 over t1 (1 portions).",
+      "things": [
+        "t0: a material (granular; does not burn), hot, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly heavy, very big, fairly flammable), hot, wet, on fire, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|burning|liquid|hot|wet|damaged|contains",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "contains"
+    },
+    "label": "declined",
+    "count": 17,
+    "plausibility": 6,
+    "rank": 17.342230547376985,
+    "example": {
+      "seed": 6500007706,
+      "place": "temperature 4, moisture 5, wind 3",
+      "act": "Someone pours t0 over t1 (3 portions).",
+      "things": [
+        "t0: a thing (hollow; fairly flammable), hot, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "force|burning|liquid|scorching|wet|damaged|near",
+    "cell": {
+      "process": "force",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "near"
+    },
+    "label": "declined",
+    "count": 17,
+    "plausibility": 6,
+    "rank": 17.342230547376985,
+    "example": {
+      "seed": 6500011534,
+      "place": "temperature 4, moisture 4, wind 0",
+      "act": "Someone strikes t1 with t0 with very effort, fairly care, not at all haste, aimed along it.",
+      "things": [
+        "t0: a material (solid; very flammable), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; scorching, wet, cracked, about 2 portions of it",
+        "t2: a plant (solid; fairly big, fairly flammable), cold, wet, about 2 portions of it",
+        "t3: a plant (solid), cold, slightly damp, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "force|liquid|burning|hot|wet|damaged|near",
+    "cell": {
+      "process": "force",
+      "a": "liquid",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "near"
+    },
+    "label": "declined",
+    "count": 16,
+    "plausibility": 6,
+    "rank": 16.9992800643373,
+    "example": {
+      "seed": 6500002165,
+      "place": "temperature 5, moisture 0, wind 0",
+      "act": "Someone strikes t1 with t0 with barely effort, barely care, very haste, aimed surface it.",
+      "things": [
+        "t0: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it",
+        "t1: a material (solid), hot, wet, on fire, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|burning|liquid|scorching|wet|damaged|touching",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "touching"
+    },
+    "label": "declined",
+    "count": 16,
+    "plausibility": 6,
+    "rank": 16.9992800643373,
+    "example": {
+      "seed": 6500004018,
+      "place": "temperature 4, moisture 1, wind 0",
+      "act": "Someone pours t0 over t1 (1 portions).",
+      "things": [
+        "t0: a plant (solid; fairly big), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; scorching, wet, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|powder|burning|hot|wet|damaged|in",
+    "cell": {
+      "process": "soak",
+      "a": "powder",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "declined",
+    "count": 16,
+    "plausibility": 6,
+    "rank": 16.9992800643373,
+    "example": {
+      "seed": 6500009048,
+      "place": "temperature 4, moisture 2, wind 1",
+      "act": "Someone pours t0 over t1 (3 portions).",
+      "things": [
+        "t0: a material (granular; does not burn), hot, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly heavy, fairly hard, extremely flammable), hot, wet, on fire, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "coat|burning|liquid|hot|wet|damaged|contains",
+    "cell": {
+      "process": "coat",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "contains"
+    },
+    "label": "declined",
+    "count": 16,
+    "plausibility": 6,
+    "rank": 16.9992800643373,
+    "example": {
+      "seed": 6500042370,
+      "place": "temperature 2, moisture 3, wind 1",
+      "act": "Someone spreads t0 over t1 with a little effort, not at all care, extremely haste.",
+      "things": [
+        "t0: a thing (hollow; fairly heavy, very big, fairly hard), hot, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it",
+        "t2: a plant (solid; very flammable), scorching, on fire, one portion"
+      ]
+    }
+  },
+  {
+    "key": "force|liquid|burning|hot|wet|damaged|in",
+    "cell": {
+      "process": "force",
+      "a": "liquid",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "declined",
+    "count": 15,
+    "plausibility": 6,
+    "rank": 16.635532333438686,
+    "example": {
+      "seed": 6500013419,
+      "place": "temperature 2, moisture 5, wind 1",
+      "act": "Someone strikes t1 with t0 with not at all effort, not at all care, extremely haste, aimed surface it.",
+      "things": [
+        "t0: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly hard), hot, wet, on fire, cracked, about 2 portions of it",
+        "t2: a plant (solid; very flammable), frozen, one portion",
+        "t3: a material (granular; does not burn), mild, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "contain|inert|burning|scorching|wet|damaged|in",
+    "cell": {
+      "process": "contain",
+      "a": "inert",
+      "b": "burning",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "only-nothing",
+    "count": 25,
+    "plausibility": 5,
+    "rank": 16.29048269010741,
+    "example": {
+      "seed": 6500007039,
+      "place": "temperature 5, moisture 5, wind 2",
+      "act": "Someone does \"remove\" with container t0 and t1.",
+      "things": [
+        "t0: a material (solid; very hard; does not burn), scorching, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; very flammable), scorching, wet, on fire, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "contain|powder|burning|scorching|wet|damaged|in",
+    "cell": {
+      "process": "contain",
+      "a": "powder",
+      "b": "burning",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "only-nothing",
+    "count": 14,
+    "plausibility": 6,
+    "rank": 16.24830120661326,
+    "example": {
+      "seed": 6500000820,
+      "place": "temperature 5, moisture 5, wind 3",
+      "act": "Someone does \"seal\" with container t0 and t1.",
+      "things": [
+        "t0: a material (granular; does not burn), scorching, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; very big, fairly hard, fairly flammable), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t2: a plant (solid; fairly flammable), scorching, very wet, on fire, about 2 portions of it",
+        "t3: a material (liquid; does not burn), liquid right now; scorching, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "contain|powder|burning|hot|wet|damaged|in",
+    "cell": {
+      "process": "contain",
+      "a": "powder",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "only-nothing",
+    "count": 14,
+    "plausibility": 6,
+    "rank": 16.24830120661326,
+    "example": {
+      "seed": 6500000839,
+      "place": "temperature 0, moisture 5, wind 1",
+      "act": "Someone does \"put\" with container t0 and t1.",
+      "things": [
+        "t0: a material (granular; does not burn), hot, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly heavy, fairly hard), hot, wet, on fire, cracked, about 2 portions of it",
+        "t2: a material (solid; does not burn), scorching, about 2 portions of it",
+        "t3: a material (granular; does not burn), warm, very wet, one portion"
+      ]
+    }
+  },
+  {
+    "key": "contain|powder|burning|scorching|wet|damaged|near",
+    "cell": {
+      "process": "contain",
+      "a": "powder",
+      "b": "burning",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "near"
+    },
+    "label": "only-nothing",
+    "count": 14,
+    "plausibility": 6,
+    "rank": 16.24830120661326,
+    "example": {
+      "seed": 6500002874,
+      "place": "temperature 4, moisture 4, wind 1",
+      "act": "Someone does \"put\" with container t0 and t1.",
+      "things": [
+        "t0: a material (granular; does not burn), scorching, wet, cracked, about 2 portions of it",
+        "t1: a material (granular; fairly flammable), scorching, wet, on fire, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "force|burning|liquid|scorching|wet|damaged|touching",
+    "cell": {
+      "process": "force",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "touching"
+    },
+    "label": "declined",
+    "count": 14,
+    "plausibility": 6,
+    "rank": 16.24830120661326,
+    "example": {
+      "seed": 6500004929,
+      "place": "temperature 2, moisture 1, wind 1",
+      "act": "Someone strikes t1 with t0 with barely effort, extremely care, fairly haste, aimed through it.",
+      "things": [
+        "t0: a material (granular), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; scorching, wet, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "force|burning|liquid|hot|wet|damaged|touching",
+    "cell": {
+      "process": "force",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "touching"
+    },
+    "label": "declined",
+    "count": 14,
+    "plausibility": 6,
+    "rank": 16.24830120661326,
+    "example": {
+      "seed": 6500009767,
+      "place": "temperature 0, moisture 0, wind 0",
+      "act": "Someone strikes t1 with t0 with very effort, a little care, a little haste, aimed through it.",
+      "things": [
+        "t0: a material (granular; fairly flammable), hot, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "coat|burning|liquid|scorching|wet|damaged|contains",
+    "cell": {
+      "process": "coat",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "contains"
+    },
+    "label": "declined",
+    "count": 14,
+    "plausibility": 6,
+    "rank": 16.24830120661326,
+    "example": {
+      "seed": 6500024478,
+      "place": "temperature 3, moisture 0, wind 0",
+      "act": "Someone spreads t0 over t1 with fairly effort, not at all care, very haste.",
+      "things": [
+        "t0: a thing (hollow; fairly heavy, very big, very hard, very flammable), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; scorching, wet, cracked, about 2 portions of it",
+        "t2: a plant (solid), scorching, slightly damp, on fire, about 3 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "contain|liquid|burning|scorching|wet|damaged|near",
+    "cell": {
+      "process": "contain",
+      "a": "liquid",
+      "b": "burning",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "near"
+    },
+    "label": "only-nothing",
+    "count": 13,
+    "plausibility": 6,
+    "rank": 15.834343977691553,
+    "example": {
+      "seed": 6500000619,
+      "place": "temperature 2, moisture 4, wind 0",
+      "act": "Someone does \"unseal\" with container t0 and t1.",
+      "things": [
+        "t0: a material (liquid; does not burn), liquid right now; scorching, wet, cracked, about 2 portions of it",
+        "t1: a plant (solid; very flammable), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t2: a material (solid; very hard; does not burn), warm, damp, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|burning|powder|scorching|wet|damaged|contains",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "powder",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "contains"
+    },
+    "label": "declined",
+    "count": 13,
+    "plausibility": 6,
+    "rank": 15.834343977691553,
+    "example": {
+      "seed": 6500004303,
+      "place": "temperature 4, moisture 4, wind 0",
+      "act": "Someone pours t0 over t1 (2 portions).",
+      "things": [
+        "t0: a thing (hollow; fairly hard), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (granular; does not burn), scorching, wet, cracked, about 2 portions of it",
+        "t2: a material (liquid; does not burn), liquid right now; cold, about 3 portions of it",
+        "t3: a material (solid; very hard; does not burn), mild, about 3 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "contain|liquid|burning|hot|wet|damaged|in",
+    "cell": {
+      "process": "contain",
+      "a": "liquid",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "only-nothing",
+    "count": 13,
+    "plausibility": 6,
+    "rank": 15.834343977691553,
+    "example": {
+      "seed": 6500005184,
+      "place": "temperature 5, moisture 1, wind 2",
+      "act": "Someone does \"put\" with container t0 and t1.",
+      "things": [
+        "t0: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly heavy, fairly hard, fairly flammable), hot, wet, on fire, cracked, about 2 portions of it",
+        "t2: a material (solid; very hard; does not burn), scorching, about 2 portions of it",
+        "t3: a material (solid; extremely hard; does not burn), cold, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "force|liquid|burning|scorching|wet|damaged|in",
+    "cell": {
+      "process": "force",
+      "a": "liquid",
+      "b": "burning",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "declined",
+    "count": 13,
+    "plausibility": 6,
+    "rank": 15.834343977691553,
+    "example": {
+      "seed": 6500012461,
+      "place": "temperature 0, moisture 3, wind 2",
+      "act": "Someone strikes t1 with t0 with extremely effort, extremely care, extremely haste, aimed through it.",
+      "things": [
+        "t0: a material (liquid; does not burn), liquid right now; scorching, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly hard), scorching, wet, on fire, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "coat|burning|inert|hot|wet|damaged|contains",
+    "cell": {
+      "process": "coat",
+      "a": "burning",
+      "b": "inert",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "contains"
+    },
+    "label": "declined",
+    "count": 22,
+    "plausibility": 5,
+    "rank": 15.677471079645748,
+    "example": {
+      "seed": 6500003189,
+      "place": "temperature 3, moisture 3, wind 2",
+      "act": "Someone spreads t0 over t1 with not at all effort, not at all care, extremely haste.",
+      "things": [
+        "t0: a thing (hollow; very hard, very flammable), hot, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (solid; fairly hard; does not burn), hot, wet, cracked, about 2 portions of it",
+        "t2: a thing (hollow; fairly heavy, fairly big; does not burn), scorching, about 3 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "contain|liquid|burning|cold|wet|damaged|in",
+    "cell": {
+      "process": "contain",
+      "a": "liquid",
+      "b": "burning",
+      "heat": "cold",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "only-nothing",
+    "count": 22,
+    "plausibility": 5,
+    "rank": 15.677471079645748,
+    "example": {
+      "seed": 6500015946,
+      "place": "temperature 1, moisture 2, wind 3",
+      "act": "Someone does \"unseal\" with container t0 and t1.",
+      "things": [
+        "t0: a material (liquid; does not burn), liquid right now; cold, wet, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly hard), cold, wet, on fire, cracked, about 2 portions of it",
+        "t2: a material (solid; extremely hard; does not burn), scorching, on fire, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|burning|inert|scorching|wet|damaged|touching",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "inert",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "touching"
+    },
+    "label": "declined",
+    "count": 21,
+    "plausibility": 5,
+    "rank": 15.45521226679158,
+    "example": {
+      "seed": 6500000860,
+      "place": "temperature 5, moisture 3, wind 3",
+      "act": "Someone pours t0 over t1 (2 portions).",
+      "things": [
+        "t0: a plant (solid; very flammable), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (solid), scorching, wet, cracked, about 2 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|burning|burning|scorching|wet|damaged|in",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "burning",
+      "heat": "scorching",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "in"
+    },
+    "label": "declined",
+    "count": 21,
+    "plausibility": 5,
+    "rank": 15.45521226679158,
+    "example": {
+      "seed": 6500001046,
+      "place": "temperature 0, moisture 3, wind 3",
+      "act": "Someone pours t0 over t1 (3 portions).",
+      "things": [
+        "t0: a thing (hollow; very hard), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t1: a thing (hollow; fairly heavy), scorching, wet, on fire, cracked, about 2 portions of it",
+        "t2: a thing (hollow; very big, extremely hard; does not burn), warm, about 3 portions of it",
+        "t3: a material (solid; very flammable), cold, about 3 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "soak|burning|powder|hot|wet|whole|contains",
+    "cell": {
+      "process": "soak",
+      "a": "burning",
+      "b": "powder",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "whole",
+      "relation": "contains"
+    },
+    "label": "declined",
+    "count": 21,
+    "plausibility": 5,
+    "rank": 15.45521226679158,
+    "example": {
+      "seed": 6500005512,
+      "place": "temperature 0, moisture 5, wind 2",
+      "act": "Someone pours t0 over t1 (1 portions).",
+      "things": [
+        "t0: a thing (hollow; fairly heavy, fairly big), hot, wet, on fire, about 2 portions of it",
+        "t1: a material (granular; does not burn), hot, wet, about 2 portions of it",
+        "t2: a material (granular; does not burn), cold, one portion"
+      ]
+    }
+  },
+  {
+    "key": "soak|plant|burning|hot|wet|damaged|touching",
+    "cell": {
+      "process": "soak",
+      "a": "plant",
+      "b": "burning",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "touching"
+    },
+    "label": "declined",
+    "count": 21,
+    "plausibility": 5,
+    "rank": 15.45521226679158,
+    "example": {
+      "seed": 6500005546,
+      "place": "temperature 1, moisture 5, wind 0",
+      "act": "Someone pours t0 over t1 (1 portions).",
+      "things": [
+        "t0: a plant (solid; fairly flammable), hot, wet, cracked, about 2 portions of it",
+        "t1: a material (solid; very flammable), hot, wet, on fire, cracked, about 2 portions of it",
+        "t2: a plant (solid), frozen, soaked, one portion",
+        "t3: a thing (hollow; fairly big, extremely hard; does not burn), cold, about 3 portions of it"
+      ]
+    }
+  },
+  {
+    "key": "force|burning|liquid|hot|wet|damaged|contains",
+    "cell": {
+      "process": "force",
+      "a": "burning",
+      "b": "liquid",
+      "heat": "hot",
+      "wet": "wet",
+      "whole": "damaged",
+      "relation": "contains"
+    },
+    "label": "declined",
+    "count": 12,
+    "plausibility": 6,
+    "rank": 15.389696144769221,
+    "example": {
+      "seed": 6500001742,
+      "place": "temperature 0, moisture 3, wind 0",
+      "act": "Someone strikes t1 with t0 with very effort, very care, a little haste, aimed along it.",
+      "things": [
+        "t0: a thing (hollow; fairly heavy, fairly big), hot, wet, on fire, cracked, about 2 portions of it",
+        "t1: a material (liquid; does not burn), liquid right now; hot, wet, cracked, about 2 portions of it",
+        "t2: a material (granular; does not burn), scorching, slightly damp, about 3 portions of it",
+        "t3: a thing (hollow; does not burn), scorching, on fire, about 3 portions of it"
+      ]
+    }
+  }
+]
