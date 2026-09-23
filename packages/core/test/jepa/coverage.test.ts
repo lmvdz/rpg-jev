@@ -4,7 +4,14 @@
  * `matter/graph/*-rules.ts` read.
  */
 import { describe, expect, it } from "vitest";
-import { cellKey, situationCell } from "../../src/jepa/coverage.ts";
+import {
+  CONTAINER_CLASSES,
+  cellKey,
+  MATERIAL_CLASSES,
+  possible,
+  possibleCells,
+  situationCell,
+} from "../../src/jepa/coverage.ts";
 import { scenario } from "../../src/jepa/scenario.ts";
 import type { HeatAct } from "../../src/matter/heat.ts";
 import { type Element, FRESH, type MatterWorld, type Thing } from "../../src/matter/types.ts";
@@ -136,5 +143,128 @@ describe("situationCell", () => {
       seen++;
     }
     expect(seen).toBe(SEEDS.length);
+  });
+});
+
+describe("possible", () => {
+  it("declines the never-producible gas class, on either party, for every process", () => {
+    for (const process of ["heat", "soak", "coat", "force", "contain", "load"] as const) {
+      const base = {
+        process,
+        a: "inert",
+        b: "inert",
+        heat: "mild",
+        wet: "dry",
+        whole: "whole",
+        relation: "touching",
+      } as const;
+      expect(possible({ ...base, a: "gas" })).toBe(false);
+      expect(possible({ ...base, b: "gas" })).toBe(false);
+      expect(possible(base)).toBe(true);
+    }
+  });
+
+  it("admits the one tick cell", () => {
+    expect(
+      possible({
+        process: "tick",
+        a: "none",
+        b: "none",
+        heat: "mild",
+        wet: "dry",
+        whole: "whole",
+        relation: "none",
+      }),
+    ).toBe(true);
+  });
+
+  it("only lets a structural container's class be one CONTAINER_CLASSES names", () => {
+    const notContainers = MATERIAL_CLASSES.filter(
+      (c) => c !== "none" && c !== "gas" && !(CONTAINER_CLASSES as readonly string[]).includes(c),
+    );
+    expect(notContainers).toEqual(["powder", "plant", "flammable", "inert"]);
+    for (const a of notContainers)
+      expect(
+        possible({
+          process: "heat",
+          a,
+          b: "inert",
+          heat: "mild",
+          wet: "dry",
+          whole: "whole",
+          relation: "contains",
+        }),
+      ).toBe(false);
+    for (const b of notContainers)
+      expect(
+        possible({
+          process: "load",
+          a: "inert",
+          b,
+          heat: "mild",
+          wet: "dry",
+          whole: "whole",
+          relation: "in",
+        }),
+      ).toBe(false);
+  });
+
+  it("only lets a melted (liquid-class) container be hot or scorching", () => {
+    for (const heat of ["cold", "mild"] as const)
+      expect(
+        possible({
+          process: "soak",
+          a: "liquid",
+          b: "inert",
+          heat,
+          wet: "dry",
+          whole: "whole",
+          relation: "contains",
+        }),
+      ).toBe(false);
+    for (const heat of ["hot", "scorching"] as const)
+      expect(
+        possible({
+          process: "soak",
+          a: "liquid",
+          b: "inert",
+          heat,
+          wet: "dry",
+          whole: "whole",
+          relation: "contains",
+        }),
+      ).toBe(true);
+  });
+
+  it("does not exclude a burning party at a heat band other than scorching: never-generated, not impossible", () => {
+    expect(
+      possible({
+        process: "force",
+        a: "burning",
+        b: "inert",
+        heat: "cold",
+        wet: "dry",
+        whole: "whole",
+        relation: "touching",
+      }),
+    ).toBe(true);
+  });
+
+  it("every cell every sampled scenario reaches is possible", () => {
+    for (const seed of SEEDS) {
+      const s = scenario(seed);
+      const cell = situationCell(s.world, s.act);
+      if (cell) expect(possible(cell)).toBe(true);
+    }
+  });
+});
+
+describe("possibleCells", () => {
+  it("is exhaustive, deterministic and only ever produces cells possible() admits", () => {
+    const cells = possibleCells();
+    expect(cells.length).toBe(12769);
+    for (const cell of cells) expect(possible(cell)).toBe(true);
+    const again = possibleCells();
+    expect(again).toEqual(cells);
   });
 });

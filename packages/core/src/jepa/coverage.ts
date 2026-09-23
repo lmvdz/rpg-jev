@@ -20,7 +20,7 @@ import { containerOf } from "../matter/contain.ts";
 import { effective, isLiquid } from "../matter/effective.ts";
 import type { Act } from "../matter/resolve.ts";
 import type { MatterWorld, Thing } from "../matter/types.ts";
-import { NEAR, type Process, type Role } from "./observe.ts";
+import { NEAR, PROCESSES, type Process, type Role } from "./observe.ts";
 import { rolesOf, viewOf } from "./scenario.ts";
 
 export const MATERIAL_CLASSES = [
@@ -62,7 +62,7 @@ export interface SituationCell {
  * The act's two named roles, in a fixed order, for each process the generator draws
  * (`scenario.ts`'s `ACTS`). `tick` names none: time passing has no party of its own.
  */
-const PAIR_ROLES: Partial<Record<Process, readonly [Role, Role]>> = {
+export const PAIR_ROLES: Partial<Record<Process, readonly [Role, Role]>> = {
   heat: ["source", "target"],
   soak: ["liquid", "target"],
   coat: ["substance", "target"],
@@ -167,4 +167,99 @@ export function situationCell(world: MatterWorld, act: Act): SituationCell | nul
 /** A stable string key, for grouping cells in a map without a custom equality function. */
 export function cellKey(cell: SituationCell): string {
   return [cell.process, cell.a, cell.b, cell.heat, cell.wet, cell.whole, cell.relation].join("|");
+}
+
+/**
+ * The classes a party may take when it is the structural container of the act's other party
+ * (`relationOf`'s "contains"/"in": one thing's `place` ends in `<other>.inside`). Only a
+ * `forms`-hollow element is ever bound in there (`contain.ts`'s own gate, `hollow()`, and
+ * `scenario.ts`'s `contained()`, which never enclose anything in what is not hollow-form); its
+ * *material class* can still read as `"liquid"` (melted, `effective.ts`'s `isLiquid`) or
+ * `"burning"` (alight), since `materialClass` checks those before it checks form. Confirmed
+ * against 450k sampled scenarios (`validation/physics-coverage/coverage.json`): every `contains`
+ * or `in` cell's container-side class is one of these three, never `powder`, `plant`,
+ * `flammable` or `inert`.
+ */
+export const CONTAINER_CLASSES = ["hollow", "liquid", "burning"] as const;
+
+const HOT_ENOUGH_TO_MELT: readonly HeatBand[] = ["hot", "scorching"];
+
+/**
+ * Whether a situation cell could ever be reached by the engine as it stands, so a sampler's
+ * "never-sampled" count stops mixing genuine gaps with cells nothing could ever produce.
+ *
+ * Two rules, both checked against every process, not just `contain`:
+ *
+ * 1. No element the engine ever builds takes the `"gas"` form (`matter/pool.ts`'s `POOL` and
+ *    `scenario.ts`'s `ELEMENT_SHAPES` never set it, though the vocabulary and `MATERIAL_CLASSES`
+ *    both still name it for when a birth eventually can). A cell naming `"gas"` on either party
+ *    is impossible until that changes.
+ * 2. Whichever party structurally contains the other (`relation` is `"contains"` or `"in"`) must
+ *    be one of `CONTAINER_CLASSES`; if that party reads `"liquid"` (melted, not liquid-formed),
+ *    it must also be `"hot"` or `"scorching"`, because `effective.ts`'s `meltingPoint` never goes
+ *    below 3.5 even at the highest `meltsAt` level (5), and a cell's `heat` band is the more
+ *    extreme of the two parties' rounded temperatures.
+ *
+ * What this does *not* exclude: `contain`'s own container role (`a`) sitting outside
+ * `CONTAINER_CLASSES` when the two parties merely `touch` or stand `near` each other (not yet
+ * enclosed) is not impossible, only ever declined by the process's own `hollow()` gate at
+ * resolve time — a real, sampleable "only-nothing" cell, not a gap in the map. A burning party
+ * paired with a `heat` band other than `"scorching"` is not excluded either: `pool.ts`'s `alight`
+ * happens to always set `temperature` to 5 for its own convenience, but nothing in `ThingState`
+ * or `apply.ts` ties the two fields together, so it is a never-generated cell, not an impossible
+ * one; `scenarioV3` (`scenario-v3.ts`) deliberately decouples them to find out.
+ */
+export function possible(cell: SituationCell): boolean {
+  if (cell.process === "tick") return true;
+  if (cell.a === "gas" || cell.b === "gas") return false;
+  if (cell.relation === "contains" && !isContainerClass(cell.a, cell.heat)) return false;
+  if (cell.relation === "in" && !isContainerClass(cell.b, cell.heat)) return false;
+  return true;
+}
+
+function isContainerClass(cls: MaterialClass, heat: HeatBand): boolean {
+  if (!CONTAINER_CLASSES.includes(cls as (typeof CONTAINER_CLASSES)[number])) return false;
+  return cls !== "liquid" || HOT_ENOUGH_TO_MELT.includes(heat);
+}
+
+const NON_TICK_CLASSES = MATERIAL_CLASSES.filter((c) => c !== "none");
+const NON_TICK_RELATIONS = RELATION_BANDS.filter((r) => r !== "none");
+
+const TICK_CELL: SituationCell = {
+  process: "tick",
+  a: "none",
+  b: "none",
+  heat: "mild",
+  wet: "dry",
+  whole: "whole",
+  relation: "none",
+};
+
+/** Every possible cell for one non-`tick` process: the full product of both parties' classes,
+ * the three bands and the four named relations, kept where `possible` admits it. */
+function possibleCellsOf(process: Process): SituationCell[] {
+  return NON_TICK_CLASSES.flatMap((a) =>
+    NON_TICK_CLASSES.flatMap((b) =>
+      HEAT_BANDS.flatMap((heat) =>
+        WET_BANDS.flatMap((wet) =>
+          WHOLE_BANDS.flatMap((whole) =>
+            NON_TICK_RELATIONS.map(
+              (relation): SituationCell => ({ process, a, b, heat, wet, whole, relation }),
+            ).filter(possible),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Every situation cell `possible` admits, for every process the model ranks outcomes for. Used
+ * both to report an honest denominator (`predictor/scripts/coverage.ts`) and, by `scenarioV3`,
+ * as the target space to stratify over.
+ */
+export function possibleCells(): SituationCell[] {
+  return PROCESSES.flatMap((process) =>
+    process === "tick" ? [TICK_CELL] : possibleCellsOf(process),
+  );
 }
