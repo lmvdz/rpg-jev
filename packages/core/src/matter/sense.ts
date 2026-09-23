@@ -119,19 +119,27 @@ const ATTENDS = 16;
 /**
  * A body attends to a handful of things, not to every tree in the wood: what gives something
  * off before what is merely there, what would feed it when it is hungry, then the strongest.
+ *
+ * Each entry's weight is worked out once (`decorated`), not inside the comparator: a sort
+ * comparator on an n-entry array runs about n·log(n) times, and this world's things nearly
+ * all sit at the same daylight sight strength (`docs/authority-scale.md`), so an awareness
+ * map here commonly holds most of the world. Recomputing `feeds` (a lookup and a loop over
+ * an element's `serves`) inside the comparator turned that into the most expensive part of
+ * sensing on a populated world; computing it once per entry does not.
  */
 function attended(world: MatterWorld, body: Body, aware: Record<string, Percept>) {
   const entries = Object.entries(aware);
   if (entries.length <= ATTENDS) return aware;
   const hungry = (body.needs.hunger ?? 0) >= 2;
-  const weight = ([id, p]: [string, Percept]) => {
+  const weightOf = (id: string, p: Percept) => {
     const fed = (feeds(world, body, world.things[id]?.element ?? "").hunger ?? 0) > 0;
     // What lives draws the eye before what only stands there.
     const lives = id in world.bodies ? 3 : 0;
     return p.strength + (p.channel === "sight" ? 0 : 2) + (hungry && fed ? 3 : 0) + lives;
   };
-  const kept = entries.sort((a, b) => weight(b) - weight(a) || a[0].localeCompare(b[0]));
-  return Object.fromEntries(kept.slice(0, ATTENDS));
+  const decorated = entries.map((entry) => [weightOf(entry[0], entry[1]), entry] as const);
+  decorated.sort(([a, [aId]], [b, [bId]]) => b - a || aId.localeCompare(bId));
+  return Object.fromEntries(decorated.slice(0, ATTENDS).map(([, entry]) => entry));
 }
 
 /** A body is seen by daylight by its size, and smelled by its row, as any thing is. */
@@ -144,7 +152,10 @@ function bodyEmits(world: MatterWorld, body: Body): Partial<Record<Channel, numb
   return out;
 }
 
-interface Source {
+/** A source a body might notice: what it is, where, and what it emits. Exposed so a dirty
+ * set (`sense-fast.ts`) can rebuild only the sources whose own thing or body changed, and
+ * hand the same, unchanged list on to `sensedFrom` for the rest. */
+export interface Source {
   id: string;
   place: string;
   where?: readonly [number, number] | undefined;
@@ -152,7 +163,7 @@ interface Source {
   strength: number;
 }
 
-function sourcesOf(world: MatterWorld, events: readonly Heard[]): Source[] {
+export function sourcesOf(world: MatterWorld, events: readonly Heard[]): Source[] {
   const sources: Source[] = [];
   const add = (from: Thing | Body, given: Partial<Record<Channel, number>>) => {
     for (const [channel, strength] of Object.entries(given) as [Channel, number][])
@@ -167,12 +178,15 @@ function sourcesOf(world: MatterWorld, events: readonly Heard[]): Source[] {
   return sources;
 }
 
-/** What every body is aware of now: the strongest way each source reaches it, if any does. */
-export function sensed(
+/**
+ * What every body is aware of now, given a source list already built. Split out of `sensed`
+ * so a dirty set can supply a list that mixes cached and freshly rebuilt sources; `sensed`
+ * itself always builds a fresh list, so its result never depends on this split existing.
+ */
+export function sensedFrom(
   world: MatterWorld,
-  events: readonly Heard[] = [],
+  sources: readonly Source[],
 ): Map<string, Record<string, Percept>> {
-  const sources = sourcesOf(world, events);
   const out = new Map<string, Record<string, Percept>>();
   for (const body of Object.values(world.bodies)) {
     const aware: Record<string, Percept> = {};
@@ -185,6 +199,14 @@ export function sensed(
     out.set(body.id, attended(world, body, aware));
   }
   return out;
+}
+
+/** What every body is aware of now: the strongest way each source reaches it, if any does. */
+export function sensed(
+  world: MatterWorld,
+  events: readonly Heard[] = [],
+): Map<string, Record<string, Percept>> {
+  return sensedFrom(world, sourcesOf(world, events));
 }
 
 const NOTICED: Record<Channel, string> = {
