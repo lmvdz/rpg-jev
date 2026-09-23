@@ -1,18 +1,24 @@
 /**
  * A coverage map of the engine's physics (milestone J spike, `docs/physics-coverage.md`): which
  * situation cells (`@rpg-jev/core/jepa`'s `situationCell`) the engine answers, which its domain
- * gates decline, which it always says nothing to, and which never came up. Seeds start at
- * 6,000,000,000, disjoint from every training, validation and play seed range in SPEC section 16.
+ * gates decline, which it always says nothing to, and which never came up, of the cells
+ * `coverage.ts`'s `possible` says the engine could ever reach.
  *
- * Two passes. The main pass draws scenarios the way the teacher's generator always has, one seed
+ * Two generators, `--generator v1` (`jepa.scenario`, the teacher every sealed JEPA dataset was
+ * built from, the default) or `--generator v3` (`jepa.scenarioV3`, stratified over `possible`
+ * cells directly). Each has its own default seed start, both at or above 6,000,000,000 and
+ * disjoint from every training, validation and play seed range in SPEC section 16 and from each
+ * other; `v3`'s output files carry a `-v3` suffix so a `v1` re-run never overwrites them.
+ *
+ * Two passes. The main pass draws scenarios the way the chosen generator always has, one seed
  * after another. A cell that pass rarely reaches is, by definition, one an ordinary sample will
  * under-report; the stratified pass keeps drawing further seeds but keeps only what lands in a
  * cell still short of `RARE_TARGET`, so a rare cell gets more looks without inflating a common
- * one further. Neither pass steers the generator itself: every scenario is one the code engine
- * could draw on its own, `scenario.ts`'s own seeded `Rng` and all.
+ * one further. Neither pass steers the generator itself: every scenario is one it could draw
+ * unassisted, its own seeded `Rng` and all.
  *
- * Usage: node packages/predictor/scripts/coverage.ts [--scenes 200000] [--stratified 400000]
- *   [--out validation/physics-coverage]
+ * Usage: node packages/predictor/scripts/coverage.ts [--generator v1|v3] [--scenes 200000]
+ *   [--stratified 400000] [--seed-start N] [--out validation/physics-coverage]
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -20,9 +26,21 @@ import * as jepa from "@rpg-jev/core/jepa";
 import * as matter from "@rpg-jev/core/matter";
 import { actWords, thingWords } from "../src/words.ts";
 
-const SEED_START = 6_000_000_000;
 const RARE_TARGET = 5;
 const RARE_CAP = 25;
+
+type GeneratorName = "v1" | "v3";
+
+const GENERATORS: Record<GeneratorName, (seed: number) => jepa.Scenario> = {
+  v1: jepa.scenario,
+  v3: jepa.scenarioV3,
+};
+
+/** Both at or above the spike's own 6,000,000,000 range, and disjoint from each other. */
+const DEFAULT_SEED_START: Record<GeneratorName, number> = {
+  v1: 6_000_000_000,
+  v3: 6_500_000_000,
+};
 
 type Label = "answered" | "declined" | "only-nothing";
 
@@ -69,9 +87,14 @@ function labelOf(s: jepa.Scenario, changes: readonly matter.Change[]): Label {
 }
 
 /** One pass of scenarios from `from` up to (not including) `from + n`, each fed to `see`. */
-function sample(from: number, n: number, see: (s: jepa.Scenario, label: Label) => void): void {
+function sample(
+  generate: (seed: number) => jepa.Scenario,
+  from: number,
+  n: number,
+  see: (s: jepa.Scenario, label: Label) => void,
+): void {
   for (let seed = from; seed < from + n; seed++) {
-    const s = jepa.scenario(seed);
+    const s = generate(seed);
     const { changes } = matter.resolve(s.world, s.act);
     see(s, labelOf(s, changes));
   }
@@ -100,19 +123,23 @@ function record(stats: Map<string, CellStat>, s: jepa.Scenario, label: Label): v
 }
 
 function main(): void {
+  const generatorName = arg("generator", "v1") as GeneratorName;
+  const generate = GENERATORS[generatorName];
+  if (!generate) throw new Error(`unknown --generator ${generatorName} (want v1 or v3)`);
   const scenes = Number(arg("scenes", "200000"));
   const stratifiedBudget = Number(arg("stratified", "400000"));
   const outDir = arg("out", "validation/physics-coverage");
+  const seedStart = Number(arg("seed-start", String(DEFAULT_SEED_START[generatorName])));
   mkdirSync(outDir, { recursive: true });
 
   const stats = new Map<string, CellStat>();
-  sample(SEED_START, scenes, (s, label) => record(stats, s, label));
+  sample(generate, seedStart, scenes, (s, label) => record(stats, s, label));
 
   const rareEnough = (key: string) => (stats.get(key)?.count ?? 0) < RARE_TARGET;
-  let seed = SEED_START + scenes;
-  const end = SEED_START + scenes + stratifiedBudget;
+  let seed = seedStart + scenes;
+  const end = seedStart + scenes + stratifiedBudget;
   for (; seed < end; seed++) {
-    const s = jepa.scenario(seed);
+    const s = generate(seed);
     const cell = jepa.situationCell(s.world, s.act);
     if (!cell) continue;
     const key = jepa.cellKey(cell);
@@ -123,7 +150,7 @@ function main(): void {
     record(stats, s, labelOf(s, changes));
   }
 
-  writeReport(outDir, scenes, stratifiedBudget, seed - SEED_START, stats);
+  writeReport(outDir, generatorName, seedStart, scenes, stratifiedBudget, seed - seedStart, stats);
 }
 
 function labelOfCell(stat: CellStat): Label {
@@ -153,8 +180,24 @@ function universeOf(process: string): number {
   );
 }
 
+/** `coverage.ts`'s `possible`, applied once and grouped by process: the honest denominator, as
+ * opposed to `universeOf`'s raw combinatorial one, which still counts cells nothing can reach. */
+const POSSIBLE_CELLS = jepa.possibleCells();
+const POSSIBLE_KEYS = new Set(POSSIBLE_CELLS.map(jepa.cellKey));
+
+function possibleUniverseOf(process: string): number {
+  return POSSIBLE_CELLS.filter((c) => c.process === process).length;
+}
+
+function outFile(outDir: string, base: string, generatorName: GeneratorName): string {
+  const name = generatorName === "v1" ? base : base.replace(/\.(json|md)$/, "-v3.$1");
+  return join(outDir, name);
+}
+
 function writeReport(
   outDir: string,
+  generatorName: GeneratorName,
+  seedStart: number,
   scenes: number,
   stratified: number,
   totalSeeds: number,
@@ -166,15 +209,24 @@ function writeReport(
 
   const universe = jepa.PROCESSES.reduce((n, p) => n + universeOf(p), 0);
   const neverSampled = universe - cells.length;
+  // Every cell a generator can ever reach is, by construction, one `possible` admits; this is a
+  // sanity check that stays 0, not a count expected to move.
+  const possibleCellsSampled = cells.filter((c) => POSSIBLE_KEYS.has(jepa.cellKey(c.cell))).length;
+  const impossibleCellsSampled = cells.length - possibleCellsSampled;
 
   const json = {
-    version: "physics-coverage-v1",
-    seedRange: [SEED_START, SEED_START + totalSeeds] as const,
+    version: `physics-coverage-${generatorName}`,
+    generator: generatorName,
+    seedRange: [seedStart, seedStart + totalSeeds] as const,
     scenesInMainPass: scenes,
     stratifiedAttempts: stratified,
     cellsSampled: cells.length,
     cellUniverse: universe,
     neverSampled,
+    possibleUniverse: POSSIBLE_KEYS.size,
+    possibleCellsSampled,
+    neverSampledPossible: POSSIBLE_KEYS.size - possibleCellsSampled,
+    impossibleCellsSampled,
     byLabel,
     // Examples live in gaps.json, only for the cells that made the ranked list: a full example
     // per cell here would make this file thousands of times bigger than the counts warrant.
@@ -188,26 +240,43 @@ function writeReport(
       onlyNothing: stat.onlyNothing,
     })),
   };
-  writeFileSync(join(outDir, "coverage.json"), `${JSON.stringify(json, null, 2)}\n`);
-  writeFileSync(join(outDir, "coverage.md"), markdownOf(json));
+  writeFileSync(
+    outFile(outDir, "coverage.json", generatorName),
+    `${JSON.stringify(json, null, 2)}\n`,
+  );
+  writeFileSync(outFile(outDir, "coverage.md", generatorName), markdownOf(json));
   const gaps = gapsOf(cells);
-  writeFileSync(join(outDir, "gaps.json"), `${JSON.stringify(gaps, null, 2)}\n`);
-  writeFileSync(join(outDir, "gaps.md"), gapsMarkdown(gaps));
+  writeFileSync(outFile(outDir, "gaps.json", generatorName), `${JSON.stringify(gaps, null, 2)}\n`);
+  writeFileSync(outFile(outDir, "gaps.md", generatorName), gapsMarkdown(gaps));
 }
 
 function markdownOf(json: {
+  generator: GeneratorName;
   seedRange: readonly [number, number];
   scenesInMainPass: number;
   stratifiedAttempts: number;
   cellsSampled: number;
   cellUniverse: number;
   neverSampled: number;
+  possibleUniverse: number;
+  possibleCellsSampled: number;
+  neverSampledPossible: number;
+  impossibleCellsSampled: number;
   byLabel: Record<Label, number>;
   cells: readonly { cell: jepa.SituationCell; label: Label; count: number }[];
 }): string {
-  const byProcess = new Map<string, Record<Label, number> & { universe: number }>();
+  const byProcess = new Map<
+    string,
+    Record<Label, number> & { universe: number; possible: number }
+  >();
   for (const p of jepa.PROCESSES)
-    byProcess.set(p, { answered: 0, declined: 0, "only-nothing": 0, universe: universeOf(p) });
+    byProcess.set(p, {
+      answered: 0,
+      declined: 0,
+      "only-nothing": 0,
+      universe: universeOf(p),
+      possible: possibleUniverseOf(p),
+    });
   for (const c of json.cells) {
     const row = byProcess.get(c.cell.process);
     if (row) row[c.label]++;
@@ -215,18 +284,24 @@ function markdownOf(json: {
   const rows = [...byProcess.entries()]
     .map(([p, r]) => {
       const sampled = r.answered + r.declined + r["only-nothing"];
-      return `| ${p} | ${r.answered} | ${r.declined} | ${r["only-nothing"]} | ${r.universe - sampled} | ${r.universe} |`;
+      return `| ${p} | ${r.answered} | ${r.declined} | ${r["only-nothing"]} | ${r.possible - sampled} | ${r.possible} | ${r.universe} |`;
     })
     .join("\n");
   return [
-    "# Physics coverage",
+    `# Physics coverage (${json.generator})`,
     "",
-    `Seeds ${json.seedRange[0]} to ${json.seedRange[1]} (${json.scenesInMainPass} main, ${json.stratifiedAttempts} stratified budget). ${json.cellsSampled} of ${json.cellUniverse} possible situation cells reached (${json.neverSampled} never sampled).`,
+    `Seeds ${json.seedRange[0]} to ${json.seedRange[1]} (${json.scenesInMainPass} main, ${json.stratifiedAttempts} stratified budget).`,
+    "",
+    `${json.possibleCellsSampled} of ${json.possibleUniverse} possible situation cells reached ` +
+      `(${json.neverSampledPossible} never sampled). Against the raw combinatorial space before ` +
+      `impossible cells (gas, and a structural container outside \`liquid\`/\`hollow\`/\`burning\`) ` +
+      `are excluded: ${json.cellsSampled} of ${json.cellUniverse} (${json.neverSampled} never sampled). ` +
+      `${json.impossibleCellsSampled} sampled cells were outside \`possible\` (expected: 0).`,
     "",
     `Totals across every cell reached: ${json.byLabel.answered} answered, ${json.byLabel.declined} declined, ${json.byLabel["only-nothing"]} only-nothing.`,
     "",
-    "| process | answered cells | declined cells | only-nothing cells | never-sampled cells | possible cells |",
-    "| --- | --- | --- | --- | --- | --- |",
+    "| process | answered cells | declined cells | only-nothing cells | never-sampled (of possible) | possible cells | raw combinatorial cells |",
+    "| --- | --- | --- | --- | --- | --- | --- |",
     rows,
     "",
     "See `gaps.md` for the ranked gap list and `coverage.json`/`gaps.json` for full detail.",
