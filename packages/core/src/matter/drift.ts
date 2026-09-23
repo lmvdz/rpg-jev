@@ -127,11 +127,22 @@ function driftBody(world: MatterWorld, body: Body, minutes: number): Change[] {
   return changes;
 }
 
-/** One stretch of time, short enough that the order the rates run in does not matter. */
-function step(world: MatterWorld, minutes: number): Change[] {
+/**
+ * One stretch of time, short enough that the order the rates run in does not matter.
+ * `active`, when given, is the only things and bodies whose rules are re-run: each rule
+ * reads only its own party and place (never another thing), so a party left out keeps
+ * its exact prior state and `report` (below) sees it as unchanged, byte for byte. This
+ * is what lets a dirty set skip the entities that a cache already knows are at rest
+ * (`drift-dirty.ts`), without this function's own behaviour changing when no set is given.
+ */
+function step(world: MatterWorld, minutes: number, active?: ReadonlySet<string>): Change[] {
   return [
-    ...Object.values(world.things).flatMap((t) => driftThing(world, t, minutes)),
-    ...Object.values(world.bodies).flatMap((b) => driftBody(world, b, minutes)),
+    ...Object.values(world.things)
+      .filter((t) => !active || active.has(t.id))
+      .flatMap((t) => driftThing(world, t, minutes)),
+    ...Object.values(world.bodies)
+      .filter((b) => !active || active.has(b.id))
+      .flatMap((b) => driftBody(world, b, minutes)),
   ];
 }
 
@@ -151,7 +162,7 @@ function nextEvent(world: MatterWorld): number {
  * comes on), so that the answer does not depend on how the caller counted the minutes. Each
  * step is closed form, and it is all code (SPEC.md rule 10).
  */
-export function drift(world: MatterWorld, act: DriftAct): Change[] {
+export function drift(world: MatterWorld, act: DriftAct, active?: ReadonlySet<string>): Change[] {
   const because = new Map<string, Set<string>>();
   const given = new Map<string, Extract<Change, { kind: "signal" }>>();
   let at = world;
@@ -160,7 +171,7 @@ export function drift(world: MatterWorld, act: DriftAct): Change[] {
     // Short steps near at hand, longer ones across a long gap: a year unwatched is a few
     // thousand steps, not a hundred thousand. A step never straddles an event.
     const span = Math.max(1e-6, Math.min(left, nextEvent(at), Math.max(STEP, left / 500)));
-    const drifted = step(at, span);
+    const drifted = step(at, span, active);
     at = apply(at, drifted);
     // What is held in a container meets it: nothing at all when no container holds anything.
     const held = enclosure(at, span);

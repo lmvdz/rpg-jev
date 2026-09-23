@@ -34,6 +34,8 @@ export {
 export { DEEDS, type Deed, deedsOf, faded, felt } from "./deeds.ts";
 export { feeds, preyTo, relish } from "./diet.ts";
 export type { DriftAct } from "./drift.ts";
+export { drift } from "./drift.ts";
+export { type DriftCache, driftDirty, EMPTY_DRIFT_CACHE } from "./drift-dirty.ts";
 export { baseline, effective, isLiquid, MODIFIERS, meltingPoint } from "./effective.ts";
 export { type ForceAct, REACTIONS, type Reaction } from "./force.ts";
 export { blaze, type HeatAct, ignitionPoint, surfaceTemperature } from "./heat.ts";
@@ -44,7 +46,17 @@ export { handles, nameOf } from "./names.ts";
 export { alight, POOL, placeOf, worldOf } from "./pool.ts";
 export { type Act, type Outcome, PROCESSES, play, resolve } from "./resolve.ts";
 export { bearing, born, levelOf, quantity, section, thin } from "./scale.ts";
-export { emits, type Heard, perceive, reaches, sensed } from "./sense.ts";
+export {
+  emits,
+  type Heard,
+  perceive,
+  reaches,
+  type Source,
+  sensed,
+  sensedFrom,
+  sourcesOf,
+} from "./sense.ts";
+export { EMPTY_SENSE_CACHE, type SenseCache, sensedDirty } from "./sense-fast.ts";
 export {
   createMatterSession,
   type MatterAction,
